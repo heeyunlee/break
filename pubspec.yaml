@@ -1,0 +1,64 @@
+name: workout_player
+description: A new app that helps you workout better.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.10.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg:
+  miniplayer: ^0.6.0
+  smooth_page_indicator: ^0.2.0
+  provider: ^4.3.2+2
+  cupertino_icons: ^1.0.0
+  material_floating_search_bar: ^0.2.3
+  flappy_search_bar: ^1.7.2
+  implicitly_animated_reorderable_list: ^0.3.2
+  page_transition: ^1.1.7+3
+  firebase_core: ^0.5.3
+  cloud_firestore: ^0.14.4
+  firebase_auth: ^0.18.4+1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  andriod: true
+  ios: true
+  image_path: "dev_assets/places.png"
+  adaptive_icon_background: "#191919"
+  adaptive_icon_foreground: "dev_assets/places-adaptive.png"
+
+flutter:
+  fonts:
+    - family: NanumSquareRound
+      fonts:
+        - asset: assets/fonts/NanumSquareRoundB.ttf
+          weight: 700
+        - asset: assets/fonts/NanumSquareRoundEB.ttf
+          weight: 800
+        - asset: assets/fonts/NanumSquareRoundL.ttf
+          weight: 300
+        - asset: assets/fonts/NanumSquareRoundR.ttf
+          weight: 400
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 400
+
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/fonts/
+    - images/

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "22787456179",
+    "project_id": "workout-player",
+    "storage_bucket": "workout-player.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22787456179:android:e46ec27b9b31e8f33ec4c6",
+        "android_client_info": {
+          "package_name": "com.heeyunlee.workout_player"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22787456179-9j6ki5h54hm900bg72ua8g2iip714q9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heeyunlee.workout_player",
+            "certificate_hash": "ccc004c4898ea6ccf63260517191ad7b02975aba"
+          }
+        },
+        {
+          "client_id": "22787456179-eet31n1r18ta2d46bepjdqmn2g79id9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlpaIOMxbzk1SezM4stxXslj0NqVZpLiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22787456179-eet31n1r18ta2d46bepjdqmn2g79id9d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22787456179-42uf9muv5jud1psrqqc2ogovuj86322t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.heeyunlee.workoutPlayer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
