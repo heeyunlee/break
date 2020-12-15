@@ -19,10 +19,10 @@ class _WorkoutSmallCardState extends State<WorkoutSmallCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
+      height: 56,
       padding: EdgeInsets.all(0),
       margin: EdgeInsets.symmetric(
-          horizontal: _isAdded == false ? 16 : 14, vertical: 8),
+          horizontal: _isAdded == false ? 16 : 14, vertical: 4),
       decoration: BoxDecoration(
         border: _isAdded == false
             ? null

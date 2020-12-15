@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
   @override
@@ -24,24 +24,39 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
                 color: Colors.white12,
                 child: Column(
                   children: [
-                    SizedBox(height: 8),
-                    Text(
-                      '오늘 들어올린 무게',
-                      style: BodyText2,
+                    Expanded(
+                      child: Center(
+                        child: Image.network(
+                          'https://images.squarespace-cdn.com/content/v1/54d4f56de4b0ab3240fa8693/1475073802933-1S98QQSXCOY0OVBJIUOO/ke17ZwdGBToddI8pDm48kDHPSfPanjkWqhH6pl6g5ph7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mwONMR1ELp49Lyc52iWr5dNb1QJw9casjKdtTg1_-y4jz4ptJBmI9gQmbjSQnNGng/image-asset.jpeg',
+                          width: 200,
+                          height: 200,
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      '7000kg',
-                      style: Headline1,
-                    ),
-                    Spacer(),
-                    Text(
-                      'sdsd',
-                      style: BodyText2,
-                    ),
-                    SizedBox(height: 8),
+                    Text('아직 들어올린 무게가 없습니다.', style: BodyText2),
+                    SizedBox(height: 16),
                   ],
                 ),
+                // child: Column(
+                //   children: [
+                //     SizedBox(height: 8),
+                //     Text(
+                //       '아직 들어올린 무게가 없습니다',
+                //       style: BodyText2,
+                //     ),
+                //     SizedBox(height: 8),
+                //     Text(
+                //       '7000kg',
+                //       style: Headline1,
+                //     ),
+                //     Spacer(),
+                //     Text(
+                //       'sdsd',
+                //       style: BodyText2,
+                //     ),
+                //     SizedBox(height: 8),
+                //   ],
+                // ),
               ),
               Container(
                 margin: EdgeInsets.all(16),
@@ -60,7 +75,7 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
                       SizedBox(height: 8),
                       Text(
                         '7000kg',
-                        style: Headline1,
+                        style: Headline3,
                       ),
                       Spacer(),
                       Text(
@@ -89,7 +104,7 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
                       SizedBox(height: 8),
                       Text(
                         '7000kg',
-                        style: Headline1,
+                        style: Headline3,
                       ),
                       Spacer(),
                       Text(
@@ -118,7 +133,7 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
                       SizedBox(height: 8),
                       Text(
                         '7000kg',
-                        style: Headline1,
+                        style: Headline3,
                       ),
                       Spacer(),
                       Text(

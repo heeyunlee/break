@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../constants.dart';
-import '../../screens/cardio_entry_screen.dart';
-import '../../screens/protein_entry_screen.dart';
-import '../../screens/search_screen.dart';
+import '../../../constants.dart';
+import '../../../screens/cardio_entry/cardio_entry_screen.dart';
+import '../../../screens/protein_entry/protein_entry_screen.dart';
+import '../search_tab/search_tab.dart';
 
 class _workoutEntry extends StatelessWidget {
   @override
@@ -61,13 +61,13 @@ class _WeightEntryState extends State<WeightEntry> {
                       context,
                       PageTransition(
                         duration: Duration(milliseconds: 250),
-                        child: SearchScreen(),
+                        child: SearchTab(),
                         type: PageTransitionType.bottomToTop,
                       ),
                     );
-                    setState(() {
-                      _isWeightAdded = !_isWeightAdded;
-                    });
+                    // setState(() {
+                    //   _isWeightAdded = !_isWeightAdded;
+                    // });
                   },
                 ),
               )
@@ -110,8 +110,8 @@ class _WeightEntryState extends State<WeightEntry> {
         ),
         SizedBox(height: 8),
         Text(
-          '4000 / 6000 kg',
-          style: Overline,
+          '0/ 0 kg',
+          style: Caption1,
         ),
       ],
     );
@@ -140,14 +140,14 @@ class _CardioEntryState extends State<CardioEntry> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        duration: Duration(milliseconds: 250),
-                        child: CardioEntryScreen(),
-                        type: PageTransitionType.bottomToTop,
-                      ),
-                    );
+                    Navigator.pushNamed(context, CardioEntryScreen.routeName);
+                    //   context,
+                    //   PageTransition(
+                    //     duration: Duration(milliseconds: 250),
+                    //     child: CardioEntryScreen(),
+                    //     type: PageTransitionType.bottomToTop,
+                    //   ),
+                    // );
 
                     // Uncomment after building CardioEntryScreen()
 
@@ -196,8 +196,8 @@ class _CardioEntryState extends State<CardioEntry> {
         ),
         SizedBox(height: 8),
         Text(
-          '450 / 500 Kcal',
-          style: Overline,
+          '0 / 0 Kcal',
+          style: Caption1,
         ),
       ],
     );
@@ -226,14 +226,14 @@ class _ProteinEntryState extends State<ProteinEntry> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        duration: Duration(milliseconds: 250),
-                        child: ProteinEntryScreen(),
-                        type: PageTransitionType.bottomToTop,
-                      ),
-                    );
+                    Navigator.pushNamed(context, ProteinEntryScreen.routeName);
+                    //   context,
+                    //   PageTransition(
+                    //     duration: Duration(milliseconds: 250),
+                    //     child: ProteinEntryScreen(),
+                    //     type: PageTransitionType.bottomToTop,
+                    //   ),
+                    // );
                     // setState(() {
                     //   _isProteinAdded = !_isProteinAdded;
                     // });
@@ -279,8 +279,8 @@ class _ProteinEntryState extends State<ProteinEntry> {
         ),
         SizedBox(height: 8),
         Text(
-          '40 / 150 g',
-          style: Overline,
+          '0 / 0 g',
+          style: Caption1,
         ),
       ],
     );
@@ -298,8 +298,6 @@ class DailyWorkoutSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
         Padding(

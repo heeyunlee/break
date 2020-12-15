@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
-class CardioEntryScreen extends StatelessWidget {
-  static const routeName = '/cardio-entry';
+class ProteinEntryScreen extends StatelessWidget {
+  static const routeName = '/protein-entry';
 
   @override
   Widget build(BuildContext context) {
