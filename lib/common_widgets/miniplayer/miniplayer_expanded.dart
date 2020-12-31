@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class MiniplayerExpanded extends StatelessWidget {
   @override
@@ -23,7 +22,7 @@ class MiniplayerExpanded extends StatelessWidget {
               margin: EdgeInsets.only(top: 4, right: 4),
               alignment: Alignment.topRight,
               child: IconButton(
-                icon: SvgPicture.asset('assets/icons/Icon-Expand_More.svg'),
+                icon: Icon(Icons.expand_more_rounded),
                 onPressed: () {},
               ),
             ),
@@ -52,8 +51,9 @@ class MiniplayerExpanded extends StatelessWidget {
         SizedBox(height: 21),
         IconButton(
           padding: EdgeInsets.all(0),
-          icon: SvgPicture.asset('assets/icons/Icon-Pause_48px.svg'),
+          icon: Icon(Icons.expand_more_rounded),
           onPressed: () {},
+          iconSize: 48,
         ),
         SizedBox(height: 33),
         Container(
@@ -118,7 +118,7 @@ class MiniplayerExpanded extends StatelessWidget {
                 top: 44,
                 right: 16,
                 child: IconButton(
-                  icon: SvgPicture.asset('assets/icons/Icon-Done.svg'),
+                  icon: Icon(Icons.done_rounded),
                   onPressed: () {},
                 ),
               ),

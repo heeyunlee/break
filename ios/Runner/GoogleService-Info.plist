@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CLIENT_ID</key>
-    <string>306288963044-fhidug1stv0cckj0nccis5i4902id3p8.apps.googleusercontent.com</string>
-    <key>REVERSED_CLIENT_ID</key>
-    <string>com.googleusercontent.apps.306288963044-fhidug1stv0cckj0nccis5i4902id3p8</string>
+	<key>CLIENT_ID</key>
+	<string>22787456179-42uf9muv5jud1psrqqc2ogovuj86322t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.22787456179-42uf9muv5jud1psrqqc2ogovuj86322t</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>22787456179-9j6ki5h54hm900bg72ua8g2iip714q9j.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -32,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:22787456179:ios:6babecfd8602a71d3ec4c6</string>
+	<key>DATABASE_URL</key>
+	<string>https://workout-player-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

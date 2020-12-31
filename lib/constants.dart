@@ -24,7 +24,8 @@ const Grey200 = Color(0xffe1e1e1);
 const Grey100 = Color(0xffffffff);
 
 const BackgroundColor = Color(0xff121212);
-const CardColor = Color(0xff4D4D4D);
+const CardColor = Color(0xff242526);
+const ButtonEnabledColor = Color(0xff4E4F50);
 const DisabledColor = Color(0xff9A9EA6);
 const FocusedColor = Color(0xff605350);
 
@@ -33,139 +34,170 @@ const Headline1 = TextStyle(
   fontSize: 96,
   fontWeight: FontWeight.w300,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: -1.5,
 );
 const Headline2 = TextStyle(
   fontSize: 60,
   fontWeight: FontWeight.w300,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: -0.5,
 );
 const Headline3 = TextStyle(
   fontSize: 48,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0,
 );
 const Headline4 = TextStyle(
   fontSize: 34,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0.25,
 );
 const Headline5 = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0,
 );
 const Headline5Bold = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.bold,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0,
 );
 const Headline6 = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 0.15,
+);
+const Headline6Bold = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
   letterSpacing: 0.15,
 );
 const Subtitle1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0.15,
 );
 const Subtitle1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 0.15,
+);
+const Subtitle1BoldGrey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: Colors.grey,
   letterSpacing: 0.15,
 );
 const Subtitle2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 0.1,
+);
+const Subtitle2Bold = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+  letterSpacing: 0.1,
+);
+const Subtitle2Grey = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Grey300,
   letterSpacing: 0.1,
 );
 const BodyText1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0.50,
 );
 const BodyText1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 0.50,
+);
+const BodyText1BoldPrimary = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: PrimaryColor,
   letterSpacing: 0.50,
 );
 const BodyText2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0.25,
 );
 const BodyText2Light = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w300,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 0.25,
+);
+const BodyText2LightGrey = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w300,
+  color: Colors.grey,
   letterSpacing: 0.25,
 );
 const BodyText2Black = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   color: Colors.black,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 0.25,
 );
 const ButtonText = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.white,
-  fontFamily: 'NanumSquareRound',
   letterSpacing: 1.25,
 );
 const ButtonTextBlack = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.black,
-  fontFamily: 'NanumSquareRound',
+  letterSpacing: 1.25,
+);
+const ButtonTextGrey = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.grey,
   letterSpacing: 1.25,
 );
 const Caption1 = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Colors.white,
-    fontFamily: 'NanumSquareRound',
-    letterSpacing: 0.4);
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  color: Colors.white,
+  letterSpacing: 0.4,
+);
+const Caption1Grey = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  color: Colors.grey,
+  letterSpacing: 0.4,
+);
 const Overline = TextStyle(
-    fontSize: 10,
-    fontWeight: FontWeight.normal,
-    color: Colors.white,
-    letterSpacing: 1.5,
-    fontFamily: 'NanumSquareRound');
+  fontSize: 10,
+  fontWeight: FontWeight.normal,
+  color: Colors.white,
+  letterSpacing: 1.5,
+);
 
 const SearchBarHintStyle = TextStyle(
-    color: Colors.grey,
-    fontSize: 20,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'NanumSquareRound');
+  color: Colors.grey,
+  fontSize: 20,
+  fontWeight: FontWeight.normal,
+);
 const GoogleSignInStyle = TextStyle(
   fontFamily: 'Roboto',
   fontSize: 15,

@@ -1,16 +1,17 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/show_alert_dialog.dart';
 import '../../constants.dart';
-import '../../services/auth.dart';
+import '../../services/authentication_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const routeName = '/settings';
 
-  FirebaseProvider fp;
+  AuthServiceProvider fp;
 
   Future<void> _signOut() async {
     try {
@@ -30,13 +31,12 @@ class SettingsScreen extends StatelessWidget {
     );
     if (didRequestSignOut == true) {
       _signOut();
-      Navigator.of(context, rootNavigator: true).pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<FirebaseProvider>(context);
+    fp = Provider.of<AuthServiceProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -65,6 +65,7 @@ class SettingsScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
+            SizedBox(height: 64),
             Center(
               child: RaisedButton(
                 child: Text('로그아웃 하기'),

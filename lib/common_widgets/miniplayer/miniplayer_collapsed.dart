@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class MiniplayerCollapsed extends StatefulWidget {
   @override
@@ -66,7 +65,7 @@ class _MiniplayerCollapsedState extends State<MiniplayerCollapsed> {
         margin: EdgeInsets.only(bottom: 32),
         child: IconButton(
           padding: EdgeInsets.all(0),
-          icon: SvgPicture.asset('assets/icons/Icon-Pause.svg'),
+          icon: Icon(Icons.pause_rounded),
           onPressed: () {},
         ),
       ),
