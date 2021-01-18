@@ -84,6 +84,12 @@ const Subtitle1 = TextStyle(
   color: Colors.white,
   letterSpacing: 0.15,
 );
+const Subtitle1Black = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Colors.black,
+  letterSpacing: 0.15,
+);
 const Subtitle1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
@@ -108,6 +114,18 @@ const Subtitle2Bold = TextStyle(
   color: Colors.white,
   letterSpacing: 0.1,
 );
+const Subtitle2Black = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.black,
+  letterSpacing: 0.1,
+);
+const Subtitle2BlackBold = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  letterSpacing: 0.1,
+);
 const Subtitle2Grey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
@@ -123,6 +141,12 @@ const BodyText1 = TextStyle(
 const BodyText1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
+  color: Colors.white,
+  letterSpacing: 0.50,
+);
+const BodyText1Light = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w300,
   color: Colors.white,
   letterSpacing: 0.50,
 );

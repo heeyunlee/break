@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:workout_player/screens/cupertino_home_scaffold.dart';
+import 'package:workout_player/screens/tab_item.dart';
 
-import '../constants.dart';
 import 'home_tab/home_tab.dart';
 import 'library_tab/library_tab.dart';
 import 'search_tab/search_tab.dart';
@@ -15,59 +15,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PersistentTabController _controller;
+  TabItem _currentTab = TabItem.home;
+
+  final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
+    TabItem.home: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
+    TabItem.library: GlobalKey<NavigatorState>(),
+  };
+
+  Map<TabItem, WidgetBuilder> get widgetBuilders {
+    return {
+      TabItem.home: (_) => HomeTab(),
+      TabItem.search: (_) => SearchTab(),
+      TabItem.library: (_) => LibraryTab(),
+    };
+  }
+
+  void _select(TabItem tabItem) {
+    // Navigating to original Tab Screen when you press Nav Tab
+    if (tabItem == _currentTab) {
+      navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else
+      setState(() {
+        _currentTab = tabItem;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
-    _controller = PersistentTabController(initialIndex: 0);
-
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      backgroundColor: Color(0xff1C1C1C),
-      screens: _buildScreens(),
-      items: _buildNavBar(),
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      stateManagement: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      navBarStyle: NavBarStyle.simple,
-      decoration: NavBarDecoration(colorBehindNavBar: Grey700),
-      routeAndNavigatorSettings: RouteAndNavigatorSettings(
-        routes: {
-          HomeTab.routeName: (context) => HomeTab(),
-          SearchTab.routeName: (context) => SearchTab(),
-          LibraryTab.routeName: (context) => LibraryTab(),
-        },
+    return WillPopScope(
+      onWillPop: () async =>
+          !await navigatorKeys[_currentTab].currentState.maybePop(),
+      child: CupertinoHomeScaffold(
+        currentTab: _currentTab,
+        onSelectedTab: _select,
+        widgetBuilder: widgetBuilders,
+        navigatorKeys: navigatorKeys,
       ),
     );
-  }
-
-  List<Widget> _buildScreens() {
-    return [
-      HomeTab(),
-      SearchTab(),
-      LibraryTab(),
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> _buildNavBar() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home_rounded),
-        activeColor: PrimaryColor,
-        inactiveColor: Colors.white,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.search_rounded),
-        activeColor: PrimaryColor,
-        inactiveColor: Colors.white,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.fitness_center_rounded),
-        activeColor: PrimaryColor,
-        inactiveColor: Colors.white,
-      ),
-    ];
   }
 }

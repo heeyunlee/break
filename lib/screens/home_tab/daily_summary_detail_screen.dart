@@ -27,7 +27,6 @@ class DailySummaryDetailScreen extends StatefulWidget {
           index: index,
           routineHistory: routineHistory,
         ),
-        fullscreenDialog: false,
       ),
     );
   }

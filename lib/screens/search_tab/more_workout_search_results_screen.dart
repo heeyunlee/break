@@ -53,14 +53,13 @@ class MoreWorkoutSearchResultScreen extends StatelessWidget {
           return ListItemBuilder<Workout>(
             snapshot: snapshot,
             itemBuilder: (context, workout) => CustomListTileStyle2(
-              tag: 'workoutTagForSearch-${workout.workoutId}',
               imageUrl: workout.imageUrl,
               title: workout.workoutTitle,
               subtitle: workout.mainMuscleGroup,
               onTap: () => WorkoutDetailScreen.show(
                 context: context,
-                index: index,
-                workout: workout,
+                // index: index,
+                // workout: workout,
               ),
             ),
           );

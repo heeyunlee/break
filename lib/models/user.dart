@@ -8,6 +8,7 @@ class User {
     @required this.userEmail,
     @required this.signUpDate,
     @required this.signUpProvider,
+    this.savedWorkouts,
   });
 
   final String userId;
@@ -15,6 +16,7 @@ class User {
   final String userEmail;
   final Timestamp signUpDate;
   final String signUpProvider;
+  final List<String> savedWorkouts;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -24,6 +26,7 @@ class User {
     final String userEmail = data['userEmail'];
     final Timestamp signUpDate = data['signUpDate'];
     final String signUpProvider = data['signUpProvider'];
+    final List<String> savedWorkouts = data['savedWorkouts'];
 
     return User(
       userId: documentId,
@@ -31,6 +34,7 @@ class User {
       userEmail: userEmail,
       signUpDate: signUpDate,
       signUpProvider: signUpProvider,
+      savedWorkouts: savedWorkouts,
     );
   }
 
@@ -40,6 +44,7 @@ class User {
       'userEmail': userEmail,
       'signUpDate': signUpDate,
       'signUpProvider': signUpProvider,
+      'savedWorkouts': savedWorkouts,
     };
   }
 }

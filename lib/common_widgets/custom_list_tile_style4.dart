@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:workout_player/common_widgets/show_flush_bar.dart';
+import 'package:workout_player/models/saved_workout.dart';
+import 'package:workout_player/models/user_saved_workout.dart';
+import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
+import 'package:workout_player/services/database.dart';
 
 import '../constants.dart';
 
-class CustomListTileStyle4Model {
-  CustomListTileStyle4Model({
-    this.tag,
-    this.imageUrl,
-    this.title,
-    this.subtitle,
-    this.onTap,
-    this.onLongTap,
-    this.trailingIconButton,
-  });
-
-  final Object tag;
-  final String imageUrl;
-  final String title;
-  final String subtitle;
-  final onTap;
-  final onLongTap;
-  final Widget trailingIconButton;
-}
-
 class CustomListTileStyle4 extends StatelessWidget {
-  const CustomListTileStyle4({this.model});
+  const CustomListTileStyle4({Key key, this.userSavedWorkout, this.index})
+      : super(key: key);
 
-  final CustomListTileStyle4Model model;
+  final UserSavedWorkout userSavedWorkout;
+  final int index;
+
+  Future<void> _toggleFavorites(BuildContext context) async {
+    try {
+      final database = Provider.of<Database>(context, listen: false);
+      await database.setSavedWorkout(SavedWorkout(
+        isFavorite: !userSavedWorkout.isSavedWorkout,
+        workoutId: userSavedWorkout.workout.workoutId,
+      ));
+      HapticFeedback.mediumImpact();
+      showFlushBar(
+        context: context,
+        message: (userSavedWorkout.isSavedWorkout)
+            ? 'Removed from Favorites'
+            : 'Saved to Favorites',
+      );
+    } on Exception catch (e) {
+      // TODO
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +41,34 @@ class CustomListTileStyle4 extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
-          width: 56,
-          height: 56,
-          child: Hero(
-            tag: model.tag,
-            child: (model.imageUrl == "" || model.imageUrl == null)
-                ? Image.asset('images/place_holder_workout_playlist.png')
-                : Image.network(
-                    model.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
+          width: 48,
+          height: 48,
+          child: (userSavedWorkout.workout.imageUrl == "" ||
+                  userSavedWorkout.workout.imageUrl == null)
+              ? Image.asset('images/place_holder_workout_playlist.png')
+              : Image.network(
+                  userSavedWorkout.workout.imageUrl,
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
-      title: Text(model.title, style: BodyText1Bold),
-      subtitle: Text(model.subtitle, style: Caption1Grey),
-      trailing: model.trailingIconButton,
-      onTap: model.onTap,
-      onLongPress: model.onLongTap,
+      title: Text(userSavedWorkout.workout.workoutTitle, style: BodyText1Bold),
+      subtitle:
+          Text(userSavedWorkout.workout.mainMuscleGroup, style: Caption1Grey),
+      onTap: () => WorkoutDetailScreen.show(
+        context: context,
+        workout: userSavedWorkout.workout,
+        // index: index,
+        // userSavedWorkout: userSavedWorkout,
+      ),
+      trailing: IconButton(
+        icon: Icon(
+          (userSavedWorkout.isSavedWorkout)
+              ? Icons.favorite
+              : Icons.favorite_border_rounded,
+        ),
+        onPressed: () => _toggleFavorites(context),
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/screens/library_tab/playlist/edit_playlist_screen.dart';
 
 import '../../../constants.dart';
+import 'edit_playlist_screen.dart';
 
 class CreateNewPlaylistWidget extends StatelessWidget {
   @override

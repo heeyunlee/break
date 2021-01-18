@@ -5,7 +5,6 @@ import '../constants.dart';
 class CustomListTileStyle2 extends StatefulWidget {
   CustomListTileStyle2({
     Key key,
-    this.tag,
     this.imageUrl,
     this.title,
     this.subtitle,
@@ -15,7 +14,6 @@ class CustomListTileStyle2 extends StatefulWidget {
     this.color,
   }) : super(key: key);
 
-  final Object tag;
   final String imageUrl;
   final String title;
   final String subtitle;
@@ -32,21 +30,20 @@ class _CustomListTileStyle2State extends State<CustomListTileStyle2> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      selected: false,
+      selectedTileColor: PrimaryColor,
       tileColor: widget.color,
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
           width: 48,
           height: 48,
-          child: Hero(
-            tag: widget.tag,
-            child: (widget.imageUrl == "" || widget.imageUrl == null)
-                ? Image.asset('images/place_holder_workout_playlist.png')
-                : Image.network(
-                    widget.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
+          child: (widget.imageUrl == "" || widget.imageUrl == null)
+              ? Image.asset('images/place_holder_workout_playlist.png')
+              : Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
       title: Text(widget.title, style: BodyText2),

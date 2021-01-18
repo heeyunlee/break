@@ -5,6 +5,7 @@ class Routine {
   Routine({
     @required this.routineId,
     @required this.routineOwnerId,
+    @required this.routineOwnerUserName,
     @required this.routineTitle,
     @required this.lastEditedDate,
     @required this.routineCreatedDate,
@@ -15,16 +16,17 @@ class Routine {
     this.totalWeights,
     this.averageTotalCalories,
     this.duration,
+    this.equipmentRequired,
     // TODO: ADD THEM LATER
     // this.tags,
     // this.routineGoal,
     // this.trainingLevel,
-    // this.equipmentRequired,
     // this.workoutType,
   });
 
   final String routineId;
   final String routineOwnerId;
+  final String routineOwnerUserName;
   final String routineTitle;
   final Timestamp lastEditedDate;
   final Timestamp routineCreatedDate;
@@ -35,10 +37,10 @@ class Routine {
   final int totalWeights;
   final int averageTotalCalories;
   final int duration;
+  final String equipmentRequired;
   // final String tags;
   // final String routineGoal;
   // final String trainingLevel;
-  // final String equipmentRequired;
   // final String workoutType;
 
   factory Routine.fromMap(Map<String, dynamic> data, String documentId) {
@@ -46,6 +48,7 @@ class Routine {
       return null;
     }
     final String routineOwnerId = data['routineOwnerId'];
+    final String routineOwnerUserName = data['routineOwnerUserName'];
     final String routineTitle = data['routineTitle'];
     final Timestamp lastEditedDate = data['lastEditedDate'];
     final Timestamp routineCreatedDate = data['routineCreatedDate'];
@@ -56,15 +59,16 @@ class Routine {
     final int totalWeights = data['totalWeights'];
     final int averageTotalCalories = data['averageTotalCalories'];
     final int duration = data['duration'];
+    final String equipmentRequired = data['equipmentRequired'];
     // final String tags = data['tags'];
     // final String routineGoal = data['routineGoal'];
     // final String trainingLevel = data['trainingLevel'];
-    // final String equipmentRequired = data['equipmentRequired'];
     // final String workoutType = data['workoutType'];
 
     return Routine(
       routineId: documentId,
       routineOwnerId: routineOwnerId,
+      routineOwnerUserName: routineOwnerUserName,
       routineTitle: routineTitle,
       lastEditedDate: lastEditedDate,
       routineCreatedDate: routineCreatedDate,
@@ -75,10 +79,10 @@ class Routine {
       totalWeights: totalWeights,
       averageTotalCalories: averageTotalCalories,
       duration: duration,
+      equipmentRequired: equipmentRequired,
       // tags: tags,
       // routineGoal: routineGoal,
       // trainingLevel: trainingLevel,
-      // equipmentRequired: equipmentRequired,
       // workoutType: workoutType,
     );
   }
@@ -87,6 +91,7 @@ class Routine {
     return {
       'routineOwnerId': routineOwnerId,
       'routineTitle': routineTitle,
+      'routineOwnerUserName': routineOwnerUserName,
       'lastEditedDate': lastEditedDate,
       'routineCreatedDate': routineCreatedDate,
       'mainMuscleGroup': mainMuscleGroup,
@@ -96,10 +101,10 @@ class Routine {
       'totalWeights': totalWeights,
       'averageTotalCalories': averageTotalCalories,
       'duration': duration,
+      'equipmentRequired': equipmentRequired,
       // 'tags': tags,
       // 'routineGoal': routineGoal,
       // 'trainingLevel': trainingLevel,
-      // 'equipmentRequired': equipmentRequired,
       // 'workoutType': workoutType,
     };
   }

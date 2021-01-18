@@ -12,8 +12,28 @@ class FirestoreService {
     @required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
     await reference.set(data);
+  }
+
+  // Update Data (Used for creating new element in an array)
+  Future<void> updateData({
+    @required String path,
+    @required Map<String, dynamic> data,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    await reference.update(data);
+  }
+
+  // Edit Data (Used for editing existing element in an array)
+  Future<void> editData({
+    @required String path,
+    @required Map<String, dynamic> oldData,
+    @required Map<String, dynamic> newData,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    await reference
+        .update(oldData)
+        .then((value) => {reference.update(newData)});
   }
 
   // Delete data from Cloud Firestore
@@ -23,6 +43,31 @@ class FirestoreService {
     final reference = FirebaseFirestore.instance.doc(path);
     print('delete: $path');
     await reference.delete();
+  }
+
+  // Document Stream
+  Stream<T> documentStream<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+  }) {
+    final reference = FirebaseFirestore.instance.doc(path);
+    final snapshots = reference.snapshots();
+    return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
+  }
+
+  // Getting all the streams available
+  Stream<List<T>> collectionStreamWithoutOrder<T>({
+    @required String path,
+    @required T Function(Map<String, dynamic> data, String documentId) builder,
+  }) {
+    final reference = FirebaseFirestore.instance.collection(path);
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      // converting snapshots of data to list of Data
+      (snapshot) => snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList(),
+    );
   }
 
   // Getting all the streams available

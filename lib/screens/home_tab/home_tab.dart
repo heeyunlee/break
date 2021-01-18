@@ -15,6 +15,7 @@ import 'overall_summary_with_page_control.dart';
 
 class HomeTab extends StatefulWidget {
   static const routeName = '/home-tab';
+
   @override
   _HomeTabState createState() => _HomeTabState();
 }

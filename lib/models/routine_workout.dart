@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'workout_set.dart';
+
 class RoutineWorkout {
   RoutineWorkout({
+    this.index,
     @required this.routineWorkoutId,
     @required this.workoutId,
     @required this.workoutTitle,
@@ -10,40 +13,47 @@ class RoutineWorkout {
     this.sets,
   });
 
-  final String routineWorkoutId;
-  final String workoutId;
-  final String workoutTitle;
-  final int numberOfSets;
-  final int numberOfReps;
-  final List sets;
+  int index;
+  String routineWorkoutId;
+  String workoutId;
+  String workoutTitle;
+  int numberOfSets;
+  int numberOfReps;
+  List<WorkoutSet> sets;
 
-  factory RoutineWorkout.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
+  RoutineWorkout.fromJson(Map<String, dynamic> data, String documentId) {
+    routineWorkoutId = documentId;
+    index = data['index'];
+    workoutId = data['workoutId'];
+    workoutTitle = data['workoutTitle'];
+    numberOfSets = data['numberOfSets'];
+    numberOfReps = data['numberOfReps'];
+    if (data['sets'] != null) {
+      sets = new List<WorkoutSet>();
+      data['sets'].forEach((set) {
+        sets.add(new WorkoutSet.fromMap(set));
+      });
     }
-    final String workoutId = data['workoutId'];
-    final String workoutTitle = data['workoutTitle'];
-    final int numberOfSets = data['numberOfSets'];
-    final int numberOfReps = data['numberOfReps'];
-    final List sets = data['sets'];
-
-    return RoutineWorkout(
-      routineWorkoutId: documentId,
-      workoutId: workoutId,
-      workoutTitle: workoutTitle,
-      numberOfSets: numberOfSets,
-      numberOfReps: numberOfReps,
-      sets: sets,
-    );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'workoutId': workoutId,
-      'workoutTitle': workoutTitle,
-      'numberOfSets': numberOfSets,
-      'numberOfReps': numberOfReps,
-      'sets': sets,
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['index'] = this.index;
+    data['workoutId'] = this.workoutId;
+    data['workoutTitle'] = this.workoutTitle;
+    data['numberOfSets'] = this.numberOfSets;
+    data['numberOfReps'] = this.numberOfReps;
+    if (this.sets != null) {
+      data['sets'] = this.sets.map((e) => e.toMap()).toList();
+    }
+    return data;
+    // return {
+    //   'index': index,
+    //   'workoutId': workoutId,
+    //   'workoutTitle': workoutTitle,
+    //   'numberOfSets': numberOfSets,
+    //   'numberOfReps': numberOfReps,
+    //   'sets': sets,
+    // };
   }
 }

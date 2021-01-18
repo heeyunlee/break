@@ -4,32 +4,41 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
+import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/services/database.dart';
 
 import '../../../common_widgets/appbar_blur_bg.dart';
 import '../../../constants.dart';
-import '../../../models/workout.dart';
-import '../../../services/database.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   WorkoutDetailScreen({
-    @required this.index,
+    // this.userSavedWorkout,
+    // @required this.index,
     @required this.workout,
+    @required this.database,
   });
 
-  final int index;
+  // final UserSavedWorkout userSavedWorkout;
+  // final int index;
   final Workout workout;
+  final Database database;
 
   // For Navigation
   static void show({
     BuildContext context,
-    int index,
+    // int index,
     Workout workout,
+    // Database database,
+    // UserSavedWorkout userSavedWorkout,
   }) async {
+    final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => WorkoutDetailScreen(
-          index: index,
+          // index: index,
           workout: workout,
+          database: database,
+          // userSavedWorkout: userSavedWorkout,
         ),
       ),
     );
@@ -41,8 +50,6 @@ class WorkoutDetailScreen extends StatefulWidget {
 
 class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   PageController _pageController = PageController();
-
-  bool isFavorite = false;
 
   // For SliverApp to work
   ScrollController _scrollController;
@@ -58,7 +65,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
   bool get isShrink {
     return _scrollController.hasClients &&
-        _scrollController.offset > (330 - kToolbarHeight);
+        _scrollController.offset > (280 - kToolbarHeight);
   }
 
   @override
@@ -76,25 +83,51 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   }
   // For SliverApp to work
 
+  // Future<void> _toggleFavorites(BuildContext context) async {
+  //   try {
+  //     final database = Provider.of<Database>(context, listen: false);
+  //     await database.setSavedWorkout(SavedWorkout(
+  //       isFavorite: !widget.userSavedWorkout.isSavedWorkout,
+  //       workoutId: widget.userSavedWorkout.workout.workoutId,
+  //     ));
+  //     HapticFeedback.mediumImpact();
+  //     showFlushBar(
+  //       context: context,
+  //       message: (widget.userSavedWorkout.isSavedWorkout)
+  //           ? 'Removed from Favorites'
+  //           : 'Saved to Favorites',
+  //     );
+  //   } on Exception catch (e) {
+  //     // TODO
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: BackgroundColor,
-        body: CustomScrollView(
-          controller: _scrollController,
-          physics: const BouncingScrollPhysics(),
-          slivers: <Widget>[
-            _buildSliverAppBar(),
-            _buildSliverToBoxAdapter(),
-          ],
-        ),
-      ),
+    final database = Provider.of<Database>(context, listen: false);
+    // final model = Provider.of<UserSavedWorkoutModel>(context, listen: false);
+
+    return StreamBuilder<Workout>(
+      stream: database.workoutStream(workoutId: widget.workout.workoutId),
+      // stream: model.userSavedWorkoutStream(widget.workout.workoutId),
+      builder: (context, snapshot) {
+        final workout = snapshot.data;
+        return Scaffold(
+          backgroundColor: BackgroundColor,
+          body: CustomScrollView(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            slivers: <Widget>[
+              _buildSliverAppBar(context, workout),
+              _buildSliverToBoxAdapter(workout),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildSliverAppBar() {
+  Widget _buildSliverAppBar(BuildContext context, Workout workout) {
     final size = MediaQuery.of(context).size;
 
     return SliverAppBar(
@@ -108,71 +141,68 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         },
       ),
       centerTitle: true,
-      title:
-          isShrink ? Text(widget.workout.workoutTitle, style: Subtitle1) : null,
-      actions: <Widget>[
-        IconButton(
-          icon: (isFavorite == false)
-              ? Icon(Icons.bookmark_border_rounded)
-              : Icon(Icons.bookmark_rounded),
-          onPressed: () {
-            setState(() {
-              isFavorite = !isFavorite;
-            });
-          },
-        ),
-        SizedBox(width: 8),
-      ],
+      title: isShrink ? Text(workout.workoutTitle, style: Subtitle1) : null,
+      actions: (isShrink == false)
+          ? <Widget>[
+              // IconButton(
+              //   // icon: Icon(Icons.favorite_border_rounded),
+              //   icon: Icon(
+              //     (widget.userSavedWorkout.isSavedWorkout)
+              //         ? Icons.favorite_rounded
+              //         : Icons.favorite_border_rounded,
+              //     color: (widget.userSavedWorkout.isSavedWorkout)
+              //         ? PrimaryColor
+              //         : Colors.white,
+              //   ),
+              //   onPressed: () => _toggleFavorites(context),
+              // ),
+              SizedBox(width: 8),
+            ]
+          : null,
       backgroundColor: Colors.transparent,
       floating: false,
       pinned: true,
       snap: false,
       stretch: true,
-      expandedHeight: size.height * 1 / 2,
-      // bottom: TabBar(
-      //   labelColor: Colors.white,
-      //   unselectedLabelColor: Grey400,
-      //   indicatorColor: PrimaryColor,
-      //   tabs: [
-      //     Tab(text: '운동'),
-      //     Tab(text: '루틴'),
-      //   ],
-      // ),
+      expandedHeight: size.height * 2 / 5,
       flexibleSpace: isShrink
           ? AppbarBlurBG()
           : FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.passthrough,
                 children: [
-                  Hero(
-                    tag: 'workoutTagForSearch-${widget.workout.workoutId}',
-                    child: (widget.workout.imageUrl == "" ||
-                            widget.workout.imageUrl == null)
-                        ? Image.asset(
-                            'images/place_holder_workout_playlist.png')
-                        : Image.network(
-                            widget.workout.imageUrl,
-                            fit: BoxFit.fitHeight,
-                          ),
-                  ),
+                  // Hero(
+                  //   tag: 'workout${widget.workout.workoutId}',
+                  //   child: (workout.imageUrl == "" || workout.imageUrl == null)
+                  //       ? Container()
+                  //       : Image.network(
+                  //           workout.imageUrl,
+                  //           fit: BoxFit.fitHeight,
+                  //         ),
+                  // ),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
+                          Colors.white.withOpacity(0.1),
                           Colors.transparent,
-                          Colors.black.withOpacity(0.8),
                         ],
                       ),
                     ),
                   ),
                   Center(
-                    child: Text(
-                      widget.workout.workoutTitle,
-                      style: GoogleFonts.blackHanSans(
-                        color: Colors.white,
-                        fontSize: 40,
+                    child: Container(
+                      width: size.width - 32,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          workout.workoutTitle,
+                          style: GoogleFonts.blackHanSans(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -198,9 +228,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                                       maxWidth: 24,
                                     ),
                                   ),
+                                  // TODO: Add icon for Main Muscle Group
                                   SizedBox(height: 16),
                                   Text(
-                                    widget.workout.mainMuscleGroup,
+                                    workout.mainMuscleGroup,
                                     style: Subtitle2,
                                   ),
                                 ],
@@ -215,9 +246,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                                     Icons.fitness_center_rounded,
                                     color: Colors.white,
                                   ),
+                                  // TODO: Add icon for Equipment Required
                                   SizedBox(height: 16),
                                   Text(
-                                    widget.workout.equipmentRequired,
+                                    workout.equipmentRequired,
                                     style: Subtitle2,
                                   ),
                                 ],
@@ -237,9 +269,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                                       maxWidth: 24,
                                     ),
                                   ),
+                                  // TODO: Add icon for Secondary Muscle Group
                                   SizedBox(height: 16),
                                   Text(
-                                    widget.workout.secondaryMuscleGroup[0],
+                                    workout.secondaryMuscleGroup[0],
                                     style: Subtitle2,
                                     maxLines: 1,
                                   ),
@@ -257,9 +290,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     );
   }
 
-  Widget _buildSliverToBoxAdapter() {
-    final database = Provider.of<Database>(context, listen: false);
-
+  Widget _buildSliverToBoxAdapter(Workout workout) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -279,9 +310,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
             ),
             SizedBox(height: 24),
             Text(
-              (widget.workout.description == null)
+              (workout.description == null)
                   ? 'null... add description'
-                  : widget.workout.description,
+                  : workout.description,
               style: Subtitle2,
               maxLines: 3,
             ),
@@ -295,25 +326,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
             _buildInstructions(),
             SizedBox(height: 24),
             _buildWorkoutHistory(),
-            // Center(
-            //   child: FlatButton(
-            //     color: Colors.grey,
-            //     onPressed: () {
-            //       pushNewScreen(
-            //         context,
-            //         screen: EditWorkoutScreen(
-            //           database: database,
-            //           workout: widget.workout,
-            //         ),
-            //         withNavBar: false,
-            //       );
-            //     },
-            //     child: Text(
-            //       '수정하기',
-            //       style: ButtonText,
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
@@ -404,34 +416,4 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       ],
     );
   }
-
-  // Widget _showModalBottomSheet(BuildContext context) {
-  //   return CupertinoActionSheet(
-  //     actions: <Widget>[
-  //       CupertinoActionSheetAction(
-  //         child: Text('운동 수정'),
-  //         onPressed: () =>
-  //             EditWorkoutScreen.show(context, workout: widget.workout),
-  //         // onPressed: () {
-  //         //   pushNewScreen(
-  //         //     context,
-  //         //     pageTransitionAnimation: PageTransitionAnimation.slideUp,
-  //         //     screen: EditWorkoutScreen(
-  //         //       workout: widget.workout,
-  //         //     ),
-  //         //     withNavBar: false,
-  //         //   );
-  //         // },
-  //         isDefaultAction: true,
-  //       ),
-  //     ],
-  //     cancelButton: CupertinoActionSheetAction(
-  //       isDestructiveAction: true,
-  //       child: Text('취소'),
-  //       onPressed: () {
-  //         Navigator.of(context).pop();
-  //       },
-  //     ),
-  //   );
-  // }
 }

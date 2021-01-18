@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showAlertDialog(
+Future<bool> showAlertDialogWithContents(
   BuildContext context, {
   @required String title,
-  @required String content,
+  @required Widget buildContent,
   @required String defaultActionText,
   String cancelAcitionText,
   Function onPressed,
@@ -16,7 +16,7 @@ Future<bool> showAlertDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
-        content: Text(content),
+        content: buildContent,
         actions: <Widget>[
           if (cancelAcitionText != null)
             FlatButton(
@@ -35,7 +35,7 @@ Future<bool> showAlertDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
       title: Text(title),
-      content: Text(content),
+      content: buildContent,
       actions: <Widget>[
         if (cancelAcitionText != null)
           CupertinoDialogAction(

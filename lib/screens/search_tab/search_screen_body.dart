@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_style2.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/screens/library_tab/playlist/playlist_detail_screen.dart';
+import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/screens/search_tab/more_routine_search_results_screen.dart';
 import 'package:workout_player/screens/search_tab/more_workout_search_results_screen.dart';
@@ -126,14 +126,13 @@ class SearchScreenBody extends StatelessWidget {
             return ListItemBuilder<Workout>(
               snapshot: snapshot,
               itemBuilder: (context, workout) => CustomListTileStyle2(
-                tag: 'workoutTagForSearch-${workout.workoutId}',
                 imageUrl: workout.imageUrl,
                 title: workout.workoutTitle,
                 subtitle: workout.mainMuscleGroup,
                 onTap: () => WorkoutDetailScreen.show(
                   context: context,
-                  index: index,
-                  workout: workout,
+                  // index: index,
+                  // workout: workout,
                 ),
               ),
             );
@@ -192,15 +191,11 @@ class SearchScreenBody extends StatelessWidget {
             return ListItemBuilder<Routine>(
               snapshot: snapshot,
               itemBuilder: (context, routine) => CustomListTileStyle2(
-                tag: 'routineForSearch${routine.routineId}',
                 title: routine.routineTitle,
-                subtitle: routine.routineOwnerId,
+                subtitle: routine.mainMuscleGroup,
                 imageUrl: routine.imageUrl,
-                onTap: () => PlaylistDetailScreen.show(
-                  index: index,
-                  context: context,
-                  routine: routine,
-                ),
+                onTap: () =>
+                    RoutineDetailScreen.show(context, routine.routineId),
               ),
             );
           },

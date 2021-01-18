@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
+import 'package:workout_player/common_widgets/show_flush_bar.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../../common_widgets/appbar_blur_bg.dart';
 import '../../../common_widgets/max_width_raised_button.dart';
@@ -16,20 +19,27 @@ import '../../../services/database.dart';
 Logger logger = Logger();
 
 class EditPlaylistScreen extends StatefulWidget {
-  const EditPlaylistScreen({Key key, @required this.database, this.routine})
-      : super(key: key);
+  const EditPlaylistScreen({
+    Key key,
+    @required this.database,
+    this.routine,
+    this.user,
+  }) : super(key: key);
 
   final Database database;
   final Routine routine;
+  final User user;
 
   static Future<void> show(BuildContext context, {Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => EditPlaylistScreen(
           database: database,
           routine: routine,
+          user: auth.currentUser,
         ),
       ),
     );
@@ -46,14 +56,16 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   FocusNode focusNode3;
   FocusNode focusNode4;
   FocusNode focusNode5;
+  FocusNode focusNode6;
   var _textController1 = TextEditingController();
   var _textController2 = TextEditingController();
   var _textController3 = TextEditingController();
   var _textController4 = TextEditingController();
   var _textController5 = TextEditingController();
   var _textController6 = TextEditingController();
+  var _textController7 = TextEditingController();
 
-  String _routineOwnerId;
+  String _routineOwnerUserName;
   String _routineTitle;
   String _mainMuscleGroup;
   String _secondMuscleGroup;
@@ -62,6 +74,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   int _totalWeights;
   int _averageTotalCalories;
   int _duration;
+  String _equipmentRequired;
 
   // For SliverApp to Work
   ScrollController _scrollController;
@@ -90,9 +103,10 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     focusNode3 = FocusNode();
     focusNode4 = FocusNode();
     focusNode5 = FocusNode();
+    focusNode6 = FocusNode();
     if (widget.routine != null) {
-      _routineOwnerId = widget.routine.routineOwnerId;
-      _textController1 = TextEditingController(text: _routineOwnerId);
+      _routineOwnerUserName = widget.routine.routineOwnerUserName;
+      _textController1 = TextEditingController(text: _routineOwnerUserName);
 
       _routineTitle = widget.routine.routineTitle;
       _textController2 = TextEditingController(text: _routineTitle);
@@ -112,6 +126,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
       _totalWeights = widget.routine.totalWeights;
       _averageTotalCalories = widget.routine.averageTotalCalories;
       _duration = widget.routine.duration;
+      _equipmentRequired = widget.routine.equipmentRequired;
+      _textController7 = TextEditingController(text: _equipmentRequired);
     }
   }
 
@@ -123,6 +139,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
     focusNode3.dispose();
     focusNode4.dispose();
     focusNode5.dispose();
+    focusNode6.dispose();
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
@@ -141,6 +158,11 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   Future<void> _delete(BuildContext context, Routine routine) async {
     try {
       await widget.database.deleteRoutine(routine);
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      showFlushBar(
+        context: context,
+        message: 'Routine Deleted',
+      );
     } on FirebaseException catch (e) {
       ShowExceptionAlertDialog(
         context,
@@ -154,9 +176,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        final workouts = await widget.database.workoutsStream().first;
+        final routines = await widget.database.routinesStream().first;
         final allNames =
-            workouts.map((workout) => workout.workoutTitle).toList();
+            routines.map((routine) => routine.routineTitle).toList();
         if (widget.routine != null) {
           allNames.remove(widget.routine.routineTitle);
         }
@@ -168,12 +190,15 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             defaultActionText: 'OK',
           );
         } else {
-          final id = widget.routine?.routineId ?? documentIdFromCurrentDate();
+          final routineId =
+              widget.routine?.routineId ?? documentIdFromCurrentDate();
+          final userId = widget.user.uid;
           final date = Timestamp.now();
           final timestamp = Timestamp.now();
           final routine = Routine(
-            routineId: id,
-            routineOwnerId: _routineOwnerId,
+            routineId: routineId,
+            routineOwnerId: userId,
+            routineOwnerUserName: _routineOwnerUserName,
             routineTitle: _routineTitle,
             lastEditedDate: timestamp,
             routineCreatedDate: date,
@@ -184,9 +209,15 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             totalWeights: _totalWeights,
             averageTotalCalories: _averageTotalCalories,
             duration: _duration,
+            equipmentRequired: _equipmentRequired,
           );
+          print('${routine.routineTitle}');
           await widget.database.setRoutine(routine);
           Navigator.of(context).pop();
+          showFlushBar(
+            context: context,
+            message: (widget.routine != null) ? '루틴 수정 완료!' : '새로운루틴을 생성했습니다',
+          );
         }
       } on FirebaseException catch (e) {
         ShowExceptionAlertDialog(
@@ -286,7 +317,7 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
 
   List<Widget> _buildFormChildren() {
     return [
-      /// routineOwnerId
+      /// routineOwnerUserName
       TextFormField(
         textInputAction: TextInputAction.next,
         controller: _textController1,
@@ -311,7 +342,9 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
         ),
         onEditingComplete: () => focusNode1.requestFocus(),
         validator: (value) => value.isNotEmpty ? null : '루틴 지은이를 적어주세요!',
-        onSaved: (value) => _routineOwnerId = value,
+        onFieldSubmitted: (value) => _routineOwnerUserName = value,
+        onChanged: (value) => _routineOwnerUserName = value,
+        onSaved: (value) => _routineOwnerUserName = value,
       ),
 
       /// Routine Title
@@ -339,6 +372,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
         ),
         onEditingComplete: () => focusNode2.requestFocus(),
         validator: (value) => value.isNotEmpty ? null : '루틴에 이름을 지어 주세요!',
+        onFieldSubmitted: (value) => _routineTitle = value,
+        onChanged: (value) => _routineTitle = value,
         onSaved: (value) => _routineTitle = value,
       ),
 
@@ -406,6 +441,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           ),
         ),
         onEditingComplete: () => focusNode3.requestFocus(),
+        onFieldSubmitted: (value) => _mainMuscleGroup = value,
+        onChanged: (value) => _mainMuscleGroup = value,
         onSaved: (value) => _mainMuscleGroup = value,
       ),
 
@@ -433,6 +470,8 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           ),
         ),
         onEditingComplete: () => focusNode4.requestFocus(),
+        onFieldSubmitted: (value) => _secondMuscleGroup = value,
+        onChanged: (value) => _secondMuscleGroup = value,
         onSaved: (value) => _secondMuscleGroup = value,
       ),
 
@@ -461,12 +500,14 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
           ),
         ),
         onEditingComplete: () => focusNode5.requestFocus(),
+        onFieldSubmitted: (value) => _description = value,
+        onChanged: (value) => _description = value,
         onSaved: (value) => _description = value,
       ),
 
       /// Image Url
       TextFormField(
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         controller: _textController6,
         style: BodyText2,
         focusNode: focusNode5,
@@ -487,7 +528,38 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
             },
           ),
         ),
+        onEditingComplete: () => focusNode6.requestFocus(),
+        onFieldSubmitted: (value) => _imageUrl = value,
+        onChanged: (value) => _imageUrl = value,
         onSaved: (value) => _imageUrl = value,
+      ),
+
+      /// Equipment Required
+      TextFormField(
+        textInputAction: TextInputAction.done,
+        controller: _textController7,
+        style: BodyText2,
+        focusNode: focusNode6,
+        decoration: InputDecoration(
+          labelText: 'Equipment Required',
+          labelStyle: Subtitle2Grey,
+          hintText: '바벨, 케틀벨, 등등',
+          hintStyle: BodyText2LightGrey,
+          suffixIconConstraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
+          suffixIcon: IconButton(
+            icon: Icon(
+              Icons.clear_rounded,
+              color: Colors.white,
+              size: 16,
+            ),
+            onPressed: () {
+              _textController7.clear();
+            },
+          ),
+        ),
+        onFieldSubmitted: (value) => _equipmentRequired = value,
+        onChanged: (value) => _equipmentRequired = value,
+        onSaved: (value) => _equipmentRequired = value,
       ),
     ];
   }
@@ -503,11 +575,6 @@ class _EditPlaylistScreenState extends State<EditPlaylistScreen> {
       isFirstActionDefault: false,
       firstActionOnPressed: () {
         _delete(context, widget.routine);
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        // Navigator.of(context).pushAndRemoveUntil(
-        //   MaterialPageRoute(builder: (context) => SavedPlaylistTab()),
-        //   ModalRoute.withName('/'),
-        // );
       },
       cancelText: '취소',
       isCancelDefault: true,

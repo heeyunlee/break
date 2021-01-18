@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
-import 'package:workout_player/common_widgets/custom_list_tile_style1.dart';
+import 'package:workout_player/common_widgets/custom_list_tile_style2.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/screens/library_tab/playlist/playlist_detail_screen.dart';
+import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
@@ -53,16 +53,11 @@ class MoreRoutineSearchResultsScreen extends StatelessWidget {
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(
             snapshot: snapshot,
-            itemBuilder: (context, routine) => CustomListTileStyle1(
-              tag: 'routineSearchResult${routine.routineId}',
+            itemBuilder: (context, routine) => CustomListTileStyle2(
               title: routine.routineTitle,
-              subtitle: routine.routineOwnerId,
+              subtitle: 'by ${routine.routineOwnerUserName}',
               imageUrl: routine.imageUrl,
-              onTap: () => PlaylistDetailScreen.show(
-                index: index,
-                context: context,
-                routine: routine,
-              ),
+              onTap: () => RoutineDetailScreen.show(context, routine.routineId),
             ),
           );
         },

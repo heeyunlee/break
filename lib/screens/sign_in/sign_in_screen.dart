@@ -4,28 +4,75 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
 import 'package:workout_player/screens/sign_in/social_sign_in_button.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../common_widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
-import '../../services/authentication_service.dart';
 import 'app_preview_widget.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({
+    Key key,
+    @required this.signInBloc,
+    @required this.isLoading,
+  }) : super(key: key);
+  final SignInBloc signInBloc;
+  final bool isLoading;
+
+  static Widget create(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    return ChangeNotifierProvider<ValueNotifier<bool>>(
+      create: (_) => ValueNotifier<bool>(false),
+      child: Consumer<ValueNotifier<bool>>(
+        builder: (_, isLoading, __) => Provider<SignInBloc>(
+          create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
+          child: Consumer<SignInBloc>(
+            builder: (_, signInBloc, __) => SignInScreen(
+                signInBloc: signInBloc, isLoading: isLoading.value),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool doRemember = false;
-  bool _isPressStart = true;
-  bool _isLoading = false;
+  bool _isPressStart = false;
 
-  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  /// SIGN IN WITH GOOGLE
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    try {
+      await widget.signInBloc.signInWithGoogle();
+    } on Exception catch (e) {
+      print(e);
+      _showSignInError(e, context);
+    }
+  }
 
-  AuthServiceProvider fp;
+  /// SIGN IN WITH FACEBOOK
+  void _signInWithFacebook(BuildContext context) async {
+    try {
+      await widget.signInBloc.signInWithFacebook();
+    } on Exception catch (e) {
+      _showSignInError(e, context);
+    }
+  }
 
-  void _showSignInError(Exception exception) {
+  /// SIGN IN WITH APPLE
+  void _signInWithApple(BuildContext context) async {
+    try {
+      await widget.signInBloc.signInWithApple();
+    } on Exception catch (e) {
+      _showSignInError(e, context);
+    }
+  }
+
+  void _showSignInError(Exception exception, BuildContext context) {
     ShowExceptionAlertDialog(
       context,
       title: 'Sign In Failed',
@@ -35,24 +82,23 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<AuthServiceProvider>(context);
+    // fp = Provider.of<AuthServiceProvider>(context);
 
     // logger.d(fp.getUser());
 
     return Scaffold(
-      // key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: (_isPressStart == true)
-            ? IconButton(
-                icon: Icon(Icons.arrow_back_rounded),
-                onPressed: () {
-                  setState(() {
-                    _isPressStart = false;
-                  });
-                },
-              )
-            : null,
+        // leading: (_isPressStart = true)
+        //     ? IconButton(
+        //         icon: Icon(Icons.arrow_back_rounded),
+        //         onPressed: () {
+        //           setState(() {
+        //             _isPressStart = false;
+        //           });
+        //         },
+        //       )
+        //     : null,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -66,91 +112,87 @@ class _SignInScreenState extends State<SignInScreen> {
         firstChild: _buildPreviewScreen(),
         secondChild: _buildSignInScreen(context),
       ),
+      // body: _buildSignInScreen(context),
     );
   }
 
   Widget _buildPreviewScreen() {
     final controller = PageController();
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          child: PageView(
-            controller: controller,
-            children: <Widget>[
-              // TODO: Add previews of the app
-              AppPreviewWidget(),
-              AppPreviewWidget(),
-              AppPreviewWidget(),
-              AppPreviewWidget(),
-            ],
-          ),
-        ),
-        SmoothPageIndicator(
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        PageView(
           controller: controller,
-          count: 4,
-          effect: ScrollingDotsEffect(
-            activeDotColor: PrimaryColor,
-            activeDotScale: 1.5,
-            dotHeight: 8,
-            dotWidth: 8,
-            spacing: 10,
-          ),
+          children: <Widget>[
+            // TODO: Add previews of the app
+            AppPreviewWidget(),
+            AppPreviewWidget(),
+            AppPreviewWidget(),
+            AppPreviewWidget(),
+          ],
         ),
-        SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Tooltip(
-            message: '시작하기',
-            child: RaisedButton(
-              color: PrimaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                height: 48,
-                width: 258,
-                child: Center(
-                  child: Text(
-                    '시작하기',
-                    style: BodyText2,
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              SmoothPageIndicator(
+                controller: controller,
+                count: 4,
+                effect: ScrollingDotsEffect(
+                  activeDotColor: PrimaryColor,
+                  activeDotScale: 1.5,
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  spacing: 10,
+                ),
+              ),
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Tooltip(
+                  message: '시작하기',
+                  child: RaisedButton(
+                    color: PrimaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Container(
+                      height: 48,
+                      width: 258,
+                      child: Center(
+                        child: Text(
+                          '시작하기',
+                          style: BodyText2,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPressStart = true;
+                      });
+                    },
+                    // onPressed: () {
+                    //   return SignInScreen.create(context);
+                    // },
                   ),
                 ),
               ),
-              onPressed: () {
-                setState(() {
-                  _isPressStart = !_isPressStart;
-                });
-              },
-            ),
+              SizedBox(height: 40),
+            ],
           ),
         ),
-        SizedBox(height: 40),
       ],
     );
   }
 
   Widget _buildSignInScreen(BuildContext context) {
-    // final bloc = Provider.of<SignInBloc>(context);
-
-    // return StreamBuilder<bool>(
-    //   stream: bloc.isLoadingStream,
-    //   initialData: false,
-    //   builder: (context, snapshot) {
-    //     return _buildContext(context, snapshot.data);
-    //   },
-    // );
-    return _buildContext(context);
-  }
-
-  Widget _buildContext(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Expanded(
             child: Center(
-              child: (_isLoading)
+              child: widget.isLoading
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -181,7 +223,8 @@ class _SignInScreenState extends State<SignInScreen> {
           SocialSignInButton(
             color: Colors.white,
             disabledColor: Colors.white.withOpacity(0.38),
-            onPressed: _isLoading ? null : () => _signInWithGoogle(context),
+            onPressed:
+                widget.isLoading ? null : () => _signInWithGoogle(context),
             logo: 'images/logos/google_logo.png',
             buttonText: '구글로 계속하기',
           ),
@@ -190,7 +233,8 @@ class _SignInScreenState extends State<SignInScreen> {
           SocialSignInButton(
             color: Color(0xff1877F2),
             disabledColor: Color(0xff1877F2).withOpacity(0.38),
-            onPressed: _isLoading ? null : () => _signInWithFacebook(context),
+            onPressed:
+                widget.isLoading ? null : () => _signInWithFacebook(context),
             logo: 'images/logos/facebook_logo.png',
             buttonText: '페이스북으로 계속하기',
           ),
@@ -203,7 +247,8 @@ class _SignInScreenState extends State<SignInScreen> {
             SocialSignInButton(
               color: Colors.white,
               disabledColor: Colors.white.withOpacity(0.38),
-              onPressed: _isLoading ? null : () => _signInWithApple(context),
+              onPressed:
+                  widget.isLoading ? null : () => _signInWithApple(context),
               logo: 'images/logos/apple_logo.png',
               buttonText: '애플ID로 계속하기',
             ),
@@ -211,42 +256,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ],
       ),
     );
-  }
-
-  /// SIGN IN WITH GOOGLE
-  void _signInWithGoogle(BuildContext context) async {
-    try {
-      setState(() {
-        _isLoading = !_isLoading;
-      });
-      await fp.signInWithGoogle(context);
-      // await widget.bloc.signInWithGoogle();
-    } on Exception catch (e) {
-      print(e);
-      _showSignInError(e);
-    }
-  }
-
-  /// SIGN IN WITH FACEBOOK
-  void _signInWithFacebook(BuildContext context) async {
-    try {
-      setState(() {
-        _isLoading = !_isLoading;
-      });
-      await fp.signInWithFacebook(context);
-    } on Exception catch (e) {
-      _showSignInError(e);
-    }
-  }
-
-  void _signInWithApple(BuildContext context) async {
-    try {
-      setState(() {
-        _isLoading = !_isLoading;
-      });
-      await fp.signInWithApple(context);
-    } on Exception catch (e) {
-      _showSignInError(e);
-    }
   }
 }

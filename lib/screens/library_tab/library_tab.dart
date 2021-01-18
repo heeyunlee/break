@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../common_widgets/appbar_blur_bg.dart';
 import '../../constants.dart';
-import 'playlist/saved_playlist_tab.dart';
+import 'routine/saved_routines_tab.dart';
 import 'workout/saved_workouts.dart';
 
 class LibraryTab extends StatefulWidget {
@@ -44,7 +44,10 @@ class _LibraryTabState extends State<LibraryTab> {
             ];
           },
           body: TabBarView(
-            children: [SavedWorkout(), SavedPlaylistTab()],
+            children: [
+              SavedWorkoutsTab.create(context),
+              SavedRoutinesTab(),
+            ],
           ),
         ),
       ),

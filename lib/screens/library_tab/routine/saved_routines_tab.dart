@@ -7,14 +7,9 @@ import '../../../common_widgets/list_item_builder.dart';
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
 import 'create_new_playlist_widget.dart';
-import 'playlist_detail_screen.dart';
+import 'routine_detail_screen.dart';
 
-class SavedPlaylistTab extends StatelessWidget {
-  static const routeName = '/saved-playlists';
-  final int index;
-
-  const SavedPlaylistTab({this.index});
-
+class SavedRoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -42,13 +37,9 @@ class SavedPlaylistTab extends StatelessWidget {
           itemBuilder: (context, routine) => CustomListTileStyle1(
             tag: 'playlist${routine.routineId}',
             title: routine.routineTitle,
-            subtitle: routine.routineOwnerId,
+            subtitle: 'by ${routine.routineOwnerUserName}',
             imageUrl: routine.imageUrl,
-            onTap: () => PlaylistDetailScreen.show(
-              index: index,
-              context: context,
-              routine: routine,
-            ),
+            onTap: () => RoutineDetailScreen.show(context, routine.routineId),
           ),
         );
       },

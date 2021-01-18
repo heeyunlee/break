@@ -3,20 +3,19 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../common_widgets/show_alert_dialog.dart';
 import '../../constants.dart';
-import '../../services/authentication_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const routeName = '/settings';
 
-  AuthServiceProvider fp;
-
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
     try {
-      await fp.signOut();
-    } on Exception catch (e) {
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      await auth.signOut();
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -30,14 +29,12 @@ class SettingsScreen extends StatelessWidget {
       defaultActionText: 'Logout',
     );
     if (didRequestSignOut == true) {
-      _signOut();
+      return _signOut(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<AuthServiceProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: ClipRect(

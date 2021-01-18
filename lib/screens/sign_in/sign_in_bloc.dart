@@ -1,59 +1,29 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart' as fireAuth;
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
-
-// class SignInBloc {
-//   SignInBloc({@required this.auth});
-//
-//   final AuthServiceProvider auth;
-//
-//   final StreamController<bool> _isLoadingController = StreamController<bool>();
-//
-//   Stream<bool> get isLoadingStream => _isLoadingController.stream;
-//
-//   void dispose() {
-//     _isLoadingController.close();
-//   }
-//
-//   void _setIsLoading(bool isLoading) => _isLoadingController.add(isLoading);
-//
-//   Future<bool> _signIn(
-//       Future<bool> Function(BuildContext context) signInMethod) async {
-//     try {
-//       _setIsLoading(true);
-//       BuildContext context;
-//       return await signInMethod(context);
-//     } catch (e) {
-//       _setIsLoading(false);
-//       rethrow;
-//     }
-//   }
-//
-//   Future<bool> signInWithGoogle() => _signIn(auth.signInWithGoogle);
-//
-//   Future<bool> signInWithFacebook() async =>
-//       await _signIn(auth.signInWithFacebook);
-//   Future<bool> signInWithApple() async => await _signIn(auth.signInWithApple);
-// }
 
 class SignInBloc {
   SignInBloc({@required this.auth, @required this.isLoading});
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
 
-  Future<User> _signIn(
-      Future<User> Function(BuildContext context) signInMethod) async {
+  Future<fireAuth.User> _signIn(
+      Future<fireAuth.User> Function() signInMethod) async {
     try {
       isLoading.value = true;
-      BuildContext context;
-      return await signInMethod(context);
+      return await signInMethod();
     } catch (e) {
       isLoading.value = false;
       rethrow;
     }
   }
 
-  Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
+  Future<fireAuth.User> signInWithGoogle() async =>
+      await _signIn(auth.signInWithGoogle);
+  Future<fireAuth.User> signInWithFacebook() async =>
+      await _signIn(auth.signInWithFacebook);
+  Future<fireAuth.User> signInWithApple() async =>
+      await _signIn(auth.signInWithApple);
 }
