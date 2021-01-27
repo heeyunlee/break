@@ -13,7 +13,7 @@ class ShowSnackBar {
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(8),
         backgroundColor: Colors.white,
-        content: Text(message, style: Subtitle2Black),
+        content: Text(message, style: Subtitle2.copyWith(color: Colors.black)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
     );

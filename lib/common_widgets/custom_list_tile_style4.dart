@@ -52,7 +52,10 @@ class CustomListTileStyle4 extends StatelessWidget {
                 ),
         ),
       ),
-      title: Text(userSavedWorkout.workout.workoutTitle, style: BodyText1Bold),
+      title: Text(
+        userSavedWorkout.workout.workoutTitle,
+        style: BodyText1.copyWith(fontWeight: FontWeight.bold),
+      ),
       subtitle:
           Text(userSavedWorkout.workout.mainMuscleGroup, style: Caption1Grey),
       onTap: () => WorkoutDetailScreen.show(

@@ -27,8 +27,8 @@ class MaxWidthRaisedButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon,
-              if (buttonText != null) SizedBox(width: 16),
+              if (icon != null) icon,
+              if (icon != null && buttonText != null) SizedBox(width: 16),
               if (buttonText != null) Text(buttonText, style: ButtonText),
             ],
           ),

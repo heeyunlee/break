@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 
 import '../constants.dart';
 
@@ -13,7 +14,9 @@ class CustomFloatingActionButton extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      onPressed: () {},
+      onPressed: () => DuringWorkoutScreen.show(
+        context: context,
+      ),
     );
   }
 }

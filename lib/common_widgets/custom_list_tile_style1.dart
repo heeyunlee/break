@@ -41,7 +41,8 @@ class CustomListTileStyle1 extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(title, style: BodyText1Bold),
+      title:
+          Text(title, style: BodyText1.copyWith(fontWeight: FontWeight.bold)),
       subtitle: Text(subtitle, style: Caption1Grey),
       trailing: trailingIconButton,
       onTap: onTap,

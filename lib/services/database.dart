@@ -11,6 +11,8 @@ import 'package:workout_player/services/firestore_service.dart';
 abstract class Database {
   /// User
   Future<void> setUser(User user);
+  Future<void> updateUser(String userId, Map data);
+  Stream<User> userStream({String userId});
   Future<void> setSavedWorkout(SavedWorkout savedWorkout);
   Stream<SavedWorkout> savedWorkoutStream({String workoutId});
   Stream<List<SavedWorkout>> savedWorkoutsStream();
@@ -25,6 +27,7 @@ abstract class Database {
 
   /// Routine
   Future<void> setRoutine(Routine routine);
+  Future<void> updateRoutine(Routine routine, Map data);
   Future<void> deleteRoutine(Routine routine);
   Stream<Routine> routineStream({String routineId});
   Stream<List<Routine>> routinesStream();
@@ -47,12 +50,12 @@ abstract class Database {
     RoutineWorkout routineWorkout,
     Map data,
   );
-  Future<void> editWorkoutSet(
-    Routine routine,
-    RoutineWorkout routineWorkout,
-    Map oldData,
-    Map newData,
-  );
+  // Future<void> editWorkoutSet(
+  //   Routine routine,
+  //   RoutineWorkout routineWorkout,
+  //   Map oldData,
+  //   Map newData,
+  // );
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -76,12 +79,40 @@ class FirestoreDatabase implements Database {
   final _service = FirestoreService.instance;
 
   /// Users
+  //  Stream of Single Workout Stream
+  @override
+  Stream<User> userStream({String userId}) => _service.documentStream(
+        path: APIPath.user(userId),
+        builder: (data, documentId) => User.fromMap(data, documentId),
+      );
+
   // Add or edit User Data
   @override
   Future<void> setUser(User user) => _service.setData(
         path: APIPath.user(user.userId),
         data: user.toMap(),
       );
+
+  // Update User Data
+  @override
+  Future<void> updateUser(String userId, Map data) => _service.updateData(
+        path: APIPath.user(userId),
+        data: data,
+      );
+
+  // /// Workout Sets
+  // // Create or delete Workout Set
+  // @override
+  // Future<void> setWorkoutSet(
+  //     Routine routine,
+  //     RoutineWorkout routineWorkout,
+  //     Map data,
+  //     ) =>
+  //     _service.updateData(
+  //       path: APIPath.routineWorkout(
+  //           routine.routineId, routineWorkout.routineWorkoutId),
+  //       data: data,
+  //     );
 
   // Set saved Workout
   @override
@@ -156,11 +187,18 @@ class FirestoreDatabase implements Database {
       );
 
   /// Routine
-  // Add or edit Routine
+  // Add Routine
   @override
   Future<void> setRoutine(Routine routine) => _service.setData(
         path: APIPath.routine(routine.routineId),
         data: routine.toMap(),
+      );
+
+  // Edit Routine
+  @override
+  Future<void> updateRoutine(Routine routine, Map data) => _service.updateData(
+        path: APIPath.routine(routine.routineId),
+        data: data,
       );
 
   // Delete Routine data
@@ -248,20 +286,20 @@ class FirestoreDatabase implements Database {
         data: data,
       );
 
-  // Edit existing Workout Set of Routine Workout
-  @override
-  Future<void> editWorkoutSet(
-    Routine routine,
-    RoutineWorkout routineWorkout,
-    Map oldData,
-    Map newData,
-  ) =>
-      _service.editData(
-        path: APIPath.routineWorkout(
-            routine.routineId, routineWorkout.routineWorkoutId),
-        oldData: oldData,
-        newData: newData,
-      );
+  // // Edit existing Workout Set of Routine Workout
+  // @override
+  // Future<void> editWorkoutSet(
+  //   Routine routine,
+  //   RoutineWorkout routineWorkout,
+  //   Map oldData,
+  //   Map newData,
+  // ) =>
+  //     _service.editData(
+  //       path: APIPath.routineWorkout(
+  //           routine.routineId, routineWorkout.routineWorkoutId),
+  //       oldData: oldData,
+  //       newData: newData,
+  //     );
 
   /// Workout History
   // Workout History Stream

@@ -55,12 +55,15 @@ class DailySummaryRowWidget extends StatelessWidget {
         SizedBox(height: 16),
         Text(
           title,
-          style: Subtitle1Bold,
+          style: Subtitle1.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
         ),
         SizedBox(height: 4),
         Text(
           subtitle,
-          style: BodyText2Light,
+          style: BodyText2.copyWith(fontWeight: FontWeight.w300),
         ),
       ],
     );

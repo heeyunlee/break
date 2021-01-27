@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_flush_bar.dart';
+import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../../common_widgets/appbar_blur_bg.dart';
 import '../../../common_widgets/list_item_builder.dart';
@@ -15,7 +16,7 @@ import '../../../models/routine.dart';
 import '../../../models/routine_workout.dart';
 import '../../../services/database.dart';
 import 'add_workouts_to_routine.dart';
-import 'edit_playlist_screen.dart';
+import 'edit_routine/edit_routine_screen.dart';
 import 'workout_medium_card.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
@@ -29,17 +30,33 @@ class RoutineDetailScreen extends StatefulWidget {
   final Database database;
 
   // For Navigation
-  static void show(BuildContext context, String routineId) async {
+  static void show({
+    BuildContext context,
+    String routineId,
+    bool isRootNavigation,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
-    await Navigator.of(context, rootNavigator: false).push(
-      CupertinoPageRoute(
-        fullscreenDialog: false,
-        builder: (context) => RoutineDetailScreen(
-          database: database,
-          routineId: routineId,
+    if (!isRootNavigation) {
+      await Navigator.of(context, rootNavigator: false).push(
+        CupertinoPageRoute(
+          fullscreenDialog: false,
+          builder: (context) => RoutineDetailScreen(
+            database: database,
+            routineId: routineId,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      await Navigator.of(context, rootNavigator: true).pushReplacement(
+        CupertinoPageRoute(
+          fullscreenDialog: false,
+          builder: (context) => RoutineDetailScreen(
+            database: database,
+            routineId: routineId,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -47,10 +64,7 @@ class RoutineDetailScreen extends StatefulWidget {
 }
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
-  // For SnackBars
-  // final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  final isFavorite = false;
+  bool isFavorite = false;
 
   // For SliverApp to Work
   ScrollController _scrollController;
@@ -84,17 +98,37 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
   }
   // For SliverApp to Work
 
-  // Favorite
-  Future<void> _toggleFavorites(BuildContext context, bool isFavorite) {
-    if (isFavorite == false) HapticFeedback.mediumImpact();
+  // Add to Favorites
+  Future<void> _addFavorites(BuildContext context) async {
+    final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
     setState(() {
-      isFavorite = !isFavorite;
+      isFavorite = true;
     });
+    final user = {
+      'savedWorkouts': FieldValue.arrayUnion([widget.routineId]),
+    };
+    await database.updateUser(auth.currentUser.uid, user);
     showFlushBar(
       context: context,
-      message: (isFavorite == false)
-          ? 'Removed from Favorites'
-          : 'Saved to Favorites',
+      message: 'Saved to Favorites',
+    );
+  }
+
+  // Remove from Favorites
+  Future<void> _removeFavorites(BuildContext context) async {
+    final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    setState(() {
+      isFavorite = false;
+    });
+    final user = {
+      'savedWorkouts': FieldValue.arrayRemove([widget.routineId]),
+    };
+    await database.updateUser(auth.currentUser.uid, user);
+    showFlushBar(
+      context: context,
+      message: 'Remove from Favorites',
     );
   }
 
@@ -106,7 +140,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
           final routine = snapshot.data;
 
           return Scaffold(
-            // key: scaffoldKey,
             backgroundColor: BackgroundColor,
             body: Stack(
               children: [
@@ -128,12 +161,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
     final size = MediaQuery.of(context).size;
 
     final routineTitle = routine?.routineTitle ?? 'Add Title';
-    final tag = routine?.routineId ?? 'routineId';
-    debugPrint('tag is $tag');
+    // final tag = routine?.routineId ?? 'routineId';
     final imageUrl = routine?.imageUrl ?? '';
-    final mainMuscleGroup = routine?.mainMuscleGroup ?? 'Main Muscle Group';
-    final equipmentRequired = routine?.equipmentRequired ?? 'equipmentRequired';
-    final secondMuscleGroup = routine?.secondMuscleGroup ?? 'secondMuscleGroup';
+    final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
+    final equipmentRequired =
+        routine?.equipmentRequired[0] ?? 'equipmentRequired';
+    final secondMuscleGroup =
+        routine?.secondMuscleGroup[0] ?? 'secondMuscleGroup';
 
     return SliverAppBar(
       leading: IconButton(
@@ -147,25 +181,27 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       ),
       centerTitle: true,
       title: isShrink ? Text(routineTitle, style: Subtitle1) : null,
-      actions: (isShrink == false)
-          ? <Widget>[
-              IconButton(
-                icon: Icon(
-                  (isFavorite == true)
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_border_rounded,
-                  color: (isFavorite == true) ? PrimaryColor : Colors.white,
-                ),
-                onPressed: () => _toggleFavorites(context, isFavorite),
-              ),
-              // TODO: Add share button
-              // IconButton(
-              //   icon: Icon(Icons.ios_share),
-              //   onPressed: () {},
-              // ),
-              SizedBox(width: 8),
-            ]
-          : null,
+      // actions: (isShrink == false)
+      //     ? <Widget>[
+      //         IconButton(
+      //           icon: Icon(
+      //             (isFavorite == true)
+      //                 ? Icons.favorite_rounded
+      //                 : Icons.favorite_border_rounded,
+      //             color: (isFavorite == true) ? PrimaryColor : Colors.white,
+      //           ),
+      //           onPressed: (isFavorite == false)
+      //               ? () => _addFavorites(context)
+      //               : () => _removeFavorites(context),
+      //         ),
+      //         // TODO: Add share button
+      //         // IconButton(
+      //         //   icon: Icon(Icons.ios_share),
+      //         //   onPressed: () {},
+      //         // ),
+      //         SizedBox(width: 8),
+      //       ]
+      //     : null,
       backgroundColor: Colors.transparent,
       floating: false,
       pinned: true,
@@ -310,18 +346,30 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(routineOwnerUserName, style: Subtitle2Bold),
+                    Text(
+                      routineOwnerUserName,
+                      style: Subtitle2.copyWith(fontWeight: FontWeight.bold),
+                    ),
                     SizedBox(height: 4),
                     Row(
                       children: <Widget>[
                         Text(
                           '5,455 Players',
-                          style: BodyText2Light,
+                          style:
+                              BodyText2.copyWith(fontWeight: FontWeight.w300),
                         ),
                         SizedBox(width: 8),
-                        Text('•', style: BodyText2Light),
+                        Text(
+                          '•',
+                          style:
+                              BodyText2.copyWith(fontWeight: FontWeight.w300),
+                        ),
                         SizedBox(width: 8),
-                        Text('총 $duration 분', style: BodyText2Light),
+                        Text(
+                          '총 $duration 분',
+                          style:
+                              BodyText2.copyWith(fontWeight: FontWeight.w300),
+                        ),
                       ],
                     ),
                   ],
@@ -332,29 +380,30 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                     Icons.edit_rounded,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    EditPlaylistScreen.show(
-                      context,
-                      routine: routine,
-                    );
-                  },
+                  onPressed: () => EditRoutineScreen.show(
+                    context: context,
+                    routine: routine,
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 16),
             Text(description, style: BodyText2LightGrey, maxLines: 3),
-            // SizedBox(height: 16),
-            // MaxWidthRaisedButton(
-            //   color: Primary400Color,
-            //   icon: Icon(
-            //     Icons.play_arrow_rounded,
-            //     color: Colors.white,
-            //   ),
-            //   // TODO: ADD ONPRESSED NAVIGATION
-            //   onPressed: () {},
-            //   buttonText: '운동 시작하기',
-            // ),
-            SizedBox(height: 16),
+            SizedBox(height: 24),
+            MaxWidthRaisedButton(
+              color: PrimaryColor,
+              icon: Icon(
+                Icons.play_arrow_rounded,
+                color: Colors.white,
+              ),
+              // TODO: ADD ONPRESSED NAVIGATION
+              onPressed: () => DuringWorkoutScreen.show(
+                context: context,
+                routine: routine,
+              ),
+              buttonText: '운동 시작하기',
+            ),
+            SizedBox(height: 24),
             Divider(
               endIndent: 8,
               indent: 8,

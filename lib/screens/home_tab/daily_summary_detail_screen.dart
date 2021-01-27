@@ -139,7 +139,13 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen> {
                               Text(widget.routineHistory.routineTitle,
                                   style: Headline5),
                               SizedBox(height: 4),
-                              Text(formattedDate, style: Subtitle1BoldGrey),
+                              Text(
+                                formattedDate,
+                                style: Subtitle1.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ],
                           ),
                         ),

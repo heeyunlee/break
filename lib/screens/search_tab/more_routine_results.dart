@@ -99,7 +99,11 @@ class MoreRoutineResult extends StatelessWidget {
             title: routine.routineTitle,
             subtitle: routine.routineOwnerUserName,
             imageUrl: routine.imageUrl,
-            onTap: () => RoutineDetailScreen.show(context, routine.routineId),
+            onTap: () => RoutineDetailScreen.show(
+              context: context,
+              routineId: routine.routineId,
+              isRootNavigation: false,
+            ),
           ),
         );
       },

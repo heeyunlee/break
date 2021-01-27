@@ -25,6 +25,7 @@ Future<bool> showAdaptiveModalBottomSheet({
 }) {
   if (!Platform.isIOS) {
     return showModalBottomSheet(
+      useRootNavigator: false,
       backgroundColor: Colors.white,
       context: context,
       builder: (context) {
@@ -96,6 +97,7 @@ Future<bool> showAdaptiveModalBottomSheet({
     );
   }
   return showCupertinoModalPopup(
+    useRootNavigator: false,
     context: context,
     builder: (context) => CupertinoActionSheet(
       title: title,
@@ -127,9 +129,7 @@ Future<bool> showAdaptiveModalBottomSheet({
         child: Text(cancelText),
         isDefaultAction: (isCancelDefault == true) ? true : false,
         isDestructiveAction: (isCancelDefault == true) ? false : true,
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
+        onPressed: () => {Navigator.of(context).pop()},
       ),
     ),
   );

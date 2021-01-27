@@ -11,11 +11,17 @@ class showFlushBar {
   }) {
     Flushbar(
       blockBackgroundInteraction: false,
-      messageText: Text(message, style: Subtitle2BlackBold),
+      messageText: Text(
+        message,
+        style: Subtitle2.copyWith(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       margin: EdgeInsets.all(8),
       borderRadius: 5,
       backgroundColor: Colors.white,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     )..show(context);
   }
 }

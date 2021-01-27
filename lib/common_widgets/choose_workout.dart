@@ -38,14 +38,20 @@ class _ChooseWorkoutState extends State<ChooseWorkout> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('오늘은', style: Headline5Bold),
+                    Text(
+                      '오늘은',
+                      style: Headline5.copyWith(fontWeight: FontWeight.bold),
+                    ),
                     SizedBox(width: 24),
                     Image.asset(
                       'images/leg.png',
                       height: 64,
                     ),
                     SizedBox(width: 24),
-                    Text('뿌시는 날', style: Headline5Bold),
+                    Text(
+                      '뿌시는 날',
+                      style: Headline5.copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),

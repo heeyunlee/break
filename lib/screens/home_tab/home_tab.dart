@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/common_widgets/custom_floating_action_button.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
@@ -28,7 +29,7 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: _buildAppBar(context),
-      // floatingActionButton: CustomFloatingActionButton(),
+      floatingActionButton: CustomFloatingActionButton(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

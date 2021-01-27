@@ -224,7 +224,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         initialValue: _workoutTitle,
         decoration: InputDecoration(
           labelText: '운동 이름',
-          labelStyle: Subtitle2Grey,
+          labelStyle: Subtitle2.copyWith(color: Colors.grey),
           hintText: 'ex) 스쿼트',
           hintStyle: BodyText2LightGrey,
         ),

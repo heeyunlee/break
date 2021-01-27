@@ -10,6 +10,7 @@ class Workout {
     @required this.description,
     @required this.equipmentRequired,
     this.imageUrl,
+    this.isBodyWeightWorkout,
     // TODO: Add these data later
     // this.forceType,
     // this.exerciseType,
@@ -27,6 +28,7 @@ class Workout {
   final String description;
   final String equipmentRequired;
   final String imageUrl;
+  final bool isBodyWeightWorkout;
   // TODO: ADD these data later
   // final String forceType;
   // final String exerciseType;
@@ -46,6 +48,7 @@ class Workout {
     final String description = data['description'];
     final String equipmentRequired = data['equipmentRequired'];
     final String imageUrl = data['imageUrl'];
+    final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
     // TODO: Add these later
     // final String forceType = data['forceType'];
     // final String exerciseType = data['exerciseType'];
@@ -63,6 +66,7 @@ class Workout {
       description: description,
       equipmentRequired: equipmentRequired,
       imageUrl: imageUrl,
+      isBodyWeightWorkout: isBodyWeightWorkout,
       // forceType: forceType,
       // exerciseType: exerciseType,
       // mechanics: mechanics,
@@ -81,6 +85,7 @@ class Workout {
       'description': description,
       'equipmentRequired': equipmentRequired,
       'imageUrl': imageUrl,
+      'isBodyWeightWorkout': isBodyWeightWorkout,
       // 'forceType': forceType,
       // 'exerciseType': exerciseType,
       // 'mechanics': mechanics,

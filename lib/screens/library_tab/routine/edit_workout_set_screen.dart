@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
@@ -60,6 +62,7 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
 
   FocusNode focusNode1;
   FocusNode focusNode2;
+  FocusNode focusNode3;
   var _textController1 = TextEditingController();
   var _textController2 = TextEditingController();
   var _textController3 = TextEditingController();
@@ -71,9 +74,13 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
   int _start;
   bool cancelButtonDisabled;
   bool _isPaused;
+  // double _value = 25;
+  int _setOrRest = 0;
+  // int _slider = 0;
 
   CountDownController _countDownController = CountDownController();
   AnimationController _animationController;
+  TabController tabController;
 
   @override
   void initState() {
@@ -81,6 +88,7 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
 
     focusNode1 = FocusNode();
     focusNode2 = FocusNode();
+    focusNode3 = FocusNode();
 
     _animationController = AnimationController(
       vsync: this,
@@ -108,8 +116,9 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
   void dispose() {
     focusNode1.dispose();
     focusNode2.dispose();
+    focusNode3.dispose();
     super.dispose();
-    // _animationController.dispose();
+    _animationController.dispose();
   }
 
   bool _validateAndSaveForm() {
@@ -122,7 +131,7 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
   }
 
   Future<void> _submit() async {
-    print('submit Button Pressed');
+    print('ADD Button Pressed');
     if (_validateAndSaveForm()) {
       print('_validateAndSaveForm is TRUE');
       try {
@@ -171,11 +180,11 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
           final set = WorkoutSet(
             workoutSetId: id,
             index: index,
-            isRest: (_sliding == 0) ? false : true,
-            setTitle: (_sliding == 0) ? _setTitle : '휴식',
-            weights: (_sliding == 0) ? int.parse(_setWeights) : null,
-            reps: (_sliding == 0) ? int.parse(_setReps) : null,
-            restTime: (_sliding == 0) ? null : restTime,
+            isRest: (_setOrRest == 0) ? false : true,
+            setTitle: (_setOrRest == 0) ? _setTitle : '휴식',
+            weights: (_setOrRest == 0) ? int.parse(_setWeights) : null,
+            reps: (_setOrRest == 0) ? int.parse(_setReps) : null,
+            restTime: (_setOrRest == 0) ? null : restTime,
           ).toMap();
           final routineWorkout = {
             'index': widget.routineWorkout.index,
@@ -191,9 +200,10 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
             routineWorkout,
           );
           Navigator.of(context).pop();
+          // Get.snackbar(null, (_setOrRest == 0) ? '세트를 추가했습니다.' : '휴식을 추가했습니다.');
           showFlushBar(
             context: context,
-            message: (_sliding == 0) ? '세트를 추가했습니다.' : '휴식을 추가했습니다.',
+            message: (_setOrRest == 0) ? '세트를 추가했습니다.' : '휴식을 추가했습니다.',
           );
         }
       } on FirebaseException catch (e) {
@@ -208,82 +218,72 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: BackgroundColor,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: Icon(
-            Icons.close_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Text(
-          (widget.set == null && _sliding == 0)
-              ? '세트 추가하기'
-              : (widget.set == null && _sliding == 1)
-                  ? '휴식 추가하기'
-                  : (widget.set != null && _sliding == 0)
-                      ? '세트 수정하기'
-                      : '휴식 수정하기',
-          style: Subtitle1,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              (widget.set == null) ? 'ADD' : 'SAVE',
-              style: ButtonText,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: BackgroundColor,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(
+              Icons.close_rounded,
+              color: Colors.white,
             ),
-            onPressed: _submit,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ],
-        flexibleSpace: AppbarBlurBG(),
-      ),
-      body: _buildContents(),
-    );
-  }
-
-  int _sliding = 0;
-
-  Widget _buildContents() {
-    final size = MediaQuery.of(context).size;
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 32),
-          Container(
-            width: size.width - 32,
-            child: CupertinoSlidingSegmentedControl(
-              children: {
-                0: Text(
-                  '세트',
-                  style: TextStyle(
-                    color: (_sliding == 0) ? Colors.black : Colors.white,
-                  ),
-                ),
-                1: Text(
-                  '휴식',
-                  style: TextStyle(
-                    color: (_sliding == 1) ? Colors.black : Colors.white,
-                  ),
-                ),
-              },
-              groupValue: _sliding,
-              onValueChanged: (newValue) {
+          title: Text(
+            (widget.set == null && _setOrRest == 0)
+                ? '세트 추가하기'
+                : (widget.set == null && _setOrRest == 1)
+                    ? '휴식 추가하기'
+                    : (widget.set != null && _setOrRest == 0)
+                        ? '세트 수정하기'
+                        : '휴식 수정하기',
+            style: Subtitle1,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                (widget.set == null) ? '완료' : 'SAVE',
+                style: ButtonText,
+              ),
+              onPressed: _submit,
+            ),
+          ],
+          flexibleSpace: AppbarBlurBG(),
+          bottom: TabBar(
+            physics: NeverScrollableScrollPhysics(),
+            dragStartBehavior: DragStartBehavior.start,
+            controller: tabController,
+            labelColor: Colors.white,
+            unselectedLabelColor: Grey400,
+            indicatorColor: PrimaryColor,
+            onTap: (_) {
+              if (_setOrRest == 1) {
                 setState(() {
-                  _sliding = newValue;
+                  _setOrRest = 0;
+                  debugPrint('$_setOrRest');
                 });
-              },
-            ),
+              } else {
+                focusNode1.unfocus();
+                focusNode2.unfocus();
+                focusNode3.unfocus();
+                setState(() {
+                  _setOrRest = 1;
+                  debugPrint('$_setOrRest');
+                });
+              }
+            },
+            tabs: [
+              Tab(text: '세트'),
+              Tab(text: '휴식'),
+            ],
           ),
-          SizedBox(height: 16),
-          _buildForm(),
-        ],
+        ),
+        body: _buildForm(),
       ),
     );
   }
@@ -292,217 +292,333 @@ class _EditWorkoutSetScreenState extends State<EditWorkoutSetScreen>
     return Theme(
       data: ThemeData(
         primaryColor: PrimaryColor,
+        disabledColor: Colors.grey,
+        iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
       child: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: tabController,
+          children: [
+            _buildSetForm(),
+            _buildRestForm(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSetForm() {
+    final size = MediaQuery.of(context).size;
+
+    return KeyboardActions(
+      config: _buildConfig(),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: (_sliding == 0) ? _buildSetForm() : _buildRestForm(),
+            children: [
+              SizedBox(height: 16),
+
+              /// Set Title
+              TextFormField(
+                autocorrect: false,
+                focusNode: focusNode1,
+                textInputAction: TextInputAction.next,
+                controller: _textController1,
+                textAlign: TextAlign.center,
+                style: BodyText1,
+                decoration: new InputDecoration(
+                  labelText: '세트 제목',
+                  labelStyle: Subtitle2.copyWith(color: Colors.grey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: PrimaryColor, width: 1),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                ),
+                onEditingComplete: () => focusNode2.requestFocus(),
+                validator: (value) =>
+                    value.isNotEmpty ? null : '세트에 제목을 지어주세요!',
+                onChanged: (value) => _setTitle = value,
+                onFieldSubmitted: (value) => _setTitle = value,
+                onSaved: (value) => _setTitle = value,
+              ),
+              SizedBox(height: 32),
+
+              // ListTile(
+              //   tileColor: Colors.blueAccent,
+              //   trailing: Text('Kg'),
+              //   title: TextFormField(
+              //     focusNode: focusNode2,
+              //     controller: _textController2,
+              //     textInputAction: TextInputAction.next,
+              //     textAlign: TextAlign.center,
+              //     style: BodyText1,
+              //     keyboardType: TextInputType.numberWithOptions(
+              //       signed: true,
+              //     ),
+              //     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              //     decoration: new InputDecoration(
+              //       // labelText: '무게: Kg',
+              //       labelStyle: Subtitle2.copyWith(color: Colors.grey),
+              //       focusedBorder: OutlineInputBorder(
+              //         borderSide: BorderSide.none,
+              //       ),
+              //       enabledBorder: OutlineInputBorder(
+              //         borderSide: BorderSide.none,
+              //       ),
+              //     ),
+              //     onEditingComplete: () => focusNode3.requestFocus(),
+              //     onChanged: (value) => _setWeights = value,
+              //     onFieldSubmitted: (value) => _setWeights = value,
+              //     onSaved: (value) => _setWeights = value,
+              //   ),
+              // ),
+              //
+              // SizedBox(height: 32),
+
+              // Container(
+              //   width: size.width - 32,
+              //   child: CupertinoSlidingSegmentedControl(
+              //     children: {
+              //       0: Text(
+              //         '맨몸',
+              //         style: TextStyle(
+              //           color: (_slider == 0) ? Colors.black : Colors.white,
+              //         ),
+              //       ),
+              //       1: Text(
+              //         '웨이트',
+              //         style: TextStyle(
+              //           color: (_slider == 1) ? Colors.black : Colors.white,
+              //         ),
+              //       ),
+              //     },
+              //     groupValue: _slider,
+              //     onValueChanged: (newValue) {
+              //       setState(() {
+              //         _slider = newValue;
+              //       });
+              //     },
+              //   ),
+              // ),
+              // SizedBox(height: 32),
+
+              /// Weights
+              TextFormField(
+                focusNode: focusNode2,
+                controller: _textController2,
+                textInputAction: TextInputAction.next,
+                textAlign: TextAlign.center,
+                style: BodyText1,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: new InputDecoration(
+                  labelText: '무게: Kg',
+                  labelStyle: Subtitle2.copyWith(color: Colors.grey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: PrimaryColor, width: 1),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                ),
+                onEditingComplete: () => focusNode3.requestFocus(),
+                validator: (value) => value.isNotEmpty ? null : '무게를 입력해 주세요!',
+                onChanged: (value) => _setWeights = value,
+                onFieldSubmitted: (value) => _setWeights = value,
+                onSaved: (value) => _setWeights = value,
+              ),
+              SizedBox(height: 32),
+
+              /// Reps
+              TextFormField(
+                focusNode: focusNode3,
+                controller: _textController3,
+                textInputAction: TextInputAction.done,
+                textAlign: TextAlign.center,
+                style: BodyText1,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: new InputDecoration(
+                  labelText: '횟수: X',
+                  labelStyle: Subtitle2.copyWith(color: Colors.grey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: PrimaryColor, width: 1),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1),
+                  ),
+                ),
+                validator: (value) => value.isNotEmpty ? null : '횟수를 입력해 주세요!',
+                onChanged: (value) => _setReps = value,
+                onFieldSubmitted: (value) => _setReps = value,
+                onSaved: (value) => _setReps = value,
+              ),
+
+              // Text(
+              //   '횟수',
+              //   style: Headline4,
+              // ),
+              //
+              // Slider(
+              //   value: _value,
+              //   onChanged: (value) {
+              //     setState(() => _value = value);
+              //   },
+              //   min: 0,
+              //   max: 50,
+              //   label: '${_value.toInt()}',
+              //   divisions: 50,
+              // ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildSetForm() {
-    return [
-      /// Set Title
-      TextFormField(
-        textInputAction: TextInputAction.next,
-        controller: _textController1,
-        textAlign: TextAlign.center,
-        style: BodyText1,
-        decoration: new InputDecoration(
-          labelText: '세트 제목',
-          labelStyle: Subtitle2Grey,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: PrimaryColor, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 1),
-          ),
+  KeyboardActionsConfig _buildConfig() {
+    return KeyboardActionsConfig(
+      keyboardSeparatorColor: Grey700,
+      keyboardBarColor: Color(0xff303030),
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: focusNode1,
+          displayDoneButton: false,
         ),
-        onEditingComplete: () => focusNode1.requestFocus(),
-        validator: (value) => value.isNotEmpty ? null : '세트에 제목을 지어주세요!',
-        onChanged: (value) => _setTitle = value,
-        onFieldSubmitted: (value) => _setTitle = value,
-        onSaved: (value) => _setTitle = value,
-      ),
-      SizedBox(height: 32),
-
-      /// Weights
-      TextFormField(
-        focusNode: focusNode1,
-        controller: _textController2,
-        textInputAction: TextInputAction.next,
-        textAlign: TextAlign.center,
-        style: BodyText1,
-        keyboardType: TextInputType.numberWithOptions(
-          signed: true,
+        KeyboardActionsItem(
+          focusNode: focusNode2,
+          displayDoneButton: false,
         ),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: new InputDecoration(
-          labelText: '무게: Kg',
-          labelStyle: Subtitle2Grey,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: PrimaryColor, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 1),
-          ),
+        KeyboardActionsItem(
+          focusNode: focusNode3,
+          displayDoneButton: false,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('완료', style: ButtonText),
+                ),
+              );
+            }
+          ],
         ),
-        onEditingComplete: () => focusNode2.requestFocus(),
-        onChanged: (value) => _setWeights = value,
-        onFieldSubmitted: (value) => _setWeights = value,
-        onSaved: (value) => _setWeights = value,
-      ),
-      SizedBox(height: 32),
-
-      /// Reps
-      TextFormField(
-        focusNode: focusNode2,
-        controller: _textController3,
-        textInputAction: TextInputAction.done,
-        textAlign: TextAlign.center,
-        style: BodyText1,
-        keyboardType: TextInputType.numberWithOptions(
-          signed: true,
-        ),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: new InputDecoration(
-          labelText: '횟수: X',
-          labelStyle: Subtitle2Grey,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: PrimaryColor, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 1),
-          ),
-        ),
-        onChanged: (value) => _setReps = value,
-        onFieldSubmitted: (value) => _setReps = value,
-        onSaved: (value) => _setReps = value,
-      ),
-    ];
+      ],
+    );
   }
 
-  List<Widget> _buildRestForm() {
+  Widget _buildRestForm() {
     final size = MediaQuery.of(context).size;
 
-    return [
-      if (_start == null)
-        Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 42),
-              CupertinoTheme(
-                data: CupertinoThemeData(
-                  textTheme: CupertinoTextThemeData(
-                    pickerTextStyle: BodyText1,
-                  ),
-                ),
-                child: CupertinoTimerPicker(
-                  alignment: Alignment.center,
-                  onTimerDurationChanged: (value) => _restTime = value,
-                  initialTimerDuration: _restTime,
-                  mode: CupertinoTimerPickerMode.ms,
-                ),
+    return Column(
+      children: [
+        SizedBox(height: (_start == null) ? 162 : 120),
+        if (_start == null)
+          CupertinoTheme(
+            data: CupertinoThemeData(
+              textTheme: CupertinoTextThemeData(
+                pickerTextStyle: BodyText1,
               ),
-              SizedBox(height: 74),
-            ],
+            ),
+            child: CupertinoTimerPicker(
+              alignment: Alignment.center,
+              onTimerDurationChanged: (value) => _restTime = value,
+              initialTimerDuration: _restTime,
+              mode: CupertinoTimerPickerMode.ms,
+            ),
           ),
-        ),
-      if (_start != null)
-        Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              CircularCountDownTimer(
-                textStyle: Headline2,
-                controller: _countDownController,
-                width: 300,
-                height: 300,
-                duration: _restTime.inSeconds,
-                fillColor: Grey800,
-                color: Colors.red,
-                backgroundColor: null,
-                isReverse: true,
-                strokeWidth: 8,
-                onComplete: _submit,
-              ),
-              SizedBox(height: 32),
-            ],
+        if (_start == null) SizedBox(height: 162),
+        if (_start != null)
+          CircularCountDownTimer(
+            textStyle: Headline2,
+            controller: _countDownController,
+            width: 300,
+            height: 300,
+            duration: _restTime.inSeconds,
+            fillColor: Grey800,
+            color: Colors.red,
+            backgroundColor: null,
+            isReverse: true,
+            strokeWidth: 8,
+            onComplete: _submit,
           ),
-        ),
-      Container(
-        height: 48,
-        child: RaisedButton(
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              AnimatedIcon(
-                size: 32,
-                color: Colors.white,
-                icon: AnimatedIcons.play_pause,
-                progress: _animationController,
-              ),
-              Center(
+        if (_start != null) SizedBox(height: 120),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 48,
+              width: (size.width - 48) / 2,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                color: Grey700,
+                disabledColor: Grey700,
                 child: Text(
-                  (_isPaused) ? '시작' : '일지성지',
+                  '취소',
+                  style: (cancelButtonDisabled) ? ButtonTextGrey : ButtonText,
+                ),
+                onPressed: (cancelButtonDisabled)
+                    ? null
+                    : () {
+                        if (!_isPaused) _animationController.reverse();
+                        setState(() {
+                          _start = null;
+                          cancelButtonDisabled = true;
+                          _isPaused = true;
+                        });
+                      },
+              ),
+            ),
+            SizedBox(width: 16),
+            Container(
+              height: 48,
+              width: (size.width - 48) / 2,
+              child: RaisedButton.icon(
+                icon: AnimatedIcon(
+                  size: 32,
+                  color: Colors.white,
+                  icon: AnimatedIcons.play_pause,
+                  progress: _animationController,
+                ),
+                label: Text(
+                  (_isPaused) ? '시작하기' : '일지성지',
                   style: ButtonText,
                 ),
-              ),
-            ],
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          color: PrimaryColor,
-          onPressed: () {
-            setState(() {
-              _start = _restTime.inSeconds;
-              cancelButtonDisabled = false;
-            });
-            if (_isPaused) {
-              _isPaused = !_isPaused;
-              _animationController.forward();
-              _countDownController.resume();
-              print(_isPaused);
-            } else {
-              _isPaused = !_isPaused;
-              _animationController.reverse();
-              _countDownController.pause();
-              print(_isPaused);
-            }
-          },
-        ),
-      ),
-      SizedBox(height: 16),
-      Container(
-        height: 48,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          color: Grey700,
-          disabledColor: Grey700,
-          child: Text(
-            '취소',
-            style: (cancelButtonDisabled) ? ButtonTextGrey : ButtonText,
-          ),
-          onPressed: (cancelButtonDisabled)
-              ? null
-              : () {
-                  if (!_isPaused) _animationController.reverse();
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                color: PrimaryColor,
+                onPressed: () {
                   setState(() {
-                    _start = null;
-                    cancelButtonDisabled = true;
-                    _isPaused = true;
+                    _start = _restTime.inSeconds;
+                    cancelButtonDisabled = false;
                   });
+                  if (_isPaused) {
+                    _isPaused = !_isPaused;
+                    _animationController.forward();
+                    _countDownController.resume();
+                    print(_isPaused);
+                  } else {
+                    _isPaused = !_isPaused;
+                    _animationController.reverse();
+                    _countDownController.pause();
+                    print(_isPaused);
+                  }
                 },
+              ),
+            ),
+          ],
         ),
-      ),
-    ];
+      ],
+    );
   }
 }

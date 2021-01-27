@@ -11,6 +11,7 @@ class RoutineWorkout {
     this.numberOfSets,
     this.numberOfReps,
     this.sets,
+    this.isBodyWeightWorkout,
   });
 
   int index;
@@ -20,6 +21,7 @@ class RoutineWorkout {
   int numberOfSets;
   int numberOfReps;
   List<WorkoutSet> sets;
+  bool isBodyWeightWorkout;
 
   RoutineWorkout.fromJson(Map<String, dynamic> data, String documentId) {
     routineWorkoutId = documentId;
@@ -34,6 +36,7 @@ class RoutineWorkout {
         sets.add(new WorkoutSet.fromMap(set));
       });
     }
+    isBodyWeightWorkout = data['isBodyWeightWorkout'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +49,7 @@ class RoutineWorkout {
     if (this.sets != null) {
       data['sets'] = this.sets.map((e) => e.toMap()).toList();
     }
+    data['isBodyWeightWorkout'] = this.isBodyWeightWorkout;
     return data;
     // return {
     //   'index': index,

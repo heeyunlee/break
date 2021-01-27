@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -32,6 +30,9 @@ class WorkoutMediumCard extends StatefulWidget {
 class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
   int index;
 
+  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // PersistentBottomSheetController controller;
+
   // Delete Routine Workout Method
   Future<void> _deleteRoutineWorkout(
     BuildContext context,
@@ -39,42 +40,12 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     RoutineWorkout routineWorkout,
   ) async {
     try {
-      showFlushBar(
-        context: context,
-        message: '운동을 삭제했습니다!',
-      );
       await widget.database.deleteRoutineWorkout(routine, routineWorkout);
-    } on FirebaseException catch (e) {
-      ShowExceptionAlertDialog(
-        context,
-        title: 'Operation Failed',
-        exception: e,
-      );
-    }
-  }
-
-  // Delete Workout Set Method
-  Future<void> _deleteSet(BuildContext context, WorkoutSet set) async {
-    try {
-      final routineWorkout = {
-        'index': widget.routineWorkout.index,
-        'workoutId': widget.routineWorkout.workoutId,
-        'workoutTitle': widget.routineWorkout.workoutTitle,
-        'numberOfSets': widget.routineWorkout.numberOfSets,
-        'numberOfReps': widget.routineWorkout.numberOfReps,
-        'sets': FieldValue.arrayRemove([set.toMap()]),
-      };
-      // TODO: _showModalBottomSheetForDelete not disappearing... need to fix it
-      // Navigator.of(context).pop();
-      showFlushBar(
-        context: context,
-        message: (set.isRest) ? '휴식이 삭제됐습니다' : '세트가 삭제됐습니다.',
-      );
-      await widget.database.setWorkoutSet(
-        widget.routine,
-        widget.routineWorkout,
-        routineWorkout,
-      );
+      // showFlushBar(
+      //   context: context,
+      //   message: '운동을 삭제했습니다!',
+      // );
+      Navigator.of(context).pop();
     } on FirebaseException catch (e) {
       ShowExceptionAlertDialog(
         context,
@@ -130,13 +101,10 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 itemCount: widget.routineWorkout.sets.length,
                 itemBuilder: (context, index) {
                   return WorkoutSetWidget(
+                    database: widget.database,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
                     set: widget.routineWorkout.sets[index],
-                    onPressed: () => _showModalBottomSheetForDeleteWorkoutSet(
-                      context,
-                      () {
-                        _deleteSet(context, widget.routineWorkout.sets[index]);
-                      },
-                    ),
                   );
                 },
               ),
@@ -189,10 +157,6 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           Icons.delete_rounded,
           color: Colors.grey,
         ),
-        // child: Text(
-        //   '운동 삭제하기',
-        //   style: ButtonText,
-        // ),
         onPressed: () async {
           await _showMBSDeleteRoutineWorkout();
         },
@@ -200,38 +164,20 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     );
   }
 
-  Future<bool> _showModalBottomSheetForDeleteWorkoutSet(
-      BuildContext context, Function firstActionOnPressed) {
-    return showAdaptiveModalBottomSheet(
-      context: context,
-      message: Text(
-        '정말로 세트를 삭제하시겠습니까?',
-        textAlign: TextAlign.center,
-      ),
-      firstActionText: '세트 삭제',
-      isFirstActionDefault: false,
-      firstActionOnPressed: firstActionOnPressed,
-      cancelText: '취소',
-      isCancelDefault: true,
-    );
-  }
-
   Future<bool> _showMBSDeleteRoutineWorkout() {
     return showAdaptiveModalBottomSheet(
       context: context,
       message: Text(
-        '정말로 루틴을 삭제하시겠습니까?',
+        '정말로 운동을 삭제하시겠습니까?',
         textAlign: TextAlign.center,
       ),
-      firstActionText: '루틴 삭제',
+      firstActionText: '운동 삭제',
       isFirstActionDefault: false,
-      firstActionOnPressed: () {
-        _deleteRoutineWorkout(
-          context,
-          widget.routine,
-          widget.routineWorkout,
-        );
-      },
+      firstActionOnPressed: () => _deleteRoutineWorkout(
+        context,
+        widget.routine,
+        widget.routineWorkout,
+      ),
       cancelText: '취소',
       isCancelDefault: true,
     );

@@ -55,6 +55,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
           numberOfSets: 0,
           index: index,
           sets: [],
+          isBodyWeightWorkout: isBodyWeightWorkout,
         );
         await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
         Navigator.of(context).pop();
@@ -100,6 +101,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
 
   String selectedWorkoutId;
   String selectedWorkoutTitle;
+  bool isBodyWeightWorkout;
 
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
@@ -194,6 +196,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               setState(() {
                 selectedWorkoutId = workout.workoutId;
                 selectedWorkoutTitle = workout.workoutTitle;
+                isBodyWeightWorkout = workout.isBodyWeightWorkout;
               });
               print(selectedWorkoutId);
               print(selectedWorkoutTitle);

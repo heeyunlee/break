@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-enum TabItem { home, search, library }
+// enum TabItem { home, search, library }
+enum TabItem { home, library }
 
 class TabItemData {
   const TabItemData({
@@ -16,10 +17,10 @@ class TabItemData {
       label: 'Home',
       icon: Icons.home_rounded,
     ),
-    TabItem.search: TabItemData(
-      label: 'Search',
-      icon: Icons.search_rounded,
-    ),
+    // TabItem.search: TabItemData(
+    //   label: 'Search',
+    //   icon: Icons.search_rounded,
+    // ),
     TabItem.library: TabItemData(
       label: 'Library',
       icon: Icons.fitness_center_rounded,

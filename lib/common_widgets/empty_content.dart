@@ -22,9 +22,8 @@ class EmptyContent extends StatelessWidget {
           height: 400,
           width: 400,
         ),
-        Text(title, style: Subtitle1Bold),
+        Text(title, style: Subtitle1.copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 16),
-        // Text(message, style: Subtitle1),
       ],
     );
   }

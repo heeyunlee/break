@@ -46,14 +46,20 @@ class SearchScreenBody extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('오늘은', style: Headline5Bold),
+                  Text(
+                    '오늘은',
+                    style: Headline5.copyWith(fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(width: 24),
                   Image.asset(
                     'images/leg.png',
                     height: 64,
                   ),
                   SizedBox(width: 24),
-                  Text('뿌시는 날', style: Headline5Bold),
+                  Text(
+                    '뿌시는 날',
+                    style: Headline5.copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -128,7 +134,7 @@ class SearchScreenBody extends StatelessWidget {
               itemBuilder: (context, workout) => CustomListTileStyle2(
                 imageUrl: workout.imageUrl,
                 title: workout.workoutTitle,
-                subtitle: workout.mainMuscleGroup,
+                subtitle: workout.mainMuscleGroup[0],
                 onTap: () => WorkoutDetailScreen.show(
                   context: context,
                   // index: index,
@@ -192,10 +198,13 @@ class SearchScreenBody extends StatelessWidget {
               snapshot: snapshot,
               itemBuilder: (context, routine) => CustomListTileStyle2(
                 title: routine.routineTitle,
-                subtitle: routine.mainMuscleGroup,
+                subtitle: routine.mainMuscleGroup[0],
                 imageUrl: routine.imageUrl,
-                onTap: () =>
-                    RoutineDetailScreen.show(context, routine.routineId),
+                onTap: () => RoutineDetailScreen.show(
+                  context: context,
+                  routineId: routine.routineId,
+                  isRootNavigation: false,
+                ),
               ),
             );
           },

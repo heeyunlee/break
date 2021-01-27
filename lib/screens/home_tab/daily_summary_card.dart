@@ -73,7 +73,13 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
             ),
           ),
           title: Text('${widget.workoutTitle}', style: Caption1Grey),
-          subtitle: Text('$formattedDate 운동', style: Subtitle1Bold),
+          subtitle: Text(
+            '$formattedDate 운동',
+            style: Subtitle1.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
         ),
         SizedBox(height: 8),
         Divider(indent: 8, endIndent: 8, color: Grey800),

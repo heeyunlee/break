@@ -17,7 +17,7 @@ class CreateNewWorkoutWidget extends StatelessWidget {
       ),
       title: Text(
         '커스텀 운동 추가',
-        style: BodyText1Bold,
+        style: BodyText1.copyWith(fontWeight: FontWeight.bold),
       ),
       // onTap: () => CreateNewWorkoutForm.show(context),
       // onTap: () {
