@@ -41,6 +41,8 @@ class AddWorkoutsToRoutine extends StatefulWidget {
 }
 
 class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
+  List<Workout> _selectedWorkouts = List<Workout>();
+
   Future<void> _submit() async {
     try {
       final routineWorkouts =
@@ -53,13 +55,14 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
           workoutTitle: selectedWorkoutTitle,
           numberOfReps: 0,
           numberOfSets: 0,
+          totalWeights: 0,
           index: index,
           sets: [],
           isBodyWeightWorkout: isBodyWeightWorkout,
         );
         await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
         Navigator.of(context).pop();
-        showFlushBar(context: context, message: '운동을 추가했습니다!!');
+        showFlushBar(context: context, message: 'Added new workout!!');
       } else {
         return null;
       }
@@ -71,11 +74,12 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text('운동 추가', style: Subtitle1),
+        title: Text('Add workout to routine', style: Subtitle1),
         leading: IconButton(
           icon: Icon(
             Icons.close_rounded,
@@ -110,6 +114,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Column(
           children: [
+            // SizedBox(height: 100),
             // _buildChips(),
             // SizedBox(
             //   height: 52,
@@ -131,6 +136,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
             //   ),
             // ),
             // SizedBox(height: 8),
+            SizedBox(height: 96),
             _buildWorkoutStream(),
           ],
         ),
@@ -145,32 +151,37 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: <Widget>[
+            // TagButton(
+            //   tagTitle: '모든 운동',
+            // ),
+            // SizedBox(width: 8),
+            // TagButton(
+            //   tagTitle: '저장한 운동',
+            // ),
+            // SizedBox(width: 8),
             TagButton(
-              tagTitle: '모든 운동',
+              tagTitle: 'Chest',
+              searchCategory: 'Chest',
             ),
             SizedBox(width: 8),
             TagButton(
-              tagTitle: '저장한 운동',
+              tagTitle: 'Back',
+              searchCategory: 'Back',
             ),
             SizedBox(width: 8),
             TagButton(
-              tagTitle: '가슴',
+              tagTitle: 'Shoulder',
+              searchCategory: 'Shoulder',
             ),
             SizedBox(width: 8),
             TagButton(
-              tagTitle: '등',
+              tagTitle: 'Leg',
+              searchCategory: 'Leg',
             ),
             SizedBox(width: 8),
             TagButton(
-              tagTitle: '어깨',
-            ),
-            SizedBox(width: 8),
-            TagButton(
-              tagTitle: '하체',
-            ),
-            SizedBox(width: 8),
-            TagButton(
-              tagTitle: '홈트',
+              tagTitle: 'Home Training',
+              searchCategory: 'Bodyweight',
             ),
           ],
         ),
@@ -184,22 +195,21 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
     return StreamBuilder<List<Workout>>(
       stream: database.workoutsStream(),
       builder: (context, snapshot) {
-        // final initialWorkoutData = snapshot.data;
         return ListItemBuilder<Workout>(
           snapshot: snapshot,
           itemBuilder: (context, workout) => CustomListTileStyle3(
             color: PrimaryColor.withOpacity(0.12),
             imageUrl: workout.imageUrl,
             title: workout.workoutTitle,
-            subtitle: workout.mainMuscleGroup,
+            subtitle: workout.mainMuscleGroup[0],
             onTap: () {
               setState(() {
                 selectedWorkoutId = workout.workoutId;
                 selectedWorkoutTitle = workout.workoutTitle;
                 isBodyWeightWorkout = workout.isBodyWeightWorkout;
               });
-              print(selectedWorkoutId);
-              print(selectedWorkoutTitle);
+              // print(selectedWorkoutId);
+              // print(selectedWorkoutTitle);
               _submit();
             },
           ),
@@ -208,10 +218,3 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
     );
   }
 }
-// TODO: Create 'Selected Item List' to be able to add multiple workouts at once
-// class ListItem<Workout> {
-//   bool isSelected = false;
-//   Workout workout;
-//
-//   ListItem(this.workout);
-// }

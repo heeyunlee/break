@@ -19,42 +19,33 @@ class SavedRoutinesTab extends StatelessWidget {
           SizedBox(height: 16),
           CreateNewRoutineWidget(),
           SizedBox(height: 8),
-          _playlistBuilder(context),
+          _routineListBuilder(context),
           SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  Widget _playlistBuilder(BuildContext context) {
+  Widget _routineListBuilder(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<List<Routine>>(
       stream: database.routinesStream(),
       builder: (context, snapshot) {
         return ListItemBuilder<Routine>(
-          emptyContentTitle: '새로운 루틴을 만들어 보세요',
+          emptyContentTitle: 'Create a new Routine',
           snapshot: snapshot,
           itemBuilder: (context, routine) => CustomListTileStyle1(
-            tag: 'playlist${routine.routineId}',
+            tag: 'routine${routine.routineId}',
             title: routine.routineTitle,
             subtitle: 'by ${routine.routineOwnerUserName}',
-            imageUrl: routine.imageUrl,
+            // imageUrl: routine.imageUrl,
+            imageIndex: routine?.imageIndex ?? 0,
             onTap: () => RoutineDetailScreen.show(
               context: context,
-              routineId: routine.routineId,
+              routine: routine,
               isRootNavigation: false,
             ),
-            // onTap: () {
-            //   Navigator.of(context).push(
-            //     CupertinoPageRoute(
-            //       builder: (context) => RoutineDetailScreen(
-            //         routineId: routine.routineId,
-            //         database: database,
-            //       ),
-            //     ),
-            //   );
-            // },
           ),
         );
       },

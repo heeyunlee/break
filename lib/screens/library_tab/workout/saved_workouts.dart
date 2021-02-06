@@ -8,7 +8,7 @@ import 'package:workout_player/screens/library_tab/workout/workout_detail_screen
 
 import '../../../common_widgets/list_item_builder.dart';
 import '../../../services/database.dart';
-import 'create_new_workout_widget.dart';
+import 'create_workout/create_new_workout_widget.dart';
 
 class SavedWorkoutsTab extends StatelessWidget {
   static Widget create(BuildContext context) {
@@ -49,20 +49,18 @@ class SavedWorkoutsTab extends StatelessWidget {
           itemBuilder: (context, userSavedWorkout) => CustomListTileStyle1(
             tag: 'workout${userSavedWorkout.workout.workoutId}',
             title: userSavedWorkout.workout.workoutTitle,
-            subtitle: userSavedWorkout.workout.mainMuscleGroup,
-            imageUrl: userSavedWorkout.workout.imageUrl,
+            subtitle: userSavedWorkout.workout.mainMuscleGroup[0],
+            imageIndex: userSavedWorkout.workout?.imageIndex ?? 0,
+            // imageUrl: userSavedWorkout.workout.imageUrl,
             onTap: () => WorkoutDetailScreen.show(
               context: context,
               workout: userSavedWorkout.workout,
+              isRootNavigation: false,
               // index: index,
               // workout: userSavedWorkout.workout,
               // userSavedWorkout: userSavedWorkout,
             ),
           ),
-          // itemBuilder: (context, userSavedWorkout) => CustomListTileStyle4(
-          //   userSavedWorkout: userSavedWorkout,
-          //   index: index,
-          // ),
         );
       },
     );

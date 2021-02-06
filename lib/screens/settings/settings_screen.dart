@@ -55,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('설정', style: Subtitle1),
+        title: Text('Settings', style: Subtitle1),
       ),
       backgroundColor: BackgroundColor,
       body: SingleChildScrollView(
@@ -65,7 +65,7 @@ class SettingsScreen extends StatelessWidget {
             SizedBox(height: 64),
             Center(
               child: RaisedButton(
-                child: Text('로그아웃 하기'),
+                child: Text('Logout'),
                 onPressed: () => _confirmSignOut(context),
               ),
             ),

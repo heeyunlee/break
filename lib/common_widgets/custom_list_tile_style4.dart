@@ -45,7 +45,7 @@ class CustomListTileStyle4 extends StatelessWidget {
           height: 48,
           child: (userSavedWorkout.workout.imageUrl == "" ||
                   userSavedWorkout.workout.imageUrl == null)
-              ? Image.asset('images/place_holder_workout_playlist.png')
+              ? Image.asset('assets/images/place_holder_workout_playlist.png')
               : Image.network(
                   userSavedWorkout.workout.imageUrl,
                   fit: BoxFit.cover,
@@ -56,8 +56,8 @@ class CustomListTileStyle4 extends StatelessWidget {
         userSavedWorkout.workout.workoutTitle,
         style: BodyText1.copyWith(fontWeight: FontWeight.bold),
       ),
-      subtitle:
-          Text(userSavedWorkout.workout.mainMuscleGroup, style: Caption1Grey),
+      subtitle: Text(userSavedWorkout.workout.mainMuscleGroup[0],
+          style: Caption1Grey),
       onTap: () => WorkoutDetailScreen.show(
         context: context,
         workout: userSavedWorkout.workout,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/models/images.dart';
 
 import '../constants.dart';
 
@@ -12,6 +13,7 @@ class CustomListTileStyle2 extends StatefulWidget {
     this.onLongTap,
     this.trailingIconButton,
     this.color,
+    this.imageIndex,
   }) : super(key: key);
 
   final String imageUrl;
@@ -21,6 +23,7 @@ class CustomListTileStyle2 extends StatefulWidget {
   final onLongTap;
   final Widget trailingIconButton;
   final Color color;
+  final int imageIndex;
 
   @override
   _CustomListTileStyle2State createState() => _CustomListTileStyle2State();
@@ -38,12 +41,10 @@ class _CustomListTileStyle2State extends State<CustomListTileStyle2> {
         child: Container(
           width: 48,
           height: 48,
-          child: (widget.imageUrl == "" || widget.imageUrl == null)
-              ? Image.asset('images/place_holder_workout_playlist.png')
-              : Image.network(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+          child: Image.asset(
+            ImageList[widget.imageIndex],
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       title: Text(widget.title, style: BodyText2),

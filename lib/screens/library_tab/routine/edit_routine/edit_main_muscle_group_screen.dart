@@ -42,14 +42,14 @@ class EditMainMuscleGroupScreen extends StatefulWidget {
 
 class _EditMainMuscleGroupScreenState extends State<EditMainMuscleGroupScreen> {
   Map<String, bool> _mainMuscleGroup = {
-    '가슴': false,
-    '어깨': false,
-    '하체': false,
-    '등': false,
-    '복근': false,
-    '팔': false,
-    '전신': false,
-    '유산소': false,
+    'Chest': false,
+    'Shoulder': false,
+    'Leg': false,
+    'Back': false,
+    'Abs': false,
+    'Arms': false,
+    'Full Body': false,
+    'Cardio': false,
   };
   List _selectedMainMuscleGroup = List();
 
@@ -58,14 +58,18 @@ class _EditMainMuscleGroupScreenState extends State<EditMainMuscleGroupScreen> {
     // TODO: implement initState
     super.initState();
     Map<String, bool> mainMuscleGroup = {
-      '가슴': (widget.routine.mainMuscleGroup.contains('가슴')) ? true : false,
-      '어깨': (widget.routine.mainMuscleGroup.contains('어깨')) ? true : false,
-      '하체': (widget.routine.mainMuscleGroup.contains('하체')) ? true : false,
-      '등': (widget.routine.mainMuscleGroup.contains('등')) ? true : false,
-      '복근': (widget.routine.mainMuscleGroup.contains('복근')) ? true : false,
-      '팔': (widget.routine.mainMuscleGroup.contains('팔')) ? true : false,
-      '전신': (widget.routine.mainMuscleGroup.contains('전신')) ? true : false,
-      '유산소': (widget.routine.mainMuscleGroup.contains('유산소')) ? true : false,
+      'Chest':
+          (widget.routine.mainMuscleGroup.contains('Chest')) ? true : false,
+      'Shoulder':
+          (widget.routine.mainMuscleGroup.contains('Shoulder')) ? true : false,
+      'Leg': (widget.routine.mainMuscleGroup.contains('Leg')) ? true : false,
+      'Back': (widget.routine.mainMuscleGroup.contains('Back')) ? true : false,
+      'Abs': (widget.routine.mainMuscleGroup.contains('Abs')) ? true : false,
+      'Arms': (widget.routine.mainMuscleGroup.contains('Arms')) ? true : false,
+      'Full Body':
+          (widget.routine.mainMuscleGroup.contains('Full Body')) ? true : false,
+      'Cardio':
+          (widget.routine.mainMuscleGroup.contains('Cardio')) ? true : false,
     };
     _mainMuscleGroup = mainMuscleGroup;
     _mainMuscleGroup.forEach((key, value) {

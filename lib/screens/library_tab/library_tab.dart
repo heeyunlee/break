@@ -6,8 +6,6 @@ import 'routine/saved_routines_tab.dart';
 import 'workout/saved_workouts.dart';
 
 class LibraryTab extends StatefulWidget {
-  static const routeName = '/library';
-
   @override
   _LibraryTabState createState() => _LibraryTabState();
 }
@@ -18,7 +16,6 @@ class _LibraryTabState extends State<LibraryTab> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        // floatingActionButton: CustomFloatingActionButton(),
         backgroundColor: BackgroundColor,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -27,7 +24,7 @@ class _LibraryTabState extends State<LibraryTab> {
                 floating: true,
                 pinned: true,
                 snap: false,
-                title: Text('운동 창고', style: Subtitle1),
+                title: Text('Workout Library', style: Subtitle1),
                 flexibleSpace: AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -36,8 +33,8 @@ class _LibraryTabState extends State<LibraryTab> {
                   unselectedLabelColor: Grey400,
                   indicatorColor: PrimaryColor,
                   tabs: [
-                    Tab(text: '운동'),
-                    Tab(text: '루틴'),
+                    Tab(text: 'Workouts'),
+                    Tab(text: 'Routines'),
                   ],
                 ),
               ),

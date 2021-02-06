@@ -129,7 +129,7 @@ Future<bool> showAdaptiveModalBottomSheet({
         child: Text(cancelText),
         isDefaultAction: (isCancelDefault == true) ? true : false,
         isDestructiveAction: (isCancelDefault == true) ? false : true,
-        onPressed: () => {Navigator.of(context).pop()},
+        onPressed: () => Navigator.of(context).pop(),
       ),
     ),
   );

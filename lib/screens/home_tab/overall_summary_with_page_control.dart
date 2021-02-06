@@ -18,20 +18,20 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
             children: [
               CardPageWidget(
                 color: Colors.blueAccent,
-                title: '총 들어올린 무게',
+                title: 'Total Weights Lifted',
                 summary: '1.2 T',
-                subtitle: '꼬끼리를 12번 들어올린것과 같아요!',
+                subtitle: 'Almost as much as lifting elephant 24 times!',
               ),
               // _buildPage(),
               CardPageWidget(
                 color: Colors.purpleAccent,
-                title: '아직 들어올린 무게가 없습니다...',
+                title: 'Haven\' lifted any weights yet...',
                 summary: '0 Kg',
                 subtitle: 'at vehicula purus sagittis',
               ),
               // CardPageWidget(
               //   color: Colors.cyan,
-              //   title: '아직 들어올린 무게가 없습니다...',
+              //   title: 'Haven\' lifted any weights yet...',
               //   summary: '0 Kg',
               //   subtitle: 'at vehicula purus sagittis',
               // ),
@@ -54,45 +54,6 @@ class WorkoutSummaryWithPageControlScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPage() {
-    return Card(
-      margin: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      elevation: 1,
-      color: Colors.purpleAccent,
-      child: Column(
-        children: [
-          SizedBox(height: 8),
-          Text(
-            'Off to the Great Start!',
-            style: BodyText2,
-          ),
-          SizedBox(height: 8),
-          Row(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text('Mon', style: Subtitle2),
-                  SizedBox(height: 4),
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Text(
-            'Keep it up!',
-            style: BodyText2,
-          ),
-          SizedBox(height: 8),
-        ],
-      ),
     );
   }
 }

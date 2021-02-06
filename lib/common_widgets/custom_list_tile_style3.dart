@@ -41,7 +41,7 @@ class _CustomListTileStyle3State extends State<CustomListTileStyle3> {
           width: 48,
           height: 48,
           child: (widget.imageUrl == "" || widget.imageUrl == null)
-              ? Image.asset('images/place_holder_workout_playlist.png')
+              ? Image.asset('assets/images/place_holder_workout_playlist.png')
               : Image.network(
                   widget.imageUrl,
                   fit: BoxFit.cover,

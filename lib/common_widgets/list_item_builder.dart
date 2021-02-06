@@ -24,14 +24,13 @@ class ListItemBuilder<T> extends StatelessWidget {
         return _buildList(items);
       } else {
         return EmptyContent(
-          title: emptyContentTitle,
+          message: emptyContentTitle,
         );
       }
     } else if (snapshot.hasError) {
       print(snapshot.error);
       return EmptyContent(
-        title: 'Something went wrong',
-        // message: 'Can\'t load items right now',
+        message: 'Something went wrong',
       );
     }
     return Center(child: CircularProgressIndicator());

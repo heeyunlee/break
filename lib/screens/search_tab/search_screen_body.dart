@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,29 +9,12 @@ import 'package:workout_player/screens/search_tab/more_routine_search_results_sc
 import 'package:workout_player/screens/search_tab/more_workout_search_results_screen.dart';
 
 import '../../common_widgets/list_item_builder.dart';
-import '../../common_widgets/show_exception_alert_dialog.dart';
 import '../../common_widgets/workout_filter_button.dart';
 import '../../constants.dart';
 import '../../models/workout.dart';
 import '../../services/database.dart';
 
 class SearchScreenBody extends StatelessWidget {
-  int index;
-
-  // Delete workout from Cloud Firestore
-  Future<void> _delete(BuildContext context, Workout workout) async {
-    try {
-      final database = Provider.of<Database>(context, listen: false);
-      await database.deleteWorkout(workout);
-    } on FirebaseException catch (e) {
-      ShowExceptionAlertDialog(
-        context,
-        title: 'Operation failed',
-        exception: e,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -47,17 +29,17 @@ class SearchScreenBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '오늘은',
+                    'Today is',
                     style: Headline5.copyWith(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(width: 24),
-                  Image.asset(
-                    'images/leg.png',
+                  Image.network(
+                    'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/facebook/230/leg_1f9b5.png',
                     height: 64,
                   ),
                   SizedBox(width: 24),
                   Text(
-                    '뿌시는 날',
+                    'Day',
                     style: Headline5.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -72,23 +54,27 @@ class SearchScreenBody extends StatelessWidget {
                 Row(
                   children: [
                     WorkoutFilterButton(
-                      tagTitle: '가슴',
+                      tagTitle: 'Chest',
                       searchCategory: 'mainMuscleGroup',
+                      buttonTitle: 'Chest',
                     ),
                     SizedBox(width: 16),
                     WorkoutFilterButton(
-                      tagTitle: '등',
+                      tagTitle: 'Back',
                       searchCategory: 'mainMuscleGroup',
+                      buttonTitle: 'Back',
                     ),
                     SizedBox(width: 16),
                     WorkoutFilterButton(
-                      tagTitle: '어깨',
+                      tagTitle: 'Shoulder',
                       searchCategory: 'mainMuscleGroup',
+                      buttonTitle: 'Shoulder',
                     ),
                     SizedBox(width: 16),
                     WorkoutFilterButton(
-                      tagTitle: '하체',
+                      tagTitle: 'Leg',
                       searchCategory: 'mainMuscleGroup',
+                      buttonTitle: 'Leg',
                     ),
                   ],
                 ),
@@ -96,8 +82,15 @@ class SearchScreenBody extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     WorkoutFilterButton(
-                      tagTitle: '덤벨 운동',
+                      tagTitle: 'Dumbbell',
                       searchCategory: 'equipmentRequired',
+                      buttonTitle: 'Dumbbell Workout',
+                    ),
+                    SizedBox(width: 16),
+                    WorkoutFilterButton(
+                      tagTitle: 'EZ Bar',
+                      searchCategory: 'equipmentRequired',
+                      buttonTitle: 'EZ Bar Workout',
                     ),
                   ],
                 ),
@@ -122,7 +115,7 @@ class SearchScreenBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16),
           alignment: Alignment.centerLeft,
           child: Text(
-            '오늘의 추천 운동',
+            'Today\'s recommended workouts',
             style: Headline6,
           ),
         ),
@@ -130,15 +123,17 @@ class SearchScreenBody extends StatelessWidget {
           stream: database.workoutsInitialStream(),
           builder: (context, snapshot) {
             return ListItemBuilder<Workout>(
+              emptyContentTitle: 'Empty...',
               snapshot: snapshot,
               itemBuilder: (context, workout) => CustomListTileStyle2(
-                imageUrl: workout.imageUrl,
                 title: workout.workoutTitle,
                 subtitle: workout.mainMuscleGroup[0],
+                imageIndex: workout.imageIndex ?? 0,
                 onTap: () => WorkoutDetailScreen.show(
                   context: context,
                   // index: index,
-                  // workout: workout,
+                  workout: workout,
+                  isRootNavigation: false,
                 ),
               ),
             );
@@ -159,7 +154,7 @@ class SearchScreenBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '더 많은 운동 보기',
+                  'More workouts',
                   style: ButtonTextGrey,
                 ),
                 SizedBox(width: 8),
@@ -187,7 +182,7 @@ class SearchScreenBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16),
           alignment: Alignment.centerLeft,
           child: Text(
-            '오늘의 추천 루틴',
+            'Today\'s recommended routines',
             style: Headline6,
           ),
         ),
@@ -195,14 +190,16 @@ class SearchScreenBody extends StatelessWidget {
           stream: database.routinesInitialStream(),
           builder: (context, snapshot) {
             return ListItemBuilder<Routine>(
+              emptyContentTitle: 'Empty....',
               snapshot: snapshot,
               itemBuilder: (context, routine) => CustomListTileStyle2(
                 title: routine.routineTitle,
                 subtitle: routine.mainMuscleGroup[0],
+                imageIndex: routine.imageIndex ?? 0,
                 imageUrl: routine.imageUrl,
                 onTap: () => RoutineDetailScreen.show(
                   context: context,
-                  routineId: routine.routineId,
+                  routine: routine,
                   isRootNavigation: false,
                 ),
               ),
@@ -224,7 +221,7 @@ class SearchScreenBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '더 많은 운동 보기',
+                  'More routines',
                   style: ButtonTextGrey,
                 ),
                 SizedBox(width: 8),

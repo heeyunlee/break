@@ -39,11 +39,12 @@ class MoreRoutineResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text('더 많은 $tag 운동', style: Subtitle1),
+        title: Text('More $tag workouts', style: Subtitle1),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -63,11 +64,11 @@ class MoreRoutineResult extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       child: Column(
         children: <Widget>[
-          SizedBox(height: 16),
+          SizedBox(height: 120),
           ListTile(
             tileColor: Grey800,
             title: Text(
-              '루틴',
+              'Routines',
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -76,7 +77,7 @@ class MoreRoutineResult extends StatelessWidget {
           ListTile(
             tileColor: Grey800,
             title: Text(
-              '운동',
+              'Workouts',
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -94,14 +95,16 @@ class MoreRoutineResult extends StatelessWidget {
       stream: database.routinesSearchStream(tag, searchCategory),
       builder: (context, snapshot) {
         return ListItemBuilder<Routine>(
+          emptyContentTitle: 'Empty...',
           snapshot: snapshot,
           itemBuilder: (context, routine) => CustomListTileStyle2(
             title: routine.routineTitle,
             subtitle: routine.routineOwnerUserName,
             imageUrl: routine.imageUrl,
+            imageIndex: routine.imageIndex ?? 0,
             onTap: () => RoutineDetailScreen.show(
               context: context,
-              routineId: routine.routineId,
+              routine: routine,
               isRootNavigation: false,
             ),
           ),
@@ -118,11 +121,13 @@ class MoreRoutineResult extends StatelessWidget {
       stream: database.workoutsSearchStream(tag, searchCategory),
       builder: (context, snapshot) {
         return ListItemBuilder<Workout>(
+          emptyContentTitle: 'Empty...',
           snapshot: snapshot,
           itemBuilder: (context, workout) => CustomListTileStyle2(
             title: workout.workoutTitle,
-            subtitle: workout.workoutOwnerId,
+            subtitle: 'Created by ${workout.workoutOwnerUserName}',
             imageUrl: workout.imageUrl,
+            imageIndex: workout.imageIndex ?? 0,
             onTap: () => WorkoutDetailScreen.show(
               // index: index,
               context: context,

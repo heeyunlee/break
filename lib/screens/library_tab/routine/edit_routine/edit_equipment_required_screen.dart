@@ -43,13 +43,14 @@ class EditEquipmentRequiredScreen extends StatefulWidget {
 class _EditEquipmentRequiredScreenState
     extends State<EditEquipmentRequiredScreen> {
   Map<String, bool> _equipmentRequired = {
-    '바벨': false,
-    '덤벨': false,
-    '맨몸': false,
-    '케이블': false,
-    '머신': false,
-    'EZ 바': false,
-    '짐볼': false,
+    'Barbell': false,
+    'Dumbbell': false,
+    'Bodyweight': false,
+    'Cable': false,
+    'Machine': false,
+    'EZ Bar': false,
+    'Gym ball': false,
+    'Bench': false,
   };
   List _selectedEquipmentRequired = List();
 
@@ -58,14 +59,25 @@ class _EditEquipmentRequiredScreenState
     // TODO: implement initState
     super.initState();
     Map<String, bool> equipmentRequired = {
-      '바벨': (widget.routine.equipmentRequired.contains('바벨')) ? true : false,
-      '덤벨': (widget.routine.equipmentRequired.contains('덤벨')) ? true : false,
-      '맨몸': (widget.routine.equipmentRequired.contains('맨몸')) ? true : false,
-      '케이블': (widget.routine.equipmentRequired.contains('케이블')) ? true : false,
-      '머신': (widget.routine.equipmentRequired.contains('머신')) ? true : false,
-      'EZ 바':
-          (widget.routine.equipmentRequired.contains('EZ 바')) ? true : false,
-      '짐볼': (widget.routine.equipmentRequired.contains('짐볼')) ? true : false,
+      'Barbell':
+          (widget.routine.equipmentRequired.contains('Barbell')) ? true : false,
+      'Dumbbell': (widget.routine.equipmentRequired.contains('Dumbbell'))
+          ? true
+          : false,
+      'Bodyweight': (widget.routine.equipmentRequired.contains('Bodyweight'))
+          ? true
+          : false,
+      'Cable':
+          (widget.routine.equipmentRequired.contains('Cable')) ? true : false,
+      'Machine':
+          (widget.routine.equipmentRequired.contains('Machine')) ? true : false,
+      'EZ Bar':
+          (widget.routine.equipmentRequired.contains('EZ Bar')) ? true : false,
+      'Gym ball': (widget.routine.equipmentRequired.contains('Gym ball'))
+          ? true
+          : false,
+      'Bench':
+          (widget.routine.equipmentRequired.contains('Bench')) ? true : false,
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {

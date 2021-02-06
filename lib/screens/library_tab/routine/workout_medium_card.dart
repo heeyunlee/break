@@ -2,15 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
+import 'package:intl/intl.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
-import 'edit_workout_set_screen.dart';
-import 'workout_set_widget.dart';
+import 'workout_set/add_workout_set_screen.dart';
+import 'workout_set/workout_set_widget.dart';
 
 class WorkoutMediumCard extends StatefulWidget {
   WorkoutMediumCard({
@@ -28,11 +29,6 @@ class WorkoutMediumCard extends StatefulWidget {
 }
 
 class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
-  int index;
-
-  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // PersistentBottomSheetController controller;
-
   // Delete Routine Workout Method
   Future<void> _deleteRoutineWorkout(
     BuildContext context,
@@ -41,11 +37,6 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
   ) async {
     try {
       await widget.database.deleteRoutineWorkout(routine, routineWorkout);
-      // showFlushBar(
-      //   context: context,
-      //   message: '운동을 삭제했습니다!',
-      // );
-      Navigator.of(context).pop();
     } on FirebaseException catch (e) {
       ShowExceptionAlertDialog(
         context,
@@ -57,6 +48,18 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
   @override
   Widget build(BuildContext context) {
+    final f = NumberFormat(',###,###');
+    final routineWorkout = widget.routineWorkout;
+
+    final numberOfSets = '${f.format(routineWorkout?.numberOfSets) ?? 0} set';
+    final totalWeights = f.format(routineWorkout.totalWeights);
+    final formattedTotalWeights =
+        (routineWorkout.isBodyWeightWorkout && routineWorkout.totalWeights == 0)
+            ? 'Bodyweight'
+            : (routineWorkout.isBodyWeightWorkout)
+                ? 'Bodyweight + $totalWeights kg'
+                : '$totalWeights kg';
+
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
       color: CardColor,
@@ -68,47 +71,43 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         ),
         child: ExpansionTile(
           initiallyExpanded: true,
-          title: Text(widget.routineWorkout.workoutTitle, style: Headline6),
+          title: Text(routineWorkout.workoutTitle, style: Headline6),
           subtitle: Row(
             children: <Widget>[
-              Text('${widget.routineWorkout.numberOfSets} 세트',
-                  style: Subtitle2),
+              Text(numberOfSets, style: Subtitle2),
               Text('  •  ', style: Subtitle2),
-              Text('${widget.routineWorkout.numberOfSets} Kgs',
-                  style: Subtitle2),
+              Text(formattedTotalWeights, style: Subtitle2),
             ],
           ),
           childrenPadding: EdgeInsets.all(0),
           maintainState: true,
           children: [
-            if (widget.routineWorkout.sets == null ||
-                widget.routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
               Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (widget.routineWorkout.sets == null ||
-                widget.routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
               Container(
                 height: 80,
                 child: Center(
-                  child: Text('세트를 추가하세요', style: BodyText2),
+                  child: Text('Add a set', style: BodyText2),
                 ),
               ),
             Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (widget.routineWorkout.sets != null)
+            if (routineWorkout.sets != null)
               ListView.builder(
                 padding: EdgeInsets.all(0),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.routineWorkout.sets.length,
+                itemCount: routineWorkout.sets.length,
                 itemBuilder: (context, index) {
                   return WorkoutSetWidget(
                     database: widget.database,
                     routine: widget.routine,
-                    routineWorkout: widget.routineWorkout,
-                    set: widget.routineWorkout.sets[index],
+                    routineWorkout: routineWorkout,
+                    set: routineWorkout.sets[index],
                   );
                 },
               ),
-            if (widget.routineWorkout.sets.isNotEmpty == true)
+            if (routineWorkout.sets.isNotEmpty == true)
               Divider(endIndent: 8, indent: 8, color: Grey700),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,16 +119,12 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                       Icons.add_rounded,
                       color: Colors.grey,
                     ),
-                    // child: Text(
-                    //   '세트 추가하기',
-                    //   style: ButtonText,
-                    // ),
                     onPressed: () async {
                       HapticFeedback.mediumImpact();
-                      EditWorkoutSetScreen.show(
+                      AddWorkoutSetScreen.show(
                         context,
                         routine: widget.routine,
-                        routineWorkout: widget.routineWorkout,
+                        routineWorkout: routineWorkout,
                       );
                     },
                   ),
@@ -158,28 +153,44 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           color: Colors.grey,
         ),
         onPressed: () async {
-          await _showMBSDeleteRoutineWorkout();
+          await _showModalBottomSheet();
         },
       ),
     );
   }
 
-  Future<bool> _showMBSDeleteRoutineWorkout() {
-    return showAdaptiveModalBottomSheet(
+  Future<bool> _showModalBottomSheet() {
+    return showCupertinoModalPopup(
       context: context,
-      message: Text(
-        '정말로 운동을 삭제하시겠습니까?',
-        textAlign: TextAlign.center,
+      builder: (context) => CupertinoActionSheet(
+        message: Text(
+          'Delete the workout? You cannot undo this process',
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            child: Text('Delete workout'),
+            onPressed: () {
+              _deleteRoutineWorkout(
+                context,
+                widget.routine,
+                widget.routineWorkout,
+              );
+              Navigator.of(context).pop();
+              showFlushBar(
+                context: context,
+                message: 'Deleted the workout!',
+              );
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          child: Text('Cancel'),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
-      firstActionText: '운동 삭제',
-      isFirstActionDefault: false,
-      firstActionOnPressed: () => _deleteRoutineWorkout(
-        context,
-        widget.routine,
-        widget.routineWorkout,
-      ),
-      cancelText: '취소',
-      isCancelDefault: true,
     );
   }
 }

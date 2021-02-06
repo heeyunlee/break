@@ -24,16 +24,6 @@ class _SearchTabState extends State<SearchTab> {
       backgroundColor: BackgroundColor,
       // body: CustomFloatingSearchBar(),
       body: SearchScreenBody(),
-      // floatingActionButton: CustomFloatingActionButton(),
-      // floatingActionButton: SizedBox(
-      //   height: 56,
-      //   child: FloatingActionButton.extended(
-      //     label: Text('4개 운동 시작하기'),
-      //     backgroundColor: PrimaryColor,
-      //     icon: Icon(Icons.play_arrow_rounded),
-      //     onPressed: () {},
-      //   ),
-      // ),
     );
   }
 }

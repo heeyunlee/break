@@ -17,6 +17,7 @@ class Routine {
     this.averageTotalCalories,
     this.duration,
     this.equipmentRequired,
+    this.imageIndex,
     // TODO: ADD THEM LATER
     // this.tags,
     // this.routineGoal,
@@ -38,6 +39,7 @@ class Routine {
   final int averageTotalCalories;
   final int duration;
   final List<dynamic> equipmentRequired;
+  final int imageIndex;
   // final String tags;
   // final String routineGoal;
   // final String trainingLevel;
@@ -60,6 +62,7 @@ class Routine {
     final int averageTotalCalories = data['averageTotalCalories'];
     final int duration = data['duration'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
+    final int imageIndex = data['imageIndex'];
     // final String tags = data['tags'];
     // final String routineGoal = data['routineGoal'];
     // final String trainingLevel = data['trainingLevel'];
@@ -80,6 +83,7 @@ class Routine {
       averageTotalCalories: averageTotalCalories,
       duration: duration,
       equipmentRequired: equipmentRequired,
+      imageIndex: imageIndex,
       // tags: tags,
       // routineGoal: routineGoal,
       // trainingLevel: trainingLevel,
@@ -102,6 +106,7 @@ class Routine {
       'averageTotalCalories': averageTotalCalories,
       'duration': duration,
       'equipmentRequired': equipmentRequired,
+      'imageIndex': imageIndex,
       // 'tags': tags,
       // 'routineGoal': routineGoal,
       // 'trainingLevel': trainingLevel,

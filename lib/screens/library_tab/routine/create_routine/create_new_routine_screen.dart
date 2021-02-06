@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,12 +19,10 @@ class CreateNewRoutineScreen extends StatefulWidget {
   const CreateNewRoutineScreen({
     Key key,
     @required this.database,
-    // this.routine,
     this.user,
   }) : super(key: key);
 
   final Database database;
-  // final Routine routine;
   final User user;
 
   static Future<void> show(BuildContext context) async {
@@ -33,7 +33,6 @@ class CreateNewRoutineScreen extends StatefulWidget {
         fullscreenDialog: true,
         builder: (context) => CreateNewRoutineScreen(
           database: database,
-          // routine: routine,
           user: auth.currentUser,
         ),
       ),
@@ -49,14 +48,14 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   var _textController1 = TextEditingController();
 
   Map<String, bool> _mainMuscleGroup = {
-    '가슴': false,
-    '어깨': false,
-    '하체': false,
-    '등': false,
-    '복근': false,
-    '팔': false,
-    '전신': false,
-    '유산소': false,
+    'Chest': false,
+    'Shoulder': false,
+    'Leg': false,
+    'Back': false,
+    'Abs': false,
+    'Arms': false,
+    'Full Body': false,
+    'Cardio': false,
   };
   List _selectedMainMuscleGroup = List();
   Map<String, bool> _secondMuscleGroup = {
@@ -82,13 +81,14 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   };
   List _selectedSecondMuscleGroup = List();
   Map<String, bool> _equipmentRequired = {
-    '바벨': false,
-    '덤벨': false,
-    '맨몸': false,
-    '케이블': false,
-    '머신': false,
-    'EZ 바': false,
-    '짐볼': false,
+    'Barbell': false,
+    'Dumbbell': false,
+    'Bodyweight': false,
+    'Cable': false,
+    'Machine': false,
+    'EZ Bar': false,
+    'Gym ball': false,
+    'Bench': false,
   };
   List _selectedEquipmentRequired = List();
 
@@ -112,6 +112,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     final timestamp = Timestamp.now();
     final imageUrl =
         'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/workout-pictures%2Fpush_ups_preview.jpeg?alt=media&token=8485e262-baa9-4bff-80a1-31c05e5feb7a';
+    final imageIndex = Random().nextInt(4);
+
     try {
       final routine = Routine(
         routineId: routineId,
@@ -124,12 +126,13 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         secondMuscleGroup: _selectedSecondMuscleGroup,
         equipmentRequired: _selectedEquipmentRequired,
         imageUrl: imageUrl,
+        imageIndex: imageIndex,
       );
       await widget.database.setRoutine(routine).then((value) {
         Navigator.of(context).pop();
         RoutineDetailScreen.show(
           context: context,
-          routineId: routineId,
+          routine: routine,
           isRootNavigation: false,
         );
       });
@@ -151,8 +154,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: '루틴 제목이 없습니다',
-        content: '루틴에 제목을 지어주세요!',
+        title: 'No routine Title!',
+        content: 'Please Add a routine title',
         defaultActionText: 'OK',
       );
     }
@@ -167,8 +170,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: '주요 부위 선택',
-        content: '주요 운동 부위 1개 이상을 선택해주세요!',
+        title: 'Main Muscle Group',
+        content: 'Select at least 1 main muscle group',
         defaultActionText: 'OK',
       );
     }
@@ -183,8 +186,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: '보조 부위 선택',
-        content: '보조 운동 부위 1개 이상을 선택해주세요!',
+        title: 'Secondary Muscle Group',
+        content: 'Select at least 1 secondary muscle group',
         defaultActionText: 'OK',
       );
     }
@@ -200,8 +203,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'Equipment Required 선택',
-        content: 'Equipment Required 1개 이상을 선택해주세요!',
+        title: 'Select Equipment needed',
+        content: 'Select at least 1 Equipment for this routine',
         defaultActionText: 'OK',
       );
     }
@@ -222,7 +225,16 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('루틴 제목을 설정해주세요!', style: BodyText1),
+        title: Text(
+          (_pageIndex == 0)
+              ? 'Routine Title'
+              : (_pageIndex == 1)
+                  ? 'Main Muscle Group'
+                  : (_pageIndex == 2)
+                      ? 'Secondary Muscle Group'
+                      : 'Equipment Required',
+          style: Subtitle2,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: AppbarBlurBG(),
@@ -236,7 +248,10 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                   : _selectEquipmentRequired(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: PrimaryColor,
-        child: Icon(Icons.arrow_forward_rounded, color: Colors.white),
+        child: Icon(
+          (_pageIndex == 3) ? Icons.done : Icons.arrow_forward_rounded,
+          color: Colors.white,
+        ),
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)
@@ -261,7 +276,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
           controller: _textController1,
           decoration: InputDecoration(
             hintStyle: SearchBarHintStyle,
-            hintText: '제목을 입력해 주세요',
+            hintText: 'Give your routine a name',
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),

@@ -10,6 +10,7 @@ class RoutineWorkout {
     @required this.workoutTitle,
     this.numberOfSets,
     this.numberOfReps,
+    this.totalWeights,
     this.sets,
     this.isBodyWeightWorkout,
   });
@@ -20,6 +21,7 @@ class RoutineWorkout {
   String workoutTitle;
   int numberOfSets;
   int numberOfReps;
+  int totalWeights;
   List<WorkoutSet> sets;
   bool isBodyWeightWorkout;
 
@@ -30,6 +32,7 @@ class RoutineWorkout {
     workoutTitle = data['workoutTitle'];
     numberOfSets = data['numberOfSets'];
     numberOfReps = data['numberOfReps'];
+    totalWeights = data['totalWeights'];
     if (data['sets'] != null) {
       sets = new List<WorkoutSet>();
       data['sets'].forEach((set) {
@@ -46,6 +49,7 @@ class RoutineWorkout {
     data['workoutTitle'] = this.workoutTitle;
     data['numberOfSets'] = this.numberOfSets;
     data['numberOfReps'] = this.numberOfReps;
+    data['totalWeights'] = this.totalWeights;
     if (this.sets != null) {
       data['sets'] = this.sets.map((e) => e.toMap()).toList();
     }

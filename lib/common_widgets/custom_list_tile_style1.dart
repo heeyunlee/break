@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/models/images.dart';
 
 import '../constants.dart';
 
@@ -12,6 +13,7 @@ class CustomListTileStyle1 extends StatelessWidget {
     this.onTap,
     this.onLongTap,
     this.trailingIconButton,
+    this.imageIndex,
   }) : super(key: key);
 
   final Object tag;
@@ -21,6 +23,7 @@ class CustomListTileStyle1 extends StatelessWidget {
   final onTap;
   final onLongTap;
   final Widget trailingIconButton;
+  final int imageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +35,27 @@ class CustomListTileStyle1 extends StatelessWidget {
           height: 56,
           child: Hero(
             tag: tag,
-            child: (imageUrl == "" || imageUrl == null)
-                ? Image.asset('images/place_holder_workout_playlist.png')
-                : Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+            child: Image.asset(
+              ImageList[imageIndex],
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
-      title:
-          Text(title, style: BodyText1.copyWith(fontWeight: FontWeight.bold)),
-      subtitle: Text(subtitle, style: Caption1Grey),
+      title: Text(
+        title,
+        style: BodyText1.copyWith(fontWeight: FontWeight.bold),
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      ),
+      subtitle: Text(
+        subtitle,
+        style: Caption1Grey,
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      ),
       trailing: trailingIconButton,
       onTap: onTap,
       onLongPress: onLongTap,

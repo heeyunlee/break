@@ -17,7 +17,7 @@ class CreateNewRoutineWidget extends StatelessWidget {
         ),
       ),
       title: Text(
-        '새로운 루틴 추가',
+        'Create New Routine',
         style: BodyText1.copyWith(fontWeight: FontWeight.bold),
       ),
       onTap: () => CreateNewRoutineScreen.show(context),

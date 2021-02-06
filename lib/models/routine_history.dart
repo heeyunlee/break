@@ -7,26 +7,36 @@ class RoutineHistory {
     @required this.userId,
     @required this.routineId,
     @required this.routineTitle,
-    @required this.workedOutTime,
+    this.workoutStartTime,
+    this.workoutEndTime,
     this.totalWeights,
     this.totalCalories,
     this.totalDuration,
     this.earnedBadges,
     this.notes,
-    this.sets,
+    this.mainMuscleGroup,
+    this.secondMuscleGroup,
+    this.isBodyWeightWorkout,
+    this.imageIndex,
+    this.workoutDate,
   });
 
   final String routineHistoryId;
   final String userId;
   final String routineId;
   final String routineTitle;
-  final Timestamp workedOutTime;
+  final Timestamp workoutStartTime;
+  final Timestamp workoutEndTime;
   final int totalWeights;
-  final int totalCalories;
+  final double totalCalories;
   final int totalDuration;
   final bool earnedBadges;
   final String notes;
-  final List<Map> sets;
+  final List<dynamic> mainMuscleGroup;
+  final List<dynamic> secondMuscleGroup;
+  final bool isBodyWeightWorkout;
+  final int imageIndex;
+  final DateTime workoutDate;
 
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -35,26 +45,36 @@ class RoutineHistory {
     final String userId = data['userId'];
     final String routineId = data['routineId'];
     final String routineTitle = data['routineTitle'];
-    final Timestamp workedOutTime = data['workedOutTime'];
+    final Timestamp workoutStartTime = data['workoutStartTime'];
+    final Timestamp workoutEndTime = data['workoutEndTime'];
     final int totalWeights = data['totalWeights'];
-    final int totalCalories = data['totalCalories'];
+    final double totalCalories = data['totalCalories'];
     final int totalDuration = data['totalDuration'];
     final bool earnedBadges = data['earnedBadges'];
     final String notes = data['notes'];
-    final List<Map> sets = data['sets'];
+    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
+    final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
+    final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
+    final int imageIndex = data['imageIndex'];
+    final DateTime workoutDate = data['workoutDate'].toDate();
 
     return RoutineHistory(
       routineHistoryId: documentId,
       userId: userId,
       routineId: routineId,
       routineTitle: routineTitle,
-      workedOutTime: workedOutTime,
+      workoutStartTime: workoutStartTime,
+      workoutEndTime: workoutEndTime,
       totalWeights: totalWeights,
       totalCalories: totalCalories,
       totalDuration: totalDuration,
       earnedBadges: earnedBadges,
       notes: notes,
-      sets: sets,
+      mainMuscleGroup: mainMuscleGroup,
+      secondMuscleGroup: secondMuscleGroup,
+      isBodyWeightWorkout: isBodyWeightWorkout,
+      imageIndex: imageIndex,
+      workoutDate: workoutDate,
     );
   }
 
@@ -63,13 +83,18 @@ class RoutineHistory {
       'userId': userId,
       'routineId': routineId,
       'routineTitle': routineTitle,
-      'workedOutTime': workedOutTime,
+      'workoutStartTime': workoutStartTime,
+      'workoutEndTime': workoutEndTime,
       'totalWeights': totalWeights,
       'totalCalories': totalCalories,
       'totalDuration': totalDuration,
       'earnedBadges': earnedBadges,
       'notes': notes,
-      'sets': sets,
+      'mainMuscleGroup': mainMuscleGroup,
+      'secondMuscleGroup': secondMuscleGroup,
+      'isBodyWeightWorkout': isBodyWeightWorkout,
+      'imageIndex': imageIndex,
+      'workoutDate': workoutDate,
     };
   }
 }

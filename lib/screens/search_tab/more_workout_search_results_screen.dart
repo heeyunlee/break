@@ -23,11 +23,12 @@ class MoreWorkoutSearchResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text('운동', style: Subtitle1),
+        title: Text('Workouts', style: Subtitle1),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -47,23 +48,30 @@ class MoreWorkoutSearchResultScreen extends StatelessWidget {
 
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
-      child: StreamBuilder<List<Workout>>(
-        stream: database.workoutsStream(),
-        builder: (context, snapshot) {
-          return ListItemBuilder<Workout>(
-            snapshot: snapshot,
-            itemBuilder: (context, workout) => CustomListTileStyle2(
-              imageUrl: workout.imageUrl,
-              title: workout.workoutTitle,
-              subtitle: workout.mainMuscleGroup,
-              onTap: () => WorkoutDetailScreen.show(
-                context: context,
-                // index: index,
-                // workout: workout,
-              ),
-            ),
-          );
-        },
+      child: Column(
+        children: [
+          SizedBox(height: 104),
+          StreamBuilder<List<Workout>>(
+            stream: database.workoutsStream(),
+            builder: (context, snapshot) {
+              return ListItemBuilder<Workout>(
+                emptyContentTitle: 'Empty...',
+                snapshot: snapshot,
+                itemBuilder: (context, workout) => CustomListTileStyle2(
+                  imageUrl: workout.imageUrl,
+                  title: workout.workoutTitle,
+                  subtitle: workout.mainMuscleGroup[0],
+                  onTap: () => WorkoutDetailScreen.show(
+                    context: context,
+                    // index: index,
+                    // workout: workout,
+                  ),
+                  imageIndex: workout.imageIndex ?? 0,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

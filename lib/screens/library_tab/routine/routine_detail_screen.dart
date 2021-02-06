@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_flush_bar.dart';
+import 'package:workout_player/models/images.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
@@ -22,17 +25,17 @@ import 'workout_medium_card.dart';
 class RoutineDetailScreen extends StatefulWidget {
   static const routeName = '/playlist-detail';
   RoutineDetailScreen({
-    @required this.routineId,
     this.database,
+    this.routine,
   });
 
-  final String routineId;
   final Database database;
+  final Routine routine;
 
   // For Navigation
   static void show({
     BuildContext context,
-    String routineId,
+    Routine routine,
     bool isRootNavigation,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -42,7 +45,7 @@ class RoutineDetailScreen extends StatefulWidget {
           fullscreenDialog: false,
           builder: (context) => RoutineDetailScreen(
             database: database,
-            routineId: routineId,
+            routine: routine,
           ),
         ),
       );
@@ -52,7 +55,7 @@ class RoutineDetailScreen extends StatefulWidget {
           fullscreenDialog: false,
           builder: (context) => RoutineDetailScreen(
             database: database,
-            routineId: routineId,
+            routine: routine,
           ),
         ),
       );
@@ -106,7 +109,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       isFavorite = true;
     });
     final user = {
-      'savedWorkouts': FieldValue.arrayUnion([widget.routineId]),
+      'savedWorkouts': FieldValue.arrayUnion([widget.routine.routineId]),
     };
     await database.updateUser(auth.currentUser.uid, user);
     showFlushBar(
@@ -123,7 +126,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       isFavorite = false;
     });
     final user = {
-      'savedWorkouts': FieldValue.arrayRemove([widget.routineId]),
+      'savedWorkouts': FieldValue.arrayRemove([widget.routine.routineId]),
     };
     await database.updateUser(auth.currentUser.uid, user);
     showFlushBar(
@@ -135,7 +138,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
   @override
   Widget build(BuildContext context2) {
     return StreamBuilder<Routine>(
-        stream: widget.database.routineStream(routineId: widget.routineId),
+        initialData: widget.routine,
+        stream: widget.database.routineStream(
+          routineId: widget.routine.routineId,
+        ),
         builder: (context, snapshot) {
           final routine = snapshot.data;
 
@@ -161,13 +167,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
     final size = MediaQuery.of(context).size;
 
     final routineTitle = routine?.routineTitle ?? 'Add Title';
-    // final tag = routine?.routineId ?? 'routineId';
-    final imageUrl = routine?.imageUrl ?? '';
+    final imageIndex = routine?.imageIndex ?? 0;
     final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
     final equipmentRequired =
         routine?.equipmentRequired[0] ?? 'equipmentRequired';
-    final secondMuscleGroup =
-        routine?.secondMuscleGroup[0] ?? 'secondMuscleGroup';
+    final duration = routine?.duration ?? 0;
 
     return SliverAppBar(
       leading: IconButton(
@@ -215,37 +219,36 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                 fit: StackFit.passthrough,
                 children: [
                   Hero(
-                    tag: 'playlist${widget.routineId}',
-                    child: (imageUrl == "" || imageUrl == null)
-                        ? Container()
-                        : Image.network(
-                            imageUrl,
-                            fit: BoxFit.fitHeight,
-                          ),
+                    tag: 'routine${widget.routine.routineId}',
+                    child: Image.asset(
+                      ImageList[imageIndex],
+                      fit: BoxFit.fitHeight,
+                    ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment.topCenter,
+                        begin: Alignment(0.0, -0.5),
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white.withOpacity(0.1),
                           Colors.transparent,
+                          BackgroundColor,
                         ],
                       ),
                     ),
                   ),
                   Center(
-                    child: Container(
-                      width: size.width - 32,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Text(
-                          routineTitle,
-                          style: GoogleFonts.blackHanSans(
-                            color: Colors.white,
-                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        routineTitle,
+                        style: GoogleFonts.blackHanSans(
+                          color: Colors.white,
+                          fontSize: 34,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
                       ),
                     ),
                   ),
@@ -257,19 +260,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
+                            // Main Muscle Group
                             Container(
                               width: 80,
                               child: Column(
                                 children: <Widget>[
-                                  // TODO: Add icon for Main Muscle Group
-                                  ConstrainedBox(
-                                    child: Placeholder(
-                                      color: Colors.white,
-                                    ),
-                                    constraints: BoxConstraints(
-                                      maxHeight: 24,
-                                      maxWidth: 24,
-                                    ),
+                                  SvgPicture.asset(
+                                    'assets/icons/icon_bicep.svg',
+                                    width: 24,
+                                    height: 24,
+                                    color: Colors.white,
                                   ),
                                   SizedBox(height: 16),
                                   Text(
@@ -279,13 +279,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                                 ],
                               ),
                             ),
+
+                            // Equipment Required
                             Container(
                               width: 80,
                               child: Column(
                                 children: <Widget>[
-                                  // TODO: Add icon for Equipment Required
-                                  Icon(
-                                    Icons.fitness_center_rounded,
+                                  SvgPicture.asset(
+                                    'assets/icons/icon_kettleBell.svg',
+                                    width: 24,
+                                    height: 24,
                                     color: Colors.white,
                                   ),
                                   SizedBox(height: 16),
@@ -293,23 +296,21 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                                 ],
                               ),
                             ),
+
+                            // Duration
                             Container(
                               width: 80,
                               child: Column(
                                 children: <Widget>[
-                                  // TODO: Add icon for Secondary Muscle Group
-                                  ConstrainedBox(
-                                    child: Placeholder(
-                                      color: Colors.white,
-                                    ),
-                                    constraints: BoxConstraints(
-                                      maxHeight: 24,
-                                      maxWidth: 24,
-                                    ),
+                                  SvgPicture.asset(
+                                    'assets/icons/icon_timer.svg',
+                                    height: 24,
+                                    width: 24,
+                                    color: Colors.white,
                                   ),
                                   SizedBox(height: 16),
                                   Text(
-                                    secondMuscleGroup,
+                                    '$duration min',
                                     style: Subtitle2,
                                     maxLines: 1,
                                   ),
@@ -332,8 +333,15 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
     final database = Provider.of<Database>(context, listen: false);
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
-    final duration = routine?.duration ?? '0';
-    final description = routine?.description ?? 'description';
+    final description =
+        (routine.description == null || routine.description.length == 0)
+            ? 'Add description'
+            : routine.description;
+    final lastEditedDate =
+        DateFormat.MMMd().format(routine.lastEditedDate.toDate());
+    final f = NumberFormat('#,###');
+    final totalWeights = routine?.totalWeights ?? 0;
+    final formattedTotalWeights = f.format(totalWeights);
 
     return SliverToBoxAdapter(
       child: Padding(
@@ -354,7 +362,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                     Row(
                       children: <Widget>[
                         Text(
-                          '5,455 Players',
+                          'Total $formattedTotalWeights kg',
                           style:
                               BodyText2.copyWith(fontWeight: FontWeight.w300),
                         ),
@@ -366,7 +374,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                         ),
                         SizedBox(width: 8),
                         Text(
-                          '총 $duration 분',
+                          'Last Edited on $lastEditedDate',
                           style:
                               BodyText2.copyWith(fontWeight: FontWeight.w300),
                         ),
@@ -388,7 +396,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
               ],
             ),
             SizedBox(height: 16),
-            Text(description, style: BodyText2LightGrey, maxLines: 3),
+            Text(
+              description,
+              style: BodyText2LightGrey,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+            ),
             SizedBox(height: 24),
             MaxWidthRaisedButton(
               color: PrimaryColor,
@@ -396,12 +410,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                 Icons.play_arrow_rounded,
                 color: Colors.white,
               ),
-              // TODO: ADD ONPRESSED NAVIGATION
               onPressed: () => DuringWorkoutScreen.show(
                 context: context,
                 routine: routine,
               ),
-              buttonText: '운동 시작하기',
+              buttonText: 'Start Workout',
             ),
             SizedBox(height: 24),
             Divider(
@@ -411,19 +424,18 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
             ),
             SizedBox(height: 8),
             StreamBuilder<List<RoutineWorkout>>(
-              stream: database.routineWorkoutsStream(routine),
-              builder: (context, snapshot) {
-                return ListItemBuilder<RoutineWorkout>(
-                  emptyContentTitle: '루틴에 운동을 추가하세요!',
-                  snapshot: snapshot,
-                  itemBuilder: (context, routineWorkout) => WorkoutMediumCard(
-                    database: database,
-                    routine: routine,
-                    routineWorkout: routineWorkout,
-                  ),
-                );
-              },
-            ),
+                stream: database.routineWorkoutsStream(routine),
+                builder: (context, snapshot) {
+                  return ListItemBuilder<RoutineWorkout>(
+                    emptyContentTitle: 'Add workouts to your routine',
+                    snapshot: snapshot,
+                    itemBuilder: (context, routineWorkout) => WorkoutMediumCard(
+                      database: database,
+                      routine: routine,
+                      routineWorkout: routineWorkout,
+                    ),
+                  );
+                }),
             SizedBox(height: 8),
             Divider(
               endIndent: 8,
@@ -436,7 +448,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                 Icons.add_rounded,
                 color: Colors.white,
               ),
-              buttonText: '운동 추가하기',
+              buttonText: 'Add workout',
               color: CardColor,
               onPressed: () {
                 AddWorkoutsToRoutine.show(

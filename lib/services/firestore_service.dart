@@ -6,7 +6,7 @@ class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
 
-  // Defines a single entry point for all writes to Firestore
+  // Create new Data
   Future<void> setData({
     @required String path,
     @required Map<String, dynamic> data,
@@ -24,16 +24,20 @@ class FirestoreService {
     await reference.update(data);
   }
 
-  // Edit Data (Used for editing existing element in an array)
-  Future<void> editData({
-    @required String path,
-    @required Map<String, dynamic> oldData,
-    @required Map<String, dynamic> newData,
+  // Write more than one documents at once
+  Future<void> batchData({
+    @required List<String> path,
+    @required List<Map<String, dynamic>> data,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    await reference
-        .update(oldData)
-        .then((value) => {reference.update(newData)});
+    print('batch data triggered');
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (var i = 0; i < path.length; i++) {
+      final reference = FirebaseFirestore.instance.doc(path[i]);
+      batch.set(reference, data[i]);
+    }
+
+    await batch.commit();
   }
 
   // Delete data from Cloud Firestore
@@ -55,24 +59,38 @@ class FirestoreService {
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 
-  // Document Stream
-  Stream<T> documentStream2<T>({
-    @required String path,
-    @required String documentId,
-    @required T builder(Map<String, dynamic> data, String documentID),
-  }) {
-    final reference =
-        FirebaseFirestore.instance.collection(path).doc(documentId);
-    final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
-  }
+  // // Getting all the streams available
+  // Stream<List<T>> collectionStreamWithoutOrder<T>({
+  //   @required String path,
+  //   @required T Function(Map<String, dynamic> data, String documentId) builder,
+  // }) {
+  //   final reference = FirebaseFirestore.instance.collection(path);
+  //   final snapshots = reference.snapshots();
+  //   return snapshots.map(
+  //     // converting snapshots of data to list of Data
+  //     (snapshot) => snapshot.docs
+  //         .map((snapshot) => builder(snapshot.data(), snapshot.id))
+  //         .toList(),
+  //   );
+  // }
 
-  // Getting all the streams available
-  Stream<List<T>> collectionStreamWithoutOrder<T>({
+  // Getting stream of 4 instances
+  Stream<List<T>> collectionStream<T>({
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentId) builder,
+    @required String order,
+    @required bool descending,
+    int limit,
   }) {
-    final reference = FirebaseFirestore.instance.collection(path);
+    final reference = (limit != null)
+        ? FirebaseFirestore.instance.collection(path).limit(limit).orderBy(
+              order,
+              descending: descending,
+            )
+        : FirebaseFirestore.instance.collection(path).orderBy(
+              order,
+              descending: descending,
+            );
     final snapshots = reference.snapshots();
     return snapshots.map(
       // converting snapshots of data to list of Data
@@ -83,14 +101,20 @@ class FirestoreService {
   }
 
   // Getting all the streams available
-  Stream<List<T>> collectionStream<T>({
+  Stream<List<T>> userCollectionStream<T>({
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentId) builder,
+    @required String searchString,
+    @required String userId,
     @required String order,
+    @required bool descending,
   }) {
-    final reference = FirebaseFirestore.instance.collection(path).orderBy(
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where('$searchString', isEqualTo: '$userId')
+        .orderBy(
           order,
-          descending: false,
+          descending: descending,
         );
     final snapshots = reference.snapshots();
     return snapshots.map(
@@ -115,22 +139,7 @@ class FirestoreService {
           order,
           descending: false,
         )
-        .where('$searchCategory', isEqualTo: '$tag');
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Getting stream of 4 instances
-  Stream<List<T>> initialCollectionStream<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) {
-    final reference = FirebaseFirestore.instance.collection(path).limit(4);
+        .where('$searchCategory', arrayContains: '$tag');
     final snapshots = reference.snapshots();
     return snapshots.map(
       // converting snapshots of data to list of Data

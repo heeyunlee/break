@@ -24,11 +24,12 @@ class MoreRoutineSearchResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text('루틴', style: Subtitle1),
+        title: Text('Routines', style: Subtitle1),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_rounded,
@@ -39,7 +40,12 @@ class MoreRoutineSearchResultsScreen extends StatelessWidget {
           },
         ),
       ),
-      body: _buildBody(context),
+      body: Column(
+        children: [
+          SizedBox(height: 104),
+          _buildBody(context),
+        ],
+      ),
     );
   }
 
@@ -52,6 +58,7 @@ class MoreRoutineSearchResultsScreen extends StatelessWidget {
         stream: database.routinesStream(),
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(
+            emptyContentTitle: 'Empty...',
             snapshot: snapshot,
             itemBuilder: (context, routine) => CustomListTileStyle2(
               title: routine.routineTitle,
@@ -59,9 +66,10 @@ class MoreRoutineSearchResultsScreen extends StatelessWidget {
               imageUrl: routine.imageUrl,
               onTap: () => RoutineDetailScreen.show(
                 context: context,
-                routineId: routine.routineId,
+                routine: routine,
                 isRootNavigation: false,
               ),
+              imageIndex: routine.imageIndex ?? 0,
             ),
           );
         },
