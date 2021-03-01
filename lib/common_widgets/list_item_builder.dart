@@ -8,28 +8,37 @@ class ListItemBuilder<T> extends StatelessWidget {
     Key key,
     @required this.snapshot,
     @required this.itemBuilder,
-    this.emptyContentTitle,
+    this.emptyContentTitle = 'No Contents....',
+    this.emptyContentButton,
+    this.isEmptyContentWidget = false,
+    this.emptyContentWidget,
   }) : super(key: key);
 
   final AsyncSnapshot<List<T>> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;
   final String emptyContentTitle;
+  final Widget emptyContentButton;
+  final bool isEmptyContentWidget;
+  final Widget emptyContentWidget;
 
   @override
   Widget build(BuildContext context) {
     if (snapshot.hasData) {
-      print(snapshot.error);
       final List<T> items = snapshot.data;
       if (items.isNotEmpty) {
         return _buildList(items);
       } else {
-        return EmptyContent(
-          message: emptyContentTitle,
-        );
+        if (!isEmptyContentWidget) {
+          return EmptyContent(
+            message: emptyContentTitle,
+            button: emptyContentButton,
+          );
+        }
+        return emptyContentWidget;
       }
     } else if (snapshot.hasError) {
-      print(snapshot.error);
-      return EmptyContent(
+      debugPrint(snapshot.error);
+      return const EmptyContent(
         message: 'Something went wrong',
       );
     }
@@ -38,8 +47,8 @@ class ListItemBuilder<T> extends StatelessWidget {
 
   Widget _buildList(List<T> items) {
     return ListView.builder(
-      padding: EdgeInsets.all(0),
-      physics: NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(0),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: items.length,
       itemBuilder: (context, index) => itemBuilder(

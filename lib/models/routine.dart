@@ -17,7 +17,9 @@ class Routine {
     this.averageTotalCalories,
     this.duration,
     this.equipmentRequired,
-    this.imageIndex,
+    this.trainingLevel,
+    this.isPublic,
+    this.initialUnitOfMass,
     // TODO: ADD THEM LATER
     // this.tags,
     // this.routineGoal,
@@ -31,18 +33,19 @@ class Routine {
   final String routineTitle;
   final Timestamp lastEditedDate;
   final Timestamp routineCreatedDate;
-  final List<dynamic> mainMuscleGroup;
+  final String mainMuscleGroup;
   final List<dynamic> secondMuscleGroup;
   final String description;
   final String imageUrl;
-  final int totalWeights;
+  final double totalWeights;
   final int averageTotalCalories;
   final int duration;
   final List<dynamic> equipmentRequired;
-  final int imageIndex;
+  final int trainingLevel;
+  final bool isPublic;
+  final int initialUnitOfMass;
   // final String tags;
   // final String routineGoal;
-  // final String trainingLevel;
   // final String workoutType;
 
   factory Routine.fromMap(Map<String, dynamic> data, String documentId) {
@@ -54,18 +57,19 @@ class Routine {
     final String routineTitle = data['routineTitle'];
     final Timestamp lastEditedDate = data['lastEditedDate'];
     final Timestamp routineCreatedDate = data['routineCreatedDate'];
-    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
+    final String mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
     final String description = data['description'];
     final String imageUrl = data['imageUrl'];
-    final int totalWeights = data['totalWeights'];
+    final double totalWeights = data['totalWeights'];
     final int averageTotalCalories = data['averageTotalCalories'];
     final int duration = data['duration'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
-    final int imageIndex = data['imageIndex'];
+    final int trainingLevel = data['trainingLevel'];
+    final bool isPublic = data['isPublic'];
+    final int initialUnitOfMass = data['initialUnitOfMass'];
     // final String tags = data['tags'];
     // final String routineGoal = data['routineGoal'];
-    // final String trainingLevel = data['trainingLevel'];
     // final String workoutType = data['workoutType'];
 
     return Routine(
@@ -83,10 +87,11 @@ class Routine {
       averageTotalCalories: averageTotalCalories,
       duration: duration,
       equipmentRequired: equipmentRequired,
-      imageIndex: imageIndex,
+      trainingLevel: trainingLevel,
+      isPublic: isPublic,
+      initialUnitOfMass: initialUnitOfMass,
       // tags: tags,
       // routineGoal: routineGoal,
-      // trainingLevel: trainingLevel,
       // workoutType: workoutType,
     );
   }
@@ -106,10 +111,11 @@ class Routine {
       'averageTotalCalories': averageTotalCalories,
       'duration': duration,
       'equipmentRequired': equipmentRequired,
-      'imageIndex': imageIndex,
+      'trainingLevel': trainingLevel,
+      'isPublic': isPublic,
+      'initialUnitOfMass': initialUnitOfMass,
       // 'tags': tags,
       // 'routineGoal': routineGoal,
-      // 'trainingLevel': trainingLevel,
       // 'workoutType': workoutType,
     };
   }

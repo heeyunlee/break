@@ -1,51 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/custom_list_tile_style1.dart';
-import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
+import 'package:workout_player/common_widgets/empty_content_widget.dart';
 
 import '../../../common_widgets/list_item_builder.dart';
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
+import 'create_routine/create_new_routine_screen.dart';
 import 'create_routine/create_new_routine_widget.dart';
+import 'routine_detail_screen.dart';
 
 class SavedRoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: ScrollController(),
-      child: Column(
-        children: [
-          SizedBox(height: 16),
-          CreateNewRoutineWidget(),
-          SizedBox(height: 8),
-          _routineListBuilder(context),
-          SizedBox(height: 16),
-        ],
-      ),
-    );
-  }
+    ScrollController _scrollController;
 
-  Widget _routineListBuilder(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<List<Routine>>(
-      stream: database.routinesStream(),
+      stream: database.userRoutinesStream(),
       builder: (context, snapshot) {
-        return ListItemBuilder<Routine>(
-          emptyContentTitle: 'Create a new Routine',
-          snapshot: snapshot,
-          itemBuilder: (context, routine) => CustomListTileStyle1(
-            tag: 'routine${routine.routineId}',
-            title: routine.routineTitle,
-            subtitle: 'by ${routine.routineOwnerUserName}',
-            // imageUrl: routine.imageUrl,
-            imageIndex: routine?.imageIndex ?? 0,
-            onTap: () => RoutineDetailScreen.show(
-              context: context,
-              routine: routine,
-              isRootNavigation: false,
-            ),
+        return SingleChildScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+              if (snapshot.hasData && snapshot.data.isNotEmpty)
+                CreateNewRoutineWidget(),
+              ListItemBuilder<Routine>(
+                isEmptyContentWidget: true,
+                snapshot: snapshot,
+                emptyContentWidget: EmptyContentWidget(
+                  imageUrl: 'assets/images/saved_routines_empty_bg.png',
+                  bodyText:
+                      'You\'re one step away from creating your personal Routine!',
+                  onPressed: () => CreateNewRoutineScreen.show(context),
+                ),
+                itemBuilder: (context, routine) => CustomListTile64(
+                  tag: 'savedRoutines-${routine.routineId}',
+                  title: routine.routineTitle,
+                  subtitle: routine.mainMuscleGroup,
+                  imageUrl: routine.imageUrl,
+                  onTap: () => RoutineDetailScreen.show(
+                    context,
+                    routine: routine,
+                    isRootNavigation: false,
+                    tag: 'savedRoutines-${routine.routineId}',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
         );
       },

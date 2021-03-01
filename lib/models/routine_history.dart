@@ -17,8 +17,10 @@ class RoutineHistory {
     this.mainMuscleGroup,
     this.secondMuscleGroup,
     this.isBodyWeightWorkout,
-    this.imageIndex,
     this.workoutDate,
+    this.imageUrl,
+    this.unitOfMass,
+    this.equipmentRequired,
   });
 
   final String routineHistoryId;
@@ -27,16 +29,18 @@ class RoutineHistory {
   final String routineTitle;
   final Timestamp workoutStartTime;
   final Timestamp workoutEndTime;
-  final int totalWeights;
+  final double totalWeights;
   final double totalCalories;
   final int totalDuration;
   final bool earnedBadges;
   final String notes;
-  final List<dynamic> mainMuscleGroup;
+  final String mainMuscleGroup;
   final List<dynamic> secondMuscleGroup;
   final bool isBodyWeightWorkout;
-  final int imageIndex;
   final DateTime workoutDate;
+  final String imageUrl;
+  final int unitOfMass;
+  final List<dynamic> equipmentRequired;
 
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -47,16 +51,18 @@ class RoutineHistory {
     final String routineTitle = data['routineTitle'];
     final Timestamp workoutStartTime = data['workoutStartTime'];
     final Timestamp workoutEndTime = data['workoutEndTime'];
-    final int totalWeights = data['totalWeights'];
+    final double totalWeights = data['totalWeights'];
     final double totalCalories = data['totalCalories'];
     final int totalDuration = data['totalDuration'];
     final bool earnedBadges = data['earnedBadges'];
     final String notes = data['notes'];
-    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
+    final String mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
     final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-    final int imageIndex = data['imageIndex'];
     final DateTime workoutDate = data['workoutDate'].toDate();
+    final String imageUrl = data['imageUrl'];
+    final int unitOfMass = data['unitOfMass'];
+    final List<dynamic> equipmentRequired = data['equipmentRequired'];
 
     return RoutineHistory(
       routineHistoryId: documentId,
@@ -73,8 +79,10 @@ class RoutineHistory {
       mainMuscleGroup: mainMuscleGroup,
       secondMuscleGroup: secondMuscleGroup,
       isBodyWeightWorkout: isBodyWeightWorkout,
-      imageIndex: imageIndex,
       workoutDate: workoutDate,
+      imageUrl: imageUrl,
+      unitOfMass: unitOfMass,
+      equipmentRequired: equipmentRequired,
     );
   }
 
@@ -93,8 +101,10 @@ class RoutineHistory {
       'mainMuscleGroup': mainMuscleGroup,
       'secondMuscleGroup': secondMuscleGroup,
       'isBodyWeightWorkout': isBodyWeightWorkout,
-      'imageIndex': imageIndex,
       'workoutDate': workoutDate,
+      'imageUrl': imageUrl,
+      'unitOfMass': unitOfMass,
+      'equipmentRequired': equipmentRequired,
     };
   }
 }

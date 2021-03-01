@@ -5,24 +5,33 @@ import '../constants.dart';
 class EmptyContent extends StatelessWidget {
   const EmptyContent({
     Key key,
-    this.message = 'Haven\'t saved Any Workouts Yet...',
+    @required this.message,
+    this.button,
   }) : super(key: key);
 
   final String message;
+  final Widget button;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Image.asset(
-          'assets/images/treadmill.png',
-          height: 400,
-          width: 400,
-        ),
-        Text(message, style: Subtitle1.copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(height: 16),
-      ],
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(height: 36),
+          Text(message, style: Subtitle1Bold),
+          Image.asset(
+            'assets/images/treadmill.png',
+            height: 320,
+            width: 320,
+          ),
+          if (button != null) button,
+        ],
+      ),
     );
   }
 }

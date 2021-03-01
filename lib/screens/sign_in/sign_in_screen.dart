@@ -1,28 +1,37 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:workout_player/common_widgets/max_width_raised_button.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/sign_in/preview_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
 import 'package:workout_player/screens/sign_in/social_sign_in_button.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 
 import '../../common_widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
 
+Logger logger = Logger();
+
 class SignInScreen extends StatefulWidget {
+  final SignInBloc signInBloc;
+  final Database database;
+  final bool isLoading;
+
   const SignInScreen({
     Key key,
     @required this.signInBloc,
     @required this.isLoading,
+    @required this.database,
   }) : super(key: key);
-  final SignInBloc signInBloc;
-  final bool isLoading;
 
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
@@ -30,7 +39,10 @@ class SignInScreen extends StatefulWidget {
           create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
           child: Consumer<SignInBloc>(
             builder: (_, signInBloc, __) => SignInScreen(
-                signInBloc: signInBloc, isLoading: isLoading.value),
+              signInBloc: signInBloc,
+              isLoading: isLoading.value,
+              database: database,
+            ),
           ),
         ),
       ),
@@ -42,14 +54,89 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  bool _isPressStart = false;
+  bool _showPreview = true;
+
+  set setBool(bool value) => setState(() => _showPreview = value);
+
+  /// SIGN IN ANONYMOUSLY
+  Future<void> _signInAnonymously(BuildContext context) async {
+    try {
+      await widget.signInBloc.signInAnonymously();
+
+      // Write User data to Firebase
+      final user = await widget.database
+          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
+          .first;
+      final firebaseUser = widget.signInBloc.auth.currentUser;
+      final uniqueId = UniqueKey().toString();
+
+      // Create new data do NOT exist
+      if (user == null) {
+        final currentTime = Timestamp.now();
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: 'Anon $uniqueId',
+          userEmail: firebaseUser.email,
+          signUpDate: currentTime,
+          signUpProvider: 'Anon',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: 1,
+          lastLoginDate: currentTime,
+        );
+        await widget.database.setUser(userData);
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
+
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      }
+    } on Exception catch (e) {
+      logger.d(e);
+      _showSignInError(e, context);
+    }
+  }
 
   /// SIGN IN WITH GOOGLE
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       await widget.signInBloc.signInWithGoogle();
+
+      // Write User data to Firebase
+      final user = await widget.database
+          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
+          .first;
+      final firebaseUser = widget.signInBloc.auth.currentUser;
+
+      // Create new data do NOT exist
+      if (user == null) {
+        final currentTime = Timestamp.now();
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: firebaseUser.displayName,
+          userEmail: firebaseUser.email,
+          signUpDate: currentTime,
+          signUpProvider: 'Google',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: 1,
+          lastLoginDate: currentTime,
+        );
+        await widget.database.setUser(userData);
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
+
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      }
     } on Exception catch (e) {
-      print(e);
+      logger.d(e);
       _showSignInError(e, context);
     }
   }
@@ -58,7 +145,39 @@ class _SignInScreenState extends State<SignInScreen> {
   void _signInWithFacebook(BuildContext context) async {
     try {
       await widget.signInBloc.signInWithFacebook();
+
+      // Write User data to Firebase
+      final user = await widget.database
+          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
+          .first;
+      final firebaseUser = widget.signInBloc.auth.currentUser;
+
+      // Create new data do NOT exist
+      if (user == null) {
+        final currentTime = Timestamp.now();
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: firebaseUser.displayName,
+          userEmail: firebaseUser.email,
+          signUpDate: currentTime,
+          signUpProvider: 'Facebook',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: 1,
+          lastLoginDate: currentTime,
+        );
+        await widget.database.setUser(userData);
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
+
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      }
     } on Exception catch (e) {
+      logger.d(e);
       _showSignInError(e, context);
     }
   }
@@ -67,10 +186,46 @@ class _SignInScreenState extends State<SignInScreen> {
   void _signInWithApple(BuildContext context) async {
     try {
       await widget.signInBloc.signInWithApple();
+
+      // Write User data to Firebase
+      final user = await widget.database
+          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
+          .first;
+      final firebaseUser = widget.signInBloc.auth.currentUser;
+
+      // Create new data do NOT exist
+      if (user == null) {
+        final uniqueId = UniqueKey().toString();
+        final currentTime = Timestamp.now();
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: firebaseUser.displayName ?? 'user $uniqueId',
+          userEmail: firebaseUser.email,
+          signUpDate: currentTime,
+          signUpProvider: 'Apple',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: 1,
+          lastLoginDate: currentTime,
+        );
+        await widget.database.setUser(userData);
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
+
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      }
     } on Exception catch (e) {
+      logger.d(e);
       _showSignInError(e, context);
     }
   }
+
+  // TODO: SIGN IN WITH KAKAO
+  /// SIGN IN WITH KAKAO
 
   void _showSignInError(Exception exception, BuildContext context) {
     ShowExceptionAlertDialog(
@@ -82,192 +237,120 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // fp = Provider.of<AuthServiceProvider>(context);
-
-    // logger.d(fp.getUser());
+    debugPrint('scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // leading: (_isPressStart = true)
-        //     ? IconButton(
-        //         icon: Icon(Icons.arrow_back_rounded),
-        //         onPressed: () {
-        //           setState(() {
-        //             _isPressStart = false;
-        //           });
-        //         },
-        //       )
-        //     : null,
+        leading: (_showPreview)
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                onPressed: () => setState(() {
+                  _showPreview = true;
+                }),
+              ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       backgroundColor: BackgroundColor,
+
       // For smooth transition between PreviewScreen and SignUpScreen
       body: AnimatedCrossFade(
-        crossFadeState: (_isPressStart == false)
+        crossFadeState: (_showPreview)
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
         duration: const Duration(milliseconds: 400),
-        firstChild: _buildPreviewScreen(),
+        firstChild: PreviewScreen(
+          callback: (value) => setState(() {
+            _showPreview = value;
+          }),
+        ),
         secondChild: _buildSignInScreen(context),
       ),
-      // body: _buildSignInScreen(context),
-    );
-  }
-
-  Widget _buildPreviewScreen() {
-    final controller = PageController();
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          height: 648,
-          child: PageView(
-            controller: controller,
-            children: <Widget>[
-              // TODO: Add previews of the app
-              Column(
-                children: [
-                  Image.asset(
-                    'assets/images/app_preview_2_3x.png',
-                    height: 600,
-                  ),
-                  SizedBox(height: 24),
-                  Text('Save your routines', style: BodyText1),
-                ],
-              ),
-              Column(
-                children: [
-                  Image.asset(
-                    'assets/images/app_preview_1_3x.png',
-                    height: 600,
-                  ),
-                  SizedBox(height: 24),
-                  Text('Log your workout', style: BodyText1),
-                ],
-              ),
-              Column(
-                children: [
-                  Image.asset(
-                    'assets/images/app_preview_3_3x.png',
-                    height: 600,
-                  ),
-                  SizedBox(height: 24),
-                  Text('Set a timer', style: BodyText1),
-                ],
-              ),
-              Column(
-                children: [
-                  Image.asset(
-                    'assets/images/app_preview_4@3x.png',
-                    height: 600,
-                  ),
-                  SizedBox(height: 24),
-                  Text('Workout Seamlessly', style: BodyText1),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 24),
-        SmoothPageIndicator(
-          controller: controller,
-          count: 4,
-          effect: ScrollingDotsEffect(
-            activeDotColor: PrimaryColor,
-            activeDotScale: 1.5,
-            dotHeight: 8,
-            dotWidth: 8,
-            spacing: 10,
-          ),
-        ),
-        SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: MaxWidthRaisedButton(
-            color: PrimaryColor,
-            onPressed: () {
-              setState(() {
-                _isPressStart = true;
-              });
-            },
-            buttonText: 'Get Started',
-          ),
-        ),
-        SizedBox(height: 40),
-      ],
     );
   }
 
   Widget _buildSignInScreen(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          child: Center(
-            child: widget.isLoading
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(PrimaryColor),
-                      ),
-                      SizedBox(height: 24),
-                      Text('Signing in...', style: BodyText2),
-                    ],
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/logos/playerh_logo.png',
-                        width: 200,
-                        height: 200,
-                      ),
-                      SizedBox(height: 24),
-                      Text('All About That Health', style: Headline5),
-                    ],
-                  ),
+    final Size size = MediaQuery.of(context).size;
+
+    return Container(
+      height: size.height,
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: widget.isLoading
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(PrimaryColor),
+                        ),
+                        SizedBox(height: 24),
+                        Text('Signing in...', style: BodyText2),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/logos/playerh_logo.png',
+                          width: 120,
+                          height: 120,
+                        ),
+                        const SizedBox(height: 24),
+                        const Text('All About That Health', style: Headline5),
+                      ],
+                    ),
+            ),
           ),
-        ),
 
-        /// Sign In With Google Button
-        SocialSignInButton(
-          color: Colors.white,
-          disabledColor: Colors.white.withOpacity(0.38),
-          onPressed: widget.isLoading ? null : () => _signInWithGoogle(context),
-          logo: 'assets/logos/google_logo.png',
-          buttonText: 'Sign In With Google',
-        ),
-
-        /// Sign In With Facebook Button
-        SocialSignInButton(
-          color: Color(0xff1877F2),
-          disabledColor: Color(0xff1877F2).withOpacity(0.38),
-          onPressed:
-              widget.isLoading ? null : () => _signInWithFacebook(context),
-          logo: 'assets/logos/facebook_logo.png',
-          buttonText: 'Sign In With Facebook',
-        ),
-
-        // TODO: Add Sign In with Kakao
-        // SignInWithKakao(),
-
-        /// Sign In With Apple Button
-        if (Platform.isIOS)
+          /// Sign In With Google Button
           SocialSignInButton(
             color: Colors.white,
             disabledColor: Colors.white.withOpacity(0.38),
             onPressed:
-                widget.isLoading ? null : () => _signInWithApple(context),
-            logo: 'assets/logos/apple_logo.png',
-            buttonText: 'Sign In With Apple',
+                widget.isLoading ? null : () => _signInWithGoogle(context),
+            logo: 'assets/logos/google_logo.png',
+            buttonText: 'Continue With Google',
           ),
-        SizedBox(height: 38),
-      ],
+
+          /// Sign In With Facebook Button
+          SocialSignInButton(
+            color: const Color(0xff1877F2),
+            disabledColor: Color(0xff1877F2).withOpacity(0.38),
+            textColor: Colors.black,
+            onPressed:
+                widget.isLoading ? null : () => _signInWithFacebook(context),
+            logo: 'assets/logos/facebook_logo.png',
+            buttonText: 'Continue With Facebook',
+          ),
+
+          // TODO: Add Sign In with Kakao
+          // SignInWithKakao(),
+
+          /// Sign In With Apple Button
+          if (Platform.isIOS)
+            SocialSignInButton(
+              color: Colors.white,
+              disabledColor: Colors.white.withOpacity(0.38),
+              onPressed:
+                  widget.isLoading ? null : () => _signInWithApple(context),
+              logo: 'assets/logos/apple_logo.png',
+              buttonText: 'Continue With Apple',
+            ),
+          const SizedBox(height: 16),
+          const Text('or', style: BodyText2),
+          FlatButton(
+            onPressed:
+                widget.isLoading ? null : () => _signInAnonymously(context),
+            child: const Text('Continue Anonymously', style: BodyText2),
+          ),
+          const SizedBox(height: 38),
+        ],
+      ),
     );
   }
 }

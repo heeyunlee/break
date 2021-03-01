@@ -1,13 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
+
+Logger logger = Logger();
 
 class EditEquipmentRequiredScreen extends StatefulWidget {
   const EditEquipmentRequiredScreen({
@@ -91,28 +96,36 @@ class _EditEquipmentRequiredScreenState
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
-  Future<void> _addOrRemoveEquipmentRquired(String key, bool value) async {
-    setState(() {
-      _equipmentRequired[key] = value;
-    });
-    if (_equipmentRequired[key]) {
-      _selectedEquipmentRequired.add(key);
-      final routine = {
-        'equipmentRequired': _selectedEquipmentRequired,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
-    } else {
-      _selectedEquipmentRequired.remove(key);
-      final routine = {
-        'equipmentRequired': _selectedEquipmentRequired,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
+  Future<void> _addOrRemoveEquipmentRequired(String key, bool value) async {
+    try {
+      setState(() {
+        _equipmentRequired[key] = value;
+      });
+      if (_equipmentRequired[key]) {
+        _selectedEquipmentRequired.add(key);
+        final routine = {
+          'equipmentRequired': _selectedEquipmentRequired,
+        };
+        await widget.database.updateRoutine(widget.routine, routine);
+      } else {
+        _selectedEquipmentRequired.remove(key);
+        final routine = {
+          'equipmentRequired': _selectedEquipmentRequired,
+        };
+        await widget.database.updateRoutine(widget.routine, routine);
+      }
+      debugPrint('$_selectedEquipmentRequired');
+    } on FirebaseException catch (e) {
+      logger.d(e);
+      ShowExceptionAlertDialog(
+        context,
+        title: 'Operation Failed',
+        exception: e,
+      );
     }
-    debugPrint('$_selectedEquipmentRequired');
   }
 
   @override
@@ -123,22 +136,32 @@ class _EditEquipmentRequiredScreenState
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_rounded,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            if (_selectedEquipmentRequired.length >= 1) {
+              Navigator.of(context).pop();
+            } else {
+              showAlertDialog(
+                context,
+                title: 'No Equipment Required Selected',
+                content:
+                    'Please Select at least one equipment required for this routine',
+                defaultActionText: 'OK',
+              );
+            }
           },
         ),
-        title: Text('Equipment Required', style: Subtitle1),
-        flexibleSpace: widget.routine == null ? null : AppbarBlurBG(),
+        title: const Text('Equipment Required', style: Subtitle1),
+        flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             ListView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: _equipmentRequired.keys.map((String key) {
                 return Padding(
@@ -155,7 +178,7 @@ class _EditEquipmentRequiredScreenState
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _equipmentRequired[key],
                         onChanged: (bool value) =>
-                            _addOrRemoveEquipmentRquired(key, value),
+                            _addOrRemoveEquipmentRequired(key, value),
                       ),
                     ),
                   ),

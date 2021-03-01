@@ -1,18 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:workout_player/models/user.dart';
-
-import 'database.dart';
 
 Logger logger = Logger();
 
 abstract class AuthBase {
   auth.User get currentUser;
   Stream<auth.User> authStateChanges();
+  Future<auth.User> signInAnonymously();
   Future<auth.User> signInWithGoogle();
   Future<auth.User> signInWithFacebook();
   Future<auth.User> signInWithApple();
@@ -40,10 +37,17 @@ class AuthService implements AuthBase {
     _user = value;
   }
 
-  // Get info of the user
-  _prepareUser() {
+  @override
+  Future<auth.User> signInAnonymously() async {
+    auth.UserCredential userCredential =
+        await auth.FirebaseAuth.instance.signInAnonymously();
+    final auth.User user = userCredential.user;
+
     final auth.User currentUser = _auth.currentUser;
-    setUser(currentUser);
+    assert(user.uid == currentUser.uid);
+    setUser(user);
+
+    return user;
   }
 
   // TODO: Add Sign up with Email
@@ -59,6 +63,7 @@ class AuthService implements AuthBase {
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleSignInAccount.authentication;
+      print(googleAuth.accessToken);
       if (googleAuth.idToken != null) {
         final auth.GoogleAuthCredential credential =
             auth.GoogleAuthProvider.credential(
@@ -72,17 +77,6 @@ class AuthService implements AuthBase {
         final auth.User currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
         setUser(user);
-
-        // Create new user data on Firebase if Signing up for the first time
-        final currentTime = Timestamp.now();
-        final userData = User(
-          userId: user.uid,
-          userName: user.displayName,
-          userEmail: user.email,
-          signUpDate: currentTime,
-          signUpProvider: 'Google',
-        );
-        await FirestoreDatabase().setUser(userData);
 
         return user;
       } else {
@@ -125,16 +119,7 @@ class AuthService implements AuthBase {
         assert(user.uid == currentUser.uid);
         setUser(user);
 
-        // Create new user data on Firebase if Signing up for the first time
-        final currentTime = Timestamp.now();
-        final userData = User(
-          userId: user.uid,
-          userName: user.displayName,
-          userEmail: user.email,
-          signUpDate: currentTime,
-          signUpProvider: 'Facebook',
-        );
-        await FirestoreDatabase().setUser(userData);
+        print(auth.AdditionalUserInfo().isNewUser);
 
         return user;
 
@@ -189,16 +174,7 @@ class AuthService implements AuthBase {
       assert(user.uid == currentUser.uid);
       setUser(user);
 
-      // Create new user data on Firebase if Signing up for the first time
-      final currentTime = Timestamp.now();
-      final userData = User(
-        userId: user.uid,
-        userName: user.displayName,
-        userEmail: user.email,
-        signUpDate: currentTime,
-        signUpProvider: 'Apple',
-      );
-      await FirestoreDatabase().setUser(userData);
+      print(auth.AdditionalUserInfo().isNewUser);
 
       return user;
     } on auth.FirebaseAuthException catch (e) {

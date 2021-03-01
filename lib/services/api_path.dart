@@ -6,6 +6,11 @@ class APIPath {
   static String savedWorkout(String userId, String savedWorkoutId) =>
       'users/$userId/savedWorkouts/$savedWorkoutId';
 
+  /// User Feedback
+  // ignore: missing_return
+  static String userFeedback(String userFeedbackId) =>
+      'userFeedbacks/$userFeedbackId';
+
   /// Workout
   static String workout(String workoutId) => 'workouts/$workoutId';
   static String workouts() => 'workouts';

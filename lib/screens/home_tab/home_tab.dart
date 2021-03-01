@@ -1,196 +1,269 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
-import 'package:workout_player/common_widgets/empty_content.dart';
-import 'package:workout_player/common_widgets/list_item_builder.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/settings/settings_screen.dart';
+import 'package:workout_player/common_widgets/horz_list_item_builder.dart';
+import 'package:workout_player/format.dart';
+import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/screens/home_tab/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
-import 'routine_history/daily_summary_card.dart';
-import 'routine_history/daily_summary_detail_screen.dart';
-import 'start_workout_shortcut_screen.dart';
+import 'announcement_card_page_view.dart';
+import 'long_height_card_widget.dart';
+import 'muscle_group_card/muscle_group_card_widget.dart';
+import 'muscle_group_card/muscle_group_search_screen.dart';
 
-class HomeTab extends StatefulWidget {
-  static const routeName = '/home-tab';
-
+class HomeTab extends StatelessWidget {
   @override
-  _HomeTabState createState() => _HomeTabState();
+  Widget build(BuildContext context) {
+    debugPrint('scaffold building...');
+
+    final database = Provider.of<Database>(context, listen: false);
+
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: Image.asset(
+          'assets/logos/playerh_logo.png',
+          height: 36,
+          width: 36,
+        ),
+        flexibleSpace: AppbarBlurBG(),
+      ),
+      backgroundColor: BackgroundColor,
+      body: Builder(
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
+                _homeScreenBody(database, context),
+              ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: _buildFAB(context),
+    );
+  }
+
+  Widget _homeScreenBody(Database database, BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        AnnouncementCardPageView(),
+        const SizedBox(height: 36),
+        _GridViewChildWidget(),
+        const SizedBox(height: 48),
+        const Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+          child: const Text('New Chest Routines at Home', style: Headline6w900),
+        ),
+        StreamBuilder<List<Routine>>(
+          stream: database.routinesSearchStream2(
+            limit: 5,
+            searchCategory: 'mainMuscleGroup',
+            isEqualTo: 'Chest',
+            searchCategory2: 'equipmentRequired',
+            arrayContains: 'Bodyweight',
+          ),
+          builder: (context, snapshot) {
+            return Container(
+              height: size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: HoriListItemBuilder<Routine>(
+                  isEmptyContentWidget: false,
+                  snapshot: snapshot,
+                  emptyContentTitle: 'Empty...',
+                  itemBuilder: (context, routine) {
+                    final duration = Format.durationInMin(routine.duration);
+
+                    return LongHeightCardWidget(
+                      tag: 'horizListTag1-${routine.routineId}',
+                      imageUrl: routine.imageUrl,
+                      title: routine.routineTitle,
+                      subtitle: routine.routineOwnerUserName,
+                      thirdLineSubtitle: duration,
+                      onTap: () => RoutineDetailScreen.show(
+                        context,
+                        isRootNavigation: false,
+                        routine: routine,
+                        tag: 'horizListTag1-${routine.routineId}',
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 48),
+        const Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+          child: const Text('Back Workouts for you', style: Headline6w900),
+        ),
+        StreamBuilder<List<Workout>>(
+          stream: database.workoutsSearchStream(
+            limit: 5,
+            searchCategory: 'mainMuscleGroup',
+            isEqualTo: 'Back',
+          ),
+          builder: (context, snapshot) {
+            return Container(
+              height: size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: HoriListItemBuilder<Workout>(
+                  isEmptyContentWidget: false,
+                  snapshot: snapshot,
+                  emptyContentTitle: 'Empty...',
+                  itemBuilder: (context, workout) {
+                    final difficulty = Format.difficulty(workout.difficulty);
+
+                    return LongHeightCardWidget(
+                      tag: 'workoutTag1-${workout.workoutId}',
+                      imageUrl: workout.imageUrl,
+                      title: workout.workoutTitle,
+                      subtitle: workout.equipmentRequired[0],
+                      thirdLineSubtitle: difficulty,
+                      onTap: () => WorkoutDetailScreen.show(
+                        context,
+                        isRootNavigation: false,
+                        workout: workout,
+                        tag: 'workoutTag1-${workout.workoutId}',
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 48),
+        const Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+          child: const Text('Routines for your QUAD', style: Headline6w900),
+        ),
+        StreamBuilder<List<Routine>>(
+          stream: database.routinesSearchStream(
+            limit: 5,
+            searchCategory: 'mainMuscleGroup',
+            isEqualTo: 'Leg',
+          ),
+          builder: (context, snapshot) {
+            return Container(
+              height: size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: HoriListItemBuilder<Routine>(
+                  isEmptyContentWidget: false,
+                  snapshot: snapshot,
+                  emptyContentTitle: 'Empty...',
+                  itemBuilder: (context, routine) {
+                    final duration = Format.durationInMin(routine.duration);
+
+                    return LongHeightCardWidget(
+                      tag: 'routineTag2-${routine.routineId}',
+                      imageUrl: routine.imageUrl,
+                      title: routine.routineTitle,
+                      subtitle: duration,
+                      onTap: () => RoutineDetailScreen.show(
+                        context,
+                        isRootNavigation: false,
+                        routine: routine,
+                        tag: 'routineTag2-${routine.routineId}',
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFAB(BuildContext context) {
+    return FloatingActionButton.extended(
+      backgroundColor: PrimaryColor,
+      icon: const Icon(
+        Icons.play_arrow_rounded,
+        color: Colors.white,
+      ),
+      label: const Text('Start Workout!'),
+      onPressed: () => StartWorkoutShortcutScreen.show(context),
+    );
+  }
 }
 
-class _HomeTabState extends State<HomeTab> {
-  Map<DateTime, List<RoutineHistory>> _events;
-  DateTime _selectedDay = DateTime.now();
-  List<RoutineHistory> _selectedEvents;
-  AnimationController _animationController;
-  // CalendarController _calendarController;
+class _GridViewChildWidget extends StatefulWidget {
+  @override
+  __GridViewChildWidgetState createState() => __GridViewChildWidgetState();
+}
+
+class __GridViewChildWidgetState extends State<_GridViewChildWidget> {
+  List<String> _mainMuscleGroup = [];
 
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
-    // _calendarController = CalendarController();
+    for (int i = 0; i < MainMuscleGroup.values.length; i++) {
+      var value = MainMuscleGroup.values[i].label;
+      _mainMuscleGroup.add(value);
+    }
   }
 
   @override
   void dispose() {
-    // _calendarController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
+    List<Widget> gridTiles = new List();
 
-    return Scaffold(
-      backgroundColor: BackgroundColor,
-      appBar: _buildAppBar(context),
-      floatingActionButton: _buildFAB(),
-      body: StreamBuilder<List<RoutineHistory>>(
-        stream: database.routineHistoriesStream(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            // Map<DateTime, List<String>> mapFetch = {};
-            //
-            // final List<RoutineHistory> routineHistories = snapshot.data;
-            // final sorted = routineHistories.toList()
-            //   ..sort((a, b) => a.workoutDate.compareTo(b.workoutDate));
-            //
-            // print(sorted);
-
-            // for (var i = 0; i < routineHistories.length; i++) {
-            //   mapFetch[routineHistories[i].workoutDate] = [];
-            // }
-
-            // print(_events);
-            // print(mapFetch);
-
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: <Widget>[
-                  // TableCalendar(
-                  //   events: _events,
-                  //   // builders: CalendarBuilders(
-                  //   //     selectedDayBuilder: (context, date, _) {
-                  //   //   return DailySummaryCard();
-                  //   // }),
-                  //   daysOfWeekStyle: DaysOfWeekStyle(
-                  //     weekdayStyle: BodyText2,
-                  //   ),
-                  //   calendarStyle: CalendarStyle(
-                  //       todayColor: PrimaryColor,
-                  //       selectedColor: PrimaryColor.withOpacity(0.6),
-                  //       weekdayStyle: BodyText2,
-                  //       outsideDaysVisible: false,
-                  //       eventDayStyle: BodyText2,
-                  //       holidayStyle: BodyText2,
-                  //       outsideStyle: BodyText2,
-                  //       markersColor: Colors.redAccent),
-                  //   locale: 'en_US',
-                  //   calendarController: _calendarController,
-                  //   headerStyle: HeaderStyle(
-                  //     leftChevronIcon: Icon(
-                  //       Icons.arrow_back_ios_rounded,
-                  //       color: Colors.white,
-                  //       size: 16,
-                  //     ),
-                  //     centerHeaderTitle: true,
-                  //     formatButtonVisible: false,
-                  //     titleTextStyle: BodyText2,
-                  //     rightChevronIcon: Icon(
-                  //       Icons.arrow_forward_ios_rounded,
-                  //       color: Colors.white,
-                  //       size: 16,
-                  //     ),
-                  //   ),
-                  // ),
-                  // WorkoutSummaryWithPageControlScreen(),
-                  SizedBox(height: 16),
-                  _workoutDailySummaryBuilder(),
-                  SizedBox(height: 16),
-                ],
-              ),
-            );
-          } else if (snapshot.hasError) {
-            // print(snapshot.error);
-            return EmptyContent(
-              message: 'Errorr',
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      flexibleSpace: AppbarBlurBG(),
-      backgroundColor: Colors.transparent,
-      centerTitle: true,
-      title: Text('Player H', style: Subtitle1),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.settings_rounded),
-          onPressed: () {
-            pushNewScreen(
-              context,
-              screen: SettingsScreen(),
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-          },
+    for (int i = 0; i < _mainMuscleGroup.length; i++) {
+      Widget card = MuscleGroupCardWidget(
+        text: _mainMuscleGroup[i],
+        onTap: () => MuscleGroupSearchScreen.show(
+          context: context,
+          isEqualTo: _mainMuscleGroup[i],
+          searchCategory: 'mainMuscleGroup',
         ),
-        SizedBox(width: 4),
-      ],
-    );
-  }
+      );
 
-  Widget _workoutDailySummaryBuilder() {
-    final database = Provider.of<Database>(context, listen: false);
+      gridTiles.add(card);
+    }
 
-    return StreamBuilder<List<RoutineHistory>>(
-      stream: database.routineHistoriesStream(),
-      builder: (context, snapshot) {
-        return ListItemBuilder<RoutineHistory>(
-          emptyContentTitle: 'Start Working Out Today!',
-          snapshot: snapshot,
-          itemBuilder: (context, routineHistory) => DailySummaryCard(
-            date: routineHistory.workoutStartTime,
-            workoutTitle: routineHistory.routineTitle,
-            weightsLifted: routineHistory.totalWeights,
-            caloriesBurnt: routineHistory.totalCalories,
-            totalDuration: routineHistory.totalDuration,
-            earnedBadges: routineHistory.earnedBadges,
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              print('card was tapped');
-              DailySummaryDetailScreen.show(
-                context: context,
-                // index: index,
-                routineHistory: routineHistory,
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+    final size = MediaQuery.of(context).size;
 
-  Widget _buildFAB() {
-    return FloatingActionButton.extended(
-      backgroundColor: PrimaryColor,
-      icon: Icon(
-        Icons.play_arrow_rounded,
-        color: Colors.white,
-      ),
-      label: Text('Start Workout!'),
-      onPressed: () => StartWorkoutShortcutScreen.show(
-        context: context,
+    final double itemWidth = size.width / 2;
+    final double itemHeight = size.width / 4;
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.count(
+        childAspectRatio: (itemWidth / itemHeight),
+        crossAxisCount: 3,
+        padding: const EdgeInsets.all(0),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: gridTiles,
       ),
     );
   }

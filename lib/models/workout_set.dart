@@ -15,7 +15,7 @@ class WorkoutSet {
   final bool isRest;
   final int index;
   final String setTitle;
-  final int weights;
+  final double weights;
   final int reps;
   final int restTime;
 
@@ -27,7 +27,7 @@ class WorkoutSet {
     final bool isRest = data['isRest'];
     final int index = data['index'];
     final String setTitle = data['setTitle'];
-    final int weights = data['weights'];
+    final double weights = data['weights'];
     final int reps = data['reps'];
     final int restTime = data['restTime'];
 

@@ -1,33 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-enum difficulty {
-  SuperEasy,
-  Beginner,
-  Intermediate,
-  PrettyHard,
-  SuperHard,
-}
-
-extension difficultyExtension on difficulty {
-  String get label {
-    switch (this) {
-      case difficulty.SuperEasy:
-        return 'Super Easy';
-      case difficulty.Beginner:
-        return 'Beginner';
-      case difficulty.Intermediate:
-        return 'Intermediate';
-      case difficulty.PrettyHard:
-        return 'Pretty Hard';
-      case difficulty.SuperHard:
-        return 'Super Hard';
-      default:
-        return null;
-    }
-  }
-}
-
 class Workout {
   Workout({
     @required this.workoutId,
@@ -45,14 +18,15 @@ class Workout {
     this.difficulty,
     this.instructions,
     this.tips,
-    this.imageIndex,
+    this.secondsPerRep,
+    this.isPublic,
   });
 
   final String workoutId;
   final String workoutOwnerId;
   final String workoutOwnerUserName;
   final String workoutTitle;
-  final List<dynamic> mainMuscleGroup;
+  final String mainMuscleGroup;
   final List<dynamic> secondaryMuscleGroup;
   final String description;
   final List<dynamic> equipmentRequired;
@@ -63,7 +37,8 @@ class Workout {
   final int difficulty;
   final String instructions;
   final String tips;
-  final int imageIndex;
+  final int secondsPerRep;
+  final bool isPublic;
 
   factory Workout.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -72,7 +47,7 @@ class Workout {
     final String workoutOwnerId = data['workoutOwnerId'];
     final String workoutOwnerUserName = data['workoutOwnerUserName'];
     final String workoutTitle = data['workoutTitle'];
-    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
+    final String mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondaryMuscleGroup = data['secondaryMuscleGroup'];
     final String description = data['description'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
@@ -83,7 +58,8 @@ class Workout {
     final int difficulty = data['difficulty'];
     final String instructions = data['instructions'];
     final String tips = data['tips'];
-    final int imageIndex = data['imageIndex'];
+    final int secondsPerRep = data['secondsPerRep'];
+    final bool isPublic = data['isPublic'];
 
     return Workout(
       workoutId: documentId,
@@ -101,7 +77,8 @@ class Workout {
       difficulty: difficulty,
       instructions: instructions,
       tips: tips,
-      imageIndex: imageIndex,
+      secondsPerRep: secondsPerRep,
+      isPublic: isPublic,
     );
   }
 
@@ -121,7 +98,8 @@ class Workout {
       'difficulty': difficulty,
       'instructions': instructions,
       'tips': tips,
-      'imageIndex': imageIndex,
+      'secondsPerRep': secondsPerRep,
+      'isPublic': isPublic,
     };
   }
 }

@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>22787456179-42uf9muv5jud1psrqqc2ogovuj86322t.apps.googleusercontent.com</string>
+	<string>1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.22787456179-42uf9muv5jud1psrqqc2ogovuj86322t</string>
+	<string>com.googleusercontent.apps.1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>22787456179-9j6ki5h54hm900bg72ua8g2iip714q9j.apps.googleusercontent.com</string>
+	<string>1008594575857-miajain8qfltnrl8aisff50btg0k4uvf.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvl5snXgonBaCmEE9QonIc8cH3RduJg5g</string>
+	<string>AIzaSyA8mhNIZ0xCe-JtR43GiiichyYlhFdwqZw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>22787456179</string>
+	<string>1008594575857</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.heeyunlee.workoutPlayer</string>
+	<string>com.healtine.playerh</string>
 	<key>PROJECT_ID</key>
-	<string>workout-player</string>
+	<string>player-h</string>
 	<key>STORAGE_BUCKET</key>
-	<string>workout-player.appspot.com</string>
+	<string>player-h.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:22787456179:ios:6babecfd8602a71d3ec4c6</string>
-	<key>DATABASE_URL</key>
-	<string>https://workout-player-default-rtdb.firebaseio.com</string>
+	<string>1:1008594575857:ios:999d6a9aa9e1c532046450</string>
 </dict>
 </plist>

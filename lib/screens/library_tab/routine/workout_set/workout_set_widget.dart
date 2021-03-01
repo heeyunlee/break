@@ -2,14 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_flush_bar.dart';
+import 'package:workout_player/models/enum_values.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
+
+Logger logger = Logger();
 
 class WorkoutSetWidget extends StatefulWidget {
   const WorkoutSetWidget({
@@ -18,24 +25,71 @@ class WorkoutSetWidget extends StatefulWidget {
     this.routine,
     this.routineWorkout,
     this.set,
+    this.index,
+    this.user,
   }) : super(key: key);
 
   final Database database;
   final Routine routine;
   final RoutineWorkout routineWorkout;
   final WorkoutSet set;
+  final int index;
+  final User user;
 
   @override
   _WorkoutSetWidgetState createState() => _WorkoutSetWidgetState();
 }
 
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
-  //
   final SlidableController slidableController = SlidableController();
 
-  // Delete Workout Set Method
-  Future<void> _deleteSet(BuildContext context, WorkoutSet set) async {
+  final _formKey = GlobalKey<FormState>();
+
+  final f = NumberFormat('#,###');
+
+  var _textController1 = TextEditingController();
+  var _textController2 = TextEditingController();
+  var _textController3 = TextEditingController();
+
+  FocusNode focusNode1;
+  FocusNode focusNode2;
+  FocusNode focusNode3;
+
+  String _weights;
+  String _reps;
+  String _restTime;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode1 = FocusNode();
+    focusNode2 = FocusNode();
+    focusNode3 = FocusNode();
+
+    _weights = f.format(widget.set.weights);
+    _textController1 = TextEditingController(text: _weights);
+
+    _reps = widget.set.reps.toString();
+    _textController2 = TextEditingController(text: _reps);
+
+    _restTime = widget.set.restTime.toString();
+    _textController3 = TextEditingController(text: _restTime);
+  }
+
+  @override
+  void dispose() {
+    focusNode1.dispose();
+    focusNode2.dispose();
+    focusNode3.dispose();
+    super.dispose();
+  }
+
+  /// DELETE WORKOUT SET
+  Future<void> _deleteSet(BuildContext context) async {
     try {
+      final set = widget.set;
+
+      // Update Routine Workout Data
       final numberOfSets = (set.isRest)
           ? widget.routineWorkout.numberOfSets
           : widget.routineWorkout.numberOfSets - 1;
@@ -44,31 +98,56 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           ? widget.routineWorkout.numberOfReps
           : widget.routineWorkout.numberOfReps - set.reps;
 
-      final totalWeights = (set.isRest)
-          ? widget.routineWorkout.totalWeights
-          : (set.weights == 0)
-              ? widget.routineWorkout.totalWeights
-              : widget.routineWorkout.totalWeights - (set.weights * set.reps);
+      final totalWeights =
+          widget.routineWorkout.totalWeights - (set.weights * set.reps);
+
+      final duration = widget.routineWorkout.duration -
+          set.restTime -
+          (set.reps * widget.routineWorkout.secondsPerRep);
 
       final routineWorkout = {
-        'index': widget.routineWorkout.index,
-        'workoutId': widget.routineWorkout.workoutId,
-        'workoutTitle': widget.routineWorkout.workoutTitle,
         'numberOfSets': numberOfSets,
         'numberOfReps': numberOfReps,
         'totalWeights': totalWeights,
+        'duration': duration,
         'sets': FieldValue.arrayRemove([set.toMap()]),
       };
+
+      // Update Routine Data
+      final routineTotalWeights = (set.isRest)
+          ? widget.routine.totalWeights
+          : (set.weights == 0)
+              ? widget.routine.totalWeights
+              : widget.routine.totalWeights - (set.weights * set.reps);
+      final routineDuration = (set.isRest)
+          ? widget.routine.duration - set.restTime
+          : widget.routine.duration -
+              (set.reps * widget.routineWorkout.secondsPerRep);
+      final now = Timestamp.now();
+
+      final routine = {
+        'totalWeights': routineTotalWeights,
+        'duration': routineDuration,
+        'lastEditedDate': now,
+      };
+
+      await widget.database
+          .setWorkoutSet(
+        widget.routine,
+        widget.routineWorkout,
+        routineWorkout,
+      )
+          .then(
+        (value) async {
+          await widget.database.updateRoutine(widget.routine, routine);
+        },
+      );
       showFlushBar(
         context: context,
         message: (set.isRest) ? 'Deleted a rest' : 'Deleted a set',
       );
-      await widget.database.setWorkoutSet(
-        widget.routine,
-        widget.routineWorkout,
-        routineWorkout,
-      );
     } on FirebaseException catch (e) {
+      logger.d(e);
       ShowExceptionAlertDialog(
         context,
         title: 'Operation Failed',
@@ -77,78 +156,374 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     }
   }
 
+  /// UPDATE WORKOUT SET
+  Future<void> updateSet() async {
+    if (_formKey.currentState.validate()) {
+      try {
+        final List<WorkoutSet> workoutSets = widget.routineWorkout.sets;
+        final WorkoutSet set = widget.set;
+
+        /// Update Workout Set
+        final newSet = WorkoutSet(
+          workoutSetId: set.workoutSetId,
+          isRest: set.isRest,
+          index: set.index,
+          setTitle: set.setTitle,
+          restTime: int.parse(_restTime),
+          reps: int.parse(_reps),
+          weights: double.parse(_weights),
+        );
+        workoutSets[widget.index] = newSet;
+
+        /// Update Routine Workout
+        // NumberOfReps
+        int numberOfReps = 0;
+        bool numberOfRepsCalculated = false;
+
+        if (!numberOfRepsCalculated) {
+          for (var i = 0; i < workoutSets.length; i++) {
+            var reps = workoutSets[i].reps;
+            numberOfReps = numberOfReps + reps;
+          }
+          numberOfRepsCalculated = true;
+        }
+
+        // Total Weights
+        double totalWeights = 0;
+        bool totalWeightsCalculated = false;
+
+        if (!totalWeightsCalculated) {
+          for (var i = 0; i < workoutSets.length; i++) {
+            var weights = workoutSets[i].weights * workoutSets[i].reps;
+            totalWeights = totalWeights + weights;
+          }
+          totalWeightsCalculated = true;
+        }
+
+        // Duration
+        int duration = 0;
+        bool durationCalculated = false;
+
+        if (!durationCalculated) {
+          for (var i = 0; i < workoutSets.length; i++) {
+            var t = workoutSets[i].restTime +
+                (workoutSets[i].reps * widget.routineWorkout.secondsPerRep);
+            duration = duration + t;
+          }
+          durationCalculated = true;
+        }
+
+        final routineWorkout = {
+          'numberOfReps': numberOfReps,
+          'totalWeights': totalWeights,
+          'duration': duration,
+          'sets': workoutSets.map((e) => e.toMap()).toList(),
+        };
+
+        /// Update Routine Data
+        final routineTotalWeights = widget.routine.totalWeights -
+            widget.routineWorkout.totalWeights +
+            totalWeights;
+        final routineDuration =
+            widget.routine.duration - widget.routineWorkout.duration + duration;
+
+        final routine = {
+          'totalWeights': routineTotalWeights,
+          'duration': routineDuration,
+        };
+
+        await widget.database
+            .updateRoutineWorkout(
+          widget.routine,
+          widget.routineWorkout,
+          routineWorkout,
+        )
+            .then(
+          (value) async {
+            await widget.database.updateRoutine(widget.routine, routine);
+          },
+        );
+        print('routineWorkout Updated');
+      } on FirebaseException catch (e) {
+        logger.d(e);
+        ShowExceptionAlertDialog(
+          context,
+          title: 'Operation Failed',
+          exception: e,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final title = widget.set?.setTitle ?? 'Set Name';
-    final weights = (!widget.routineWorkout.isBodyWeightWorkout)
-        ? '${widget.set.weights} kg'
-        : (widget.set.weights == 0)
-            ? 'Bodyweight'
-            : 'BW + ${widget.set.weights} kg';
-    final reps = '${widget.set?.reps ?? 0} x';
-    final restTime = '${widget.set?.restTime ?? 0} sec';
+    final WorkoutSet set = widget.set;
 
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
+      actionPane: const SlidableDrawerActionPane(),
       controller: slidableController,
       secondaryActions: [
         IconSlideAction(
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete_rounded,
-          onTap: () => _deleteSet(context, widget.set),
+          onTap: () => _deleteSet(context),
         ),
       ],
-      child: Row(
-        children: [
-          SizedBox(width: 16, height: 56),
-          if (!widget.set.isRest)
-            Text(
-              title,
-              style: BodyText1.copyWith(fontWeight: FontWeight.bold),
-            ),
-          if (widget.set.isRest)
-            Icon(Icons.timer_rounded, color: Colors.grey, size: 20),
-          Spacer(),
-          if (!widget.set.isRest)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                height: 32,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                alignment: Alignment.center,
-                color: Color(0xff3C3C3C),
-                child: Text(weights, style: BodyText1),
+      child: _buildRow(set),
+    );
+  }
+
+  bool weightsTabbed = false;
+  bool repsTabbed = false;
+  bool restTimeTabbed = false;
+
+  _buildRow(WorkoutSet set) {
+    final f = NumberFormat('#,###');
+    final title = set?.setTitle ?? 'Set Name';
+    final String unit =
+        UnitOfMass.values[widget.routine.initialUnitOfMass].label;
+    final weights = widget.set.weights;
+    final formattedWeights = '${f.format(weights)} $unit';
+    final reps = '${widget.set.reps} x';
+    final restTime = '${widget.set.restTime} s';
+
+    return Form(
+      key: _formKey,
+      child: KeyboardActions(
+        config: _buildConfig(),
+        bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
+        disableScroll: true,
+        child: Row(
+          children: [
+            const SizedBox(width: 16, height: 56),
+            if (!set.isRest) Text(title, style: BodyText1Bold),
+            if (set.isRest)
+              const Icon(Icons.timer_rounded, color: Colors.grey, size: 20),
+            const Spacer(),
+
+            /// Weights
+            if (!set.isRest)
+              GestureDetector(
+                onTap: () {
+                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                    setState(() {
+                      weightsTabbed = true;
+                    });
+                  }
+                },
+                behavior: HitTestBehavior.opaque,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    height: 36,
+                    width: 104,
+                    padding: const EdgeInsets.symmetric(horizontal: 23),
+                    color: CardColorLight,
+                    child: (!weightsTabbed)
+                        ? Center(
+                            child: Text(formattedWeights, style: BodyText1))
+                        : TextFormField(
+                            autofocus: true,
+                            textAlign: TextAlign.center,
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: _textController1,
+                            style: BodyText1,
+                            focusNode: focusNode1,
+                            keyboardAppearance: Brightness.dark,
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
+                            maxLength: 3,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              counterText: '',
+                              suffixText: unit,
+                              suffixStyle: BodyText1,
+                            ),
+                            onFieldSubmitted: (value) {
+                              _weights = value;
+                              updateSet();
+                            },
+                            onChanged: (value) => _weights = value,
+                            onSaved: (value) => _weights = value,
+                          ),
+                  ),
+                ),
               ),
-            ),
-          SizedBox(width: 16),
-          if (!widget.set.isRest)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                height: 32,
-                width: 80,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                alignment: Alignment.center,
-                color: PrimaryColor,
-                child: Text(reps, style: BodyText1),
+            const SizedBox(width: 16),
+
+            /// Reps
+            if (!set.isRest)
+              GestureDetector(
+                onTap: () {
+                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                    setState(() {
+                      repsTabbed = true;
+                    });
+                  }
+                },
+                behavior: HitTestBehavior.opaque,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    height: 36,
+                    width: 80,
+                    padding: const EdgeInsets.symmetric(horizontal: 23),
+                    alignment: Alignment.center,
+                    color: PrimaryColor,
+                    child: (!repsTabbed)
+                        ? Center(child: Text(reps, style: BodyText1))
+                        : TextFormField(
+                            autofocus: true,
+                            textAlign: TextAlign.center,
+                            controller: _textController2,
+                            style: BodyText1,
+                            focusNode: focusNode2,
+                            keyboardType: TextInputType.number,
+                            maxLength: 2,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              suffixText: 'x',
+                              suffixStyle: BodyText1,
+                              counterText: '',
+                            ),
+                            onFieldSubmitted: (value) {
+                              _reps = value;
+                              updateSet();
+                            },
+                            onChanged: (value) => _reps = value,
+                            onSaved: (value) => _reps = value,
+                          ),
+                  ),
+                ),
               ),
-            ),
-          if (widget.set.isRest)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                height: 32,
-                width: 80,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                alignment: Alignment.center,
-                color: PrimaryColor,
-                child: Text(restTime, style: BodyText1),
+
+            /// Rest Time
+            if (set.isRest)
+              GestureDetector(
+                onTap: () {
+                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                    setState(() {
+                      restTimeTabbed = true;
+                    });
+                  }
+                },
+                behavior: HitTestBehavior.opaque,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    height: 36,
+                    width: 80,
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    alignment: Alignment.center,
+                    color: PrimaryColor,
+                    child: (!restTimeTabbed)
+                        ? Center(child: Text(restTime, style: BodyText1))
+                        : TextFormField(
+                            autofocus: true,
+                            textAlign: TextAlign.center,
+                            controller: _textController3,
+                            style: BodyText1,
+                            focusNode: focusNode3,
+                            keyboardType: TextInputType.number,
+                            maxLength: 3,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              suffixText: 's',
+                              suffixStyle: BodyText1,
+                              counterText: '',
+                            ),
+                            onFieldSubmitted: (value) {
+                              _restTime = value;
+                              updateSet();
+                            },
+                            onChanged: (value) => _restTime = value,
+                            onSaved: (value) => _restTime = value,
+                          ),
+                  ),
+                ),
               ),
-            ),
-          SizedBox(width: 16),
-        ],
+            const SizedBox(width: 16),
+          ],
+        ),
       ),
+    );
+  }
+
+  KeyboardActionsConfig _buildConfig() {
+    return KeyboardActionsConfig(
+      keyboardSeparatorColor: Grey700,
+      keyboardBarColor: const Color(0xff303030),
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: false,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: focusNode1,
+          displayDoneButton: false,
+          displayArrows: false,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () {
+                  updateSet();
+                  setState(() {
+                    weightsTabbed = false;
+                  });
+                  node.unfocus();
+                },
+                child: const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Text('DONE', style: ButtonText),
+                ),
+              );
+            }
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: focusNode2,
+          displayDoneButton: false,
+          displayArrows: false,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () {
+                  updateSet();
+                  setState(() {
+                    repsTabbed = false;
+                  });
+                  node.unfocus();
+                },
+                child: const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Text('DONE', style: ButtonText),
+                ),
+              );
+            }
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: focusNode3,
+          displayDoneButton: false,
+          displayArrows: false,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () {
+                  updateSet();
+                  setState(() {
+                    restTimeTabbed = false;
+                  });
+                  node.unfocus();
+                },
+                child: const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Text('DONE', style: ButtonText),
+                ),
+              );
+            }
+          ],
+        ),
+      ],
     );
   }
 }

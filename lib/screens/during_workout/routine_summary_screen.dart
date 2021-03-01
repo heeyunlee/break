@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/models/enum_values.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/screens/home_tab/routine_history/activity_list_tile.dart';
-import 'package:workout_player/screens/home_tab/routine_history/summary_row_widget.dart';
+import 'package:workout_player/screens/library_tab/activity/routine_history/activity_list_tile.dart';
+import 'package:workout_player/screens/library_tab/activity/routine_history/summary_row_widget.dart';
 import 'package:workout_player/services/database.dart';
 
 class RoutineSummaryScreen extends StatefulWidget {
@@ -96,13 +97,13 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
 
     // Data
     final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup[0] ?? 'Null';
-    final secondMuscleGroup =
-        widget.routineHistory?.secondMuscleGroup[0] ?? 'Null';
+    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
+    final equipmentRequired =
+        widget.routineHistory?.equipmentRequired[0] ?? 'Null';
 
     return SliverAppBar(
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.close_rounded,
           color: Colors.white,
         ),
@@ -129,7 +130,7 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
                     fit: BoxFit.cover,
                   ),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         // begin: Alignment.center,
                         begin: Alignment(0.0, -0.5),
@@ -147,29 +148,27 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Here is your Workout Summary:',
-                          style: Subtitle1.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Subtitle1Bold,
                         ),
                         Text(
                           widget.routineHistory.routineTitle,
                           maxLines: 1,
-                          style:
-                              Headline4.copyWith(fontWeight: FontWeight.bold),
+                          style: Headline4Bold,
                         ),
                         Row(
                           children: [
                             Chip(
-                              label: Text('$mainMuscleGroup Workout',
-                                  style: ButtonText),
+                              label: Text(
+                                '$mainMuscleGroup Workout',
+                                style: ButtonText,
+                              ),
                               backgroundColor: PrimaryColor,
                             ),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Chip(
-                              label: Text('$secondMuscleGroup Workout',
-                                  style: ButtonText),
+                              label: Text(equipmentRequired, style: ButtonText),
                               backgroundColor: PrimaryColor,
                             ),
                           ],
@@ -185,17 +184,19 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
 
   Widget _buildSliverBody() {
     final database = Provider.of<Database>(context);
-    final size = MediaQuery.of(context).size;
+
+    // Unit Of Mass
+    final unit = UnitOfMass.values[widget.routineHistory.unitOfMass].label;
 
     // Number Formatting
     final weights = widget.routineHistory.totalWeights;
     final duration = widget.routineHistory.totalDuration;
-    final calories = widget.routineHistory.totalCalories;
-    final f1 = NumberFormat('#,###.##');
-    final f2 = NumberFormat('#,###');
+    // final calories = widget.routineHistory.totalCalories;
+    final f1 = NumberFormat('#,###');
+    // final f2 = NumberFormat('#,###.##');
     final formattedWeight = f1.format(weights);
     final formattedDuration = f1.format(duration);
-    final formattedCalories = f2.format(calories);
+    // final formattedCalories = f2.format(calories);
 
     return SliverToBoxAdapter(
       child: Padding(
@@ -203,26 +204,20 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 16),
-            Text(
-              'Stats',
-              style: Headline6.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            SizedBox(height: 8),
+            const SizedBox(height: 16),
+            const Text('Stats', style: Headline6w900),
+            const SizedBox(height: 8),
             SummaryRowWidget(
               title: formattedWeight,
-              subtitle: ' kg  Lifted',
-              image:
+              subtitle: ' $unit  Lifted',
+              imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             SummaryRowWidget(
               title: formattedDuration,
               subtitle: ' min  Spent',
-              image:
+              imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
             ),
             // SizedBox(height: 16),
@@ -232,18 +227,12 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
             //   image:
             //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
             // ),
-            SizedBox(height: 32),
-            Divider(color: Grey700),
-            SizedBox(height: 16),
-            Padding(
+            const SizedBox(height: 32),
+            const Divider(color: Grey700),
+            const SizedBox(height: 16),
+            const Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                'Activities',
-                style: Headline6.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
+              child: const Text('Activities', style: Headline6w900),
             ),
             StreamBuilder<List<RoutineWorkout>>(
               stream: database.routineWorkoutsStreamForHistory(
@@ -262,8 +251,8 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
                               routineWorkout.totalWeights == 0)
                           ? '$formattedSets sets  •  Bodyweight'
                           : (routineWorkout.isBodyWeightWorkout)
-                              ? '$formattedSets sets  •  Bodyweight + $formattedWeights kg'
-                              : '$formattedSets sets  • $formattedWeights kg';
+                              ? '$formattedSets sets  •  Bodyweight + $formattedWeights $unit'
+                              : '$formattedSets sets  • $formattedWeights $unit';
 
                       return ActivityListTile(
                         index: routineWorkout.index,
@@ -273,7 +262,7 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
                     });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-class SocialSignInButton extends StatefulWidget {
+class SocialSignInButton extends StatelessWidget {
   const SocialSignInButton({
     Key key,
     this.color,
@@ -10,6 +10,7 @@ class SocialSignInButton extends StatefulWidget {
     this.onPressed,
     this.logo,
     this.buttonText,
+    this.textColor = Colors.black,
   }) : super(key: key);
 
   final Color color;
@@ -17,36 +18,35 @@ class SocialSignInButton extends StatefulWidget {
   final onPressed;
   final String logo;
   final String buttonText;
+  final Color textColor;
 
-  @override
-  _SocialSignInButtonState createState() => _SocialSignInButtonState();
-}
-
-class _SocialSignInButtonState extends State<SocialSignInButton> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: RaisedButton(
-        disabledColor: widget.disabledColor,
-        color: widget.color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onPressed: widget.onPressed,
-        child: Container(
-          height: 48,
-          width: 258,
+      child: SizedBox(
+        width: size.width - 64,
+        height: 48,
+        child: RaisedButton(
+          disabledColor: disabledColor,
+          color: color,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          onPressed: onPressed,
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
               Image.asset(
-                widget.logo,
+                logo,
                 height: 18,
                 width: 18,
               ),
               Center(
                 child: Text(
-                  widget.buttonText,
-                  style: GoogleSignInStyle,
+                  buttonText,
+                  style: GoogleSignInStyle.copyWith(color: textColor),
                 ),
               ),
             ],

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.heeyunlee.workout_player">\
+    package="com.healtine.playerh">\
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -7,10 +7,11 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="workout_player"
-        android:icon="@mipmap/ic_launcher">
+        android:label="PLAYER H"
+        android:icon="@mipmap/icon">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -29,19 +30,19 @@
         </activity>
 
         <!-- Set up the Sign in with Apple activity, such that it's callable from the browser-redirect -->
-<!--        <activity-->
-<!--            android:name="https://workout-player.firebaseapp.com/__/auth/handler"-->
-<!--            android:exported="true"-->
-<!--            >-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+        <activity
+            android:name="com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-<!--                <data android:scheme="signinwithapple" />-->
-<!--                <data android:path="callback" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+                <data android:scheme="signinwithapple" />
+                <data android:path="callback" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".MainActivity"

@@ -1,13 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
+
+Logger logger = Logger();
 
 class EditSecondMuscleGroupScreen extends StatefulWidget {
   const EditSecondMuscleGroupScreen({
@@ -130,28 +135,36 @@ class _EditSecondMuscleGroupScreenState
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
   Future<void> _addOrRemoveSecondMuscleGroup(String key, bool value) async {
-    setState(() {
-      _secondMuscleGroup[key] = value;
-    });
-    if (_secondMuscleGroup[key]) {
-      _selectedSecondMuscleGroup.add(key);
-      final routine = {
-        'secondMuscleGroup': _selectedSecondMuscleGroup,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
-    } else {
-      _selectedSecondMuscleGroup.remove(key);
-      final routine = {
-        'secondMuscleGroup': _selectedSecondMuscleGroup,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
+    try {
+      setState(() {
+        _secondMuscleGroup[key] = value;
+      });
+      if (_secondMuscleGroup[key]) {
+        _selectedSecondMuscleGroup.add(key);
+        final routine = {
+          'secondMuscleGroup': _selectedSecondMuscleGroup,
+        };
+        await widget.database.updateRoutine(widget.routine, routine);
+      } else {
+        _selectedSecondMuscleGroup.remove(key);
+        final routine = {
+          'secondMuscleGroup': _selectedSecondMuscleGroup,
+        };
+        await widget.database.updateRoutine(widget.routine, routine);
+      }
+      print(_selectedSecondMuscleGroup);
+    } on FirebaseException catch (e) {
+      logger.d(e);
+      ShowExceptionAlertDialog(
+        context,
+        title: 'Operation Failed',
+        exception: e,
+      );
     }
-    print(_selectedSecondMuscleGroup);
   }
 
   @override
@@ -162,27 +175,38 @@ class _EditSecondMuscleGroupScreenState
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_rounded,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            if (_selectedSecondMuscleGroup.length >= 1) {
+              Navigator.of(context).pop();
+            } else {
+              showAlertDialog(
+                context,
+                title: 'No Second Muscle Group Selected',
+                content: 'Please Select at least one second muscle group',
+                defaultActionText: 'OK',
+              );
+            }
           },
         ),
-        title: Text('Second Muscle Group', style: Subtitle1),
-        flexibleSpace: widget.routine == null ? null : AppbarBlurBG(),
+        title: const Text('Second Muscle Group', style: Subtitle1),
+        flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             ListView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: _secondMuscleGroup.keys.map((String key) {
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(

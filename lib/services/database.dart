@@ -4,12 +4,14 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/saved_workout.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
 abstract class Database {
   /// User
+  Future<void> getUser(String userId, User user);
   Future<void> setUser(User user);
   Future<void> updateUser(String userId, Map data);
   Stream<User> userStream({String userId});
@@ -17,28 +19,55 @@ abstract class Database {
   Stream<SavedWorkout> savedWorkoutStream({String workoutId});
   Stream<List<SavedWorkout>> savedWorkoutsStream();
 
+  /// User Feedback
+  Future<void> setUserFeedback(UserFeedback userFeedback);
+
   /// Workout
   Future<void> setWorkout(Workout workout);
+  Future<void> updateWorkout(Workout workout, Map data);
   Future<void> deleteWorkout(Workout workout);
   Stream<Workout> workoutStream({String workoutId});
-  Stream<List<Workout>> workoutsInitialStream();
-  Stream<List<Workout>> workoutsStream();
-  Stream<List<Workout>> workoutsSearchStream(String tag, String searchCategory);
+  Stream<List<Workout>> workoutsStream({int limit});
+  Stream<List<Workout>> userWorkoutsStream({int limit});
+  Stream<List<Workout>> workoutsSearchStream({
+    String isEqualTo,
+    String arrayContains,
+    String searchCategory,
+    int limit,
+  });
 
   /// Routine
   Future<void> setRoutine(Routine routine);
   Future<void> updateRoutine(Routine routine, Map data);
   Future<void> deleteRoutine(Routine routine);
   Stream<Routine> routineStream({String routineId});
-  Stream<List<Routine>> routinesStream();
-  Stream<List<Routine>> routinesInitialStream();
-  Stream<List<Routine>> routinesSearchStream(String tag, String searchCategory);
+  Stream<List<Routine>> routinesStream({int limit});
+  Stream<List<Routine>> userRoutinesStream({int limit});
+  Stream<List<Routine>> routinesSearchStream({
+    String isEqualTo,
+    String arrayContains,
+    String searchCategory,
+    int limit,
+  });
+  Stream<List<Routine>> routinesSearchStream2({
+    String searchCategory,
+    String isEqualTo,
+    String searchCategory2,
+    String arrayContains,
+    int limit,
+  });
 
   /// Routine Workout
   Future<void> setRoutineWorkout(
       Routine routine, RoutineWorkout routineWorkout);
   Future<void> deleteRoutineWorkout(
       Routine routine, RoutineWorkout routineWorkout);
+  Future<void> updateRoutineWorkout(
+      Routine routine, RoutineWorkout routineWorkout, Map data);
+  Stream<RoutineWorkout> routineWorkoutStream(
+    Routine routine,
+    RoutineWorkout routineWorkout,
+  );
   Stream<List<RoutineWorkout>> routineWorkoutsStream(Routine routine);
 
   /// Individual Set inside Routine Workouts
@@ -47,12 +76,6 @@ abstract class Database {
     RoutineWorkout routineWorkout,
     Map data,
   );
-  // Future<void> editWorkoutSet(
-  //   Routine routine,
-  //   RoutineWorkout routineWorkout,
-  //   Map oldData,
-  //   Map newData,
-  // );
 
   /// Routine History
   Future<void> setRoutineHistory(RoutineHistory routineHistory);
@@ -86,11 +109,6 @@ class FirestoreDatabase implements Database {
     @required this.workoutId,
     @required this.routineId,
   });
-  // : assert(
-  //     routineId != null,
-  //     userId != null,
-  //     workoutId != null,
-  //   );
 
   final String userId;
   final String workoutId;
@@ -104,6 +122,13 @@ class FirestoreDatabase implements Database {
   Stream<User> userStream({String userId}) => _service.documentStream(
         path: APIPath.user(userId),
         builder: (data, documentId) => User.fromMap(data, documentId),
+      );
+
+  // Get User Data
+  @override
+  Future<void> getUser(String userId, User user) => _service.getData(
+        path: APIPath.user(userId),
+        data: user.toMap(),
       );
 
   // Add or edit User Data
@@ -144,12 +169,27 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
       );
 
+  /// User Feedback
+  // Add or edit User Data
+  @override
+  Future<void> setUserFeedback(UserFeedback userFeedback) => _service.setData(
+        path: APIPath.userFeedback(userFeedback.userFeedbackId),
+        data: userFeedback.toMap(),
+      );
+
   /// Workouts
   // Add or edit workout data
   @override
   Future<void> setWorkout(Workout workout) => _service.setData(
         path: APIPath.workout(workout.workoutId),
         data: workout.toMap(),
+      );
+
+  // Edit Routine
+  @override
+  Future<void> updateWorkout(Workout workout, Map data) => _service.updateData(
+        path: APIPath.workout(workout.workoutId),
+        data: data,
       );
 
   // Delete workout data
@@ -165,21 +205,26 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => Workout.fromMap(data, documentId),
       );
 
-  // Workout Stream for Initial Search Screen
-  @override
-  Stream<List<Workout>> workoutsInitialStream() => _service.collectionStream(
-        path: APIPath.workouts(),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
-        order: 'workoutTitle',
-        descending: false,
-        limit: 4,
-      );
-
   // Stream for all available Workouts
   @override
-  Stream<List<Workout>> workoutsStream() => _service.collectionStream(
+  Stream<List<Workout>> workoutsStream({int limit}) =>
+      _service.publicCollectionStream(
         order: 'workoutTitle',
         descending: false,
+        path: APIPath.workouts(),
+        builder: (data, documentId) => Workout.fromMap(data, documentId),
+        limit: limit,
+      );
+
+  // Workout Stream for specific User
+  @override
+  Stream<List<Workout>> userWorkoutsStream({int limit}) =>
+      _service.userCollectionStream(
+        searchCategory: 'workoutOwnerId',
+        searchString: userId,
+        order: 'workoutTitle',
+        descending: false,
+        limit: limit,
         path: APIPath.workouts(),
         builder: (data, documentId) => Workout.fromMap(data, documentId),
       );
@@ -187,11 +232,16 @@ class FirestoreDatabase implements Database {
   // Workout Search Stream
   @override
   Stream<List<Workout>> workoutsSearchStream(
-          String tag, String searchCategory) =>
-      _service.searchCollectionStream(
+          {String isEqualTo,
+          String arrayContains,
+          String searchCategory,
+          int limit}) =>
+      _service.publicSearchCollectionStream(
         order: 'workoutTitle',
-        tag: tag,
+        isEqualTo: isEqualTo,
+        arrayContains: arrayContains,
         searchCategory: searchCategory,
+        limit: limit,
         path: APIPath.workouts(),
         builder: (data, documentId) => Workout.fromMap(data, documentId),
       );
@@ -217,6 +267,17 @@ class FirestoreDatabase implements Database {
         path: APIPath.routine(routine.routineId),
       );
 
+  // All Public Routines Stream
+  @override
+  Stream<List<Routine>> routinesStream({int limit}) =>
+      _service.publicCollectionStream(
+        path: APIPath.routines(),
+        builder: (data, documentId) => Routine.fromMap(data, documentId),
+        order: 'routineTitle',
+        descending: false,
+        limit: limit,
+      );
+
   // Single Routine Stream
   @override
   Stream<Routine> routineStream({String routineId}) => _service.documentStream(
@@ -224,35 +285,53 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
-  // Routine for Initial Search Screen
+  // Routine Stream for specific User
   @override
-  Stream<List<Routine>> routinesInitialStream() => _service.collectionStream(
-        path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
+  Stream<List<Routine>> userRoutinesStream({int limit}) =>
+      _service.userCollectionStream(
+        searchCategory: 'routineOwnerId',
+        searchString: userId,
         order: 'routineTitle',
         descending: false,
-        limit: 4,
-      );
-
-  // Routine for Initial Search Screen
-  @override
-  Stream<List<Routine>> routinesStream() => _service.userCollectionStream(
-        searchString: 'routineOwnerId',
-        userId: userId,
-        order: 'routineTitle',
-        descending: false,
+        limit: limit,
         path: APIPath.routines(),
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
   // Routine for Initial Search Screen
   @override
-  Stream<List<Routine>> routinesSearchStream(
-          String tag, String searchCategory) =>
-      _service.searchCollectionStream(
+  Stream<List<Routine>> routinesSearchStream({
+    String isEqualTo,
+    String arrayContains,
+    String searchCategory,
+    int limit,
+  }) =>
+      _service.publicSearchCollectionStream(
         order: 'routineTitle',
-        tag: tag,
+        isEqualTo: isEqualTo,
+        arrayContains: arrayContains,
         searchCategory: searchCategory,
+        limit: limit,
+        path: APIPath.routines(),
+        builder: (data, documentId) => Routine.fromMap(data, documentId),
+      );
+
+  // Routine for Initial Search Screen
+  @override
+  Stream<List<Routine>> routinesSearchStream2({
+    String searchCategory,
+    String isEqualTo,
+    String searchCategory2,
+    String arrayContains,
+    int limit,
+  }) =>
+      _service.publicSearchCollectionStream2(
+        order: 'routineTitle',
+        searchCategory: searchCategory,
+        isEqualTo: isEqualTo,
+        searchCategory2: searchCategory2,
+        arrayContains: arrayContains,
+        limit: limit,
         path: APIPath.routines(),
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
@@ -275,6 +354,27 @@ class FirestoreDatabase implements Database {
       _service.deleteData(
         path: APIPath.routineWorkout(
             routine.routineId, routineWorkout.routineWorkoutId),
+      );
+
+  // Edit Routine
+  @override
+  Future<void> updateRoutineWorkout(
+          Routine routine, RoutineWorkout routineWorkout, Map data) =>
+      _service.updateData(
+        path: APIPath.routineWorkout(
+            routine.routineId, routineWorkout.routineWorkoutId),
+        data: data,
+      );
+
+  // Single Routine Workout Stream
+  @override
+  Stream<RoutineWorkout> routineWorkoutStream(
+          Routine routine, RoutineWorkout routineWorkout) =>
+      _service.documentStream(
+        path: APIPath.routineWorkout(
+            routine.routineId, routineWorkout.routineWorkoutId),
+        builder: (data, documentId) =>
+            RoutineWorkout.fromJson(data, documentId),
       );
 
   // Routine Workout Stream
@@ -301,21 +401,6 @@ class FirestoreDatabase implements Database {
             routine.routineId, routineWorkout.routineWorkoutId),
         data: data,
       );
-
-  // // Edit existing Workout Set of Routine Workout
-  // @override
-  // Future<void> editWorkoutSet(
-  //   Routine routine,
-  //   RoutineWorkout routineWorkout,
-  //   Map oldData,
-  //   Map newData,
-  // ) =>
-  //     _service.editData(
-  //       path: APIPath.routineWorkout(
-  //           routine.routineId, routineWorkout.routineWorkoutId),
-  //       oldData: oldData,
-  //       newData: newData,
-  //     );
 
   /// Workout History
   // Add or edit workout data
@@ -353,8 +438,8 @@ class FirestoreDatabase implements Database {
   @override
   Stream<List<RoutineHistory>> routineHistoriesStream() =>
       _service.userCollectionStream(
-        userId: userId,
-        searchString: 'userId',
+        searchCategory: 'userId',
+        searchString: userId,
         order: 'workoutEndTime',
         descending: true,
         path: APIPath.routineHistories(),

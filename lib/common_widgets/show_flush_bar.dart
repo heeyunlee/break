@@ -10,6 +10,7 @@ class showFlushBar {
     String message,
   }) {
     Flushbar(
+      flushbarPosition: FlushbarPosition.TOP,
       blockBackgroundInteraction: false,
       messageText: Text(
         message,
@@ -21,7 +22,7 @@ class showFlushBar {
       margin: EdgeInsets.all(8),
       borderRadius: 5,
       backgroundColor: Colors.white,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1500),
     )..show(context);
   }
 }

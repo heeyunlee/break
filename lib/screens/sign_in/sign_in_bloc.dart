@@ -20,6 +20,8 @@ class SignInBloc {
     }
   }
 
+  Future<fireAuth.User> signInAnonymously() async =>
+      await _signIn(auth.signInAnonymously);
   Future<fireAuth.User> signInWithGoogle() async =>
       await _signIn(auth.signInWithGoogle);
   Future<fireAuth.User> signInWithFacebook() async =>

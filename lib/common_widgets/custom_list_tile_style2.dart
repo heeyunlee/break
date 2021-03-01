@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/images.dart';
 
 import '../constants.dart';
 
@@ -42,8 +41,7 @@ class _CustomListTileStyle2State extends State<CustomListTileStyle2> {
           width: 48,
           height: 48,
           child: Image.asset(
-            ImageList[widget.imageIndex],
-            fit: BoxFit.cover,
+            'assets/images/place_holder_workout_playlist.png',
           ),
         ),
       ),

@@ -1,60 +1,67 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
-import 'package:workout_player/models/images.dart';
+import 'package:workout_player/format.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/screens/library_tab/workout/add_workout_to_routine_screen.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
+import 'add_workout_to_routine_screen.dart';
+import 'edit_workout/edit_workout_screen.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   WorkoutDetailScreen({
-    // this.userSavedWorkout,
-    // @required this.index,
     @required this.workout,
     @required this.database,
+    @required this.user,
+    this.tag = 'tag',
   });
 
-  // final UserSavedWorkout userSavedWorkout;
-  // final int index;
   final Workout workout;
   final Database database;
+  final User user;
+  final String tag;
 
   // For Navigation
-  static void show({
-    BuildContext context,
-    // int index,
+  static void show(
+    BuildContext context, {
     Workout workout,
     bool isRootNavigation,
-    // Database database,
-    // UserSavedWorkout userSavedWorkout,
+    String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
+
+    HapticFeedback.mediumImpact();
+
     if (!isRootNavigation) {
       await Navigator.of(context, rootNavigator: false).push(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
-            // index: index,
             workout: workout,
             database: database,
-            // userSavedWorkout: userSavedWorkout,
+            user: auth.currentUser,
+            tag: tag,
           ),
         ),
       );
     } else {
-      await Navigator.of(context, rootNavigator: true).push(
+      await Navigator.of(context, rootNavigator: true).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
-            // index: index,
             workout: workout,
             database: database,
-            // userSavedWorkout: userSavedWorkout,
+            user: auth.currentUser,
+            tag: tag,
           ),
         ),
       );
@@ -81,8 +88,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   }
 
   bool get isShrink {
+    Size size = MediaQuery.of(context).size;
+
     return _scrollController.hasClients &&
-        _scrollController.offset > (650 - kToolbarHeight);
+        _scrollController.offset > (size.height * 4 / 5 - 64);
   }
 
   @override
@@ -100,34 +109,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   }
   // For SliverApp to work
 
-  // Future<void> _toggleFavorites(BuildContext context) async {
-  //   try {
-  //     final database = Provider.of<Database>(context, listen: false);
-  //     await database.setSavedWorkout(SavedWorkout(
-  //       isFavorite: !widget.userSavedWorkout.isSavedWorkout,
-  //       workoutId: widget.userSavedWorkout.workout.workoutId,
-  //     ));
-  //     HapticFeedback.mediumImpact();
-  //     showFlushBar(
-  //       context: context,
-  //       message: (widget.userSavedWorkout.isSavedWorkout)
-  //           ? 'Removed from Favorites'
-  //           : 'Saved to Favorites',
-  //     );
-  //   } on Exception catch (e) {
-  //     // TODO
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    // final model = Provider.of<UserSavedWorkoutModel>(context, listen: false);
 
     return StreamBuilder<Workout>(
       initialData: widget.workout,
       stream: database.workoutStream(workoutId: widget.workout.workoutId),
-      // stream: model.userSavedWorkoutStream(widget.workout.workoutId),
       builder: (context, snapshot) {
         final workout = snapshot.data;
 
@@ -174,7 +162,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
     return SliverAppBar(
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back_rounded,
           color: Colors.white,
         ),
@@ -200,6 +188,14 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       //   ],
       // ),
       actions: <Widget>[
+        if (widget.user.uid == workout.workoutOwnerId)
+          IconButton(
+            icon: const Icon(Icons.edit_rounded, color: Colors.white),
+            onPressed: () => EditWorkoutScreen.show(
+              context: context,
+              workout: workout,
+            ),
+          ),
         // IconButton(
         //   // icon: Icon(Icons.favorite_border_rounded),
         //   icon: Icon(
@@ -212,32 +208,30 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         //   ),
         //   onPressed: () => _toggleFavorites(context),
         // ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
       ],
       flexibleSpace: _buildFlexibleSpace(workout),
     );
   }
 
   Widget _buildFlexibleSpace(Workout workout) {
-    final size = MediaQuery.of(context).size;
-
     final workoutTitle = workout?.workoutTitle ?? 'NULL';
-    final mainMuscleGroup = workout?.mainMuscleGroup[0] ?? 'NULL';
+    final mainMuscleGroup = workout?.mainMuscleGroup ?? 'NULL';
     final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
-    final difficultyString = difficulty.values[workout?.difficulty ?? 2].label;
+    final difficulty = Format.difficulty(workout.difficulty);
     final workoutOwnerUserName = workout?.workoutOwnerUserName ?? 'NULL';
     final description = workout?.description ?? 'Add description';
-    final imageIndex = workout?.imageIndex ?? 0;
 
     return FlexibleSpaceBar(
       background: Stack(
         fit: StackFit.passthrough,
         children: [
           Hero(
-            tag: 'workout${widget.workout.workoutId}',
-            child: Image.asset(
-              ImageList[imageIndex],
-              fit: BoxFit.fitHeight,
+            tag: widget.tag,
+            child: CachedNetworkImage(
+              imageUrl: widget.workout.imageUrl,
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
             ),
           ),
           Container(
@@ -246,6 +240,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 begin: Alignment(0.0, -0.5),
                 end: Alignment.bottomCenter,
                 colors: [
+                  BackgroundColor.withOpacity(0.5),
                   Colors.transparent,
                   BackgroundColor,
                 ],
@@ -283,11 +278,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Muscle Group',
-                            style: Caption1Grey,
-                          ),
-                          SizedBox(height: 8),
+                          const Text('Muscle Group', style: Caption1Grey),
+                          const SizedBox(height: 8),
                           Text(
                             mainMuscleGroup,
                             style: Subtitle2,
@@ -300,7 +292,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       color: Colors.white.withOpacity(0.1),
                       width: 1,
                       height: 40,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                     ),
 
                     // Equipment Required
@@ -309,11 +301,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Equipment',
-                            style: Caption1Grey,
-                          ),
-                          SizedBox(height: 8),
+                          const Text('Equipment', style: Caption1Grey),
+                          const SizedBox(height: 8),
                           Text(equipmentRequired, style: Subtitle2),
                         ],
                       ),
@@ -323,7 +312,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       color: Colors.white.withOpacity(0.1),
                       width: 1,
                       height: 40,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                     ),
 
                     // Experience Level
@@ -332,18 +321,15 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Difficulty',
-                            style: Caption1Grey,
-                          ),
-                          SizedBox(height: 8),
-                          Text(difficultyString, style: Subtitle2),
+                          const Text('Difficulty', style: Caption1Grey),
+                          const SizedBox(height: 8),
+                          Text(difficulty, style: Subtitle2),
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   description,
                   style: BodyText2LightGrey,
@@ -351,10 +337,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 MaxWidthRaisedButton(
                   color: Grey800,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add_rounded,
                     color: Colors.white,
                     size: 20,
@@ -365,7 +351,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     workout: workout,
                   ),
                 ),
-                SizedBox(height: 48),
+                // SizedBox(height: 48),
               ],
             ),
           ),
@@ -394,8 +380,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Instructions', style: Headline6),
-        SizedBox(height: 8),
+        const Text('Instructions', style: Headline6),
+        const SizedBox(height: 8),
         Container(
           height: 500,
           child: PageView(
@@ -404,35 +390,35 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     '1. Vestibulum non suscipit lacus',
                     style: Subtitle1,
                   ),
-                  SizedBox(height: 4),
-                  Padding(
+                  const SizedBox(height: 4),
+                  const Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Placeholder()),
+                    child: const Center(child: Placeholder()),
                   ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     '2. eget maximus lacus. Vestibulum',
                     style: Subtitle1,
                   ),
-                  SizedBox(height: 4),
-                  Padding(
+                  const SizedBox(height: 4),
+                  const Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Placeholder()),
+                    child: const Center(child: Placeholder()),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Container(
           height: 24,
           alignment: Alignment.center,
@@ -443,7 +429,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               activeDotScale: 1.5,
               dotHeight: 8,
               dotWidth: 8,
-              dotColor: Colors.white.withOpacity(.3),
+              dotColor: Colors.white.withOpacity(0.3),
               activeDotColor: PrimaryColor,
             ),
           ),
@@ -457,17 +443,17 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('History', style: Headline6),
-        SizedBox(height: 8),
+        const Text('History', style: Headline6),
+        const SizedBox(height: 8),
         Container(
           child: Card(
             color: CardColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Padding(
+            child: const Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Placeholder(),
+              child: const Placeholder(),
             ),
           ),
         ),

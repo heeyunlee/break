@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/screens/library_tab/workout/create_workout/create_new_workout_screen.dart';
 
 import '../../../../constants.dart';
+import 'create_new_workout_screen.dart';
 
 class CreateNewWorkoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        height: 56,
-        width: 56,
-        color: Grey800,
-        child: Icon(
-          Icons.add_rounded,
-          color: Grey200,
+    return GestureDetector(
+      onTap: () => CreateNewWorkoutScreen.show(context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Card(
+          color: Colors.transparent,
+          elevation: 0,
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 64,
+                height: 64,
+                color: Grey800,
+                child: const Icon(Icons.add_rounded, color: Colors.white),
+              ),
+              const SizedBox(width: 16),
+              const Text('Create New Workout', style: BodyText1Bold),
+            ],
+          ),
         ),
       ),
-      title: Text(
-        'Add new workout',
-        style: BodyText1.copyWith(fontWeight: FontWeight.bold),
-      ),
-      onTap: () => CreateNewWorkoutScreen.show(context),
-      onLongPress: () {},
     );
   }
 }

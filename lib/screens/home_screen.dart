@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/screens/cupertino_home_scaffold.dart';
+import 'package:workout_player/screens/home_tab/home_tab.dart';
 import 'package:workout_player/screens/tab_item.dart';
 
-import 'home_tab/home_tab.dart';
 import 'library_tab/library_tab.dart';
-import 'search_tab/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -19,14 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
-    TabItem.search: GlobalKey<NavigatorState>(),
+    // TabItem.explore: GlobalKey<NavigatorState>(),
     TabItem.library: GlobalKey<NavigatorState>(),
   };
 
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.home: (_) => HomeTab(),
-      TabItem.search: (_) => SearchTab(),
       TabItem.library: (_) => LibraryTab(),
     };
   }

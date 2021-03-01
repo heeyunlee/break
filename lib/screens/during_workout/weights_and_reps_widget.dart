@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 
 import '../../constants.dart';
+import '../../format.dart';
 
 class WeightsAndRepsWidget extends StatelessWidget {
-  const WeightsAndRepsWidget({Key key, this.workoutSet, this.routineWorkout})
-      : super(key: key);
+  const WeightsAndRepsWidget({
+    Key key,
+    this.workoutSet,
+    this.routineWorkout,
+    this.routine,
+  }) : super(key: key);
 
   final WorkoutSet workoutSet;
   final RoutineWorkout routineWorkout;
+  final Routine routine;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final weights = Format.weights(workoutSet.weights);
+    final unit = UnitOfMass.values[routine.initialUnitOfMass].label;
+
     return Center(
       child: Card(
-        color: CardColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        color: Colors.grey[800],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 6,
         child: Container(
           width: size.width - 48,
@@ -33,31 +44,28 @@ class WeightsAndRepsWidget extends StatelessWidget {
                     Center(
                       child: RichText(
                         text: TextSpan(
-                          style: BodyText2.copyWith(
-                            color: Colors.white,
-                          ),
+                          style: BodyText2,
                           children: <TextSpan>[
                             if (routineWorkout.isBodyWeightWorkout)
-                              TextSpan(text: 'Body + '),
+                              const TextSpan(text: 'Body + '),
                             TextSpan(
-                              text: '${workoutSet.weights}',
+                              text: weights,
                               style: Headline3.copyWith(
                                 color: Colors.white,
                               ),
                             ),
-                            TextSpan(text: ' kg'),
+                            TextSpan(text: unit),
                           ],
                         ),
                       ),
                     ),
                     Column(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text('Weights',
-                              style: BodyText2.copyWith(color: Colors.grey)),
+                          child: const Text('Weights', style: BodyText2Grey),
                         ),
-                        Divider(
+                        const Divider(
                           color: BackgroundColor,
                           endIndent: 4,
                           indent: 4,
@@ -98,7 +106,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           child: Text('Reps',
                               style: BodyText2.copyWith(color: Colors.grey)),
                         ),
-                        Divider(
+                        const Divider(
                           color: BackgroundColor,
                           endIndent: 4,
                           indent: 4,
