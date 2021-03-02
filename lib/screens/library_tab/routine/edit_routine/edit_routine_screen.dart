@@ -13,7 +13,7 @@ import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
 import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
-import '../../../../models/enum_values.dart';
+import '../../../../models/main_muscle_group.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/auth.dart';
 import '../../../../services/database.dart';

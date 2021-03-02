@@ -14,7 +14,7 @@ import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
 import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
-import '../../../../models/enum_values.dart';
+import '../../../../models/main_muscle_group.dart';
 import '../../../../services/auth.dart';
 import '../../../../services/database.dart';
 import 'edit_workout_equipment_required_screen.dart';
@@ -262,7 +262,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           _buildDifficulty(),
           _buildSecondsPerRep(),
           _buildMainMuscleGroupForm(workout),
-          // _buildSecondMuscleGroupForm(workout),
           _buildEquipmentRequiredForm(workout),
         ],
       ),
@@ -454,7 +453,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             label: _secondsPerRepSliderLabel,
             min: 1,
             max: 10,
-            // divisions: 10,
           ),
         ),
         const Padding(
@@ -486,7 +484,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             child: ListTile(
               title: const Text('Main Muscle Group', style: ButtonText),
               subtitle: Text(
-                '${workout.mainMuscleGroup}',
+                (workout.mainMuscleGroup.length == 1)
+                    ? '${workout.mainMuscleGroup[0]}'
+                    : (workout.mainMuscleGroup.length == 2)
+                        ? '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}'
+                        : '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}, etc.',
                 style: BodyText2Grey,
               ),
               trailing: const Icon(

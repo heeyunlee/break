@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/constants.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/activity_list_tile.dart';

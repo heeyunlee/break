@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 
 import '../constants.dart';
 
@@ -22,25 +22,10 @@ class ChoiceChipsAppBarWidget extends StatefulWidget
 }
 
 class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
-  List<String> _mainMuscleGroup = ['All'];
+  List<String> _mainMuscleGroup = ['All'] + MainMuscleGroup.values[0].list;
 
   int _selectedIndex = 0;
   String _selectedChipLabel = 'All';
-
-  @override
-  void initState() {
-    for (int i = 0; i < MainMuscleGroup.values.length; i++) {
-      var value = MainMuscleGroup.values[i].label;
-      _mainMuscleGroup.add(value);
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+
+Logger logger = Logger();
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
@@ -37,7 +40,7 @@ class ListItemBuilder<T> extends StatelessWidget {
         return emptyContentWidget;
       }
     } else if (snapshot.hasError) {
-      debugPrint(snapshot.error);
+      logger.d(snapshot.error);
       return const EmptyContent(
         message: 'Something went wrong',
       );

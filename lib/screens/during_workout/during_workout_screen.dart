@@ -136,7 +136,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         userId: widget.user.uid,
         routineId: widget.routine.routineId,
         routineTitle: widget.routine.routineTitle,
-        mainMuscleGroup: widget.routine.mainMuscleGroup,
+        mainMuscleGroup: widget.routine.mainMuscleGroup[0],
         secondMuscleGroup: widget.routine.secondMuscleGroup,
         workoutStartTime: _workoutStartTime,
         workoutEndTime: workoutEndTime,

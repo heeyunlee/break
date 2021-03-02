@@ -5,19 +5,19 @@ import '../../../../constants.dart';
 
 typedef void StringCallback(List list);
 
-class NewRoutineMainMuscleGroupScreen extends StatefulWidget {
+class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
   final StringCallback mainMuscleGroupCallback;
 
-  const NewRoutineMainMuscleGroupScreen({Key key, this.mainMuscleGroupCallback})
+  const NewWorkoutMainMuscleGroupScreen({Key key, this.mainMuscleGroupCallback})
       : super(key: key);
 
   @override
-  _NewRoutineMainMuscleGroupScreenState createState() =>
-      _NewRoutineMainMuscleGroupScreenState();
+  _NewWorkoutMainMuscleGroupScreenState createState() =>
+      _NewWorkoutMainMuscleGroupScreenState();
 }
 
-class _NewRoutineMainMuscleGroupScreenState
-    extends State<NewRoutineMainMuscleGroupScreen> {
+class _NewWorkoutMainMuscleGroupScreenState
+    extends State<NewWorkoutMainMuscleGroupScreen> {
   // MainMuscleGroup _mainMuscleGroup;
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
   List<String> _selectedMainMuscleGroup = List();

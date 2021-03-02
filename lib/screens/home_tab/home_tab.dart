@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/horz_list_item_builder.dart';
 import 'package:workout_player/format.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/home_tab/start_workout_shortcut_screen.dart';
@@ -67,15 +67,13 @@ class HomeTab extends StatelessWidget {
         const SizedBox(height: 48),
         const Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-          child: const Text('New Chest Routines at Home', style: Headline6w900),
+          child: const Text('New Chest Routines', style: Headline6w900),
         ),
         StreamBuilder<List<Routine>>(
-          stream: database.routinesSearchStream2(
+          stream: database.routinesSearchStream3(
             limit: 5,
             searchCategory: 'mainMuscleGroup',
-            isEqualTo: 'Chest',
-            searchCategory2: 'equipmentRequired',
-            arrayContains: 'Bodyweight',
+            arrayContains: 'Chest',
           ),
           builder: (context, snapshot) {
             return Container(
@@ -118,7 +116,7 @@ class HomeTab extends StatelessWidget {
           stream: database.workoutsSearchStream(
             limit: 5,
             searchCategory: 'mainMuscleGroup',
-            isEqualTo: 'Back',
+            arrayContains: 'Lower Back',
           ),
           builder: (context, snapshot) {
             return Container(
@@ -161,7 +159,7 @@ class HomeTab extends StatelessWidget {
           stream: database.routinesSearchStream(
             limit: 5,
             searchCategory: 'mainMuscleGroup',
-            isEqualTo: 'Leg',
+            arrayContains: 'Leg',
           ),
           builder: (context, snapshot) {
             return Container(

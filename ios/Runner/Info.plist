@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.22787456179-2ip0dm3j1o4d47u243f966f64svv5ve1</string>
+				<string>com.googleusercontent.apps.1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk</string>
 				<string>fb2951446544958094</string>
 			</array>
 		</dict>
@@ -37,7 +37,7 @@
 	<key>FacebookAppID</key>
 	<string>2951446544958094</string>
 	<key>FacebookDisplayName</key>
-	<string>플레이어 H</string>
+	<string>PLAYER H</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

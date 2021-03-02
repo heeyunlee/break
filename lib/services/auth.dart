@@ -153,7 +153,7 @@ class AuthService implements AuthBase {
         webAuthenticationOptions: WebAuthenticationOptions(
           clientId: 'com.healtine.workoutPlayer',
           redirectUri: Uri.parse(
-            'https://workout-player.firebaseapp.com/__/auth/handler',
+            'https://player-h.firebaseapp.com/__/auth/handler',
           ),
         ),
       );

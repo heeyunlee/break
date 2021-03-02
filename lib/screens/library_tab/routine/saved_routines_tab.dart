@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class SavedRoutinesTab extends StatelessWidget {
     return StreamBuilder<List<Routine>>(
       stream: database.userRoutinesStream(),
       builder: (context, snapshot) {
+        print(snapshot.error);
+
         return SingleChildScrollView(
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),
@@ -30,8 +33,8 @@ class SavedRoutinesTab extends StatelessWidget {
               if (snapshot.hasData && snapshot.data.isNotEmpty)
                 CreateNewRoutineWidget(),
               ListItemBuilder<Routine>(
-                isEmptyContentWidget: true,
                 snapshot: snapshot,
+                isEmptyContentWidget: true,
                 emptyContentWidget: EmptyContentWidget(
                   imageUrl: 'assets/images/saved_routines_empty_bg.png',
                   bodyText:
@@ -41,7 +44,7 @@ class SavedRoutinesTab extends StatelessWidget {
                 itemBuilder: (context, routine) => CustomListTile64(
                   tag: 'savedRoutines-${routine.routineId}',
                   title: routine.routineTitle,
-                  subtitle: routine.mainMuscleGroup,
+                  subtitle: routine.mainMuscleGroup[0],
                   imageUrl: routine.imageUrl,
                   onTap: () => RoutineDetailScreen.show(
                     context,

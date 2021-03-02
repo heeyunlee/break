@@ -12,7 +12,7 @@ import 'services/database.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 

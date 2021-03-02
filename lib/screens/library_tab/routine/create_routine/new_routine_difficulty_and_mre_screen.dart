@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 
 import '../../../../constants.dart';
 

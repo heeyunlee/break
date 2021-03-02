@@ -155,7 +155,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               return CustomListTile3(
                 imageUrl: workout.imageUrl,
                 isLeadingDuration: false,
-                leadingText: workout.mainMuscleGroup,
+                leadingText: workout.mainMuscleGroup[0],
                 title: workout.workoutTitle,
                 subtitle: '$difficulty, using ${workout.equipmentRequired[0]}',
                 onTap: () {

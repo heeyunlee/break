@@ -216,7 +216,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
   Widget _buildFlexibleSpace(Workout workout) {
     final workoutTitle = workout?.workoutTitle ?? 'NULL';
-    final mainMuscleGroup = workout?.mainMuscleGroup ?? 'NULL';
+    final mainMuscleGroup = workout?.mainMuscleGroup[0] ?? 'NULL';
     final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
     final difficulty = Format.difficulty(workout.difficulty);
     final workoutOwnerUserName = workout?.workoutOwnerUserName ?? 'NULL';

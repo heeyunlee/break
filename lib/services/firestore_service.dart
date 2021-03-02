@@ -247,8 +247,34 @@ class FirestoreService {
     @required T Function(Map<String, dynamic> data, String documentId) builder,
     @required String order,
     String searchCategory,
-    String isEqualTo,
+    String arrayContains,
     String searchCategory2,
+    String arrayContains2,
+    int limit,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(order, descending: false)
+        .where('isPublic', isEqualTo: true)
+        .where('$searchCategory', arrayContains: '$arrayContains')
+        .where('$searchCategory2', arrayContains: '$arrayContains2')
+        .limit(limit);
+
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      // converting snapshots of data to list of Data
+      (snapshot) => snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList(),
+    );
+  }
+
+  // Search Third Collection Stream
+  Stream<List<T>> publicSearchCollectionStream3<T>({
+    @required String path,
+    @required T Function(Map<String, dynamic> data, String documentId) builder,
+    @required String order,
+    String searchCategory,
     String arrayContains,
     int limit,
   }) {
@@ -256,8 +282,7 @@ class FirestoreService {
         .collection(path)
         .orderBy(order, descending: false)
         .where('isPublic', isEqualTo: true)
-        .where('$searchCategory', isEqualTo: '$isEqualTo')
-        .where('$searchCategory2', arrayContains: '$arrayContains')
+        .where('$searchCategory', arrayContains: '$arrayContains')
         .limit(limit);
 
     final snapshots = reference.snapshots();

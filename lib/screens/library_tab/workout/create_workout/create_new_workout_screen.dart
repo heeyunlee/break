@@ -12,12 +12,14 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/screens/library_tab/workout/create_workout/new_workout_equipment_required_screen.dart';
+import 'package:workout_player/screens/library_tab/workout/create_workout/new_workout_main_muscle_group_screen.dart';
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
-import '../../../../models/enum_values.dart';
+import '../../../../models/main_muscle_group.dart';
 
 Logger logger = Logger();
 
@@ -57,7 +59,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   var _textController1 = TextEditingController();
   var _textController2 = TextEditingController();
 
-  MainMuscleGroup _mainMuscleGroup;
+  List _selectedMainMuscleGroup = List();
 
   // Map<String, bool> _secondMuscleGroup = {
   //   'Abductors': false,
@@ -80,17 +82,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   //   'Traps': false,
   //   'Triceps': false,
   // };
-  // List _selectedSecondMuscleGroup = List();
-  Map<String, bool> _equipmentRequired = {
-    'Barbell': false,
-    'Dumbbell': false,
-    'Bodyweight': false,
-    'Cable': false,
-    'Machine': false,
-    'EZ Bar': false,
-    'Gym ball': false,
-    'Bench': false,
-  };
+
   List _selectedEquipmentRequired = List();
 
   double _difficultySlider;
@@ -105,6 +97,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _workoutTitle = null;
     _textController1 = TextEditingController(text: _workoutTitle);
 
@@ -135,17 +128,17 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
       // Get Image Url
       final ref = FirebaseStorage.instance.ref().child('workout-pictures');
-      final String label = _mainMuscleGroup.label;
       final imageIndex = Random().nextInt(2);
-      final imageUrl =
-          await ref.child('$label$imageIndex.jpeg').getDownloadURL();
+      final imageUrl = await ref
+          .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
+          .getDownloadURL();
 
       final workout = Workout(
         workoutId: workoutId,
         workoutOwnerId: userId,
         workoutOwnerUserName: userName,
         workoutTitle: _workoutTitle,
-        mainMuscleGroup: _mainMuscleGroup.label,
+        mainMuscleGroup: _selectedMainMuscleGroup,
         secondaryMuscleGroup: null,
         description: _description,
         equipmentRequired: _selectedEquipmentRequired,
@@ -277,11 +270,25 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
             case 0:
               return _editTitleWidget();
             case 1:
-              return _selectMainMuscleGroupWidget(context);
+              // return _selectMainMuscleGroupWidget(context);
+              return NewWorkoutMainMuscleGroupScreen(
+                mainMuscleGroupCallback: (value) {
+                  setState(() {
+                    _selectedMainMuscleGroup = value;
+                  });
+                },
+              );
             // case 2:
             //   return _selectSecondMuscleGroup();
             case 2:
-              return _selectEquipmentRequired();
+              // return _selectEquipmentRequired();
+              return NewWorkoutEquipmentRequiredScreen(
+                equipmentRequiredCallback: (value) {
+                  setState(() {
+                    _selectedEquipmentRequired = value;
+                  });
+                },
+              );
             case 3:
               return _selectDifficultyAndMore(context);
             default:
@@ -332,51 +339,51 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     );
   }
 
-  Widget _selectMainMuscleGroupWidget(context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 8),
-          Theme(
-            data: ThemeData(
-              unselectedWidgetColor: Colors.grey,
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: MainMuscleGroup.values.length,
-              itemBuilder: (context, index) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    height: 56,
-                    color: Grey700,
-                    child: RadioListTile<MainMuscleGroup>(
-                      title: Text(
-                        '${MainMuscleGroup.values[index].label}',
-                        style: ButtonText,
-                      ),
-                      activeColor: PrimaryColor,
-                      value: MainMuscleGroup.values[index],
-                      groupValue: _mainMuscleGroup,
-                      onChanged: (MainMuscleGroup value) {
-                        setState(() {
-                          _mainMuscleGroup = value;
-                          debugPrint('${_mainMuscleGroup.label}');
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _selectMainMuscleGroupWidget(context) {
+  //   return SingleChildScrollView(
+  //     child: Column(
+  //       children: <Widget>[
+  //         const SizedBox(height: 8),
+  //         Theme(
+  //           data: ThemeData(
+  //             unselectedWidgetColor: Colors.grey,
+  //           ),
+  //           child: ListView.builder(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             itemCount: MainMuscleGroup.values.length,
+  //             itemBuilder: (context, index) => Padding(
+  //               padding:
+  //                   const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+  //               child: ClipRRect(
+  //                 borderRadius: BorderRadius.circular(10),
+  //                 child: Container(
+  //                   height: 56,
+  //                   color: Grey700,
+  //                   child: RadioListTile<MainMuscleGroup>(
+  //                     title: Text(
+  //                       '${MainMuscleGroup.values[index].label}',
+  //                       style: ButtonText,
+  //                     ),
+  //                     activeColor: PrimaryColor,
+  //                     value: MainMuscleGroup.values[index],
+  //                     groupValue: _mainMuscleGroup,
+  //                     onChanged: (MainMuscleGroup value) {
+  //                       setState(() {
+  //                         _mainMuscleGroup = value;
+  //                         debugPrint('${_mainMuscleGroup.label}');
+  //                       });
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   // Widget _selectSecondMuscleGroup() {
   //   return SingleChildScrollView(
@@ -421,50 +428,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   //     ),
   //   );
   // }
-
-  Widget _selectEquipmentRequired() {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 8),
-          ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: _equipmentRequired.keys.map((String key) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    color: (_equipmentRequired[key]) ? PrimaryColor : Grey700,
-                    child: CheckboxListTile(
-                      activeColor: Primary700Color,
-                      title: Text(key, style: ButtonText),
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      value: _equipmentRequired[key],
-                      onChanged: (bool value) {
-                        setState(() {
-                          _equipmentRequired[key] = value;
-                        });
-                        if (_equipmentRequired[key]) {
-                          _selectedEquipmentRequired.add(key);
-                        } else {
-                          _selectedEquipmentRequired.remove(key);
-                        }
-                        print(_selectedEquipmentRequired);
-                      },
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _selectDifficultyAndMore(context) {
     final size = MediaQuery.of(context).size;
@@ -594,39 +557,25 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   Widget _buildFAB() {
-    return Row(
-      children: [
-        const SizedBox(width: 32),
-        if (_pageIndex > 0)
-          FloatingActionButton.extended(
-            heroTag: null,
-            backgroundColor: Colors.grey[700],
-            label: const Text('BACK', style: ButtonText),
-            onPressed: () => setState(() {
-              _pageIndex--;
-            }),
-          ),
-        Spacer(),
-        if (_pageIndex == 3)
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.done, color: Colors.white),
-            backgroundColor: PrimaryColor,
-            label: const Text('Finish!', style: ButtonText),
-            onPressed: saveDifficulty,
-          ),
-        if (_pageIndex < 3)
-          FloatingActionButton(
-            child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
-            backgroundColor: PrimaryColor,
-            onPressed: (_pageIndex == 0)
-                ? saveTitle
-                : (_pageIndex == 1)
-                    ? saveMainMuscleGroup
-                    : (_pageIndex == 2)
-                        ? saveEquipmentRequired
-                        : saveDifficulty,
-          ),
-      ],
-    );
+    if (_pageIndex == 3) {
+      return FloatingActionButton.extended(
+        icon: const Icon(Icons.done, color: Colors.white),
+        backgroundColor: PrimaryColor,
+        label: const Text('Finish!', style: ButtonText),
+        onPressed: saveDifficulty,
+      );
+    } else {
+      return FloatingActionButton(
+        child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
+        backgroundColor: PrimaryColor,
+        onPressed: (_pageIndex == 0)
+            ? saveTitle
+            : (_pageIndex == 1)
+                ? saveMainMuscleGroup
+                : (_pageIndex == 2)
+                    ? saveEquipmentRequired
+                    : saveDifficulty,
+      );
+    }
   }
 }

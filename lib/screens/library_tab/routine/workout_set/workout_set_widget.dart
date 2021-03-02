@@ -7,7 +7,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_flush_bar.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';

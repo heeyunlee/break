@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/models/equipment_required.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -47,42 +48,39 @@ class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
 
 class _EditWorkoutEquipmentRequiredScreenState
     extends State<EditWorkoutEquipmentRequiredScreen> {
-  Map<String, bool> _equipmentRequired = {
-    'Barbell': false,
-    'Dumbbell': false,
-    'Bodyweight': false,
-    'Cable': false,
-    'Machine': false,
-    'EZ Bar': false,
-    'Gym ball': false,
-    'Bench': false,
-  };
+  Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
   List _selectedEquipmentRequired = List();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Map<String, bool> equipmentRequired = {
       'Barbell':
           (widget.workout.equipmentRequired.contains('Barbell')) ? true : false,
-      'Dumbbell': (widget.workout.equipmentRequired.contains('Dumbbell'))
-          ? true
-          : false,
+      'Bench':
+          (widget.workout.equipmentRequired.contains('Bench')) ? true : false,
       'Bodyweight': (widget.workout.equipmentRequired.contains('Bodyweight'))
           ? true
           : false,
       'Cable':
           (widget.workout.equipmentRequired.contains('Cable')) ? true : false,
-      'Machine':
-          (widget.workout.equipmentRequired.contains('Machine')) ? true : false,
+      'Chains':
+          (widget.workout.equipmentRequired.contains('Chains')) ? true : false,
+      'Dumbbell': (widget.workout.equipmentRequired.contains('Dumbbell'))
+          ? true
+          : false,
       'EZ Bar':
           (widget.workout.equipmentRequired.contains('EZ Bar')) ? true : false,
       'Gym ball': (widget.workout.equipmentRequired.contains('Gym ball'))
           ? true
           : false,
-      'Bench':
-          (widget.workout.equipmentRequired.contains('Bench')) ? true : false,
+      'Kettlebell': (widget.workout.equipmentRequired.contains('Kettlebell'))
+          ? true
+          : false,
+      'Machine':
+          (widget.workout.equipmentRequired.contains('Machine')) ? true : false,
+      'Others':
+          (widget.workout.equipmentRequired.contains('Others')) ? true : false,
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {

@@ -26,7 +26,7 @@ class Workout {
   final String workoutOwnerId;
   final String workoutOwnerUserName;
   final String workoutTitle;
-  final String mainMuscleGroup;
+  final List<dynamic> mainMuscleGroup;
   final List<dynamic> secondaryMuscleGroup;
   final String description;
   final List<dynamic> equipmentRequired;
@@ -47,7 +47,7 @@ class Workout {
     final String workoutOwnerId = data['workoutOwnerId'];
     final String workoutOwnerUserName = data['workoutOwnerUserName'];
     final String workoutTitle = data['workoutTitle'];
-    final String mainMuscleGroup = data['mainMuscleGroup'];
+    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondaryMuscleGroup = data['secondaryMuscleGroup'];
     final String description = data['description'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];

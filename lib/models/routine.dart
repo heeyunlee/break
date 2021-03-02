@@ -33,7 +33,7 @@ class Routine {
   final String routineTitle;
   final Timestamp lastEditedDate;
   final Timestamp routineCreatedDate;
-  final String mainMuscleGroup;
+  final List<dynamic> mainMuscleGroup;
   final List<dynamic> secondMuscleGroup;
   final String description;
   final String imageUrl;
@@ -57,7 +57,7 @@ class Routine {
     final String routineTitle = data['routineTitle'];
     final Timestamp lastEditedDate = data['lastEditedDate'];
     final Timestamp routineCreatedDate = data['routineCreatedDate'];
-    final String mainMuscleGroup = data['mainMuscleGroup'];
+    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
     final String description = data['description'];
     final String imageUrl = data['imageUrl'];

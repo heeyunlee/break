@@ -22,6 +22,8 @@ class SavedRoutineHistoriesTab extends StatelessWidget {
           StreamBuilder<List<RoutineHistory>>(
             stream: database.routineHistoriesStream(),
             builder: (context, snapshot) {
+              print(snapshot.error);
+
               return ListItemBuilder<RoutineHistory>(
                 snapshot: snapshot,
                 isEmptyContentWidget: true,

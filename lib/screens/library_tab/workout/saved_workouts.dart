@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/models/workout.dart';
@@ -10,6 +12,8 @@ import '../../../common_widgets/list_item_builder.dart';
 import '../../../constants.dart';
 import 'create_workout/create_new_workout_widget.dart';
 import 'workout_detail_screen.dart';
+
+Logger logger = Logger();
 
 class SavedWorkoutsTab extends StatelessWidget {
   // static Widget create(BuildContext context) {
@@ -27,6 +31,8 @@ class SavedWorkoutsTab extends StatelessWidget {
     return StreamBuilder<List<Workout>>(
       stream: database.userWorkoutsStream(),
       builder: (context, snapshot) {
+        print(snapshot.error);
+
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -50,7 +56,7 @@ class SavedWorkoutsTab extends StatelessWidget {
                 itemBuilder: (context, workout) => CustomListTile64(
                   tag: 'workout${workout.workoutId}',
                   title: workout.workoutTitle,
-                  subtitle: workout.mainMuscleGroup,
+                  subtitle: workout.mainMuscleGroup[0],
                   imageUrl: workout.imageUrl,
                   onTap: () => WorkoutDetailScreen.show(
                     context,

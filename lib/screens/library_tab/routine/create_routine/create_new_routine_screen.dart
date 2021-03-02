@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/models/enum_values.dart';
+import 'package:workout_player/models/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/create_routine/new_routine_difficulty_and_mre_screen.dart';
@@ -61,7 +61,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
 
 class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   String _routineTitle;
-  MainMuscleGroup _mainMuscleGroup;
+  List _selectedMainMuscleGroup = List();
   List _selectedEquipmentRequired = List();
   double _rating;
 
@@ -104,10 +104,11 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     try {
       // Get Image Url
       final ref = FirebaseStorage.instance.ref().child('workout-pictures');
-      final String label = _mainMuscleGroup.label;
+
       final imageIndex = Random().nextInt(2);
-      final imageUrl =
-          await ref.child('$label$imageIndex.jpeg').getDownloadURL();
+      final imageUrl = await ref
+          .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
+          .getDownloadURL();
 
       // Create New Routine
       final routine = Routine(
@@ -117,7 +118,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         routineTitle: _routineTitle,
         lastEditedDate: lastEditedDate,
         routineCreatedDate: routineCreatedDate,
-        mainMuscleGroup: _mainMuscleGroup.label,
+        mainMuscleGroup: _selectedMainMuscleGroup,
         secondMuscleGroup: null,
         equipmentRequired: _selectedEquipmentRequired,
         imageUrl: imageUrl,
@@ -167,7 +168,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   void saveMainMuscleGroup() {
     debugPrint('saveMainMuscleGroup Pressed');
-    if (_mainMuscleGroup != null) {
+    if (_selectedMainMuscleGroup != null) {
       setState(() {
         _pageIndex = 2;
       });
@@ -222,6 +223,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   Widget build(BuildContext context) {
     debugPrint('building scaffold...');
 
+    print(MainMuscleGroup.values[0].list);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
@@ -264,7 +267,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
           case 1:
             return NewRoutineMainMuscleGroupScreen(
               mainMuscleGroupCallback: (value) => setState(() {
-                _mainMuscleGroup = value;
+                _selectedMainMuscleGroup = value;
               }),
             );
           // case 2:

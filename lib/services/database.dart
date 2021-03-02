@@ -51,8 +51,13 @@ abstract class Database {
   });
   Stream<List<Routine>> routinesSearchStream2({
     String searchCategory,
-    String isEqualTo,
+    String arrayContains,
     String searchCategory2,
+    String arrayContains2,
+    int limit,
+  });
+  Stream<List<Routine>> routinesSearchStream3({
+    String searchCategory,
     String arrayContains,
     int limit,
   });
@@ -320,16 +325,32 @@ class FirestoreDatabase implements Database {
   @override
   Stream<List<Routine>> routinesSearchStream2({
     String searchCategory,
-    String isEqualTo,
-    String searchCategory2,
     String arrayContains,
+    String searchCategory2,
+    String arrayContains2,
     int limit,
   }) =>
       _service.publicSearchCollectionStream2(
         order: 'routineTitle',
         searchCategory: searchCategory,
-        isEqualTo: isEqualTo,
+        arrayContains: arrayContains,
         searchCategory2: searchCategory2,
+        arrayContains2: arrayContains2,
+        limit: limit,
+        path: APIPath.routines(),
+        builder: (data, documentId) => Routine.fromMap(data, documentId),
+      );
+
+  // Routine for Initial Search Screen
+  @override
+  Stream<List<Routine>> routinesSearchStream3({
+    String searchCategory,
+    String arrayContains,
+    int limit,
+  }) =>
+      _service.publicSearchCollectionStream3(
+        order: 'routineTitle',
+        searchCategory: searchCategory,
         arrayContains: arrayContains,
         limit: limit,
         path: APIPath.routines(),

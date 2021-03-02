@@ -5,20 +5,20 @@ import '../../../../constants.dart';
 
 typedef void ListCallback(List list);
 
-class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
-  final ListCallback selectedEquipmentRequired;
+class NewWorkoutEquipmentRequiredScreen extends StatefulWidget {
+  final ListCallback equipmentRequiredCallback;
 
-  const NewRoutineEquipmentRequiredScreen(
-      {Key key, this.selectedEquipmentRequired})
+  const NewWorkoutEquipmentRequiredScreen(
+      {Key key, this.equipmentRequiredCallback})
       : super(key: key);
 
   @override
-  _NewRoutineEquipmentRequiredScreenState createState() =>
-      _NewRoutineEquipmentRequiredScreenState();
+  _NewWorkoutEquipmentRequiredScreenScreenState createState() =>
+      _NewWorkoutEquipmentRequiredScreenScreenState();
 }
 
-class _NewRoutineEquipmentRequiredScreenState
-    extends State<NewRoutineEquipmentRequiredScreen> {
+class _NewWorkoutEquipmentRequiredScreenScreenState
+    extends State<NewWorkoutEquipmentRequiredScreen> {
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
   List _selectedEquipmentRequired = List();
 
@@ -54,10 +54,10 @@ class _NewRoutineEquipmentRequiredScreenState
                           _selectedEquipmentRequired.remove(key);
                         }
 
-                        widget.selectedEquipmentRequired(
+                        widget.equipmentRequiredCallback(
                             _selectedEquipmentRequired);
 
-                        print(_selectedEquipmentRequired);
+                        debugPrint('$_selectedEquipmentRequired');
                       },
                     ),
                   ),
