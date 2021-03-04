@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class showFlushBar {
-  showFlushBar({
+class ShowFlushBar {
+  ShowFlushBar({
     BuildContext context,
     String message,
   }) {

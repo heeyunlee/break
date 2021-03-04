@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
@@ -13,12 +15,11 @@ import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
 import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
-import '../../../../models/main_muscle_group.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/auth.dart';
 import '../../../../services/database.dart';
-import 'edit_equipment_required_screen.dart';
-import 'edit_main_muscle_group_screen.dart';
+import 'edit_routine_equipment_required_screen.dart';
+import 'edit_routine_main_muscle_group_screen.dart';
 import 'edit_unit_of_mass_screen.dart';
 
 Logger logger = Logger();
@@ -130,13 +131,13 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       await widget.database.deleteRoutine(routine).then(
             (value) => Navigator.of(context).popUntil((route) => route.isFirst),
           );
-      showFlushBar(
+      ShowFlushBar(
         context: context,
         message: 'Routine Deleted',
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -164,9 +165,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
         HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
-        showFlushBar(context: context, message: 'Routine changes saved!');
+        ShowFlushBar(context: context, message: 'Routine changes saved!');
       } on FirebaseException catch (e) {
-        ShowExceptionAlertDialog(
+        showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,
@@ -433,8 +434,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   });
                 },
                 min: 0,
-                max: 4,
-                divisions: 4,
+                max: 2,
+                divisions: 2,
               ),
               const SizedBox(height: 8),
             ],
@@ -462,7 +463,11 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             child: ListTile(
               title: const Text('Main Muscle Group', style: ButtonText),
               subtitle: Text(
-                '${routine.mainMuscleGroup}',
+                (routine.mainMuscleGroup.length == 1)
+                    ? '${routine.mainMuscleGroup[0]}'
+                    : (routine.mainMuscleGroup.length == 2)
+                        ? '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}'
+                        : '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}, etc.',
                 style: BodyText2Grey,
               ),
               trailing: const Icon(
@@ -470,7 +475,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 color: PrimaryGrey,
               ),
               tileColor: CardColor,
-              onTap: () => EditMainMuscleGroupScreen.show(
+              onTap: () => EditRoutineMainMuscleGroupScreen.show(
                 context,
                 routine: routine,
               ),
@@ -480,32 +485,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       ],
     );
   }
-
-  // Widget _buildSecondMuscleGroupForm(Routine routine) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(15),
-  //       child: ListTile(
-  //         title: const Text('Second Muscle Group', style: ButtonText),
-  //         subtitle: Text(
-  //           (routine.secondMuscleGroup.length == 1)
-  //               ? '${routine.secondMuscleGroup[0]}'
-  //               : (routine.secondMuscleGroup.length == 2)
-  //                   ? '${routine.secondMuscleGroup[0]}, ${routine.secondMuscleGroup[1]}'
-  //                   : '${routine.secondMuscleGroup[0]}, ${routine.secondMuscleGroup[1]}, etc.',
-  //           style: BodyText2Grey,
-  //         ),
-  //         trailing: Icon(Icons.arrow_forward_ios_rounded, color: PrimaryGrey),
-  //         tileColor: CardColor,
-  //         onTap: () => EditSecondMuscleGroupScreen.show(
-  //           context,
-  //           routine: routine,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildEquipmentRequiredForm(Routine routine) {
     return Padding(
@@ -527,7 +506,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             color: PrimaryGrey,
           ),
           tileColor: CardColor,
-          onTap: () => EditEquipmentRequiredScreen.show(
+          onTap: () => EditRoutineEquipmentRequiredScreen.show(
             context,
             routine: routine,
           ),

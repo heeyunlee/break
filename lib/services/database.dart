@@ -88,6 +88,7 @@ abstract class Database {
   Future<void> deleteRoutineHistory(RoutineHistory routineHistory);
   Stream<RoutineHistory> routineHistoryStream({String routineHistoryId});
   Stream<List<RoutineHistory>> routineHistoriesStream();
+  Stream<List<RoutineHistory>> routineHistoriesPublicStream();
   Future<void> setRoutineWorkoutForHistory(
     RoutineHistory routineHistory,
     RoutineWorkout routineWorkout,
@@ -455,12 +456,21 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
       );
 
-  // Workout History Stream
+  // Workout History Stream for each User
   @override
   Stream<List<RoutineHistory>> routineHistoriesStream() =>
       _service.userCollectionStream(
         searchCategory: 'userId',
         searchString: userId,
+        order: 'workoutEndTime',
+        descending: true,
+        path: APIPath.routineHistories(),
+        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+      );
+
+  @override
+  Stream<List<RoutineHistory>> routineHistoriesPublicStream() =>
+      _service.publicCollectionStream(
         order: 'workoutEndTime',
         descending: true,
         path: APIPath.routineHistories(),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -14,8 +15,8 @@ import '../../../../constants.dart';
 
 Logger logger = Logger();
 
-class EditEquipmentRequiredScreen extends StatefulWidget {
-  const EditEquipmentRequiredScreen({
+class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
+  const EditRoutineEquipmentRequiredScreen({
     Key key,
     this.routine,
     this.database,
@@ -31,7 +32,7 @@ class EditEquipmentRequiredScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => EditEquipmentRequiredScreen(
+        builder: (context) => EditRoutineEquipmentRequiredScreen(
           database: database,
           routine: routine,
           user: auth.currentUser,
@@ -41,48 +42,55 @@ class EditEquipmentRequiredScreen extends StatefulWidget {
   }
 
   @override
-  _EditEquipmentRequiredScreenState createState() =>
-      _EditEquipmentRequiredScreenState();
+  _EditRoutineEquipmentRequiredScreenState createState() =>
+      _EditRoutineEquipmentRequiredScreenState();
 }
 
-class _EditEquipmentRequiredScreenState
-    extends State<EditEquipmentRequiredScreen> {
-  Map<String, bool> _equipmentRequired = {
-    'Barbell': false,
-    'Dumbbell': false,
-    'Bodyweight': false,
-    'Cable': false,
-    'Machine': false,
-    'EZ Bar': false,
-    'Gym ball': false,
-    'Bench': false,
-  };
+class _EditRoutineEquipmentRequiredScreenState
+    extends State<EditRoutineEquipmentRequiredScreen> {
+  // Map<String, bool> _equipmentRequired = {
+  //   'Barbell': false,
+  //   'Dumbbell': false,
+  //   'Bodyweight': false,
+  //   'Cable': false,
+  //   'Machine': false,
+  //   'EZ Bar': false,
+  //   'Gym ball': false,
+  //   'Bench': false,
+  // };
+  Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
   List _selectedEquipmentRequired = List();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Map<String, bool> equipmentRequired = {
       'Barbell':
           (widget.routine.equipmentRequired.contains('Barbell')) ? true : false,
-      'Dumbbell': (widget.routine.equipmentRequired.contains('Dumbbell'))
-          ? true
-          : false,
+      'Bench':
+          (widget.routine.equipmentRequired.contains('Bench')) ? true : false,
       'Bodyweight': (widget.routine.equipmentRequired.contains('Bodyweight'))
           ? true
           : false,
       'Cable':
           (widget.routine.equipmentRequired.contains('Cable')) ? true : false,
-      'Machine':
-          (widget.routine.equipmentRequired.contains('Machine')) ? true : false,
+      'Chains':
+          (widget.routine.equipmentRequired.contains('Chains')) ? true : false,
+      'Dumbbell': (widget.routine.equipmentRequired.contains('Dumbbell'))
+          ? true
+          : false,
       'EZ Bar':
           (widget.routine.equipmentRequired.contains('EZ Bar')) ? true : false,
       'Gym ball': (widget.routine.equipmentRequired.contains('Gym ball'))
           ? true
           : false,
-      'Bench':
-          (widget.routine.equipmentRequired.contains('Bench')) ? true : false,
+      'Kettlebell': (widget.routine.equipmentRequired.contains('Kettlebell'))
+          ? true
+          : false,
+      'Machine':
+          (widget.routine.equipmentRequired.contains('Machine')) ? true : false,
+      'Others':
+          (widget.routine.equipmentRequired.contains('Others')) ? true : false,
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {
@@ -99,28 +107,29 @@ class _EditEquipmentRequiredScreenState
     super.dispose();
   }
 
-  Future<void> _addOrRemoveEquipmentRequired(String key, bool value) async {
+  void _addOrRemoveEquipmentRequired(String key, bool value) {
+    setState(() {
+      _equipmentRequired[key] = value;
+    });
+    if (_equipmentRequired[key]) {
+      _selectedEquipmentRequired.add(key);
+    } else {
+      _selectedEquipmentRequired.remove(key);
+    }
+
+    debugPrint('$_selectedEquipmentRequired');
+  }
+
+  Future<void> _submit() async {
     try {
-      setState(() {
-        _equipmentRequired[key] = value;
-      });
-      if (_equipmentRequired[key]) {
-        _selectedEquipmentRequired.add(key);
-        final routine = {
-          'equipmentRequired': _selectedEquipmentRequired,
-        };
-        await widget.database.updateRoutine(widget.routine, routine);
-      } else {
-        _selectedEquipmentRequired.remove(key);
-        final routine = {
-          'equipmentRequired': _selectedEquipmentRequired,
-        };
-        await widget.database.updateRoutine(widget.routine, routine);
-      }
+      final routine = {
+        'equipmentRequired': _selectedEquipmentRequired,
+      };
+      await widget.database.updateRoutine(widget.routine, routine);
       debugPrint('$_selectedEquipmentRequired');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -142,6 +151,7 @@ class _EditEquipmentRequiredScreenState
           ),
           onPressed: () {
             if (_selectedEquipmentRequired.length >= 1) {
+              _submit();
               Navigator.of(context).pop();
             } else {
               showAlertDialog(

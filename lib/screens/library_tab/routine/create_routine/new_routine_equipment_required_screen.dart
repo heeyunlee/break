@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/equipment_required.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 
 import '../../../../constants.dart';
 

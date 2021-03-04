@@ -228,7 +228,7 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH KAKAO
 
   void _showSignInError(Exception exception, BuildContext context) {
-    ShowExceptionAlertDialog(
+    showExceptionAlertDialog(
       context,
       title: 'Sign In Failed',
       exception: exception,

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
@@ -68,11 +67,10 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
 
   String _notes;
 
-  // // For SliverApp to Work
+  // For SliverApp to Work
   AnimationController _colorAnimationController;
   AnimationController _textAnimationController;
   Animation _colorTween;
-  Animation _widgetTween;
   Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
@@ -99,49 +97,6 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  // ScrollController _scrollController;
-  // bool lastStatus = true;
-
-  // @override
-  // void initState() {
-  //   _scrollController = ScrollController();
-  //   _scrollController.addListener(_scrollListener);
-  //   focusNode1 = FocusNode();
-  //   _notes = widget.routineHistory.notes;
-  //   _textController1 = TextEditingController(text: _notes);
-
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   focusNode1.dispose();
-  //   _scrollController.removeListener(_scrollListener);
-  //   _scrollController.dispose();
-  //   super.dispose();
-  // }
-
-  // _scrollListener() {
-  //   if (isShrink != lastStatus) {
-  //     setState(() {
-  //       lastStatus = isShrink;
-  //     });
-  //   }
-  // }
-
-  // bool get isShrink {
-  //   Size size = MediaQuery.of(context).size;
-  //   return _scrollController.hasClients &&
-  //       _scrollController.offset > (size.height / 4);
-  // }
-
-  // For SliverApp to Work
-
   // Delete Routine Method
   Future<void> _delete(
       BuildContext context, RoutineHistory routineHistory) async {
@@ -158,13 +113,13 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
         },
       );
       Navigator.of(context).popUntil((route) => route.isFirst);
-      showFlushBar(
+      ShowFlushBar(
         context: context,
         message: 'History Deleted',
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -182,7 +137,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
           .updateRoutineHistory(widget.routineHistory, routineHistory);
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -201,7 +156,6 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
         child: Stack(
           children: <Widget>[
             CustomScrollView(
-              // controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               slivers: [
                 _buildSliverAppBar(context),
@@ -332,7 +286,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             ),
             const SizedBox(height: 16),
             SummaryRowWidget(
-              title: duration,
+              title: '$duration min',
               subtitle: ' Spent',
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
@@ -438,5 +392,10 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       cancelText: 'Cancel',
       isCancelDefault: true,
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

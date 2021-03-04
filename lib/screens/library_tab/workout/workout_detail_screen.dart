@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
+import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
@@ -73,48 +73,28 @@ class WorkoutDetailScreen extends StatefulWidget {
 }
 
 class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
-  PageController _pageController = PageController();
-
-  // For SliverApp to work
-  ScrollController _scrollController;
-  bool lastStatus = true;
-
-  _scrollListener() {
-    if (isShrink != lastStatus) {
-      setState(() {
-        lastStatus = isShrink;
-      });
-    }
-  }
-
-  bool get isShrink {
-    Size size = MediaQuery.of(context).size;
-
-    return _scrollController.hasClients &&
-        _scrollController.offset > (size.height * 4 / 5 - 64);
-  }
+  // PageController _pageController = PageController();
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    // TODO: implement initState
+    debugPrint('workout detail screen init');
     super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
+    // TODO: implement dispose
+    debugPrint('workout detail screen dispose');
     super.dispose();
   }
-  // For SliverApp to work
 
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<Workout>(
-      initialData: widget.workout,
+      initialData: workoutDummyData,
       stream: database.workoutStream(workoutId: widget.workout.workoutId),
       builder: (context, snapshot) {
         final workout = snapshot.data;
@@ -127,7 +107,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
           body: Stack(
             children: [
               CustomScrollView(
-                controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   _buildSliverAppBar(context, workout),
@@ -177,7 +156,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       stretch: true,
       expandedHeight: size.height * 4 / 5,
       centerTitle: true,
-      title: isShrink ? Text(workout.workoutTitle, style: Subtitle1) : null,
+      // title: isShrink ? Text(workout.workoutTitle, style: Subtitle1) : null,
       // bottom: TabBar(
       //   labelColor: Colors.white,
       //   unselectedLabelColor: Grey400,
@@ -219,7 +198,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     final mainMuscleGroup = workout?.mainMuscleGroup[0] ?? 'NULL';
     final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
     final difficulty = Format.difficulty(workout.difficulty);
-    final workoutOwnerUserName = workout?.workoutOwnerUserName ?? 'NULL';
     final description = workout?.description ?? 'Add description';
 
     return FlexibleSpaceBar(
@@ -360,104 +338,104 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     );
   }
 
-  Widget _buildSliverToBoxAdapter(Workout workout) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildInstructions(),
-            SizedBox(height: 24),
-            _buildWorkoutHistory(),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildSliverToBoxAdapter(Workout workout) {
+  //   return SliverToBoxAdapter(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           _buildInstructions(),
+  //           SizedBox(height: 24),
+  //           _buildWorkoutHistory(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _buildInstructions() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Instructions', style: Headline6),
-        const SizedBox(height: 8),
-        Container(
-          height: 500,
-          child: PageView(
-            controller: _pageController,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '1. Vestibulum non suscipit lacus',
-                    style: Subtitle1,
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Center(child: Placeholder()),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '2. eget maximus lacus. Vestibulum',
-                    style: Subtitle1,
-                  ),
-                  const SizedBox(height: 4),
-                  const Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Center(child: Placeholder()),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          height: 24,
-          alignment: Alignment.center,
-          child: SmoothPageIndicator(
-            controller: _pageController,
-            count: 2,
-            effect: ScrollingDotsEffect(
-              activeDotScale: 1.5,
-              dotHeight: 8,
-              dotWidth: 8,
-              dotColor: Colors.white.withOpacity(0.3),
-              activeDotColor: PrimaryColor,
-            ),
-          ),
-        ),
-        SizedBox(height: 16),
-      ],
-    );
-  }
+  // Widget _buildInstructions() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       const Text('Instructions', style: Headline6),
+  //       const SizedBox(height: 8),
+  //       Container(
+  //         height: 500,
+  //         child: PageView(
+  //           controller: _pageController,
+  //           children: <Widget>[
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 const Text(
+  //                   '1. Vestibulum non suscipit lacus',
+  //                   style: Subtitle1,
+  //                 ),
+  //                 const SizedBox(height: 4),
+  //                 const Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: const Center(child: Placeholder()),
+  //                 ),
+  //               ],
+  //             ),
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 const Text(
+  //                   '2. eget maximus lacus. Vestibulum',
+  //                   style: Subtitle1,
+  //                 ),
+  //                 const SizedBox(height: 4),
+  //                 const Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: const Center(child: Placeholder()),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       const SizedBox(height: 16),
+  //       Container(
+  //         height: 24,
+  //         alignment: Alignment.center,
+  //         child: SmoothPageIndicator(
+  //           controller: _pageController,
+  //           count: 2,
+  //           effect: ScrollingDotsEffect(
+  //             activeDotScale: 1.5,
+  //             dotHeight: 8,
+  //             dotWidth: 8,
+  //             dotColor: Colors.white.withOpacity(0.3),
+  //             activeDotColor: PrimaryColor,
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(height: 16),
+  //     ],
+  //   );
+  // }
 
-  Widget _buildWorkoutHistory() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const Text('History', style: Headline6),
-        const SizedBox(height: 8),
-        Container(
-          child: Card(
-            color: CardColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Placeholder(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildWorkoutHistory() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       const Text('History', style: Headline6),
+  //       const SizedBox(height: 8),
+  //       Container(
+  //         child: Card(
+  //           color: CardColor,
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(10),
+  //           ),
+  //           child: const Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: const Placeholder(),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

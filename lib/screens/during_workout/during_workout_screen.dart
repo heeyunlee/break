@@ -24,7 +24,7 @@ import 'package:workout_player/screens/during_workout/weights_and_reps_widget.da
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import 'routine_summary_screen.dart';
+import 'routine_history_summary_screen.dart';
 
 Logger logger = Logger();
 
@@ -38,7 +38,7 @@ class DuringWorkoutScreen extends StatefulWidget {
 
   final Database database;
   final Routine routine;
-  final auth.User user;
+  final User user;
 
   static void show({
     BuildContext context,
@@ -46,6 +46,7 @@ class DuringWorkoutScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await database.userStream(userId: auth.currentUser.uid).first;
 
     HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
@@ -54,7 +55,7 @@ class DuringWorkoutScreen extends StatefulWidget {
         builder: (context) => DuringWorkoutScreen(
           database: database,
           routine: routine,
-          user: auth.currentUser,
+          user: user,
         ),
       ),
     );
@@ -77,17 +78,18 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
   bool setLengthCalculated = false;
   Timestamp _workoutStartTime;
 
-  List _selectedSets = List();
+  // List _selectedSets = List();
 
-  // For App Bar Title
-  int _appBarTitleIndex = 0;
-  PageController _pageController = PageController(
-    initialPage: 0,
-  );
+  // // For App Bar Title
+  // int _appBarTitleIndex = 0;
+  // PageController _pageController = PageController(
+  //   initialPage: 0,
+  // );
 
   @override
   void initState() {
     super.initState();
+    print('init');
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
@@ -98,6 +100,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   @override
   void dispose() {
+    _animationController.dispose();
+    print('dispose');
     super.dispose();
   }
 
@@ -110,7 +114,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       final Timestamp workoutEndTime = Timestamp.now();
       final workoutStartDate = _workoutStartTime.toDate();
       final workoutEndDate = workoutEndTime.toDate();
-      final duration = workoutEndDate.difference(workoutStartDate).inMinutes;
+      final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
       final isBodyWeightWorkout = routineWorkouts.any(
         (element) => element.isBodyWeightWorkout == true,
       );
@@ -133,9 +137,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
-        userId: widget.user.uid,
+        userId: widget.user.userId,
+        username: widget.user.userName,
         routineId: widget.routine.routineId,
         routineTitle: widget.routine.routineTitle,
+        isPublic: true,
         mainMuscleGroup: widget.routine.mainMuscleGroup[0],
         secondMuscleGroup: widget.routine.secondMuscleGroup,
         workoutStartTime: _workoutStartTime,
@@ -166,16 +172,16 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
           routineWorkouts,
         );
       });
-      await widget.database.updateUser(widget.user.uid, user);
+      await widget.database.updateUser(widget.user.userId, user);
       Navigator.of(context).popUntil((route) => route.isFirst);
-      RoutineSummaryScreen.show(
+      RoutineHistorySummaryScreen.show(
         context: context,
         routineHistory: routineHistory,
       );
-      showFlushBar(context: context, message: 'Finished Your Workout!!');
+      ShowFlushBar(context: context, message: 'Finished Your Workout!!');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -561,8 +567,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     ? Padding(
                         padding: const EdgeInsets.all(16),
                         child: StreamBuilder<User>(
-                            stream: widget.database
-                                .userStream(userId: widget.user.uid),
+                            stream: widget.database.userStream(
+                              userId: widget.user.userId,
+                            ),
                             builder: (context, snapshot) {
                               final userData = snapshot.data;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/sliver_app_bar_delegate.dart';
+import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
 import 'package:workout_player/services/auth.dart';
@@ -13,9 +14,11 @@ import 'routine/saved_routines_tab.dart';
 import 'workout/saved_workouts.dart';
 
 class LibraryTab extends StatelessWidget {
+  static const routeName = 'library';
+
   @override
   Widget build(BuildContext context) {
-    debugPrint('scaffold building...');
+    debugPrint('LibraryTab scaffold building...');
 
     return DefaultTabController(
       length: 3,
@@ -83,16 +86,7 @@ class _FlexibleSpace extends StatelessWidget {
 
     return FlexibleSpaceBar(
       background: StreamBuilder<User>(
-          initialData: User(
-            userName: 'John Doe',
-            unitOfMass: 1,
-            totalWeights: 0,
-            totalNumberOfWorkouts: 0,
-            signUpDate: null,
-            userEmail: null,
-            signUpProvider: null,
-            userId: null,
-          ),
+          initialData: userDummyData,
           stream: database.userStream(userId: auth.currentUser.uid),
           builder: (context, snapshot) {
             final Size size = MediaQuery.of(context).size;
@@ -107,6 +101,13 @@ class _FlexibleSpace extends StatelessWidget {
             return Column(
               children: <Widget>[
                 const SizedBox(height: 64),
+                Text(
+                  'THIS IS A BETA APP',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

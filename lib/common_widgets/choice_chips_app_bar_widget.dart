@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
 
 import '../constants.dart';
+import '../models/enum/main_muscle_group.dart';
 
 typedef void StringCallback(String val);
 

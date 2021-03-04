@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:workout_player/screens/home_tab/start_workout_shortcut_screen.dart';
 import 'package:workout_player/screens/library_tab/routine/create_routine/create_new_routine_screen.dart';
+import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
 
 import '../../constants.dart';
 import 'announcement_card.dart';
@@ -23,7 +23,6 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
     Timer.periodic(Duration(seconds: 10), (Timer timer) {
       if (_currentPage < 1) {
         _currentPage++;
@@ -41,9 +40,8 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
   }
 
   @override

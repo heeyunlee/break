@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/models/equipment_required.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -92,33 +92,29 @@ class _EditWorkoutEquipmentRequiredScreenState
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void _addOrRemoveEquipmentRequired(String key, bool value) {
+    setState(() {
+      _equipmentRequired[key] = value;
+    });
+    if (_equipmentRequired[key]) {
+      _selectedEquipmentRequired.add(key);
+    } else {
+      _selectedEquipmentRequired.remove(key);
+    }
+
+    debugPrint('$_selectedEquipmentRequired');
   }
 
-  Future<void> _addOrRemoveEquipmentRequired(String key, bool value) async {
+  Future<void> _submit() async {
     try {
-      setState(() {
-        _equipmentRequired[key] = value;
-      });
-      if (_equipmentRequired[key]) {
-        _selectedEquipmentRequired.add(key);
-        final workout = {
-          'equipmentRequired': _selectedEquipmentRequired,
-        };
-        await widget.database.updateWorkout(widget.workout, workout);
-      } else {
-        _selectedEquipmentRequired.remove(key);
-        final workout = {
-          'equipmentRequired': _selectedEquipmentRequired,
-        };
-        await widget.database.updateWorkout(widget.workout, workout);
-      }
+      final workout = {
+        'equipmentRequired': _selectedEquipmentRequired,
+      };
+      await widget.database.updateWorkout(widget.workout, workout);
       debugPrint('$_selectedEquipmentRequired');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -140,6 +136,7 @@ class _EditWorkoutEquipmentRequiredScreenState
           ),
           onPressed: () {
             if (_selectedEquipmentRequired.length >= 1) {
+              _submit();
               Navigator.of(context).pop();
             } else {
               showAlertDialog(

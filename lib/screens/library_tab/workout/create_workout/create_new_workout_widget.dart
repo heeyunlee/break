@@ -6,6 +6,8 @@ import 'create_new_workout_screen.dart';
 class CreateNewWorkoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    debugPrint('CreateNewWorkoutWidget building...');
+
     return GestureDetector(
       onTap: () => CreateNewWorkoutScreen.show(context),
       child: Padding(

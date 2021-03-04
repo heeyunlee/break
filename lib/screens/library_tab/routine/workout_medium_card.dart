@@ -124,7 +124,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       debugPrint('Added a new Set');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -234,7 +234,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       }
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -261,7 +261,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -448,7 +448,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 widget.routineWorkout,
               );
               Navigator.of(context).pop();
-              showFlushBar(
+              ShowFlushBar(
                 context: context,
                 message: 'Deleted the workout!',
               );

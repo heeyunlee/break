@@ -12,7 +12,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
-import '../../../common_widgets/appbar_blur_bg.dart';
 import '../../../common_widgets/list_item_builder.dart';
 import '../../../common_widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
@@ -88,7 +87,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   AnimationController _colorAnimationController;
   AnimationController _textAnimationController;
   Animation _colorTween;
-  Animation _widgetTween;
   Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
@@ -97,7 +95,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
       _textAnimationController
           .animateTo((scrollInfo.metrics.pixels - 130) / 50);
-      // debugPrint('${scrollInfo.metrics.pixels / 350}');
       return true;
     }
     return false;
@@ -141,7 +138,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               child: Stack(
                 children: [
                   CustomScrollView(
-                    // controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
                     slivers: [
                       _buildSliverAppBar(routine),
@@ -209,7 +205,7 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final mainMuscleGroup = routine?.mainMuscleGroup ?? 'Main Muscle Group';
+    final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
     final equipmentRequired =
         routine?.equipmentRequired[0] ?? 'equipmentRequired';
     final duration = Format.durationInMin(routine.duration);
@@ -285,7 +281,7 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        duration,
+                        '$duration min',
                         style: Subtitle2,
                         maxLines: 1,
                       ),
@@ -456,7 +452,7 @@ class _SliverToBoxAdaptor extends StatelessWidget {
                   );
                 },
               ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
           ],
         ),
       ),

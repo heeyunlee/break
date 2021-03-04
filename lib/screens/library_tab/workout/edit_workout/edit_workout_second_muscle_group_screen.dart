@@ -72,7 +72,6 @@ class _EditWorkoutSecondMuscleGroupScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Map<String, bool> secondMuscleGroup = {
       'Abductors': (widget.workout.secondaryMuscleGroup.contains('Abductors'))
@@ -142,11 +141,6 @@ class _EditWorkoutSecondMuscleGroupScreenState
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Future<void> _addOrRemoveSecondMuscleGroup(String key, bool value) async {
     try {
       setState(() {
@@ -168,7 +162,7 @@ class _EditWorkoutSecondMuscleGroupScreenState
       print(_selectedSecondMuscleGroup);
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

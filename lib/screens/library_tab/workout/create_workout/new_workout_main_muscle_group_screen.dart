@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 
 import '../../../../constants.dart';
 
@@ -18,12 +18,13 @@ class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
 
 class _NewWorkoutMainMuscleGroupScreenState
     extends State<NewWorkoutMainMuscleGroupScreen> {
-  // MainMuscleGroup _mainMuscleGroup;
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
   List<String> _selectedMainMuscleGroup = List();
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('NewWorkoutMainMuscleGroupScreen building...');
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -66,42 +67,6 @@ class _NewWorkoutMainMuscleGroupScreenState
               );
             }).toList(),
           ),
-          // Theme(
-          //   data: ThemeData(
-          //     unselectedWidgetColor: Colors.grey,
-          //   ),
-          //   child: ListView.builder(
-          //     shrinkWrap: true,
-          //     physics: const NeverScrollableScrollPhysics(),
-          //     itemCount: MainMuscleGroup.values.length,
-          //     itemBuilder: (context, index) => Padding(
-          //       padding:
-          //           const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          //       child: ClipRRect(
-          //         borderRadius: BorderRadius.circular(10),
-          //         child: Container(
-          //           height: 56,
-          //           color: Grey700,
-          //           child: RadioListTile<MainMuscleGroup>(
-          //             title: Text(
-          //               '${MainMuscleGroup.values[index].label}',
-          //               style: ButtonText,
-          //             ),
-          //             activeColor: PrimaryColor,
-          //             value: MainMuscleGroup.values[index],
-          //             groupValue: _mainMuscleGroup,
-          //             onChanged: (MainMuscleGroup value) {
-          //               setState(() {
-          //                 _mainMuscleGroup = value;
-          //                 widget.mainMuscleGroupCallback(_mainMuscleGroup);
-          //               });
-          //             },
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

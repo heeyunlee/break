@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'show_alert_dialog.dart';
 
-Future<void> ShowExceptionAlertDialog(
+Future<void> showExceptionAlertDialog(
   BuildContext context, {
   @required String title,
   @required Exception exception,

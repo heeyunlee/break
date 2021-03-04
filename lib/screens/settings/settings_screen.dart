@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/unit_of_mass_screen.dart';
 import 'package:workout_player/screens/settings/user_feedback_screen.dart';

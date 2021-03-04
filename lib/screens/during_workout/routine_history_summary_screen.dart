@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/constants.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/activity_list_tile.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/summary_row_widget.dart';
 import 'package:workout_player/services/database.dart';
 
-class RoutineSummaryScreen extends StatefulWidget {
-  const RoutineSummaryScreen({Key key, this.routineHistory}) : super(key: key);
+class RoutineHistorySummaryScreen extends StatefulWidget {
+  const RoutineHistorySummaryScreen({Key key, this.routineHistory})
+      : super(key: key);
 
   final RoutineHistory routineHistory;
 
@@ -24,7 +24,7 @@ class RoutineSummaryScreen extends StatefulWidget {
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
-        builder: (context) => RoutineSummaryScreen(
+        builder: (context) => RoutineHistorySummaryScreen(
           routineHistory: routineHistory,
         ),
       ),
@@ -32,57 +32,56 @@ class RoutineSummaryScreen extends StatefulWidget {
   }
 
   @override
-  _RoutineSummaryScreenState createState() => _RoutineSummaryScreenState();
+  _RoutineHistorySummaryScreenState createState() =>
+      _RoutineHistorySummaryScreenState();
 }
 
-class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
+class _RoutineHistorySummaryScreenState
+    extends State<RoutineHistorySummaryScreen> with TickerProviderStateMixin {
   // For SliverApp to Work
-  ScrollController _scrollController;
-  bool lastStatus = true;
+  AnimationController _colorAnimationController;
+  AnimationController _textAnimationController;
+  Animation<Offset> _transTween;
 
-  _scrollListener() {
-    if (isShrink != lastStatus) {
-      setState(() {
-        lastStatus = isShrink;
-      });
+  bool _scrollListener(ScrollNotification scrollInfo) {
+    if (scrollInfo.metrics.axis == Axis.vertical) {
+      _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
+
+      _textAnimationController
+          .animateTo((scrollInfo.metrics.pixels - 150) / 50);
+      return true;
     }
-  }
-
-  bool get isShrink {
-    return _scrollController.hasClients &&
-        _scrollController.offset > (300 - kToolbarHeight);
+    return false;
   }
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    _colorAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _textAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+        .animate(_textAnimationController);
     super.initState();
   }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    super.dispose();
-  }
-  // For SliverApp to Work
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BackgroundColor,
-      body: Stack(
-        children: <Widget>[
-          CustomScrollView(
-            controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              _buildSliverApp(),
-              _buildSliverBody(),
-            ],
-          )
-        ],
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _scrollListener,
+        child: Stack(
+          children: <Widget>[
+            CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                _buildSliverApp(),
+                _buildSliverBody(),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -90,95 +89,94 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
   Widget _buildSliverApp() {
     final size = MediaQuery.of(context).size;
 
-    // Date Formatting
-    final timestamp = widget.routineHistory.workoutStartTime;
-    final date = timestamp.toDate();
-    final formattedDate = DateFormat.MMMMEEEEd().format(date);
-
     // Data
     final title = widget.routineHistory?.routineTitle ?? 'Title';
     final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
     final equipmentRequired =
         widget.routineHistory?.equipmentRequired[0] ?? 'Null';
 
-    return SliverAppBar(
-      leading: IconButton(
-        icon: const Icon(
-          Icons.close_rounded,
-          color: Colors.white,
+    return AnimatedBuilder(
+      animation: _colorAnimationController,
+      builder: (context, child) => SliverAppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      centerTitle: true,
-      title: isShrink ? Text(title, style: Subtitle1) : null,
-      backgroundColor: Colors.transparent,
-      floating: false,
-      pinned: true,
-      snap: false,
-      stretch: true,
-      expandedHeight: size.height * 1 / 3,
-      flexibleSpace: (isShrink)
-          ? AppbarBlurBG()
-          : FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.passthrough,
-                children: <Widget>[
-                  Image.network(
-                    'https://miro.medium.com/max/14144/1*toyr_4D7HNbvnynMj5XjXw.jpeg',
-                    fit: BoxFit.cover,
+        centerTitle: true,
+        title: Transform.translate(
+          offset: _transTween.value,
+          child: Text(title, style: Subtitle1),
+        ),
+        backgroundColor: Colors.transparent,
+        floating: false,
+        pinned: true,
+        snap: false,
+        stretch: true,
+        expandedHeight: size.height * 1 / 3,
+        flexibleSpace: FlexibleSpaceBar(
+          background: Stack(
+            fit: StackFit.passthrough,
+            children: <Widget>[
+              Image.network(
+                'https://miro.medium.com/max/14144/1*toyr_4D7HNbvnynMj5XjXw.jpeg',
+                fit: BoxFit.cover,
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    // begin: Alignment.center,
+                    begin: Alignment(0.0, -0.5),
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      BackgroundColor,
+                    ],
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        // begin: Alignment.center,
-                        begin: Alignment(0.0, -0.5),
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          BackgroundColor,
-                        ],
-                      ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    const Text(
+                      'Here is your Workout Summary:',
+                      style: Subtitle1Bold,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        const Text(
-                          'Here is your Workout Summary:',
-                          style: Subtitle1Bold,
+                    Text(
+                      widget.routineHistory.routineTitle,
+                      maxLines: 1,
+                      style: Headline4Bold,
+                    ),
+                    Row(
+                      children: [
+                        Chip(
+                          label: Text(
+                            '$mainMuscleGroup Workout',
+                            style: ButtonText,
+                          ),
+                          backgroundColor: PrimaryColor,
                         ),
-                        Text(
-                          widget.routineHistory.routineTitle,
-                          maxLines: 1,
-                          style: Headline4Bold,
-                        ),
-                        Row(
-                          children: [
-                            Chip(
-                              label: Text(
-                                '$mainMuscleGroup Workout',
-                                style: ButtonText,
-                              ),
-                              backgroundColor: PrimaryColor,
-                            ),
-                            const SizedBox(width: 16),
-                            Chip(
-                              label: Text(equipmentRequired, style: ButtonText),
-                              backgroundColor: PrimaryColor,
-                            ),
-                          ],
+                        const SizedBox(width: 16),
+                        Chip(
+                          label: Text(equipmentRequired, style: ButtonText),
+                          backgroundColor: PrimaryColor,
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -267,5 +265,10 @@ class _RoutineSummaryScreenState extends State<RoutineSummaryScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

@@ -94,7 +94,7 @@ class _StartWorkoutShortcutScreenState
             ? widget.database.routinesStream()
             : widget.database.routinesSearchStream(
                 searchCategory: 'mainMuscleGroup',
-                isEqualTo: _selectedChip,
+                arrayContains: _selectedChip,
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(

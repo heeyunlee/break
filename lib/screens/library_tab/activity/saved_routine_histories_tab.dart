@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../home_tab/start_workout_shortcut_screen.dart';
 import 'routine_history/daily_summary_card.dart';
 import 'routine_history/daily_summary_detail_screen.dart';
 

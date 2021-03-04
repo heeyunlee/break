@@ -54,6 +54,7 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
     final date = Format.date(widget.date);
     final weights = Format.weights(widget.totalWeights);
     final unit = Format.unitOfMass(widget.unitOfMass);
+    final durationInMinutes = Format.durationInMin(widget.totalDuration);
 
     return Column(
       children: <Widget>[
@@ -92,7 +93,7 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
         DailySummaryRowWidget(
           formattedWeights: '$weights $unit',
           caloriesBurnt: widget.caloriesBurnt,
-          totalDuration: widget.totalDuration,
+          totalDuration: durationInMinutes,
         ),
         const SizedBox(height: 16),
         if (widget.earnedBadges == true)

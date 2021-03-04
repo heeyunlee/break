@@ -105,7 +105,7 @@ class AuthService implements AuthBase {
 
     switch (facebookLoginResult.status) {
       // LogIn Successful
-      case FacebookLoginStatus.Success:
+      case FacebookLoginStatus.success:
         // Create a new credential
         final accessToken = facebookLoginResult.accessToken;
         final auth.FacebookAuthCredential credential =
@@ -124,19 +124,21 @@ class AuthService implements AuthBase {
         return user;
 
       // LogIn cancelled by User
-      case FacebookLoginStatus.Cancel:
+      case FacebookLoginStatus.cancel:
         throw auth.FirebaseAuthException(
           code: 'ERROR_ABORTED_BY_USER',
           message: 'Sign in aborted by user',
         );
 
       // LogIn Error
-      case FacebookLoginStatus.Error:
+      case FacebookLoginStatus.error:
+        logger.d(facebookLoginResult.error.developerMessage);
         throw auth.FirebaseAuthException(
           code: 'ERROR_FACEBOOK_LOGIN_FAILED',
           message: facebookLoginResult.error.developerMessage,
         );
       default:
+        logger.d(UnimplementedError().message);
         throw UnimplementedError();
     }
   }
@@ -151,7 +153,7 @@ class AuthService implements AuthBase {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'com.healtine.workoutPlayer',
+          clientId: 'com.healtine.playerh',
           redirectUri: Uri.parse(
             'https://player-h.firebaseapp.com/__/auth/handler',
           ),

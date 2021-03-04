@@ -10,7 +10,7 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -18,26 +18,26 @@ import '../../../../constants.dart';
 
 Logger logger = Logger();
 
-class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
-  const EditWorkoutMainMuscleGroupScreen({
+class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
+  const EditRoutineMainMuscleGroupScreen({
     Key key,
-    this.workout,
+    this.routine,
     this.database,
     this.user,
   }) : super(key: key);
 
-  final Workout workout;
+  final Routine routine;
   final Database database;
   final User user;
 
-  static Future<void> show(BuildContext context, {Workout workout}) async {
+  static Future<void> show(BuildContext context, {Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => EditWorkoutMainMuscleGroupScreen(
+        builder: (context) => EditRoutineMainMuscleGroupScreen(
           database: database,
-          workout: workout,
+          routine: routine,
           user: auth.currentUser,
         ),
       ),
@@ -45,43 +45,47 @@ class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
   }
 
   @override
-  _EditWorkoutMainMuscleGroupScreenState createState() =>
-      _EditWorkoutMainMuscleGroupScreenState();
+  _EditRoutineMainMuscleGroupScreenState createState() =>
+      _EditRoutineMainMuscleGroupScreenState();
 }
 
-class _EditWorkoutMainMuscleGroupScreenState
-    extends State<EditWorkoutMainMuscleGroupScreen> {
+class _EditRoutineMainMuscleGroupScreenState
+    extends State<EditRoutineMainMuscleGroupScreen> {
+  // MainMuscleGroup _mainMuscleGroup;
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
   List _selectedMainMuscleGroup = List();
 
   @override
   void initState() {
     super.initState();
-
+    // for (var i = 0; i < MainMuscleGroup.values.length; i++) {
+    //   if (MainMuscleGroup.values[i].label == widget.routine.mainMuscleGroup)
+    //     _mainMuscleGroup = MainMuscleGroup.values[i];
+    // }
     Map<String, bool> mainMuscleGroup = {
-      'Abs': (widget.workout.mainMuscleGroup.contains('Abs')) ? true : false,
-      'Arms': (widget.workout.mainMuscleGroup.contains('Arms')) ? true : false,
+      'Abs': (widget.routine.mainMuscleGroup.contains('Abs')) ? true : false,
+      'Arms': (widget.routine.mainMuscleGroup.contains('Arms')) ? true : false,
       'Cardio':
-          (widget.workout.mainMuscleGroup.contains('Cardio')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Cardio')) ? true : false,
       'Chest':
-          (widget.workout.mainMuscleGroup.contains('Chest')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Chest')) ? true : false,
       'Full Body':
-          (widget.workout.mainMuscleGroup.contains('Full Body')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Full Body')) ? true : false,
       'Glutes':
-          (widget.workout.mainMuscleGroup.contains('Glutes')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Glutes')) ? true : false,
       'Hamstring':
-          (widget.workout.mainMuscleGroup.contains('Hamstring')) ? true : false,
-      'Lats': (widget.workout.mainMuscleGroup.contains('Lats')) ? true : false,
-      'Leg': (widget.workout.mainMuscleGroup.contains('Leg')) ? true : false,
-      'Lower Back': (widget.workout.mainMuscleGroup.contains('Lower Back'))
+          (widget.routine.mainMuscleGroup.contains('Hamstring')) ? true : false,
+      'Lats': (widget.routine.mainMuscleGroup.contains('Lats')) ? true : false,
+      'Leg': (widget.routine.mainMuscleGroup.contains('Leg')) ? true : false,
+      'Lower Back': (widget.routine.mainMuscleGroup.contains('Lower Back'))
           ? true
           : false,
       'Quads':
-          (widget.workout.mainMuscleGroup.contains('Quads')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Quads')) ? true : false,
       'Shoulder':
-          (widget.workout.mainMuscleGroup.contains('Shoulder')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Shoulder')) ? true : false,
       'Stretch':
-          (widget.workout.mainMuscleGroup.contains('Stretch')) ? true : false,
+          (widget.routine.mainMuscleGroup.contains('Stretch')) ? true : false,
     };
     _mainMuscleGroup = mainMuscleGroup;
     _mainMuscleGroup.forEach((key, value) {
@@ -91,6 +95,11 @@ class _EditWorkoutMainMuscleGroupScreenState
         _selectedMainMuscleGroup.remove(key);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _addOrRemoveMainMuscleGroup(String key, bool value) {
@@ -115,15 +124,13 @@ class _EditWorkoutMainMuscleGroupScreenState
           .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
           .getDownloadURL();
 
-      // New Workout Data
-      final workout = {
+      final routine = {
         'imageUrl': imageUrl,
         'mainMuscleGroup': _selectedMainMuscleGroup,
       };
-
-      await widget.database.updateWorkout(widget.workout, workout);
+      await widget.database.updateRoutine(widget.routine, routine);
       debugPrint('$_selectedMainMuscleGroup');
-    } on FirebaseException catch (e) {
+    } on Exception catch (e) {
       logger.d(e);
       showExceptionAlertDialog(
         context,
@@ -183,10 +190,8 @@ class _EditWorkoutMainMuscleGroupScreenState
                         title: Text(key, style: ButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],
-                        onChanged: (bool value) => _addOrRemoveMainMuscleGroup(
-                          key,
-                          value,
-                        ),
+                        onChanged: (bool value) =>
+                            _addOrRemoveMainMuscleGroup(key, value),
                       ),
                     ),
                   ),

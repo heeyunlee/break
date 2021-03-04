@@ -6,39 +6,41 @@ import '../../../../constants.dart';
 typedef void StringCallback(String title);
 typedef void IntCallback(int index);
 
-class NewRoutineTitleScreen extends StatefulWidget {
+class NewWorkoutTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;
   final IntCallback indexCallback;
 
-  const NewRoutineTitleScreen({Key key, this.titleCallback, this.indexCallback})
+  const NewWorkoutTitleScreen({Key key, this.titleCallback, this.indexCallback})
       : super(key: key);
 
   @override
-  _NewRoutineTitleScreenState createState() => _NewRoutineTitleScreenState();
+  _NewWorkoutTitleScreenState createState() => _NewWorkoutTitleScreenState();
 }
 
-class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
-  String _routineTitle;
+class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
+  String _workoutTitle;
   var _textController1 = TextEditingController();
 
   int _pageIndex = 0;
 
   @override
   void initState() {
-    _routineTitle = null;
-    _textController1 = TextEditingController(text: _routineTitle);
     super.initState();
+    _workoutTitle = null;
+    _textController1 = TextEditingController(text: _workoutTitle);
+    debugPrint('init');
   }
 
   @override
   void dispose() {
     _textController1.dispose();
+    debugPrint('dispose');
     super.dispose();
   }
 
   void saveTitle() {
     debugPrint('saveTitle Pressed');
-    if (_routineTitle != null && _routineTitle != '') {
+    if (_workoutTitle != null && _workoutTitle != '') {
       setState(() {
         _pageIndex = 1;
         widget.indexCallback(_pageIndex);
@@ -46,8 +48,8 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'No routine Title!',
-        content: 'Please Add a routine title',
+        title: 'No Workout Title!',
+        content: 'Please Add a Workout title',
         defaultActionText: 'OK',
       );
     }
@@ -55,14 +57,16 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('NewWorkoutTitleScreen widget building...');
+
     return Center(
       child: Container(
         height: 104,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
         padding: const EdgeInsets.all(8),
         child: TextFormField(
+          maxLength: 35,
           maxLines: 1,
-          maxLength: 45,
           style: Headline5,
           autofocus: true,
           textAlign: TextAlign.center,
@@ -70,7 +74,7 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
           decoration: const InputDecoration(
             counterStyle: Caption1,
             hintStyle: SearchBarHintStyle,
-            hintText: 'Give your routine a name',
+            hintText: 'Give workout a name',
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
@@ -79,16 +83,16 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
             ),
           ),
           onChanged: (value) => setState(() {
-            _routineTitle = value;
-            widget.titleCallback(_routineTitle);
+            _workoutTitle = value;
+            widget.titleCallback(_workoutTitle);
           }),
           onSaved: (value) => setState(() {
-            _routineTitle = value;
-            widget.titleCallback(_routineTitle);
+            _workoutTitle = value;
+            widget.titleCallback(_workoutTitle);
           }),
           onFieldSubmitted: (value) => setState(() {
-            _routineTitle = value;
-            widget.titleCallback(_routineTitle);
+            _workoutTitle = value;
+            widget.titleCallback(_workoutTitle);
             saveTitle();
           }),
         ),

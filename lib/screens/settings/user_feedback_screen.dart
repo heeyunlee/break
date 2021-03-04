@@ -47,7 +47,6 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _userFeedback = null;
     _textController1 = TextEditingController(text: _userFeedback);
 
@@ -56,7 +55,6 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -76,10 +74,10 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       );
       await widget.database.setUserFeedback(userFeedback);
       Navigator.of(context).pop();
-      showFlushBar(context: context, message: 'Thanks for the feedback!');
+      ShowFlushBar(context: context, message: 'Thanks for the feedback!');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

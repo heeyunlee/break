@@ -6,7 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/screens/library_tab/library_tab.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
 import '../../../../common_widgets/max_width_raised_button.dart';
@@ -14,7 +16,6 @@ import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
 import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
-import '../../../../models/main_muscle_group.dart';
 import '../../../../services/auth.dart';
 import '../../../../services/database.dart';
 import 'edit_workout_equipment_required_screen.dart';
@@ -104,9 +105,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   @override
   void dispose() {
-    // Clean up the focus node when the Form is disposed.
     focusNode1.dispose();
+    _textController1.dispose();
     focusNode2.dispose();
+    _textController2.dispose();
     super.dispose();
   }
 
@@ -122,16 +124,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   // Delete Routine Method
   Future<void> _delete(BuildContext context, Workout workout) async {
     try {
-      await widget.database.deleteWorkout(workout).then(
-            (value) => Navigator.of(context).popUntil((route) => route.isFirst),
-          );
-      showFlushBar(
+      await widget.database.deleteWorkout(workout);
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => LibraryTab(),
+          fullscreenDialog: false,
+        ),
+      );
+      ShowFlushBar(
         context: context,
         message: 'Workout Deleted',
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -154,10 +160,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         };
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
-        showFlushBar(context: context, message: 'Workout changes saved!');
+        ShowFlushBar(context: context, message: 'Workout changes saved!');
       } on FirebaseException catch (e) {
         logger.d(e);
-        ShowExceptionAlertDialog(
+        showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,
@@ -319,12 +325,15 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
+              maxLength: 35,
+              maxLines: 1,
               textInputAction: TextInputAction.done,
               controller: _textController1,
               style: BodyText2,
               focusNode: focusNode1,
               decoration: const InputDecoration(
                 border: InputBorder.none,
+                counterText: '',
               ),
               validator: (value) =>
                   value.isNotEmpty ? null : 'Give your workout a name!',
@@ -411,8 +420,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             },
             // label: '$_ratingLabel',
             min: 0,
-            max: 4,
-            divisions: 4,
+            max: 2,
+            divisions: 2,
           ),
         ),
       ],
@@ -506,35 +515,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       ],
     );
   }
-
-  // Widget _buildSecondMuscleGroupForm(Workout workout) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 8),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(15),
-  //       child: ListTile(
-  //         title: const Text('Second Muscle Group', style: ButtonText),
-  //         subtitle: Text(
-  //           (workout.secondaryMuscleGroup.length == 1)
-  //               ? '${workout.secondaryMuscleGroup[0]}'
-  //               : (workout.secondaryMuscleGroup.length == 2)
-  //                   ? '${workout.secondaryMuscleGroup[0]}, ${workout.secondaryMuscleGroup[1]}'
-  //                   : '${workout.secondaryMuscleGroup[0]}, ${workout.secondaryMuscleGroup[1]}, etc.',
-  //           style: BodyText2Grey,
-  //         ),
-  //         trailing: const Icon(
-  //           Icons.arrow_forward_ios_rounded,
-  //           color: PrimaryGrey,
-  //         ),
-  //         tileColor: CardColor,
-  //         onTap: () => EditWorkoutSecondMuscleGroupScreen.show(
-  //           context,
-  //           workout: workout,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildEquipmentRequiredForm(Workout workout) {
     return Padding(

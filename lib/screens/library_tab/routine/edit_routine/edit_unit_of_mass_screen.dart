@@ -48,14 +48,12 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _unitOfMass = widget.routine.initialUnitOfMass;
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -69,7 +67,7 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

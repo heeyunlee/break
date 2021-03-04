@@ -71,11 +71,11 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           routine: routine,
           isRootNavigation: false,
         );
-        showFlushBar(context: context, message: 'Added workout to the routine');
+        ShowFlushBar(context: context, message: 'Added workout to the routine');
       }
     } on Exception catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

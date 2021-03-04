@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/create_routine/new_routine_difficulty_and_mre_screen.dart';
@@ -67,30 +66,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   int _pageIndex = 0;
 
-  // Map<String, bool> _secondMuscleGroup = {
-  //   'Abductors': false,
-  //   'Adductors': false,
-  //   'Abs': false,
-  //   'Biceps': false,
-  //   'Calves': false,
-  //   'Chest': false,
-  //   'Forearms': false,
-  //   'Glutes': false,
-  //   'Hamstring': false,
-  //   'Hip Flexors': false,
-  //   'IT Band': false,
-  //   'Lats': false,
-  //   'Lower Back': false,
-  //   'Upper Back': false,
-  //   'Neck': false,
-  //   'Obliques': false,
-  //   'Quads': false,
-  //   'Shoulders': false,
-  //   'Traps': false,
-  //   'Triceps': false,
-  // };
-  // List _selectedSecondMuscleGroup = List();
-
   // Submit data to Firestore
   Future<void> _submit() async {
     debugPrint('_submit button pressed!');
@@ -142,7 +117,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -182,22 +157,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     }
   }
 
-  // void saveSecondMuscleGroup() {
-  //   debugPrint('saveMainMuscleGroup Pressed');
-  //   if (_selectedSecondMuscleGroup.length > 0) {
-  //     setState(() {
-  //       _pageIndex = 3;
-  //     });
-  //   } else {
-  //     showAlertDialog(
-  //       context,
-  //       title: 'Secondary Muscle Group',
-  //       content: 'Select at least 1 secondary muscle group',
-  //       defaultActionText: 'OK',
-  //     );
-  //   }
-  // }
-
   void saveEquipmentRequired() {
     debugPrint('saveEquipmentRequired Pressed');
     if (_selectedEquipmentRequired.length > 0) {
@@ -222,8 +181,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   @override
   Widget build(BuildContext context) {
     debugPrint('building scaffold...');
-
-    print(MainMuscleGroup.values[0].list);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -270,8 +227,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                 _selectedMainMuscleGroup = value;
               }),
             );
-          // case 2:
-          //   return _selectSecondMuscleGroup();
           case 2:
             return NewRoutineEquipmentRequiredScreen(
               selectedEquipmentRequired: (value) => setState(() {
@@ -291,48 +246,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       floatingActionButton: _buildFAB(),
     );
   }
-
-  // Widget _selectSecondMuscleGroup() {
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: <Widget>[
-  //         ListView(
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           shrinkWrap: true,
-  //           children: _secondMuscleGroup.keys.map((String key) {
-  //             return Padding(
-  //               padding:
-  //                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //               child: ClipRRect(
-  //                 borderRadius: BorderRadius.circular(10),
-  //                 child: Container(
-  //                   color: (_secondMuscleGroup[key]) ? PrimaryColor : Grey700,
-  //                   child: CheckboxListTile(
-  //                     activeColor: Primary700Color,
-  //                     title: Text(key, style: ButtonText),
-  //                     controlAffinity: ListTileControlAffinity.trailing,
-  //                     value: _secondMuscleGroup[key],
-  //                     onChanged: (bool value) {
-  //                       setState(() {
-  //                         _secondMuscleGroup[key] = value;
-  //                       });
-  //                       if (_secondMuscleGroup[key]) {
-  //                         _selectedSecondMuscleGroup.add(key);
-  //                       } else {
-  //                         _selectedSecondMuscleGroup.remove(key);
-  //                       }
-  //                       print(_selectedSecondMuscleGroup);
-  //                     },
-  //                   ),
-  //                 ),
-  //               ),
-  //             );
-  //           }).toList(),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _buildFAB() {
     if (_pageIndex == 3) {

@@ -123,6 +123,13 @@ const Subtitle1 = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
+const Subtitle1Light = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w300,
+  color: Colors.white,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
 const Subtitle1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,

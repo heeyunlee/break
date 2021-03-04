@@ -47,7 +47,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _userName = widget.user.userName;
     _textController1 = TextEditingController(text: _userName);
 
@@ -56,7 +55,6 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -70,7 +68,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       debugPrint('Updated Username');
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

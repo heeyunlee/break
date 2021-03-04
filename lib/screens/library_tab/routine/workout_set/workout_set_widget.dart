@@ -7,7 +7,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_flush_bar.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -142,13 +142,13 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           await widget.database.updateRoutine(widget.routine, routine);
         },
       );
-      showFlushBar(
+      ShowFlushBar(
         context: context,
         message: (set.isRest) ? 'Deleted a rest' : 'Deleted a set',
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -246,7 +246,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         print('routineWorkout Updated');
       } on FirebaseException catch (e) {
         logger.d(e);
-        ShowExceptionAlertDialog(
+        showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,

@@ -1,4 +1,4 @@
-package com.heeyunlee.workout_player
+package com.healtine.playerh
 
 import io.flutter.embedding.android.FlutterActivity
 

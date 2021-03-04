@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+import 'package:workout_player/models/enum/difficulty.dart';
 
 import '../../../../constants.dart';
 
@@ -23,15 +23,13 @@ class _NewRoutineDifficultyAndMoreScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
-    _rating = 2;
+    _rating = 0;
     _ratingLabel = Difficulty.values[_rating.toInt()].label;
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -70,8 +68,8 @@ class _NewRoutineDifficultyAndMoreScreenState
                 },
                 label: '$_ratingLabel',
                 min: 0,
-                max: 4,
-                divisions: 4,
+                max: 2,
+                divisions: 2,
               ),
             ),
           ],

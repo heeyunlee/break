@@ -79,13 +79,13 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         );
         await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
         Navigator.of(context).pop();
-        showFlushBar(context: context, message: 'Added new workout!!');
+        ShowFlushBar(context: context, message: 'Added new workout!!');
       } else {
         return null;
       }
     } on Exception catch (e) {
       logger.d(e);
-      ShowExceptionAlertDialog(
+      showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -143,7 +143,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
             ? database.workoutsStream()
             : database.workoutsSearchStream(
                 searchCategory: 'mainMuscleGroup',
-                isEqualTo: _selectedChip,
+                arrayContains: _selectedChip,
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Workout>(

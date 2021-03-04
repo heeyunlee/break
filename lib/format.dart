@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/main_muscle_group.dart';
+
+import 'models/enum/difficulty.dart';
+import 'models/enum/unit_of_mass.dart';
 
 class Format {
   static String weights(double weights) {
@@ -40,17 +42,32 @@ class Format {
     return 'null...';
   }
 
-  static String durationInMin(int seconds) {
+  static int durationInMin(int seconds) {
     final secondsNotNegative = seconds < 0 ? 0 : seconds;
     final minutes = Duration(seconds: secondsNotNegative).inMinutes;
-    return '$minutes min';
+    return minutes;
   }
 
   static String hours(double hours) {
     final hoursNotNegative = hours < 0.0 ? 0.0 : hours;
     final formatter = NumberFormat.decimalPattern();
     final formatted = formatter.format(hoursNotNegative);
-    return '${formatted}h';
+    return formatted;
+  }
+
+  static String timeDifference(DateTime date) {
+    final now = Timestamp.now().toDate();
+    final differenceInMinutes = now.difference(date).inMinutes;
+    final differenceInHours = now.difference(date).inHours;
+    final differenceInDays = now.difference(date).inDays;
+
+    if (differenceInMinutes < 60) {
+      return '$differenceInMinutes minutes ago';
+    } else if (differenceInHours < 24) {
+      return '$differenceInHours hours ago';
+    } else {
+      return '$differenceInDays days ago';
+    }
   }
 
   static String currency(double pay) {

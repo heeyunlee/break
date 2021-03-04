@@ -5,8 +5,10 @@ class RoutineHistory {
   RoutineHistory({
     @required this.routineHistoryId,
     @required this.userId,
+    @required this.username,
     @required this.routineId,
     @required this.routineTitle,
+    @required this.isPublic,
     this.workoutStartTime,
     this.workoutEndTime,
     this.totalWeights,
@@ -25,8 +27,10 @@ class RoutineHistory {
 
   final String routineHistoryId;
   final String userId;
+  final String username;
   final String routineId;
   final String routineTitle;
+  final bool isPublic;
   final Timestamp workoutStartTime;
   final Timestamp workoutEndTime;
   final double totalWeights;
@@ -47,8 +51,10 @@ class RoutineHistory {
       return null;
     }
     final String userId = data['userId'];
+    final String username = data['username'];
     final String routineId = data['routineId'];
     final String routineTitle = data['routineTitle'];
+    final bool isPublic = data['isPublic'];
     final Timestamp workoutStartTime = data['workoutStartTime'];
     final Timestamp workoutEndTime = data['workoutEndTime'];
     final double totalWeights = data['totalWeights'];
@@ -67,8 +73,10 @@ class RoutineHistory {
     return RoutineHistory(
       routineHistoryId: documentId,
       userId: userId,
+      username: username,
       routineId: routineId,
       routineTitle: routineTitle,
+      isPublic: isPublic,
       workoutStartTime: workoutStartTime,
       workoutEndTime: workoutEndTime,
       totalWeights: totalWeights,
@@ -89,8 +97,10 @@ class RoutineHistory {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
+      'username': username,
       'routineId': routineId,
       'routineTitle': routineTitle,
+      'isPublic': isPublic,
       'workoutStartTime': workoutStartTime,
       'workoutEndTime': workoutEndTime,
       'totalWeights': totalWeights,
