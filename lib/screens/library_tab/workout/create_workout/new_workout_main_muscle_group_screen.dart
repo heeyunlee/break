@@ -19,7 +19,7 @@ class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
 class _NewWorkoutMainMuscleGroupScreenState
     extends State<NewWorkoutMainMuscleGroupScreen> {
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List<String> _selectedMainMuscleGroup = List();
+  List<String> _selectedMainMuscleGroup = [];
 
   @override
   Widget build(BuildContext context) {

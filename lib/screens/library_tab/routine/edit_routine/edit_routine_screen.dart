@@ -13,7 +13,6 @@ import '../../../../common_widgets/appbar_blur_bg.dart';
 import '../../../../common_widgets/max_width_raised_button.dart';
 import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
-import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/auth.dart';
@@ -131,10 +130,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       await widget.database.deleteRoutine(routine).then(
             (value) => Navigator.of(context).popUntil((route) => route.isFirst),
           );
-      ShowFlushBar(
-        context: context,
-        message: 'Routine Deleted',
-      );
+      // TODO: ADD SNACKBAR
+
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(
@@ -165,7 +162,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
         HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
-        ShowFlushBar(context: context, message: 'Routine changes saved!');
+        // TODO: ADD SNACKBAR
+
       } on FirebaseException catch (e) {
         showExceptionAlertDialog(
           context,

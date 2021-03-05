@@ -38,7 +38,7 @@ class RoutineWorkout {
     numberOfReps = data['numberOfReps'];
     totalWeights = data['totalWeights'];
     if (data['sets'] != null) {
-      sets = new List<WorkoutSet>();
+      sets = <WorkoutSet>[];
       data['sets'].forEach((set) {
         sets.add(new WorkoutSet.fromMap(set));
       });

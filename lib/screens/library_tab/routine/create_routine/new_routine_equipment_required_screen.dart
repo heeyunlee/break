@@ -20,7 +20,7 @@ class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
 class _NewRoutineEquipmentRequiredScreenState
     extends State<NewRoutineEquipmentRequiredScreen> {
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
-  List _selectedEquipmentRequired = List();
+  List _selectedEquipmentRequired = [];
 
   @override
   Widget build(BuildContext context) {

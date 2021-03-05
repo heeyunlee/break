@@ -52,7 +52,7 @@ class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
 class _EditWorkoutMainMuscleGroupScreenState
     extends State<EditWorkoutMainMuscleGroupScreen> {
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List _selectedMainMuscleGroup = List();
+  List _selectedMainMuscleGroup = [];
 
   @override
   void initState() {

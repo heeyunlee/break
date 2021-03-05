@@ -58,7 +58,8 @@
               "client_id": "1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.healtine.playerh"
+                "bundle_id": "com.healtine.playerh",
+                "app_store_id": "1555829140"
               }
             }
           ]

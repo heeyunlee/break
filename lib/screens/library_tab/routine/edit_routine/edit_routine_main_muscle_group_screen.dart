@@ -53,7 +53,7 @@ class _EditRoutineMainMuscleGroupScreenState
     extends State<EditRoutineMainMuscleGroupScreen> {
   // MainMuscleGroup _mainMuscleGroup;
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List _selectedMainMuscleGroup = List();
+  List _selectedMainMuscleGroup = [];
 
   @override
   void initState() {

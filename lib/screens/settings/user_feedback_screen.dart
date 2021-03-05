@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
@@ -74,7 +73,8 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       );
       await widget.database.setUserFeedback(userFeedback);
       Navigator.of(context).pop();
-      ShowFlushBar(context: context, message: 'Thanks for the feedback!');
+      // TODO: ADD SNACKBAR
+
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(

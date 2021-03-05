@@ -25,19 +25,20 @@ class SearchTab extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        child: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          // title: Image.asset(
-          //   'assets/logos/playerh_logo.png',
-          //   height: 36,
-          //   width: 36,
-          // ),
-          flexibleSpace: AppbarBlurBG(),
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(0),
+      //   child: AppBar(
+      //     centerTitle: true,
+      //     backgroundColor: AppBarColor,
+      //     // backgroundColor: Colors.transparent,
+      //     // title: Image.asset(
+      //     //   'assets/logos/playerh_logo.png',
+      //     //   height: 36,
+      //     //   width: 36,
+      //     // ),
+      //     // flexibleSpace: AppbarBlurBG(),
+      //   ),
+      // ),
       backgroundColor: BackgroundColor,
       body: Builder(
         builder: (BuildContext context) {
@@ -46,7 +47,7 @@ class SearchTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
+                // SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
                 _homeScreenBody(database, context),
               ],
             ),
@@ -63,16 +64,26 @@ class SearchTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Center(
-          child: Text(
-            'THIS IS A BETA APP',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
+        Stack(
+          alignment: Alignment.topCenter,
+          fit: StackFit.passthrough,
+          children: [
+            Image.asset(
+              'assets/images/image.png',
+              fit: BoxFit.fitWidth,
             ),
-          ),
+          ],
         ),
-        AnnouncementCardPageView(),
+        // Center(
+        //   child: Text(
+        //     'THIS IS A BETA APP',
+        //     style: TextStyle(
+        //       color: Colors.red,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        // ),
+        // AnnouncementCardPageView(),
         const SizedBox(height: 36),
         _GridViewChildWidget(),
         const SizedBox(height: 48),
@@ -275,7 +286,7 @@ class _GridViewChildWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> _mainMuscleGroup = MainMuscleGroup.values[0].list;
 
-    List<Widget> gridTiles = new List();
+    List<Widget> gridTiles = [];
 
     for (int i = 0; i < _mainMuscleGroup.length; i++) {
       Widget card = MuscleGroupCardWidget(

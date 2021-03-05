@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -5,29 +6,60 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
+import 'package:workout_player/screens/library_tab/activity/saved_routine_histories_tab.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
 import 'routine_history_summary_card.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
+  @override
+  _HomeTabState createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
+  int segmentedControlValue = 0;
+
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: segmentedControlValue,
+    );
+    // TODO: implement initState
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: Image.asset(
-          'assets/logos/playerh_logo.png',
-          width: 32,
-          height: 32,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          title: Image.asset(
+            'assets/logos/playerh_logo.png',
+            width: 32,
+            height: 32,
+          ),
+          flexibleSpace: const AppbarBlurBG(),
         ),
-        flexibleSpace: const AppbarBlurBG(),
-      ),
-      backgroundColor: BackgroundColor,
-      body: Builder(
-        builder: (BuildContext context) => _buildBody(context),
+        backgroundColor: BackgroundColor,
+        body: Builder(
+          builder: (BuildContext context) => _buildBody(context),
+        ),
       ),
     );
   }

@@ -14,7 +14,6 @@ import '../../../../common_widgets/appbar_blur_bg.dart';
 import '../../../../common_widgets/max_width_raised_button.dart';
 import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
-import '../../../../common_widgets/show_flush_bar.dart';
 import '../../../../constants.dart';
 import '../../../../services/auth.dart';
 import '../../../../services/database.dart';
@@ -125,16 +124,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<void> _delete(BuildContext context, Workout workout) async {
     try {
       await widget.database.deleteWorkout(workout);
-      Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(
-          builder: (context) => LibraryTab(),
-          fullscreenDialog: false,
-        ),
-      );
-      ShowFlushBar(
-        context: context,
-        message: 'Workout Deleted',
-      );
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      // Navigator.of(context).pushReplacement(
+      //   CupertinoPageRoute(
+      //     builder: (context) => LibraryTab(),
+      //     fullscreenDialog: false,
+      //   ),
+      // );
+      // TODO: ADD SNACKBAR
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(
@@ -160,7 +157,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         };
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
-        ShowFlushBar(context: context, message: 'Workout changes saved!');
+        // TODO: ADD SNACKBAR
       } on FirebaseException catch (e) {
         logger.d(e);
         showExceptionAlertDialog(
@@ -198,7 +195,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               ),
               title: const Text('Edit Workout', style: Subtitle1),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: const Text('SAVE', style: ButtonText),
                   onPressed: _submit,
                 ),

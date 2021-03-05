@@ -6,7 +6,6 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
@@ -71,7 +70,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           routine: routine,
           isRootNavigation: false,
         );
-        ShowFlushBar(context: context, message: 'Added workout to the routine');
+        // TODO: ADD SNACKBAR
       }
     } on Exception catch (e) {
       logger.d(e);

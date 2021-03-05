@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -41,7 +40,7 @@ class WorkoutSetWidget extends StatefulWidget {
 }
 
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
-  final SlidableController slidableController = SlidableController();
+  final SlidableController _slidableController = SlidableController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -78,9 +77,13 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   void dispose() {
+    _textController1.dispose();
     focusNode1.dispose();
+    _textController2.dispose();
     focusNode2.dispose();
+    _textController3.dispose();
     focusNode3.dispose();
+    _slidableController.activeState.dispose();
     super.dispose();
   }
 
@@ -142,10 +145,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           await widget.database.updateRoutine(widget.routine, routine);
         },
       );
-      ShowFlushBar(
-        context: context,
-        message: (set.isRest) ? 'Deleted a rest' : 'Deleted a set',
-      );
+      // TODO: ADD SNACKBAR
+      // ShowFlushBar(
+      //   context: context,
+      //   message: (set.isRest) ? 'Deleted a rest' : 'Deleted a set',
+      // );
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(
@@ -261,7 +265,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
     return Slidable(
       actionPane: const SlidableDrawerActionPane(),
-      controller: slidableController,
+      controller: _slidableController,
       secondaryActions: [
         IconSlideAction(
           caption: 'Delete',

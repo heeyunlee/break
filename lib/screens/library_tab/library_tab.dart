@@ -27,31 +27,12 @@ class LibraryTab extends StatelessWidget {
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              SliverAppBar(
-                actions: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.settings_rounded,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => SettingsScreen.show(context),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                expandedHeight: 200,
-                floating: true,
-                pinned: true,
-                snap: false,
-                centerTitle: true,
-                flexibleSpace: _FlexibleSpace(),
-                backgroundColor: AppBarColor,
-                elevation: 0,
-              ),
+              _buildSliverAppBar(context),
               SliverPersistentHeader(
                 pinned: true,
                 floating: false,
                 delegate: SliverAppBarDelegate(
-                  TabBar(
+                  const TabBar(
                     unselectedLabelColor: Colors.white,
                     labelColor: PrimaryColor,
                     indicatorColor: PrimaryColor,
@@ -74,6 +55,29 @@ class LibraryTab extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSliverAppBar(BuildContext context) {
+    return SliverAppBar(
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.settings_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () => SettingsScreen.show(context),
+        ),
+        const SizedBox(width: 8),
+      ],
+      expandedHeight: 200,
+      floating: true,
+      pinned: true,
+      snap: false,
+      centerTitle: true,
+      flexibleSpace: _FlexibleSpace(),
+      backgroundColor: AppBarColor,
+      elevation: 0,
     );
   }
 }

@@ -343,7 +343,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           const SizedBox(height: 16),
           const Text('or', style: BodyText2),
-          FlatButton(
+          TextButton(
             onPressed:
                 widget.isLoading ? null : () => _signInAnonymously(context),
             child: const Text('Continue Anonymously', style: BodyText2),

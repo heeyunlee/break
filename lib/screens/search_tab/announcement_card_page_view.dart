@@ -15,27 +15,31 @@ class AnnouncementCardPageView extends StatefulWidget {
 }
 
 class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
-  int _currentPage = 0;
-  PageController _pageController = PageController(
-    initialPage: 0,
-  );
+  // int _currentPage = 0;
+  PageController _pageController = PageController(initialPage: 0);
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Timer.periodic(Duration(seconds: 10), (Timer timer) {
+  //     if (_currentPage < 1) {
+  //       _currentPage++;
+  //     } else {
+  //       _currentPage = 0;
+  //     }
+
+  //     _pageController.animateToPage(
+  //       _currentPage,
+  //       duration: Duration(milliseconds: 350),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   });
+  // }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    Timer.periodic(Duration(seconds: 10), (Timer timer) {
-      if (_currentPage < 1) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    });
   }
 
   @override

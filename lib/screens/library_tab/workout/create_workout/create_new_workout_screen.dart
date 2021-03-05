@@ -42,7 +42,7 @@ class CreateNewWorkoutScreen extends StatefulWidget {
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
     HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
+    await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => CreateNewWorkoutScreen(
@@ -61,8 +61,8 @@ class CreateNewWorkoutScreen extends StatefulWidget {
 class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   String _workoutTitle;
   String _description = '';
-  List _selectedMainMuscleGroup = List();
-  List _selectedEquipmentRequired = List();
+  List _selectedMainMuscleGroup = [];
+  List _selectedEquipmentRequired = [];
   double _difficultySlider = 2;
   double _secondsPerRepSlider = 2;
 
@@ -201,6 +201,18 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // TODO: implement initState
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     debugPrint('Create New Workout Screen scaffold building...');
 
@@ -213,7 +225,9 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
             Icons.close_rounded,
             color: Colors.white,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         title: Text(
           (_pageIndex == 0)

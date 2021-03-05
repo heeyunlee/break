@@ -60,9 +60,9 @@ class CreateNewRoutineScreen extends StatefulWidget {
 
 class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   String _routineTitle;
-  List _selectedMainMuscleGroup = List();
-  List _selectedEquipmentRequired = List();
-  double _rating;
+  List _selectedMainMuscleGroup = [];
+  List _selectedEquipmentRequired = [];
+  double _rating = 0;
 
   int _pageIndex = 0;
 
@@ -105,15 +105,16 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         initialUnitOfMass: initialUnitOfMass,
       );
 
-      await widget.database.setRoutine(routine).then((value) {
-        Navigator.of(context).pop();
-      });
-
-      RoutineDetailScreen.show(
-        context,
-        routine: routine,
-        isRootNavigation: false,
-        tag: 'newRoutine-${routine.routineId}',
+      await widget.database.setRoutine(routine);
+      await Navigator.of(context, rootNavigator: false).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => RoutineDetailScreen(
+            routine: routine,
+            database: widget.database,
+            user: widget.user,
+            tag: 'newRoutine-${routine.routineId}',
+          ),
+        ),
       );
     } on FirebaseException catch (e) {
       logger.d(e);
@@ -176,6 +177,18 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   void saveDifficultyAndMore() {
     debugPrint('saveDifficultyAndMore Pressed');
     _submit();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: implement initState
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

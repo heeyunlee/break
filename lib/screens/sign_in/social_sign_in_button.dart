@@ -29,12 +29,16 @@ class SocialSignInButton extends StatelessWidget {
       child: SizedBox(
         width: size.width - 64,
         height: 48,
-        child: RaisedButton(
-          disabledColor: disabledColor,
-          color: color,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: ElevatedButton(
+          // disabledColor: disabledColor,
+          // color: color,
           onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            primary: color,
+          ),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [

@@ -1,6 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -178,7 +176,6 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         context: context,
         routineHistory: routineHistory,
       );
-      ShowFlushBar(context: context, message: 'Finished Your Workout!!');
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(
@@ -468,7 +465,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     /// Previous Workout Button
-                    FlatButton(
+                    MaterialButton(
                       height: 48,
                       onPressed: (routineWorkoutIndex == 0)
                           ? null

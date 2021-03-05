@@ -17,7 +17,7 @@ class AppbarBlurBG extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+        filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
         child: Container(
           decoration: BoxDecoration(
             color: color ?? AppBarColor.withOpacity(0.5),

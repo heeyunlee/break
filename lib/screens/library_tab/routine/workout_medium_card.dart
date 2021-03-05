@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -448,10 +447,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 widget.routineWorkout,
               );
               Navigator.of(context).pop();
-              ShowFlushBar(
-                context: context,
-                message: 'Deleted the workout!',
-              );
+
+              // TODO: ADD SNACKBAR
             },
           ),
         ],

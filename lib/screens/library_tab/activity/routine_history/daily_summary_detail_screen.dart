@@ -8,7 +8,6 @@ import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -113,10 +112,6 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
         },
       );
       Navigator.of(context).popUntil((route) => route.isFirst);
-      ShowFlushBar(
-        context: context,
-        message: 'History Deleted',
-      );
     } on FirebaseException catch (e) {
       logger.d(e);
       showExceptionAlertDialog(

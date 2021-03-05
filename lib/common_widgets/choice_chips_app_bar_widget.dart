@@ -28,8 +28,18 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
   String _selectedChipLabel = 'All';
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<Widget> chips = new List();
+    List<Widget> chips = [];
 
     chips.add(SizedBox(width: 12));
     for (int i = 0; i < _mainMuscleGroup.length; i++) {

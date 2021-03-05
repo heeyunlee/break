@@ -115,6 +115,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   @override
   void dispose() {
+    _colorAnimationController.dispose();
+    _textAnimationController.dispose();
     super.dispose();
   }
   // For SliverApp to Work

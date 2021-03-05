@@ -68,7 +68,7 @@ class _EditWorkoutSecondMuscleGroupScreenState
     'Traps': false,
     'Triceps': false,
   };
-  List _selectedSecondMuscleGroup = List();
+  List _selectedSecondMuscleGroup = [];
 
   @override
   void initState() {

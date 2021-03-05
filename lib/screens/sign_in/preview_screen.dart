@@ -99,9 +99,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
             ),
           Spacer(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FlatButton(
+              const SizedBox(width: 8),
+              TextButton(
                 onPressed: () {
                   setState(() {
                     HapticFeedback.mediumImpact();
@@ -114,18 +114,22 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   style: ButtonText,
                 ),
               ),
-              SmoothPageIndicator(
-                controller: _pageController,
-                count: 4,
-                effect: const ScrollingDotsEffect(
-                  activeDotColor: PrimaryColor,
-                  activeDotScale: 1.5,
-                  dotHeight: 8,
-                  dotWidth: 8,
-                  spacing: 10,
+              Expanded(
+                child: Center(
+                  child: SmoothPageIndicator(
+                    controller: _pageController,
+                    count: 4,
+                    effect: const ScrollingDotsEffect(
+                      activeDotColor: PrimaryColor,
+                      activeDotScale: 1.5,
+                      dotHeight: 8,
+                      dotWidth: 8,
+                      spacing: 10,
+                    ),
+                  ),
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   setState(() {
                     if (_currentPage < 3) {
@@ -148,6 +152,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   style: ButtonText,
                 ),
               ),
+              const SizedBox(width: 8),
             ],
           ),
           const SizedBox(height: 38),

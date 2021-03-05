@@ -8,7 +8,6 @@ import 'package:workout_player/common_widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/common_widgets/show_flush_bar.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -51,7 +50,7 @@ class AddWorkoutsToRoutine extends StatefulWidget {
 class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   String _selectedChip = 'All';
 
-  set string(String value) => setState(() => _selectedChip = value);
+  // set string(String value) => setState(() => _selectedChip = value);
 
   String selectedWorkoutId;
   String selectedWorkoutTitle;
@@ -79,7 +78,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         );
         await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
         Navigator.of(context).pop();
-        ShowFlushBar(context: context, message: 'Added new workout!!');
+        // TODO: ADD SNACKBAR
       } else {
         return null;
       }

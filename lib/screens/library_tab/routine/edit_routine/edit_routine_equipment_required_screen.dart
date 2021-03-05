@@ -59,7 +59,7 @@ class _EditRoutineEquipmentRequiredScreenState
   //   'Bench': false,
   // };
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
-  List _selectedEquipmentRequired = List();
+  List _selectedEquipmentRequired = [];
 
   @override
   void initState() {
