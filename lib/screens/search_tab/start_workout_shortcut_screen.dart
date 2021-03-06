@@ -21,8 +21,7 @@ class StartWorkoutShortcutScreen extends StatefulWidget {
   static void show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
 
-    HapticFeedback.mediumImpact();
-
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -102,8 +101,8 @@ class _StartWorkoutShortcutScreenState
             snapshot: snapshot,
             itemBuilder: (context, routine) {
               final trainingLevel = Format.difficulty(routine.trainingLevel);
-              final String weights = Format.weights(routine.totalWeights);
-              final String unit = Format.unitOfMass(routine.initialUnitOfMass);
+              final weights = Format.weights(routine.totalWeights);
+              final unit = Format.unitOfMass(routine.initialUnitOfMass);
 
               final duration =
                   Duration(seconds: routine?.duration ?? 0).inMinutes;

@@ -62,8 +62,8 @@ class WeightsAndRepsWidget extends StatelessWidget {
                     Column(
                       children: [
                         const Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: const Text('Weights', style: BodyText2Grey),
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text('Weights', style: BodyText2Grey),
                         ),
                         const Divider(
                           color: BackgroundColor,

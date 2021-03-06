@@ -46,10 +46,9 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
 
   @override
   void initState() {
+    super.initState();
     _userFeedback = null;
     _textController1 = TextEditingController(text: _userFeedback);
-
-    super.initState();
   }
 
   @override
@@ -77,7 +76,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
 
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -99,9 +98,9 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         ),
         title: const Text('Your Feedback Matters!', style: Subtitle2),
         actions: [
-          FlatButton(
-            child: const Text('SUBMIT', style: ButtonText),
+          TextButton(
             onPressed: _submit,
+            child: const Text('SUBMIT', style: ButtonText),
           ),
         ],
       ),

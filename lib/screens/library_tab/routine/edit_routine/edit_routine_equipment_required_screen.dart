@@ -59,12 +59,12 @@ class _EditRoutineEquipmentRequiredScreenState
   //   'Bench': false,
   // };
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
-  List _selectedEquipmentRequired = [];
+  final List _selectedEquipmentRequired = [];
 
   @override
   void initState() {
     super.initState();
-    Map<String, bool> equipmentRequired = {
+    var equipmentRequired = <String, bool>{
       'Barbell':
           (widget.routine.equipmentRequired.contains('Barbell')) ? true : false,
       'Bench':
@@ -129,7 +129,7 @@ class _EditRoutineEquipmentRequiredScreenState
       debugPrint('$_selectedEquipmentRequired');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -150,7 +150,7 @@ class _EditRoutineEquipmentRequiredScreenState
             color: Colors.white,
           ),
           onPressed: () {
-            if (_selectedEquipmentRequired.length >= 1) {
+            if (_selectedEquipmentRequired.isNotEmpty) {
               _submit();
               Navigator.of(context).pop();
             } else {

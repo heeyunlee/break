@@ -3,7 +3,7 @@ import 'package:workout_player/models/enum/difficulty.dart';
 
 import '../../../../constants.dart';
 
-typedef DoubleCallback(double rating);
+typedef DoubleCallback = Function(double rating);
 
 class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
   final DoubleCallback ratingCallback;

@@ -5,7 +5,7 @@ import '../constants.dart';
 class EmptyContentWidget extends StatelessWidget {
   final String imageUrl;
   final String bodyText;
-  final Function onPressed;
+  final void Function() onPressed;
 
   const EmptyContentWidget({
     Key key,
@@ -18,11 +18,11 @@ class EmptyContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: size.width,
       height: size.height * 2 / 3,
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.antiAlias,
         children: [
           Image.asset(
             imageUrl,
@@ -32,21 +32,23 @@ class EmptyContentWidget extends StatelessWidget {
           Positioned(
             top: 48,
             left: 24,
-            child: Container(
+            child: SizedBox(
               width: size.width / 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(bodyText, style: BodyText1Height),
                   const SizedBox(height: 36),
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      primary: PrimaryColor,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    color: PrimaryColor,
-                    child: const Text('Start Now', style: ButtonText),
                     onPressed: onPressed,
+                    child: const Text('Start Now', style: ButtonText),
                   ),
                 ],
               ),

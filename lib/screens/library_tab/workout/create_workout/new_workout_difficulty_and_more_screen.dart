@@ -4,8 +4,8 @@ import 'package:workout_player/models/enum/difficulty.dart';
 
 import '../../../../constants.dart';
 
-typedef void StringCallback(String discription);
-typedef void DoubleCallback(double number);
+typedef StringCallback = void Function(String discription);
+typedef DoubleCallback = void Function(double number);
 
 class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallback discriptionCallBack;
@@ -78,8 +78,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
 
                 // Description
                 const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('Description', style: BodyText1w800),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('Description', style: BodyText1w800),
                 ),
                 Card(
                   color: CardColor,

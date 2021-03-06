@@ -15,31 +15,25 @@ class AnnouncementCardPageView extends StatefulWidget {
 }
 
 class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
-  // int _currentPage = 0;
-  PageController _pageController = PageController(initialPage: 0);
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer.periodic(Duration(seconds: 10), (Timer timer) {
-  //     if (_currentPage < 1) {
-  //       _currentPage++;
-  //     } else {
-  //       _currentPage = 0;
-  //     }
-
-  //     _pageController.animateToPage(
-  //       _currentPage,
-  //       duration: Duration(milliseconds: 350),
-  //       curve: Curves.easeInOut,
-  //     );
-  //   });
-  // }
+  int _currentPage = 0;
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      if (_currentPage < 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 350),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   @override
@@ -52,47 +46,51 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Column(
-      children: <Widget>[
-        Container(
-          height: size.height * 2 / 7,
-          child: PageView(
-            physics: AlwaysScrollableScrollPhysics(),
+    return Container(
+      height: size.height * 3 / 7,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          PageView(
+            physics: const AlwaysScrollableScrollPhysics(),
             controller: _pageController,
             children: [
               AnnouncementCard(
-                child: Image.asset(
-                  'assets/images/event_card_1.png',
-                  fit: BoxFit.cover,
-                ),
+                imageUrl: 'assets/images/event_photo_1.png',
+                title: 'CREATE\nYOUR\nOWN\nROUTINE',
+                subtitle: 'Start Now!',
+                color: Colors.deepPurpleAccent,
                 onTap: () => CreateNewRoutineScreen.show(context),
               ),
               AnnouncementCard(
-                child: Image.asset(
-                  'assets/images/event_card_2.png',
-                  fit: BoxFit.cover,
-                ),
+                imageUrl: 'assets/images/event_photo_1.png',
+                title: 'SAVE\nYOUR\nPROGRESS',
+                subtitle: 'Start Now!',
+                color: Colors.blueAccent,
                 onTap: () => StartWorkoutShortcutScreen.show(context),
               ),
             ],
           ),
-        ),
-        Container(
-          height: 20,
-          alignment: Alignment.center,
-          child: SmoothPageIndicator(
-            controller: _pageController,
-            count: 2,
-            effect: const ScrollingDotsEffect(
-              activeDotScale: 1.5,
-              dotHeight: 8,
-              dotWidth: 8,
-              dotColor: Grey700,
-              activeDotColor: PrimaryColor,
+          Positioned(
+            bottom: 8,
+            child: Container(
+              height: 20,
+              alignment: Alignment.center,
+              child: SmoothPageIndicator(
+                controller: _pageController,
+                count: 2,
+                effect: const ScrollingDotsEffect(
+                  activeDotScale: 1.5,
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  dotColor: Colors.white30,
+                  activeDotColor: PrimaryColor,
+                ),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

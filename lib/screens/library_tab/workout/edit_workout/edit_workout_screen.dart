@@ -8,7 +8,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/screens/library_tab/library_tab.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
 import '../../../../common_widgets/max_width_raised_button.dart';
@@ -134,7 +133,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       // TODO: ADD SNACKBAR
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -160,7 +159,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         // TODO: ADD SNACKBAR
       } on FirebaseException catch (e) {
         logger.d(e);
-        showExceptionAlertDialog(
+        await showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,
@@ -196,8 +195,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               title: const Text('Edit Workout', style: Subtitle1),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('SAVE', style: ButtonText),
                   onPressed: _submit,
+                  child: const Text('SAVE', style: ButtonText),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),
@@ -292,8 +291,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         ),
         const SizedBox(height: 8),
         const Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: const Text(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
             'Make your routine either just for yourself or sharable with other users',
             style: Caption1Grey,
           ),
@@ -308,8 +307,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       children: [
         const SizedBox(height: 32),
         const Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: const Text('Workout Title', style: BodyText1w800),
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Text('Workout Title', style: BodyText1w800),
         ),
 
         /// Workout Title
@@ -462,8 +461,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           ),
         ),
         const Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: const Text(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
             'This will help us calculate duration for a routine',
             style: Caption1Grey,
           ),
@@ -478,8 +477,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       children: [
         const SizedBox(height: 32),
         const Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: const Text('More Settings', style: BodyText1w800),
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Text('More Settings', style: BodyText1w800),
         ),
 
         /// Main Muscle Group
@@ -572,8 +571,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               return GestureDetector(
                 onTap: () => node.unfocus(),
                 child: const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('DONE', style: ButtonText),
                 ),
               );
             }
@@ -587,8 +586,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               return GestureDetector(
                 onTap: () => node.unfocus(),
                 child: const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('DONE', style: ButtonText),
                 ),
               );
             }

@@ -3,7 +3,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 
 import '../../../../constants.dart';
 
-typedef void StringCallback(List list);
+typedef StringCallback = void Function(List list);
 
 class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
   final StringCallback mainMuscleGroupCallback;
@@ -18,8 +18,8 @@ class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
 
 class _NewWorkoutMainMuscleGroupScreenState
     extends State<NewWorkoutMainMuscleGroupScreen> {
-  Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List<String> _selectedMainMuscleGroup = [];
+  final Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
+  final List<String> _selectedMainMuscleGroup = [];
 
   @override
   Widget build(BuildContext context) {

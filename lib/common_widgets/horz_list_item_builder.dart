@@ -23,7 +23,7 @@ class HoriListItemBuilder<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     if (snapshot.hasData) {
       print(snapshot.error);
-      final List<T> items = snapshot.data;
+      final items = snapshot.data;
       if (items.isNotEmpty) {
         return _buildList(items);
       } else {

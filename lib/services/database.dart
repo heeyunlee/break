@@ -111,9 +111,9 @@ String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({
-    @required this.userId,
-    @required this.workoutId,
-    @required this.routineId,
+    this.userId,
+    this.workoutId,
+    this.routineId,
   });
 
   final String userId;
@@ -496,8 +496,10 @@ class FirestoreDatabase implements Database {
   ) async {
     debugPrint('batchRoutineWorkouts pressed');
 
-    final List<String> routineWorkoutIds = [];
+    final routineWorkoutIds = <String>[];
+    // ignore: omit_local_variable_types
     final List<Map<String, dynamic>> routineWorkoutsAsMap = [];
+
     routineWorkout.forEach((routineWorkout) {
       var routineWorkoutToJson = routineWorkout.toJson();
       var id = APIPath.routineWorkoutForHistory(

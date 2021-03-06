@@ -52,13 +52,13 @@ class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
 class _EditWorkoutMainMuscleGroupScreenState
     extends State<EditWorkoutMainMuscleGroupScreen> {
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List _selectedMainMuscleGroup = [];
+  final List _selectedMainMuscleGroup = [];
 
   @override
   void initState() {
     super.initState();
 
-    Map<String, bool> mainMuscleGroup = {
+    var mainMuscleGroup = <String, bool>{
       'Abs': (widget.workout.mainMuscleGroup.contains('Abs')) ? true : false,
       'Arms': (widget.workout.mainMuscleGroup.contains('Arms')) ? true : false,
       'Cardio':
@@ -125,7 +125,7 @@ class _EditWorkoutMainMuscleGroupScreenState
       debugPrint('$_selectedMainMuscleGroup');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -146,7 +146,7 @@ class _EditWorkoutMainMuscleGroupScreenState
             color: Colors.white,
           ),
           onPressed: () {
-            if (_selectedMainMuscleGroup.length >= 1) {
+            if (_selectedMainMuscleGroup.isNotEmpty) {
               _submit();
               Navigator.of(context).pop();
             } else {

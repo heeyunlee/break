@@ -14,7 +14,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
   final Color color;
   final String buttonText;
   final Icon icon;
-  final Function onPressed;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,9 @@ class MaxWidthRaisedButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: Container(
         height: 48,
-        child: RaisedButton(
-          color: color,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: color),
+          onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -32,7 +33,6 @@ class MaxWidthRaisedButton extends StatelessWidget {
               if (buttonText != null) Text(buttonText, style: ButtonText),
             ],
           ),
-          onPressed: onPressed,
         ),
       ),
     );

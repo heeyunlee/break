@@ -19,7 +19,7 @@ class LandingScreen extends StatelessWidget {
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final _auth.User user = snapshot.data;
+          final user = snapshot.data;
           if (user == null) {
             return SignInScreen.create(context);
             // return PreviewScreen();

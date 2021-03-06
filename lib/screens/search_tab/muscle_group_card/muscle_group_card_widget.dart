@@ -28,9 +28,9 @@ class MuscleGroupCardWidget extends StatelessWidget {
         child: ClipPath(
           child: Container(
             decoration: const BoxDecoration(
-              border: const Border(
-                right: const BorderSide(color: PrimaryColor, width: 2),
-                bottom: const BorderSide(color: PrimaryColor, width: 2),
+              border: Border(
+                right: BorderSide(color: PrimaryColor, width: 2),
+                bottom: BorderSide(color: PrimaryColor, width: 2),
               ),
             ),
             child: Center(

@@ -50,7 +50,7 @@ class RoutineDetailScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
 
     if (!isRootNavigation) {
       await Navigator.of(context, rootNavigator: false).push(
@@ -221,7 +221,7 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
             tag: tag,
             child: CachedNetworkImage(
               imageUrl: routine.imageUrl,
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
               fit: BoxFit.cover,
             ),
           ),
@@ -317,9 +317,9 @@ class _SliverToBoxAdaptor extends StatelessWidget {
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
     final description =
-        (routine.description == null || routine.description.length == 0)
+        (routine.description == null || routine.description.isNotEmpty
             ? 'Add description'
-            : routine.description;
+            : routine.description);
     final lastEditedDate = Format.dateShort(routine.lastEditedDate);
     final weights = Format.weights(routine.totalWeights);
     final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);

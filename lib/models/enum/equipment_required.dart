@@ -1,41 +1,41 @@
 enum EquipmentRequired {
-  Barbell,
-  Bench,
-  Bodyweight,
-  Cable,
-  Chains,
-  Dumbbell,
-  EZBar,
-  GymBall,
-  Kettlebell,
-  Machine,
-  Other,
+  barbell,
+  bench,
+  bodyweight,
+  cable,
+  chains,
+  dumbbell,
+  eZBar,
+  gymBall,
+  kettlebell,
+  machine,
+  other,
 }
 
 extension EquipmentRequiredExtension on EquipmentRequired {
   String get label {
     switch (this) {
-      case EquipmentRequired.Barbell:
+      case EquipmentRequired.barbell:
         return 'Barbell';
-      case EquipmentRequired.Bench:
+      case EquipmentRequired.bench:
         return 'Bench';
-      case EquipmentRequired.Bodyweight:
+      case EquipmentRequired.bodyweight:
         return 'Bodyweight';
-      case EquipmentRequired.Cable:
+      case EquipmentRequired.cable:
         return 'Cable';
-      case EquipmentRequired.Chains:
+      case EquipmentRequired.chains:
         return 'Chains';
-      case EquipmentRequired.Dumbbell:
+      case EquipmentRequired.dumbbell:
         return 'Dumbbell';
-      case EquipmentRequired.EZBar:
+      case EquipmentRequired.eZBar:
         return 'EZ Bar';
-      case EquipmentRequired.GymBall:
+      case EquipmentRequired.gymBall:
         return 'Gym Ball';
-      case EquipmentRequired.Kettlebell:
+      case EquipmentRequired.kettlebell:
         return 'Kettlebell';
-      case EquipmentRequired.Machine:
+      case EquipmentRequired.machine:
         return 'Machine';
-      case EquipmentRequired.Other:
+      case EquipmentRequired.other:
         return 'Other';
       default:
         return null;
@@ -43,21 +43,19 @@ extension EquipmentRequiredExtension on EquipmentRequired {
   }
 
   List<String> get list {
-    List<String> equipmentRequiredList = [];
-    for (int i = 0; i < EquipmentRequired.values.length; i++) {
-      var value = EquipmentRequired.values[i].label;
+    final equipmentRequiredList = [];
+    for (var i = 0; i < EquipmentRequired.values.length; i++) {
+      final value = EquipmentRequired.values[i].label;
       equipmentRequiredList.add(value);
     }
     return equipmentRequiredList;
   }
 
   Map<String, bool> get map {
-    List<String> _equipmentRequiredList = EquipmentRequired.values[0].list;
-    Map<String, bool> _equipmentRequiredMap = new Map.fromIterable(
-      _equipmentRequiredList,
-      key: (element) => element,
-      value: (element) => false,
-    );
+    final _equipmentRequiredList = EquipmentRequired.values[0].list;
+    final _equipmentRequiredMap = {
+      for (var element in _equipmentRequiredList) element.toString(): false
+    };
     return _equipmentRequiredMap;
   }
 }

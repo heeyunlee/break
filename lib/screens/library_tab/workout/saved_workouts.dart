@@ -27,16 +27,18 @@ class SavedWorkoutsTab extends StatelessWidget {
                 CreateNewWorkoutWidget(),
               ListItemBuilder<Workout>(
                 emptyContentTitle: 'Save workouts, or create your own!',
-                emptyContentButton: RaisedButton(
+                emptyContentButton: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    primary: PrimaryColor,
+                  ),
+                  onPressed: () => CreateNewWorkoutScreen.show(context),
                   child: const Text(
                     'Create your own Workout now!',
                     style: ButtonText,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: PrimaryColor,
-                  onPressed: () => CreateNewWorkoutScreen.show(context),
                 ),
                 snapshot: snapshot,
                 itemBuilder: (context, workout) => CustomListTile64(

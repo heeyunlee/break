@@ -68,7 +68,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       debugPrint('Updated Username');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

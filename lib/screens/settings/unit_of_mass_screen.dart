@@ -43,8 +43,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
 
   @override
   void initState() {
-    _unitOfMass = widget.user.unitOfMass;
     super.initState();
+    _unitOfMass = widget.user.unitOfMass;
   }
 
   @override
@@ -62,7 +62,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -81,7 +81,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),
     );

@@ -37,9 +37,9 @@ class LibraryTab extends StatelessWidget {
                     labelColor: PrimaryColor,
                     indicatorColor: PrimaryColor,
                     tabs: [
-                      const Tab(text: 'Activities'),
-                      const Tab(text: 'Routines'),
-                      const Tab(text: 'Workouts'),
+                      Tab(text: 'Activities'),
+                      Tab(text: 'Routines'),
+                      Tab(text: 'Workouts'),
                     ],
                   ),
                 ),
@@ -93,14 +93,14 @@ class _FlexibleSpace extends StatelessWidget {
           initialData: userDummyData,
           stream: database.userStream(userId: auth.currentUser.uid),
           builder: (context, snapshot) {
-            final Size size = MediaQuery.of(context).size;
+            final size = MediaQuery.of(context).size;
 
-            final User user = snapshot.data;
+            final user = snapshot.data;
 
-            final String weights = Format.weights(user.totalWeights);
-            final String unit = Format.unitOfMass(user.unitOfMass);
-            final int numberOfWorkouts = user.totalNumberOfWorkouts;
-            final String times = (numberOfWorkouts == 0) ? 'time' : 'times';
+            final weights = Format.weights(user.totalWeights);
+            final unit = Format.unitOfMass(user.unitOfMass);
+            final numberOfWorkouts = user.totalNumberOfWorkouts;
+            final times = (numberOfWorkouts == 0) ? 'time' : 'times';
 
             return Column(
               children: <Widget>[

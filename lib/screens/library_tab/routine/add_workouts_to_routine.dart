@@ -31,7 +31,7 @@ class AddWorkoutsToRoutine extends StatefulWidget {
   static void show(BuildContext context, {Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => AddWorkoutsToRoutine(
@@ -56,6 +56,16 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   String selectedWorkoutTitle;
   bool isBodyWeightWorkout;
   int secondsPerRep;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   Future<void> _submit() async {
     try {
@@ -84,7 +94,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       }
     } on Exception catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

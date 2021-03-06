@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="12px" viewBox="0 0 24 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>skip_next_twice-24px</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-490.000000, -264.000000)">
-            <g id="skip_next_twice-24px" transform="translate(484.000000, 258.000000)">
-                <rect id="Rectangle" x="0" y="0" width="36" height="24"></rect>
-                <g id="Group" transform="translate(6.000000, 6.000000)" fill="#000000" fill-rule="nonzero">
-                    <path d="M22,1 L22,11 C22,11.55 22.45,12 23,12 L23,12 C23.55,12 24,11.55 24,11 L24,1 C24,0.45 23.55,0 23,0 L23,0 C22.45,0 22,0.45 22,1 Z" id="Path"></path>
-                    <path d="M12.55,10.96 L18.75,6.83 C19.34,6.43 19.34,5.56 18.75,5.17 L12.55,1.04 C11.89,0.59 11,1.07 11,1.87 L11,10.13 C11,10.93 11.89,11.41 12.55,10.96 Z" id="Path"></path>
-                    <path d="M1.55,10.96 L7.75,6.83 C8.34,6.43 8.34,5.56 7.75,5.17 L1.55,1.04 C0.89,0.59 -1.77635684e-15,1.07 -1.77635684e-15,1.87 L-1.77635684e-15,10.13 C-1.77635684e-15,10.93 0.89,11.41 1.55,10.96 Z" id="Path-Copy"></path>
-                </g>
+<svg width="25px" height="12px" viewBox="0 0 25 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>skip_next_twice-24px@1.5x</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons/skip_next_twice-24px" transform="translate(-6.000000, -6.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="skip_next_twice-24px" transform="translate(6.000000, 6.000000)">
+                <path d="M22.005,1 L22.005,11 C22.005,11.55 22.455,12 23.005,12 L23.005,12 C23.555,12 24.005,11.55 24.005,11 L24.005,1 C24.005,0.45 23.555,0 23.005,0 L23.005,0 C22.455,0 22.005,0.45 22.005,1 Z" id="Path"></path>
+                <path d="M12.5525,10.96 L18.7525,6.83 C19.3425,6.43 19.3425,5.56 18.7525,5.17 L12.5525,1.04 C11.8925,0.59 11.0025,1.07 11.0025,1.87 L11.0025,10.13 C11.0025,10.93 11.8925,11.41 12.5525,10.96 Z" id="Path"></path>
+                <path d="M1.55,10.96 L7.75,6.83 C8.34,6.43 8.34,5.56 7.75,5.17 L1.55,1.04 C0.89,0.59 -1.77635684e-15,1.07 -1.77635684e-15,1.87 L-1.77635684e-15,10.13 C-1.77635684e-15,10.93 0.89,11.41 1.55,10.96 Z" id="Path-Copy"></path>
             </g>
         </g>
     </g>

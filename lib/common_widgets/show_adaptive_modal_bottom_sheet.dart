@@ -10,15 +10,15 @@ Future<bool> showAdaptiveModalBottomSheet({
   bool isFirstActionDefault,
   Icon firstActionIcon,
   String firstActionText,
-  Function firstActionOnPressed,
+  void Function() firstActionOnPressed,
   bool isSecondActionDefault,
   Icon secondActionIcon,
   String secondActionText,
-  Function secondActionOnPressed,
+  void Function() secondActionOnPressed,
   bool isThirdActionDefault,
   Icon thirdActionIcon,
   String thirdActionText,
-  Function thirdActionOnPressed,
+  void Function() thirdActionOnPressed,
   bool isCancelDefault,
   Icon cancelActionIcon,
   String cancelText,
@@ -31,13 +31,13 @@ Future<bool> showAdaptiveModalBottomSheet({
       builder: (context) {
         return Wrap(
           children: <Widget>[
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             if (title != null || message != null)
               ListTile(
                 title: title,
                 subtitle: message,
               ),
-            Divider(indent: 4, endIndent: 4),
+            const Divider(indent: 4, endIndent: 4),
             if (firstActionText != null)
               ListTile(
                 leading: firstActionIcon,
@@ -100,36 +100,36 @@ Future<bool> showAdaptiveModalBottomSheet({
     useRootNavigator: false,
     context: context,
     builder: (context) => CupertinoActionSheet(
-      title: title,
-      message: message,
+      title: Text(title ?? ''),
+      message: Text(message ?? ''),
       actions: <Widget>[
         if (firstActionText != null)
           CupertinoActionSheetAction(
-            child: Text(firstActionText),
             isDefaultAction: (isFirstActionDefault == true) ? true : false,
             isDestructiveAction: (isFirstActionDefault == true) ? false : true,
             onPressed: firstActionOnPressed,
+            child: Text(firstActionText),
           ),
         if (secondActionText != null)
           CupertinoActionSheetAction(
-            child: Text(secondActionText),
             isDefaultAction: (isSecondActionDefault == true) ? true : false,
             isDestructiveAction: (isSecondActionDefault == true) ? false : true,
             onPressed: secondActionOnPressed,
+            child: Text(secondActionText),
           ),
         if (thirdActionText != null)
           CupertinoActionSheetAction(
-            child: Text(thirdActionText),
             isDefaultAction: (isThirdActionDefault == true) ? true : false,
             isDestructiveAction: (isThirdActionDefault == true) ? false : true,
             onPressed: thirdActionOnPressed,
+            child: Text(thirdActionText),
           ),
       ],
       cancelButton: CupertinoActionSheetAction(
-        child: Text(cancelText),
         isDefaultAction: (isCancelDefault == true) ? true : false,
         isDestructiveAction: (isCancelDefault == true) ? false : true,
         onPressed: () => Navigator.of(context).pop(),
+        child: Text(cancelText),
       ),
     ),
   );

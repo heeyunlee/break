@@ -74,7 +74,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       }
     } on Exception catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

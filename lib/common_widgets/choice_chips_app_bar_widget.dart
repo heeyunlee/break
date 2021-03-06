@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/enum/main_muscle_group.dart';
 
-typedef void StringCallback(String val);
+typedef StringCallback = void Function(String val);
 
 class ChoiceChipsAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {
@@ -17,12 +17,13 @@ class ChoiceChipsAppBarWidget extends StatefulWidget
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(48.0);
+    return Size.fromHeight(48.0);
   }
 }
 
 class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
-  List<String> _mainMuscleGroup = ['All'] + MainMuscleGroup.values[0].list;
+  final List<String> _mainMuscleGroup =
+      ['All'] + MainMuscleGroup.values[0].list;
 
   int _selectedIndex = 0;
   String _selectedChipLabel = 'All';
@@ -39,11 +40,11 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> chips = [];
+    final chips = [];
 
     chips.add(SizedBox(width: 12));
-    for (int i = 0; i < _mainMuscleGroup.length; i++) {
-      ChoiceChip choiceChip = ChoiceChip(
+    for (var i = 0; i < _mainMuscleGroup.length; i++) {
+      var choiceChip = ChoiceChip(
         padding: EdgeInsets.symmetric(horizontal: 8),
         label: Text(_mainMuscleGroup[i], style: ButtonText),
         selected: _selectedIndex == i,

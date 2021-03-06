@@ -7,7 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants.dart';
 import 'app_preview_widget.dart';
 
-typedef void BoolCallback(bool value);
+typedef BoolCallback = void Function(bool value);
 
 class PreviewScreen extends StatefulWidget {
   final BoolCallback callback;
@@ -22,7 +22,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
   bool _showPreview = true;
 
   int _currentPage = 0;
-  PageController _pageController = PageController(
+  final PageController _pageController = PageController(
     initialPage: 0,
   );
 

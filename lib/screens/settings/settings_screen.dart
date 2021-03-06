@@ -99,8 +99,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  _buildBody(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+  Widget _buildBody(BuildContext context) {
+    final size = MediaQuery.of(context).size;
 
     return StreamBuilder<User>(
       initialData: widget.user,
@@ -116,13 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
-                // const Padding(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                //   child: const Text('Account Setting', style: BodyText2Grey),
-                // ),
                 ListTile(
-                  // tileColor: CardColor,
                   leading: const Icon(Icons.person, color: Colors.white),
                   title: const Text('Personal Information', style: BodyText2),
                   trailing: const Icon(
@@ -135,7 +129,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 ListTile(
-                  // tileColor: CardColor,
                   leading: const Icon(
                     Icons.straighten_rounded,
                     color: Colors.white,
@@ -160,14 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     user: user,
                   ),
                 ),
-                // const SizedBox(height: 24),
-                // const Padding(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                //   child: const Text('About', style: BodyText2Grey),
-                // ),
                 ListTile(
-                  // tileColor: CardColor,
                   leading: const Icon(Icons.feedback, color: Colors.white),
                   title: const Text('Feedback & Feature Requests',
                       style: BodyText2),
@@ -178,7 +164,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () => UserFeedbackScreen.show(context),
                 ),
                 ListTile(
-                  // tileColor: CardColor,
                   leading: const Icon(
                     Icons.info_outline_rounded,
                     color: Colors.white,
@@ -191,7 +176,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () {},
                 ),
                 Spacer(),
-                // SizedBox(height: size.height / 2),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: MaxWidthRaisedButton(

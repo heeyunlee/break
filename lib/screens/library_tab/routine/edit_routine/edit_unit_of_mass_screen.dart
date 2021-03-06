@@ -67,7 +67,7 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,

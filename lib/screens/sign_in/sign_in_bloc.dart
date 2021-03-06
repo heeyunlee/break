@@ -1,5 +1,6 @@
 import 'dart:async';
 
+// ignore: library_prefixes
 import 'package:firebase_auth/firebase_auth.dart' as fireAuth;
 import 'package:flutter/material.dart';
 import 'package:workout_player/services/auth.dart';

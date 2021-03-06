@@ -85,6 +85,11 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
 
   @override
   void initState() {
+    super.initState();
+
+    focusNode1 = FocusNode();
+    _textController1 = TextEditingController(text: widget.routineHistory.notes);
+
     _colorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _textAnimationController =
@@ -93,7 +98,15 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
         .animate(_colorAnimationController);
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_textAnimationController);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _colorAnimationController.dispose();
+    _textAnimationController.dispose();
+    focusNode1.dispose();
+    _textController1.dispose();
+    super.dispose();
   }
 
   // Delete Routine Method
@@ -114,7 +127,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -132,7 +145,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
           .updateRoutineHistory(widget.routineHistory, routineHistory);
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -164,14 +177,13 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
   }
 
   Widget _buildSliverAppBar(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     // Data Formatting
     final date = Format.date(widget.routineHistory.workoutStartTime);
-    final String title = widget.routineHistory?.routineTitle ?? 'Title';
-    final String mainMuscleGroup =
-        widget.routineHistory?.mainMuscleGroup ?? 'Null';
-    final String equipmentRequired =
+    final title = widget.routineHistory?.routineTitle ?? 'Title';
+    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
+    final equipmentRequired =
         widget.routineHistory?.equipmentRequired[0] ?? 'Null';
 
     return AnimatedBuilder(
@@ -297,8 +309,8 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             const Divider(color: Grey700),
             const SizedBox(height: 16),
             const Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: const Text('Activities', style: Headline6w900),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Text('Activities', style: Headline6w900),
             ),
             StreamBuilder<List<RoutineWorkout>>(
               stream: database.routineWorkoutsStreamForHistory(
@@ -330,8 +342,8 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             const Divider(color: Grey700),
             const SizedBox(height: 16),
             const Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: const Text('Notes', style: Headline6w900),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Text('Notes', style: Headline6w900),
             ),
             const SizedBox(height: 8),
             Card(
@@ -387,10 +399,5 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       cancelText: 'Cancel',
       isCancelDefault: true,
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

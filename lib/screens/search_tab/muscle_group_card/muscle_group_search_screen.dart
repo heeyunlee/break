@@ -30,7 +30,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
     String arrayContains,
     String searchCategory,
   }) async {
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => MuscleGroupSearchScreen(
@@ -65,8 +65,8 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                   unselectedLabelColor: Grey400,
                   indicatorColor: PrimaryColor,
                   tabs: [
-                    const Tab(text: 'Workouts'),
-                    const Tab(text: 'Routines'),
+                    Tab(text: 'Workouts'),
+                    Tab(text: 'Routines'),
                   ],
                 ),
               ),

@@ -41,7 +41,7 @@ class WorkoutDetailScreen extends StatefulWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
 
     if (!isRootNavigation) {
       await Navigator.of(context, rootNavigator: false).push(
@@ -77,14 +77,12 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    debugPrint('workout detail screen init');
     super.initState();
+    debugPrint('workout detail screen init');
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     debugPrint('workout detail screen dispose');
     super.dispose();
   }

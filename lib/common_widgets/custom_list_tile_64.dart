@@ -19,8 +19,8 @@ class CustomListTile64 extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final onTap;
-  final onLongTap;
+  final void Function() onTap;
+  final void Function() onLongTap;
   final Widget trailingIconButton;
 
   @override
@@ -36,7 +36,7 @@ class CustomListTile64 extends StatelessWidget {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Container(
+                child: SizedBox(
                   width: 64,
                   height: 64,
                   child: Hero(

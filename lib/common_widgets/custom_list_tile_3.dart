@@ -26,8 +26,8 @@ class CustomListTile3 extends StatelessWidget {
   final String leadingText;
   final String subtitle;
   final String subtitle2;
-  final onTap;
-  final onLongTap;
+  final void Function() onTap;
+  final void Function() onLongTap;
   final Widget trailingIconButton;
   final bool isLeadingDuration;
 

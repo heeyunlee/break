@@ -49,12 +49,12 @@ class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
 class _EditWorkoutEquipmentRequiredScreenState
     extends State<EditWorkoutEquipmentRequiredScreen> {
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
-  List _selectedEquipmentRequired = [];
+  final List _selectedEquipmentRequired = [];
 
   @override
   void initState() {
     super.initState();
-    Map<String, bool> equipmentRequired = {
+    var equipmentRequired = <String, bool>{
       'Barbell':
           (widget.workout.equipmentRequired.contains('Barbell')) ? true : false,
       'Bench':
@@ -114,7 +114,7 @@ class _EditWorkoutEquipmentRequiredScreenState
       debugPrint('$_selectedEquipmentRequired');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -135,7 +135,7 @@ class _EditWorkoutEquipmentRequiredScreenState
             color: Colors.white,
           ),
           onPressed: () {
-            if (_selectedEquipmentRequired.length >= 1) {
+            if (_selectedEquipmentRequired.isNotEmpty) {
               _submit();
               Navigator.of(context).pop();
             } else {

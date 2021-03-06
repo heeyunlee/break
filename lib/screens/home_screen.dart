@@ -35,10 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // Navigating to original Tab Screen when you press Nav Tab
     if (tabItem == _currentTab) {
       navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
-    } else
+    } else {
       setState(() {
         _currentTab = tabItem;
       });
+    }
   }
 
   @override

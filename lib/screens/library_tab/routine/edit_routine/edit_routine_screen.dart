@@ -40,8 +40,8 @@ class EditRoutineScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
-    HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
+    await HapticFeedback.mediumImpact();
+    await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => EditRoutineScreen(
@@ -112,6 +112,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     // Clean up the focus node when the Form is disposed.
     focusNode1.dispose();
     focusNode2.dispose();
+
+    _textController1.dispose();
+    _textController2.dispose();
+
     super.dispose();
   }
 
@@ -134,7 +138,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -160,12 +164,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         };
         await widget.database.updateRoutine(widget.routine, routine);
 
-        HapticFeedback.mediumImpact();
+        await HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
         // TODO: ADD SNACKBAR
 
       } on FirebaseException catch (e) {
-        showExceptionAlertDialog(
+        await showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,
@@ -204,9 +208,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               ),
               title: const Text('Edit Routine', style: Subtitle1),
               actions: <Widget>[
-                FlatButton(
-                  child: const Text('SAVE', style: ButtonText),
+                TextButton(
                   onPressed: _submit,
+                  child: const Text('SAVE', style: ButtonText),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),

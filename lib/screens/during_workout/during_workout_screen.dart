@@ -46,7 +46,7 @@ class DuringWorkoutScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -66,7 +66,8 @@ class DuringWorkoutScreen extends StatefulWidget {
 class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  CountDownController _countDownController = CountDownController();
+  final CountDownController _countDownController = CountDownController();
+
   bool _isPaused;
   Duration _restTime = Duration();
   int routineWorkoutIndex = 0;
@@ -108,8 +109,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     try {
       debugPrint('submit button pressed');
 
-      final String routineHistoryId = documentIdFromCurrentDate();
-      final Timestamp workoutEndTime = Timestamp.now();
+      final routineHistoryId = documentIdFromCurrentDate();
+      final workoutEndTime = Timestamp.now();
       final workoutStartDate = _workoutStartTime.toDate();
       final workoutEndDate = workoutEndTime.toDate();
       final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
@@ -123,11 +124,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       );
 
       // For Calculating Total Weights
-      double totalWeights = 0;
-      bool weightsCalculated = false;
+      var totalWeights = 0.00;
+      var weightsCalculated = false;
       if (!weightsCalculated) {
-        for (int i = 0; i < routineWorkouts.length; i++) {
-          double weights = routineWorkouts[i].totalWeights;
+        for (var i = 0; i < routineWorkouts.length; i++) {
+          var weights = routineWorkouts[i].totalWeights;
           totalWeights = totalWeights + weights;
         }
         weightsCalculated = true;
@@ -178,7 +179,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -226,14 +227,14 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   Future<void> _pausePlay(WorkoutSet workoutSet) async {
     if (!_isPaused) {
-      _animationController.forward();
+      await _animationController.forward();
       if (workoutSet.isRest) _countDownController.pause();
       setState(() {
         _isPaused = !_isPaused;
         debugPrint('_isPaused is $_isPaused');
       });
     } else {
-      _animationController.reverse();
+      await _animationController.reverse();
       if (workoutSet.isRest) _countDownController.resume();
       setState(() {
         _isPaused = !_isPaused;
@@ -247,8 +248,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     RoutineWorkout routineWorkout,
     WorkoutSet workoutSet,
   ) async {
-    final int workoutSetLength = routineWorkout.sets.length - 1;
-    final int routineWorkoutLength = routineWorkouts.length - 1;
+    final workoutSetLength = routineWorkout.sets.length - 1;
+    final routineWorkoutLength = routineWorkouts.length - 1;
     setState(() {
       _isPaused = false;
       _animationController.reverse();
@@ -303,7 +304,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        // title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
+        title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
         leading: IconButton(
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () async {
@@ -317,14 +318,14 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     );
   }
 
-  _buildBody() {
+  Widget _buildBody() {
     final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<List<RoutineWorkout>>(
       stream: database.routineWorkoutsStream(widget.routine),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final List<RoutineWorkout> routineWorkouts = snapshot.data;
+          final routineWorkouts = snapshot.data;
 
           if (routineWorkouts.isNotEmpty) {
             final routineWorkout = routineWorkouts[routineWorkoutIndex];
@@ -332,10 +333,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
             if (routineWorkout.sets.isNotEmpty) {
               final workoutSet = routineWorkout.sets[setIndex];
 
-              if (workoutSet.isRest)
+              if (workoutSet.isRest) {
                 _restTime = Duration(
                   seconds: workoutSet.restTime,
                 );
+              }
               if (!setLengthCalculated) {
                 for (var i = 0; i < routineWorkouts.length; i++) {
                   var length = routineWorkouts[i].sets.length;
@@ -380,8 +382,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     final size = MediaQuery.of(context).size;
     final routineWorkoutsLength = routineWorkouts.length - 1;
     final workoutSetsLength = routineWorkout.sets.length - 1;
-    final double currentProgress = currentIndex / setLength * 100;
-    final String formattedCurrentProgress = '${f.format(currentProgress)} %';
+    final currentProgress = currentIndex / setLength * 100;
+    final formattedCurrentProgress = '${f.format(currentProgress)} %';
 
     return Stack(
       children: [
@@ -462,49 +464,62 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                 padding: EdgeInsets.all(0),
                 minWidth: size.width / 5,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     /// Previous Workout Button
-                    MaterialButton(
-                      height: 48,
-                      onPressed: (routineWorkoutIndex == 0)
-                          ? null
-                          : () => _previousWorkout(routineWorkouts),
-                      child: SvgPicture.asset(
-                        'assets/icons/skip_previous_twice-24px.svg',
-                        height: 12,
-                        width: 12,
-                        color: (routineWorkoutIndex == 0)
-                            ? Colors.grey[700]
-                            : Colors.white,
-                        fit: BoxFit.cover,
+                    Tooltip(
+                      verticalOffset: -56,
+                      message: 'To Previous Workout',
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icons/skip_previous_twice-24px.svg',
+                          height: 24,
+                          width: 24,
+                          color: (routineWorkoutIndex == 0)
+                              ? Colors.grey[700]
+                              : Colors.white,
+                        ),
+                        onPressed: (routineWorkoutIndex == 0)
+                            ? null
+                            : () => _previousWorkout(routineWorkouts),
                       ),
                     ),
 
                     /// Previous Set
-                    FlatButton(
-                      height: 48,
-                      child: Icon(
-                        Icons.skip_previous_rounded,
-                        color: (setIndex == 0 && routineWorkoutIndex == 0)
-                            ? Colors.grey[700]
-                            : Colors.white,
-                        size: 56,
+                    Tooltip(
+                      verticalOffset: -56,
+                      message: 'To previous set',
+                      child: IconButton(
+                        iconSize: 56,
+                        icon: Icon(
+                          Icons.skip_previous_rounded,
+                          color: (setIndex == 0 && routineWorkoutIndex == 0)
+                              ? Colors.grey[700]
+                              : Colors.white,
+                          size: 56,
+                        ),
+                        onPressed: (currentIndex > 1)
+                            ? () => _skipPrevious(routineWorkouts)
+                            : null,
                       ),
-                      onPressed: (currentIndex > 1)
-                          ? () => _skipPrevious(routineWorkouts)
-                          : null,
                     ),
 
                     /// Pause Play
-                    FlatButton(
-                      onPressed: () => _pausePlay(workoutSet),
-                      child: Container(
-                        child: AnimatedIcon(
-                          size: 56,
-                          color: Colors.white,
-                          icon: AnimatedIcons.pause_play,
-                          progress: _animationController,
+                    Tooltip(
+                      verticalOffset: -56,
+                      message: (_isPaused)
+                          ? 'Pause the Workout'
+                          : 'Start the Workout',
+                      child: IconButton(
+                        onPressed: () => _pausePlay(workoutSet),
+                        iconSize: 56,
+                        icon: Container(
+                          child: AnimatedIcon(
+                            size: 56,
+                            color: Colors.white,
+                            icon: AnimatedIcons.pause_play,
+                            progress: _animationController,
+                          ),
                         ),
                       ),
                     ),
@@ -513,8 +528,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     Tooltip(
                       verticalOffset: -56,
                       message: 'To Next Set',
-                      child: FlatButton(
-                        child: Icon(
+                      child: IconButton(
+                        iconSize: 56,
+                        icon: Icon(
                           Icons.skip_next_rounded,
                           color: (setIndex == workoutSetsLength)
                               ? Colors.grey[700]
@@ -535,12 +551,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     Tooltip(
                       verticalOffset: -56,
                       message: 'To Next Workout',
-                      child: FlatButton(
-                        height: 48,
-                        child: SvgPicture.asset(
+                      child: IconButton(
+                        icon: SvgPicture.asset(
                           'assets/icons/skip_next_twice-24px.svg',
-                          width: 12,
-                          height: 12,
+                          width: 24,
+                          height: 24,
                           color: (routineWorkoutIndex == routineWorkoutsLength)
                               ? Colors.grey[700]
                               : Colors.white,
@@ -597,7 +612,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     );
   }
 
-  _buildRestTimerWidget(
+  Widget _buildRestTimerWidget(
     List<RoutineWorkout> routineWorkouts,
     RoutineWorkout routineWorkout,
     WorkoutSet workoutSet,

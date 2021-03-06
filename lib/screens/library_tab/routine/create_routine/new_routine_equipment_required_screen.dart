@@ -3,7 +3,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 
 import '../../../../constants.dart';
 
-typedef void ListCallback(List list);
+typedef ListCallback = void Function(List list);
 
 class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback selectedEquipmentRequired;
@@ -19,8 +19,8 @@ class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
 
 class _NewRoutineEquipmentRequiredScreenState
     extends State<NewRoutineEquipmentRequiredScreen> {
-  Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
-  List _selectedEquipmentRequired = [];
+  final Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
+  final List _selectedEquipmentRequired = [];
 
   @override
   Widget build(BuildContext context) {

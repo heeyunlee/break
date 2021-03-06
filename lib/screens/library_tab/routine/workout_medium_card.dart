@@ -35,6 +35,16 @@ class WorkoutMediumCard extends StatefulWidget {
 }
 
 class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   /// Add a New Set
   Future<void> _addNewSet() async {
     debugPrint('_addNewSet Button pressed');
@@ -48,15 +58,15 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         debugPrint('sets exist');
 
         /// Workout Set
-        final List<WorkoutSet> sets = widget.routineWorkout.sets
+        final sets = widget.routineWorkout.sets
             .where((element) => element.isRest == false)
             .toList();
 
-        final String id = UniqueKey().toString();
-        final int setIndex = sets.length + 1;
+        final id = UniqueKey().toString();
+        final setIndex = sets.length + 1;
 
         // Get latest set data
-        final WorkoutSet latestSet = sets.last;
+        final latestSet = sets.last;
 
         // Update new set value
         newSet = WorkoutSet(
@@ -72,8 +82,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         debugPrint('sets DO NOT exist');
 
         /// Workout Set
-        final String id = UniqueKey().toString();
-        final int setIndex = 1;
+        final id = UniqueKey().toString();
+        final setIndex = 1;
 
         // Create new set
         newSet = WorkoutSet(
@@ -88,11 +98,11 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       }
 
       /// Routine Workout
-      final int numberOfSets = routineWorkout.numberOfSets + 1;
-      final int numberOfReps = routineWorkout.numberOfReps + newSet.reps;
-      final double totalWeights =
+      final numberOfSets = routineWorkout.numberOfSets + 1;
+      final numberOfReps = routineWorkout.numberOfReps + newSet.reps;
+      final totalWeights =
           routineWorkout.totalWeights + (newSet.weights * newSet.reps);
-      final int duration = routineWorkout.duration +
+      final duration = routineWorkout.duration +
           (newSet.reps * routineWorkout.secondsPerRep ?? 2);
 
       final updatedRoutineWorkout = {
@@ -123,7 +133,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       debugPrint('Added a new Set');
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -142,18 +152,18 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         debugPrint('rest exist');
 
         /// Workout Set
-        final List<WorkoutSet> rests = widget.routineWorkout.sets
+        final rests = widget.routineWorkout.sets
             .where((element) => element.isRest == true)
             .toList();
 
-        final String id = UniqueKey().toString();
-        final int restIndex = rests.length + 1;
+        final id = UniqueKey().toString();
+        final restIndex = rests.length + 1;
 
         // Get latest set data
-        final WorkoutSet latestRest = rests.last;
+        final latestRest = rests.last;
 
         // Create new set
-        final WorkoutSet newSet = WorkoutSet(
+        final newSet = WorkoutSet(
           workoutSetId: id,
           isRest: true,
           index: restIndex,
@@ -164,7 +174,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         );
 
         /// Routine Workout
-        final int duration = routineWorkout.duration + newSet.restTime;
+        final duration = routineWorkout.duration + newSet.restTime;
 
         final updatedRoutineWorkout = {
           'duration': duration,
@@ -190,11 +200,11 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         debugPrint('rest DO NOT exist');
 
         /// Workout Set
-        final String id = UniqueKey().toString();
-        final int restIndex = 1;
+        final id = UniqueKey().toString();
+        final restIndex = 1;
 
         // Create new set
-        final WorkoutSet newSet = WorkoutSet(
+        final newSet = WorkoutSet(
           workoutSetId: id,
           isRest: true,
           index: restIndex,
@@ -205,7 +215,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         );
 
         /// Routine Workout
-        final int duration = routineWorkout.duration + newSet.restTime;
+        final duration = routineWorkout.duration + newSet.restTime;
 
         final updatedRoutineWorkout = {
           'duration': duration,
@@ -233,7 +243,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       }
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -260,7 +270,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -274,8 +284,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     final routineWorkout = widget.routineWorkout;
 
     // Sets
-    final int numberOfSets = routineWorkout?.numberOfSets ?? 0;
-    final String formattedNumberOfSets =
+    final numberOfSets = routineWorkout?.numberOfSets ?? 0;
+    final formattedNumberOfSets =
         '$numberOfSets ${(numberOfSets > 1) ? 'sets' : 'set'}';
 
     final weights = Format.weights(routineWorkout.totalWeights);
@@ -318,7 +328,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           title: (routineWorkout.workoutTitle.length > 24)
               ? FittedBox(
                   fit: BoxFit.cover,
-                  child: Text(routineWorkout.workoutTitle),
+                  child: Text(routineWorkout.workoutTitle, style: Headline6),
                 )
               : Text(
                   routineWorkout.workoutTitle,
@@ -373,15 +383,15 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 children: [
                   Container(
                     width: 100,
-                    child: FlatButton(
+                    child: TextButton(
+                      onPressed: () async {
+                        await HapticFeedback.mediumImpact();
+                        await _addNewSet();
+                      },
                       child: const Icon(
                         Icons.add_rounded,
                         color: Colors.grey,
                       ),
-                      onPressed: () async {
-                        HapticFeedback.mediumImpact();
-                        _addNewSet();
-                      },
                     ),
                   ),
                   Container(
@@ -391,14 +401,14 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                   ),
                   Container(
                     width: 100,
-                    child: FlatButton(
-                      child: const Icon(
+                    child: IconButton(
+                      icon: const Icon(
                         Icons.timer_rounded,
                         color: Colors.grey,
                       ),
                       onPressed: () async {
-                        HapticFeedback.mediumImpact();
-                        _addNewRest();
+                        await HapticFeedback.mediumImpact();
+                        await _addNewRest();
                       },
                     ),
                   ),
@@ -409,8 +419,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                   ),
                   Container(
                     width: 100,
-                    child: FlatButton(
-                      child: const Icon(
+                    child: IconButton(
+                      icon: const Icon(
                         Icons.delete_rounded,
                         color: Colors.grey,
                       ),
@@ -439,7 +449,6 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         actions: [
           CupertinoActionSheetAction(
             isDestructiveAction: true,
-            child: const Text('Delete workout'),
             onPressed: () {
               _deleteRoutineWorkout(
                 context,
@@ -450,12 +459,13 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
               // TODO: ADD SNACKBAR
             },
+            child: const Text('Delete workout'),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
           isDefaultAction: true,
-          child: const Text('Cancel'),
           onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
         ),
       ),
     );

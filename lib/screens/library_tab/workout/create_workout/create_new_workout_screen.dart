@@ -41,7 +41,7 @@ class CreateNewWorkoutScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -123,7 +123,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       // );
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -172,7 +172,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   void saveEquipmentRequired() {
     debugPrint('saveEquipmentRequired Pressed');
-    if (_selectedEquipmentRequired.length > 0) {
+    if (_selectedEquipmentRequired.isNotEmpty) {
       setState(() {
         _pageIndex = 3;
       });
@@ -203,12 +203,10 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -298,7 +296,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       );
     } else {
       return FloatingActionButton(
-        child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
         backgroundColor: PrimaryColor,
         onPressed: (_pageIndex == 0)
             ? saveTitle
@@ -307,6 +304,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                 : (_pageIndex == 2)
                     ? saveEquipmentRequired
                     : saveDifficulty,
+        child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
       );
     }
   }

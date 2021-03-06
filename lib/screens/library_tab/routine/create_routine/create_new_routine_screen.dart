@@ -41,7 +41,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
-    HapticFeedback.mediumImpact();
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -118,7 +118,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       );
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -144,7 +144,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   void saveMainMuscleGroup() {
     debugPrint('saveMainMuscleGroup Pressed');
-    if (_selectedMainMuscleGroup != null) {
+    if (_selectedMainMuscleGroup.isNotEmpty) {
       setState(() {
         _pageIndex = 2;
       });
@@ -160,7 +160,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   void saveEquipmentRequired() {
     debugPrint('saveEquipmentRequired Pressed');
-    if (_selectedEquipmentRequired.length > 0) {
+    if (_selectedEquipmentRequired.isNotEmpty) {
       setState(() {
         _pageIndex = 3;
       });
@@ -182,12 +182,10 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -271,10 +269,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       return FloatingActionButton(
         backgroundColor: PrimaryColor,
-        child: const Icon(
-          Icons.arrow_forward_rounded,
-          color: Colors.white,
-        ),
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)
@@ -282,6 +276,10 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                 : (_pageIndex == 2)
                     ? saveEquipmentRequired
                     : saveDifficultyAndMore,
+        child: const Icon(
+          Icons.arrow_forward_rounded,
+          color: Colors.white,
+        ),
       );
     }
   }

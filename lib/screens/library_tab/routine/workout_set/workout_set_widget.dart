@@ -78,12 +78,13 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   @override
   void dispose() {
     _textController1.dispose();
-    focusNode1.dispose();
     _textController2.dispose();
-    focusNode2.dispose();
     _textController3.dispose();
+
+    focusNode1.dispose();
+    focusNode2.dispose();
     focusNode3.dispose();
-    _slidableController.activeState.dispose();
+
     super.dispose();
   }
 
@@ -152,7 +153,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       // );
     } on FirebaseException catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -164,8 +165,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   Future<void> updateSet() async {
     if (_formKey.currentState.validate()) {
       try {
-        final List<WorkoutSet> workoutSets = widget.routineWorkout.sets;
-        final WorkoutSet set = widget.set;
+        final workoutSets = widget.routineWorkout.sets;
+        final set = widget.set;
 
         /// Update Workout Set
         final newSet = WorkoutSet(
@@ -181,8 +182,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
         /// Update Routine Workout
         // NumberOfReps
-        int numberOfReps = 0;
-        bool numberOfRepsCalculated = false;
+        var numberOfReps = 0;
+        var numberOfRepsCalculated = false;
 
         if (!numberOfRepsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
@@ -193,8 +194,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         }
 
         // Total Weights
-        double totalWeights = 0;
-        bool totalWeightsCalculated = false;
+        var totalWeights = 0.00;
+        var totalWeightsCalculated = false;
 
         if (!totalWeightsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
@@ -205,8 +206,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         }
 
         // Duration
-        int duration = 0;
-        bool durationCalculated = false;
+        var duration = 0.00;
+        var durationCalculated = false;
 
         if (!durationCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
@@ -250,7 +251,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         print('routineWorkout Updated');
       } on FirebaseException catch (e) {
         logger.d(e);
-        showExceptionAlertDialog(
+        await showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
           exception: e,
@@ -261,7 +262,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final WorkoutSet set = widget.set;
+    final set = widget.set;
 
     return Slidable(
       actionPane: const SlidableDrawerActionPane(),
@@ -282,11 +283,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   bool repsTabbed = false;
   bool restTimeTabbed = false;
 
-  _buildRow(WorkoutSet set) {
+  Widget _buildRow(WorkoutSet set) {
     final f = NumberFormat('#,###');
     final title = set?.setTitle ?? 'Set Name';
-    final String unit =
-        UnitOfMass.values[widget.routine.initialUnitOfMass].label;
+    final unit = UnitOfMass.values[widget.routine.initialUnitOfMass].label;
     final weights = widget.set.weights;
     final formattedWeights = '${f.format(weights)} $unit';
     final reps = '${widget.set.reps} x';
@@ -476,8 +476,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   node.unfocus();
                 },
                 child: const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('DONE', style: ButtonText),
                 ),
               );
             }
@@ -498,8 +498,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   node.unfocus();
                 },
                 child: const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('DONE', style: ButtonText),
                 ),
               );
             }
@@ -520,8 +520,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   node.unfocus();
                 },
                 child: const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('DONE', style: ButtonText),
                 ),
               );
             }

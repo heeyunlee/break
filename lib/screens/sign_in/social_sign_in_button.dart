@@ -15,7 +15,7 @@ class SocialSignInButton extends StatelessWidget {
 
   final Color color;
   final Color disabledColor;
-  final onPressed;
+  final void Function() onPressed;
   final String logo;
   final String buttonText;
   final Color textColor;

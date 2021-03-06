@@ -51,18 +51,13 @@ class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
 
 class _EditRoutineMainMuscleGroupScreenState
     extends State<EditRoutineMainMuscleGroupScreen> {
-  // MainMuscleGroup _mainMuscleGroup;
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  List _selectedMainMuscleGroup = [];
+  final List _selectedMainMuscleGroup = [];
 
   @override
   void initState() {
     super.initState();
-    // for (var i = 0; i < MainMuscleGroup.values.length; i++) {
-    //   if (MainMuscleGroup.values[i].label == widget.routine.mainMuscleGroup)
-    //     _mainMuscleGroup = MainMuscleGroup.values[i];
-    // }
-    Map<String, bool> mainMuscleGroup = {
+    var mainMuscleGroup = <String, bool>{
       'Abs': (widget.routine.mainMuscleGroup.contains('Abs')) ? true : false,
       'Arms': (widget.routine.mainMuscleGroup.contains('Arms')) ? true : false,
       'Cardio':
@@ -132,7 +127,7 @@ class _EditRoutineMainMuscleGroupScreenState
       debugPrint('$_selectedMainMuscleGroup');
     } on Exception catch (e) {
       logger.d(e);
-      showExceptionAlertDialog(
+      await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
         exception: e,
@@ -153,7 +148,7 @@ class _EditRoutineMainMuscleGroupScreenState
             color: Colors.white,
           ),
           onPressed: () {
-            if (_selectedMainMuscleGroup.length >= 1) {
+            if (_selectedMainMuscleGroup.isNotEmpty) {
               _submit();
               Navigator.of(context).pop();
             } else {

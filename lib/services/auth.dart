@@ -39,11 +39,10 @@ class AuthService implements AuthBase {
 
   @override
   Future<auth.User> signInAnonymously() async {
-    auth.UserCredential userCredential =
-        await auth.FirebaseAuth.instance.signInAnonymously();
-    final auth.User user = userCredential.user;
+    var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
+    final user = userCredential.user;
 
-    final auth.User currentUser = _auth.currentUser;
+    final currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
     setUser(user);
 
@@ -56,13 +55,12 @@ class AuthService implements AuthBase {
   @override
   Future<auth.User> signInWithGoogle() async {
     // Trigger Authentication flow
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final googleSignIn = GoogleSignIn();
+    final googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleSignInAccount.authentication;
+      final googleAuth = await googleSignInAccount.authentication;
       print(googleAuth.accessToken);
       if (googleAuth.idToken != null) {
         final auth.GoogleAuthCredential credential =
@@ -70,11 +68,10 @@ class AuthService implements AuthBase {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        final auth.UserCredential authResult =
-            await _auth.signInWithCredential(credential);
-        final auth.User user = authResult.user;
+        final authResult = await _auth.signInWithCredential(credential);
+        final user = authResult.user;
 
-        final auth.User currentUser = _auth.currentUser;
+        final currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
         setUser(user);
 
@@ -94,11 +91,11 @@ class AuthService implements AuthBase {
   }
 
   // Sign In with Facebook
+  @override
   Future<auth.User> signInWithFacebook() async {
     //Trigger the authentication flow
-    final FacebookLogin facebookLogin = FacebookLogin();
-    final FacebookLoginResult facebookLoginResult =
-        await facebookLogin.logIn(permissions: [
+    final facebookLogin = FacebookLogin();
+    final facebookLoginResult = await facebookLogin.logIn(permissions: [
       FacebookPermission.publicProfile,
       FacebookPermission.email,
     ]);
@@ -113,13 +110,13 @@ class AuthService implements AuthBase {
 
         // get the user
         final authResult = await _auth.signInWithCredential(credential);
-        final auth.User user = authResult.user;
+        final user = authResult.user;
 
-        final auth.User currentUser = _auth.currentUser;
+        final currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
         setUser(user);
 
-        print(auth.AdditionalUserInfo().isNewUser);
+        print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
 
         return user;
 
@@ -144,6 +141,7 @@ class AuthService implements AuthBase {
   }
 
   // Sign In With Apple
+  @override
   Future<auth.User> signInWithApple() async {
     //Trigger the authentication flow
     try {
@@ -161,22 +159,21 @@ class AuthService implements AuthBase {
       );
 
       // Create a new credential
-      final auth.OAuthProvider oAuthProvider = auth.OAuthProvider('apple.com');
-      final auth.OAuthCredential credential = oAuthProvider.credential(
+      final oAuthProvider = auth.OAuthProvider('apple.com');
+      final credential = oAuthProvider.credential(
         accessToken: result.authorizationCode,
         idToken: result.identityToken,
       );
 
       // Using credential to get the user
-      final auth.UserCredential authResult =
-          await _auth.signInWithCredential(credential);
-      final auth.User user = authResult.user;
+      final authResult = await _auth.signInWithCredential(credential);
+      final user = authResult.user;
 
-      final auth.User currentUser = _auth.currentUser;
+      final currentUser = _auth.currentUser;
       assert(user.uid == currentUser.uid);
       setUser(user);
 
-      print(auth.AdditionalUserInfo().isNewUser);
+      print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
 
       return user;
     } on auth.FirebaseAuthException catch (e) {

@@ -19,13 +19,13 @@ Future<bool> showAlertDialogWithContents(
         content: buildContent,
         actions: <Widget>[
           if (cancelAcitionText != null)
-            FlatButton(
-              child: Text(cancelAcitionText),
+            ElevatedButton(
               onPressed: () => Navigator.of(context).pop(false),
+              child: Text(cancelAcitionText),
             ),
-          FlatButton(
-            child: Text(defaultActionText),
+          ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
+            child: Text(defaultActionText),
           )
         ],
       ),
@@ -39,12 +39,12 @@ Future<bool> showAlertDialogWithContents(
       actions: <Widget>[
         if (cancelAcitionText != null)
           CupertinoDialogAction(
-            child: Text(cancelAcitionText),
             onPressed: () => Navigator.of(context).pop(false),
+            child: Text(cancelAcitionText),
           ),
         CupertinoDialogAction(
-          child: Text(defaultActionText),
           onPressed: () => Navigator.of(context).pop(true),
+          child: Text(defaultActionText),
         ),
       ],
     ),

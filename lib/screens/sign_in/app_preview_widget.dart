@@ -18,22 +18,22 @@ class AppPreviewWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.antiAlias,
+      alignment: Alignment.center,
       children: [
         Positioned(
+          top: -80,
           child: CachedNetworkImage(
             imageUrl: imageRoot,
             height: size.height * 5 / 6,
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-          top: -80,
         ),
         Positioned(
           bottom: 16,
           child: Text(subtitle, style: BodyText1),
         ),
       ],
-      alignment: Alignment.center,
     );
   }
 }

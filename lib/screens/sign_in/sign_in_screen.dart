@@ -272,7 +272,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildSignInScreen(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return Container(
       height: size.height,
@@ -286,7 +286,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         CircularProgressIndicator(
                           valueColor:
-                              new AlwaysStoppedAnimation<Color>(PrimaryColor),
+                              AlwaysStoppedAnimation<Color>(PrimaryColor),
                         ),
                         SizedBox(height: 24),
                         Text('Signing in...', style: BodyText2),

@@ -3,8 +3,8 @@ import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 
 import '../../../../constants.dart';
 
-typedef void StringCallback(String title);
-typedef void IntCallback(int index);
+typedef StringCallback = void Function(String title);
+typedef IntCallback = void Function(int index);
 
 class NewRoutineTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;
