@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
@@ -42,6 +43,8 @@ class DailySummaryDetailScreen extends StatefulWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userStream(userId: auth.currentUser.uid).first;
+
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => DailySummaryDetailScreen(
@@ -353,33 +356,45 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: TextFormField(
-                  textInputAction: TextInputAction.done,
-                  controller: _textController1,
-                  style: BodyText2,
-                  focusNode: focusNode1,
-                  decoration: const InputDecoration(
-                    hintText: 'Add Notes',
-                    hintStyle: BodyText2Grey,
-                    border: InputBorder.none,
-                  ),
-                  onFieldSubmitted: (value) {
-                    _notes = value;
-                    _submit();
-                  },
-                  onChanged: (value) => _notes = value,
-                  onSaved: (value) => _notes = value,
-                ),
+                child: (widget.routineHistory.userId ==
+                        widget.auth.currentUser.uid)
+                    ? TextFormField(
+                        maxLines: 4,
+                        textInputAction: TextInputAction.done,
+                        controller: _textController1,
+                        style: BodyText2,
+                        focusNode: focusNode1,
+                        decoration: const InputDecoration(
+                          hintText: 'Add Notes',
+                          hintStyle: BodyText2Grey,
+                          border: InputBorder.none,
+                        ),
+                        onFieldSubmitted: (value) {
+                          _notes = value;
+                          _submit();
+                        },
+                        onChanged: (value) => _notes = value,
+                        onSaved: (value) => _notes = value,
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        height: 100,
+                        child: Text(
+                          widget.routineHistory.notes,
+                          style: BodyText2,
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 48),
-            MaxWidthRaisedButton(
-              color: Colors.red,
-              buttonText: 'DELETE',
-              onPressed: () async {
-                await _showModalBottomSheet(context);
-              },
-            ),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              MaxWidthRaisedButton(
+                color: Colors.red,
+                buttonText: 'DELETE',
+                onPressed: () async {
+                  await _showModalBottomSheet(context);
+                },
+              ),
           ],
         ),
       ),

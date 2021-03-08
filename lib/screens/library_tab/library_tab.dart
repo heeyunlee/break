@@ -11,7 +11,7 @@ import '../../constants.dart';
 import '../../format.dart';
 import 'activity/saved_routine_histories_tab.dart';
 import 'routine/saved_routines_tab.dart';
-import 'workout/saved_workouts.dart';
+import 'workout/saved_workouts_tab.dart';
 
 class LibraryTab extends StatelessWidget {
   static const routeName = 'library';
@@ -105,13 +105,6 @@ class _FlexibleSpace extends StatelessWidget {
             return Column(
               children: <Widget>[
                 const SizedBox(height: 64),
-                Text(
-                  'THIS IS A BETA APP',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

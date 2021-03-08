@@ -91,7 +91,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           isRest: false,
           index: setIndex,
           setTitle: 'Set $setIndex',
-          weights: 0,
+          weights: 0.00,
           reps: 0,
           restTime: 0,
         );
@@ -383,12 +383,12 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 children: [
                   Container(
                     width: 100,
-                    child: TextButton(
+                    child: IconButton(
                       onPressed: () async {
                         await HapticFeedback.mediumImpact();
                         await _addNewSet();
                       },
-                      child: const Icon(
+                      icon: const Icon(
                         Icons.add_rounded,
                         color: Colors.grey,
                       ),

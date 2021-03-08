@@ -54,14 +54,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             //   onPressed: () {},
             // ),
           ),
-          if (notes != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Text(
-                notes,
-                style: BodyText1,
-              ),
-            ),
+          _buildNotes(notes),
           Card(
             color: CardColorLight,
             margin: const EdgeInsets.all(16),
@@ -77,6 +70,22 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildNotes(String notes) {
+    if (notes != null) {
+      if (notes.isNotEmpty) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Text(
+            notes,
+            style: BodyText1,
+          ),
+        );
+      }
+      return Container();
+    }
+    return Container();
   }
 
   Widget _buildChild() {

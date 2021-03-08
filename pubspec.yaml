@@ -5,7 +5,7 @@ description: A new app that helps you workout better.
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.1.2
+version: 0.1.2+5
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
@@ -23,7 +23,7 @@ dependencies:
   firebase_crashlytics: ^1.0.0
   # firebase_analytics: ^7.1.0
   flutter_login_facebook: ^1.0.0-nullsafety.1
-  sign_in_with_apple: ^3.0.0-nullsafety.0
+  sign_in_with_apple: ^3.0.0-nullsafety.0 
   google_sign_in: ^5.0.0
   # kakao_flutter_sdk: ^0.5.4
   google_fonts: ^2.0.0

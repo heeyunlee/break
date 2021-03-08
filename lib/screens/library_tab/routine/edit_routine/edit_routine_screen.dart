@@ -111,9 +111,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     focusNode1.dispose();
-    focusNode2.dispose();
-
     _textController1.dispose();
+
+    focusNode2.dispose();
     _textController2.dispose();
 
     super.dispose();
@@ -131,9 +131,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   // Delete Routine Method
   Future<void> _delete(BuildContext context, Routine routine) async {
     try {
-      await widget.database.deleteRoutine(routine).then(
-            (value) => Navigator.of(context).popUntil((route) => route.isFirst),
-          );
+      await widget.database.deleteRoutine(routine);
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
       // TODO: ADD SNACKBAR
 
     } on FirebaseException catch (e) {
@@ -227,7 +227,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         });
   }
 
-  Widget _buildContents(Routine routine, context) {
+  Widget _buildContents(Routine routine, BuildContext context) {
     final size = Scaffold.of(context).appBarMaxHeight;
 
     return Theme(
@@ -259,7 +259,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 38),
+              const SizedBox(height: 38),
             ],
           ),
         ),
@@ -543,6 +543,35 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     );
   }
 
+  // Future<bool> _showModalBottomSheet() {
+  //   return showCupertinoModalPopup(
+  //     context: context,
+  //     builder: (context) => CupertinoActionSheet(
+  //       message: const Text(
+  //         'Delete the workout? You cannot undo this process',
+  //         textAlign: TextAlign.center,
+  //       ),
+  //       actions: [
+  //         CupertinoActionSheetAction(
+  //           isDestructiveAction: true,
+  //           onPressed: () {
+  //             _delete(context, widget.routine);
+  //             Navigator.of(context).pop();
+
+  //             // TODO: ADD SNACKBAR
+  //           },
+  //           child: const Text('Delete workout'),
+  //         ),
+  //       ],
+  //       cancelButton: CupertinoActionSheetAction(
+  //         isDefaultAction: true,
+  //         onPressed: () => Navigator.of(context).pop(),
+  //         child: const Text('Cancel'),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Future<bool> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context: context,
@@ -561,7 +590,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: Grey700,
-      keyboardBarColor: Color(0xff303030),
+      keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
       actions: [

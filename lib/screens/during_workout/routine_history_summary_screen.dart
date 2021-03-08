@@ -1,34 +1,37 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/list_item_builder.dart';
-import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
+import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/screens/library_tab/activity/routine_history/activity_list_tile.dart';
-import 'package:workout_player/screens/library_tab/activity/routine_history/summary_row_widget.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../format.dart';
 
 class RoutineHistorySummaryScreen extends StatefulWidget {
-  const RoutineHistorySummaryScreen({Key key, this.routineHistory})
-      : super(key: key);
-
   final RoutineHistory routineHistory;
+  final Database database;
+
+  const RoutineHistorySummaryScreen({
+    Key key,
+    this.routineHistory,
+    this.database,
+  }) : super(key: key);
 
   static void show({
     BuildContext context,
     RoutineHistory routineHistory,
   }) async {
+    final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => RoutineHistorySummaryScreen(
           routineHistory: routineHistory,
+          database: database,
         ),
       ),
     );
@@ -44,7 +47,7 @@ class _RoutineHistorySummaryScreenState
   FocusNode focusNode1;
   var _textController1 = TextEditingController();
 
-  String _notes = '';
+  String _notes;
   bool _isPublic = true;
 
   @override
@@ -52,6 +55,30 @@ class _RoutineHistorySummaryScreenState
     super.initState();
     focusNode1 = FocusNode();
     _textController1 = TextEditingController(text: _notes);
+  }
+
+  // Submit data to Firestore
+  Future<void> _update() async {
+    try {
+      final routineHistory = {
+        'isPublic': _isPublic,
+        'notes': _notes,
+      };
+      await widget.database.updateRoutineHistory(
+        widget.routineHistory,
+        routineHistory,
+      );
+
+      await HapticFeedback.mediumImpact();
+      // TODO: ADD SNACKBAR
+
+    } on FirebaseException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: 'Operation Failed',
+        exception: e,
+      );
+    }
   }
 
   @override
@@ -70,8 +97,6 @@ class _RoutineHistorySummaryScreenState
     final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
     final equipmentRequired =
         widget.routineHistory?.equipmentRequired[0] ?? 'Null';
-
-    final database = Provider.of<Database>(context);
 
     // Unit Of Mass
     final unit = widget.routineHistory.unitOfMass;
@@ -96,6 +121,7 @@ class _RoutineHistorySummaryScreenState
             color: Colors.white,
           ),
           onPressed: () {
+            _update();
             Navigator.of(context).pop();
           },
         ),
@@ -248,10 +274,13 @@ class _RoutineHistorySummaryScreenState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text('Make it visible to: ', style: BodyText2Light),
-                        Text(
-                          (_isPublic) ? 'Everyone' : 'Just Me',
-                          style: BodyText2w900,
+                        Text('Make it visible to:    ', style: BodyText2Light),
+                        SizedBox(
+                          width: 72,
+                          child: Text(
+                            (_isPublic) ? 'Everyone' : 'Just Me',
+                            style: BodyText2w900,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Icon(

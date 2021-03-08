@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -14,6 +13,7 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
+import '../../../../format.dart';
 
 Logger logger = Logger();
 
@@ -65,7 +65,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     focusNode2 = FocusNode();
     focusNode3 = FocusNode();
 
-    _weights = f.format(widget.set.weights);
+    _weights = Format.weights(widget.set.weights);
     _textController1 = TextEditingController(text: _weights);
 
     _reps = widget.set.reps.toString();
@@ -166,7 +166,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     if (_formKey.currentState.validate()) {
       try {
         final workoutSets = widget.routineWorkout.sets;
+        print('workoutSets is ${workoutSets.runtimeType}');
         final set = widget.set;
+
+        final workoutWeights = double.parse(_weights);
+        print('workoutWeights is ${workoutWeights.runtimeType}');
 
         /// Update Workout Set
         final newSet = WorkoutSet(
@@ -178,12 +182,17 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           reps: int.parse(_reps),
           weights: double.parse(_weights),
         );
+
         workoutSets[widget.index] = newSet;
 
         /// Update Routine Workout
         // NumberOfReps
         var numberOfReps = 0;
+        print('numberOfReps is ${numberOfReps.runtimeType}');
+
         var numberOfRepsCalculated = false;
+        print(
+            'numberOfRepsCalculated is ${numberOfRepsCalculated.runtimeType}');
 
         if (!numberOfRepsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
@@ -192,21 +201,28 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           }
           numberOfRepsCalculated = true;
         }
+        print('numberOfReps is ${numberOfReps.runtimeType}');
 
         // Total Weights
-        var totalWeights = 0.00;
+        // ignore: omit_local_variable_types
+        double totalWeights = 0;
+        print('totalWeights is ${totalWeights.runtimeType}');
+
         var totalWeightsCalculated = false;
 
         if (!totalWeightsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
-            var weights = workoutSets[i].weights * workoutSets[i].reps;
+            // ignore: omit_local_variable_types
+            double weights = workoutSets[i].weights * workoutSets[i].reps;
             totalWeights = totalWeights + weights;
           }
           totalWeightsCalculated = true;
         }
+        print('totalWeights is ${totalWeights.runtimeType}');
 
         // Duration
-        var duration = 0.00;
+        // ignore: omit_local_variable_types
+        int duration = 0;
         var durationCalculated = false;
 
         if (!durationCalculated) {
@@ -284,11 +300,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   bool restTimeTabbed = false;
 
   Widget _buildRow(WorkoutSet set) {
-    final f = NumberFormat('#,###');
     final title = set?.setTitle ?? 'Set Name';
-    final unit = UnitOfMass.values[widget.routine.initialUnitOfMass].label;
-    final weights = widget.set.weights;
-    final formattedWeights = '${f.format(weights)} $unit';
+    final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
+    // ignore: omit_local_variable_types
+    final double weights = widget.set.weights;
+    final formattedWeights = '${Format.weights(weights)} $unit';
     final reps = '${widget.set.reps} x';
     final restTime = '${widget.set.restTime} s';
 
@@ -326,7 +342,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     color: CardColorLight,
                     child: (!weightsTabbed)
                         ? Center(
-                            child: Text(formattedWeights, style: BodyText1))
+                            child: Text(formattedWeights, style: BodyText1),
+                          )
                         : TextFormField(
                             autofocus: true,
                             textAlign: TextAlign.center,

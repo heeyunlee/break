@@ -63,7 +63,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   String _description = '';
   List _selectedMainMuscleGroup = [];
   List _selectedEquipmentRequired = [];
-  double _difficultySlider = 2;
+  double _difficultySlider = 0;
   double _secondsPerRepSlider = 2;
 
   int _pageIndex = 0;

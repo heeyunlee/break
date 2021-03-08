@@ -100,8 +100,8 @@ Future<bool> showAdaptiveModalBottomSheet({
     useRootNavigator: false,
     context: context,
     builder: (context) => CupertinoActionSheet(
-      title: Text(title ?? ''),
-      message: Text(message ?? ''),
+      title: title,
+      message: message,
       actions: <Widget>[
         if (firstActionText != null)
           CupertinoActionSheetAction(

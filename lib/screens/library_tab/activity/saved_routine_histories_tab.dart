@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
@@ -22,8 +21,6 @@ class SavedRoutineHistoriesTab extends StatelessWidget {
           StreamBuilder<List<RoutineHistory>>(
             stream: database.routineHistoriesStream(),
             builder: (context, snapshot) {
-              print(snapshot.error);
-
               return ListItemBuilder<RoutineHistory>(
                 snapshot: snapshot,
                 isEmptyContentWidget: true,
@@ -44,7 +41,6 @@ class SavedRoutineHistoriesTab extends StatelessWidget {
                   onTap: () {
                     debugPrint('Activity Card was tapped');
 
-                    HapticFeedback.mediumImpact();
                     DailySummaryDetailScreen.show(
                       context: context,
                       routineHistory: routineHistory,

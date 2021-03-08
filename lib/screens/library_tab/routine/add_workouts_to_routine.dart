@@ -12,6 +12,7 @@ import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -23,13 +24,16 @@ class AddWorkoutsToRoutine extends StatefulWidget {
     Key key,
     this.database,
     this.routine,
+    this.auth,
   }) : super(key: key);
 
   final Database database;
   final Routine routine;
+  final AuthBase auth;
 
   static void show(BuildContext context, {Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -37,6 +41,7 @@ class AddWorkoutsToRoutine extends StatefulWidget {
         builder: (context) => AddWorkoutsToRoutine(
           routine: routine,
           database: database,
+          auth: auth,
         ),
         fullscreenDialog: true,
       ),
@@ -48,7 +53,7 @@ class AddWorkoutsToRoutine extends StatefulWidget {
 }
 
 class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
-  String _selectedChip = 'All';
+  String _selectedChip;
 
   // set string(String value) => setState(() => _selectedChip = value);
 
@@ -60,6 +65,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   @override
   void initState() {
     super.initState();
+    _selectedChip = widget.routine.mainMuscleGroup[0];
   }
 
   @override
@@ -71,27 +77,27 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
     try {
       final routineWorkouts =
           await widget.database.routineWorkoutsStream(widget.routine).first;
-      if (routineWorkouts == null || routineWorkouts != null) {
-        final index = routineWorkouts.length + 1;
-        final routineWorkout = RoutineWorkout(
-          routineWorkoutId: documentIdFromCurrentDate(),
-          workoutId: selectedWorkoutId,
-          workoutTitle: selectedWorkoutTitle,
-          numberOfReps: 0,
-          numberOfSets: 0,
-          totalWeights: 0,
-          index: index,
-          sets: [],
-          isBodyWeightWorkout: isBodyWeightWorkout,
-          duration: 0,
-          secondsPerRep: secondsPerRep,
-        );
-        await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
-        Navigator.of(context).pop();
-        // TODO: ADD SNACKBAR
-      } else {
-        return null;
-      }
+      final index = routineWorkouts.length + 1;
+
+      final routineWorkout = RoutineWorkout(
+        routineWorkoutId: documentIdFromCurrentDate(),
+        workoutId: selectedWorkoutId,
+        routineId: widget.routine.routineId,
+        routineWorkoutOwnerId: widget.auth.currentUser.uid,
+        workoutTitle: selectedWorkoutTitle,
+        numberOfReps: 0,
+        numberOfSets: 0,
+        totalWeights: 0,
+        index: index,
+        sets: [],
+        isBodyWeightWorkout: isBodyWeightWorkout,
+        duration: 0,
+        secondsPerRep: secondsPerRep,
+      );
+      await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
+      Navigator.of(context).pop();
+      // TODO: ADD SNACKBAR
+
     } on Exception catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -172,7 +178,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                     selectedWorkoutId = workout.workoutId;
                     selectedWorkoutTitle = workout.workoutTitle;
                     isBodyWeightWorkout = workout.isBodyWeightWorkout;
-                    secondsPerRep = workout.secondsPerRep ?? 2;
+                    secondsPerRep = workout.secondsPerRep ?? 3;
                   });
                   _submit();
                 },

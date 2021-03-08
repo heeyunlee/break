@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
@@ -36,13 +37,16 @@ class EditWorkoutScreen extends StatefulWidget {
   static Future<void> show({BuildContext context, Workout workout}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await database.userStream(userId: auth.currentUser.uid).first;
+
+    await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => EditWorkoutScreen(
           database: database,
           workout: workout,
-          user: auth.currentUser,
+          user: user,
         ),
       ),
     );
@@ -50,9 +54,9 @@ class EditWorkoutScreen extends StatefulWidget {
     //   context,
     //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
     //   withNavBar: false,
-    //   screen: EditRoutineScreen(
+    //   screen: EditWorkoutScreen(
     //     database: database,
-    //     routine: routine,
+    //     workout: workout,
     //     user: auth.currentUser,
     //   ),
     // );
@@ -124,12 +128,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       await widget.database.deleteWorkout(workout);
       Navigator.of(context).popUntil((route) => route.isFirst);
-      // Navigator.of(context).pushReplacement(
-      //   CupertinoPageRoute(
-      //     builder: (context) => LibraryTab(),
-      //     fullscreenDialog: false,
-      //   ),
-      // );
+
       // TODO: ADD SNACKBAR
     } on FirebaseException catch (e) {
       logger.d(e);
@@ -189,6 +188,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
+                  HapticFeedback.mediumImpact();
                   Navigator.of(context).pop();
                 },
               ),
@@ -213,7 +213,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         });
   }
 
-  Widget _buildContents(Workout workout, context) {
+  Widget _buildContents(Workout workout, BuildContext context) {
     final size = Scaffold.of(context).appBarMaxHeight;
 
     return Theme(
@@ -232,18 +232,22 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 SizedBox(height: size),
                 _buildForm(workout),
                 const SizedBox(height: 32),
-                MaxWidthRaisedButton(
-                  color: Colors.red,
-                  icon: const Icon(
-                    Icons.delete_outline_rounded,
-                    color: Colors.white,
-                    size: 20,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: MaxWidthRaisedButton(
+                    color: Colors.red,
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    buttonText: 'Delete',
+                    onPressed: () async {
+                      await _showModalBottomSheet(context);
+                    },
                   ),
-                  buttonText: 'Delete',
-                  onPressed: () async {
-                    await _showModalBottomSheet(context);
-                  },
                 ),
+                SizedBox(height: 38),
               ],
             ),
           ),

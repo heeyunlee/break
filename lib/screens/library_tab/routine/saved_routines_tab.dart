@@ -14,19 +14,14 @@ import 'routine_detail_screen.dart';
 class SavedRoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ScrollController _scrollController;
-
     final database = Provider.of<Database>(context, listen: false);
 
-    return StreamBuilder<List<Routine>>(
-      stream: database.userRoutinesStream(),
-      builder: (context, snapshot) {
-        print(snapshot.error);
-
-        return SingleChildScrollView(
-          controller: _scrollController,
-          physics: const BouncingScrollPhysics(),
-          child: Column(
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: StreamBuilder<List<Routine>>(
+        stream: database.userRoutinesStream(),
+        builder: (context, snapshot) {
+          return Column(
             children: [
               const SizedBox(height: 12),
               if (snapshot.hasData && snapshot.data.isNotEmpty)
@@ -55,9 +50,9 @@ class SavedRoutinesTab extends StatelessWidget {
               ),
               const SizedBox(height: 16),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

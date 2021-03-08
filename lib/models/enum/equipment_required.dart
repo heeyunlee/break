@@ -43,7 +43,8 @@ extension EquipmentRequiredExtension on EquipmentRequired {
   }
 
   List<String> get list {
-    final equipmentRequiredList = [];
+    // ignore: omit_local_variable_types
+    final List<String> equipmentRequiredList = [];
     for (var i = 0; i < EquipmentRequired.values.length; i++) {
       final value = EquipmentRequired.values[i].label;
       equipmentRequiredList.add(value);

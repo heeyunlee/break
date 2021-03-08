@@ -57,6 +57,10 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                 pinned: true,
                 snap: false,
                 centerTitle: true,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
                 title: Text(isEqualTo ?? arrayContains, style: Subtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,

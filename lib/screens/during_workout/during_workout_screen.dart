@@ -99,8 +99,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
     print('dispose');
+
+    _animationController.dispose();
     super.dispose();
   }
 

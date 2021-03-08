@@ -47,22 +47,27 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 children: <Widget>[
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2FiOS%2Fapp_preview_2.png?alt=media&token=2fd93bff-52b9-48c9-ab31-e3863a4025be',
-                    subtitle: 'Save your Routines',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_5.png?alt=media&token=85220a42-5eb1-4a6a-996a-4e56016a0d0a',
+                    subtitle: 'Create your Own Routine',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2FiOS%2Fapp_preview_3.png?alt=media&token=5c9220eb-1e35-4e30-9194-37de19ff2e4f',
-                    subtitle: 'See your Activities',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_1.png?alt=media&token=eef2b7d5-ff9d-4a45-8c5a-2d2f1d7d86c6',
+                    subtitle: 'Save your Progress',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2FiOS%2Fapp_preview_4.png?alt=media&token=31cd40c9-d3f1-4f16-8ce4-d2d239955e7f',
-                    subtitle: 'Set a timer',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_2.png?alt=media&token=92d1a816-f1d0-4b2d-a389-24ea3c9768ad',
+                    subtitle: 'Save your Progress',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2FiOS%2Fapp_preview_5.png?alt=media&token=3231ae19-d02d-4b92-a83f-997509178d74',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_3.png?alt=media&token=bfff98db-c276-45d9-8945-6a985c3b541a',
+                    subtitle: 'Save your Progress',
+                  ),
+                  const AppPreviewWidget(
+                    imageRoot:
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_4.png?alt=media&token=ee174a8a-5590-4dc4-94f3-e1cccf1e81da',
                     subtitle: 'Workout Seamlessly',
                   ),
                 ],
@@ -76,22 +81,27 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 children: <Widget>[
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_1.png?alt=media&token=c1c548e3-f398-4a32-a6c1-b5bcd94f4ff4',
-                    subtitle: 'Save your Routines',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_2.png?alt=media&token=f60b1c4c-d6b8-4702-8f1e-0db286727cb8',
+                    subtitle: 'Create Your Own Routine',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_2.png?alt=media&token=1b931226-e0e3-4716-9474-f360fff7e74a',
-                    subtitle: 'See your Activities',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_1.png?alt=media&token=15e54bba-b995-425d-8e02-9ac60be667cb',
+                    subtitle: 'Save your Progress',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_3.png?alt=media&token=86b16501-0a2a-4234-904a-bdb73c218e9f',
-                    subtitle: 'Set a timer',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_3.png?alt=media&token=a098e834-3483-4c20-8b85-7202ebc43231',
+                    subtitle: 'Save your Progress',
                   ),
                   const AppPreviewWidget(
                     imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/workout-player.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_4.png?alt=media&token=58b69309-2c63-4434-9a99-6b152f3b63c6',
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_5.png?alt=media&token=faa1e4c4-9a8e-4854-a802-5f45fd103573',
+                    subtitle: 'Save your Progress',
+                  ),
+                  const AppPreviewWidget(
+                    imageRoot:
+                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_4.png?alt=media&token=528f29e5-ba2f-4ac9-9ad9-00448a46f007',
                     subtitle: 'Workout Seamlessly',
                   ),
                 ],
@@ -118,7 +128,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Center(
                   child: SmoothPageIndicator(
                     controller: _pageController,
-                    count: 4,
+                    count: 5,
                     effect: const ScrollingDotsEffect(
                       activeDotColor: PrimaryColor,
                       activeDotScale: 1.5,
@@ -132,7 +142,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    if (_currentPage < 3) {
+                    if (_currentPage < 4) {
                       HapticFeedback.mediumImpact();
                       _currentPage++;
                       _pageController.animateToPage(
@@ -148,7 +158,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   });
                 },
                 child: Text(
-                  (_currentPage == 3) ? 'DONE' : 'NEXT',
+                  (_currentPage == 4) ? 'DONE' : 'NEXT',
                   style: ButtonText,
                 ),
               ),

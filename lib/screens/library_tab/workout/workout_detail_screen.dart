@@ -35,7 +35,7 @@ class WorkoutDetailScreen extends StatefulWidget {
   static void show(
     BuildContext context, {
     Workout workout,
-    bool isRootNavigation,
+    bool isRootNavigation = false,
     String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);

@@ -15,6 +15,7 @@ import 'package:workout_player/services/auth.dart';
 import '../../../common_widgets/list_item_builder.dart';
 import '../../../common_widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
+import '../../../dummy_data.dart';
 import '../../../format.dart';
 import '../../../models/routine.dart';
 import '../../../models/routine_workout.dart';
@@ -43,7 +44,7 @@ class RoutineDetailScreen extends StatefulWidget {
   static void show(
     BuildContext context, {
     Routine routine,
-    bool isRootNavigation,
+    bool isRootNavigation = false,
     String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -55,7 +56,6 @@ class RoutineDetailScreen extends StatefulWidget {
     if (!isRootNavigation) {
       await Navigator.of(context, rootNavigator: false).push(
         CupertinoPageRoute(
-          fullscreenDialog: false,
           builder: (context) => RoutineDetailScreen(
             database: database,
             routine: routine,
@@ -124,10 +124,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   @override
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
+    final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<Routine>(
-        initialData: widget.routine,
-        stream: widget.database.routineStream(
+        initialData: routineDummyData,
+        stream: database.routineStream(
           routineId: widget.routine.routineId,
         ),
         builder: (context, snapshot) {
@@ -143,10 +144,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                     physics: const BouncingScrollPhysics(),
                     slivers: [
                       _buildSliverAppBar(routine),
-                      _SliverToBoxAdaptor(
-                        routine: routine,
-                        database: widget.database,
-                        user: widget.user,
+                      _buildSliverToBoxAdaptor(
+                        context,
+                        routine,
+                        widget.user,
+                        database,
                       ),
                     ],
                   ),
@@ -194,125 +196,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       ),
     );
   }
-}
 
-class _FlexibleSpaceBarWidget extends StatelessWidget {
-  final String tag;
-  final Routine routine;
-
-  const _FlexibleSpaceBarWidget({Key key, this.tag, this.routine})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
-    final equipmentRequired =
-        routine?.equipmentRequired[0] ?? 'equipmentRequired';
-    final duration = Format.durationInMin(routine.duration);
-
-    return FlexibleSpaceBar(
-      background: Stack(
-        alignment: Alignment.center,
-        fit: StackFit.passthrough,
-        children: [
-          Hero(
-            tag: tag,
-            child: CachedNetworkImage(
-              imageUrl: routine.imageUrl,
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.0, -0.3),
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  BackgroundColor,
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 8,
-            child: SizedBox(
-              width: size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  // Main Muscle Group
-                  Column(
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        'assets/icons/icon_bicep.svg',
-                        width: 24,
-                        height: 24,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        mainMuscleGroup,
-                        style: Subtitle2,
-                      ),
-                    ],
-                  ),
-
-                  // Equipment Required
-                  Column(
-                    children: <Widget>[
-                      FaIcon(
-                        FontAwesomeIcons.dumbbell,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(equipmentRequired, style: Subtitle2),
-                    ],
-                  ),
-
-                  // Duration
-                  Column(
-                    children: <Widget>[
-                      FaIcon(
-                        FontAwesomeIcons.clock,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        '$duration min',
-                        style: Subtitle2,
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SliverToBoxAdaptor extends StatelessWidget {
-  final Routine routine;
-  final User user;
-  final Database database;
-
-  const _SliverToBoxAdaptor({
-    Key key,
-    this.routine,
-    this.user,
-    this.database,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildSliverToBoxAdaptor(context, routine, user, database) {
     final routineTitle = routine?.routineTitle ?? 'Add Title';
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
@@ -420,43 +305,151 @@ class _SliverToBoxAdaptor extends StatelessWidget {
             StreamBuilder<List<RoutineWorkout>>(
                 stream: database.routineWorkoutsStream(routine),
                 builder: (context, snapshot) {
-                  return ListItemBuilder<RoutineWorkout>(
-                    emptyContentTitle: 'Add workouts to your routine',
-                    snapshot: snapshot,
-                    itemBuilder: (context, routineWorkout) => WorkoutMediumCard(
-                      database: database,
-                      routine: routine,
-                      routineWorkout: routineWorkout,
-                      user: user,
-                    ),
+                  return Column(
+                    children: [
+                      ListItemBuilder<RoutineWorkout>(
+                        emptyContentTitle: 'Add workouts to your routine',
+                        snapshot: snapshot,
+                        itemBuilder: (context, routineWorkout) =>
+                            WorkoutMediumCard(
+                          database: database,
+                          routine: routine,
+                          routineWorkout: routineWorkout,
+                          user: user,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      if (user.userId == routine.routineOwnerId)
+                        Divider(
+                          endIndent: 8,
+                          indent: 8,
+                          color: Colors.white.withOpacity(0.1),
+                        ),
+                      const SizedBox(height: 16),
+                      if (user.userId == routine.routineOwnerId)
+                        MaxWidthRaisedButton(
+                          icon: const Icon(
+                            Icons.add_rounded,
+                            color: Colors.white,
+                          ),
+                          buttonText: 'Add workout',
+                          color: CardColor,
+                          onPressed: () {
+                            AddWorkoutsToRoutine.show(
+                              context,
+                              routine: routine,
+                            );
+                          },
+                        ),
+                      const SizedBox(height: 16),
+                    ],
                   );
                 }),
-            const SizedBox(height: 8),
-            if (user.userId == routine.routineOwnerId)
-              Divider(
-                endIndent: 8,
-                indent: 8,
-                color: Colors.white.withOpacity(0.1),
-              ),
-            const SizedBox(height: 16),
-            if (user.userId == routine.routineOwnerId)
-              MaxWidthRaisedButton(
-                icon: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.white,
-                ),
-                buttonText: 'Add workout',
-                color: CardColor,
-                onPressed: () {
-                  AddWorkoutsToRoutine.show(
-                    context,
-                    routine: routine,
-                  );
-                },
-              ),
-            const SizedBox(height: 16),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _FlexibleSpaceBarWidget extends StatelessWidget {
+  final String tag;
+  final Routine routine;
+
+  const _FlexibleSpaceBarWidget({Key key, this.tag, this.routine})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
+    final equipmentRequired =
+        routine?.equipmentRequired[0] ?? 'equipmentRequired';
+    final duration = Format.durationInMin(routine.duration);
+
+    return FlexibleSpaceBar(
+      background: Stack(
+        alignment: Alignment.center,
+        fit: StackFit.passthrough,
+        children: [
+          Hero(
+            tag: tag,
+            child: CachedNetworkImage(
+              imageUrl: routine.imageUrl,
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.0, -0.3),
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  BackgroundColor,
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 8,
+            child: SizedBox(
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  // Main Muscle Group
+                  Column(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/icons/icon_bicep.svg',
+                        width: 24,
+                        height: 24,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        mainMuscleGroup,
+                        style: Subtitle2,
+                      ),
+                    ],
+                  ),
+
+                  // Equipment Required
+                  Column(
+                    children: <Widget>[
+                      FaIcon(
+                        FontAwesomeIcons.dumbbell,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(equipmentRequired, style: Subtitle2),
+                    ],
+                  ),
+
+                  // Duration
+                  Column(
+                    children: <Widget>[
+                      FaIcon(
+                        FontAwesomeIcons.clock,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        '$duration min',
+                        style: Subtitle2,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

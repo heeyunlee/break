@@ -26,7 +26,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
       ['All'] + MainMuscleGroup.values[0].list;
 
   int _selectedIndex = 0;
-  String _selectedChipLabel = 'All';
+  String _selectedChipLabel;
 
   @override
   void initState() {
@@ -40,7 +40,8 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final chips = [];
+    // ignore: omit_local_variable_types
+    final List<Widget> chips = [];
 
     chips.add(SizedBox(width: 12));
     for (var i = 0; i < _mainMuscleGroup.length; i++) {
@@ -51,14 +52,14 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
         backgroundColor: Colors.grey[700],
         selectedColor: PrimaryColor,
         onSelected: (bool selected) {
-          setState(() {
-            if (selected) {
-              _selectedIndex = i;
-              _selectedChipLabel = _mainMuscleGroup[i];
-              widget.callback(_selectedChipLabel);
-            }
-            debugPrint(_selectedChipLabel);
-          });
+          // setState(() {
+          if (selected) {
+            _selectedIndex = i;
+            _selectedChipLabel = _mainMuscleGroup[i];
+            widget.callback(_selectedChipLabel);
+          }
+          debugPrint(_selectedChipLabel);
+          // });
         },
       );
 

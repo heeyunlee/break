@@ -20,12 +20,14 @@ class SavedWorkoutsTab extends StatelessWidget {
       stream: database.userWorkoutsStream(),
       builder: (context, snapshot) {
         return SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               const SizedBox(height: 12),
               if (snapshot.hasData && snapshot.data.isNotEmpty)
                 CreateNewWorkoutWidget(),
               ListItemBuilder<Workout>(
+                snapshot: snapshot,
                 emptyContentTitle: 'Save workouts, or create your own!',
                 emptyContentButton: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -40,7 +42,6 @@ class SavedWorkoutsTab extends StatelessWidget {
                     style: ButtonText,
                   ),
                 ),
-                snapshot: snapshot,
                 itemBuilder: (context, workout) => CustomListTile64(
                   tag: 'workout${workout.workoutId}',
                   title: workout.workoutTitle,

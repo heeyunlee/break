@@ -10,6 +10,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -21,18 +22,22 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
     Key key,
     this.database,
     this.workout,
+    this.auth,
   }) : super(key: key);
 
   final Database database;
   final Workout workout;
+  final AuthBase auth;
 
   static void show(BuildContext context, {Workout workout}) async {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         builder: (context) => AddWorkoutToRoutineScreen(
           workout: workout,
           database: database,
+          auth: auth,
         ),
         fullscreenDialog: true,
       ),
@@ -55,11 +60,15 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         final routineWorkout = RoutineWorkout(
           routineWorkoutId: documentIdFromCurrentDate(),
           workoutId: widget.workout.workoutId,
+          routineId: routine.routineId,
+          routineWorkoutOwnerId: widget.auth.currentUser.uid,
           workoutTitle: widget.workout.workoutTitle,
           isBodyWeightWorkout: widget.workout.isBodyWeightWorkout,
           totalWeights: 0,
           numberOfSets: 0,
           numberOfReps: 0,
+          duration: 0,
+          secondsPerRep: widget.workout.secondsPerRep,
           sets: [],
           index: index,
         );
@@ -69,6 +78,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           context,
           routine: routine,
           isRootNavigation: false,
+          tag: '',
         );
         // TODO: ADD SNACKBAR
       }

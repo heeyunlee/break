@@ -6,6 +6,8 @@ class RoutineWorkout {
   RoutineWorkout({
     this.index,
     @required this.routineWorkoutId,
+    @required this.routineId,
+    @required this.routineWorkoutOwnerId,
     @required this.workoutId,
     @required this.workoutTitle,
     this.numberOfSets,
@@ -19,6 +21,8 @@ class RoutineWorkout {
 
   int index;
   String routineWorkoutId;
+  String routineId;
+  String routineWorkoutOwnerId;
   String workoutId;
   String workoutTitle;
   int numberOfSets;
@@ -33,6 +37,8 @@ class RoutineWorkout {
     routineWorkoutId = documentId;
     index = data['index'];
     workoutId = data['workoutId'];
+    routineId = data['routineId'];
+    routineWorkoutOwnerId = data['routineWorkoutOwnerId'];
     workoutTitle = data['workoutTitle'];
     numberOfSets = data['numberOfSets'];
     numberOfReps = data['numberOfReps'];
@@ -52,6 +58,8 @@ class RoutineWorkout {
     final data = <String, dynamic>{};
     data['index'] = index;
     data['workoutId'] = workoutId;
+    data['routineId'] = routineId;
+    data['routineWorkoutOwnerId'] = routineWorkoutOwnerId;
     data['workoutTitle'] = workoutTitle;
     data['numberOfSets'] = numberOfSets;
     data['numberOfReps'] = numberOfReps;
