@@ -204,6 +204,52 @@ class SearchTabBodyWidget extends StatelessWidget {
               );
             },
           ),
+          const SizedBox(height: 48),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+            child: Text(
+              'More Chest Workouts',
+              style: Headline6w900,
+            ),
+          ),
+          StreamBuilder<List<Workout>>(
+            stream: database.workoutsSearchStream(
+              limit: 5,
+              searchCategory: 'mainMuscleGroup',
+              arrayContains: 'Chest',
+            ),
+            builder: (context, snapshot) {
+              return Container(
+                height: size.width,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: HoriListItemBuilder<Workout>(
+                    isEmptyContentWidget: false,
+                    snapshot: snapshot,
+                    emptyContentTitle: 'Empty...',
+                    itemBuilder: (context, workout) {
+                      final difficulty = Format.difficulty(workout.difficulty);
+
+                      return LongHeightCardWidget(
+                        tag: 'workoutTag2-${workout.workoutId}',
+                        imageUrl: workout.imageUrl,
+                        title: workout.workoutTitle,
+                        subtitle: workout.equipmentRequired[0],
+                        thirdLineSubtitle: difficulty,
+                        onTap: () => WorkoutDetailScreen.show(
+                          context,
+                          isRootNavigation: false,
+                          workout: workout,
+                          tag: 'workoutTag2-${workout.workoutId}',
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 24),
         ],
       ),

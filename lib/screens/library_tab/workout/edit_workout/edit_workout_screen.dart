@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/user.dart';
@@ -53,11 +54,11 @@ class EditWorkoutScreen extends StatefulWidget {
     // await pushNewScreen(
     //   context,
     //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
+    //   withNavBar: true,
     //   screen: EditWorkoutScreen(
     //     database: database,
     //     workout: workout,
-    //     user: auth.currentUser,
+    //     user: user,
     //   ),
     // );
   }
@@ -232,20 +233,17 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 SizedBox(height: size),
                 _buildForm(workout),
                 const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: MaxWidthRaisedButton(
-                    color: Colors.red,
-                    icon: const Icon(
-                      Icons.delete_outline_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    buttonText: 'Delete',
-                    onPressed: () async {
-                      await _showModalBottomSheet(context);
-                    },
+                MaxWidthRaisedButton(
+                  color: Colors.red,
+                  icon: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.white,
+                    size: 20,
                   ),
+                  buttonText: 'Delete',
+                  onPressed: () async {
+                    await _showModalBottomSheet(context);
+                  },
                 ),
                 SizedBox(height: 38),
               ],

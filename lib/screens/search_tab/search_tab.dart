@@ -7,7 +7,7 @@ import 'search_tab_body_widget.dart';
 class SearchTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrint('scaffold building...');
+    debugPrint('SearchTab scaffold building...');
 
     final size = MediaQuery.of(context).size;
 

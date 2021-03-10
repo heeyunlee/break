@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
@@ -42,14 +43,14 @@ class CreateNewWorkoutScreen extends StatefulWidget {
     final user = await database.userStream(userId: auth.currentUser.uid).first;
 
     await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: false).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => CreateNewWorkoutScreen(
-          database: database,
-          auth: auth,
-          user: user,
-        ),
+    await pushNewScreen(
+      context,
+      pageTransitionAnimation: PageTransitionAnimation.slideUp,
+      withNavBar: false,
+      screen: CreateNewWorkoutScreen(
+        database: database,
+        auth: auth,
+        user: user,
       ),
     );
   }
@@ -115,12 +116,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           ),
         ),
       );
-      // WorkoutDetailScreen.show(
-      //   context,
-      //   isRootNavigation: true,
-      //   workout: workout,
-      //   tag: 'newWorkout-${workout.workoutId}',
-      // );
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+typedef BoolCallback = void Function(bool val);
 
 class FirestoreService {
   // Making a private constructor
@@ -76,22 +79,6 @@ class FirestoreService {
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 
-  // // Getting all the streams available
-  // Stream<List<T>> collectionStreamWithoutOrder<T>({
-  //   @required String path,
-  //   @required T Function(Map<String, dynamic> data, String documentId) builder,
-  // }) {
-  //   final reference = FirebaseFirestore.instance.collection(path);
-  //   final snapshots = reference.snapshots();
-  //   return snapshots.map(
-  //     // converting snapshots of data to list of Data
-  //     (snapshot) => snapshot.docs
-  //         .map((snapshot) => builder(snapshot.data(), snapshot.id))
-  //         .toList(),
-  //   );
-  // }
-
-  // Collection Stream with/without limit and with order
   Stream<List<T>> collectionStream<T>({
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentId) builder,
@@ -292,5 +279,33 @@ class FirestoreService {
           .map((snapshot) => builder(snapshot.data(), snapshot.id))
           .toList(),
     );
+  }
+
+  Query paginatedPublicCollectionQuery<T>({
+    @required String path,
+    @required String order,
+    @required bool descending,
+  }) {
+    final query = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(order, descending: descending)
+        .where('isPublic', isEqualTo: true);
+
+    return query;
+  }
+
+  Query paginatedUserCollectionQuery<T>({
+    @required String path,
+    @required String order,
+    @required bool descending,
+    @required String id,
+    @required String userId,
+  }) {
+    final query = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(order, descending: descending)
+        .where(id, isEqualTo: userId);
+
+    return query;
   }
 }

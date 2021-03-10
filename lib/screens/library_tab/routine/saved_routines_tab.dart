@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
+import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 
-import '../../../common_widgets/list_item_builder.dart';
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
 import 'create_routine/create_new_routine_screen.dart';
@@ -15,44 +16,49 @@ class SavedRoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    var query = database.routinesPaginatedUserQuery();
 
-    return SingleChildScrollView(
+    return PaginateFirestore(
+      shrinkWrap: true,
+      query: query,
       physics: const BouncingScrollPhysics(),
-      child: StreamBuilder<List<Routine>>(
-        stream: database.userRoutinesStream(),
-        builder: (context, snapshot) {
-          return Column(
-            children: [
-              const SizedBox(height: 12),
-              if (snapshot.hasData && snapshot.data.isNotEmpty)
-                CreateNewRoutineWidget(),
-              ListItemBuilder<Routine>(
-                snapshot: snapshot,
-                isEmptyContentWidget: true,
-                emptyContentWidget: EmptyContentWidget(
-                  imageUrl: 'assets/images/saved_routines_empty_bg.png',
-                  bodyText:
-                      'You\'re one step away from creating your personal Routine!',
-                  onPressed: () => CreateNewRoutineScreen.show(context),
-                ),
-                itemBuilder: (context, routine) => CustomListTile64(
-                  tag: 'savedRoutines-${routine.routineId}',
-                  title: routine.routineTitle,
-                  subtitle: routine.mainMuscleGroup[0],
-                  imageUrl: routine.imageUrl,
-                  onTap: () => RoutineDetailScreen.show(
-                    context,
-                    routine: routine,
-                    isRootNavigation: false,
-                    tag: 'savedRoutines-${routine.routineId}',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-          );
-        },
+      itemBuilderType: PaginateBuilderType.listView,
+      emptyDisplay: EmptyContentWidget(
+        imageUrl: 'assets/images/saved_routines_empty_bg.png',
+        bodyText: 'You\'re one step away from creating your personal Routine!',
+        onPressed: () => CreateNewRoutineScreen.show(context),
       ),
+      itemsPerPage: 10,
+      header: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 8),
+          if (query.snapshots() != null) CreateNewRoutineWidget(),
+        ],
+      ),
+      footer: const SizedBox(height: 16),
+      onError: (error) => EmptyContent(
+        message: 'Something went wrong: $error',
+      ),
+      itemBuilder: (index, context, documentSnapshot) {
+        final documentId = documentSnapshot.id;
+        final data = documentSnapshot.data();
+        final routine = Routine.fromMap(data, documentId);
+
+        return CustomListTile64(
+          tag: 'savedRoutines-${routine.routineId}',
+          title: routine.routineTitle,
+          subtitle: routine.mainMuscleGroup[0],
+          imageUrl: routine.imageUrl,
+          onTap: () => RoutineDetailScreen.show(
+            context,
+            routine: routine,
+            isRootNavigation: false,
+            tag: 'savedRoutines-${routine.routineId}',
+          ),
+        );
+      },
+      isLive: true,
     );
   }
 }

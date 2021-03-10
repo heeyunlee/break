@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -22,10 +23,13 @@ abstract class Database {
   /// User Feedback
   Future<void> setUserFeedback(UserFeedback userFeedback);
 
-  /// Workout
+  //////////////// Workout ///////////////
+  // FUTURE
   Future<void> setWorkout(Workout workout);
   Future<void> updateWorkout(Workout workout, Map data);
   Future<void> deleteWorkout(Workout workout);
+
+  // STREAM
   Stream<Workout> workoutStream({String workoutId});
   Stream<List<Workout>> workoutsStream({int limit});
   Stream<List<Workout>> userWorkoutsStream({int limit});
@@ -36,10 +40,17 @@ abstract class Database {
     int limit,
   });
 
-  /// Routine
+  // QUERY
+  Query workoutsPaginatedUserQuery();
+  Query workoutsSearchQuery(String searchCategory, String arrayContains);
+
+  /////////// Routine ////////////////
+  // FUTURE
   Future<void> setRoutine(Routine routine);
   Future<void> updateRoutine(Routine routine, Map data);
   Future<void> deleteRoutine(Routine routine);
+
+  // STREAM
   Stream<Routine> routineStream({String routineId});
   Stream<List<Routine>> routinesStream({int limit});
   Stream<List<Routine>> userRoutinesStream({int limit});
@@ -62,7 +73,12 @@ abstract class Database {
     int limit,
   });
 
-  /// Routine Workout
+  // QUERY
+  Query routinesPaginatedPublicQuery();
+  Query routinesPaginatedUserQuery();
+  Query routinesSearchQuery(String searchCategory, String arrayContains);
+
+  ///////////////// Routine Workout //////////////////
   Future<void> setRoutineWorkout(
       Routine routine, RoutineWorkout routineWorkout);
   Future<void> deleteRoutineWorkout(
@@ -82,13 +98,11 @@ abstract class Database {
     Map data,
   );
 
-  /// Routine History
+  ///////////// Routine History //////////////
+  // FUTURE
   Future<void> setRoutineHistory(RoutineHistory routineHistory);
   Future<void> updateRoutineHistory(RoutineHistory routineHistory, Map data);
   Future<void> deleteRoutineHistory(RoutineHistory routineHistory);
-  Stream<RoutineHistory> routineHistoryStream({String routineHistoryId});
-  Stream<List<RoutineHistory>> routineHistoriesStream();
-  Stream<List<RoutineHistory>> routineHistoriesPublicStream();
   Future<void> setRoutineWorkoutForHistory(
     RoutineHistory routineHistory,
     RoutineWorkout routineWorkout,
@@ -97,14 +111,22 @@ abstract class Database {
     RoutineHistory routineHistory,
     RoutineWorkout routineWorkout,
   );
-  Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
-    RoutineHistory routineHistory,
-  );
-
   Future<void> batchRoutineWorkouts(
     RoutineHistory routineHistory,
     List<RoutineWorkout> routineWorkout,
   );
+
+  // STREAM
+  Stream<RoutineHistory> routineHistoryStream({String routineHistoryId});
+  Stream<List<RoutineHistory>> routineHistoriesStream();
+  Stream<List<RoutineHistory>> routineHistoriesPublicStream();
+  Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
+    RoutineHistory routineHistory,
+  );
+
+  // QUERY
+  Query routineHistoriesPaginatedPublicQuery();
+  Query routineHistoriesPaginatedUserQuery();
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -252,7 +274,31 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => Workout.fromMap(data, documentId),
       );
 
-  /// Routine
+  // Paginated Workouts Query for specific user
+  @override
+  Query workoutsPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+        path: APIPath.workouts(),
+        order: 'workoutTitle',
+        descending: false,
+        id: 'workoutOwnerId',
+        userId: userId,
+      );
+
+  // Paginated Routines Query for specific user
+  @override
+  Query workoutsSearchQuery(String searchCategory, String arrayContains) =>
+      _service
+          .paginatedPublicCollectionQuery(
+            path: APIPath.workouts(),
+            order: 'workoutTitle',
+            descending: false,
+          )
+          .where(
+            searchCategory,
+            arrayContains: arrayContains,
+          );
+
+  /////////////// Routine /////////////////////
   // Add Routine
   @override
   Future<void> setRoutine(Routine routine) => _service.setData(
@@ -410,7 +456,39 @@ class FirestoreDatabase implements Database {
             RoutineWorkout.fromJson(data, documentId),
       );
 
-  /// Workout Sets
+  // Paginated Routines Query for specific user
+  @override
+  Query routinesPaginatedPublicQuery() =>
+      _service.paginatedPublicCollectionQuery(
+        path: APIPath.routines(),
+        order: 'routineTitle',
+        descending: false,
+      );
+
+  @override
+  Query routinesPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+        path: APIPath.routines(),
+        order: 'routineTitle',
+        descending: false,
+        id: 'routineOwnerId',
+        userId: userId,
+      );
+
+  // Paginated Routines Query for specific user
+  @override
+  Query routinesSearchQuery(String searchCategory, String arrayContains) =>
+      _service
+          .paginatedPublicCollectionQuery(
+            path: APIPath.routines(),
+            order: 'routineTitle',
+            descending: false,
+          )
+          .where(
+            searchCategory,
+            arrayContains: arrayContains,
+          );
+
+//////////////// Workout Sets ///////////////////
   // Create or delete Workout Set
   @override
   Future<void> setWorkoutSet(
@@ -475,6 +553,24 @@ class FirestoreDatabase implements Database {
         descending: true,
         path: APIPath.routineHistories(),
         builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+      );
+
+  @override
+  Query routineHistoriesPaginatedPublicQuery() =>
+      _service.paginatedPublicCollectionQuery(
+        path: APIPath.routineHistories(),
+        order: 'workoutEndTime',
+        descending: true,
+      );
+
+  @override
+  Query routineHistoriesPaginatedUserQuery() =>
+      _service.paginatedUserCollectionQuery(
+        path: APIPath.routineHistories(),
+        order: 'workoutEndTime',
+        descending: true,
+        id: 'userId',
+        userId: userId,
       );
 
   /// Routine Workouts for Routine History

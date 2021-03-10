@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
-import 'package:workout_player/common_widgets/list_item_builder.dart';
+import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
@@ -90,74 +91,83 @@ class MuscleGroupSearchScreen extends StatelessWidget {
   Widget _buildWorkoutsBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: StreamBuilder<List<Workout>>(
-        stream: database.workoutsSearchStream(
-          isEqualTo: isEqualTo,
-          arrayContains: arrayContains,
-          searchCategory: searchCategory,
-        ),
-        builder: (context, snapshot) {
-          return ListItemBuilder<Workout>(
-            emptyContentTitle: 'Empty...',
-            snapshot: snapshot,
-            itemBuilder: (context, workout) => CustomListTile3(
-              imageUrl: workout.imageUrl,
-              isLeadingDuration: false,
-              title: workout.workoutTitle,
-              leadingText: '${workout.equipmentRequired[0]}',
-              subtitle: 'Created by ${workout.workoutOwnerUserName}',
-              tag: 'MoreScreen-${workout.workoutId}',
-              onTap: () => WorkoutDetailScreen.show(
-                context,
-                workout: workout,
-                isRootNavigation: false,
-                tag: 'MoreScreen-${workout.workoutId}',
-              ),
-            ),
-          );
-        },
+    return PaginateFirestore(
+      shrinkWrap: true,
+      itemsPerPage: 10,
+      query: database.workoutsSearchQuery(searchCategory, arrayContains),
+      itemBuilderType: PaginateBuilderType.listView,
+      emptyDisplay: const EmptyContent(
+        message: 'Nothing...',
       ),
+      header: const SizedBox(height: 8),
+      footer: const SizedBox(height: 8),
+      onError: (error) => EmptyContent(
+        message: 'Something went wrong: $error',
+      ),
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (index, context, documentSnapshot) {
+        final documentId = documentSnapshot.id;
+        final data = documentSnapshot.data();
+        final workout = Workout.fromMap(data, documentId);
+
+        return CustomListTile3(
+          imageUrl: workout.imageUrl,
+          isLeadingDuration: false,
+          title: workout.workoutTitle,
+          leadingText: '${workout.equipmentRequired[0]}',
+          subtitle: 'Created by ${workout.workoutOwnerUserName}',
+          tag: 'MoreScreen-${workout.workoutId}',
+          onTap: () => WorkoutDetailScreen.show(
+            context,
+            workout: workout,
+            isRootNavigation: false,
+            tag: 'MoreScreen-${workout.workoutId}',
+          ),
+        );
+      },
+      isLive: true,
     );
   }
 
   Widget _buildRoutinesBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: StreamBuilder<List<Routine>>(
-        stream: database.routinesSearchStream(
-          isEqualTo: isEqualTo,
-          arrayContains: arrayContains,
-          searchCategory: searchCategory,
-        ),
-        builder: (context, snapshot) {
-          return ListItemBuilder<Routine>(
-            emptyContentTitle: 'Empty...',
-            snapshot: snapshot,
-            itemBuilder: (context, routine) {
-              final duration =
-                  Duration(seconds: routine?.duration ?? 0).inMinutes;
-              return CustomListTile3(
-                isLeadingDuration: true,
-                imageUrl: routine.imageUrl,
-                leadingText: '$duration',
-                title: routine.routineTitle,
-                subtitle: routine.routineOwnerUserName,
-                tag: 'MoreScreen-${routine.routineId}',
-                onTap: () => RoutineDetailScreen.show(
-                  context,
-                  routine: routine,
-                  isRootNavigation: false,
-                  tag: 'MoreScreen-${routine.routineId}',
-                ),
-              );
-            },
-          );
-        },
+    return PaginateFirestore(
+      shrinkWrap: true,
+      itemsPerPage: 10,
+      query: database.routinesSearchQuery(searchCategory, arrayContains),
+      itemBuilderType: PaginateBuilderType.listView,
+      emptyDisplay: const EmptyContent(
+        message: 'Nothing...',
       ),
+      header: const SizedBox(height: 8),
+      footer: const SizedBox(height: 8),
+      onError: (error) => EmptyContent(
+        message: 'Something went wrong: $error',
+      ),
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (index, context, documentSnapshot) {
+        final documentId = documentSnapshot.id;
+        final data = documentSnapshot.data();
+        final routine = Routine.fromMap(data, documentId);
+
+        final duration = Duration(seconds: routine?.duration ?? 0).inMinutes;
+        return CustomListTile3(
+          isLeadingDuration: true,
+          imageUrl: routine.imageUrl,
+          leadingText: '$duration',
+          title: routine.routineTitle,
+          subtitle: routine.routineOwnerUserName,
+          tag: 'MoreScreen-${routine.routineId}',
+          onTap: () => RoutineDetailScreen.show(
+            context,
+            routine: routine,
+            isRootNavigation: false,
+            tag: 'MoreScreen-${routine.routineId}',
+          ),
+        );
+      },
+      isLive: true,
     );
   }
 }

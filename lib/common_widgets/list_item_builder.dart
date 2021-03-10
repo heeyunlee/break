@@ -15,6 +15,7 @@ class ListItemBuilder<T> extends StatelessWidget {
     this.emptyContentButton,
     this.isEmptyContentWidget = false,
     this.emptyContentWidget,
+    this.scrollController,
   }) : super(key: key);
 
   final AsyncSnapshot<List<T>> snapshot;
@@ -23,6 +24,7 @@ class ListItemBuilder<T> extends StatelessWidget {
   final Widget emptyContentButton;
   final bool isEmptyContentWidget;
   final Widget emptyContentWidget;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {

@@ -68,6 +68,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
   var _textController1 = TextEditingController();
 
   String _notes;
+  bool _isPublic;
 
   // For SliverApp to Work
   AnimationController _colorAnimationController;
@@ -92,6 +93,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
 
     focusNode1 = FocusNode();
     _textController1 = TextEditingController(text: widget.routineHistory.notes);
+    _isPublic = widget.routineHistory.isPublic;
 
     _colorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
@@ -139,10 +141,28 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
   }
 
   //Update Notes
-  Future<void> _submit() async {
+  Future<void> _updateNotes() async {
     try {
       final routineHistory = {
         'notes': _notes,
+      };
+      await widget.database
+          .updateRoutineHistory(widget.routineHistory, routineHistory);
+    } on FirebaseException catch (e) {
+      logger.d(e);
+      await showExceptionAlertDialog(
+        context,
+        title: 'Operation Failed',
+        exception: e,
+      );
+    }
+  }
+
+  //Update Notes
+  Future<void> _updateIsPublic() async {
+    try {
+      final routineHistory = {
+        'isPublic': _isPublic,
       };
       await widget.database
           .updateRoutineHistory(widget.routineHistory, routineHistory);
@@ -183,7 +203,8 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final size = MediaQuery.of(context).size;
 
     // Data Formatting
-    final date = Format.date(widget.routineHistory.workoutStartTime);
+    final date =
+        Format.date(widget.routineHistory.workoutStartTime ?? Timestamp.now());
     final title = widget.routineHistory?.routineTitle ?? 'Title';
     final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
     final equipmentRequired =
@@ -309,7 +330,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
             // ),
             const SizedBox(height: 32),
-            const Divider(color: Grey700),
+            const Divider(color: Grey800),
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
@@ -342,7 +363,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               },
             ),
             const SizedBox(height: 32),
-            const Divider(color: Grey700),
+            const Divider(color: Grey800),
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
@@ -371,7 +392,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                         ),
                         onFieldSubmitted: (value) {
                           _notes = value;
-                          _submit();
+                          _updateNotes();
                         },
                         onChanged: (value) => _notes = value,
                         onSaved: (value) => _notes = value,
@@ -386,7 +407,51 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                       ),
               ),
             ),
-            const SizedBox(height: 48),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const SizedBox(height: 32),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const Divider(color: Grey800),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const SizedBox(height: 16),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('Make it visible to:    ', style: BodyText2Light),
+                  SizedBox(
+                    width: 72,
+                    child: Text(
+                      (_isPublic) ? 'Everyone' : 'Just Me',
+                      style: BodyText2w900,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(
+                    (_isPublic)
+                        ? Icons.public_rounded
+                        : Icons.public_off_rounded,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 8),
+                  Switch(
+                    value: _isPublic,
+                    activeColor: PrimaryColor,
+                    onChanged: (bool value) {
+                      HapticFeedback.mediumImpact();
+                      setState(() {
+                        _isPublic = value;
+                        _updateIsPublic();
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const SizedBox(height: 24),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const Divider(color: Grey800),
+            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+              const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser.uid)
               MaxWidthRaisedButton(
                 color: Colors.red,
@@ -395,6 +460,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                   await _showModalBottomSheet(context);
                 },
               ),
+            const SizedBox(height: 24),
           ],
         ),
       ),

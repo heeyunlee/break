@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/screens/library_tab/library_tab.dart';
 import 'package:workout_player/services/auth.dart';
 
 import 'screens/sign_in/landing_screen.dart';
@@ -42,7 +43,9 @@ class MyApp extends StatelessWidget {
           fontFamily: 'NanumSquareRound',
         ),
         home: LandingScreen(),
-        routes: {},
+        routes: {
+          LibraryTab.routeName: (context) => LibraryTab(),
+        },
       ),
     );
   }
