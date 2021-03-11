@@ -121,13 +121,13 @@ class _FlexibleSpace extends StatelessWidget {
                 Card(
                   color: PrimaryColor,
                   child: Container(
-                    height: 80,
+                    height: size.height / 9,
                     width: size.width - 48,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Container(
-                          width: 120,
+                          width: 140,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +148,7 @@ class _FlexibleSpace extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 8),
                         ),
                         Container(
-                          width: 120,
+                          width: 140,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

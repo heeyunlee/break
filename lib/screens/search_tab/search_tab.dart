@@ -20,7 +20,7 @@ class SearchTab extends StatelessWidget {
               floating: false,
               pinned: true,
               backgroundColor: AppBarColor,
-              expandedHeight: size.height * 3 / 7,
+              expandedHeight: size.height * 3.5 / 7,
               flexibleSpace: FlexibleSpaceBar(
                 background: AnnouncementCardPageView(),
               ),

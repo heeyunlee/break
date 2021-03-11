@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -46,15 +50,27 @@ class _RoutineHistorySummaryScreenState
     extends State<RoutineHistorySummaryScreen> with TickerProviderStateMixin {
   FocusNode focusNode1;
   var _textController1 = TextEditingController();
+  ConfettiController _confettiController;
 
   String _notes;
   bool _isPublic = true;
+  double _effort = 3;
 
   @override
   void initState() {
     super.initState();
     focusNode1 = FocusNode();
     _textController1 = TextEditingController(text: _notes);
+    _confettiController = ConfettiController(duration: Duration(seconds: 3));
+    _confettiController.play();
+  }
+
+  @override
+  void dispose() {
+    focusNode1.dispose();
+    _textController1.dispose();
+    _confettiController.dispose();
+    super.dispose();
   }
 
   // Submit data to Firestore
@@ -63,6 +79,7 @@ class _RoutineHistorySummaryScreenState
       final routineHistory = {
         'isPublic': _isPublic,
         'notes': _notes,
+        'effort': _effort,
       };
       await widget.database.updateRoutineHistory(
         widget.routineHistory,
@@ -70,8 +87,6 @@ class _RoutineHistorySummaryScreenState
       );
 
       await HapticFeedback.mediumImpact();
-      // TODO: ADD SNACKBAR
-
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
@@ -82,21 +97,13 @@ class _RoutineHistorySummaryScreenState
   }
 
   @override
-  void dispose() {
-    focusNode1.dispose();
-    _textController1.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     // Data
     final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
-    final equipmentRequired =
-        widget.routineHistory?.equipmentRequired[0] ?? 'Null';
+    final mainMuscleGroups = widget.routineHistory.mainMuscleGroup;
+    final equipments = widget.routineHistory.equipmentRequired;
 
     // Unit Of Mass
     final unit = widget.routineHistory.unitOfMass;
@@ -106,8 +113,13 @@ class _RoutineHistorySummaryScreenState
     final weights = widget.routineHistory.totalWeights;
     final formattedWeight = Format.weights(weights);
 
-    final duration = widget.routineHistory.totalDuration;
-    final formattedDuration = Format.durationInMin(duration);
+    // Date / Time
+    final startTime = widget.routineHistory.workoutStartTime;
+    final formattedStartTime = Format.timeInHM(startTime);
+    final endTime = widget.routineHistory.workoutEndTime;
+    final formattedEndTime = Format.timeInHM(endTime);
+
+    final formattedDuration = '$formattedStartTime ~ $formattedEndTime';
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -125,187 +137,279 @@ class _RoutineHistorySummaryScreenState
             Navigator.of(context).pop();
           },
         ),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
+        child: Stack(
           children: [
-            SizedBox(
-              height: size.height / 3,
-              child: Stack(
-                fit: StackFit.passthrough,
-                children: <Widget>[
-                  CachedNetworkImage(
-                    imageUrl: widget.routineHistory.imageUrl,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment(0.0, -0.5),
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          BackgroundColor,
-                        ],
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(
+                  height: size.height * 2 / 7,
+                  child: Stack(
+                    fit: StackFit.passthrough,
+                    children: <Widget>[
+                      CachedNetworkImage(
+                        imageUrl: widget.routineHistory.imageUrl,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        const Text(
-                          'Here is your Workout Summary:',
-                          style: Subtitle1Bold,
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment(0.0, -0.75),
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              BackgroundColor,
+                            ],
+                          ),
                         ),
-                        Text(
-                          title,
-                          maxLines: 1,
-                          style: Headline4Bold,
-                        ),
-                        Row(
-                          children: [
-                            Chip(
-                              label: Text(
-                                '$mainMuscleGroup Workout',
-                                style: ButtonText,
-                              ),
-                              backgroundColor: PrimaryColor,
+                      ),
+                      // TODO: Polish below code
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            const Text(
+                              'Today\'s Workout: ',
+                              style: Subtitle1Grey,
                             ),
-                            const SizedBox(width: 16),
-                            Chip(
-                              label: Text(equipmentRequired, style: ButtonText),
-                              backgroundColor: PrimaryColor,
+                            Text(
+                              title,
+                              maxLines: 1,
+                              style: Headline5Bold.copyWith(
+                                fontSize: size.height * 0.03,
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              clipBehavior: Clip.none,
+                              child: Row(
+                                children: [
+                                  Chip(
+                                    label: Text(
+                                      '${mainMuscleGroups[0]}',
+                                      style: ButtonText,
+                                    ),
+                                    backgroundColor: PrimaryColor,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  if (mainMuscleGroups.length > 1)
+                                    Chip(
+                                      label: Text('${mainMuscleGroups[1]}',
+                                          style: ButtonText),
+                                      backgroundColor: PrimaryColor,
+                                    ),
+                                  const SizedBox(width: 8),
+                                  Chip(
+                                    label: Text(
+                                      '${equipments[0]}',
+                                      style: ButtonText,
+                                    ),
+                                    backgroundColor: PrimaryColor,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  if (equipments.length > 1)
+                                    Chip(
+                                      label: Text('${equipments[1]}',
+                                          style: ButtonText),
+                                      backgroundColor: PrimaryColor,
+                                    ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: size.height * 5 / 7,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 24),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Stats',
+                            maxLines: 1,
+                            style: Headline6w900.copyWith(
+                              fontSize: size.height * 0.02,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.018),
+                        _SummaryRowWidget(
+                          title: formattedWeight,
+                          subtitle: ' $formattedUnit  Lifted',
+                          imageUrl:
+                              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
+                        ),
+                        SizedBox(height: size.height * 0.018),
+                        _SummaryRowWidget(
+                          title: formattedDuration,
+                          // subtitle: ' min  Spent',
+                          imageUrl:
+                              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
+                        ),
+                        SizedBox(height: size.height * 0.02),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: Text(
+                            'Note',
+                            style: Headline6w900.copyWith(
+                              fontSize: size.height * 0.02,
+                            ),
+                          ),
+                        ),
+                        Card(
+                          color: CardColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              textInputAction: TextInputAction.done,
+                              controller: _textController1,
+                              style: BodyText2,
+                              focusNode: focusNode1,
+                              decoration: const InputDecoration(
+                                hintText: 'How do you feel? Add Notes',
+                                hintStyle: BodyText2Grey,
+                                border: InputBorder.none,
+                              ),
+                              onFieldSubmitted: (value) {
+                                _notes = value;
+                              },
+                              onChanged: (value) => _notes = value,
+                              onSaved: (value) => _notes = value,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.02),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: Text(
+                            'How was your workout?',
+                            style: Headline6w900.copyWith(
+                              fontSize: size.height * 0.02,
+                            ),
+                          ),
+                        ),
+                        Card(
+                          color: CardColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: SizedBox(
+                              height: size.height * 0.08,
+                              child: Center(
+                                child: RatingBar(
+                                  initialRating: 3,
+                                  glow: false,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  ratingWidget: RatingWidget(
+                                    empty: Image.asset(
+                                      'assets/fonts/fire_none.png',
+                                    ),
+                                    full: Image.asset(
+                                      'assets/fonts/fire_full.png',
+                                    ),
+                                    half: Image.asset(
+                                      'assets/fonts/fire_half.png',
+                                    ),
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    HapticFeedback.mediumImpact();
+                                    setState(() {
+                                      _effort = rating;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text(
+                              'Make it visible to:    ',
+                              style: BodyText2Light,
+                            ),
+                            SizedBox(
+                              width: 72,
+                              child: Text(
+                                (_isPublic) ? 'Everyone' : 'Just Me',
+                                style: BodyText2w900,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              (_isPublic)
+                                  ? Icons.public_rounded
+                                  : Icons.public_off_rounded,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 8),
+                            Switch(
+                              value: _isPublic,
+                              activeColor: PrimaryColor,
+                              onChanged: (bool value) {
+                                HapticFeedback.mediumImpact();
+                                setState(() {
+                                  _isPublic = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 40),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: size.height * 2 / 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    _SummaryRowWidget(
-                      title: formattedWeight,
-                      subtitle: ' $formattedUnit  Lifted',
-                      imageUrl:
-                          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
-                    ),
-                    const SizedBox(height: 16),
-                    _SummaryRowWidget(
-                      title: '$formattedDuration',
-                      subtitle: ' min  Spent',
-                      imageUrl:
-                          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
-                    ),
-                    const SizedBox(height: 48),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text('Note', style: Headline6w900),
-                    ),
-                    Card(
-                      color: CardColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          controller: _textController1,
-                          style: BodyText2,
-                          focusNode: focusNode1,
-                          decoration: const InputDecoration(
-                            hintText: 'How do you feel? Add Notes',
-                            hintStyle: BodyText2Grey,
-                            border: InputBorder.none,
-                          ),
-                          onFieldSubmitted: (value) {
-                            _notes = value;
-                            // _submit();
-                          },
-                          onChanged: (value) => _notes = value,
-                          onSaved: (value) => _notes = value,
-                        ),
-                      ),
-                    ),
-                    // SizedBox(height: 32),
-                    // const Padding(
-                    //   padding: EdgeInsets.symmetric(
-                    //     horizontal: 16,
-                    //     vertical: 8,
-                    //   ),
-                    //   child: Text('I\'m feeling...', style: Headline6w900),
-                    // ),
-                    // MaterialButton(
-                    //   height: 80,
-                    //   minWidth: 80,
-                    //   color: PrimaryColor.withOpacity(0.8),
-                    //   shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   onPressed: () {},
-                    //   child: CachedNetworkImage(
-                    //     imageUrl:
-                    //         'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/sweat-droplets_1f4a6.png',
-                    //     width: 36,
-                    //     height: 36,
-                    //   ),
-                    // ),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text('Make it visible to:    ', style: BodyText2Light),
-                        SizedBox(
-                          width: 72,
-                          child: Text(
-                            (_isPublic) ? 'Everyone' : 'Just Me',
-                            style: BodyText2w900,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          (_isPublic)
-                              ? Icons.public_rounded
-                              : Icons.public_off_rounded,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 8),
-                        Switch(
-                          value: _isPublic,
-                          activeColor: PrimaryColor,
-                          onChanged: (bool value) {
-                            HapticFeedback.mediumImpact();
-                            setState(() {
-                              _isPublic = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 56),
-                  ],
                 ),
+              ],
+            ),
+            Center(
+              child: ConfettiWidget(
+                maxBlastForce: 100,
+                maximumSize: const Size(10, 10),
+                minimumSize: const Size(5, 5),
+                confettiController: _confettiController,
+                blastDirectionality: BlastDirectionality.explosive,
+                shouldLoop: false,
+                displayTarget: true,
+                numberOfParticles: 30,
+                blastDirection: -pi / 2,
+                colors: [
+                  PrimaryColor,
+                  Colors.green,
+                  Colors.cyanAccent,
+                  Colors.purpleAccent,
+                ],
               ),
             ),
           ],
@@ -329,6 +433,8 @@ class _SummaryRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -340,10 +446,10 @@ class _SummaryRowWidget extends StatelessWidget {
         const SizedBox(width: 16),
         RichText(
           text: TextSpan(
-            style: Headline4,
+            style: Headline5.copyWith(fontSize: size.height * 0.03),
             children: <TextSpan>[
               TextSpan(text: title),
-              TextSpan(text: subtitle, style: Subtitle1)
+              if (subtitle != null) TextSpan(text: subtitle, style: Subtitle1)
             ],
           ),
         ),

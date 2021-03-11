@@ -23,6 +23,7 @@ class RoutineHistory {
     this.imageUrl,
     this.unitOfMass,
     this.equipmentRequired,
+    this.effort,
   });
 
   final String routineHistoryId;
@@ -38,13 +39,14 @@ class RoutineHistory {
   final int totalDuration;
   final bool earnedBadges;
   final String notes;
-  final String mainMuscleGroup;
+  final List<dynamic> mainMuscleGroup;
   final List<dynamic> secondMuscleGroup;
   final bool isBodyWeightWorkout;
   final DateTime workoutDate;
   final String imageUrl;
   final int unitOfMass;
   final List<dynamic> equipmentRequired;
+  final double effort;
 
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -62,13 +64,14 @@ class RoutineHistory {
     final int totalDuration = data['totalDuration'];
     final bool earnedBadges = data['earnedBadges'];
     final String notes = data['notes'];
-    final String mainMuscleGroup = data['mainMuscleGroup'];
+    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
     final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
     final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
     final DateTime workoutDate = data['workoutDate'].toDate();
     final String imageUrl = data['imageUrl'];
     final int unitOfMass = data['unitOfMass'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
+    final double effort = data['effort'];
 
     return RoutineHistory(
       routineHistoryId: documentId,
@@ -91,6 +94,7 @@ class RoutineHistory {
       imageUrl: imageUrl,
       unitOfMass: unitOfMass,
       equipmentRequired: equipmentRequired,
+      effort: effort,
     );
   }
 
@@ -115,6 +119,7 @@ class RoutineHistory {
       'imageUrl': imageUrl,
       'unitOfMass': unitOfMass,
       'equipmentRequired': equipmentRequired,
+      'effort': effort,
     };
   }
 }

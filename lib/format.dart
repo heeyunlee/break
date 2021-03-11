@@ -77,4 +77,11 @@ class Format {
     }
     return '';
   }
+
+  static String timeInHM(Timestamp timestamp) {
+    final time = timestamp.toDate();
+    final formattedTime = DateFormat.jm().format(time);
+
+    return formattedTime;
+  }
 }

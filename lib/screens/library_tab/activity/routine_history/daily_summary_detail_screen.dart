@@ -295,6 +295,8 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final database = Provider.of<Database>(context);
     final routineHistory = widget.routineHistory;
 
+    final notes = widget.routineHistory.notes ?? 'No Notes...';
+
     // FORMATTING
     final weights = Format.weights(routineHistory.totalWeights);
     final unit = Format.unitOfMass(routineHistory.unitOfMass);
@@ -401,7 +403,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                         width: double.infinity,
                         height: 100,
                         child: Text(
-                          widget.routineHistory.notes,
+                          notes,
                           style: BodyText2,
                         ),
                       ),

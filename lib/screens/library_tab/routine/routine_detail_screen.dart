@@ -197,7 +197,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     );
   }
 
-  Widget _buildSliverToBoxAdaptor(context, routine, user, database) {
+  Widget _buildSliverToBoxAdaptor(
+      BuildContext context, Routine routine, User user, Database database) {
     final routineTitle = routine?.routineTitle ?? 'Add Title';
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
@@ -234,27 +235,21 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   children: [
                     Text(
                       routineOwnerUserName,
-                      style: Subtitle2.copyWith(fontWeight: FontWeight.bold),
+                      style: Subtitle2Bold,
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: <Widget>[
                         Text(
                           weights + ' ' + unitOfMass,
-                          style:
-                              BodyText2.copyWith(fontWeight: FontWeight.w300),
+                          style: BodyText2Light,
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          '•',
-                          style:
-                              BodyText2.copyWith(fontWeight: FontWeight.w300),
-                        ),
+                        const Text('•', style: BodyText2Light),
                         const SizedBox(width: 8),
                         Text(
                           'Last Edited on $lastEditedDate',
-                          style:
-                              BodyText2.copyWith(fontWeight: FontWeight.w300),
+                          style: BodyText2Light,
                         ),
                       ],
                     ),
@@ -295,11 +290,22 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               ),
               buttonText: 'Start Workout',
             ),
-            const SizedBox(height: 24),
+            if (widget.user.userId != routine.routineOwnerId)
+              const SizedBox(height: 16),
+            if (widget.user.userId != routine.routineOwnerId)
+              MaxWidthRaisedButton(
+                color: Primary400Color,
+                onPressed: () => DuringWorkoutScreen.show(
+                  context: context,
+                  routine: routine,
+                ),
+                buttonText: 'Copy this Routine',
+              ),
+            const SizedBox(height: 16),
             Divider(
               endIndent: 8,
               indent: 8,
-              color: Colors.white.withOpacity(0.1),
+              color: Grey800,
             ),
             const SizedBox(height: 8),
             StreamBuilder<List<RoutineWorkout>>(
@@ -341,7 +347,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                             );
                           },
                         ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 38),
                     ],
                   );
                 }),

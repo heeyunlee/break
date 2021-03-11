@@ -7,7 +7,7 @@ import 'package:workout_player/models/workout_set.dart';
 import '../../constants.dart';
 import '../../format.dart';
 
-class WeightsAndRepsWidget extends StatelessWidget {
+class WeightsAndRepsWidget extends StatefulWidget {
   const WeightsAndRepsWidget({
     Key key,
     this.workoutSet,
@@ -20,43 +20,63 @@ class WeightsAndRepsWidget extends StatelessWidget {
   final Routine routine;
 
   @override
+  _WeightsAndRepsWidgetState createState() => _WeightsAndRepsWidgetState();
+}
+
+class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final weights = Format.weights(workoutSet.weights);
-    final unit = UnitOfMass.values[routine.initialUnitOfMass].label;
+    final weights = Format.weights(widget.workoutSet.weights);
+    final unit = UnitOfMass.values[widget.routine.initialUnitOfMass].label;
 
     return Center(
       child: Card(
         color: Colors.grey[800],
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 6,
-        child: Container(
-          width: size.width - 48,
-          height: size.width - 48,
+        child: SizedBox(
+          width: size.width - 56,
+          height: size.width - 56,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: (size.width - 56) / 2,
+              SizedBox(
+                width: (size.width - 56) / 2 - 0.5,
+                height: size.width - 56,
                 child: Stack(
                   children: [
                     Center(
-                      child: RichText(
-                        text: TextSpan(
-                          style: BodyText2,
-                          children: <TextSpan>[
-                            if (routineWorkout.isBodyWeightWorkout)
-                              const TextSpan(text: 'Body + '),
-                            TextSpan(
-                              text: weights,
-                              style: Headline3.copyWith(
-                                color: Colors.white,
-                              ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.add_rounded,
+                              color: Colors.white,
                             ),
-                            TextSpan(text: unit),
-                          ],
-                        ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: BodyText2,
+                              children: <TextSpan>[
+                                if (widget.routineWorkout.isBodyWeightWorkout)
+                                  const TextSpan(text: 'Body + '),
+                                TextSpan(text: weights, style: Headline3),
+                                TextSpan(text: unit),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.remove_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Column(
@@ -65,53 +85,55 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: Text('Weights', style: BodyText2Grey),
                         ),
-                        const Divider(
-                          color: BackgroundColor,
-                          endIndent: 4,
-                          indent: 4,
-                          height: 0,
-                        ),
+                        const Divider(color: BackgroundColor, height: 0),
                       ],
                     ),
                   ],
                 ),
               ),
               Container(width: 1, color: BackgroundColor),
-              Container(
-                width: (size.width - 56) / 2,
+              SizedBox(
+                height: size.width - 56,
+                width: (size.width - 56) / 2 - 0.5,
                 child: Stack(
                   children: [
                     Center(
-                      child: RichText(
-                        text: TextSpan(
-                          style: Headline3.copyWith(
-                            color: Colors.white,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(text: '${workoutSet.reps}'),
-                            TextSpan(
-                              text: ' x',
-                              style: BodyText2.copyWith(
-                                color: Colors.white,
-                              ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.add_rounded,
+                              color: Colors.white,
                             ),
-                          ],
-                        ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: Headline3,
+                              children: <TextSpan>[
+                                TextSpan(text: '${widget.workoutSet.reps}'),
+                                const TextSpan(text: ' x', style: BodyText2),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.remove_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text('Reps',
-                              style: BodyText2.copyWith(color: Colors.grey)),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text('Reps', style: BodyText2Grey),
                         ),
-                        const Divider(
-                          color: BackgroundColor,
-                          endIndent: 4,
-                          indent: 4,
-                          height: 0,
-                        ),
+                        const Divider(color: BackgroundColor, height: 0),
                       ],
                     ),
                   ],

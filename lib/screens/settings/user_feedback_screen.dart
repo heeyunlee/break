@@ -72,8 +72,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       );
       await widget.database.setUserFeedback(userFeedback);
       Navigator.of(context).pop();
-      // TODO: ADD SNACKBAR
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Thank you for your feedback!'),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

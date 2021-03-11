@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/user.dart';
@@ -129,8 +128,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       await widget.database.deleteWorkout(workout);
       Navigator.of(context).popUntil((route) => route.isFirst);
-
-      // TODO: ADD SNACKBAR
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Succfessfully Deleted a Workout!'),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -156,7 +158,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         };
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
-        // TODO: ADD SNACKBAR
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Updated a Workout Info!'),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ));
       } on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(

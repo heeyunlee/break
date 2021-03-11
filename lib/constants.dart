@@ -116,6 +116,27 @@ const Headline6w900 = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
+const Headline6w900Grey = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w900,
+  color: Colors.grey,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Headline6w900Green = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w900,
+  color: Colors.green,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Headline6w900Red = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w900,
+  color: Colors.red,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
 const Subtitle1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
@@ -123,10 +144,24 @@ const Subtitle1 = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
+const Subtitle1Grey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Colors.grey,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
 const Subtitle1Light = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w300,
   color: Colors.white,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle1LightGrey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w300,
+  color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
@@ -161,6 +196,13 @@ const Subtitle1w900Primary = TextStyle(
 const Subtitle2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
+  color: Colors.white,
+  letterSpacing: 0.1,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle2Bold = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
@@ -204,6 +246,13 @@ const BodyText1w800 = TextStyle(
 const BodyText1Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
+  color: Colors.grey,
+  letterSpacing: 0.50,
+  fontFamily: 'NanumSquareRound',
+);
+const BodyText1BoldGrey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
   color: Colors.grey,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',

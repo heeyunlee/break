@@ -146,11 +146,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           await widget.database.updateRoutine(widget.routine, routine);
         },
       );
-      // TODO: ADD SNACKBAR
-      // ShowFlushBar(
-      //   context: context,
-      //   message: (set.isRest) ? 'Deleted a rest' : 'Deleted a set',
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text((set.isRest) ? 'Deleted a rest!' : 'Deleted a set!'),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

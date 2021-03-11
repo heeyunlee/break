@@ -132,10 +132,16 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Future<void> _delete(BuildContext context, Routine routine) async {
     try {
       await widget.database.deleteRoutine(routine);
+
+      // Navigation
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // TODO: ADD SNACKBAR
-
+      // SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Succfessfully Deleted a Routine!'),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -166,8 +172,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
         await HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
-        // TODO: ADD SNACKBAR
 
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Edited a Routine'),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ));
       } on FirebaseException catch (e) {
         await showExceptionAlertDialog(
           context,
@@ -542,35 +552,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       ),
     );
   }
-
-  // Future<bool> _showModalBottomSheet() {
-  //   return showCupertinoModalPopup(
-  //     context: context,
-  //     builder: (context) => CupertinoActionSheet(
-  //       message: const Text(
-  //         'Delete the workout? You cannot undo this process',
-  //         textAlign: TextAlign.center,
-  //       ),
-  //       actions: [
-  //         CupertinoActionSheetAction(
-  //           isDestructiveAction: true,
-  //           onPressed: () {
-  //             _delete(context, widget.routine);
-  //             Navigator.of(context).pop();
-
-  //             // TODO: ADD SNACKBAR
-  //           },
-  //           child: const Text('Delete workout'),
-  //         ),
-  //       ],
-  //       cancelButton: CupertinoActionSheetAction(
-  //         isDefaultAction: true,
-  //         onPressed: () => Navigator.of(context).pop(),
-  //         child: const Text('Cancel'),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Future<bool> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(

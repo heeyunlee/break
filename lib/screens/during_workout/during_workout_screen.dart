@@ -142,11 +142,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         routineId: widget.routine.routineId,
         routineTitle: widget.routine.routineTitle,
         isPublic: true,
-        mainMuscleGroup: widget.routine.mainMuscleGroup[0],
+        mainMuscleGroup: widget.routine.mainMuscleGroup,
         secondMuscleGroup: widget.routine.secondMuscleGroup,
         workoutStartTime: _workoutStartTime,
         workoutEndTime: workoutEndTime,
-        notes: null,
+        notes: '',
         totalCalories: 0,
         totalDuration: duration,
         totalWeights: totalWeights,
@@ -178,6 +178,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         context: context,
         routineHistory: routineHistory,
       );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('You\'ve finished your workout! \nKeep Lifting! 🎉'),
+      ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -388,7 +391,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
     return Stack(
       children: [
-        // Container(color: Colors.redAccent.withOpacity(0.05)),
+        Container(color: Colors.green.withOpacity(0.02)),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,20 +407,25 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       routineWorkout,
                       workoutSet,
                     ),
-              const SizedBox(height: 32),
+              SizedBox(height: size.height * 0.03),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 4,
                 ),
-                child: Text(workoutSet.setTitle, style: Headline5),
+                child: Text(workoutSet.setTitle,
+                    style: Headline5.copyWith(fontSize: size.height * 0.03)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('${routineWorkout.index}.  ', style: Headline6Grey),
+                    Text(
+                      '${routineWorkout.index}.  ',
+                      style:
+                          Headline6Grey.copyWith(fontSize: size.height * 0.02),
+                    ),
                     Text(
                       routineWorkout.workoutTitle,
                       style: Headline6Grey,
@@ -425,7 +433,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: size.height * 0.02),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Stack(
@@ -454,13 +462,19 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 child: Row(
                   children: [
-                    Text(formattedCurrentProgress, style: BodyText2),
+                    Text(
+                      formattedCurrentProgress,
+                      style: BodyText2.copyWith(fontSize: size.height * 0.017),
+                    ),
                     Spacer(),
-                    Text('100 %', style: BodyText2),
+                    Text(
+                      '100 %',
+                      style: BodyText2.copyWith(fontSize: size.height * 0.017),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: size.height * 0.02),
               ButtonTheme(
                 padding: EdgeInsets.all(0),
                 minWidth: size.width / 5,
@@ -474,8 +488,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       child: IconButton(
                         icon: SvgPicture.asset(
                           'assets/icons/skip_previous_twice-24px.svg',
-                          height: 24,
-                          width: 24,
+                          height: size.height * 0.03,
+                          width: size.height * 0.03,
                           color: (routineWorkoutIndex == 0)
                               ? Colors.grey[700]
                               : Colors.white,
@@ -491,13 +505,13 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       verticalOffset: -56,
                       message: 'To previous set',
                       child: IconButton(
-                        iconSize: 56,
+                        iconSize: size.height * 0.06,
                         icon: Icon(
                           Icons.skip_previous_rounded,
                           color: (setIndex == 0 && routineWorkoutIndex == 0)
                               ? Colors.grey[700]
                               : Colors.white,
-                          size: 56,
+                          size: size.height * 0.06,
                         ),
                         onPressed: (currentIndex > 1)
                             ? () => _skipPrevious(routineWorkouts)
@@ -513,10 +527,10 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                           : 'Start the Workout',
                       child: IconButton(
                         onPressed: () => _pausePlay(workoutSet),
-                        iconSize: 56,
+                        iconSize: size.height * 0.06,
                         icon: Container(
                           child: AnimatedIcon(
-                            size: 56,
+                            size: size.height * 0.06,
                             color: Colors.white,
                             icon: AnimatedIcons.pause_play,
                             progress: _animationController,
@@ -530,13 +544,13 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       verticalOffset: -56,
                       message: 'To Next Set',
                       child: IconButton(
-                        iconSize: 56,
+                        iconSize: size.height * 0.06,
                         icon: Icon(
                           Icons.skip_next_rounded,
                           color: (setIndex == workoutSetsLength)
                               ? Colors.grey[700]
                               : Colors.white,
-                          size: 56,
+                          size: size.height * 0.06,
                         ),
                         onPressed: (setIndex == workoutSetsLength)
                             ? null
@@ -555,8 +569,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       child: IconButton(
                         icon: SvgPicture.asset(
                           'assets/icons/skip_next_twice-24px.svg',
-                          width: 24,
-                          height: 24,
+                          width: size.height * 0.03,
+                          height: size.height * 0.03,
                           color: (routineWorkoutIndex == routineWorkoutsLength)
                               ? Colors.grey[700]
                               : Colors.white,
@@ -575,7 +589,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
               ),
               Spacer(),
               SizedBox(
-                height: 80,
+                height: size.height * 0.1,
                 child: (_isPaused)
                     ? Padding(
                         padding: const EdgeInsets.all(16),
@@ -628,8 +642,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 6,
         child: Container(
-          width: size.width - 48,
-          height: size.width - 48,
+          width: size.width - 56,
+          height: size.width - 56,
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: CircularCountDownTimer(

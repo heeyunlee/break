@@ -457,7 +457,11 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
               );
               Navigator.of(context).pop();
 
-              // TODO: ADD SNACKBAR
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Deleted a Workout!'),
+                duration: Duration(seconds: 2),
+                behavior: SnackBarBehavior.floating,
+              ));
             },
             child: const Text('Delete workout'),
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:logger/logger.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -8,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
-import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -158,54 +156,8 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           imageUrl: routine.imageUrl,
           onTap: () => _submit(routine),
         );
-
-        // return CustomListTile64(
-        //   tag: 'savedRoutines-${routine.routineId}',
-        //   title: routine.routineTitle,
-        //   subtitle: routine.mainMuscleGroup[0],
-        //   imageUrl: routine.imageUrl,
-        //   onTap: () => RoutineDetailScreen.show(
-        //     context,
-        //     routine: routine,
-        //     isRootNavigation: false,
-        //     tag: 'savedRoutines-${routine.routineId}',
-        //   ),
-        // );
       },
       isLive: true,
-    );
-
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      clipBehavior: Clip.none,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          children: [
-            SizedBox(height: Scaffold.of(context).appBarMaxHeight),
-            _buildRoutinesStream(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRoutinesStream(BuildContext context) {
-    return StreamBuilder<List<Routine>>(
-      stream: widget.database.userRoutinesStream(),
-      builder: (context, snapshot) {
-        return ListItemBuilder<Routine>(
-          emptyContentTitle: 'Create a new routine',
-          snapshot: snapshot,
-          itemBuilder: (context, routine) => CustomListTile64(
-            tag: 'routine${routine.routineId}',
-            title: routine.routineTitle,
-            subtitle: 'by ${routine.routineOwnerUserName}',
-            imageUrl: routine.imageUrl,
-            onTap: () => _submit(routine),
-          ),
-        );
-      },
     );
   }
 }

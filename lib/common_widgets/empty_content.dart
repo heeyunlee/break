@@ -5,7 +5,7 @@ import '../constants.dart';
 class EmptyContent extends StatelessWidget {
   const EmptyContent({
     Key key,
-    @required this.message,
+    this.message,
     this.button,
   }) : super(key: key);
 
@@ -23,11 +23,11 @@ class EmptyContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 36),
-          Text(message, style: Subtitle1Bold),
+          if (message != null) Text(message, style: Subtitle1Bold),
           Image.asset(
             'assets/images/treadmill.png',
-            height: 320,
-            width: 320,
+            height: size.height / 3,
+            width: size.height / 3,
           ),
           if (button != null) button,
         ],
