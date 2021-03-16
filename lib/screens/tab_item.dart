@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/my_flutter_app_icons.dart';
 
-enum TabItem { explore, search, library }
-// enum TabItem { home, library }
+enum TabItem { explore, search, library, progress }
 
 class TabItemData {
   const TabItemData({
     @required this.label,
-    @required this.icon,
+    @required this.selectedIcon,
+    this.isIconPNG,
+    // @required this.unselectedIcon,
   });
 
   final String label;
-  final IconData icon;
+  final dynamic selectedIcon;
+  final bool isIconPNG;
+  // final IconData unselectedIcon;
 
-  static const Map<TabItem, TabItemData> allTabs = {
+  static Map<TabItem, TabItemData> allTabs = {
     TabItem.explore: TabItemData(
       label: 'Explore',
-      icon: Icons.home_rounded,
+      selectedIcon: Icons.home_rounded,
+      isIconPNG: false,
+      // unselectedIcon: Icons.home_outlined,
     ),
     TabItem.search: TabItemData(
-      label: 'Search',
-      icon: Icons.search_rounded,
-    ),
+        label: 'Search', selectedIcon: Icons.search_rounded, isIconPNG: false
+        // unselectedIcon: Icons.search_rounded,
+        ),
     TabItem.library: TabItemData(
       label: 'Your Gym',
-      icon: Icons.person,
+      selectedIcon: 'assets/icons/workout_collection_icon.png',
+      isIconPNG: true,
+      // unselectedIcon: MyFlutterApp.workout_collection_icon_1,
+    ),
+    TabItem.progress: TabItemData(
+      label: 'Progress',
+      selectedIcon: Icons.bar_chart_rounded,
+      isIconPNG: false,
+      // unselectedIcon: Icons.bar_chart_outlined,
     ),
   };
 }

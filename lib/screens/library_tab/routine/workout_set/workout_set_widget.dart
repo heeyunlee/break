@@ -326,7 +326,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (!set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                  if (widget.user.userId == widget.routine.routineOwnerId &&
+                      !widget.routineWorkout.isBodyWeightWorkout) {
                     setState(() {
                       weightsTabbed = true;
                     });
@@ -337,12 +338,17 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   borderRadius: BorderRadius.circular(5),
                   child: Container(
                     height: 36,
-                    width: 104,
-                    padding: const EdgeInsets.symmetric(horizontal: 23),
+                    width: 128,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     color: CardColorLight,
                     child: (!weightsTabbed)
                         ? Center(
-                            child: Text(formattedWeights, style: BodyText1),
+                            child: Text(
+                              (widget.routineWorkout.isBodyWeightWorkout)
+                                  ? 'Bodyweight'
+                                  : formattedWeights,
+                              style: BodyText1,
+                            ),
                           )
                         : TextFormField(
                             autofocus: true,
@@ -352,9 +358,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             style: BodyText1,
                             focusNode: focusNode1,
                             keyboardAppearance: Brightness.dark,
-                            keyboardType:
-                                const TextInputType.numberWithOptions(),
-                            maxLength: 3,
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            maxLength: 5,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               counterText: '',

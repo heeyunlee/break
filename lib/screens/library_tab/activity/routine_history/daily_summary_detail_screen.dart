@@ -265,6 +265,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                       softWrap: false,
                       overflow: TextOverflow.fade,
                     ),
+                    // TODO: FIX HERE
                     Row(
                       children: [
                         Chip(

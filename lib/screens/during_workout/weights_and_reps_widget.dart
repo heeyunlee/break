@@ -51,31 +51,38 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_rounded,
-                              color: Colors.white,
+                          if (!widget.routineWorkout.isBodyWeightWorkout)
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.add_rounded,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
                           RichText(
                             text: TextSpan(
                               style: BodyText2,
                               children: <TextSpan>[
                                 if (widget.routineWorkout.isBodyWeightWorkout)
-                                  const TextSpan(text: 'Body + '),
-                                TextSpan(text: weights, style: Headline3),
-                                TextSpan(text: unit),
+                                  const TextSpan(
+                                    text: 'Bodyweight',
+                                    style: Headline5,
+                                  ),
+                                if (!widget.routineWorkout.isBodyWeightWorkout)
+                                  TextSpan(text: weights, style: Headline3),
+                                if (!widget.routineWorkout.isBodyWeightWorkout)
+                                  TextSpan(text: unit),
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.remove_rounded,
-                              color: Colors.white,
+                          if (!widget.routineWorkout.isBodyWeightWorkout)
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.remove_rounded,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),

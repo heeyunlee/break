@@ -27,33 +27,48 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            leading: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 36,
-            ),
+          _CustomListTile4(
             title: RichText(
               text: TextSpan(
                 text: routineHistory.username,
-                style: Subtitle1w900,
+                style: Subtitle2Bold,
                 children: <TextSpan>[
                   TextSpan(
                     text: ' worked out',
-                    style: Subtitle1Light,
+                    style: Subtitle2,
                   ),
                 ],
               ),
             ),
-            subtitle: Text(
-              difference,
-              style: Caption1Grey,
-            ),
-            // trailing: IconButton(
-            //   icon: Icon(Icons.more_vert, color: Colors.white),
-            //   onPressed: () {},
-            // ),
+            subtitle: difference,
           ),
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.account_circle,
+          //     color: Colors.white,
+          //     size: 24,
+          //   ),
+          //   title: RichText(
+          //     text: TextSpan(
+          //       text: routineHistory.username,
+          //       style: Subtitle2Bold,
+          //       children: <TextSpan>[
+          //         TextSpan(
+          //           text: ' worked out',
+          //           style: Subtitle2,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          //   subtitle: Text(
+          //     difference,
+          //     style: Caption1Grey,
+          //   ),
+          //   // trailing: IconButton(
+          //   //   icon: Icon(Icons.more_vert, color: Colors.white),
+          //   //   onPressed: () {},
+          //   // ),
+          // ),
           _buildNotes(notes),
           Card(
             color: CardColorLight,
@@ -149,6 +164,74 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _CustomListTile4 extends StatelessWidget {
+  const _CustomListTile4({
+    Key key,
+    this.tag,
+    this.imageUrl,
+    this.title,
+    this.leadingText,
+    this.subtitle,
+    this.onTap,
+    this.onLongTap,
+    this.trailingIconButton,
+    this.isLeadingDuration,
+  }) : super(key: key);
+
+  final Object tag;
+  final String imageUrl;
+  final Widget title;
+  final String leadingText;
+  final String subtitle;
+  final void Function() onTap;
+  final void Function() onLongTap;
+  final Widget trailingIconButton;
+  final bool isLeadingDuration;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              height: 36,
+              width: 36,
+              child: const Center(
+                child: Icon(
+                  Icons.account_circle,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(height: 4),
+                    title,
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: Caption1Grey,
+                    ),
+                    const SizedBox(height: 4),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -88,6 +88,13 @@ const Headline5w900 = TextStyle(
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
+const Headline5w900Primary = TextStyle(
+  fontSize: 24,
+  fontWeight: FontWeight.w900,
+  color: PrimaryColor,
+  letterSpacing: 0,
+  fontFamily: 'NanumSquareRound',
+);
 const Headline6 = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,

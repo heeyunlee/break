@@ -337,9 +337,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: const Text('Routine Title', style: BodyText1w800),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          child: Text('Routine Title', style: BodyText1w800),
         ),
 
         /// Routine Title

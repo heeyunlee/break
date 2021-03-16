@@ -331,13 +331,13 @@ class _RoutineHistorySummaryScreenState
                                       const EdgeInsets.symmetric(horizontal: 8),
                                   ratingWidget: RatingWidget(
                                     empty: Image.asset(
-                                      'assets/fonts/fire_none.png',
+                                      'assets/emojis/fire_empty.png',
                                     ),
                                     full: Image.asset(
-                                      'assets/fonts/fire_full.png',
+                                      'assets/emojis/fire_full.png',
                                     ),
                                     half: Image.asset(
-                                      'assets/fonts/fire_half.png',
+                                      'assets/emojis/fire_half.png',
                                     ),
                                   ),
                                   onRatingUpdate: (rating) {

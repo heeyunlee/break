@@ -7,7 +7,7 @@ import 'models/enum/unit_of_mass.dart';
 class Format {
   static String weights(double weights) {
     final weightsNotNull = weights ?? 0;
-    final formatter = NumberFormat('#,###,###');
+    final formatter = NumberFormat(',###,###.#');
 
     return formatter.format(weightsNotNull);
   }
@@ -38,6 +38,18 @@ class Format {
       final dateInDateTime = date.toDate();
 
       return DateFormat.MMMd().format(dateInDateTime);
+    }
+    return 'null...';
+  }
+
+  static String dateAndTime(Timestamp timestamp) {
+    if (timestamp != null) {
+      final dateInDateTime = timestamp.toDate();
+
+      final date = DateFormat.MMMMEEEEd().format(dateInDateTime);
+      final time = DateFormat.jm().format(dateInDateTime);
+
+      return '$time. $date';
     }
     return 'null...';
   }

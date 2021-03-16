@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/sliver_app_bar_delegate.dart';
+import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
@@ -54,6 +55,7 @@ class LibraryTab extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: SpeedDialFAB(),
       ),
     );
   }

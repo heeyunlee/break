@@ -4,6 +4,7 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
@@ -30,6 +31,7 @@ class HomeTab extends StatelessWidget {
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),
       ),
+      floatingActionButton: SpeedDialFAB(),
     );
   }
 

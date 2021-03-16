@@ -14,6 +14,7 @@ class User {
     this.totalNumberOfWorkouts,
     this.unitOfMass,
     this.lastLoginDate,
+    this.workoutHistories,
   });
 
   final String userId;
@@ -27,6 +28,7 @@ class User {
   final int totalNumberOfWorkouts;
   final int unitOfMass;
   final Timestamp lastLoginDate;
+  final List<WorkoutHistory> workoutHistories;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -42,6 +44,12 @@ class User {
     final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
     final int unitOfMass = data['unitOfMass'];
     final Timestamp lastLoginDate = data['lastLoginDate'];
+    final _workoutHistories = <WorkoutHistory>[];
+    if (data['workoutHistories'] != null) {
+      data['workoutHistories'].forEach((workoutHistory) {
+        _workoutHistories.add(WorkoutHistory.fromMap(workoutHistory));
+      });
+    }
 
     return User(
       userId: documentId,
@@ -55,6 +63,7 @@ class User {
       totalNumberOfWorkouts: totalNumberOfWorkouts,
       unitOfMass: unitOfMass,
       lastLoginDate: lastLoginDate,
+      workoutHistories: _workoutHistories,
     );
   }
 
@@ -70,6 +79,35 @@ class User {
       'totalNumberOfWorkouts': totalNumberOfWorkouts,
       'unitOfMass': unitOfMass,
       'lastLoginDate': lastLoginDate,
+      'workoutHistories': workoutHistories,
+    };
+  }
+}
+
+class WorkoutHistory {
+  WorkoutHistory({this.date, this.totalWeights});
+
+  final Timestamp date;
+  final double totalWeights;
+
+  factory WorkoutHistory.fromMap(Map<String, dynamic> data) {
+    if (data != null) {
+      return null;
+    }
+
+    final Timestamp date = data['date'];
+    final double totalWeights = data['totalWeights'];
+
+    return WorkoutHistory(
+      date: date,
+      totalWeights: totalWeights,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': date,
+      'totalWeights': totalWeights,
     };
   }
 }
