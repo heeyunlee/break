@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/my_flutter_app_icons.dart';
 
-enum TabItem { explore, search, library, progress }
+enum TabItem { explore, search, progress, library }
 
 class TabItemData {
   const TabItemData({
@@ -28,7 +27,7 @@ class TabItemData {
         // unselectedIcon: Icons.search_rounded,
         ),
     TabItem.library: TabItemData(
-      label: 'Your Gym',
+      label: 'Library',
       selectedIcon: 'assets/icons/workout_collection_icon.png',
       isIconPNG: true,
       // unselectedIcon: MyFlutterApp.workout_collection_icon_1,

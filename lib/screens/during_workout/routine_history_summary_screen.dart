@@ -331,7 +331,7 @@ class _RoutineHistorySummaryScreenState
                                       const EdgeInsets.symmetric(horizontal: 8),
                                   ratingWidget: RatingWidget(
                                     empty: Image.asset(
-                                      'assets/emojis/fire_empty.png',
+                                      'assets/emojis/fire_none.png',
                                     ),
                                     full: Image.asset(
                                       'assets/emojis/fire_full.png',

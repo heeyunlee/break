@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/format.dart';
 
 import '../../../../constants.dart';
-import 'daily_summary_row_widget.dart';
+import '../../../home_tab/daily_summary_row_widget.dart';
 
 class DailySummaryCard extends StatefulWidget {
   DailySummaryCard({

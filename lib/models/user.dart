@@ -14,21 +14,22 @@ class User {
     this.totalNumberOfWorkouts,
     this.unitOfMass,
     this.lastLoginDate,
-    this.workoutHistories,
+    this.dailyWorkoutHistories,
   });
 
-  final String userId;
-  final String userName;
-  final String userEmail;
-  final Timestamp signUpDate;
-  final String signUpProvider;
-  final List<String> savedWorkouts;
-  final List<String> savedRoutines;
-  final double totalWeights;
-  final int totalNumberOfWorkouts;
-  final int unitOfMass;
-  final Timestamp lastLoginDate;
-  final List<WorkoutHistory> workoutHistories;
+  String userId;
+  String userName;
+  String userEmail;
+  Timestamp signUpDate;
+  String signUpProvider;
+  List<String> savedWorkouts;
+  List<String> savedRoutines;
+  double totalWeights;
+  int totalNumberOfWorkouts;
+  int unitOfMass;
+  Timestamp lastLoginDate;
+  // TODO: Make this work like Routine Workout
+  List<dynamic> dailyWorkoutHistories;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -44,12 +45,7 @@ class User {
     final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
     final int unitOfMass = data['unitOfMass'];
     final Timestamp lastLoginDate = data['lastLoginDate'];
-    final _workoutHistories = <WorkoutHistory>[];
-    if (data['workoutHistories'] != null) {
-      data['workoutHistories'].forEach((workoutHistory) {
-        _workoutHistories.add(WorkoutHistory.fromMap(workoutHistory));
-      });
-    }
+    final List<dynamic> dailyWorkoutHistories = data['dailyWorkoutHistories'];
 
     return User(
       userId: documentId,
@@ -63,7 +59,7 @@ class User {
       totalNumberOfWorkouts: totalNumberOfWorkouts,
       unitOfMass: unitOfMass,
       lastLoginDate: lastLoginDate,
-      workoutHistories: _workoutHistories,
+      dailyWorkoutHistories: dailyWorkoutHistories,
     );
   }
 
@@ -79,26 +75,25 @@ class User {
       'totalNumberOfWorkouts': totalNumberOfWorkouts,
       'unitOfMass': unitOfMass,
       'lastLoginDate': lastLoginDate,
-      'workoutHistories': workoutHistories,
+      'dailyWorkoutHistories': dailyWorkoutHistories,
     };
   }
 }
 
-class WorkoutHistory {
-  WorkoutHistory({this.date, this.totalWeights});
+class DailyWorkoutHistory {
+  DailyWorkoutHistory({this.date, this.totalWeights});
 
-  final Timestamp date;
+  final DateTime date;
   final double totalWeights;
 
-  factory WorkoutHistory.fromMap(Map<String, dynamic> data) {
-    if (data != null) {
+  factory DailyWorkoutHistory.fromMap(Map<String, dynamic> data) {
+    if (data == null) {
       return null;
     }
-
-    final Timestamp date = data['date'];
+    final DateTime date = data['date'];
     final double totalWeights = data['totalWeights'];
 
-    return WorkoutHistory(
+    return DailyWorkoutHistory(
       date: date,
       totalWeights: totalWeights,
     );

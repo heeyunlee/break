@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_row_widget.dart';
+import 'package:workout_player/screens/home_tab/daily_summary_row_widget.dart';
 
 class RoutineHistorySummaryFeedCard extends StatelessWidget {
   RoutineHistorySummaryFeedCard({
@@ -42,33 +42,6 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             ),
             subtitle: difference,
           ),
-          // ListTile(
-          //   leading: const Icon(
-          //     Icons.account_circle,
-          //     color: Colors.white,
-          //     size: 24,
-          //   ),
-          //   title: RichText(
-          //     text: TextSpan(
-          //       text: routineHistory.username,
-          //       style: Subtitle2Bold,
-          //       children: <TextSpan>[
-          //         TextSpan(
-          //           text: ' worked out',
-          //           style: Subtitle2,
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          //   subtitle: Text(
-          //     difference,
-          //     style: Caption1Grey,
-          //   ),
-          //   // trailing: IconButton(
-          //   //   icon: Icon(Icons.more_vert, color: Colors.white),
-          //   //   onPressed: () {},
-          //   // ),
-          // ),
           _buildNotes(notes),
           Card(
             color: CardColorLight,

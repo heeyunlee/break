@@ -186,17 +186,38 @@ const Subtitle1w900 = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1BoldGrey = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.bold,
-  color: Colors.grey,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
 const Subtitle1w900Primary = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: PrimaryColor,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle1w900Brown = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w900,
+  color: Colors.brown,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle1w900Green = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w900,
+  color: Colors.green,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle1w900Grey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w900,
+  color: Colors.grey,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
+const Subtitle1BoldGrey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
@@ -225,6 +246,13 @@ const BodyText1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
+  letterSpacing: 0.50,
+  fontFamily: 'NanumSquareRound',
+);
+const BodyText1Black = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Colors.black,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );

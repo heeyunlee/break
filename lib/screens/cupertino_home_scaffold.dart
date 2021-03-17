@@ -27,8 +27,8 @@ class CupertinoHomeScaffold extends StatelessWidget {
         items: [
           _buildItem(TabItem.explore),
           _buildItem(TabItem.search),
-          _buildItem(TabItem.library),
           _buildItem(TabItem.progress),
+          _buildItem(TabItem.library),
         ],
         onTap: (index) => onSelectedTab(TabItem.values[index]),
       ),
@@ -44,18 +44,16 @@ class CupertinoHomeScaffold extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem];
-    // final icon =
-    //     currentTab == tabItem ? itemData.selectedIcon : itemData.unselectedIcon;
     final color = currentTab == tabItem ? PrimaryColor : Colors.white;
     return BottomNavigationBarItem(
-      // label: itemData.label,
+      label: itemData.label,
       icon: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: (itemData.isIconPNG)
             ? Image.asset(
                 itemData.selectedIcon,
-                width: 20,
-                height: 20,
+                width: 21,
+                height: 21,
                 color: color,
               )
             : Icon(

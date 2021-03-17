@@ -149,6 +149,7 @@ class FirestoreDatabase implements Database {
   @override
   Stream<User> userStream({String userId}) => _service.documentStream(
         path: APIPath.user(userId),
+        //TODO: Change THIS
         builder: (data, documentId) => User.fromMap(data, documentId),
       );
 
@@ -156,6 +157,7 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> getUser(String userId, User user) => _service.getData(
         path: APIPath.user(userId),
+        //TODO: Change THIS
         data: user.toMap(),
       );
 
@@ -163,6 +165,7 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> setUser(User user) => _service.setData(
         path: APIPath.user(user.userId),
+        //TODO: Change THIS
         data: user.toMap(),
       );
 

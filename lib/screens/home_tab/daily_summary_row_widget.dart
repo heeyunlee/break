@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../constants.dart';
+import '../../constants.dart';
 
 class DailySummaryRowWidget extends StatelessWidget {
   const DailySummaryRowWidget({
@@ -56,7 +56,7 @@ class DailySummaryRowWidget extends StatelessWidget {
           height: 48,
         ),
         const SizedBox(height: 16),
-        Text(title, style: Subtitle1BoldGrey),
+        Text(title, style: Subtitle1w900),
         const SizedBox(height: 4),
         Text(subtitle, style: BodyText2Light),
       ],

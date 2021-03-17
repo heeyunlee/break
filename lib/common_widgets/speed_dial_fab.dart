@@ -26,7 +26,7 @@ class SpeedDialFAB extends StatelessWidget {
           ),
         ),
         SpeedDialChild(
-          labelWidget: const Text('Add Workout', style: ButtonText),
+          labelWidget: const Text('Start Workout', style: ButtonText),
           backgroundColor: Primary700Color,
           onTap: () => StartWorkoutShortcutScreen.show(context),
           child: Image.asset(

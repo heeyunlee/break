@@ -7,6 +7,7 @@ import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
+import 'package:workout_player/screens/settings/settings_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
@@ -26,6 +27,16 @@ class HomeTab extends StatelessWidget {
           height: 32,
         ),
         flexibleSpace: const AppbarBlurBG(),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.settings_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () => SettingsScreen.show(context),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       backgroundColor: BackgroundColor,
       body: Builder(

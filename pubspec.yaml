@@ -87,9 +87,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 400
-    - family: MyFlutterApp
-      fonts:
-        - asset: assets/fonts/MyFlutterApp.ttf
 
   uses-material-design: true
   assets:

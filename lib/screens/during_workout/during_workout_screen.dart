@@ -105,8 +105,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     super.dispose();
   }
 
-  Future<void> _submit(
-      List<RoutineWorkout> routineWorkouts, User userData) async {
+  Future<void> _submit(List<RoutineWorkout> routineWorkouts) async {
     try {
       debugPrint('submit button pressed');
 
@@ -158,10 +157,18 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       );
 
       /// Update User Data
+      final workoutHistory = DailyWorkoutHistory(
+        date: workoutDate,
+        totalWeights: totalWeights,
+      );
+
+      // TODO: MAKE SURE IT DON"T CREATE DUPLICATE DATA
       // User
       final user = {
-        'totalWeights': userData.totalWeights + totalWeights,
-        'totalNumberOfWorkouts': userData.totalNumberOfWorkouts + 1,
+        'totalWeights': widget.user.totalWeights + totalWeights,
+        'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
+        'dailyWorkoutHistories':
+            FieldValue.arrayUnion([workoutHistory.toMap()]),
       };
 
       await widget.database
@@ -593,20 +600,25 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                 child: (_isPaused)
                     ? Padding(
                         padding: const EdgeInsets.all(16),
-                        child: StreamBuilder<User>(
-                            stream: widget.database.userStream(
-                              userId: widget.user.userId,
-                            ),
-                            builder: (context, snapshot) {
-                              final userData = snapshot.data;
+                        child: MaxWidthRaisedButton(
+                          buttonText: 'SAVE & END WORKOUT',
+                          color: Colors.grey[700],
+                          onPressed: () => _submit(routineWorkouts),
+                        ),
+                        // child: StreamBuilder<User>(
+                        //     stream: widget.database.userStream(
+                        //       userId: widget.user.userId,
+                        //     ),
+                        //     builder: (context, snapshot) {
+                        //       final userData = snapshot.data;
 
-                              return MaxWidthRaisedButton(
-                                color: Colors.grey[700],
-                                buttonText: 'SAVE & END WORKOUT',
-                                onPressed: () =>
-                                    _submit(routineWorkouts, userData),
-                              );
-                            }),
+                        //       return MaxWidthRaisedButton(
+                        //         color: Colors.grey[700],
+                        //         buttonText: 'SAVE & END WORKOUT',
+                        //         onPressed: () =>
+                        //             _submit(routineWorkouts, userData),
+                        //       );
+                        //     }),
                       )
                     : (routineWorkoutIndex == routineWorkoutsLength &&
                             setIndex == workoutSetsLength)
