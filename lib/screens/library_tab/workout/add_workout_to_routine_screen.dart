@@ -90,7 +90,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         );
         await widget.database.setRoutineWorkout(routine, routineWorkout);
         Navigator.of(context).popUntil((route) => route.isFirst);
-        RoutineDetailScreen.show(
+        await RoutineDetailScreen.show(
           context,
           routine: routine,
           isRootNavigation: false,

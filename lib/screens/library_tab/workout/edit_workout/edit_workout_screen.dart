@@ -9,13 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
 import '../../../../common_widgets/max_width_raised_button.dart';
 import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../common_widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
-import '../../../../services/auth.dart';
 import '../../../../services/database.dart';
 import 'edit_workout_equipment_required_screen.dart';
 import 'edit_workout_main_muscle_group_screen.dart';
@@ -37,7 +37,7 @@ class EditWorkoutScreen extends StatefulWidget {
   static Future<void> show({BuildContext context, Workout workout}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(

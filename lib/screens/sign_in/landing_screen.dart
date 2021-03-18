@@ -14,6 +14,8 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
+
     // Return either HomeScreen or AuthScreen or SplashScreen when loading
     return StreamBuilder<_auth.User>(
       stream: auth.authStateChanges(),

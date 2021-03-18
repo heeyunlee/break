@@ -42,7 +42,7 @@ class DailySummaryDetailScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -119,17 +119,31 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       BuildContext context, RoutineHistory routineHistory) async {
     try {
       // Update User Data
+      final histories = widget.user.dailyWorkoutHistories;
+      final index = widget.user.dailyWorkoutHistories.indexWhere(
+        (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
+      );
+      final oldHistory = histories[index];
+      final newHistory = DailyWorkoutHistory(
+        date: oldHistory.date,
+        totalWeights: oldHistory.totalWeights - routineHistory.totalWeights,
+      );
+      histories[index] = newHistory;
+
       final user = {
         'totalWeights': widget.user.totalWeights - routineHistory.totalWeights,
         'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts - 1,
+        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
       };
 
       await widget.database.deleteRoutineHistory(routineHistory).then(
         (value) async {
-          await widget.database.updateUser(widget.user.userId, user);
+          await widget.database.updateUser(widget.auth.currentUser.uid, user);
         },
       );
       Navigator.of(context).popUntil((route) => route.isFirst);
+
+      // TODO: Add SnackBar
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

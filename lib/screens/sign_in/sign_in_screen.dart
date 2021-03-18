@@ -32,6 +32,8 @@ class SignInScreen extends StatefulWidget {
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
+    // final user = database.userStream(auth.currentUser.uid).first;
+
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
@@ -42,6 +44,7 @@ class SignInScreen extends StatefulWidget {
               signInBloc: signInBloc,
               isLoading: isLoading.value,
               database: database,
+              // user: user,
             ),
           ),
         ),
@@ -64,36 +67,38 @@ class _SignInScreenState extends State<SignInScreen> {
       await widget.signInBloc.signInAnonymously();
 
       // Write User data to Firebase
-      final user = await widget.database
-          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
-          .first;
+      // final user = await widget.database
+      //     .userStream(widget.signInBloc.auth.currentUser.uid)
+      //     .first;
       final firebaseUser = widget.signInBloc.auth.currentUser;
       final uniqueId = UniqueKey().toString();
+      // print(user);
 
       // Create new data do NOT exist
-      if (user == null) {
-        final currentTime = Timestamp.now();
-        final userData = User(
-          userId: firebaseUser.uid,
-          userName: 'Anon $uniqueId',
-          userEmail: firebaseUser.email,
-          signUpDate: currentTime,
-          signUpProvider: 'Anon',
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: 1,
-          lastLoginDate: currentTime,
-        );
-        await widget.database.setUser(userData);
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
+      // if (user == null) {
+      final currentTime = Timestamp.now();
+      final userData = User(
+        userId: firebaseUser.uid,
+        userName: 'Anon $uniqueId',
+        userEmail: firebaseUser.email,
+        signUpDate: currentTime,
+        signUpProvider: 'Anon',
+        totalWeights: 0,
+        totalNumberOfWorkouts: 0,
+        unitOfMass: 1,
+        lastLoginDate: currentTime,
+        dailyWorkoutHistories: [],
+      );
+      await widget.database.setUser(userData);
+      // } else {
+      //   // Update Data if exist
+      //   final currentTime = Timestamp.now();
 
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
-      }
+      //   final updatedUserData = {
+      //     'lastLoginDate': currentTime,
+      //   };
+      //   await widget.database.updateUser(updatedUserData);
+      // }
     } on Exception catch (e) {
       logger.d(e);
       _showSignInError(e, context);
@@ -107,8 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Write User data to Firebase
       final user = await widget.database
-          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
-          .first;
+          .userDocument(widget.signInBloc.auth.currentUser.uid);
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -124,6 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
           totalNumberOfWorkouts: 0,
           unitOfMass: 1,
           lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -148,8 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Write User data to Firebase
       final user = await widget.database
-          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
-          .first;
+          .userDocument(widget.signInBloc.auth.currentUser.uid);
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -165,6 +169,7 @@ class _SignInScreenState extends State<SignInScreen> {
           totalNumberOfWorkouts: 0,
           unitOfMass: 1,
           lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -189,8 +194,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Write User data to Firebase
       final user = await widget.database
-          .userStream(userId: widget.signInBloc.auth.currentUser.uid)
-          .first;
+          .userDocument(widget.signInBloc.auth.currentUser.uid);
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -207,6 +211,7 @@ class _SignInScreenState extends State<SignInScreen> {
           totalNumberOfWorkouts: 0,
           unitOfMass: 1,
           lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -344,8 +349,11 @@ class _SignInScreenState extends State<SignInScreen> {
           const SizedBox(height: 16),
           const Text('or', style: BodyText2),
           TextButton(
-            onPressed:
-                widget.isLoading ? null : () => _signInAnonymously(context),
+            onPressed: widget.isLoading
+                ? null
+                : () async {
+                    await _signInAnonymously(context);
+                  },
             child: const Text('Continue Anonymously', style: BodyText2),
           ),
           const SizedBox(height: 38),

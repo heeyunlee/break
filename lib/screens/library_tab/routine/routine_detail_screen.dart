@@ -31,17 +31,17 @@ class RoutineDetailScreen extends StatefulWidget {
   RoutineDetailScreen({
     this.database,
     this.routine,
-    this.user,
     this.tag,
+    this.auth,
   });
 
   final Database database;
   final Routine routine;
-  final User user;
   final String tag;
+  final AuthBase auth;
 
   // For Navigation
-  static void show(
+  static Future<void> show(
     BuildContext context, {
     Routine routine,
     bool isRootNavigation = false,
@@ -49,7 +49,6 @@ class RoutineDetailScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
 
     await HapticFeedback.mediumImpact();
 
@@ -59,7 +58,7 @@ class RoutineDetailScreen extends StatefulWidget {
           builder: (context) => RoutineDetailScreen(
             database: database,
             routine: routine,
-            user: user,
+            auth: auth,
             tag: tag,
           ),
         ),
@@ -71,6 +70,7 @@ class RoutineDetailScreen extends StatefulWidget {
           builder: (context) => RoutineDetailScreen(
             database: database,
             routine: routine,
+            auth: auth,
           ),
         ),
       );
@@ -83,6 +83,9 @@ class RoutineDetailScreen extends StatefulWidget {
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with TickerProviderStateMixin {
+  // Database database;
+  // AuthBase auth;
+
   // For SliverApp to Work
   AnimationController _colorAnimationController;
   AnimationController _textAnimationController;
@@ -102,6 +105,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   @override
   void initState() {
+    // database = Provider.of<Database>(context, listen: false);
+    // auth = Provider.of<AuthBase>(context, listen: false);
+
     _colorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _textAnimationController =
@@ -124,11 +130,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   @override
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
-    final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<Routine>(
         initialData: routineDummyData,
-        stream: database.routineStream(
+        stream: widget.database.routineStream(
           routineId: widget.routine.routineId,
         ),
         builder: (context, snapshot) {
@@ -144,12 +149,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                     physics: const BouncingScrollPhysics(),
                     slivers: [
                       _buildSliverAppBar(routine),
-                      _buildSliverToBoxAdaptor(
-                        context,
-                        routine,
-                        widget.user,
-                        database,
-                      ),
+                      _buildSliverToBoxAdaptor(context, routine),
                     ],
                   ),
                 ],
@@ -197,8 +197,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     );
   }
 
-  Widget _buildSliverToBoxAdaptor(
-      BuildContext context, Routine routine, User user, Database database) {
+  Widget _buildSliverToBoxAdaptor(BuildContext context, Routine routine) {
     final routineTitle = routine?.routineTitle ?? 'Add Title';
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
@@ -256,7 +255,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   ],
                 ),
                 const Spacer(),
-                if (user.userId == routine.routineOwnerId)
+                if (widget.auth.currentUser.uid == routine.routineOwnerId)
                   IconButton(
                     icon: const Icon(
                       Icons.edit_rounded,
@@ -285,18 +284,19 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 color: Colors.white,
               ),
               onPressed: () => DuringWorkoutScreen.show(
-                context: context,
+                context,
                 routine: routine,
+                // user: snapshot.data,
               ),
               buttonText: 'Start Workout',
             ),
-            if (widget.user.userId != routine.routineOwnerId)
+            if (widget.auth.currentUser.uid != routine.routineOwnerId)
               const SizedBox(height: 16),
-            if (widget.user.userId != routine.routineOwnerId)
+            if (widget.auth.currentUser.uid != routine.routineOwnerId)
               MaxWidthRaisedButton(
                 color: Primary400Color,
                 onPressed: () => DuringWorkoutScreen.show(
-                  context: context,
+                  context,
                   routine: routine,
                 ),
                 buttonText: 'Copy this Routine',
@@ -309,7 +309,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             ),
             const SizedBox(height: 8),
             StreamBuilder<List<RoutineWorkout>>(
-                stream: database.routineWorkoutsStream(routine),
+                stream: widget.database.routineWorkoutsStream(routine),
                 builder: (context, snapshot) {
                   return Column(
                     children: [
@@ -318,21 +318,21 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         snapshot: snapshot,
                         itemBuilder: (context, routineWorkout) =>
                             WorkoutMediumCard(
-                          database: database,
+                          database: widget.database,
                           routine: routine,
                           routineWorkout: routineWorkout,
-                          user: user,
+                          // user: user,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      if (user.userId == routine.routineOwnerId)
+                      if (widget.auth.currentUser.uid == routine.routineOwnerId)
                         Divider(
                           endIndent: 8,
                           indent: 8,
                           color: Colors.white.withOpacity(0.1),
                         ),
                       const SizedBox(height: 16),
-                      if (user.userId == routine.routineOwnerId)
+                      if (widget.auth.currentUser.uid == routine.routineOwnerId)
                         MaxWidthRaisedButton(
                           icon: const Icon(
                             Icons.add_rounded,

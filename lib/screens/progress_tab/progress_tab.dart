@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/models/user.dart';
@@ -27,13 +28,12 @@ class ProgressTab extends StatelessWidget {
         backgroundColor: BackgroundColor,
         body: StreamBuilder<User>(
           initialData: userDummyData,
-          stream: database.userStream(userId: auth.currentUser.uid),
+          stream: database.userStream(auth.currentUser.uid),
           builder: (context, snapshot) {
             final user = snapshot.data;
-            print(user);
+            print(snapshot.data.userId);
 
             return CustomScrollView(
-              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
                   expandedHeight: 200,
@@ -72,14 +72,15 @@ class ProgressTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: const Text(
-                '***STILL TESTING... NOT FINAL***',
-                style: Headline6w900Red,
-              ),
-            ),
+            // Center(
+            //   child: const Text(
+            //     '***STILL TESTING... NOT FINAL***',
+            //     style: Headline6w900Red,
+            //   ),
+            // ),
             WeightsLiftedChartWidget(
               database: database,
+              user: user,
             ),
             ProteinsEatenChartWidget(user: user),
             WeightsHistoryChartWidget(),
@@ -122,6 +123,9 @@ class _FlexibleSpace extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             color: PrimaryColor,
             child: Container(
               height: size.height / 9,
@@ -129,41 +133,17 @@ class _FlexibleSpace extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Container(
-                    width: 140,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Text('Total Weights', style: Caption1),
-                        const SizedBox(height: 8),
-                        Text(
-                          '$weights $unit',
-                          style: Headline6w900,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    width: 1,
-                    height: 56,
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                  Container(
-                    width: 140,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Text('Total Activities', style: Caption1),
-                        const SizedBox(height: 8),
-                        Text(
-                          '$numberOfWorkouts $times',
-                          style: Subtitle1w900,
-                        ),
-                      ],
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        weights,
+                        style: GoogleFonts.blackHanSans(
+                            color: Colors.white, fontSize: 40),
+                      ),
+                      Text('$unit Lifted', style: BodyText1),
+                    ],
                   ),
                 ],
               ),

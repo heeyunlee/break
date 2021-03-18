@@ -23,7 +23,7 @@ class UserFeedbackScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(

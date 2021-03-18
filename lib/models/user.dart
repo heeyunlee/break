@@ -28,24 +28,29 @@ class User {
   int totalNumberOfWorkouts;
   int unitOfMass;
   Timestamp lastLoginDate;
-  // TODO: Make this work like Routine Workout
-  List<dynamic> dailyWorkoutHistories;
+  List<DailyWorkoutHistory> dailyWorkoutHistories;
 
-  factory User.fromMap(Map<String, dynamic> data, String documentId) {
+  factory User.fromJson(Map<String, dynamic> data, String documentId) {
     if (data == null) {
       return null;
     }
-    final String userName = data['userName'];
-    final String userEmail = data['userEmail'];
-    final Timestamp signUpDate = data['signUpDate'];
-    final String signUpProvider = data['signUpProvider'];
-    final List<String> savedWorkouts = data['savedWorkouts'];
-    final List<String> savedRoutines = data['savedRoutines'];
-    final double totalWeights = data['totalWeights'];
-    final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
-    final int unitOfMass = data['unitOfMass'];
-    final Timestamp lastLoginDate = data['lastLoginDate'];
-    final List<dynamic> dailyWorkoutHistories = data['dailyWorkoutHistories'];
+    final userName = data['userName'];
+    final userEmail = data['userEmail'];
+    final signUpDate = data['signUpDate'];
+    final signUpProvider = data['signUpProvider'];
+    final savedWorkouts = data['savedWorkouts'];
+    final savedRoutines = data['savedRoutines'];
+    final totalWeights = data['totalWeights'];
+    final totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
+    final unitOfMass = data['unitOfMass'];
+    final lastLoginDate = data['lastLoginDate'];
+    List<DailyWorkoutHistory> dailyWorkoutHistories = <DailyWorkoutHistory>[];
+
+    if (data['dailyWorkoutHistories'] != null) {
+      data['dailyWorkoutHistories'].forEach((item) {
+        dailyWorkoutHistories.add(DailyWorkoutHistory.fromMap(item));
+      });
+    }
 
     return User(
       userId: documentId,
@@ -63,20 +68,24 @@ class User {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'userName': userName,
-      'userEmail': userEmail,
-      'signUpDate': signUpDate,
-      'signUpProvider': signUpProvider,
-      'savedWorkouts': savedWorkouts,
-      'savedRoutines': savedRoutines,
-      'totalWeights': totalWeights,
-      'totalNumberOfWorkouts': totalNumberOfWorkouts,
-      'unitOfMass': unitOfMass,
-      'lastLoginDate': lastLoginDate,
-      'dailyWorkoutHistories': dailyWorkoutHistories,
-    };
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['userName'] = userName;
+    data['userEmail'] = userEmail;
+    data['signUpDate'] = signUpDate;
+    data['signUpProvider'] = signUpProvider;
+    data['savedWorkouts'] = savedWorkouts;
+    data['savedRoutines'] = savedRoutines;
+    data['totalWeights'] = totalWeights;
+    data['totalNumberOfWorkouts'] = totalNumberOfWorkouts;
+    data['unitOfMass'] = unitOfMass;
+    data['lastLoginDate'] = lastLoginDate;
+    if (dailyWorkoutHistories != null) {
+      data['dailyWorkoutHistories'] =
+          dailyWorkoutHistories.map((e) => e.toMap()).toList();
+    }
+
+    return data;
   }
 }
 
@@ -90,8 +99,8 @@ class DailyWorkoutHistory {
     if (data == null) {
       return null;
     }
-    final DateTime date = data['date'];
-    final double totalWeights = data['totalWeights'];
+    final DateTime date = data['date'].toDate();
+    final double totalWeights = data['totalWeights'].toDouble();
 
     return DailyWorkoutHistory(
       date: date,

@@ -40,7 +40,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -111,8 +111,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         CupertinoPageRoute(
           builder: (context) => RoutineDetailScreen(
             routine: routine,
-            database: widget.database,
-            user: widget.user,
             tag: 'newRoutine-${routine.routineId}',
           ),
         ),

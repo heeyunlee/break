@@ -11,11 +11,15 @@ import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
 abstract class Database {
-  /// User
-  Future<void> getUser(String userId, User user);
+  ///////////// User ////////////////
+  // FUTURE
+  Future<void> getUser(User user);
   Future<void> setUser(User user);
-  Future<void> updateUser(String userId, Map data);
-  Stream<User> userStream({String userId});
+  Future<void> updateUser(String uid, Map data);
+  Future<User> userDocument(String uid);
+
+  // Stream
+  Stream<User> userStream(String uid);
   Future<void> setSavedWorkout(SavedWorkout savedWorkout);
   Stream<SavedWorkout> savedWorkoutStream({String workoutId});
   Stream<List<SavedWorkout>> savedWorkoutsStream();
@@ -134,46 +138,46 @@ String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 class FirestoreDatabase implements Database {
   FirestoreDatabase({
     this.userId,
-    this.workoutId,
-    this.routineId,
   });
 
   final String userId;
-  final String workoutId;
-  final String routineId;
 
   final _service = FirestoreService.instance;
 
   /// Users
-  //  Stream of Single Workout Stream
-  @override
-  Stream<User> userStream({String userId}) => _service.documentStream(
-        path: APIPath.user(userId),
-        //TODO: Change THIS
-        builder: (data, documentId) => User.fromMap(data, documentId),
-      );
-
   // Get User Data
   @override
-  Future<void> getUser(String userId, User user) => _service.getData(
-        path: APIPath.user(userId),
-        //TODO: Change THIS
-        data: user.toMap(),
+  Future<void> getUser(User user) => _service.getData(
+        path: APIPath.user(user.userId),
+        data: user.toJson(),
       );
 
   // Add or edit User Data
   @override
   Future<void> setUser(User user) => _service.setData(
         path: APIPath.user(user.userId),
-        //TODO: Change THIS
-        data: user.toMap(),
+        data: user.toJson(),
       );
 
   // Update User Data
   @override
-  Future<void> updateUser(String userId, Map data) => _service.updateData(
-        path: APIPath.user(userId),
+  Future<void> updateUser(String uid, Map data) => _service.updateData(
+        path: APIPath.user(uid),
         data: data,
+      );
+
+  // Single User Data
+  @override
+  Future<User> userDocument(String uid) => _service.getDocument(
+        path: APIPath.user(uid),
+        builder: (data, documentId) => User.fromJson(data, documentId),
+      );
+
+  // Single User Stream
+  @override
+  Stream<User> userStream(String uid) => _service.documentStream(
+        path: APIPath.user(uid),
+        builder: (data, documentId) => User.fromJson(data, documentId),
       );
 
   // Set saved Workout
@@ -407,7 +411,7 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
-  /// Routine Workouts
+  /////////////////// Routine Workouts ///////////////////
   // Add or edit Routine Workout
   @override
   Future<void> setRoutineWorkout(

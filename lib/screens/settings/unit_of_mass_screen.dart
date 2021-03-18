@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
@@ -17,18 +18,22 @@ class UnitOfMassScreen extends StatefulWidget {
     Key key,
     @required this.database,
     @required this.user,
+    @required this.auth,
   }) : super(key: key);
 
   final Database database;
   final User user;
+  final AuthBase auth;
 
   static Future<void> show({BuildContext context, User user}) async {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => UnitOfMassScreen(
           database: database,
           user: user,
+          auth: auth,
         ),
       ),
     );
@@ -58,7 +63,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       final user = {
         'unitOfMass': _unitOfMass,
       };
-      await widget.database.updateUser(widget.user.userId, user);
+      await widget.database.updateUser(widget.auth.currentUser.uid, user);
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
       logger.d(e);

@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
+import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/unit_of_mass_screen.dart';
@@ -22,24 +23,20 @@ class SettingsScreen extends StatefulWidget {
     Key key,
     this.database,
     this.auth,
-    this.user,
   }) : super(key: key);
 
   final Database database;
   final AuthBase auth;
-  final User user;
 
-  static Future<void> show(BuildContext context) async {
+  static void show(BuildContext context, {User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => SettingsScreen(
           database: database,
           auth: auth,
-          user: user,
         ),
       ),
     );
@@ -103,93 +100,92 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final size = MediaQuery.of(context).size;
 
     return StreamBuilder<User>(
-      initialData: widget.user,
-      stream: widget.database.userStream(userId: widget.auth.currentUser.uid),
-      builder: (context, snapshot) {
-        final user = snapshot.data;
+        initialData: userDummyData,
+        stream: widget.database.userStream(widget.auth.currentUser.uid),
+        builder: (context, snapshot) {
+          final user = snapshot.data;
 
-        return SingleChildScrollView(
-          child: SizedBox(
-            height: size.height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
-                ListTile(
-                  leading: const Icon(Icons.person, color: Colors.white),
-                  title: const Text('Personal Information', style: BodyText2),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey,
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
+                  ListTile(
+                    leading: const Icon(Icons.person, color: Colors.white),
+                    title: const Text('Personal Information', style: BodyText2),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                    ),
+                    onTap: () => PersonalInformationScreen.show(
+                      context: context,
+                      user: user,
+                    ),
                   ),
-                  onTap: () => PersonalInformationScreen.show(
-                    context: context,
-                    user: widget.user,
+                  ListTile(
+                    leading: const Icon(
+                      Icons.straighten_rounded,
+                      color: Colors.white,
+                    ),
+                    title: const Text('Unit of Mass', style: BodyText2),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          UnitOfMass.values[user.unitOfMass].label,
+                          style: BodyText2Grey,
+                        ),
+                        const SizedBox(width: 16),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                    onTap: () => UnitOfMassScreen.show(
+                      context: context,
+                      user: user,
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.straighten_rounded,
-                    color: Colors.white,
+                  ListTile(
+                    leading: const Icon(Icons.feedback, color: Colors.white),
+                    title: const Text('Feedback & Feature Requests',
+                        style: BodyText2),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                    ),
+                    onTap: () => UserFeedbackScreen.show(context),
                   ),
-                  title: const Text('Unit of Mass', style: BodyText2),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        UnitOfMass.values[user.unitOfMass].label,
-                        style: BodyText2Grey,
-                      ),
-                      const SizedBox(width: 16),
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.grey,
-                      ),
-                    ],
+                  ListTile(
+                    leading: const Icon(
+                      Icons.info_outline_rounded,
+                      color: Colors.white,
+                    ),
+                    title: const Text('About', style: BodyText2),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                    ),
+                    onTap: () {},
                   ),
-                  onTap: () => UnitOfMassScreen.show(
-                    context: context,
-                    user: user,
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: MaxWidthRaisedButton(
+                      buttonText: 'Logout',
+                      color: Grey700,
+                      onPressed: () => _confirmSignOut(context),
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.feedback, color: Colors.white),
-                  title: const Text('Feedback & Feature Requests',
-                      style: BodyText2),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey,
-                  ),
-                  onTap: () => UserFeedbackScreen.show(context),
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.info_outline_rounded,
-                    color: Colors.white,
-                  ),
-                  title: const Text('About', style: BodyText2),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey,
-                  ),
-                  onTap: () {},
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: MaxWidthRaisedButton(
-                    buttonText: 'Logout',
-                    color: Grey700,
-                    onPressed: () => _confirmSignOut(context),
-                  ),
-                ),
-                SizedBox(height: 38),
-              ],
+                  SizedBox(height: 38),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 }

@@ -6,8 +6,10 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
@@ -16,6 +18,9 @@ import 'routine_history_summary_card.dart';
 class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -33,7 +38,9 @@ class HomeTab extends StatelessWidget {
               Icons.settings_rounded,
               color: Colors.white,
             ),
-            onPressed: () => SettingsScreen.show(context),
+            onPressed: () => SettingsScreen.show(
+              context,
+            ),
           ),
           const SizedBox(width: 8),
         ],

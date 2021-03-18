@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -22,13 +23,15 @@ class WorkoutMediumCard extends StatefulWidget {
     this.database,
     this.routine,
     this.routineWorkout,
-    this.user,
+    // this.user,
+    this.auth,
   });
 
   final Database database;
   final Routine routine;
   final RoutineWorkout routineWorkout;
-  final User user;
+  // final User user;
+  final AuthBase auth;
 
   @override
   _WorkoutMediumCardState createState() => _WorkoutMediumCardState();
@@ -280,6 +283,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     final routine = widget.routine;
     final routineWorkout = widget.routineWorkout;
 
@@ -370,14 +374,15 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                     routineWorkout: routineWorkout,
                     set: routineWorkout.sets[index],
                     index: index,
-                    user: widget.user,
+                    auth: auth,
+                    // user: widget.user,
                   );
                 },
               ),
             if (routineWorkout.sets.isNotEmpty == true &&
-                widget.user.userId == widget.routine.routineOwnerId)
+                auth.currentUser.uid == widget.routine.routineOwnerId)
               const Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (widget.user.userId == widget.routine.routineOwnerId)
+            if (auth.currentUser.uid == widget.routine.routineOwnerId)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

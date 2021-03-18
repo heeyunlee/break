@@ -5,11 +5,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
@@ -25,7 +26,8 @@ class WorkoutSetWidget extends StatefulWidget {
     this.routineWorkout,
     this.set,
     this.index,
-    this.user,
+    this.auth,
+    // this.user,
   }) : super(key: key);
 
   final Database database;
@@ -33,7 +35,8 @@ class WorkoutSetWidget extends StatefulWidget {
   final RoutineWorkout routineWorkout;
   final WorkoutSet set;
   final int index;
-  final User user;
+  final AuthBase auth;
+  // final User user;
 
   @override
   _WorkoutSetWidgetState createState() => _WorkoutSetWidgetState();
@@ -278,6 +281,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     final set = widget.set;
 
     return Slidable(
@@ -291,7 +295,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           onTap: () => _deleteSet(context),
         ),
       ],
-      child: _buildRow(set),
+      child: _buildRow(set, auth),
     );
   }
 
@@ -299,7 +303,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   bool repsTabbed = false;
   bool restTimeTabbed = false;
 
-  Widget _buildRow(WorkoutSet set) {
+  Widget _buildRow(WorkoutSet set, AuthBase auth) {
     final title = set?.setTitle ?? 'Set Name';
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
     // ignore: omit_local_variable_types
@@ -326,7 +330,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (!set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (widget.user.userId == widget.routine.routineOwnerId &&
+                  if (auth.currentUser.uid == widget.routine.routineOwnerId &&
                       !widget.routineWorkout.isBodyWeightWorkout) {
                     setState(() {
                       weightsTabbed = true;
@@ -384,7 +388,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (!set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                  if (auth.currentUser.uid == widget.routine.routineOwnerId) {
                     setState(() {
                       repsTabbed = true;
                     });
@@ -430,7 +434,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (widget.user.userId == widget.routine.routineOwnerId) {
+                  if (auth.currentUser.uid == widget.routine.routineOwnerId) {
                     setState(() {
                       restTimeTabbed = true;
                     });

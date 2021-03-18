@@ -69,6 +69,16 @@ class FirestoreService {
     await reference.delete();
   }
 
+  // // Read Single Document Stream
+  // Future<T> documentRead<T>({
+  //   @required String path,
+  //   T Function(Map<String, dynamic> data, String documentID) builder,
+  // }) {
+  //   final reference = FirebaseFirestore.instance.doc(path);
+  //   final snapshots = reference.get();
+  //   return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
+  // }
+
   // Document Stream
   Stream<T> documentStream<T>({
     @required String path,
@@ -77,6 +87,16 @@ class FirestoreService {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshots = reference.snapshots();
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
+  }
+
+  // Document Future
+  Future<T> getDocument<T>({
+    @required String path,
+    T Function(Map<String, dynamic> data, String documentID) builder,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    final snapshot = await reference.get();
+    return builder(snapshot.data(), snapshot.id);
   }
 
   Stream<List<T>> collectionStream<T>({

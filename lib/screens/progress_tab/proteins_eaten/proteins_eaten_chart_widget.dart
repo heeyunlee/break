@@ -19,24 +19,23 @@ class ProteinsEatenChartWidget extends StatefulWidget {
 
 class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
   int touchedIndex;
-  DateTime _now;
-  DateTime _yesterday;
-  DateTime _2daysAgo;
-  DateTime _3daysAgo;
-  DateTime _4daysAgo;
-  DateTime _5daysAgo;
-  DateTime _6daysAgo;
+
+  List<DateTime> _dates;
+  List<String> _daysOfTheWeek;
 
   @override
   void initState() {
     super.initState();
-    _now = DateTime.now();
-    _yesterday = DateTime(_now.year, _now.month, _now.day - 1);
-    _2daysAgo = DateTime(_now.year, _now.month, _now.day - 2);
-    _3daysAgo = DateTime(_now.year, _now.month, _now.day - 3);
-    _4daysAgo = DateTime(_now.year, _now.month, _now.day - 4);
-    _5daysAgo = DateTime(_now.year, _now.month, _now.day - 5);
-    _6daysAgo = DateTime(_now.year, _now.month, _now.day - 6);
+    // Create list of 7 days
+    _dates = List<DateTime>.generate(7, (index) {
+      var now = DateTime.now();
+      return DateTime.utc(now.year, now.month, now.day - index);
+    });
+    // Create list of 7 days of the week
+    _daysOfTheWeek = List<String>.generate(
+      7,
+      (index) => DateFormat.E().format(_dates[index]),
+    );
   }
 
   @override
@@ -94,7 +93,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    'Getting your protein is as important as working out! Get your daily goal of 150g',
+                    'Getting your protein is as important as working out!',
                     style: BodyText2,
                   ),
                 ),
@@ -106,8 +105,9 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                       barTouchData: BarTouchData(
                         touchTooltipData: BarTouchTooltipData(
                           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                            final amount = (rod.y / 1.1).round().toDouble();
-                            final formattedAmount = Format.weights(amount);
+                            final amount =
+                                double.parse((rod.y / 1.05).toStringAsFixed(1));
+                            final formattedAmount = Format.proteins(amount);
 
                             return BarTooltipItem(
                               '$formattedAmount g',
@@ -136,30 +136,21 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                           getTextStyles: (value) => BodyText2,
                           margin: 16,
                           getTitles: (double value) {
-                            final todayE = DateFormat.E().format(_now);
-                            final yesterdayE =
-                                DateFormat.E().format(_yesterday);
-                            final _2daysAgoE = DateFormat.E().format(_2daysAgo);
-                            final _3daysAgoE = DateFormat.E().format(_3daysAgo);
-                            final _4daysAgoE = DateFormat.E().format(_4daysAgo);
-                            final _5daysAgoE = DateFormat.E().format(_5daysAgo);
-                            final _6daysAgoE = DateFormat.E().format(_6daysAgo);
-
                             switch (value.toInt()) {
                               case 0:
-                                return '$_6daysAgoE';
+                                return '${_daysOfTheWeek[6]}';
                               case 1:
-                                return '$_5daysAgoE';
+                                return '${_daysOfTheWeek[5]}';
                               case 2:
-                                return '$_4daysAgoE';
+                                return '${_daysOfTheWeek[4]}';
                               case 3:
-                                return '$_3daysAgoE';
+                                return '${_daysOfTheWeek[3]}';
                               case 4:
-                                return '$_2daysAgoE';
+                                return '${_daysOfTheWeek[2]}';
                               case 5:
-                                return '$yesterdayE';
+                                return '${_daysOfTheWeek[1]}';
                               case 6:
-                                return '$todayE';
+                                return '${_daysOfTheWeek[0]}';
                               default:
                                 return '';
                             }
@@ -187,7 +178,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                         ),
                       ),
                       borderData: FlBorderData(show: false),
-                      barGroups: _barGroupsChild(),
+                      barGroups: randomData(),
                     ),
                   ),
                 ),
@@ -209,7 +200,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 0.1 * y : y,
+          y: isTouched ? y + 0.05 * y : y,
           colors: isTouched ? [Colors.brown[700]] : [Colors.brown],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(show: true, y: 160,
@@ -220,14 +211,14 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
     );
   }
 
-  List<BarChartGroupData> _barGroupsChild() {
+  List<BarChartGroupData> randomData() {
     return [
       _makeBarChartGroupData(x: 0, y: 120, isTouched: touchedIndex == 0),
       _makeBarChartGroupData(x: 1, y: 100, isTouched: touchedIndex == 1),
       _makeBarChartGroupData(x: 2, y: 140, isTouched: touchedIndex == 2),
-      _makeBarChartGroupData(x: 3, y: 180, isTouched: touchedIndex == 3),
+      _makeBarChartGroupData(x: 3, y: 145, isTouched: touchedIndex == 3),
       _makeBarChartGroupData(x: 4, y: 90, isTouched: touchedIndex == 4),
-      _makeBarChartGroupData(x: 5, y: 0, isTouched: touchedIndex == 5),
+      _makeBarChartGroupData(x: 5, y: 152.2, isTouched: touchedIndex == 5),
       _makeBarChartGroupData(x: 6, y: 160, isTouched: touchedIndex == 6),
     ];
   }

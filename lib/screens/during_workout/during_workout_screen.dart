@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
@@ -38,15 +39,25 @@ class DuringWorkoutScreen extends StatefulWidget {
   final Routine routine;
   final User user;
 
-  static void show({
-    BuildContext context,
+  static Future<void> show(
+    BuildContext context, {
     Routine routine,
+    // User user,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userStream(userId: auth.currentUser.uid).first;
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
+    // await pushNewScreen(
+    //   context,
+    //   withNavBar: false,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   screen: DuringWorkoutScreen(
+    //     database: database,
+    //     user: user,
+    //   ),
+    // );
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -117,7 +128,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       final isBodyWeightWorkout = routineWorkouts.any(
         (element) => element.isBodyWeightWorkout == true,
       );
-      final workoutDate = DateTime(
+      final workoutDate = DateTime.utc(
         workoutStartDate.year,
         workoutStartDate.month,
         workoutStartDate.day,
@@ -157,18 +168,29 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       );
 
       /// Update User Data
-      final workoutHistory = DailyWorkoutHistory(
-        date: workoutDate,
-        totalWeights: totalWeights,
-      );
+      // GET history data
+      final histories = widget.user.dailyWorkoutHistories;
+      if (histories.isNotEmpty) {
+        final index = widget.user.dailyWorkoutHistories
+            .indexWhere((element) => element.date.toUtc() == workoutDate);
+        final oldHistory = histories[index];
 
-      // TODO: MAKE SURE IT DON"T CREATE DUPLICATE DATA
+        final newHistory = DailyWorkoutHistory(
+          date: oldHistory.date,
+          totalWeights: oldHistory.totalWeights + totalWeights,
+        );
+        histories[index] = newHistory;
+      } else {
+        final newHistory =
+            DailyWorkoutHistory(date: workoutDate, totalWeights: totalWeights);
+        histories.add(newHistory);
+      }
+
       // User
       final user = {
         'totalWeights': widget.user.totalWeights + totalWeights,
         'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
-        'dailyWorkoutHistories':
-            FieldValue.arrayUnion([workoutHistory.toMap()]),
+        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
       };
 
       await widget.database

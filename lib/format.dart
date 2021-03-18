@@ -12,6 +12,13 @@ class Format {
     return formatter.format(weightsNotNull);
   }
 
+  static String proteins(double weights) {
+    final weightsNotNull = weights ?? 0;
+    final formatter = NumberFormat(',###,###.0');
+
+    return formatter.format(weightsNotNull);
+  }
+
   static String unitOfMass(int unitOfMass) {
     final unitOfMassNotNull = unitOfMass ?? 1;
 
