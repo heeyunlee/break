@@ -6,50 +6,105 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
 import 'routine_history_summary_card.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
+  @override
+  _HomeTabState createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
+  // For SliverApp to Work
+  AnimationController _colorAnimationController;
+  AnimationController _textAnimationController;
+  Animation _colorTween;
+  Animation<Offset> _transTween;
+
+  bool _scrollListener(ScrollNotification scrollInfo) {
+    if (scrollInfo.metrics.axis == Axis.vertical) {
+      _colorAnimationController
+          .animateTo((scrollInfo.metrics.pixels - 16) / 50);
+
+      _textAnimationController.animateTo((scrollInfo.metrics.pixels - 16) / 50);
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void initState() {
+    _colorAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 0),
+    );
+    _textAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 0),
+    );
+    _colorTween = ColorTween(begin: Colors.transparent, end: AppBarColor)
+        .animate(_colorAnimationController);
+    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+        .animate(_textAnimationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _colorAnimationController.dispose();
+    _textAnimationController.dispose();
+    super.dispose();
+  }
+  // For SliverApp to Work
+
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: Image.asset(
-          'assets/logos/playerh_logo.png',
-          width: 32,
-          height: 32,
-        ),
-        flexibleSpace: const AppbarBlurBG(),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.settings_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () => SettingsScreen.show(
-              context,
+    return NotificationListener(
+      onNotification: _scrollListener,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(48),
+          child: AnimatedBuilder(
+            animation: _colorAnimationController,
+            builder: (context, child) => AppBar(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: _colorTween.value,
+              title: Transform.translate(
+                offset: _transTween.value,
+                child: Image.asset(
+                  'assets/logos/playerh_logo.png',
+                  width: 32,
+                  height: 32,
+                ),
+              ),
+              // flexibleSpace: const AppbarBlurBG(),
+              actions: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.settings_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => SettingsScreen.show(
+                    context,
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
           ),
-          const SizedBox(width: 8),
-        ],
+        ),
+        backgroundColor: BackgroundColor,
+        body: Builder(
+          builder: (BuildContext context) => _buildBody(context),
+        ),
+        floatingActionButton: SpeedDialFAB(),
       ),
-      backgroundColor: BackgroundColor,
-      body: Builder(
-        builder: (BuildContext context) => _buildBody(context),
-      ),
-      floatingActionButton: SpeedDialFAB(),
     );
   }
 

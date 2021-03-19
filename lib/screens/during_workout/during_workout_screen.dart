@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
@@ -49,15 +48,7 @@ class DuringWorkoutScreen extends StatefulWidget {
     final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
-    // await pushNewScreen(
-    //   context,
-    //   withNavBar: false,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   screen: DuringWorkoutScreen(
-    //     database: database,
-    //     user: user,
-    //   ),
-    // );
+
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -170,9 +161,20 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       /// Update User Data
       // GET history data
       final histories = widget.user.dailyWorkoutHistories;
-      if (histories.isNotEmpty) {
-        final index = widget.user.dailyWorkoutHistories
-            .indexWhere((element) => element.date.toUtc() == workoutDate);
+
+      final index = widget.user.dailyWorkoutHistories
+          .indexWhere((element) => element.date.toUtc() == workoutDate);
+
+      print(index);
+
+      if (index == -1) {
+        final newHistory =
+            DailyWorkoutHistory(date: workoutDate, totalWeights: totalWeights);
+        histories.add(newHistory);
+        print(0);
+      } else {
+        // final index = widget.user.dailyWorkoutHistories
+        //     .indexWhere((element) => element.date.toUtc() == workoutDate);
         final oldHistory = histories[index];
 
         final newHistory = DailyWorkoutHistory(
@@ -180,10 +182,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
           totalWeights: oldHistory.totalWeights + totalWeights,
         );
         histories[index] = newHistory;
-      } else {
-        final newHistory =
-            DailyWorkoutHistory(date: workoutDate, totalWeights: totalWeights);
-        histories.add(newHistory);
+        print(1);
       }
 
       // User

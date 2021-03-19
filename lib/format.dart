@@ -49,14 +49,11 @@ class Format {
     return 'null...';
   }
 
-  static String dateAndTime(Timestamp timestamp) {
+  static String yMdjm(Timestamp timestamp) {
     if (timestamp != null) {
       final dateInDateTime = timestamp.toDate();
 
-      final date = DateFormat.MMMMEEEEd().format(dateInDateTime);
-      final time = DateFormat.jm().format(dateInDateTime);
-
-      return '$time. $date';
+      return DateFormat.yMd().add_jm().format(dateInDateTime);
     }
     return 'null...';
   }

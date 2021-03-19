@@ -10,6 +10,8 @@ Future<bool> showAlertDialog(
   @required String defaultActionText,
   String cancelAcitionText,
   Function onPressed,
+  bool isCancelDefault = false,
+  bool isDefaultDefault = true,
 }) {
   if (!Platform.isIOS) {
     return showDialog(
@@ -40,10 +42,14 @@ Future<bool> showAlertDialog(
         if (cancelAcitionText != null)
           CupertinoDialogAction(
             onPressed: () => Navigator.of(context).pop(false),
+            isDefaultAction: isCancelDefault,
+            isDestructiveAction: !isCancelDefault,
             child: Text(cancelAcitionText),
           ),
         CupertinoDialogAction(
           onPressed: () => Navigator.of(context).pop(true),
+          isDefaultAction: isDefaultDefault,
+          isDestructiveAction: !isDefaultDefault,
           child: Text(defaultActionText),
         ),
       ],

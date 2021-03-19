@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
@@ -83,9 +82,6 @@ class RoutineDetailScreen extends StatefulWidget {
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with TickerProviderStateMixin {
-  // Database database;
-  // AuthBase auth;
-
   // For SliverApp to Work
   AnimationController _colorAnimationController;
   AnimationController _textAnimationController;
@@ -105,9 +101,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   @override
   void initState() {
-    // database = Provider.of<Database>(context, listen: false);
-    // auth = Provider.of<AuthBase>(context, listen: false);
-
     _colorAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _textAnimationController =
@@ -132,36 +125,36 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     debugPrint('scaffold building...');
 
     return StreamBuilder<Routine>(
-        initialData: routineDummyData,
-        stream: widget.database.routineStream(
-          routineId: widget.routine.routineId,
-        ),
-        builder: (context, snapshot) {
-          final routine = snapshot.data;
+      initialData: routineDummyData,
+      stream: widget.database.routineStream(
+        routineId: widget.routine.routineId,
+      ),
+      builder: (context, snapshot) {
+        final routine = snapshot.data;
 
-          return Scaffold(
-            backgroundColor: BackgroundColor,
-            body: NotificationListener<ScrollNotification>(
-              onNotification: _scrollListener,
-              child: Stack(
-                children: [
-                  CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      _buildSliverAppBar(routine),
-                      _buildSliverToBoxAdaptor(context, routine),
-                    ],
-                  ),
-                ],
-              ),
+        return Scaffold(
+          backgroundColor: BackgroundColor,
+          body: NotificationListener<ScrollNotification>(
+            onNotification: _scrollListener,
+            child: Stack(
+              children: [
+                CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    _buildSliverAppBar(routine),
+                    _buildSliverToBoxAdaptor(context, routine),
+                  ],
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildSliverAppBar(Routine routine) {
     debugPrint('_buildSliverAppBar');
-
     final size = MediaQuery.of(context).size;
 
     final routineTitle = routine?.routineTitle ?? 'Add Title';
@@ -286,21 +279,20 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               onPressed: () => DuringWorkoutScreen.show(
                 context,
                 routine: routine,
-                // user: snapshot.data,
               ),
               buttonText: 'Start Workout',
             ),
             if (widget.auth.currentUser.uid != routine.routineOwnerId)
               const SizedBox(height: 16),
-            if (widget.auth.currentUser.uid != routine.routineOwnerId)
-              MaxWidthRaisedButton(
-                color: Primary400Color,
-                onPressed: () => DuringWorkoutScreen.show(
-                  context,
-                  routine: routine,
-                ),
-                buttonText: 'Copy this Routine',
-              ),
+            // if (widget.auth.currentUser.uid != routine.routineOwnerId)
+            //   MaxWidthRaisedButton(
+            //     color: Primary400Color,
+            //     onPressed: () => DuringWorkoutScreen.show(
+            //       context,
+            //       routine: routine,
+            //     ),
+            //     buttonText: 'Copy this Routine',
+            //   ),
             const SizedBox(height: 16),
             Divider(
               endIndent: 8,
@@ -321,7 +313,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                           database: widget.database,
                           routine: routine,
                           routineWorkout: routineWorkout,
-                          // user: user,
                         ),
                       ),
                       const SizedBox(height: 8),

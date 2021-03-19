@@ -28,10 +28,13 @@ final userDummyData = User(
   unitOfMass: 1,
   totalWeights: 0,
   totalNumberOfWorkouts: 0,
-  signUpDate: null,
-  userEmail: null,
-  signUpProvider: null,
-  userId: null,
+  signUpDate: Timestamp.now(),
+  userEmail: 'JohnDoe@healtine.com',
+  signUpProvider: 'Healtine',
+  userId: 'JD',
+  dailyWorkoutHistories: [],
+  dailyNutritionHistories: [],
+  lastLoginDate: Timestamp.now(),
 );
 
 final routineDummyData = Routine(

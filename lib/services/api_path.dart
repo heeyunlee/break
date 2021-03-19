@@ -6,23 +6,26 @@ class APIPath {
   static String savedWorkout(String userId, String savedWorkoutId) =>
       'users/$userId/savedWorkouts/$savedWorkoutId';
 
+  /// Nutrition
+  static String nutritions() => 'nutritions';
+  static String nutrition(String nutritionId) => 'nutritions/$nutritionId';
+
   /// User Feedback
-  // ignore: missing_return
   static String userFeedback(String userFeedbackId) =>
       'userFeedbacks/$userFeedbackId';
 
   /// Workout
-  static String workout(String workoutId) => 'workouts/$workoutId';
   static String workouts() => 'workouts';
+  static String workout(String workoutId) => 'workouts/$workoutId';
 
   /// Routines
-  static String routine(String routineId) => 'routines/$routineId';
   static String routines() => 'routines';
+  static String routine(String routineId) => 'routines/$routineId';
 
   /// Workout Histories
+  static String routineHistories() => 'routine_histories';
   static String routineHistory(String routineHistoryId) =>
       'routine_histories/$routineHistoryId';
-  static String routineHistories() => 'routine_histories';
   static String routineWorkoutForHistory(
           String routineHistoryId, String routineWorkoutId) =>
       'routine_histories/$routineHistoryId/routine_workouts/$routineWorkoutId';

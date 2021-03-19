@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/saved_workout.dart';
+// import 'package:workout_player/models/saved_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/models/workout.dart';
@@ -11,7 +12,7 @@ import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
 abstract class Database {
-  ///////////// User ////////////////
+  /////////////////// User ///////////////////
   // FUTURE
   Future<void> getUser(User user);
   Future<void> setUser(User user);
@@ -20,11 +21,23 @@ abstract class Database {
 
   // Stream
   Stream<User> userStream(String uid);
-  Future<void> setSavedWorkout(SavedWorkout savedWorkout);
-  Stream<SavedWorkout> savedWorkoutStream({String workoutId});
-  Stream<List<SavedWorkout>> savedWorkoutsStream();
+  // Future<void> setSavedWorkout(SavedWorkout savedWorkout);
+  // Stream<SavedWorkout> savedWorkoutStream({String workoutId});
+  // Stream<List<SavedWorkout>> savedWorkoutsStream();
 
-  /// User Feedback
+  //////////////////// Nutrition /////////////////////
+  //Future
+  Future<void> setNutrition(Nutrition nutrition);
+  Future<void> updateNutrition(Nutrition nutrition, Map data);
+  Future<void> deleteNutrition(Nutrition nutrition);
+
+  // Stream
+  Stream<List<Nutrition>> userNutritionStream({int limit});
+
+  // Query
+  Query nutritionsPaginatedUserQuery();
+
+  /////////////////// User Feedback /////////////////////
   Future<void> setUserFeedback(UserFeedback userFeedback);
 
   //////////////// Workout ///////////////
@@ -144,7 +157,7 @@ class FirestoreDatabase implements Database {
 
   final _service = FirestoreService.instance;
 
-  /// Users
+  ////////////////////////// Users /////////////////////////////
   // Get User Data
   @override
   Future<void> getUser(User user) => _service.getData(
@@ -180,28 +193,74 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => User.fromJson(data, documentId),
       );
 
-  // Set saved Workout
+  // // Set saved Workout
+  // @override
+  // Future<void> setSavedWorkout(SavedWorkout savedWorkout) => _service.setData(
+  //       path: APIPath.savedWorkout(userId, savedWorkout.workoutId),
+  //       data: savedWorkout.toMap(),
+  //     );
+
+  // // Saved Workouts Stream (All the Documents)
+  // @override
+  // Stream<List<SavedWorkout>> savedWorkoutsStream() => _service.collectionStream(
+  //       path: APIPath.savedWorkouts(userId),
+  //       builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
+  //       order: 'workoutTitle',
+  //       descending: false,
+  //     );
+
+  // // Stream of Saved Workout (Single Document)
+  // @override
+  // Stream<SavedWorkout> savedWorkoutStream({String workoutId}) =>
+  //     _service.documentStream(
+  //       path: APIPath.savedWorkout(userId, workoutId),
+  //       builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
+  //     );
+
+  ////////////////////////// Nutrition ///////////////////////////////
+  // Set
   @override
-  Future<void> setSavedWorkout(SavedWorkout savedWorkout) => _service.setData(
-        path: APIPath.savedWorkout(userId, savedWorkout.workoutId),
-        data: savedWorkout.toMap(),
+  Future<void> setNutrition(Nutrition nutrition) => _service.setData(
+        path: APIPath.nutrition(nutrition.nutritionId),
+        data: nutrition.toMap(),
       );
 
-  // Saved Workouts Stream (All the Documents)
+  // Edit Routine
   @override
-  Stream<List<SavedWorkout>> savedWorkoutsStream() => _service.collectionStream(
-        path: APIPath.savedWorkouts(userId),
-        builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
-        order: 'workoutTitle',
-        descending: false,
+  Future<void> updateNutrition(Nutrition nutrition, Map data) =>
+      _service.updateData(
+        path: APIPath.nutrition(nutrition.nutritionId),
+        data: data,
       );
 
-  // Stream of Saved Workout (Single Document)
+  // Delete workout data
   @override
-  Stream<SavedWorkout> savedWorkoutStream({String workoutId}) =>
-      _service.documentStream(
-        path: APIPath.savedWorkout(userId, workoutId),
-        builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
+  Future<void> deleteNutrition(Nutrition nutrition) async =>
+      _service.deleteData(
+        path: APIPath.nutrition(nutrition.nutritionId),
+      );
+
+  // Nutrition Stream for specific User
+  @override
+  Stream<List<Nutrition>> userNutritionStream({int limit}) =>
+      _service.userCollectionStream(
+        searchCategory: 'userId',
+        searchString: userId,
+        order: 'loggedTime',
+        descending: true,
+        limit: limit,
+        path: APIPath.nutritions(),
+        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+      );
+
+  // Nutrition Query for specfic User
+  @override
+  Query nutritionsPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+        path: APIPath.nutritions(),
+        order: 'loggedTime',
+        descending: true,
+        id: 'userId',
+        userId: userId,
       );
 
   /// User Feedback
@@ -509,7 +568,7 @@ class FirestoreDatabase implements Database {
         data: data,
       );
 
-  /// Workout History
+  /////////////////////////// Routine History //////////////////////////
   // Add or edit workout data
   @override
   Future<void> setRoutineHistory(RoutineHistory routineHistory) =>

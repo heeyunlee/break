@@ -111,6 +111,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         CupertinoPageRoute(
           builder: (context) => RoutineDetailScreen(
             routine: routine,
+            auth: widget.auth,
+            database: widget.database,
             tag: 'newRoutine-${routine.routineId}',
           ),
         ),

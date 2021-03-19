@@ -10,6 +10,7 @@ import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/enum/meal.dart';
+import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -17,8 +18,10 @@ import 'package:workout_player/services/database.dart';
 class AddProteinScreen extends StatefulWidget {
   final User user;
   final Database database;
+  final AuthBase auth;
 
-  const AddProteinScreen({Key key, this.user, this.database}) : super(key: key);
+  const AddProteinScreen({Key key, this.user, this.database, this.auth})
+      : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -33,6 +36,7 @@ class AddProteinScreen extends StatefulWidget {
       screen: AddProteinScreen(
         database: database,
         user: user,
+        auth: auth,
       ),
     );
   }
@@ -73,11 +77,67 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     debugPrint('submit Button Pressed!');
+
     try {
       if (_mealType != null) {
-        print(_proteinAmount);
-        print(_notes);
-        print(_mealType);
+        // Create new Nutrition Data
+        final id = 'NUT${documentIdFromCurrentDate()}';
+        final now = Timestamp.now();
+        final today = DateTime.utc(
+            now.toDate().year, now.toDate().month, now.toDate().day);
+
+        final nutrition = Nutrition(
+          nutritionId: id,
+          userId: widget.auth.currentUser.uid,
+          username: widget.user.userName,
+          loggedTime: now,
+          loggedDate: today,
+          proteinAmount: _proteinAmount,
+          type: _mealType,
+          notes: _notes,
+        );
+
+        // Update User data
+        final nutritions = widget.user.dailyNutritionHistories;
+
+        final index = widget.user.dailyNutritionHistories
+            .indexWhere((element) => element.date.toUtc() == today);
+
+        if (index == -1) {
+          // create new nutrition data if not exists
+          final newNutrition =
+              DailyNutritionHistory(date: today, totalProteins: _proteinAmount);
+          nutritions.add(newNutrition);
+        } else {
+          // Update nutrition data if exists
+          // final index = widget.user.dailyNutritionHistories
+          //     .indexWhere((element) => element.date.toUtc() == today);
+          final oldNutrition = nutritions[index];
+
+          final newNutrition = DailyNutritionHistory(
+            date: oldNutrition.date,
+            totalProteins: oldNutrition.totalProteins + _proteinAmount,
+          );
+          nutritions[index] = newNutrition;
+        }
+
+        final user = {
+          'dailyNutritionHistories': nutritions.map((e) => e.toMap()).toList(),
+        };
+
+        // Call Firebase
+        await widget.database.setNutrition(nutrition);
+        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        Navigator.of(context).pop();
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Added a protein entry!'),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ));
+
+        print(nutrition.toMap());
+        print(nutrition.nutritionId);
       } else {
         await showAlertDialog(
           context,
@@ -122,7 +182,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   }
 
   Widget _buildBody() {
-    final today = Format.dateAndTime(Timestamp.now());
+    final today = Format.yMdjm(Timestamp.now());
 
     return Theme(
       data: ThemeData(

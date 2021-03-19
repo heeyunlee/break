@@ -220,7 +220,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final date =
         Format.date(widget.routineHistory.workoutStartTime ?? Timestamp.now());
     final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup ?? 'Null';
+    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup[0] ?? 'Null';
     final equipmentRequired =
         widget.routineHistory?.equipmentRequired[0] ?? 'Null';
 

@@ -105,7 +105,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
-                              'Start your workout Now and see the Progress!',
+                              'Start your workout wow and see the Progress!',
                               style: BodyText2,
                             ),
                           ),

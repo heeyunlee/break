@@ -207,6 +207,13 @@ const Subtitle1w900Green = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
+const Subtitle1w900GreenAc = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w900,
+  color: Colors.greenAccent,
+  letterSpacing: 0.15,
+  fontFamily: 'NanumSquareRound',
+);
 const Subtitle1w900Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,

@@ -144,11 +144,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         widget.routineWorkout,
         routineWorkout,
       )
-          .then(
-        (value) async {
-          await widget.database.updateRoutine(widget.routine, routine);
-        },
-      );
+          .then((value) async {
+        await widget.database.updateRoutine(widget.routine, routine);
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text((set.isRest) ? 'Deleted a rest!' : 'Deleted a set!'),
         duration: Duration(seconds: 2),

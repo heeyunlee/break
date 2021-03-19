@@ -10,14 +10,14 @@ import 'package:workout_player/services/database.dart';
 import '../../constants.dart';
 import '../../dummy_data.dart';
 import '../../format.dart';
-import 'weights_history/weights_history_chart_widget.dart';
+// import 'weights_history/weights_history_chart_widget.dart';
 import 'weights_lifted/weights_lifted_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 
 class ProgressTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrint('LibraryTab scaffold building...');
+    debugPrint('Progress Tab scaffold building...');
 
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -31,7 +31,6 @@ class ProgressTab extends StatelessWidget {
           stream: database.userStream(auth.currentUser.uid),
           builder: (context, snapshot) {
             final user = snapshot.data;
-            print(snapshot.data.userId);
 
             return CustomScrollView(
               slivers: [
@@ -72,18 +71,12 @@ class ProgressTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Center(
-            //   child: const Text(
-            //     '***STILL TESTING... NOT FINAL***',
-            //     style: Headline6w900Red,
-            //   ),
-            // ),
             WeightsLiftedChartWidget(
               database: database,
               user: user,
             ),
             ProteinsEatenChartWidget(user: user),
-            WeightsHistoryChartWidget(),
+            // WeightsHistoryChartWidget(),
           ],
         ),
       ),
@@ -102,8 +95,6 @@ class _FlexibleSpace extends StatelessWidget {
 
     final weights = Format.weights(user.totalWeights);
     final unit = Format.unitOfMass(user.unitOfMass);
-    final numberOfWorkouts = user.totalNumberOfWorkouts;
-    final times = (numberOfWorkouts < 2) ? 'time' : 'times';
 
     return FlexibleSpaceBar(
       background: Column(
@@ -140,7 +131,9 @@ class _FlexibleSpace extends StatelessWidget {
                       Text(
                         weights,
                         style: GoogleFonts.blackHanSans(
-                            color: Colors.white, fontSize: 40),
+                          color: Colors.white,
+                          fontSize: 40,
+                        ),
                       ),
                       Text('$unit Lifted', style: BodyText1),
                     ],

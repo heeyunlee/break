@@ -21,8 +21,6 @@ class RoutineHistoriesScreen extends StatelessWidget {
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-    // final user = await database.userStream(userId: auth.currentUser.uid).first;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(

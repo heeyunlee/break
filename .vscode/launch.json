@@ -7,7 +7,10 @@
         {
             "name": "workout_player",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "cwd": "/Users/HeeyunLee/Developer/AndroidStudioProjects/workout_player",
+            "program": "bin/main.dart",
+            "flutterMode": "debug"
         }
     ]
 }

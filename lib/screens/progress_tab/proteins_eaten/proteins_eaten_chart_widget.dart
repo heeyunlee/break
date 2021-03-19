@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/progress_tab/proteins_eaten/protein_entries_screen.dart';
 
 import '../../../constants.dart';
 
@@ -47,58 +47,67 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          HapticFeedback.heavyImpact();
-        },
-        child: Card(
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: CardColor,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.restaurant_menu_rounded,
-                        color: Colors.brown,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Eat Proteins', style: Subtitle1w900Brown),
-                      const Spacer(),
-                      Row(
+      child: Card(
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: CardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => ProteinEntriesScreen.show(
+                  context,
+                  user: widget.user,
+                ),
+                child: Wrap(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
                         children: [
-                          const Text('More', style: ButtonTextGrey),
-                          const SizedBox(width: 8),
                           const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Colors.grey,
+                            Icons.restaurant_menu_rounded,
+                            color: Colors.greenAccent,
                             size: 16,
                           ),
+                          const SizedBox(width: 8),
+                          const Text('Eat Proteins',
+                              style: Subtitle1w900GreenAc),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              const Text('More', style: ButtonTextGrey),
+                              const SizedBox(width: 8),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                            ],
+                          )
                         ],
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'Getting your protein is as important as working out!',
+                        style: BodyText2,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    'Getting your protein is as important as working out!',
-                    style: BodyText2,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                AspectRatio(
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: AspectRatio(
                   aspectRatio: 1.6,
                   child: BarChart(
                     BarChartData(
@@ -157,8 +166,8 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                           },
                         ),
                         leftTitles: SideTitles(
-                          showTitles: false,
-                          margin: 16,
+                          showTitles: true,
+                          margin: 24,
                           reservedSize: 24,
                           getTextStyles: (value) => BodyText2Grey,
                           getTitles: (double value) {
@@ -178,12 +187,15 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                         ),
                       ),
                       borderData: FlBorderData(show: false),
-                      barGroups: randomData(),
+                      barGroups:
+                          (widget.user.dailyNutritionHistories.isNotEmpty)
+                              ? _barGroupsChild(widget.user)
+                              : randomData(),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -201,14 +213,77 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y + 0.05 * y : y,
-          colors: isTouched ? [Colors.brown[700]] : [Colors.brown],
+          colors: isTouched ? [Colors.green] : [Colors.greenAccent],
           width: width,
-          backDrawRodData: BackgroundBarChartRodData(show: true, y: 160,
-              // colors: [Colors.grey[600]],
-              colors: [CardColorLight]),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 160,
+            colors: [CardColorLight],
+          ),
         ),
       ],
     );
+  }
+
+  List<BarChartGroupData> _barGroupsChild(User user) {
+    // ignore: omit_local_variable_types
+    List<DailyNutritionHistory> historiesFromFirebase =
+        user.dailyNutritionHistories;
+
+    var sevenDayHistory = List<DailyNutritionHistory>.generate(7, (index) {
+      if (historiesFromFirebase.isNotEmpty) {
+        var matchingHistory = historiesFromFirebase
+            .where((element) => element.date.toUtc() == _dates[index]);
+        // ignore: omit_local_variable_types
+        double proteins =
+            (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalProteins;
+
+        return DailyNutritionHistory(
+          date: _dates[index],
+          totalProteins: proteins,
+        );
+      }
+      return null;
+    });
+    sevenDayHistory = sevenDayHistory.reversed.toList();
+
+    return [
+      _makeBarChartGroupData(
+        x: 0,
+        y: sevenDayHistory[0].totalProteins,
+        isTouched: touchedIndex == 0,
+      ),
+      _makeBarChartGroupData(
+        x: 1,
+        y: sevenDayHistory[1].totalProteins,
+        isTouched: touchedIndex == 1,
+      ),
+      _makeBarChartGroupData(
+        x: 2,
+        y: sevenDayHistory[2].totalProteins,
+        isTouched: touchedIndex == 2,
+      ),
+      _makeBarChartGroupData(
+        x: 3,
+        y: sevenDayHistory[3].totalProteins,
+        isTouched: touchedIndex == 3,
+      ),
+      _makeBarChartGroupData(
+        x: 4,
+        y: sevenDayHistory[4].totalProteins,
+        isTouched: touchedIndex == 4,
+      ),
+      _makeBarChartGroupData(
+        x: 5,
+        y: sevenDayHistory[5].totalProteins,
+        isTouched: touchedIndex == 5,
+      ),
+      _makeBarChartGroupData(
+        x: 6,
+        y: sevenDayHistory[6].totalProteins,
+        isTouched: touchedIndex == 6,
+      ),
+    ];
   }
 
   List<BarChartGroupData> randomData() {

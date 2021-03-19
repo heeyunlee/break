@@ -116,6 +116,8 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           ),
         ),
       );
+
+      // TODO: Add Snackbar
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

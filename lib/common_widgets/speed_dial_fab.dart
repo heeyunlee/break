@@ -35,15 +35,15 @@ class SpeedDialFAB extends StatelessWidget {
             height: 24,
           ),
         ),
-        SpeedDialChild(
-          labelWidget: const Text('Add Cardio', style: ButtonText),
-          backgroundColor: Primary800Color,
-          child: Image.asset(
-            'assets/emojis/person-running_1f3c3.png',
-            width: 24,
-            height: 24,
-          ),
-        ),
+        // SpeedDialChild(
+        //   labelWidget: const Text('Add Cardio', style: ButtonText),
+        //   backgroundColor: Primary800Color,
+        //   child: Image.asset(
+        //     'assets/emojis/person-running_1f3c3.png',
+        //     width: 24,
+        //     height: 24,
+        //   ),
+        // ),
       ],
     );
   }
