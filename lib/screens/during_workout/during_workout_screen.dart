@@ -331,23 +331,25 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        elevation: 0,
-        title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () async {
-            await _closeModalBottomSheet();
-          },
-        ),
-      ),
-      extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
-      body: _buildBody(),
-    );
+    //   return Scaffold(
+    //     appBar: AppBar(
+    //       backgroundColor: Colors.transparent,
+    //       centerTitle: true,
+    //       elevation: 0,
+    //       title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
+    //       leading: IconButton(
+    //         icon: const Icon(Icons.close_rounded, color: Colors.white),
+    //         onPressed: () async {
+    //           await _closeModalBottomSheet();
+    //         },
+    //       ),
+    //     ),
+    //     extendBodyBehindAppBar: true,
+    //     backgroundColor: BackgroundColor,
+    //     body: _buildBody(),
+    //   );
+    // }
+    return _buildBody();
   }
 
   Widget _buildBody() {
@@ -622,6 +624,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     ? Padding(
                         padding: const EdgeInsets.all(16),
                         child: MaxWidthRaisedButton(
+                          width: double.infinity,
                           buttonText: 'SAVE & END WORKOUT',
                           color: Colors.grey[700],
                           onPressed: () => _submit(routineWorkouts),
@@ -646,6 +649,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                         ? Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: MaxWidthRaisedButton(
+                              width: double.infinity,
                               onPressed: () {},
                               color: PrimaryColor,
                               buttonText: 'ADD NEW WORKOUT',
@@ -686,7 +690,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
               height: 280,
               duration: _restTime.inSeconds,
               fillColor: Colors.grey[600],
-              color: Colors.red,
+              ringColor: Colors.red,
               isReverse: true,
               strokeWidth: 8,
               onComplete: (routineWorkoutIndex == routineWorkoutLength &&

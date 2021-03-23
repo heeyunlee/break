@@ -37,7 +37,7 @@ class Routine {
   final List<dynamic> secondMuscleGroup;
   final String description;
   final String imageUrl;
-  final double totalWeights;
+  final num totalWeights;
   final int averageTotalCalories;
   final int duration;
   final List<dynamic> equipmentRequired;
@@ -61,7 +61,7 @@ class Routine {
     final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
     final String description = data['description'];
     final String imageUrl = data['imageUrl'];
-    final double totalWeights = data['totalWeights'];
+    final num totalWeights = data['totalWeights'];
     final int averageTotalCalories = data['averageTotalCalories'];
     final int duration = data['duration'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];

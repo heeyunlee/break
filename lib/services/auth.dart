@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -93,51 +93,84 @@ class AuthService implements AuthBase {
   // Sign In with Facebook
   @override
   Future<auth.User> signInWithFacebook() async {
-    //Trigger the authentication flow
-    final facebookLogin = FacebookLogin();
-    final facebookLoginResult = await facebookLogin.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
+    // //Trigger the authentication flow
+    try {
+      final facebookLogin = await FacebookAuth.instance.login();
+      final credential = auth.FacebookAuthProvider.credential(
+        facebookLogin.token,
+      );
+      final authResult = await _auth.signInWithCredential(credential);
+      final user = authResult.user;
+      final currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+      setUser(user);
 
-    switch (facebookLoginResult.status) {
-      // LogIn Successful
-      case FacebookLoginStatus.success:
-        // Create a new credential
-        final accessToken = facebookLoginResult.accessToken;
-        final auth.FacebookAuthCredential credential =
-            auth.FacebookAuthProvider.credential(accessToken.token);
+      return user;
+    } on FacebookAuthException catch (e) {
+      switch (e.errorCode) {
+        case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
+          logger.d(e.errorCode);
+          throw auth.FirebaseAuthException(
+            code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+            message: 'You have a previous login operation in progress',
+          );
+        case FacebookAuthErrorCode.CANCELLED:
+          logger.d(e.errorCode);
 
-        // get the user
-        final authResult = await _auth.signInWithCredential(credential);
-        final user = authResult.user;
+          throw auth.FirebaseAuthException(
+            code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+            message: 'Login Cancelled',
+          );
+        case FacebookAuthErrorCode.FAILED:
+          logger.d(e.errorCode);
 
-        final currentUser = _auth.currentUser;
-        assert(user.uid == currentUser.uid);
-        setUser(user);
-
-        print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
-
-        return user;
-
-      // LogIn cancelled by User
-      case FacebookLoginStatus.cancel:
-        throw auth.FirebaseAuthException(
-          code: 'ERROR_ABORTED_BY_USER',
-          message: 'Sign in aborted by user',
-        );
-
-      // LogIn Error
-      case FacebookLoginStatus.error:
-        logger.d(facebookLoginResult.error.developerMessage);
-        throw auth.FirebaseAuthException(
-          code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-          message: facebookLoginResult.error.developerMessage,
-        );
-      default:
-        logger.d(UnimplementedError().message);
-        throw UnimplementedError();
+          throw auth.FirebaseAuthException(
+            code: 'ERROR_FACEBOOK_LOGIN_FAILED',
+            message: 'Login Failed',
+          );
+        default:
+          throw UnimplementedError();
+      }
     }
+
+    // switch (facebookLoginResult.status) {
+    //   // LogIn Successful
+    //   case FacebookLoginStatus.success:
+    //     // Create a new credential
+    //     final accessToken = facebookLoginResult.accessToken;
+    //     final auth.FacebookAuthCredential credential =
+    //         auth.FacebookAuthProvider.credential(accessToken.token);
+
+    //     // get the user
+    //     final authResult = await _auth.signInWithCredential(credential);
+    //     final user = authResult.user;
+
+    //     final currentUser = _auth.currentUser;
+    //     assert(user.uid == currentUser.uid);
+    //     setUser(user);
+
+    //     print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
+
+    //     return user;
+
+    //   // LogIn cancelled by User
+    //   case FacebookLoginStatus.cancel:
+    //     throw auth.FirebaseAuthException(
+    //       code: 'ERROR_ABORTED_BY_USER',
+    //       message: 'Sign in aborted by user',
+    //     );
+
+    //   // LogIn Error
+    //   case FacebookLoginStatus.error:
+    //     logger.d(facebookLoginResult.error.developerMessage);
+    //     throw auth.FirebaseAuthException(
+    //       code: 'ERROR_FACEBOOK_LOGIN_FAILED',
+    //       message: facebookLoginResult.error.developerMessage,
+    //     );
+    //   default:
+    //     logger.d(UnimplementedError().message);
+    //     throw UnimplementedError();
+    // }
   }
 
   // Sign In With Apple
@@ -190,8 +223,10 @@ class AuthService implements AuthBase {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
     await googleSignIn.signOut();
-    final facebookLogin = FacebookLogin();
+
+    final facebookLogin = FacebookAuth.instance;
     await facebookLogin.logOut();
+
     await _auth.signOut();
   }
 }

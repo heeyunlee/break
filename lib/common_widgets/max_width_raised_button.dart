@@ -9,31 +9,33 @@ class MaxWidthRaisedButton extends StatelessWidget {
     this.buttonText,
     this.icon,
     this.onPressed,
+    @required this.width,
   }) : super(key: key);
 
   final Color color;
   final String buttonText;
   final Icon icon;
   final void Function() onPressed;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        height: 48,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: color),
-          onPressed: onPressed,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) icon,
-              if (icon != null && buttonText != null) const SizedBox(width: 16),
-              if (buttonText != null) Text(buttonText, style: ButtonText),
-            ],
-          ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(width, 48),
+        primary: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
+      ),
+      onPressed: onPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) icon,
+          if (icon != null && buttonText != null) const SizedBox(width: 16),
+          if (buttonText != null) Text(buttonText, style: ButtonText),
+        ],
       ),
     );
   }

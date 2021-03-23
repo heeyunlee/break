@@ -240,6 +240,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 _buildForm(workout),
                 const SizedBox(height: 32),
                 MaxWidthRaisedButton(
+                  width: double.infinity,
                   color: Colors.red,
                   icon: const Icon(
                     Icons.delete_outline_rounded,

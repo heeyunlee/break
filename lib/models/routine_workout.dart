@@ -27,7 +27,7 @@ class RoutineWorkout {
   String workoutTitle;
   int numberOfSets;
   int numberOfReps;
-  double totalWeights;
+  num totalWeights;
   List<WorkoutSet> sets;
   bool isBodyWeightWorkout;
   int duration;

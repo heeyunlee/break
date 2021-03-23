@@ -34,8 +34,8 @@ class RoutineHistory {
   final bool isPublic;
   final Timestamp workoutStartTime;
   final Timestamp workoutEndTime;
-  final double totalWeights;
-  final double totalCalories;
+  final num totalWeights;
+  final num totalCalories;
   final int totalDuration;
   final bool earnedBadges;
   final String notes;
@@ -46,7 +46,7 @@ class RoutineHistory {
   final String imageUrl;
   final int unitOfMass;
   final List<dynamic> equipmentRequired;
-  final double effort;
+  final num effort;
 
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -59,8 +59,8 @@ class RoutineHistory {
     final bool isPublic = data['isPublic'];
     final Timestamp workoutStartTime = data['workoutStartTime'];
     final Timestamp workoutEndTime = data['workoutEndTime'];
-    final double totalWeights = data['totalWeights'];
-    final double totalCalories = data['totalCalories'];
+    final num totalWeights = data['totalWeights'];
+    final num totalCalories = data['totalCalories'];
     final int totalDuration = data['totalDuration'];
     final bool earnedBadges = data['earnedBadges'];
     final String notes = data['notes'];
@@ -71,7 +71,7 @@ class RoutineHistory {
     final String imageUrl = data['imageUrl'];
     final int unitOfMass = data['unitOfMass'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
-    final double effort = data['effort'];
+    final num effort = data['effort'];
 
     return RoutineHistory(
       routineHistoryId: documentId,

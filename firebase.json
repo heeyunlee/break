@@ -1,10 +1,17 @@
 {
   "hosting": {
+    "site": "playerh",
     "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   },
   "functions": {

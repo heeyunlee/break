@@ -353,6 +353,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Text('Activities', style: Headline6w900),
             ),
+
             StreamBuilder<List<RoutineWorkout>>(
               stream: database.routineWorkoutsStreamForHistory(
                 widget.routineHistory,
@@ -471,6 +472,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser.uid)
               MaxWidthRaisedButton(
+                width: double.infinity,
                 color: Colors.red,
                 buttonText: 'DELETE',
                 onPressed: () async {

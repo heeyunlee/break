@@ -5,14 +5,14 @@ import 'models/enum/difficulty.dart';
 import 'models/enum/unit_of_mass.dart';
 
 class Format {
-  static String weights(double weights) {
+  static String weights(num weights) {
     final weightsNotNull = weights ?? 0;
     final formatter = NumberFormat(',###,###.#');
 
     return formatter.format(weightsNotNull);
   }
 
-  static String proteins(double weights) {
+  static String proteins(num weights) {
     final weightsNotNull = weights ?? 0;
     final formatter = NumberFormat(',###,###.0');
 
@@ -54,6 +54,13 @@ class Format {
       final dateInDateTime = timestamp.toDate();
 
       return DateFormat.yMd().add_jm().format(dateInDateTime);
+    }
+    return 'null...';
+  }
+
+  static String yMdjmInDateTime(DateTime date) {
+    if (date != null) {
+      return DateFormat.yMd().add_jm().format(date);
     }
     return 'null...';
   }

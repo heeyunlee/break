@@ -315,6 +315,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 ),
                 const SizedBox(height: 24),
                 MaxWidthRaisedButton(
+                  width: double.infinity,
                   color: Grey800,
                   icon: const Icon(
                     Icons.add_rounded,

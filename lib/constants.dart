@@ -12,6 +12,9 @@ const Primary300Color = Color(0xfff1b3a7);
 const Primary200Color = Color(0xfff7cfc8);
 const Primary100Color = Color(0xfffcece9);
 
+// Secondary
+const SecondaryColor = Color(0xff24c0dd);
+
 // Grey
 const Grey900 = Color(0xff121212);
 const Grey800 = Color(0xff303030);
@@ -360,6 +363,13 @@ const ButtonTextGrey = TextStyle(
   fontWeight: FontWeight.w500,
   color: Colors.grey,
   letterSpacing: 1.25,
+  fontFamily: 'NanumSquareRound',
+);
+const ButtonText2 = TextStyle(
+  fontSize: 10,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
+  letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
 const Caption1 = TextStyle(

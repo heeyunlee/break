@@ -12,9 +12,9 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
-import 'workout_set/workout_set_widget.dart';
+import '../../../../constants.dart';
+import '../../../../format.dart';
+import 'workout_set_widget.dart';
 
 Logger logger = Logger();
 

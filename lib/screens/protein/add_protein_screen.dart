@@ -325,7 +325,9 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
     for (var i = 0; i < _meals.length; i++) {
       var choiceChip = ChoiceChip(
         shape: StadiumBorder(
-          side: BorderSide(color: Colors.grey, width: 1),
+          side: BorderSide(
+              color: (_selectedIndex == i) ? Primary300Color : Colors.grey,
+              width: 1),
         ),
         padding: EdgeInsets.symmetric(horizontal: 8),
         label: Text(_meals[i], style: ButtonText),

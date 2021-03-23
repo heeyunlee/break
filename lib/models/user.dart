@@ -16,6 +16,8 @@ class User {
     this.lastLoginDate,
     this.dailyWorkoutHistories,
     this.dailyNutritionHistories,
+    this.dailyWeightsGoal,
+    this.dailyProteinGoal,
   });
 
   String userId;
@@ -25,12 +27,14 @@ class User {
   String signUpProvider;
   List<String> savedWorkouts;
   List<String> savedRoutines;
-  double totalWeights;
+  num totalWeights;
   int totalNumberOfWorkouts;
   int unitOfMass;
   Timestamp lastLoginDate;
   List<DailyWorkoutHistory> dailyWorkoutHistories;
   List<DailyNutritionHistory> dailyNutritionHistories;
+  num dailyWeightsGoal;
+  num dailyProteinGoal;
 
   factory User.fromJson(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -51,6 +55,8 @@ class User {
     // ignore: omit_local_variable_types
     List<DailyNutritionHistory> dailyNutritionHistories =
         <DailyNutritionHistory>[];
+    final dailyWeightsGoal = data['dailyWeightsGoal'];
+    final dailyProteinGoal = data['dailyWeightsGoal'];
 
     if (data['dailyWorkoutHistories'] != null) {
       data['dailyWorkoutHistories'].forEach((item) {
@@ -78,6 +84,8 @@ class User {
       lastLoginDate: lastLoginDate,
       dailyWorkoutHistories: dailyWorkoutHistories,
       dailyNutritionHistories: dailyNutritionHistories,
+      dailyWeightsGoal: dailyWeightsGoal,
+      dailyProteinGoal: dailyProteinGoal,
     );
   }
 
@@ -101,6 +109,8 @@ class User {
       data['dailyNutritionHistories'] =
           dailyNutritionHistories.map((e) => e.toMap()).toList();
     }
+    data['dailyWeightsGoal'] = dailyWeightsGoal;
+    data['dailyProteinGoal'] = dailyProteinGoal;
 
     return data;
   }
@@ -110,14 +120,14 @@ class DailyWorkoutHistory {
   DailyWorkoutHistory({this.date, this.totalWeights});
 
   final DateTime date;
-  final double totalWeights;
+  final num totalWeights;
 
   factory DailyWorkoutHistory.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
     final DateTime date = data['date'].toDate();
-    final double totalWeights = data['totalWeights'].toDouble();
+    final num totalWeights = data['totalWeights'].toDouble();
 
     return DailyWorkoutHistory(
       date: date,

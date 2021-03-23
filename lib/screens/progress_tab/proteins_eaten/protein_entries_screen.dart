@@ -8,8 +8,6 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
-import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
-import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/nutrition.dart';

@@ -176,6 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: MaxWidthRaisedButton(
+                      width: double.infinity,
                       buttonText: 'Logout',
                       color: Grey700,
                       onPressed: () => _confirmSignOut(context),

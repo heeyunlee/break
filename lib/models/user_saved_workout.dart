@@ -1,8 +1,8 @@
-import 'package:workout_player/models/workout.dart';
+// import 'package:workout_player/models/workout.dart';
 
-class UserSavedWorkout {
-  UserSavedWorkout({this.workout, this.isSavedWorkout});
+// class UserSavedWorkout {
+//   UserSavedWorkout({this.workout, this.isSavedWorkout});
 
-  final Workout workout;
-  final bool isSavedWorkout;
-}
+//   final Workout workout;
+//   final bool isSavedWorkout;
+// }

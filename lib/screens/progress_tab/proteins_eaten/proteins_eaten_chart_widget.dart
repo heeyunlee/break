@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/format.dart';
@@ -127,9 +128,10 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                         touchCallback: (barTouchResponse) {
                           setState(() {
                             if (barTouchResponse.spot != null &&
-                                barTouchResponse.touchInput is! FlPanEnd &&
                                 barTouchResponse.touchInput
-                                    is! FlLongPressEnd) {
+                                    is! PointerExitEvent &&
+                                barTouchResponse.touchInput
+                                    is! PointerUpEvent) {
                               touchedIndex =
                                   barTouchResponse.spot.touchedBarGroupIndex;
                             } else {

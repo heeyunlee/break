@@ -257,6 +257,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: MaxWidthRaisedButton(
+                  width: double.infinity,
                   color: Colors.red,
                   icon: const Icon(
                     Icons.delete_outline_rounded,

@@ -8,7 +8,7 @@ class Nutrition {
   final Timestamp loggedTime;
   final DateTime loggedDate;
   final String type;
-  final double proteinAmount;
+  final num proteinAmount;
   final String notes;
 
   Nutrition({
@@ -31,7 +31,7 @@ class Nutrition {
     final Timestamp loggedTime = data['loggedTime'];
     final DateTime loggedDate = data['loggedDate'].toDate();
     final String type = data['type'];
-    final double proteinAmount = data['proteinAmount'];
+    final num proteinAmount = data['proteinAmount'];
     final String notes = data['notes'];
 
     return Nutrition(

@@ -79,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
       final currentTime = Timestamp.now();
       final userData = User(
         userId: firebaseUser.uid,
-        userName: 'Anon $uniqueId',
+        userName: 'Player $uniqueId',
         userEmail: firebaseUser.email,
         signUpDate: currentTime,
         signUpProvider: 'Anon',
@@ -203,7 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final currentTime = Timestamp.now();
         final userData = User(
           userId: firebaseUser.uid,
-          userName: firebaseUser.displayName ?? 'user $uniqueId',
+          userName: firebaseUser.displayName ?? 'Player $uniqueId',
           userEmail: firebaseUser.email,
           signUpDate: currentTime,
           signUpProvider: 'Apple',

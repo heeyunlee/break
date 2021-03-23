@@ -7,12 +7,12 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_card.dart';
-import 'package:workout_player/screens/library_tab/activity/routine_history/daily_summary_detail_screen.dart';
 import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
+import 'routine_history/daily_summary_card.dart';
+import 'routine_history/daily_summary_detail_screen.dart';
 
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;

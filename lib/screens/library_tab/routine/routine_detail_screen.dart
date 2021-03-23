@@ -8,7 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
+import 'package:workout_player/screens/home_screen.dart';
+import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
+import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../common_widgets/list_item_builder.dart';
@@ -19,9 +23,9 @@ import '../../../format.dart';
 import '../../../models/routine.dart';
 import '../../../models/routine_workout.dart';
 import '../../../services/database.dart';
-import 'add_workouts_to_routine.dart';
+import 'add_workout/add_workouts_to_routine.dart';
 import 'edit_routine/edit_routine_screen.dart';
-import 'workout_medium_card.dart';
+import 'widgets/workout_medium_card.dart';
 
 Logger logger = Logger();
 
@@ -32,12 +36,14 @@ class RoutineDetailScreen extends StatefulWidget {
     this.routine,
     this.tag,
     this.auth,
+    this.user,
   });
 
   final Database database;
   final Routine routine;
   final String tag;
   final AuthBase auth;
+  final User user;
 
   // For Navigation
   static Future<void> show(
@@ -48,6 +54,7 @@ class RoutineDetailScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
 
@@ -191,6 +198,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   }
 
   Widget _buildSliverToBoxAdaptor(BuildContext context, Routine routine) {
+    final size = MediaQuery.of(context).size;
+
     final routineTitle = routine?.routineTitle ?? 'Add Title';
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
@@ -270,17 +279,38 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               softWrap: false,
             ),
             const SizedBox(height: 24),
-            MaxWidthRaisedButton(
-              color: PrimaryColor,
-              icon: const Icon(
-                Icons.play_arrow_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => DuringWorkoutScreen.show(
-                context,
-                routine: routine,
-              ),
-              buttonText: 'Start Workout',
+            Row(
+              children: [
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: Size((size.width - 48) / 2, 48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: BorderSide(width: 2, color: PrimaryColor),
+                  ),
+                  onPressed: () => LogRoutineScreen.show(
+                    context,
+                    routine: routine,
+                  ),
+                  child: const Text('Log Workout', style: ButtonText),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () => DuringWorkoutScreen.show(
+                    context,
+                    routine: routine,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size((size.width - 48) / 2, 48),
+                    primary: PrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text('Start Workout', style: ButtonText),
+                ),
+              ],
             ),
             if (widget.auth.currentUser.uid != routine.routineOwnerId)
               const SizedBox(height: 16),
@@ -325,18 +355,17 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       const SizedBox(height: 16),
                       if (widget.auth.currentUser.uid == routine.routineOwnerId)
                         MaxWidthRaisedButton(
+                          width: double.infinity,
                           icon: const Icon(
                             Icons.add_rounded,
                             color: Colors.white,
                           ),
                           buttonText: 'Add workout',
                           color: CardColor,
-                          onPressed: () {
-                            AddWorkoutsToRoutine.show(
-                              context,
-                              routine: routine,
-                            );
-                          },
+                          onPressed: () => AddWorkoutsToRoutine.show(
+                            context,
+                            routine: routine,
+                          ),
                         ),
                       const SizedBox(height: 38),
                     ],

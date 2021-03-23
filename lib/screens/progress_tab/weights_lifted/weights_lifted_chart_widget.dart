@@ -1,8 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/progress_tab/weights_lifted/set_daily_weights_goal_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -51,6 +53,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final double max = widget.user.dailyWeightsGoal ?? 20000;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Card(
@@ -62,7 +66,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -72,47 +76,66 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                     onTap: () => RoutineHistoriesScreen.show(context),
                     child: Wrap(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.fitness_center_rounded,
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.fitness_center_rounded,
+                              color: PrimaryColor,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Lift Weights',
+                              style: Subtitle1w900Primary,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
                                 color: PrimaryColor,
                                 size: 16,
                               ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Lift Weights',
-                                style: Subtitle1w900Primary,
+                            ),
+                            const Spacer(),
+                            if (widget.user.dailyWeightsGoal == null)
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
+                                onPressed: () =>
+                                    SetDailyWeightsGoalScreen.show(context),
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      'SET DAILY GOAL',
+                                      style: ButtonText2,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    const Icon(
+                                      Icons.add_rounded,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const Spacer(),
-                              Row(
-                                children: [
-                                  const Text('More', style: ButtonTextGrey),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.grey,
-                                    size: 16,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                          ],
                         ),
                         if (widget.user.dailyWorkoutHistories.isEmpty)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
-                              'Start your workout wow and see the Progress!',
+                              'Start working out now and see your progress!',
                               style: BodyText2,
                             ),
                           ),
                       ],
                     ),
                   ),
-                  // const Divider(color: Grey700),
+                  if (widget.user.dailyWorkoutHistories.isEmpty)
+                    const Divider(color: Grey700),
                   const SizedBox(height: 16),
                   AspectRatio(
                     aspectRatio: 1.6,
@@ -120,7 +143,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: BarChart(
                         BarChartData(
-                          maxY: 25000,
+                          maxY: max,
                           barTouchData: BarTouchData(
                             touchTooltipData: BarTouchTooltipData(
                               getTooltipItem:
@@ -141,9 +164,10 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                             touchCallback: (barTouchResponse) {
                               setState(() {
                                 if (barTouchResponse.spot != null &&
-                                    barTouchResponse.touchInput is! FlPanEnd &&
                                     barTouchResponse.touchInput
-                                        is! FlLongPressEnd) {
+                                        is! PointerUpEvent &&
+                                    barTouchResponse.touchInput
+                                        is! PointerExitEvent) {
                                   touchedIndex = barTouchResponse
                                       .spot.touchedBarGroupIndex;
                                 } else {
@@ -179,7 +203,25 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                                 }
                               },
                             ),
-                            leftTitles: SideTitles(showTitles: false),
+                            leftTitles: SideTitles(
+                              showTitles: true,
+                              margin: 24,
+                              getTextStyles: (valie) => Caption1Grey,
+                              getTitles: (double value) {
+                                switch (value.toInt()) {
+                                  case 0:
+                                    return '0t';
+                                  case 5000:
+                                    return '5t';
+                                  case 10000:
+                                    return '10t';
+                                  case 15000:
+                                    return '15t';
+                                  default:
+                                    return '';
+                                }
+                              },
+                            ),
                           ),
                           borderData: FlBorderData(show: false),
                           barGroups:
@@ -212,11 +254,11 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           y: isTouched ? y + 0.05 * y : y,
           colors: isTouched ? [Primary700Color] : [PrimaryColor],
           width: width,
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            y: 25000,
-            colors: [Colors.grey[800]],
-          ),
+          // backDrawRodData: BackgroundBarChartRodData(
+          //   show: true,
+          //   y: 70000,
+          //   colors: [Colors.grey[800]],
+          // ),
         ),
       ],
     );
