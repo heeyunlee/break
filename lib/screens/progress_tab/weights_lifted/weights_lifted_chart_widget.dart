@@ -1,10 +1,11 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted/set_daily_weights_goal_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
@@ -27,9 +28,39 @@ class WeightsLiftedChartWidget extends StatefulWidget {
 
 class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   int touchedIndex;
+  double maxY = 20000;
 
   List<DateTime> _dates;
   List<String> _daysOfTheWeek;
+
+  List<DailyWorkoutHistory> _historiesFromFirebase;
+  List<DailyWorkoutHistory> _sevenDayHistory;
+
+  List<double> relativeNumber = [];
+
+  void setSevenDaysHistory() {
+    /// GETTING LAST & DAYS OF HISTORY
+    _historiesFromFirebase = widget.user.dailyWorkoutHistories;
+
+    if (_historiesFromFirebase.isNotEmpty) {
+      var sevenDayHistory = List<DailyWorkoutHistory>.generate(7, (index) {
+        var matchingHistory = _historiesFromFirebase
+            .where((element) => element.date.toUtc() == _dates[index]);
+        // ignore: omit_local_variable_types
+        double weights =
+            (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalWeights;
+
+        return DailyWorkoutHistory(
+          date: _dates[index],
+          totalWeights: weights,
+        );
+      });
+      _sevenDayHistory = sevenDayHistory.reversed.toList();
+      print(_sevenDayHistory);
+    }
+
+    /// GETTING LAST & DAYS OF HISTORY
+  }
 
   @override
   void initState() {
@@ -44,6 +75,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
       7,
       (index) => DateFormat.E().format(_dates[index]),
     );
+
+    print(_dates);
   }
 
   @override
@@ -53,7 +86,28 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final double max = widget.user.dailyWeightsGoal ?? 20000;
+    setSevenDaysHistory();
+
+    ///   SET MAX Y
+    if (widget.user.dailyWorkoutHistories.isEmpty) {
+      maxY = 20000;
+    } else {
+      final largest =
+          _sevenDayHistory.map<double>((e) => e.totalWeights).reduce(max);
+
+      if (largest == 0) {
+        maxY = 20000;
+        _sevenDayHistory.forEach((element) {
+          relativeNumber.add(0);
+        });
+      } else {
+        final roundedLargest = (largest / 10000).ceil() * 10000;
+        maxY = roundedLargest.toDouble();
+        _sevenDayHistory.forEach((element) {
+          relativeNumber.add(element.totalWeights / maxY * 10);
+        });
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -76,52 +130,55 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                     onTap: () => RoutineHistoriesScreen.show(context),
                     child: Wrap(
                       children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.fitness_center_rounded,
-                              color: PrimaryColor,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              'Lift Weights',
-                              style: Subtitle1w900Primary,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8,
-                              ),
-                              child: Icon(
-                                Icons.arrow_forward_ios_rounded,
+                        SizedBox(
+                          height: 48,
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.fitness_center_rounded,
                                 color: PrimaryColor,
                                 size: 16,
                               ),
-                            ),
-                            const Spacer(),
-                            if (widget.user.dailyWeightsGoal == null)
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
+                              const SizedBox(width: 8),
+                              const Text(
+                                'Lift Weights',
+                                style: Subtitle1w900Primary,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8,
                                 ),
-                                onPressed: () =>
-                                    SetDailyWeightsGoalScreen.show(context),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      'SET DAILY GOAL',
-                                      style: ButtonText2,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    const Icon(
-                                      Icons.add_rounded,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ],
+                                child: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: PrimaryColor,
+                                  size: 16,
                                 ),
                               ),
-                          ],
+                              const Spacer(),
+                              // if (widget.user.dailyWeightsGoal == null)
+                              //   TextButton(
+                              //     style: TextButton.styleFrom(
+                              //       padding: EdgeInsets.zero,
+                              //     ),
+                              //     onPressed: () =>
+                              //         SetDailyWeightsGoalScreen.show(context),
+                              //     child: Row(
+                              //       children: [
+                              //         const Text(
+                              //           'SET DAILY GOAL',
+                              //           style: ButtonText2,
+                              //         ),
+                              //         const SizedBox(width: 4),
+                              //         const Icon(
+                              //           Icons.add_rounded,
+                              //           color: Colors.white,
+                              //           size: 16,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                            ],
+                          ),
                         ),
                         if (widget.user.dailyWorkoutHistories.isEmpty)
                           Padding(
@@ -143,13 +200,13 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: BarChart(
                         BarChartData(
-                          maxY: max,
+                          maxY: 10,
                           barTouchData: BarTouchData(
                             touchTooltipData: BarTouchTooltipData(
                               getTooltipItem:
                                   (group, groupIndex, rod, rodIndex) {
                                 final weights =
-                                    (rod.y / 1.05).round().toDouble();
+                                    (rod.y / 1.05 / 10 * maxY).round();
                                 final formattedWeights =
                                     Format.weights(weights);
                                 final unit =
@@ -208,15 +265,18 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                               margin: 24,
                               getTextStyles: (valie) => Caption1Grey,
                               getTitles: (double value) {
+                                final toOriginalNumber =
+                                    (value / 10 * maxY).round();
+                                final formatted = NumberFormat.compact()
+                                    .format(toOriginalNumber);
+
                                 switch (value.toInt()) {
                                   case 0:
-                                    return '0t';
-                                  case 5000:
-                                    return '5t';
-                                  case 10000:
-                                    return '10t';
-                                  case 15000:
-                                    return '15t';
+                                    return '0';
+                                  case 5:
+                                    return '$formatted';
+                                  case 10:
+                                    return '$formatted';
                                   default:
                                     return '';
                                 }
@@ -251,75 +311,61 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 0.05 * y : y,
+          y: isTouched ? y * 1.05 : y,
           colors: isTouched ? [Primary700Color] : [PrimaryColor],
           width: width,
-          // backDrawRodData: BackgroundBarChartRodData(
-          //   show: true,
-          //   y: 70000,
-          //   colors: [Colors.grey[800]],
-          // ),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 10,
+            colors: [Colors.grey[800]],
+          ),
         ),
       ],
     );
   }
 
   List<BarChartGroupData> _barGroupsChild(User user) {
-    // ignore: omit_local_variable_types
-    List<DailyWorkoutHistory> historiesFromFirebase =
-        user.dailyWorkoutHistories;
-
-    var sevenDayHistory = List<DailyWorkoutHistory>.generate(7, (index) {
-      if (historiesFromFirebase.isNotEmpty) {
-        var matchingHistory = historiesFromFirebase
-            .where((element) => element.date.toUtc() == _dates[index]);
-        // ignore: omit_local_variable_types
-        double weights =
-            (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalWeights;
-
-        return DailyWorkoutHistory(
-          date: _dates[index],
-          totalWeights: weights,
-        );
-      }
-      return null;
-    });
-    sevenDayHistory = sevenDayHistory.reversed.toList();
-
     return [
       _makeBarChartGroupData(
         x: 0,
-        y: sevenDayHistory[0].totalWeights,
+        // y: _sevenDayHistory[0].totalWeights,
+        y: relativeNumber[0],
         isTouched: touchedIndex == 0,
       ),
       _makeBarChartGroupData(
         x: 1,
-        y: sevenDayHistory[1].totalWeights,
+        // y: _sevenDayHistory[1].totalWeights,
+        y: relativeNumber[1],
         isTouched: touchedIndex == 1,
       ),
       _makeBarChartGroupData(
         x: 2,
-        y: sevenDayHistory[2].totalWeights,
+        // y: _sevenDayHistory[2].totalWeights,
+        y: relativeNumber[2],
         isTouched: touchedIndex == 2,
       ),
       _makeBarChartGroupData(
         x: 3,
-        y: sevenDayHistory[3].totalWeights,
+        // y: _sevenDayHistory[3].totalWeights,
+        y: relativeNumber[3],
         isTouched: touchedIndex == 3,
       ),
       _makeBarChartGroupData(
         x: 4,
-        y: sevenDayHistory[4].totalWeights,
+        // y: _sevenDayHistory[4].totalWeights,
+        y: relativeNumber[4],
         isTouched: touchedIndex == 4,
       ),
       _makeBarChartGroupData(
         x: 5,
-        y: sevenDayHistory[5].totalWeights,
+        // y: _sevenDayHistory[5].totalWeights,
+        y: relativeNumber[5],
         isTouched: touchedIndex == 5,
       ),
       _makeBarChartGroupData(
         x: 6,
-        y: sevenDayHistory[6].totalWeights,
+        // y: _sevenDayHistory[6].totalWeights,
+        y: relativeNumber[6],
         isTouched: touchedIndex == 6,
       ),
     ];
@@ -329,37 +375,37 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
     return [
       _makeBarChartGroupData(
         x: 0,
-        y: 12000,
+        y: 5,
         isTouched: touchedIndex == 0,
       ),
       _makeBarChartGroupData(
         x: 1,
-        y: 13400,
+        y: 7,
         isTouched: touchedIndex == 1,
       ),
       _makeBarChartGroupData(
         x: 2,
-        y: 15500,
+        y: 8,
         isTouched: touchedIndex == 2,
       ),
       _makeBarChartGroupData(
         x: 3,
-        y: 14000,
+        y: 0,
         isTouched: touchedIndex == 3,
       ),
       _makeBarChartGroupData(
         x: 4,
-        y: 18000,
+        y: 5.3,
         isTouched: touchedIndex == 4,
       ),
       _makeBarChartGroupData(
         x: 5,
-        y: 12000,
+        y: 6.4,
         isTouched: touchedIndex == 5,
       ),
       _makeBarChartGroupData(
         x: 6,
-        y: 19240,
+        y: 9.6,
         isTouched: touchedIndex == 6,
       ),
     ];

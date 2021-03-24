@@ -122,7 +122,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

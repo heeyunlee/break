@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
@@ -138,8 +139,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -248,8 +249,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -275,8 +276,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -289,17 +290,18 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
     // Sets
     final numberOfSets = routineWorkout?.numberOfSets ?? 0;
-    final formattedNumberOfSets =
-        '$numberOfSets ${(numberOfSets > 1) ? 'sets' : 'set'}';
+    final formattedNumberOfSets = (numberOfSets > 1)
+        ? '$numberOfSets ${S.current.sets}'
+        : '$numberOfSets ${S.current.set}';
 
     final weights = Format.weights(routineWorkout.totalWeights);
     final unit = Format.unitOfMass(routine.initialUnitOfMass);
 
     final formattedTotalWeights = (widget.routineWorkout.isBodyWeightWorkout &&
             widget.routineWorkout.totalWeights == 0)
-        ? 'Bodyweight'
+        ? S.current.bodyweight
         : (widget.routineWorkout.isBodyWeightWorkout)
-            ? 'Bodyweight + $weights $unit'
+            ? '${S.current.bodyweight} + $weights $unit'
             : '$weights $unit';
 
     return Card(
@@ -356,8 +358,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
             if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
               Container(
                 height: 80,
-                child: const Center(
-                  child: Text('Add a set', style: BodyText2),
+                child: Center(
+                  child: Text(S.current.addASet, style: BodyText2),
                 ),
               ),
             const Divider(endIndent: 8, indent: 8, color: Grey700),
@@ -447,8 +449,8 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     return showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoActionSheet(
-        message: const Text(
-          'Delete the workout? You cannot undo this process',
+        message: Text(
+          S.current.deleteRoutineWorkoutMessage,
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -463,18 +465,18 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
               Navigator.of(context).pop();
 
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Deleted a Workout!'),
+                content: Text(S.current.deleteRoutineWorkoutSnakbar),
                 duration: Duration(seconds: 2),
                 behavior: SnackBarBehavior.floating,
               ));
             },
-            child: const Text('Delete workout'),
+            child: Text(S.current.deleteRoutineWorkoutButton),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
           isDefaultAction: true,
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(S.current.cancel),
         ),
       ),
     );

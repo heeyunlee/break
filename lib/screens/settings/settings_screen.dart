@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/dummy_data.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/unit_of_mass_screen.dart';
@@ -14,6 +16,7 @@ import 'package:workout_player/services/database.dart';
 
 import '../../common_widgets/show_alert_dialog.dart';
 import '../../constants.dart';
+import 'change_language_screen.dart';
 import 'personal_information_screen.dart';
 
 Logger logger = Logger();
@@ -60,10 +63,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _confirmSignOut(BuildContext context) async {
     final didRequestSignOut = await showAlertDialog(
       context,
-      title: 'Logout',
-      content: 'Are you sure you want to logout?',
-      cancelAcitionText: 'Cancel',
-      defaultActionText: 'Logout',
+      title: S.current.logout,
+      content: S.current.confirmSignOutContext,
+      cancelAcitionText: S.current.cancel,
+      defaultActionText: S.current.logout,
     );
     if (didRequestSignOut == true) {
       return _signOut(context);
@@ -88,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Settings', style: Subtitle1),
+        title: Text(S.current.settingsScreenTitle, style: Subtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),
@@ -115,7 +118,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
                   ListTile(
                     leading: const Icon(Icons.person, color: Colors.white),
-                    title: const Text('Personal Information', style: BodyText2),
+                    title: Text(
+                      S.current.personalInformation,
+                      style: BodyText2,
+                    ),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
@@ -130,7 +136,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.straighten_rounded,
                       color: Colors.white,
                     ),
-                    title: const Text('Unit of Mass', style: BodyText2),
+                    title: Text(S.current.unitOfMass, style: BodyText2),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -152,8 +158,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.feedback, color: Colors.white),
-                    title: const Text('Feedback & Feature Requests',
-                        style: BodyText2),
+                    title: Text(
+                      S.current.FeedbackAndFeatureRequests,
+                      style: BodyText2,
+                    ),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
@@ -165,24 +173,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icons.info_outline_rounded,
                       color: Colors.white,
                     ),
-                    title: const Text('About', style: BodyText2),
+                    title: Text(S.current.about, style: BodyText2),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      showAboutDialog(
+                        context: context,
+                        applicationName: S.current.applicationName,
+                        applicationVersion: '0.1.3+2',
+                        applicationIcon: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                          ),
+                          child: Image.asset(
+                            'assets/logos/playerh_logo.png',
+                            width: 36,
+                            height: 36,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  Spacer(),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.language_rounded,
+                      color: Colors.white,
+                    ),
+                    title: Text(S.current.launguage, style: BodyText2),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          Intl.getCurrentLocale(),
+                          style: BodyText2Grey,
+                        ),
+                        const SizedBox(width: 16),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                    onTap: () => ChangeLanguageScreen.show(context),
+                  ),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: MaxWidthRaisedButton(
                       width: double.infinity,
-                      buttonText: 'Logout',
+                      buttonText: S.current.logout,
                       color: Grey700,
                       onPressed: () => _confirmSignOut(context),
                     ),
                   ),
-                  SizedBox(height: 38),
+                  const SizedBox(height: 38),
                 ],
               ),
             ),

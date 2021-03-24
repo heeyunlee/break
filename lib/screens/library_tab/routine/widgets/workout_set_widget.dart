@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
@@ -46,8 +46,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   final SlidableController _slidableController = SlidableController();
 
   final _formKey = GlobalKey<FormState>();
-
-  final f = NumberFormat('#,###');
 
   var _textController1 = TextEditingController();
   var _textController2 = TextEditingController();
@@ -148,7 +146,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         await widget.database.updateRoutine(widget.routine, routine);
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text((set.isRest) ? 'Deleted a rest!' : 'Deleted a set!'),
+        content: Text(
+          (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
+        ),
         duration: Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ));
@@ -156,8 +156,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -270,8 +270,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         logger.d(e);
         await showExceptionAlertDialog(
           context,
-          title: 'Operation Failed',
-          exception: e,
+          title: S.current.operationFailed,
+          exception: e.toString(),
         );
       }
     }
@@ -287,7 +287,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       controller: _slidableController,
       secondaryActions: [
         IconSlideAction(
-          caption: 'Delete',
+          caption: S.current.delete,
           color: Colors.red,
           icon: Icons.delete_rounded,
           onTap: () => _deleteSet(context),
@@ -302,13 +302,13 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   bool restTimeTabbed = false;
 
   Widget _buildRow(WorkoutSet set, AuthBase auth) {
-    final title = set?.setTitle ?? 'Set Name';
+    final title = set?.setTitle;
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
     // ignore: omit_local_variable_types
     final double weights = widget.set.weights;
     final formattedWeights = '${Format.weights(weights)} $unit';
     final reps = '${widget.set.reps} x';
-    final restTime = '${widget.set.restTime} s';
+    final restTime = '${widget.set.restTime} ${S.current.seconds}';
 
     return Form(
       key: _formKey,
@@ -347,7 +347,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                         ? Center(
                             child: Text(
                               (widget.routineWorkout.isBodyWeightWorkout)
-                                  ? 'Bodyweight'
+                                  ? S.current.bodyweight
                                   : formattedWeights,
                               style: BodyText1,
                             ),
@@ -444,7 +444,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   child: Container(
                     height: 36,
                     width: 80,
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
                     alignment: Alignment.center,
                     color: PrimaryColor,
                     child: (!restTimeTabbed)
@@ -457,9 +457,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             focusNode: focusNode3,
                             keyboardType: TextInputType.number,
                             maxLength: 3,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              suffixText: 's',
+                              suffixText: S.current.seconds,
                               suffixStyle: BodyText1,
                               counterText: '',
                             ),
@@ -501,9 +501,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   });
                   node.unfocus();
                 },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('DONE', style: ButtonText),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -523,9 +523,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   });
                   node.unfocus();
                 },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('DONE', style: ButtonText),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -545,9 +545,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   });
                   node.unfocus();
                 },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('DONE', style: ButtonText),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }

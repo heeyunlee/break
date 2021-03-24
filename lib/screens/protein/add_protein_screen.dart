@@ -151,7 +151,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

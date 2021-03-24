@@ -19,31 +19,17 @@ class SpeedDialFAB extends StatelessWidget {
           labelWidget: const Text('Add Protein', style: ButtonText),
           backgroundColor: Primary600Color,
           onTap: () => AddProteinScreen.show(context),
-          child: Image.asset(
-            'assets/emojis/cut-of-meat_1f969.png',
-            width: 24,
-            height: 24,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 24, maxWidth: 24),
+            child: const Icon(Icons.set_meal_rounded, color: Colors.white),
           ),
         ),
         SpeedDialChild(
           labelWidget: const Text('Start Workout', style: ButtonText),
           backgroundColor: Primary700Color,
           onTap: () => StartWorkoutShortcutScreen.show(context),
-          child: Image.asset(
-            'assets/emojis/person-lifting-weights_1f3cb-fe0f.png',
-            width: 24,
-            height: 24,
-          ),
+          child: const Icon(Icons.fitness_center_rounded, color: Colors.white),
         ),
-        // SpeedDialChild(
-        //   labelWidget: const Text('Add Cardio', style: ButtonText),
-        //   backgroundColor: Primary800Color,
-        //   child: Image.asset(
-        //     'assets/emojis/person-running_1f3c3.png',
-        //     width: 24,
-        //     height: 24,
-        //   ),
-        // ),
       ],
     );
   }

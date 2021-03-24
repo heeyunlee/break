@@ -2,12 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
-import '../../../home_tab/daily_summary_row_widget.dart';
 
-class DailySummaryCard extends StatefulWidget {
+class DailySummaryCard extends StatelessWidget {
   DailySummaryCard({
+    this.cardColor = CardColor,
     @required this.date,
     @required this.workoutTitle,
     @required this.totalWeights,
@@ -18,6 +19,7 @@ class DailySummaryCard extends StatefulWidget {
     this.unitOfMass,
   });
 
+  final Color cardColor;
   final Timestamp date;
   final String workoutTitle;
   final double totalWeights;
@@ -26,24 +28,18 @@ class DailySummaryCard extends StatefulWidget {
   final bool earnedBadges;
   final onTap;
   final int unitOfMass;
-
-  @override
-  _DailySummaryCardState createState() => _DailySummaryCardState();
-}
-
-class _DailySummaryCardState extends State<DailySummaryCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Card(
-        color: CardColor,
+        color: cardColor,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: widget.onTap,
+          onTap: onTap,
           child: _buildChild(),
         ),
       ),
@@ -51,10 +47,10 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
   }
 
   Widget _buildChild() {
-    final date = Format.date(widget.date);
-    final weights = Format.weights(widget.totalWeights);
-    final unit = Format.unitOfMass(widget.unitOfMass);
-    final durationInMinutes = Format.durationInMin(widget.totalDuration);
+    final formattedDate = Format.date(date);
+    final weights = Format.weights(totalWeights);
+    final unit = Format.unitOfMass(unitOfMass);
+    final durationInMinutes = Format.durationInMin(totalDuration);
 
     return Column(
       children: <Widget>[
@@ -78,9 +74,9 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
               ),
             ),
           ),
-          title: Text(date, style: Subtitle2),
+          title: Text(formattedDate, style: Subtitle2),
           subtitle: Text(
-            '${widget.workoutTitle}',
+            '$workoutTitle',
             style: Subtitle1w900,
             maxLines: 1,
             softWrap: false,
@@ -90,15 +86,15 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
         const SizedBox(height: 8),
         const Divider(indent: 8, endIndent: 8, color: Grey800),
         const SizedBox(height: 16),
-        DailySummaryRowWidget(
+        _DailySummaryRowWidget(
           formattedWeights: '$weights $unit',
-          caloriesBurnt: widget.caloriesBurnt,
+          caloriesBurnt: caloriesBurnt,
           totalDuration: durationInMinutes,
         ),
         const SizedBox(height: 16),
-        if (widget.earnedBadges == true)
+        if (earnedBadges == true)
           const Divider(indent: 8, endIndent: 8, color: Grey800),
-        if (widget.earnedBadges == true)
+        if (earnedBadges == true)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -109,6 +105,67 @@ class _DailySummaryCardState extends State<DailySummaryCard> {
               ],
             ),
           ),
+      ],
+    );
+  }
+}
+
+class _DailySummaryRowWidget extends StatelessWidget {
+  const _DailySummaryRowWidget({
+    Key key,
+    @required this.formattedWeights,
+    @required this.caloriesBurnt,
+    @required this.totalDuration,
+  }) : super(key: key);
+
+  final String formattedWeights;
+  final double caloriesBurnt;
+  final int totalDuration;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        // weights lifted
+        _buildRowChildren(
+          emojiUrl:
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
+          title: '$formattedWeights',
+          subtitle: S.current.lifted,
+        ),
+
+        // // calories burned
+        // _buildRowChildren(
+        //   emojiUrl:
+        //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
+        //   title: '$caloriesBurnt Kcal',
+        //   subtitle: 'Burnt',
+        // ),
+
+        // minutes worked out
+        _buildRowChildren(
+          emojiUrl:
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
+          title: '$totalDuration ${S.current.minutes}',
+          subtitle: S.current.spent,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRowChildren({String emojiUrl, String title, subtitle}) {
+    return Column(
+      children: [
+        CachedNetworkImage(
+          imageUrl: emojiUrl,
+          width: 48,
+          height: 48,
+        ),
+        const SizedBox(height: 16),
+        Text(title, style: Subtitle1w900),
+        const SizedBox(height: 4),
+        Text(subtitle, style: BodyText2Light),
       ],
     );
   }

@@ -14,6 +14,28 @@ enum MainMuscleGroup {
   stretch,
 }
 
+extension MainMuscleGroupList on MainMuscleGroup {
+  List<String> get list {
+    // ignore: omit_local_variable_types
+    final List<String> _mainMuscleGroupList = [];
+    for (var i = 0; i < MainMuscleGroup.values.length; i++) {
+      final value = MainMuscleGroup.values[i].label;
+      _mainMuscleGroupList.add(value);
+    }
+    return _mainMuscleGroupList;
+  }
+}
+
+extension MainMuscleGroupMap on MainMuscleGroup {
+  Map<String, bool> get map {
+    final _mainMuscleGroupList = MainMuscleGroup.values[0].list;
+    final _mainMuscleGroupMap = {
+      for (var element in _mainMuscleGroupList) element.toString(): false
+    };
+    return _mainMuscleGroupMap;
+  }
+}
+
 extension MainMuscleGroupExtension on MainMuscleGroup {
   String get label {
     switch (this) {
@@ -46,23 +68,5 @@ extension MainMuscleGroupExtension on MainMuscleGroup {
       default:
         return null;
     }
-  }
-
-  List<String> get list {
-    // ignore: omit_local_variable_types
-    final List<String> _mainMuscleGroupList = [];
-    for (var i = 0; i < MainMuscleGroup.values.length; i++) {
-      final value = MainMuscleGroup.values[i].label;
-      _mainMuscleGroupList.add(value);
-    }
-    return _mainMuscleGroupList;
-  }
-
-  Map<String, bool> get map {
-    final _mainMuscleGroupList = MainMuscleGroup.values[0].list;
-    final _mainMuscleGroupMap = {
-      for (var element in _mainMuscleGroupList) element.toString(): false
-    };
-    return _mainMuscleGroupMap;
   }
 }

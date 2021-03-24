@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -69,8 +70,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -81,7 +82,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('Unit of Mass', style: Subtitle1),
+        title: Text(S.current.unitOfMass, style: Subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

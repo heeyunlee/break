@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
@@ -138,7 +139,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
       // SnackBar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Succfessfully Deleted a Routine!'),
+        content: Text(S.current.deleteRoutineSnackbar),
         duration: Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ));
@@ -146,8 +147,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -174,15 +175,15 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Navigator.of(context).pop();
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Edited a Routine'),
+          content: Text(S.current.editRoutineSnackbar),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
       } on FirebaseException catch (e) {
         await showExceptionAlertDialog(
           context,
-          title: 'Operation Failed',
-          exception: e,
+          title: S.current.operationFailed,
+          exception: e.toString(),
         );
       }
     }
@@ -216,11 +217,11 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              title: const Text('Edit Routine', style: Subtitle1),
+              title: Text(S.current.editRoutineTitle, style: Subtitle1),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
-                  child: const Text('SAVE', style: ButtonText),
+                  child: Text(S.current.save, style: ButtonText),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),
@@ -264,7 +265,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                     color: Colors.white,
                     size: 20,
                   ),
-                  buttonText: 'Delete',
+                  buttonText: S.current.delete,
                   onPressed: () async {
                     await _showModalBottomSheet(context);
                   },
@@ -289,7 +290,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           _buildDescriptionForm(),
           _buildTrainingLevel(),
           _buildMainMuscleGroupForm(routine),
-          // _buildSecondMuscleGroupForm(routine),
           _buildEquipmentRequiredForm(routine),
           _buildUnitOfMassForm(routine),
         ],
@@ -307,7 +307,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             borderRadius: BorderRadius.circular(10),
             child: ListTile(
               tileColor: CardColor,
-              title: const Text('Public Routine', style: ButtonText),
+              title: Text(S.current.publicRoutine, style: ButtonText),
               trailing: Switch(
                 value: _isPublic,
                 activeColor: PrimaryColor,
@@ -324,7 +324,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            'Make your routine either just for yourself or sharable with other users',
+            S.current.publicRoutineDescription,
             style: Caption1Grey,
           ),
         ),
@@ -338,9 +338,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text('Routine Title', style: BodyText1w800),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(S.current.routineTitleTitle, style: BodyText1w800),
         ),
 
         /// Routine Title
@@ -361,7 +361,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 border: InputBorder.none,
               ),
               validator: (value) =>
-                  value.isNotEmpty ? null : 'Give your routine a name!',
+                  value.isNotEmpty ? null : S.current.routineTitleValidatorText,
               onFieldSubmitted: (value) => _routineTitle = value,
               onChanged: (value) => _routineTitle = value,
               onSaved: (value) => _routineTitle = value,
@@ -379,7 +379,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: const Text('Description', style: BodyText1w800),
+          child: Text(S.current.description, style: BodyText1w800),
         ),
 
         /// Description
@@ -397,8 +397,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               style: BodyText2,
               focusNode: focusNode2,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Add description here!',
+              decoration: InputDecoration(
+                hintText: S.current.descriptionHintText,
                 hintStyle: BodyText2LightGrey,
                 border: InputBorder.none,
               ),
@@ -419,7 +419,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: const Text('Training Level', style: BodyText1w800),
+          child: Text(S.current.trainingLevel, style: BodyText1w800),
         ),
 
         /// Training Level
@@ -465,7 +465,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: const Text('More Settings', style: BodyText1w800),
+          child: Text(S.current.moreSettings, style: BodyText1w800),
         ),
 
         /// Main Muscle Group
@@ -474,13 +474,13 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
-              title: const Text('Main Muscle Group', style: ButtonText),
+              title: Text(S.current.mainMuscleGroup, style: ButtonText),
               subtitle: Text(
                 (routine.mainMuscleGroup.length == 1)
                     ? '${routine.mainMuscleGroup[0]}'
                     : (routine.mainMuscleGroup.length == 2)
                         ? '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}'
-                        : '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}, etc.',
+                        : '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}, ${S.current.etc}.',
                 style: BodyText2Grey,
               ),
               trailing: const Icon(
@@ -505,13 +505,13 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: const Text('Equipment Required', style: ButtonText),
+          title: Text(S.current.equipmentRequired, style: ButtonText),
           subtitle: Text(
             (routine.equipmentRequired.length == 1)
                 ? '${routine.equipmentRequired[0]}'
                 : (routine.equipmentRequired.length == 2)
                     ? '${routine.equipmentRequired[0]}, ${routine.equipmentRequired[1]}'
-                    : '${routine.equipmentRequired[0]}, ${routine.equipmentRequired[1]}, etc.',
+                    : '${routine.equipmentRequired[0]}, ${routine.equipmentRequired[1]}, ${S.current.etc}.',
             style: BodyText2Grey,
           ),
           trailing: const Icon(
@@ -534,7 +534,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: const Text('Unit of Mass', style: ButtonText),
+          title: Text(S.current.unitOfMass, style: ButtonText),
           subtitle: Text(
             UnitOfMass.values[routine.initialUnitOfMass].label,
             style: BodyText2Grey,
@@ -557,14 +557,14 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Future<bool> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context: context,
-      message: const Text(
-        'Are you sure? You can\'t undo this process',
+      message: Text(
+        S.current.deleteRoutineMessage,
         textAlign: TextAlign.center,
       ),
-      firstActionText: 'Delete Routine',
+      firstActionText: S.current.deleteRoutineButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.routine),
-      cancelText: 'Cancel',
+      cancelText: S.current.cancel,
       isCancelDefault: true,
     );
   }
@@ -585,7 +585,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -600,7 +600,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }

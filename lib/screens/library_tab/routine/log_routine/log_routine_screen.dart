@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
-import 'package:workout_player/common_widgets/max_width_raised_button.dart';
-import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
-import 'package:workout_player/models/enum/meal.dart';
-import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -194,7 +190,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
         // SnackBar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Logged an activity'),
+          content: Text(S.current.loggedRoutineHistorySnackbar),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
@@ -202,8 +198,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         logger.d(e);
         await showExceptionAlertDialog(
           context,
-          title: 'Operation Failed',
-          exception: e,
+          title: S.current.operationFailed,
+          exception: e.toString(),
         );
       }
     }
@@ -251,7 +247,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               ),
               backgroundColor: AppBarColor,
               flexibleSpace: const AppbarBlurBG(),
-              title: const Text('Add Workout Log', style: Subtitle2),
+              title: Text(S.current.addWorkoutLog, style: Subtitle2),
               centerTitle: true,
             ),
             body: _buildBody(),
@@ -268,7 +264,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onPressed: () => _submit(routineWorkouts),
                 backgroundColor: PrimaryColor,
                 heroTag: 'logRoutineSubmitButton',
-                label: Text('Submit'),
+                label: Text(S.current.submit),
               ),
             ),
           );
@@ -325,9 +321,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         top: -6,
                         child: Container(
                           color: BackgroundColor,
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4),
-                            child: Text('Start Time', style: Caption1),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(S.current.startTime, style: Caption1),
                           ),
                         ),
                       ),
@@ -340,27 +336,27 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     focusNode: _focusNode1,
                     controller: _textController1,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'Duration: in Minutes',
+                    decoration: InputDecoration(
+                      labelText: S.current.durationHintText,
                       labelStyle: BodyText1,
                       contentPadding: EdgeInsets.all(16),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: SecondaryColor),
                       ),
-                      focusedErrorBorder: OutlineInputBorder(
+                      focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
                       ),
-                      errorBorder: OutlineInputBorder(
+                      errorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
                       ),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
                     style: BodyText1,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter duration!';
+                        return S.current.durationHintText;
                       }
                       return null;
                     },
@@ -381,7 +377,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                       decimal: true,
                     ),
                     decoration: InputDecoration(
-                      labelText: 'Total Volume: in $unit',
+                      labelText: '${S.current.totalVolumeHintText} $unit',
                       labelStyle: BodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
@@ -400,7 +396,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     style: BodyText1,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter volumes!';
+                        return S.current.totalVolumeValidatorText;
                       }
                       return null;
                     },
@@ -419,8 +415,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     controller: _textController3,
                     maxLines: 4,
                     decoration: InputDecoration(
-                      labelText: 'Notes',
-                      hintText: 'Add Notes',
+                      labelText: S.current.notes,
+                      hintText: S.current.addNotes,
                       hintStyle: BodyText1Grey,
                       labelStyle: BodyText1,
                       contentPadding: EdgeInsets.all(16),
@@ -491,13 +487,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         top: -6,
                         child: Container(
                           color: BackgroundColor,
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(
-                              'Effort',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(S.current.effort, style: Caption1),
                           ),
                         ),
                       ),
@@ -508,14 +500,14 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text(
-                        'Make it visible to:    ',
+                      Text(
+                        S.current.makeItVisibleTo,
                         style: BodyText2Light,
                       ),
                       SizedBox(
                         width: 72,
                         child: Text(
-                          (_isPublic) ? 'Everyone' : 'Just Me',
+                          (_isPublic) ? S.current.everyone : S.current.justMe,
                           style: BodyText2w900,
                         ),
                       ),
@@ -565,7 +557,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -580,7 +572,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -595,7 +587,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text('DONE', style: ButtonText),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }

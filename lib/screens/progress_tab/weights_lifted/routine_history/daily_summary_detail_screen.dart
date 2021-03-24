@@ -11,6 +11,7 @@ import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.d
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -36,8 +37,8 @@ class DailySummaryDetailScreen extends StatefulWidget {
   final AuthBase auth;
   final User user;
 
-  static void show({
-    BuildContext context,
+  static void show(
+    context, {
     RoutineHistory routineHistory,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -149,7 +150,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }
@@ -167,7 +168,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }
@@ -185,7 +186,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }
@@ -310,7 +311,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final database = Provider.of<Database>(context);
     final routineHistory = widget.routineHistory;
 
-    final notes = widget.routineHistory.notes ?? 'No Notes...';
+    final notes = widget.routineHistory.notes ?? S.current.notesHintText;
 
     // FORMATTING
     final weights = Format.weights(routineHistory.totalWeights);
@@ -324,18 +325,16 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 16),
-            const Text('Quick Summary', style: Headline6w900),
+            Text(S.current.quickSummary, style: Headline6w900),
             const SizedBox(height: 8),
             SummaryRowWidget(
               title: '$weights $unit',
-              subtitle: ' Lifted',
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
             ),
             const SizedBox(height: 16),
             SummaryRowWidget(
-              title: '$duration min',
-              subtitle: ' Spent',
+              title: '$duration ${S.current.minutes}',
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
             ),
@@ -349,9 +348,9 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             const SizedBox(height: 32),
             const Divider(color: Grey800),
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('Activities', style: Headline6w900),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(S.current.routines, style: Headline6w900),
             ),
 
             StreamBuilder<List<RoutineWorkout>>(
@@ -366,10 +365,10 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                     final weights = Format.weights(routineWorkout.totalWeights);
                     final subtitle = (routineWorkout.isBodyWeightWorkout &&
                             routineWorkout.totalWeights == 0)
-                        ? '$sets sets  •  Bodyweight'
+                        ? '$sets ${S.current.sets}  •  ${S.current.bodyweight}'
                         : (routineWorkout.isBodyWeightWorkout)
-                            ? '$sets sets  •  Bodyweight + $weights $unit'
-                            : '$sets sets  • $weights $unit';
+                            ? '$sets ${S.current.sets}  •  Bodyweight + $weights $unit'
+                            : '$sets ${S.current.sets}  • $weights $unit';
 
                     return ActivityListTile(
                       index: routineWorkout.index,
@@ -383,9 +382,9 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
             const SizedBox(height: 32),
             const Divider(color: Grey800),
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('Notes', style: Headline6w900),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(S.current.notes, style: Headline6w900),
             ),
             const SizedBox(height: 8),
             Card(
@@ -403,8 +402,8 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                         controller: _textController1,
                         style: BodyText2,
                         focusNode: focusNode1,
-                        decoration: const InputDecoration(
-                          hintText: 'Add Notes',
+                        decoration: InputDecoration(
+                          hintText: S.current.notesHintText,
                           hintStyle: BodyText2Grey,
                           border: InputBorder.none,
                         ),
@@ -435,11 +434,11 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Make it visible to:    ', style: BodyText2Light),
+                  Text(S.current.makeItVisibleTo, style: BodyText2Light),
                   SizedBox(
                     width: 72,
                     child: Text(
-                      (_isPublic) ? 'Everyone' : 'Just Me',
+                      (_isPublic) ? S.current.everyone : S.current.justMe,
                       style: BodyText2w900,
                     ),
                   ),
@@ -474,7 +473,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
               MaxWidthRaisedButton(
                 width: double.infinity,
                 color: Colors.red,
-                buttonText: 'DELETE',
+                buttonText: S.current.delete,
                 onPressed: () async {
                   await _showModalBottomSheet(context);
                 },
@@ -489,14 +488,12 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
   Future<bool> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context: context,
-      title: const Text('Are you sure?'),
-      message: const Text(
-        'It will delete your data permanently. You can\'t undo this process',
-      ),
-      firstActionText: 'Delete History',
+      title: Text(S.current.deleteBottomSheetTitle),
+      message: Text(S.current.deleteBottomSheetMessage),
+      firstActionText: S.current.deleteBottomSheetButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.routineHistory),
-      cancelText: 'Cancel',
+      cancelText: S.current.cancel,
       isCancelDefault: true,
     );
   }

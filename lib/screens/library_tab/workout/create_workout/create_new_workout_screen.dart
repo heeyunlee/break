@@ -123,7 +123,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

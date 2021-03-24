@@ -31,7 +31,7 @@ class SummaryRowWidget extends StatelessWidget {
             style: Headline3,
             children: <TextSpan>[
               TextSpan(text: title),
-              TextSpan(text: subtitle, style: Subtitle1)
+              if (subtitle != null) TextSpan(text: subtitle, style: Subtitle1)
             ],
           ),
         ),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
@@ -48,16 +49,6 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
 
 class _EditRoutineEquipmentRequiredScreenState
     extends State<EditRoutineEquipmentRequiredScreen> {
-  // Map<String, bool> _equipmentRequired = {
-  //   'Barbell': false,
-  //   'Dumbbell': false,
-  //   'Bodyweight': false,
-  //   'Cable': false,
-  //   'Machine': false,
-  //   'EZ Bar': false,
-  //   'Gym ball': false,
-  //   'Bench': false,
-  // };
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
   final List _selectedEquipmentRequired = [];
 
@@ -131,8 +122,8 @@ class _EditRoutineEquipmentRequiredScreenState
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -156,15 +147,14 @@ class _EditRoutineEquipmentRequiredScreenState
             } else {
               showAlertDialog(
                 context,
-                title: 'No Equipment Required Selected',
-                content:
-                    'Please Select at least one equipment required for this routine',
-                defaultActionText: 'OK',
+                title: S.current.equipmentRequiredAlertTitle,
+                content: S.current.equipmentRequiredAlertContent,
+                defaultActionText: S.current.ok,
               );
             }
           },
         ),
-        title: const Text('Equipment Required', style: Subtitle1),
+        title: Text(S.current.equipmentRequired, style: Subtitle1),
         flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(

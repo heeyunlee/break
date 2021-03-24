@@ -252,6 +252,13 @@ const Subtitle2BoldGrey = TextStyle(
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
+const Subtitle2w900 = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+  letterSpacing: 0.1,
+  fontFamily: 'NanumSquareRound',
+);
 const BodyText1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

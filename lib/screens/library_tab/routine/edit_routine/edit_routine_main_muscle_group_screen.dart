@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
@@ -129,8 +130,8 @@ class _EditRoutineMainMuscleGroupScreenState
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -154,15 +155,14 @@ class _EditRoutineMainMuscleGroupScreenState
             } else {
               showAlertDialog(
                 context,
-                title: 'No Main Muscle Group Selected',
-                content:
-                    'Please Select at least one Main Muscle Group for this routine',
-                defaultActionText: 'OK',
+                title: S.current.mainMuscleGroupAlertTitle,
+                content: S.current.mainMuscleGroupAlertContent,
+                defaultActionText: S.current.ok,
               );
             }
           },
         ),
-        title: const Text('Main Muscle Group', style: Subtitle1),
+        title: Text(S.current.mainMuscleGroup, style: Subtitle1),
         flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(

@@ -5,11 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "workout_player",
-            "request": "launch",
+            "name": "Flutter",
             "type": "dart",
-            "program": "bin/main.dart",
-            "flutterMode": "debug"
-        }
+            "request": "launch",
+            "program": "lib/main.dart"
+        },
     ]
 }

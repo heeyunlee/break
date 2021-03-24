@@ -84,7 +84,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
               debugPrint('Activity Card was tapped');
 
               DailySummaryDetailScreen.show(
-                context: context,
+                context,
                 routineHistory: routineHistory,
               );
             },

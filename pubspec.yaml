@@ -13,7 +13,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg:
+  flutter_localizations:
+    sdk: flutter
+  flutter_svg: null
   intl: ^0.17.0
   http: ^0.13.1
   firebase_storage: ^8.0.0
@@ -22,19 +24,15 @@ dependencies:
   firebase_auth: ^1.0.1
   firebase_crashlytics: ^1.0.0 # no web
   firebase_analytics: ^7.1.1
-  flutter_facebook_auth: ^3.1.1 
+  flutter_facebook_auth: ^3.1.1
   sign_in_with_apple: ^3.0.0 ## no web
   google_sign_in: ^5.0.1
-  # kakao_flutter_sdk: ^0.5.4
   fl_chart: ^0.30.0
   google_fonts: ^2.0.0
   smooth_page_indicator: ^0.3.0-nullsafety.0
   provider: ^5.0.0
-  # flutter_bloc: ^6.1.1
   cupertino_icons: ^1.0.2
-  # page_transition: ^1.1.7+3
   logger: ^1.0.0
-  # shared_preferences: ^0.5.12+4
   persistent_bottom_nav_bar: ^4.0.0
   rxdart: ^0.26.0
   flutter_slidable: ^0.6.0-nullsafety.0
@@ -49,16 +47,6 @@ dependencies:
   confetti: ^0.6.0-nullsafety
   flutter_speed_dial: ^3.0.5
   numberpicker: ^2.0.1
-#  material_floating_search_bar: ^0.2.6
-#  flappy_search_bar: ^1.7.2
-#  implicitly_animated_reorderable_list: ^0.3.2
-#  get: ^3.24.0
-#  modal_bottom_sheet: ^1.0.0+1
-#  sleek_circular_slider: ^1.2.0+web
-#  percent_indicator: ^2.1.9
-#  table_calendar: ^2.3.3
-
-
 dev_dependencies:
   flutter_launcher_icons: ^0.9.0
   flutter_test:
@@ -95,3 +83,5 @@ flutter:
     - assets/logos/
     - assets/images/
     - assets/emojis/
+flutter_intl:
+  enabled: true

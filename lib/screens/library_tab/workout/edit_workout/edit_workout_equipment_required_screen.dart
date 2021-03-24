@@ -117,7 +117,7 @@ class _EditWorkoutEquipmentRequiredScreenState
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

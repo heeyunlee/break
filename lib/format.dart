@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import 'generated/l10n.dart';
 import 'models/enum/difficulty.dart';
 import 'models/enum/unit_of_mass.dart';
 
 class Format {
   static String weights(num weights) {
     final weightsNotNull = weights ?? 0;
-    final formatter = NumberFormat(',###,###.#');
+    final formatter = NumberFormat(',###.#');
 
     return formatter.format(weightsNotNull);
   }
@@ -80,16 +81,19 @@ class Format {
 
   static String timeDifference(DateTime date) {
     final now = Timestamp.now().toDate();
+    final differenceInSeconds = now.difference(date).inSeconds;
     final differenceInMinutes = now.difference(date).inMinutes;
     final differenceInHours = now.difference(date).inHours;
     final differenceInDays = now.difference(date).inDays;
 
-    if (differenceInMinutes < 60) {
-      return '$differenceInMinutes minutes ago';
+    if (differenceInSeconds < 60) {
+      return S.current.timeDifferenceInSeconds(differenceInSeconds);
+    } else if (differenceInMinutes < 60) {
+      return S.current.timeDifferenceInMinutes(differenceInMinutes);
     } else if (differenceInHours < 24) {
-      return '$differenceInHours hours ago';
+      return S.current.timeDifferenceInHours(differenceInHours);
     } else {
-      return '$differenceInDays days ago';
+      return S.current.timeDifferenceInDays(differenceInDays);
     }
   }
 

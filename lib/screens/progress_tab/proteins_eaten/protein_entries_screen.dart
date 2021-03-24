@@ -79,7 +79,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

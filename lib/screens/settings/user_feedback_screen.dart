@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/services/auth.dart';
@@ -81,8 +82,8 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }
@@ -99,11 +100,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Your Feedback Matters!', style: Subtitle2),
+        title: Text(S.current.yourFeedbackMatters, style: Subtitle2),
         actions: [
           TextButton(
             onPressed: _submit,
-            child: const Text('SUBMIT', style: ButtonText),
+            child: Text(S.current.submit, style: ButtonText),
           ),
         ],
       ),
@@ -125,8 +126,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           style: BodyText1Height,
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText:
-                'Please tell us what we could do to improve this app and your workout experience.',
+            hintText: S.current.feedbackHintText(widget.user.userName),
             hintStyle: BodyText1Grey,
           ),
           onChanged: (value) {

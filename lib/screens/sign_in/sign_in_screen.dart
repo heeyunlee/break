@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/sign_in/preview_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
@@ -32,7 +33,6 @@ class SignInScreen extends StatefulWidget {
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
-    // final user = database.userStream(auth.currentUser.uid).first;
 
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (_) => ValueNotifier<bool>(false),
@@ -44,7 +44,6 @@ class SignInScreen extends StatefulWidget {
               signInBloc: signInBloc,
               isLoading: isLoading.value,
               database: database,
-              // user: user,
             ),
           ),
         ),
@@ -66,16 +65,9 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInAnonymously();
 
-      // Write User data to Firebase
-      // final user = await widget.database
-      //     .userStream(widget.signInBloc.auth.currentUser.uid)
-      //     .first;
       final firebaseUser = widget.signInBloc.auth.currentUser;
       final uniqueId = UniqueKey().toString();
-      // print(user);
 
-      // Create new data do NOT exist
-      // if (user == null) {
       final currentTime = Timestamp.now();
       final userData = User(
         userId: firebaseUser.uid,
@@ -90,16 +82,9 @@ class _SignInScreenState extends State<SignInScreen> {
         dailyWorkoutHistories: [],
       );
       await widget.database.setUser(userData);
-      // } else {
-      //   // Update Data if exist
-      //   final currentTime = Timestamp.now();
-
-      //   final updatedUserData = {
-      //     'lastLoginDate': currentTime,
-      //   };
-      //   await widget.database.updateUser(updatedUserData);
-      // }
     } on Exception catch (e) {
+      print(e);
+
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -111,8 +96,9 @@ class _SignInScreenState extends State<SignInScreen> {
       await widget.signInBloc.signInWithGoogle();
 
       // Write User data to Firebase
-      final user = await widget.database
-          .userDocument(widget.signInBloc.auth.currentUser.uid);
+      final user = await widget.database.userDocument(
+        widget.signInBloc.auth.currentUser.uid,
+      );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -141,6 +127,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on Exception catch (e) {
+      print(e);
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -152,8 +139,9 @@ class _SignInScreenState extends State<SignInScreen> {
       await widget.signInBloc.signInWithFacebook();
 
       // Write User data to Firebase
-      final user = await widget.database
-          .userDocument(widget.signInBloc.auth.currentUser.uid);
+      final user = await widget.database.userDocument(
+        widget.signInBloc.auth.currentUser.uid,
+      );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -182,6 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on Exception catch (e) {
+      print(e);
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -193,8 +182,9 @@ class _SignInScreenState extends State<SignInScreen> {
       await widget.signInBloc.signInWithApple();
 
       // Write User data to Firebase
-      final user = await widget.database
-          .userDocument(widget.signInBloc.auth.currentUser.uid);
+      final user = await widget.database.userDocument(
+        widget.signInBloc.auth.currentUser.uid,
+      );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
       // Create new data do NOT exist
@@ -224,6 +214,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on Exception catch (e) {
+      print(e);
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -235,8 +226,8 @@ class _SignInScreenState extends State<SignInScreen> {
   void _showSignInError(Exception exception, BuildContext context) {
     showExceptionAlertDialog(
       context,
-      title: 'Sign In Failed',
-      exception: exception,
+      title: S.current.signInFailed,
+      exception: exception.toString(),
     );
   }
 
@@ -289,12 +280,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(
+                        const CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(PrimaryColor),
                         ),
-                        SizedBox(height: 24),
-                        Text('Signing in...', style: BodyText2),
+                        const SizedBox(height: 24),
+                        Text(S.current.signingIn, style: BodyText2),
                       ],
                     )
                   : Column(
@@ -319,7 +310,7 @@ class _SignInScreenState extends State<SignInScreen> {
             onPressed:
                 widget.isLoading ? null : () => _signInWithGoogle(context),
             logo: 'assets/logos/google_logo.png',
-            buttonText: 'Continue With Google',
+            buttonText: S.current.continueWithGoogle,
           ),
 
           /// Sign In With Facebook Button
@@ -330,7 +321,7 @@ class _SignInScreenState extends State<SignInScreen> {
             onPressed:
                 widget.isLoading ? null : () => _signInWithFacebook(context),
             logo: 'assets/logos/facebook_logo.png',
-            buttonText: 'Continue With Facebook',
+            buttonText: S.current.continueWithFacebook,
           ),
 
           // TODO: Add Sign In with Kakao
@@ -344,17 +335,16 @@ class _SignInScreenState extends State<SignInScreen> {
               onPressed:
                   widget.isLoading ? null : () => _signInWithApple(context),
               logo: 'assets/logos/apple_logo.png',
-              buttonText: 'Continue With Apple',
+              buttonText: S.current.continueWithApple,
             ),
-          const SizedBox(height: 16),
-          const Text('or', style: BodyText2),
+          const SizedBox(height: 48),
           TextButton(
             onPressed: widget.isLoading
                 ? null
                 : () async {
                     await _signInAnonymously(context);
                   },
-            child: const Text('Continue Anonymously', style: BodyText2),
+            child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
           ),
           const SizedBox(height: 38),
         ],

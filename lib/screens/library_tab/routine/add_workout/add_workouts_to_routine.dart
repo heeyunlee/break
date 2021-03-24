@@ -103,7 +103,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }

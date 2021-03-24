@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/empty_content.dart';
-import 'package:workout_player/common_widgets/speed_dial_fab.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted/routine_history/daily_summary_detail_screen.dart';
-import 'package:workout_player/screens/settings/settings_screen.dart';
-import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
+import '../../services/database.dart';
+import '../../common_widgets/empty_content.dart';
+import '../../common_widgets/speed_dial_fab.dart';
+import '../../models/routine_history.dart';
+import '../progress_tab/weights_lifted/routine_history/daily_summary_detail_screen.dart';
+import '../settings/settings_screen.dart';
 import 'routine_history_summary_card.dart';
 
 class HomeTab extends StatefulWidget {
@@ -41,6 +41,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     _colorAnimationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 0),
@@ -53,13 +54,13 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         .animate(_colorAnimationController);
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_textAnimationController);
-    super.initState();
   }
 
   @override
   void dispose() {
     _colorAnimationController.dispose();
     _textAnimationController.dispose();
+    refreshChangeListener.dispose();
     super.dispose();
   }
   // For SliverApp to Work
@@ -86,7 +87,6 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                   height: 32,
                 ),
               ),
-              // flexibleSpace: const AppbarBlurBG(),
               actions: [
                 IconButton(
                   icon: const Icon(
@@ -139,7 +139,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           return RoutineHistorySummaryFeedCard(
             routineHistory: routineHistory,
             onTap: () => DailySummaryDetailScreen.show(
-              context: context,
+              context,
               routineHistory: routineHistory,
             ),
           );

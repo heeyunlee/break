@@ -138,7 +138,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }
@@ -168,7 +168,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         await showExceptionAlertDialog(
           context,
           title: 'Operation Failed',
-          exception: e,
+          exception: e.toString(),
         );
       }
     }

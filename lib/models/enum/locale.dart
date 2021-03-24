@@ -1,0 +1,1 @@
+enum locale { ko, en }

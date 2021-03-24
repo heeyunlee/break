@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -65,18 +67,27 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
   // Submit data to Firestore
   Future<void> _updateUserName() async {
-    try {
-      final user = {
-        'userName': _userName,
-      };
-      await widget.database.updateUser(widget.auth.currentUser.uid, user);
-      debugPrint('Updated Username');
-    } on FirebaseException catch (e) {
-      logger.d(e);
-      await showExceptionAlertDialog(
+    if (_userName.isNotEmpty) {
+      try {
+        final user = {
+          'userName': _userName,
+        };
+        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        debugPrint('Updated Username');
+      } on FirebaseException catch (e) {
+        logger.d(e);
+        await showExceptionAlertDialog(
+          context,
+          title: S.current.operationFailed,
+          exception: e.toString(),
+        );
+      }
+    } else {
+      return showAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e,
+        title: S.current.usernameEmptyTitle,
+        content: S.current.usernameEmptyContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -88,7 +99,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: const Text('Edit Username', style: Subtitle1),
+        title: Text(S.current.editUserNameTitle, style: Subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -104,7 +115,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: 48,
+          height: 80,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
           padding: const EdgeInsets.all(8),
           child: TextFormField(
@@ -113,13 +124,13 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             textAlign: TextAlign.center,
             controller: _textController1,
             maxLength: 25,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintStyle: SearchBarHintStyle,
-              hintText: 'Give your routine a name',
-              enabledBorder: UnderlineInputBorder(
+              hintText: S.current.usernameHintText,
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
               ),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: PrimaryColor),
               ),
               counterStyle: Caption1Grey,
@@ -138,7 +149,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             },
           ),
         ),
-        const Text('Your user name', style: BodyText1Grey),
+        Text(S.current.yourUsername, style: BodyText1Grey),
       ],
     );
   }

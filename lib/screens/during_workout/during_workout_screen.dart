@@ -214,7 +214,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',
-        exception: e,
+        exception: e.toString(),
       );
     }
   }
@@ -331,25 +331,25 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   @override
   Widget build(BuildContext context) {
-    //   return Scaffold(
-    //     appBar: AppBar(
-    //       backgroundColor: Colors.transparent,
-    //       centerTitle: true,
-    //       elevation: 0,
-    //       title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
-    //       leading: IconButton(
-    //         icon: const Icon(Icons.close_rounded, color: Colors.white),
-    //         onPressed: () async {
-    //           await _closeModalBottomSheet();
-    //         },
-    //       ),
-    //     ),
-    //     extendBodyBehindAppBar: true,
-    //     backgroundColor: BackgroundColor,
-    //     body: _buildBody(),
-    //   );
-    // }
-    return _buildBody();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        elevation: 0,
+        title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
+        leading: IconButton(
+          icon: const Icon(Icons.close_rounded, color: Colors.white),
+          onPressed: () async {
+            await _closeModalBottomSheet();
+          },
+        ),
+      ),
+      extendBodyBehindAppBar: true,
+      backgroundColor: BackgroundColor,
+      body: _buildBody(),
+    );
+
+    // return _buildBody();
   }
 
   Widget _buildBody() {

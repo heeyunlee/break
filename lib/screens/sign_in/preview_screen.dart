@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';
 import 'app_preview_widget.dart';
@@ -111,17 +112,17 @@ class _PreviewScreenState extends State<PreviewScreen> {
           Row(
             children: [
               const SizedBox(width: 8),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    HapticFeedback.mediumImpact();
-                    _showPreview = false;
-                    widget.callback(_showPreview);
-                  });
-                },
-                child: Text(
-                  'SKIP',
-                  style: ButtonText,
+              SizedBox(
+                width: 80,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      HapticFeedback.mediumImpact();
+                      _showPreview = false;
+                      widget.callback(_showPreview);
+                    });
+                  },
+                  child: Text(S.current.skip, style: ButtonText),
                 ),
               ),
               Expanded(
@@ -139,27 +140,30 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    if (_currentPage < 4) {
-                      HapticFeedback.mediumImpact();
-                      _currentPage++;
-                      _pageController.animateToPage(
-                        _currentPage,
-                        duration: Duration(milliseconds: 350),
-                        curve: Curves.easeInOut,
-                      );
-                    } else {
-                      HapticFeedback.mediumImpact();
-                      _showPreview = false;
-                      widget.callback(_showPreview);
-                    }
-                  });
-                },
-                child: Text(
-                  (_currentPage == 4) ? 'DONE' : 'NEXT',
-                  style: ButtonText,
+              SizedBox(
+                width: 80,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      if (_currentPage < 4) {
+                        HapticFeedback.mediumImpact();
+                        _currentPage++;
+                        _pageController.animateToPage(
+                          _currentPage,
+                          duration: Duration(milliseconds: 350),
+                          curve: Curves.easeInOut,
+                        );
+                      } else {
+                        HapticFeedback.mediumImpact();
+                        _showPreview = false;
+                        widget.callback(_showPreview);
+                      }
+                    });
+                  },
+                  child: Text(
+                    (_currentPage == 4) ? S.current.getStarted : S.current.next,
+                    style: ButtonText,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),

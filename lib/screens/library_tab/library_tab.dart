@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
 
 import '../../constants.dart';
@@ -38,7 +39,7 @@ class LibraryTab extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
-      title: const Text('Library', style: Subtitle2),
+      title: Text(S.current.library, style: Subtitle2),
       actions: [
         IconButton(
           icon: const Icon(
@@ -56,13 +57,13 @@ class LibraryTab extends StatelessWidget {
       flexibleSpace: const AppbarBlurBG(),
       backgroundColor: AppBarColor,
       elevation: 0,
-      bottom: const TabBar(
+      bottom: TabBar(
         unselectedLabelColor: Colors.white,
         labelColor: PrimaryColor,
         indicatorColor: PrimaryColor,
         tabs: [
-          Tab(text: 'Routines'),
-          Tab(text: 'Workouts'),
+          Tab(text: S.current.routines),
+          Tab(text: S.current.workouts),
         ],
       ),
     );

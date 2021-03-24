@@ -8,11 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
-import 'package:workout_player/screens/home_screen.dart';
 import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
-import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../common_widgets/list_item_builder.dart';
@@ -66,6 +65,7 @@ class RoutineDetailScreen extends StatefulWidget {
             routine: routine,
             auth: auth,
             tag: tag,
+            user: user,
           ),
         ),
       );
@@ -77,6 +77,7 @@ class RoutineDetailScreen extends StatefulWidget {
             database: database,
             routine: routine,
             auth: auth,
+            user: user,
           ),
         ),
       );
@@ -249,7 +250,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         const Text('•', style: BodyText2Light),
                         const SizedBox(width: 8),
                         Text(
-                          'Last Edited on $lastEditedDate',
+                          '${S.current.lastEditedOn} $lastEditedDate',
                           style: BodyText2Light,
                         ),
                       ],
@@ -293,7 +294,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                     context,
                     routine: routine,
                   ),
-                  child: const Text('Log Workout', style: ButtonText),
+                  child: Text(S.current.logRoutine, style: ButtonText),
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton(
@@ -308,7 +309,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('Start Workout', style: ButtonText),
+                  child: Text(S.current.startRoutine, style: ButtonText),
                 ),
               ],
             ),

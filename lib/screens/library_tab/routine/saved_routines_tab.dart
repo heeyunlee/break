@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/user.dart';
 
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
@@ -25,7 +27,7 @@ class SavedRoutinesTab extends StatelessWidget {
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContentWidget(
         imageUrl: 'assets/images/saved_routines_empty_bg.png',
-        bodyText: 'You\'re one step away from creating your personal Routine!',
+        bodyText: S.current.savedRoutineEmptyText,
         onPressed: () => CreateNewRoutineScreen.show(context),
       ),
       itemsPerPage: 10,
@@ -38,7 +40,7 @@ class SavedRoutinesTab extends StatelessWidget {
       ),
       footer: const SizedBox(height: 16),
       onError: (error) => EmptyContent(
-        message: 'Something went wrong: $error',
+        message: '${S.current.somethingWentWrong} \n error message: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
