@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../constants.dart';
 
@@ -48,7 +49,7 @@ class EmptyContentWidget extends StatelessWidget {
                       primary: PrimaryColor,
                     ),
                     onPressed: onPressed,
-                    child: const Text('Start Now', style: ButtonText),
+                    child: Text(S.current.startNow, style: ButtonText),
                   ),
                 ],
               ),

@@ -9,6 +9,7 @@ import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
@@ -121,7 +122,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               pinned: true,
               snap: false,
               centerTitle: true,
-              title: const Text('Add Workout', style: Subtitle1),
+              title: Text(S.current.addWorkoutButtonText, style: Subtitle1),
               flexibleSpace: AppbarBlurBG(),
               backgroundColor: Colors.transparent,
               leading: IconButton(
@@ -162,7 +163,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Workout>(
-            emptyContentTitle: 'No $_selectedChip workouts..',
+            emptyContentTitle: S.current.noWorkoutEmptyContent(_selectedChip),
             snapshot: snapshot,
             itemBuilder: (context, workout) {
               final difficulty = Format.difficulty(workout.difficulty);
@@ -172,7 +173,8 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                 isLeadingDuration: false,
                 leadingText: workout.mainMuscleGroup[0],
                 title: workout.workoutTitle,
-                subtitle: '$difficulty, using ${workout.equipmentRequired[0]}',
+                subtitle:
+                    '$difficulty,  ${S.current.usingEquipment(workout.equipmentRequired[0])}',
                 onTap: () {
                   setState(() {
                     selectedWorkoutId = workout.workoutId;

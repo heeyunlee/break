@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
 
@@ -48,9 +49,9 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'No Workout Title!',
-        content: 'Please Add a Workout title',
-        defaultActionText: 'OK',
+        title: S.current.workoutTitleAlertTitle,
+        content: S.current.workoutTitleAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -71,14 +72,14 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
           autofocus: true,
           textAlign: TextAlign.center,
           controller: _textController1,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             counterStyle: Caption1,
             hintStyle: SearchBarHintStyle,
             hintText: 'Give workout a name',
-            enabledBorder: UnderlineInputBorder(
+            enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: PrimaryColor),
             ),
           ),

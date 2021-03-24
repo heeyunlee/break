@@ -72,7 +72,9 @@ class _EditRoutineMainMuscleGroupScreenState
       'Hamstring':
           (widget.routine.mainMuscleGroup.contains('Hamstring')) ? true : false,
       'Lats': (widget.routine.mainMuscleGroup.contains('Lats')) ? true : false,
-      'Leg': (widget.routine.mainMuscleGroup.contains('Leg')) ? true : false,
+      'Lower Body': (widget.routine.mainMuscleGroup.contains('Lower Body'))
+          ? true
+          : false,
       'Lower Back': (widget.routine.mainMuscleGroup.contains('Lower Back'))
           ? true
           : false,

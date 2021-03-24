@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/create_workout/new_workout_difficulty_and_more_screen.dart';
@@ -116,13 +117,11 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           ),
         ),
       );
-
-      // TODO: Add Snackbar
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -137,9 +136,9 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'No routine title',
-        content: 'Give routine a name!',
-        defaultActionText: 'OK',
+        title: S.current.workoutTitleAlertTitle,
+        content: S.current.workoutTitleAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -153,28 +152,12 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'Main Muscle Group',
-        content: 'Select at least 1 main muscle group',
-        defaultActionText: 'OK',
+        title: S.current.mainMuscleGroupAlertTitle,
+        content: S.current.mainMuscleGroupAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
-
-  // void saveSecondMuscleGroup() {
-  //   debugPrint('saveMainMuscleGroup Pressed');
-  //   if (_selectedSecondMuscleGroup.length > 0) {
-  //     setState(() {
-  //       _pageIndex = 3;
-  //     });
-  //   } else {
-  //     showAlertDialog(
-  //       context,
-  //       title: 'Secondary Muscle Group',
-  //       content: 'Select at least 1 secondary muscle group',
-  //       defaultActionText: 'OK',
-  //     );
-  //   }
-  // }
 
   void saveEquipmentRequired() {
     debugPrint('saveEquipmentRequired Pressed');
@@ -185,31 +168,22 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'Select Equipment Required',
-        content: 'Select at least 1 Equipment for the routine',
-        defaultActionText: 'OK',
+        title: S.current.equipmentRequiredAlertTitle,
+        content: S.current.equipmentRequiredAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
 
   void saveDifficulty() {
     debugPrint('saveDifficulty Pressed');
-    if (_difficultySlider != null) {
-      _submit();
-    } else {
-      showAlertDialog(
-        context,
-        title: 'No Difficulty',
-        content: 'Select routine\'s difficulty!',
-        defaultActionText: 'OK',
-      );
-    }
+    _submit();
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   void dispose() {
@@ -235,12 +209,12 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         ),
         title: Text(
           (_pageIndex == 0)
-              ? 'Workout Name'
+              ? S.current.workoutName
               : (_pageIndex == 1)
-                  ? 'Main Muscle Group'
+                  ? S.current.mainMuscleGroup
                   : (_pageIndex == 2)
-                      ? 'Equipment Required'
-                      : 'More About This Workout',
+                      ? S.current.equipmentRequired
+                      : S.current.moreAboutThisWorkout,
           style: Subtitle2,
         ),
         backgroundColor: Colors.transparent,
@@ -297,7 +271,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
         backgroundColor: PrimaryColor,
-        label: const Text('Finish!', style: ButtonText),
+        label: Text(S.current.finish, style: ButtonText),
         onPressed: saveDifficulty,
       );
     } else {

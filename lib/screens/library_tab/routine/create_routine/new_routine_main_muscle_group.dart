@@ -19,10 +19,13 @@ class NewRoutineMainMuscleGroupScreen extends StatefulWidget {
 class _NewRoutineMainMuscleGroupScreenState
     extends State<NewRoutineMainMuscleGroupScreen> {
   final Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
+  final List<String> _translatedList = MainMuscleGroup.values[0].translatedList;
   final List<String> _selectedMainMuscleGroup = [];
 
   @override
   Widget build(BuildContext context) {
+    print(_translatedList);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

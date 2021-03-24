@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
 
@@ -46,9 +47,9 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'No routine Title!',
-        content: 'Please Add a routine title',
-        defaultActionText: 'OK',
+        title: S.current.noRoutineAlertTitle,
+        content: S.current.routineTitleValidatorText,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -67,14 +68,14 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
           autofocus: true,
           textAlign: TextAlign.center,
           controller: _textController1,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             counterStyle: Caption1,
             hintStyle: SearchBarHintStyle,
-            hintText: 'Give your routine a name',
-            enabledBorder: UnderlineInputBorder(
+            hintText: S.current.routineTitleHintText,
+            enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: PrimaryColor),
             ),
           ),

@@ -64,7 +64,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   TextEditingController _textController1;
   FocusNode _focusNode1;
 
-  double _totalWeights;
+  num _totalWeights;
   TextEditingController _textController2;
   FocusNode _focusNode2;
 

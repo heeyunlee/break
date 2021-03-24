@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../../common_widgets/custom_list_tile_64.dart';
 import '../../../constants.dart';
@@ -24,7 +25,7 @@ class SavedWorkoutsTab extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
-        message: 'Save workouts, or create your own!',
+        message: S.current.savedWorkoutsEmptyText,
         button: ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -33,10 +34,7 @@ class SavedWorkoutsTab extends StatelessWidget {
             primary: PrimaryColor,
           ),
           onPressed: () => CreateNewWorkoutScreen.show(context),
-          child: const Text(
-            'Create your own Workout now!',
-            style: ButtonText,
-          ),
+          child: Text(S.current.savedWorkoutEmptyButtonText, style: ButtonText),
         ),
       ),
       itemsPerPage: 10,
@@ -49,7 +47,7 @@ class SavedWorkoutsTab extends StatelessWidget {
       ),
       footer: const SizedBox(height: 16),
       onError: (error) => EmptyContent(
-        message: 'Something went wrong: $error',
+        message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;

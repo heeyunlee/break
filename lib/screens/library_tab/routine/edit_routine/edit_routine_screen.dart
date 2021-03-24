@@ -79,7 +79,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   bool _isPublic;
   String _routineTitle;
   String _description;
-  double _totalWeights;
+  num _totalWeights;
   int _averageTotalCalories;
   int _duration;
 

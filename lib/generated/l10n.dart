@@ -845,6 +845,16 @@ class S {
     );
   }
 
+  /// `Chest Routine`
+  String get routineTitleHintText {
+    return Intl.message(
+      'Chest Routine',
+      name: 'routineTitleHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Give your routine a name!`
   String get routineTitleValidatorText {
     return Intl.message(
@@ -955,10 +965,10 @@ class S {
     );
   }
 
-  /// `Please Select at least one Main Muscle Group for this routine`
+  /// `Please Select at least one Main Muscle Group`
   String get mainMuscleGroupAlertContent {
     return Intl.message(
-      'Please Select at least one Main Muscle Group for this routine',
+      'Please Select at least one Main Muscle Group',
       name: 'mainMuscleGroupAlertContent',
       desc: '',
       args: [],
@@ -975,11 +985,321 @@ class S {
     );
   }
 
-  /// `Please Select at least one equipment required for this routine`
+  /// `Please Select at least one equipment required`
   String get equipmentRequiredAlertContent {
     return Intl.message(
-      'Please Select at least one equipment required for this routine',
+      'Please Select at least one equipment required',
       name: 'equipmentRequiredAlertContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create New Routine`
+  String get createNewRoutine {
+    return Intl.message(
+      'Create New Routine',
+      name: 'createNewRoutine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Now`
+  String get startNow {
+    return Intl.message(
+      'Start Now',
+      name: 'startNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No routine Title!`
+  String get noRoutineAlertTitle {
+    return Intl.message(
+      'No routine Title!',
+      name: 'noRoutineAlertTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Difficulty`
+  String get difficulty {
+    return Intl.message(
+      'Difficulty',
+      name: 'difficulty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Abs`
+  String get abs {
+    return Intl.message(
+      'Abs',
+      name: 'abs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Arms`
+  String get arms {
+    return Intl.message(
+      'Arms',
+      name: 'arms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cardio`
+  String get cardio {
+    return Intl.message(
+      'Cardio',
+      name: 'cardio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chest`
+  String get chest {
+    return Intl.message(
+      'Chest',
+      name: 'chest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Body`
+  String get fullBody {
+    return Intl.message(
+      'Full Body',
+      name: 'fullBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glutes`
+  String get glutes {
+    return Intl.message(
+      'Glutes',
+      name: 'glutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hamstring`
+  String get hamstring {
+    return Intl.message(
+      'Hamstring',
+      name: 'hamstring',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lats`
+  String get lats {
+    return Intl.message(
+      'Lats',
+      name: 'lats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lower Body`
+  String get lowerBody {
+    return Intl.message(
+      'Lower Body',
+      name: 'lowerBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lower Back`
+  String get lowerBack {
+    return Intl.message(
+      'Lower Back',
+      name: 'lowerBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quads`
+  String get quads {
+    return Intl.message(
+      'Quads',
+      name: 'quads',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shoulder`
+  String get shoulder {
+    return Intl.message(
+      'Shoulder',
+      name: 'shoulder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stretch`
+  String get stretch {
+    return Intl.message(
+      'Stretch',
+      name: 'stretch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish`
+  String get finish {
+    return Intl.message(
+      'Finish',
+      name: 'finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add workouts to your routine`
+  String get routineWorkoutEmptyText {
+    return Intl.message(
+      'Add workouts to your routine',
+      name: 'routineWorkoutEmptyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add workout`
+  String get addWorkoutButtonText {
+    return Intl.message(
+      'Add workout',
+      name: 'addWorkoutButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No {workout} workouts...`
+  String noWorkoutEmptyContent(Object workout) {
+    return Intl.message(
+      'No $workout workouts...',
+      name: 'noWorkoutEmptyContent',
+      desc: '',
+      args: [workout],
+    );
+  }
+
+  /// `using {equipment}`
+  String usingEquipment(Object equipment) {
+    return Intl.message(
+      'using $equipment',
+      name: 'usingEquipment',
+      desc: '',
+      args: [equipment],
+    );
+  }
+
+  /// `Save workouts, or create your own!`
+  String get savedWorkoutsEmptyText {
+    return Intl.message(
+      'Save workouts, or create your own!',
+      name: 'savedWorkoutsEmptyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your own Workout now!`
+  String get savedWorkoutEmptyButtonText {
+    return Intl.message(
+      'Create your own Workout now!',
+      name: 'savedWorkoutEmptyButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No workout name`
+  String get workoutTitleAlertTitle {
+    return Intl.message(
+      'No workout name',
+      name: 'workoutTitleAlertTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Give routine a name!`
+  String get workoutTitleAlertContent {
+    return Intl.message(
+      'Give routine a name!',
+      name: 'workoutTitleAlertContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout Name`
+  String get workoutName {
+    return Intl.message(
+      'Workout Name',
+      name: 'workoutName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More About This Workout`
+  String get moreAboutThisWorkout {
+    return Intl.message(
+      'More About This Workout',
+      name: 'moreAboutThisWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create New Workout`
+  String get createNewWorkout {
+    return Intl.message(
+      'Create New Workout',
+      name: 'createNewWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created a new routine!`
+  String get createNewRoutineSnackbar {
+    return Intl.message(
+      'Created a new routine!',
+      name: 'createNewRoutineSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created a new workout!`
+  String get createNewWorkoutSnackbar {
+    return Intl.message(
+      'Created a new workout!',
+      name: 'createNewWorkoutSnackbar',
       desc: '',
       args: [],
     );

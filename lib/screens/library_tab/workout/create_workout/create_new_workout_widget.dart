@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
 import 'create_new_workout_screen.dart';
@@ -24,7 +25,7 @@ class CreateNewWorkoutWidget extends StatelessWidget {
                 child: const Icon(Icons.add_rounded, color: Colors.white),
               ),
               const SizedBox(width: 16),
-              const Text('Create New Workout', style: BodyText1Bold),
+              Text(S.current.createNewWorkout, style: BodyText1Bold),
             ],
           ),
         ),

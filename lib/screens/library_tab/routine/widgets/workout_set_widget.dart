@@ -305,7 +305,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     final title = set?.setTitle;
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
     // ignore: omit_local_variable_types
-    final double weights = widget.set.weights;
+    final weights = widget.set.weights;
     final formattedWeights = '${Format.weights(weights)} $unit';
     final reps = '${widget.set.reps} x';
     final restTime = '${widget.set.restTime} ${S.current.seconds}';

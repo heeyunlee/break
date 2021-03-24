@@ -6,7 +6,6 @@ import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
 
 import '../../../models/routine.dart';
 import '../../../services/database.dart';

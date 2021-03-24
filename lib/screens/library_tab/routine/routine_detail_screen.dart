@@ -325,11 +325,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             //     buttonText: 'Copy this Routine',
             //   ),
             const SizedBox(height: 16),
-            Divider(
-              endIndent: 8,
-              indent: 8,
-              color: Grey800,
-            ),
+            const Divider(endIndent: 8, indent: 8, color: Grey800),
             const SizedBox(height: 8),
             StreamBuilder<List<RoutineWorkout>>(
                 stream: widget.database.routineWorkoutsStream(routine),
@@ -337,7 +333,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   return Column(
                     children: [
                       ListItemBuilder<RoutineWorkout>(
-                        emptyContentTitle: 'Add workouts to your routine',
+                        emptyContentTitle: S.current.routineWorkoutEmptyText,
                         snapshot: snapshot,
                         itemBuilder: (context, routineWorkout) =>
                             WorkoutMediumCard(
@@ -348,10 +344,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       ),
                       const SizedBox(height: 8),
                       if (widget.auth.currentUser.uid == routine.routineOwnerId)
-                        Divider(
+                        const Divider(
                           endIndent: 8,
                           indent: 8,
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white12,
                         ),
                       const SizedBox(height: 16),
                       if (widget.auth.currentUser.uid == routine.routineOwnerId)
@@ -361,7 +357,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                             Icons.add_rounded,
                             color: Colors.white,
                           ),
-                          buttonText: 'Add workout',
+                          buttonText: S.current.addWorkoutButtonText,
                           color: CardColor,
                           onPressed: () => AddWorkoutsToRoutine.show(
                             context,
@@ -466,7 +462,7 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '$duration min',
+                        '$duration ${S.current.minutes}',
                         style: Subtitle2,
                         maxLines: 1,
                       ),

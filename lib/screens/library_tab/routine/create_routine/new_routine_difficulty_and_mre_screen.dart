@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 
 import '../../../../constants.dart';
@@ -45,7 +46,7 @@ class _NewRoutineDifficultyAndMoreScreenState
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Difficulty: $_ratingLabel',
+                '${S.current.difficulty}: $_ratingLabel',
                 style: Headline6Bold,
               ),
             ),

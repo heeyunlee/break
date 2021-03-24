@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/create_routine/new_routine_difficulty_and_mre_screen.dart';
@@ -121,7 +122,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -136,9 +137,9 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'No routine Title!',
-        content: 'Please Add a routine title',
-        defaultActionText: 'OK',
+        title: S.current.noRoutineAlertTitle,
+        content: S.current.routineTitleValidatorText,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -152,9 +153,9 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'Main Muscle Group',
-        content: 'Select at least 1 main muscle group',
-        defaultActionText: 'OK',
+        title: S.current.mainMuscleGroup,
+        content: S.current.mainMuscleGroupAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -168,9 +169,9 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     } else {
       showAlertDialog(
         context,
-        title: 'Select Equipment needed',
-        content: 'Select at least 1 Equipment for this routine',
-        defaultActionText: 'OK',
+        title: S.current.equipmentRequired,
+        content: S.current.equipmentRequiredAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -209,12 +210,12 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         ),
         title: Text(
           (_pageIndex == 0)
-              ? 'Routine Title'
+              ? S.current.routineTitleTitle
               : (_pageIndex == 1)
-                  ? 'Main Muscle Group'
+                  ? S.current.mainMuscleGroup
                   : (_pageIndex == 2)
-                      ? 'Equipment Required'
-                      : 'Difficulty and More',
+                      ? S.current.equipmentRequired
+                      : S.current.difficulty,
           style: Subtitle2,
         ),
         centerTitle: true,
@@ -264,7 +265,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
         backgroundColor: PrimaryColor,
-        label: const Text('Finish!', style: ButtonText),
+        label: Text(S.current.finish, style: ButtonText),
         onPressed: saveDifficultyAndMore,
       );
     } else {
