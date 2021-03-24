@@ -23,19 +23,27 @@ class MessageLookup extends MessageLookupByLibrary {
   static m0(username) =>
       "Please tell us what we could do to improve this app and ${username} workout experience.";
 
+  // ignore: always_declare_return_types
   static m1(workout) => "No ${workout} workouts...";
 
+  // ignore: always_declare_return_types
   static m2(days) => "${days} days ago";
 
+  // ignore: always_declare_return_types
   static m3(hours) => "${hours} hours ago";
 
+  // ignore: always_declare_return_types
   static m4(minutes) => "${minutes} minutes ago";
 
+  // ignore: always_declare_return_types
   static m5(seconds) => "${seconds} seconds ago";
 
+  // ignore: always_declare_return_types
   static m6(equipment) => "using ${equipment}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
+  // ignore: always_declare_return_types
   static _notInlinedMessages(_) => <String, Function>{
         "FeedbackAndFeatureRequests":
             MessageLookupByLibrary.simpleMessage("Feedback & Feature Requests"),
