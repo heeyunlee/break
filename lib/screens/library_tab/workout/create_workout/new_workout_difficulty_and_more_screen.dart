@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 
 import '../../../../constants.dart';
@@ -45,7 +46,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
     _difficultySliderLabel = Difficulty.values[_difficultySlider.toInt()].label;
 
     _secondsPerRepSlider = 2;
-    _secondsPerRepSliderLabel = '$_secondsPerRepSlider seconds';
+    _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
     debugPrint('NewWorkoutDifficultyAndMoreScreen init');
   }
 
@@ -77,9 +78,9 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight),
 
                 // Description
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Description', style: BodyText1w800),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.description, style: BodyText1w800),
                 ),
                 Card(
                   color: CardColor,
@@ -94,8 +95,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       controller: _textController,
                       style: BodyText2,
                       maxLines: 3,
-                      decoration: const InputDecoration(
-                        hintText: 'Add description here!',
+                      decoration: InputDecoration(
+                        hintText: S.current.descriptionHintText,
                         hintStyle: BodyText2LightGrey,
                         border: InputBorder.none,
                       ),
@@ -120,7 +121,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Workout Difficulty: $_difficultySliderLabel',
+                    '${S.current.workoutDifficultySliderText}: $_difficultySliderLabel',
                     style: BodyText1w800,
                   ),
                 ),
@@ -155,7 +156,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Seconds per Rep: $formattedSecondsPerRep seconds',
+                    '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
                     style: BodyText1w800,
                   ),
                 ),
@@ -175,7 +176,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                         widget.secondsPerRepCallback(_secondsPerRepSlider);
 
                         _secondsPerRepSliderLabel =
-                            '$formattedSecondsPerRep seconds';
+                            '$formattedSecondsPerRep ${S.current.seconds}';
                       });
                     },
                     label: _secondsPerRepSliderLabel,
@@ -186,8 +187,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Text(
-                    'This will help us calculate duration for a routine',
+                  child: Text(
+                    S.current.secondsPerRepHelperText,
                     style: Caption1Grey,
                   ),
                 ),

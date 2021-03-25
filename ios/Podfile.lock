@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.4.1)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -98,6 +99,11 @@ PODS:
     - FBSDKCoreKit (~> 9.1.0)
     - FBSDKLoginKit (~> 9.1.0)
     - Flutter
+  - flutter_kakao_login (1.0.0):
+    - Flutter
+    - KakaoSDKAuth (~> 2.0.1)
+    - KakaoSDKCommon (~> 2.0.1)
+    - KakaoSDKUser (~> 2.0.1)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -143,6 +149,13 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
+  - KakaoSDKAuth (2.0.5):
+    - KakaoSDKCommon (= 2.0.5)
+  - KakaoSDKCommon (2.0.5):
+    - Alamofire (~> 5.1)
+  - KakaoSDKUser (2.0.5):
+    - KakaoSDKAuth (= 2.0.5)
+    - KakaoSDKCommon (= 2.0.5)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -167,6 +180,7 @@ DEPENDENCIES:
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.3.0`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_kakao_login (from `.symlinks/plugins/flutter_kakao_login/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
@@ -174,6 +188,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - AppAuth
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -192,6 +207,9 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKUser
     - nanopb
     - PromisesObjC
 
@@ -215,6 +233,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_kakao_login:
+    :path: ".symlinks/plugins/flutter_kakao_login/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   path_provider:
@@ -230,6 +250,7 @@ CHECKOUT OPTIONS:
     :tag: 7.3.0
 
 SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   cloud_firestore: 69d71054fcab9a1c0d4779362f85b94aec7ff7d7
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
@@ -250,6 +271,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: 5002b1895bfe74a5ce92ad54f966e6162d0da2e5
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_facebook_auth: 24b6e255a5b2336963da48d0d3eeee4df824c0ed
+  flutter_kakao_login: 7202b6e94a37e8fbd682c32ff03227a9eabe80be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
@@ -258,6 +280,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  KakaoSDKAuth: 6903dbdaae617a9918030dba0cc47a2f42ca9731
+  KakaoSDKCommon: 0fbcc0fa12d7f1e5fa4d423cd336e877764e1403
+  KakaoSDKUser: 55cfcdfb0e4fa04709487936802c09c013bdd782
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97

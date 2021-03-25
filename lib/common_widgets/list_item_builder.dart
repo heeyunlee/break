@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 Logger logger = Logger();
 
@@ -43,8 +44,8 @@ class ListItemBuilder<T> extends StatelessWidget {
       }
     } else if (snapshot.hasError) {
       logger.d(snapshot.error);
-      return const EmptyContent(
-        message: 'Something went wrong',
+      return EmptyContent(
+        message: S.current.somethingWentWrong,
       );
     }
     return Center(child: CircularProgressIndicator());

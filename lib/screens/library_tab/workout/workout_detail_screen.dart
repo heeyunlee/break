@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -192,6 +193,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   }
 
   Widget _buildFlexibleSpace(Workout workout) {
+    final size = MediaQuery.of(context).size;
+
     final workoutTitle = workout?.workoutTitle ?? 'NULL';
     final mainMuscleGroup = workout?.mainMuscleGroup[0] ?? 'NULL';
     final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
@@ -250,11 +253,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                   children: <Widget>[
                     // Main Muscle Group
                     Container(
-                      width: 88,
+                      width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('Muscle Group', style: Caption1Grey),
+                          Text(S.current.mainMuscleGroup, style: Caption1Grey),
                           const SizedBox(height: 8),
                           Text(
                             mainMuscleGroup,
@@ -267,17 +270,20 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     Container(
                       color: Colors.white.withOpacity(0.1),
                       width: 1,
-                      height: 40,
+                      height: 56,
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                     ),
 
                     // Equipment Required
                     Container(
-                      width: 88,
+                      width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('Equipment', style: Caption1Grey),
+                          Text(
+                            S.current.equipmentRequired,
+                            style: Caption1Grey,
+                          ),
                           const SizedBox(height: 8),
                           Text(equipmentRequired, style: Subtitle2),
                         ],
@@ -287,17 +293,17 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     Container(
                       color: Colors.white.withOpacity(0.1),
                       width: 1,
-                      height: 40,
+                      height: 56,
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                     ),
 
                     // Experience Level
                     Container(
-                      width: 88,
+                      width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('Difficulty', style: Caption1Grey),
+                          Text(S.current.difficulty, style: Caption1Grey),
                           const SizedBox(height: 8),
                           Text(difficulty, style: Subtitle2),
                         ],
@@ -322,7 +328,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     color: Colors.white,
                     size: 20,
                   ),
-                  buttonText: 'Add workout to the routine',
+                  buttonText: S.current.addWorkoutToRoutineButtonText,
                   onPressed: () => AddWorkoutToRoutineScreen.show(
                     context,
                     workout: workout,

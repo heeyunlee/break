@@ -75,7 +75,7 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
           decoration: InputDecoration(
             counterStyle: Caption1,
             hintStyle: SearchBarHintStyle,
-            hintText: 'Give workout a name',
+            hintText: S.current.workoutHintText,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_detail_screen.dart';
 
 import '../../constants.dart';
 import '../../services/database.dart';
 import '../../common_widgets/empty_content.dart';
 import '../../common_widgets/speed_dial_fab.dart';
 import '../../models/routine_history.dart';
-import '../progress_tab/weights_lifted/routine_history/daily_summary_detail_screen.dart';
 import '../settings/settings_screen.dart';
 import 'routine_history_summary_card.dart';
 
@@ -121,14 +122,14 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
       child: PaginateFirestore(
         query: database.routineHistoriesPaginatedPublicQuery(),
         itemBuilderType: PaginateBuilderType.listView,
-        emptyDisplay: const EmptyContent(
-          message: 'Nothing There...',
+        emptyDisplay: EmptyContent(
+          message: S.current.homeTabEmptyMessage,
         ),
         itemsPerPage: 10,
         header: SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
         footer: const SizedBox(height: 16),
         onError: (error) => EmptyContent(
-          message: 'Something went wrong: $error',
+          message: '${S.current.somethingWentWrong}: $error',
         ),
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {

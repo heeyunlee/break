@@ -558,7 +558,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     return showAdaptiveModalBottomSheet(
       context: context,
       message: Text(
-        S.current.deleteRoutineMessage,
+        S.current.deleteRoutineWarningMessage,
         textAlign: TextAlign.center,
       ),
       firstActionText: S.current.deleteRoutineButtonText,

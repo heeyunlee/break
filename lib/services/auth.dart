@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -13,6 +14,7 @@ abstract class AuthBase {
   Future<auth.User> signInWithGoogle();
   Future<auth.User> signInWithFacebook();
   Future<auth.User> signInWithApple();
+  Future<auth.User> signInWithKakao();
 
   Future<void> signOut();
 }
@@ -132,45 +134,6 @@ class AuthService implements AuthBase {
           throw UnimplementedError();
       }
     }
-
-    // switch (facebookLoginResult.status) {
-    //   // LogIn Successful
-    //   case FacebookLoginStatus.success:
-    //     // Create a new credential
-    //     final accessToken = facebookLoginResult.accessToken;
-    //     final auth.FacebookAuthCredential credential =
-    //         auth.FacebookAuthProvider.credential(accessToken.token);
-
-    //     // get the user
-    //     final authResult = await _auth.signInWithCredential(credential);
-    //     final user = authResult.user;
-
-    //     final currentUser = _auth.currentUser;
-    //     assert(user.uid == currentUser.uid);
-    //     setUser(user);
-
-    //     print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
-
-    //     return user;
-
-    //   // LogIn cancelled by User
-    //   case FacebookLoginStatus.cancel:
-    //     throw auth.FirebaseAuthException(
-    //       code: 'ERROR_ABORTED_BY_USER',
-    //       message: 'Sign in aborted by user',
-    //     );
-
-    //   // LogIn Error
-    //   case FacebookLoginStatus.error:
-    //     logger.d(facebookLoginResult.error.developerMessage);
-    //     throw auth.FirebaseAuthException(
-    //       code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-    //       message: facebookLoginResult.error.developerMessage,
-    //     );
-    //   default:
-    //     logger.d(UnimplementedError().message);
-    //     throw UnimplementedError();
-    // }
   }
 
   // Sign In With Apple
@@ -216,6 +179,27 @@ class AuthService implements AuthBase {
         message: '$e',
       );
     }
+  }
+
+  /// SIGN IN WITH Kakao
+  @override
+  Future<auth.User> signInWithKakao() async {
+    print(1);
+    final kakaoSignIn = FlutterKakaoLogin();
+    print(2);
+    await kakaoSignIn.init('c17f0f1bc6e039d488fb5264fdf93a10');
+    print(3);
+    final kakaoLoginResult = await kakaoSignIn.logIn();
+
+    print(kakaoLoginResult.status);
+    if (kakaoLoginResult.token != null) {
+      print(kakaoLoginResult.hashCode);
+      // await kakaoSignIn.unlink();
+      // final s = token.account;
+      // final oAuthProvider = auth.OAuthProvider('kakao.com');
+      // print(oAuthProvider);
+    }
+    return null;
   }
 
   // Sign Out

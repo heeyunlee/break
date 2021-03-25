@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted/routine_history/daily_summary_card.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted/routine_history/daily_summary_detail_screen.dart';
+import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_card.dart';
+import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_detail_screen.dart';
 
 class RoutineHistorySummaryFeedCard extends StatelessWidget {
   RoutineHistorySummaryFeedCard({

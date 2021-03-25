@@ -5,11 +5,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
 import 'routine_histories_screen.dart';
+import 'set_daily_weights_goal_screen.dart';
 
 class WeightsLiftedChartWidget extends StatefulWidget {
   final Database database;
@@ -62,6 +65,29 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
     /// GETTING LAST & DAYS OF HISTORY
   }
 
+  void setMaxY() {
+    ///   SET MAX Y
+    if (widget.user.dailyWorkoutHistories.isEmpty) {
+      maxY = 20000;
+    } else {
+      final largest =
+          _sevenDayHistory.map<double>((e) => e.totalWeights).reduce(max);
+
+      if (largest == 0) {
+        maxY = 20000;
+        _sevenDayHistory.forEach((element) {
+          relativeNumber.add(0);
+        });
+      } else {
+        final roundedLargest = (largest / 10000).ceil() * 10000;
+        maxY = roundedLargest.toDouble();
+        _sevenDayHistory.forEach((element) {
+          relativeNumber.add(element.totalWeights / maxY * 10);
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -87,27 +113,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   @override
   Widget build(BuildContext context) {
     setSevenDaysHistory();
-
-    ///   SET MAX Y
-    if (widget.user.dailyWorkoutHistories.isEmpty) {
-      maxY = 20000;
-    } else {
-      final largest =
-          _sevenDayHistory.map<double>((e) => e.totalWeights).reduce(max);
-
-      if (largest == 0) {
-        maxY = 20000;
-        _sevenDayHistory.forEach((element) {
-          relativeNumber.add(0);
-        });
-      } else {
-        final roundedLargest = (largest / 10000).ceil() * 10000;
-        maxY = roundedLargest.toDouble();
-        _sevenDayHistory.forEach((element) {
-          relativeNumber.add(element.totalWeights / maxY * 10);
-        });
-      }
-    }
+    setMaxY();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -140,8 +146,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                                 size: 16,
                               ),
                               const SizedBox(width: 8),
-                              const Text(
-                                'Lift Weights',
+                              Text(
+                                S.current.liftedWeights,
                                 style: Subtitle1w900Primary,
                               ),
                               const Padding(
@@ -164,8 +170,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                               //         SetDailyWeightsGoalScreen.show(context),
                               //     child: Row(
                               //       children: [
-                              //         const Text(
-                              //           'SET DAILY GOAL',
+                              //         Text(
+                              //           S.current.setWeightsDailyGoal,
                               //           style: ButtonText2,
                               //         ),
                               //         const SizedBox(width: 4),
@@ -184,7 +190,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
-                              'Start working out now and see your progress!',
+                              S.current.weightsChartMessage,
                               style: BodyText2,
                             ),
                           ),
@@ -194,100 +200,105 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                   if (widget.user.dailyWorkoutHistories.isEmpty)
                     const Divider(color: Grey700),
                   const SizedBox(height: 16),
-                  AspectRatio(
-                    aspectRatio: 1.6,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: BarChart(
-                        BarChartData(
-                          maxY: 10,
-                          barTouchData: BarTouchData(
-                            touchTooltipData: BarTouchTooltipData(
-                              getTooltipItem:
-                                  (group, groupIndex, rod, rodIndex) {
-                                final weights =
-                                    (rod.y / 1.05 / 10 * maxY).round();
-                                final formattedWeights =
-                                    Format.weights(weights);
-                                final unit =
-                                    Format.unitOfMass(widget.user.unitOfMass);
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: AspectRatio(
+                      aspectRatio: 1.5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: BarChart(
+                          BarChartData(
+                            maxY: 10,
+                            barTouchData: BarTouchData(
+                              touchTooltipData: BarTouchTooltipData(
+                                getTooltipItem:
+                                    (group, groupIndex, rod, rodIndex) {
+                                  final weights =
+                                      (rod.y / 1.05 / 10 * maxY).round();
+                                  final formattedWeights =
+                                      Format.weights(weights);
+                                  final unit =
+                                      Format.unitOfMass(widget.user.unitOfMass);
 
-                                return BarTooltipItem(
-                                  '$formattedWeights $unit',
-                                  BodyText1Black,
-                                );
+                                  return BarTooltipItem(
+                                    '$formattedWeights $unit',
+                                    BodyText1Black,
+                                  );
+                                },
+                              ),
+                              touchCallback: (barTouchResponse) {
+                                setState(() {
+                                  if (barTouchResponse.spot != null &&
+                                      barTouchResponse.touchInput
+                                          is! PointerUpEvent &&
+                                      barTouchResponse.touchInput
+                                          is! PointerExitEvent) {
+                                    touchedIndex = barTouchResponse
+                                        .spot.touchedBarGroupIndex;
+                                  } else {
+                                    touchedIndex = -1;
+                                  }
+                                });
                               },
                             ),
-                            touchCallback: (barTouchResponse) {
-                              setState(() {
-                                if (barTouchResponse.spot != null &&
-                                    barTouchResponse.touchInput
-                                        is! PointerUpEvent &&
-                                    barTouchResponse.touchInput
-                                        is! PointerExitEvent) {
-                                  touchedIndex = barTouchResponse
-                                      .spot.touchedBarGroupIndex;
-                                } else {
-                                  touchedIndex = -1;
-                                }
-                              });
-                            },
-                          ),
-                          titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              getTextStyles: (value) => BodyText2,
-                              margin: 16,
-                              getTitles: (double value) {
-                                switch (value.toInt()) {
-                                  case 0:
-                                    return '${_daysOfTheWeek[6]}';
-                                  case 1:
-                                    return '${_daysOfTheWeek[5]}';
-                                  case 2:
-                                    return '${_daysOfTheWeek[4]}';
-                                  case 3:
-                                    return '${_daysOfTheWeek[3]}';
-                                  case 4:
-                                    return '${_daysOfTheWeek[2]}';
-                                  case 5:
-                                    return '${_daysOfTheWeek[1]}';
-                                  case 6:
-                                    return '${_daysOfTheWeek[0]}';
-                                  default:
-                                    return '';
-                                }
-                              },
-                            ),
-                            leftTitles: SideTitles(
-                              showTitles: true,
-                              margin: 24,
-                              getTextStyles: (valie) => Caption1Grey,
-                              getTitles: (double value) {
-                                final toOriginalNumber =
-                                    (value / 10 * maxY).round();
-                                final formatted = NumberFormat.compact()
-                                    .format(toOriginalNumber);
+                            titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                getTextStyles: (value) => BodyText2,
+                                margin: 16,
+                                getTitles: (double value) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return '${_daysOfTheWeek[6]}';
+                                    case 1:
+                                      return '${_daysOfTheWeek[5]}';
+                                    case 2:
+                                      return '${_daysOfTheWeek[4]}';
+                                    case 3:
+                                      return '${_daysOfTheWeek[3]}';
+                                    case 4:
+                                      return '${_daysOfTheWeek[2]}';
+                                    case 5:
+                                      return '${_daysOfTheWeek[1]}';
+                                    case 6:
+                                      return '${_daysOfTheWeek[0]}';
+                                    default:
+                                      return '';
+                                  }
+                                },
+                              ),
+                              leftTitles: SideTitles(
+                                showTitles: true,
+                                margin: 28,
+                                getTextStyles: (valie) => Caption1Grey,
+                                getTitles: (double value) {
+                                  final toOriginalNumber =
+                                      (value / 10 * maxY).round();
+                                  final formatted = NumberFormat.compact()
+                                      .format(toOriginalNumber);
+                                  final unit = UnitOfMass
+                                      .values[widget.user.unitOfMass].label;
 
-                                switch (value.toInt()) {
-                                  case 0:
-                                    return '0';
-                                  case 5:
-                                    return '$formatted';
-                                  case 10:
-                                    return '$formatted';
-                                  default:
-                                    return '';
-                                }
-                              },
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return '0 $unit';
+                                    case 5:
+                                      return '$formatted $unit';
+                                    case 10:
+                                      return '$formatted $unit';
+                                    default:
+                                      return '';
+                                  }
+                                },
+                              ),
                             ),
+                            borderData: FlBorderData(show: false),
+                            barGroups:
+                                (widget.user.dailyWorkoutHistories.isNotEmpty)
+                                    ? _barGroupsChild(widget.user)
+                                    : randomData(),
                           ),
-                          borderData: FlBorderData(show: false),
-                          barGroups:
-                              (widget.user.dailyWorkoutHistories.isNotEmpty)
-                                  ? _barGroupsChild(widget.user)
-                                  : randomData(),
                         ),
                       ),
                     ),
@@ -324,47 +335,41 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
     );
   }
 
+  // TODO: Make this better
   List<BarChartGroupData> _barGroupsChild(User user) {
     return [
       _makeBarChartGroupData(
         x: 0,
-        // y: _sevenDayHistory[0].totalWeights,
         y: relativeNumber[0],
         isTouched: touchedIndex == 0,
       ),
       _makeBarChartGroupData(
         x: 1,
-        // y: _sevenDayHistory[1].totalWeights,
         y: relativeNumber[1],
         isTouched: touchedIndex == 1,
       ),
       _makeBarChartGroupData(
         x: 2,
-        // y: _sevenDayHistory[2].totalWeights,
         y: relativeNumber[2],
         isTouched: touchedIndex == 2,
       ),
       _makeBarChartGroupData(
         x: 3,
-        // y: _sevenDayHistory[3].totalWeights,
         y: relativeNumber[3],
         isTouched: touchedIndex == 3,
       ),
       _makeBarChartGroupData(
         x: 4,
-        // y: _sevenDayHistory[4].totalWeights,
         y: relativeNumber[4],
         isTouched: touchedIndex == 4,
       ),
       _makeBarChartGroupData(
         x: 5,
-        // y: _sevenDayHistory[5].totalWeights,
         y: relativeNumber[5],
         isTouched: touchedIndex == 5,
       ),
       _makeBarChartGroupData(
         x: 6,
-        // y: _sevenDayHistory[6].totalWeights,
         y: relativeNumber[6],
         isTouched: touchedIndex == 6,
       ),

@@ -8,6 +8,7 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -96,13 +97,12 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           isRootNavigation: false,
           tag: '',
         );
-        // TODO: ADD SNACKBAR
       }
     } on Exception catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -117,7 +117,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: const Text('Add workout to Your Routine', style: Subtitle1),
+        title: Text(S.current.addWorkoutToRoutine, style: Subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () {
@@ -136,13 +136,13 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
-        message: 'You haven\'t created routines yet',
+        message: S.current.emptyRoutineMessage,
       ),
       itemsPerPage: 10,
       header: SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
       footer: const SizedBox(height: 16),
       onError: (error) => EmptyContent(
-        message: 'Something went wrong: $error',
+        message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
@@ -152,7 +152,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         return CustomListTile64(
           tag: 'routine${routine.routineId}',
           title: routine.routineTitle,
-          subtitle: 'by ${routine.routineOwnerUserName}',
+          subtitle: routine.routineOwnerUserName,
           imageUrl: routine.imageUrl,
           onTap: () => _submit(routine),
         );

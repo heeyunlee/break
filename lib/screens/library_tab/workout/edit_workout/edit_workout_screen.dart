@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
@@ -102,7 +103,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     _difficultySliderLabel = Difficulty.values[_difficultySlider.toInt()].label;
 
     _secondsPerRepSlider = widget.workout.secondsPerRep.toDouble();
-    _secondsPerRepSliderLabel = '$_secondsPerRepSlider seconds';
+    _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
   }
 
   @override
@@ -129,7 +130,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       await widget.database.deleteWorkout(workout);
       Navigator.of(context).popUntil((route) => route.isFirst);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Succfessfully Deleted a Workout!'),
+        content: Text(S.current.deleteWorkoutSnackbar),
         duration: Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ));
@@ -137,7 +138,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -159,7 +160,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Updated a Workout Info!'),
+          content: Text(S.current.updateWorkoutSnackbar),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
@@ -167,7 +168,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         logger.d(e);
         await showExceptionAlertDialog(
           context,
-          title: 'Operation Failed',
+          title: S.current.operationFailed,
           exception: e.toString(),
         );
       }
@@ -199,11 +200,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              title: const Text('Edit Workout', style: Subtitle1),
+              title: Text(S.current.editWorkoutTitle, style: Subtitle1),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
-                  child: const Text('SAVE', style: ButtonText),
+                  child: Text(S.current.save, style: ButtonText),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),
@@ -247,7 +248,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                     color: Colors.white,
                     size: 20,
                   ),
-                  buttonText: 'Delete',
+                  buttonText: S.current.delete,
                   onPressed: () async {
                     await _showModalBottomSheet(context);
                   },
@@ -286,7 +287,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           borderRadius: BorderRadius.circular(10),
           child: ListTile(
             tileColor: CardColor,
-            title: const Text('Public Workout', style: ButtonText),
+            title: Text(S.current.publicWorkout, style: ButtonText),
             trailing: Switch(
               value: _isPublic,
               activeColor: PrimaryColor,
@@ -299,12 +300,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            'Make your routine either just for yourself or sharable with other users',
-            style: Caption1Grey,
-          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(S.current.publicWorkoutDescription, style: Caption1Grey),
         ),
       ],
     );
@@ -315,9 +313,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 32),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text('Workout Title', style: BodyText1w800),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(S.current.workoutName, style: BodyText1w800),
         ),
 
         /// Workout Title
@@ -341,7 +339,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 counterText: '',
               ),
               validator: (value) =>
-                  value.isNotEmpty ? null : 'Give your workout a name!',
+                  value.isNotEmpty ? null : S.current.workoutTitleAlertContent,
               onFieldSubmitted: (value) => _workoutTitle = value,
               onChanged: (value) => _workoutTitle = value,
               onSaved: (value) => _workoutTitle = value,
@@ -359,7 +357,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: const Text('Description', style: BodyText1w800),
+          child: Text(S.current.description, style: BodyText1w800),
         ),
 
         /// Description
@@ -377,8 +375,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               style: BodyText2,
               focusNode: focusNode2,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Add description here!',
+              decoration: InputDecoration(
+                hintText: S.current.descriptionHintText,
                 hintStyle: BodyText2LightGrey,
                 border: InputBorder.none,
               ),
@@ -400,7 +398,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            'Difficulty: $_difficultySliderLabel',
+            '${S.current.difficulty}: $_difficultySliderLabel',
             style: BodyText1.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
@@ -444,7 +442,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            'Seconds per Rep: $formattedSecondsPerRep seconds',
+            '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
             style: BodyText1.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
@@ -461,7 +459,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             onChanged: (newRating) {
               setState(() {
                 _secondsPerRepSlider = newRating;
-                _secondsPerRepSliderLabel = '$formattedSecondsPerRep seconds';
+                _secondsPerRepSliderLabel =
+                    '$formattedSecondsPerRep ${S.current.seconds}';
               });
             },
             label: _secondsPerRepSliderLabel,
@@ -469,10 +468,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             max: 10,
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'This will help us calculate duration for a routine',
+            S.current.secondsPerRepHelperText,
             style: Caption1Grey,
           ),
         ),
@@ -485,9 +484,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 32),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Text('More Settings', style: BodyText1w800),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(S.current.moreSettings, style: BodyText1w800),
         ),
 
         /// Main Muscle Group
@@ -496,13 +495,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
-              title: const Text('Main Muscle Group', style: ButtonText),
+              title: Text(S.current.mainMuscleGroup, style: ButtonText),
               subtitle: Text(
                 (workout.mainMuscleGroup.length == 1)
                     ? '${workout.mainMuscleGroup[0]}'
                     : (workout.mainMuscleGroup.length == 2)
                         ? '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}'
-                        : '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}, etc.',
+                        : '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}, ${S.current.etc}.',
                 style: BodyText2Grey,
               ),
               trailing: const Icon(
@@ -527,13 +526,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: const Text('Equipment Required', style: ButtonText),
+          title: Text(S.current.equipmentRequired, style: ButtonText),
           subtitle: Text(
             (workout.equipmentRequired.length == 1)
                 ? '${workout.equipmentRequired[0]}'
                 : (workout.equipmentRequired.length == 2)
                     ? '${workout.equipmentRequired[0]}, ${workout.equipmentRequired[1]}'
-                    : '${workout.equipmentRequired[0]}, ${workout.equipmentRequired[1]}, etc.',
+                    : '${workout.equipmentRequired[0]}, ${workout.equipmentRequired[1]}, ${S.current.etc}.',
             style: BodyText2Grey,
           ),
           trailing: const Icon(
@@ -553,14 +552,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<bool> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context: context,
-      message: const Text(
-        'Are you sure? You can\'t undo this process',
+      message: Text(
+        S.current.deleteWorkoutWarningMessage,
         textAlign: TextAlign.center,
       ),
-      firstActionText: 'Delete Workout',
+      firstActionText: S.current.deleteWorkoutButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.workout),
-      cancelText: 'Cancel',
+      cancelText: S.current.cancel,
       isCancelDefault: true,
     );
   }
@@ -579,9 +578,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             (node) {
               return GestureDetector(
                 onTap: () => node.unfocus(),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('DONE', style: ButtonText),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }
@@ -594,9 +593,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             (node) {
               return GestureDetector(
                 onTap: () => node.unfocus(),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('DONE', style: ButtonText),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
                 ),
               );
             }

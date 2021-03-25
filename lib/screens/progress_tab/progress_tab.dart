@@ -11,7 +11,7 @@ import '../../constants.dart';
 import '../../dummy_data.dart';
 import '../../format.dart';
 // import 'weights_history/weights_history_chart_widget.dart';
-import 'weights_lifted/weights_lifted_chart_widget.dart';
+import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 
 class ProgressTab extends StatelessWidget {

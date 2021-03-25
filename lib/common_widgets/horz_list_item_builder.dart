@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
@@ -37,8 +38,8 @@ class HoriListItemBuilder<T> extends StatelessWidget {
       }
     } else if (snapshot.hasError) {
       print(snapshot.error);
-      return const EmptyContent(
-        message: 'Something went wrong',
+      return EmptyContent(
+        message: S.current.somethingWentWrong,
       );
     }
     return Center(child: CircularProgressIndicator());

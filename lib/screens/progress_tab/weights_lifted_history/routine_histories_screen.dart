@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
@@ -39,7 +40,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
-        title: const Text('Workout History', style: Subtitle2),
+        title: Text(S.current.routineHistoryTitle, style: Subtitle2),
         centerTitle: true,
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
@@ -58,13 +59,13 @@ class RoutineHistoriesScreen extends StatelessWidget {
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContentWidget(
           imageUrl: 'assets/images/routine_history_empty_bg.png',
-          bodyText: 'Use your own routines to Workout, and save your progress!',
+          bodyText: S.current.routineHistoyEmptyMessage,
           onPressed: () => StartWorkoutShortcutScreen.show(context),
         ),
         header: SizedBox(height: 16),
         footer: const SizedBox(height: 16),
         onError: (error) => EmptyContent(
-          message: 'Something went wrong: $error',
+          message: '${S.current.somethingWentWrong} $error',
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {

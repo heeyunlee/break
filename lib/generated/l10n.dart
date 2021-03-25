@@ -185,31 +185,41 @@ class S {
     );
   }
 
-  /// `Continue With Google`
+  /// `Continue with Google`
   String get continueWithGoogle {
     return Intl.message(
-      'Continue With Google',
+      'Continue with Google',
       name: 'continueWithGoogle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Continue With Facebook`
+  /// `Continue with Facebook`
   String get continueWithFacebook {
     return Intl.message(
-      'Continue With Facebook',
+      'Continue with Facebook',
       name: 'continueWithFacebook',
       desc: '',
       args: [],
     );
   }
 
-  /// `Continue With Apple`
+  /// `Continue with Apple`
   String get continueWithApple {
     return Intl.message(
-      'Continue With Apple',
+      'Continue with Apple',
       name: 'continueWithApple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with Kakao`
+  String get continueWithKakao {
+    return Intl.message(
+      'Login with Kakao',
+      name: 'continueWithKakao',
       desc: '',
       args: [],
     );
@@ -936,10 +946,10 @@ class S {
   }
 
   /// `Are you sure? You can't undo this process`
-  String get deleteRoutineMessage {
+  String get deleteRoutineWarningMessage {
     return Intl.message(
       'Are you sure? You can\'t undo this process',
-      name: 'deleteRoutineMessage',
+      name: 'deleteRoutineWarningMessage',
       desc: '',
       args: [],
     );
@@ -1245,10 +1255,10 @@ class S {
     );
   }
 
-  /// `Give routine a name!`
+  /// `Give workout a name!`
   String get workoutTitleAlertContent {
     return Intl.message(
-      'Give routine a name!',
+      'Give workout a name!',
       name: 'workoutTitleAlertContent',
       desc: '',
       args: [],
@@ -1300,6 +1310,226 @@ class S {
     return Intl.message(
       'Created a new workout!',
       name: 'createNewWorkoutSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custom Workout Name`
+  String get workoutHintText {
+    return Intl.message(
+      'Custom Workout Name',
+      name: 'workoutHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout Difficulty`
+  String get workoutDifficultySliderText {
+    return Intl.message(
+      'Workout Difficulty',
+      name: 'workoutDifficultySliderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seconds per rep`
+  String get secondsPerRep {
+    return Intl.message(
+      'Seconds per rep',
+      name: 'secondsPerRep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This will help us calculate duration for a routine`
+  String get secondsPerRepHelperText {
+    return Intl.message(
+      'This will help us calculate duration for a routine',
+      name: 'secondsPerRepHelperText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add workout to the routine`
+  String get addWorkoutToRoutineButtonText {
+    return Intl.message(
+      'Add workout to the routine',
+      name: 'addWorkoutToRoutineButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Succfessfully Deleted a Workout!`
+  String get deleteWorkoutSnackbar {
+    return Intl.message(
+      'Succfessfully Deleted a Workout!',
+      name: 'deleteWorkoutSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated a Workout Info!`
+  String get updateWorkoutSnackbar {
+    return Intl.message(
+      'Updated a Workout Info!',
+      name: 'updateWorkoutSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Workout`
+  String get editWorkoutTitle {
+    return Intl.message(
+      'Edit Workout',
+      name: 'editWorkoutTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public Workout`
+  String get publicWorkout {
+    return Intl.message(
+      'Public Workout',
+      name: 'publicWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make your workout either just for yourself or sharable with other users`
+  String get publicWorkoutDescription {
+    return Intl.message(
+      'Make your workout either just for yourself or sharable with other users',
+      name: 'publicWorkoutDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure? You cannot undo this process`
+  String get deleteWorkoutWarningMessage {
+    return Intl.message(
+      'Are you sure? You cannot undo this process',
+      name: 'deleteWorkoutWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Workout`
+  String get deleteWorkoutButtonText {
+    return Intl.message(
+      'Delete Workout',
+      name: 'deleteWorkoutButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add workout to your routine`
+  String get addWorkoutToRoutine {
+    return Intl.message(
+      'Add workout to your routine',
+      name: 'addWorkoutToRoutine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't created routines yet`
+  String get emptyRoutineMessage {
+    return Intl.message(
+      'You haven\'t created routines yet',
+      name: 'emptyRoutineMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifted Weights`
+  String get liftedWeights {
+    return Intl.message(
+      'Lifted Weights',
+      name: 'liftedWeights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing's here...`
+  String get homeTabEmptyMessage {
+    return Intl.message(
+      'Nothing\'s here...',
+      name: 'homeTabEmptyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start working out now and see your progress!`
+  String get weightsChartMessage {
+    return Intl.message(
+      'Start working out now and see your progress!',
+      name: 'weightsChartMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SET DAILY GOAL`
+  String get setWeightsDailyGoal {
+    return Intl.message(
+      'SET DAILY GOAL',
+      name: 'setWeightsDailyGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Protein`
+  String get addProteinButtonText {
+    return Intl.message(
+      'Add Protein',
+      name: 'addProteinButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Workout`
+  String get startWorkoutButtonText {
+    return Intl.message(
+      'Start Workout',
+      name: 'startWorkoutButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Histories`
+  String get routineHistoryTitle {
+    return Intl.message(
+      'Histories',
+      name: 'routineHistoryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use your own routines to Workout, and save your progress!`
+  String get routineHistoyEmptyMessage {
+    return Intl.message(
+      'Use your own routines to Workout, and save your progress!',
+      name: 'routineHistoyEmptyMessage',
       desc: '',
       args: [],
     );
