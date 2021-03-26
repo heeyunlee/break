@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/library_tab/routine/create_routine/create_new_routine_screen.dart';
-import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 
 import '../../constants.dart';
 import 'announcement_card.dart';
@@ -57,15 +58,15 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
             children: [
               AnnouncementCard(
                 imageUrl: 'assets/images/event_photo_1.png',
-                title: 'CREATE\nYOUR\nOWN\nROUTINE',
-                subtitle: 'Start Now!',
+                title: S.current.announcementCardTitle1,
+                subtitle: S.current.startNow,
                 color: Colors.deepPurpleAccent,
                 onTap: () => CreateNewRoutineScreen.show(context),
               ),
               AnnouncementCard(
                 imageUrl: 'assets/images/event_photo_1.png',
-                title: 'SAVE\nYOUR\nPROGRESS',
-                subtitle: 'Start Now!',
+                title: S.current.announcementCardTitle2,
+                subtitle: S.current.startNow,
                 color: Colors.blueAccent,
                 onTap: () => StartWorkoutShortcutScreen.show(context),
               ),

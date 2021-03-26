@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import '../../common_widgets/appbar_blur_bg.dart';
 import '../../common_widgets/choice_chips_app_bar_widget.dart';
@@ -66,7 +67,7 @@ class _StartWorkoutShortcutScreenState
               pinned: true,
               snap: false,
               centerTitle: true,
-              title: const Text('Choose Routine to Start', style: Subtitle1),
+              title: Text(S.current.chooseRoutineToStart, style: Subtitle1),
               flexibleSpace: const AppbarBlurBG(),
               backgroundColor: Colors.transparent,
               leading: IconButton(
@@ -105,7 +106,9 @@ class _StartWorkoutShortcutScreenState
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(
-            emptyContentTitle: 'No $_selectedChip Routines yet...',
+            emptyContentTitle: S.current.emptyroutinesContentTitle(
+              _selectedChip,
+            ),
             snapshot: snapshot,
             itemBuilder: (context, routine) {
               final trainingLevel = Format.difficulty(routine.trainingLevel);
@@ -121,7 +124,7 @@ class _StartWorkoutShortcutScreenState
                 title: routine.routineTitle,
                 leadingText: '$duration',
                 subtitle: '$trainingLevel, $weights $unit',
-                subtitle2: 'by ${routine.routineOwnerUserName}',
+                subtitle2: routine.routineOwnerUserName,
                 imageUrl: routine.imageUrl,
                 onTap: () => RoutineDetailScreen.show(
                   context,

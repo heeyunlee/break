@@ -12,7 +12,6 @@ import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
 import 'routine_histories_screen.dart';
-import 'set_daily_weights_goal_screen.dart';
 
 class WeightsLiftedChartWidget extends StatefulWidget {
   final Database database;
@@ -59,7 +58,6 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
         );
       });
       _sevenDayHistory = sevenDayHistory.reversed.toList();
-      print(_sevenDayHistory);
     }
 
     /// GETTING LAST & DAYS OF HISTORY

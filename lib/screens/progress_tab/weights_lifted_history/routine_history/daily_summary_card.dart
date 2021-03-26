@@ -22,8 +22,8 @@ class DailySummaryCard extends StatelessWidget {
   final Color cardColor;
   final Timestamp date;
   final String workoutTitle;
-  final double totalWeights;
-  final double caloriesBurnt;
+  final num totalWeights;
+  final num caloriesBurnt;
   final int totalDuration;
   final bool earnedBadges;
   final onTap;
@@ -119,7 +119,7 @@ class _DailySummaryRowWidget extends StatelessWidget {
   }) : super(key: key);
 
   final String formattedWeights;
-  final double caloriesBurnt;
+  final num caloriesBurnt;
   final int totalDuration;
 
   @override

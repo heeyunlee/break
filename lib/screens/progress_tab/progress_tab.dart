@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
 import 'package:workout_player/services/auth.dart';
@@ -128,14 +129,19 @@ class _FlexibleSpace extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        weights,
-                        style: GoogleFonts.blackHanSans(
-                          color: Colors.white,
-                          fontSize: 40,
+                      RichText(
+                        text: TextSpan(
+                          text: weights,
+                          style: GoogleFonts.blackHanSans(
+                            color: Colors.white,
+                            fontSize: 40,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(text: '  $unit', style: BodyText1),
+                          ],
                         ),
                       ),
-                      Text('$unit Lifted', style: BodyText1),
+                      Text(S.current.lifted, style: BodyText1),
                     ],
                   ),
                 ],

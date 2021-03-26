@@ -1534,6 +1534,356 @@ class S {
       args: [],
     );
   }
+
+  /// `Add Proteins`
+  String get addProteins {
+    return Intl.message(
+      'Add Proteins',
+      name: 'addProteins',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Getting your protein is as important as working out!`
+  String get proteinChartContentText {
+    return Intl.message(
+      'Getting your protein is as important as working out!',
+      name: 'proteinChartContentText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted a protein entry`
+  String get deleteProteinSnackbar {
+    return Intl.message(
+      'Deleted a protein entry',
+      name: 'deleteProteinSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Protein Entries`
+  String get proteinEntriesTitle {
+    return Intl.message(
+      'Protein Entries',
+      name: 'proteinEntriesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't recorded any proteins yet!`
+  String get proteinEntriesEmptyMessage {
+    return Intl.message(
+      'You haven\'t recorded any proteins yet!',
+      name: 'proteinEntriesEmptyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted workout history`
+  String get deleteRoutineHistorySnackbar {
+    return Intl.message(
+      'Deleted workout history',
+      name: 'deleteRoutineHistorySnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `workout`
+  String get workout {
+    return Intl.message(
+      'workout',
+      name: 'workout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added a protein entry!`
+  String get addProteinEntrySnackbar {
+    return Intl.message(
+      'Added a protein entry!',
+      name: 'addProteinEntrySnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Meal Type!`
+  String get selectMealTypeAlertTitle {
+    return Intl.message(
+      'Select Meal Type!',
+      name: 'selectMealTypeAlertTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select meal type in order to save`
+  String get selectMeapTypeAlertContent {
+    return Intl.message(
+      'Please select meal type in order to save',
+      name: 'selectMeapTypeAlertContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get time {
+    return Intl.message(
+      'Time',
+      name: 'time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Meal Type`
+  String get mealType {
+    return Intl.message(
+      'Meal Type',
+      name: 'mealType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Before Workout`
+  String get beforeWorkout {
+    return Intl.message(
+      'Before Workout',
+      name: 'beforeWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After Workout`
+  String get afterWorkout {
+    return Intl.message(
+      'After Workout',
+      name: 'afterWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breakfast`
+  String get breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'breakfast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lunch`
+  String get lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'lunch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dinner`
+  String get dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snack`
+  String get snack {
+    return Intl.message(
+      'Snack',
+      name: 'snack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Others`
+  String get others {
+    return Intl.message(
+      'Others',
+      name: 'others',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Routine to Start`
+  String get chooseRoutineToStart {
+    return Intl.message(
+      'Choose Routine to Start',
+      name: 'chooseRoutineToStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No {chip} routines yet...`
+  String emptyroutinesContentTitle(Object chip) {
+    return Intl.message(
+      'No $chip routines yet...',
+      name: 'emptyroutinesContentTitle',
+      desc: '',
+      args: [chip],
+    );
+  }
+
+  /// `Nothing here...`
+  String get emptyContentTitle {
+    return Intl.message(
+      'Nothing here...',
+      name: 'emptyContentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CREATE\nYOUR\nOWN\nROUTINE`
+  String get announcementCardTitle1 {
+    return Intl.message(
+      'CREATE\nYOUR\nOWN\nROUTINE',
+      name: 'announcementCardTitle1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SAVE\nYOUR\nPROGRESS`
+  String get announcementCardTitle2 {
+    return Intl.message(
+      'SAVE\nYOUR\nPROGRESS',
+      name: 'announcementCardTitle2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barbell`
+  String get barbell {
+    return Intl.message(
+      'Barbell',
+      name: 'barbell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bench`
+  String get bench {
+    return Intl.message(
+      'Bench',
+      name: 'bench',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cable`
+  String get cable {
+    return Intl.message(
+      'Cable',
+      name: 'cable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chains`
+  String get chains {
+    return Intl.message(
+      'Chains',
+      name: 'chains',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `dumbbell`
+  String get dumbbell {
+    return Intl.message(
+      'dumbbell',
+      name: 'dumbbell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `EZ Bar`
+  String get eZBar {
+    return Intl.message(
+      'EZ Bar',
+      name: 'eZBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gym Ball`
+  String get gymBall {
+    return Intl.message(
+      'Gym Ball',
+      name: 'gymBall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kettlebell`
+  String get kettlebell {
+    return Intl.message(
+      'Kettlebell',
+      name: 'kettlebell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Machine`
+  String get machine {
+    return Intl.message(
+      'Machine',
+      name: 'machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get other {
+    return Intl.message(
+      'Other',
+      name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

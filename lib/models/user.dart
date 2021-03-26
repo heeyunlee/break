@@ -50,9 +50,7 @@ class User {
     final totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
     final unitOfMass = data['unitOfMass'];
     final lastLoginDate = data['lastLoginDate'];
-    // ignore: omit_local_variable_types
     List<DailyWorkoutHistory> dailyWorkoutHistories = <DailyWorkoutHistory>[];
-    // ignore: omit_local_variable_types
     List<DailyNutritionHistory> dailyNutritionHistories =
         <DailyNutritionHistory>[];
     final dailyWeightsGoal = data['dailyWeightsGoal'];

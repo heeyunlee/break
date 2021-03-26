@@ -144,12 +144,12 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       );
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // TODO: Add SnackBar
+      // TODO: ADD SNACKBAR HERE
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -167,7 +167,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -185,7 +185,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -285,7 +285,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                       children: [
                         Chip(
                           label: Text(
-                            '$mainMuscleGroup Workout',
+                            '$mainMuscleGroup ${S.current.workout}',
                             style: ButtonText,
                           ),
                           backgroundColor: PrimaryColor,
@@ -367,7 +367,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                             routineWorkout.totalWeights == 0)
                         ? '$sets ${S.current.sets}  •  ${S.current.bodyweight}'
                         : (routineWorkout.isBodyWeightWorkout)
-                            ? '$sets ${S.current.sets}  •  Bodyweight + $weights $unit'
+                            ? '$sets ${S.current.sets}  •  ${S.current.bodyweight} + $weights $unit'
                             : '$sets ${S.current.sets}  • $weights $unit';
 
                     return ActivityListTile(

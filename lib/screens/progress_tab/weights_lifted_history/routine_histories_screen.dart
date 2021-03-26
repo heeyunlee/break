@@ -8,7 +8,7 @@ import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';

@@ -9,6 +9,7 @@ import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
@@ -52,6 +53,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   int _decimalValue = 0;
   double _proteinAmount;
   final List<String> _meals = Meal.values[0].list;
+  final List<String> _mealsTranslated = Meal.values[0].translatedList;
   int _selectedIndex;
   String _mealType;
   String _notes;
@@ -76,10 +78,9 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
 
   // Submit data to Firestore
   Future<void> _submit() async {
-    debugPrint('submit Button Pressed!');
-
-    try {
-      if (_mealType != null) {
+    if (_mealType != null) {
+      debugPrint('submit Button Pressed!');
+      try {
         // Create new Nutrition Data
         final id = 'NUT${documentIdFromCurrentDate()}';
         final now = Timestamp.now();
@@ -110,8 +111,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
           nutritions.add(newNutrition);
         } else {
           // Update nutrition data if exists
-          // final index = widget.user.dailyNutritionHistories
-          //     .indexWhere((element) => element.date.toUtc() == today);
           final oldNutrition = nutritions[index];
 
           final newNutrition = DailyNutritionHistory(
@@ -131,33 +130,35 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         Navigator.of(context).pop();
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Added a protein entry!'),
+          content: Text(S.current.addProteinEntrySnackbar),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
 
         print(nutrition.toMap());
         print(nutrition.nutritionId);
-      } else {
-        await showAlertDialog(
+      } on FirebaseException catch (e) {
+        logger.d(e);
+        await showExceptionAlertDialog(
           context,
-          title: 'Select Meal Type!',
-          content: 'Please select meal type in order to save',
-          defaultActionText: 'OK',
+          title: S.current.operationFailed,
+          exception: e.toString(),
         );
       }
-    } on FirebaseException catch (e) {
-      logger.d(e);
-      await showExceptionAlertDialog(
+    } else {
+      await showAlertDialog(
         context,
-        title: 'Operation Failed',
-        exception: e.toString(),
+        title: S.current.selectMealTypeAlertTitle,
+        content: S.current.selectMeapTypeAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
@@ -165,19 +166,21 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close_rounded, color: Colors.white),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => _submit(),
-            child: const Text('SUBMIT', style: ButtonText),
-          ),
-          const SizedBox(width: 8),
-        ],
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: const Text('Add Protein', style: Subtitle2),
+        title: Text(S.current.addProteins, style: Subtitle2),
         centerTitle: true,
       ),
       body: _buildBody(),
+      floatingActionButton: Container(
+        width: size.width - 32,
+        child: FloatingActionButton.extended(
+          onPressed: _submit,
+          backgroundColor: PrimaryColor,
+          heroTag: 'addProteinButton',
+          label: Text(S.current.submit),
+        ),
+      ),
     );
   }
 
@@ -199,8 +202,9 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text('Time', style: BodyText1w800),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(S.current.time, style: BodyText1w800),
               ),
               Card(
                 color: CardColor,
@@ -220,9 +224,12 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text('Amount', style: BodyText1w800),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Text(S.current.amount, style: BodyText1w800),
               ),
               Card(
                 color: CardColor,
@@ -273,15 +280,21 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text('Type', style: BodyText1w800),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Text(S.current.mealType, style: BodyText1w800),
               ),
               _buildType(),
               const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text('Notes', style: BodyText1w800),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Text(S.current.notes, style: BodyText1w800),
               ),
               Card(
                 color: CardColor,
@@ -297,8 +310,8 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                     controller: _textController1,
                     style: BodyText2,
                     focusNode: focusNode1,
-                    decoration: const InputDecoration(
-                      hintText: 'Add Notes!',
+                    decoration: InputDecoration(
+                      hintText: S.current.addNotes,
                       hintStyle: BodyText2Grey,
                       border: InputBorder.none,
                     ),
@@ -310,6 +323,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 64),
             ],
           ),
         ),
@@ -330,7 +344,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               width: 1),
         ),
         padding: EdgeInsets.symmetric(horizontal: 8),
-        label: Text(_meals[i], style: ButtonText),
+        label: Text(_mealsTranslated[i], style: ButtonText),
         selected: _selectedIndex == i,
         selectedShadowColor: PrimaryColor,
         backgroundColor: BackgroundColor,

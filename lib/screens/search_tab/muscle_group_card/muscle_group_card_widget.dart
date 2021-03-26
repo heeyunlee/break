@@ -5,11 +5,13 @@ import '../../../constants.dart';
 class MuscleGroupCardWidget extends StatelessWidget {
   final String text;
   final Function onTap;
+  final Color color;
 
   const MuscleGroupCardWidget({
     Key key,
     @required this.text,
     this.onTap,
+    this.color = PrimaryColor,
   }) : super(key: key);
 
   @override
@@ -27,10 +29,10 @@ class MuscleGroupCardWidget extends StatelessWidget {
         color: CardColor,
         child: ClipPath(
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: PrimaryColor, width: 2),
-                bottom: BorderSide(color: PrimaryColor, width: 2),
+                right: BorderSide(color: color, width: 2),
+                bottom: BorderSide(color: color, width: 2),
               ),
             ),
             child: Center(

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+// import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -14,7 +14,7 @@ abstract class AuthBase {
   Future<auth.User> signInWithGoogle();
   Future<auth.User> signInWithFacebook();
   Future<auth.User> signInWithApple();
-  Future<auth.User> signInWithKakao();
+  // Future<auth.User> signInWithKakao();
 
   Future<void> signOut();
 }
@@ -181,26 +181,23 @@ class AuthService implements AuthBase {
     }
   }
 
-  /// SIGN IN WITH Kakao
-  @override
-  Future<auth.User> signInWithKakao() async {
-    print(1);
-    final kakaoSignIn = FlutterKakaoLogin();
-    print(2);
-    await kakaoSignIn.init('c17f0f1bc6e039d488fb5264fdf93a10');
-    print(3);
-    final kakaoLoginResult = await kakaoSignIn.logIn();
-
-    print(kakaoLoginResult.status);
-    if (kakaoLoginResult.token != null) {
-      print(kakaoLoginResult.hashCode);
-      // await kakaoSignIn.unlink();
-      // final s = token.account;
-      // final oAuthProvider = auth.OAuthProvider('kakao.com');
-      // print(oAuthProvider);
-    }
-    return null;
-  }
+  // /// SIGN IN WITH Kakao
+  // @override
+  // Future<auth.User> signInWithKakao() async {
+  //   // ignore: omit_local_variable_types
+  //   final FlutterKakaoLogin kakaoSignIn = FlutterKakaoLogin();
+  //   await kakaoSignIn.init('c17f0f1bc6e039d488fb5264fdf93a10');
+  //   final result = await kakaoSignIn.logIn();
+  //   final token = await (kakaoSignIn.currentToken);
+  //   final accessToken = token.accessToken;
+  //   print(accessToken);
+  //   // print('sd');
+  //   // final oAuthProvider = auth.OAuthProvider('kakao.com');
+  //   // final credential = oAuthProvider.credential(
+  //   //   accessToken: result.token.accessToken,
+  //   // );
+  //   // print(credential);
+  // }
 
   // Sign Out
   @override

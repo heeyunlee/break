@@ -47,7 +47,16 @@ dependencies:
   confetti: ^0.6.0-nullsafety
   flutter_speed_dial: ^3.0.5
   numberpicker: ^2.0.1
-  flutter_kakao_login: ^3.1.0 # no web
+  # flutter_kakao_login: ^3.1.0 # no web
+  shimmer: ^2.0.0-nullsafety.0
+  # dio: ^3.0.9
+  # json_serializable: ^3.3.0
+  # shared_preferences: ^2.0.3
+  # kakao_flutter_sdk: ^0.6.0-beta.2 # no null safety
+  # dio: ^4.0.0-beta6
+  # json_serializable: ^4.0.0
+  # shared_preferences: ^2.0.5
+  flutter_kakao_login: ^3.1.0
 dev_dependencies:
   flutter_launcher_icons: ^0.9.0
   flutter_test:

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/protein/add_protein_screen.dart';
-import 'package:workout_player/screens/search_tab/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/speed_dial_screens/add_protein_screen.dart';
+import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 
 import '../constants.dart';
 
@@ -20,7 +20,7 @@ class SpeedDialFAB extends StatelessWidget {
           labelWidget: Text(S.current.addProteinButtonText, style: ButtonText),
           backgroundColor: Primary600Color,
           onTap: () => AddProteinScreen.show(context),
-          child: const Icon(Icons.set_meal_rounded, color: Colors.white),
+          child: const Icon(Icons.restaurant_menu_rounded, color: Colors.white),
         ),
         SpeedDialChild(
           labelWidget: Text(

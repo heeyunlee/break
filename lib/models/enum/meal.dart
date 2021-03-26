@@ -1,3 +1,5 @@
+import 'package:workout_player/generated/l10n.dart';
+
 enum Meal {
   BeforeWorkout,
   AfterWorkout,
@@ -8,7 +10,7 @@ enum Meal {
   Supplement
 }
 
-extension MealExtension on Meal {
+extension MealLabelExtension on Meal {
   String get label {
     switch (this) {
       case Meal.BeforeWorkout:
@@ -29,12 +31,49 @@ extension MealExtension on Meal {
         return null;
     }
   }
+}
 
+extension MealListExtension on Meal {
   List<String> get list {
     // ignore: omit_local_variable_types
     final List<String> _mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].label;
+      _mealsList.add(value);
+    }
+    return _mealsList;
+  }
+}
+
+extension MealTranslationExtension on Meal {
+  String get translation {
+    switch (this) {
+      case Meal.BeforeWorkout:
+        return S.current.beforeWorkout;
+      case Meal.AfterWorkout:
+        return S.current.afterWorkout;
+      case Meal.Breakfast:
+        return S.current.breakfast;
+      case Meal.Lunch:
+        return S.current.lunch;
+      case Meal.Dinner:
+        return S.current.dinner;
+      case Meal.Snack:
+        return S.current.snack;
+      case Meal.Supplement:
+        return S.current.others;
+      default:
+        return null;
+    }
+  }
+}
+
+extension MealTranslatedList on Meal {
+  List<String> get translatedList {
+    // ignore: omit_local_variable_types
+    final List<String> _mealsList = [];
+    for (var i = 0; i < Meal.values.length; i++) {
+      final value = Meal.values[i].translation;
       _mealsList.add(value);
     }
     return _mealsList;

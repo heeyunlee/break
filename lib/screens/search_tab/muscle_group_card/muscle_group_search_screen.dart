@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
@@ -65,13 +66,13 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                 title: Text(isEqualTo ?? arrayContains, style: Subtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
-                bottom: const TabBar(
+                bottom: TabBar(
                   labelColor: Colors.white,
                   unselectedLabelColor: Grey400,
                   indicatorColor: PrimaryColor,
                   tabs: [
-                    Tab(text: 'Workouts'),
-                    Tab(text: 'Routines'),
+                    Tab(text: S.current.workouts),
+                    Tab(text: S.current.routines),
                   ],
                 ),
               ),
@@ -96,13 +97,13 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       itemsPerPage: 10,
       query: database.workoutsSearchQuery(searchCategory, arrayContains),
       itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: const EmptyContent(
-        message: 'Nothing...',
+      emptyDisplay: EmptyContent(
+        message: S.current.emptyContentTitle,
       ),
       header: const SizedBox(height: 8),
       footer: const SizedBox(height: 8),
       onError: (error) => EmptyContent(
-        message: 'Something went wrong: $error',
+        message: '${S.current.somethingWentWrong}: $error',
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
@@ -115,7 +116,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
           isLeadingDuration: false,
           title: workout.workoutTitle,
           leadingText: '${workout.equipmentRequired[0]}',
-          subtitle: 'Created by ${workout.workoutOwnerUserName}',
+          subtitle: workout.workoutOwnerUserName,
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
             context,
@@ -137,13 +138,13 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       itemsPerPage: 10,
       query: database.routinesSearchQuery(searchCategory, arrayContains),
       itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: const EmptyContent(
-        message: 'Nothing...',
+      emptyDisplay: EmptyContent(
+        message: S.current.emptyContentTitle,
       ),
       header: const SizedBox(height: 8),
       footer: const SizedBox(height: 8),
       onError: (error) => EmptyContent(
-        message: 'Something went wrong: $error',
+        message: '${S.current.somethingWentWrong}: $error',
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {

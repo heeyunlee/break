@@ -179,10 +179,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       color: Colors.grey,
                     ),
                     onTap: () {
+                      // TODO: Update Version Number
                       showAboutDialog(
                         context: context,
                         applicationName: S.current.applicationName,
-                        applicationVersion: '0.1.3+2',
+                        applicationVersion: '0.1.3+5',
                         applicationIcon: Container(
                           decoration: BoxDecoration(
                             color: Colors.black,

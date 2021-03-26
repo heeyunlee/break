@@ -10,6 +10,7 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
@@ -70,7 +71,7 @@ class ProteinEntriesScreen extends StatelessWidget {
 
       // Snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Deleted a protein entry'),
+        content: Text(S.current.deleteProteinSnackbar),
         duration: Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ));
@@ -78,7 +79,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -91,7 +92,7 @@ class ProteinEntriesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
-        title: const Text('Protein Entries', style: Subtitle2),
+        title: Text(S.current.proteinEntriesTitle, style: Subtitle2),
         centerTitle: true,
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
@@ -109,12 +110,12 @@ class ProteinEntriesScreen extends StatelessWidget {
         query: database.nutritionsPaginatedUserQuery(),
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContent(
-          message: 'Haven\'t recorded any proteins yet!',
+          message: S.current.proteinEntriesEmptyMessage,
         ),
         header: SizedBox(height: 16),
         footer: const SizedBox(height: 16),
         onError: (error) => EmptyContent(
-          message: 'Something went wrong: $error',
+          message: '${S.current.somethingWentWrong}: $error',
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
@@ -127,7 +128,7 @@ class ProteinEntriesScreen extends StatelessWidget {
             actionPane: const SlidableDrawerActionPane(),
             secondaryActions: [
               IconSlideAction(
-                caption: 'Delete',
+                caption: S.current.delete,
                 color: Colors.red,
                 icon: Icons.delete_rounded,
                 onTap: () => _delete(context, nutrition),
