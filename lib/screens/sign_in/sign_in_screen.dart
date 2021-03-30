@@ -340,7 +340,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           height: 120,
                         ),
                         const SizedBox(height: 24),
-                        const Text('All About That Health', style: Headline5),
+                        // const Text('All About That Health', style: Headline5),
                       ],
                     ),
             ),
@@ -360,7 +360,7 @@ class _SignInScreenState extends State<SignInScreen> {
           SocialSignInButton(
             color: const Color(0xff1877F2),
             disabledColor: Color(0xff1877F2).withOpacity(0.38),
-            textColor: Colors.black,
+            textColor: Colors.white,
             onPressed:
                 widget.isLoading ? null : () => _signInWithFacebook(context),
             logo: 'assets/logos/facebook_logo.png',

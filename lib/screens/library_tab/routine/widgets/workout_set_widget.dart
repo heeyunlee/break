@@ -170,7 +170,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         print('workoutSets is ${workoutSets.runtimeType}');
         final set = widget.set;
 
-        final workoutWeights = double.parse(_weights);
+        final workoutWeights = num.parse(_weights);
         print('workoutWeights is ${workoutWeights.runtimeType}');
 
         /// Update Workout Set
@@ -181,7 +181,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           setTitle: set.setTitle,
           restTime: int.parse(_restTime),
           reps: int.parse(_reps),
-          weights: double.parse(_weights),
+          weights: num.parse(_weights),
         );
 
         workoutSets[widget.index] = newSet;
@@ -206,7 +206,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
         // Total Weights
         // ignore: omit_local_variable_types
-        double totalWeights = 0;
+        num totalWeights = 0;
         print('totalWeights is ${totalWeights.runtimeType}');
 
         var totalWeightsCalculated = false;
@@ -214,12 +214,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         if (!totalWeightsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
             // ignore: omit_local_variable_types
-            double weights = workoutSets[i].weights * workoutSets[i].reps;
+            num weights = workoutSets[i].weights * workoutSets[i].reps;
             totalWeights = totalWeights + weights;
           }
           totalWeightsCalculated = true;
         }
-        print('totalWeights is ${totalWeights.runtimeType}');
 
         // Duration
         // ignore: omit_local_variable_types
@@ -304,10 +303,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   Widget _buildRow(WorkoutSet set, AuthBase auth) {
     final title = set?.setTitle;
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
-    // ignore: omit_local_variable_types
     final weights = widget.set.weights;
     final formattedWeights = '${Format.weights(weights)} $unit';
-    final reps = '${widget.set.reps} x';
+    final reps = '${widget.set.reps} ${S.current.x}';
     final restTime = '${widget.set.restTime} ${S.current.seconds}';
 
     return Form(
@@ -398,7 +396,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   child: Container(
                     height: 36,
                     width: 80,
-                    padding: const EdgeInsets.symmetric(horizontal: 23),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     alignment: Alignment.center,
                     color: PrimaryColor,
                     child: (!repsTabbed)
@@ -411,9 +409,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             focusNode: focusNode2,
                             keyboardType: TextInputType.number,
                             maxLength: 2,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
-                              suffixText: 'x',
+                              suffixText: S.current.x,
                               suffixStyle: BodyText1,
                               counterText: '',
                             ),

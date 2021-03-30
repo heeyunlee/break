@@ -8,18 +8,15 @@ import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
 import 'routine_histories_screen.dart';
 
 class WeightsLiftedChartWidget extends StatefulWidget {
-  final Database database;
   final User user;
 
   const WeightsLiftedChartWidget({
     Key key,
-    this.database,
     this.user,
   }) : super(key: key);
 
@@ -41,14 +38,13 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   List<double> relativeNumber = [];
 
   void setSevenDaysHistory() {
-    /// GETTING LAST & DAYS OF HISTORY
+    // GETTING LAST 7 DAYS OF HISTORY
     _historiesFromFirebase = widget.user.dailyWorkoutHistories;
 
     if (_historiesFromFirebase.isNotEmpty) {
       var sevenDayHistory = List<DailyWorkoutHistory>.generate(7, (index) {
         var matchingHistory = _historiesFromFirebase
             .where((element) => element.date.toUtc() == _dates[index]);
-        // ignore: omit_local_variable_types
         double weights =
             (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalWeights;
 
@@ -59,12 +55,10 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
       });
       _sevenDayHistory = sevenDayHistory.reversed.toList();
     }
-
-    /// GETTING LAST & DAYS OF HISTORY
   }
 
   void setMaxY() {
-    ///   SET MAX Y
+    //   SET MAX Y
     if (widget.user.dailyWorkoutHistories.isEmpty) {
       maxY = 20000;
     } else {
@@ -121,190 +115,84 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           borderRadius: BorderRadius.circular(10),
         ),
         color: CardColor,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => RoutineHistoriesScreen.show(context),
-                    child: Wrap(
-                      children: [
-                        SizedBox(
-                          height: 48,
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.fitness_center_rounded,
-                                color: PrimaryColor,
-                                size: 16,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                S.current.liftedWeights,
-                                style: Subtitle1w900Primary,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                ),
-                                child: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: PrimaryColor,
-                                  size: 16,
-                                ),
-                              ),
-                              const Spacer(),
-                              // if (widget.user.dailyWeightsGoal == null)
-                              //   TextButton(
-                              //     style: TextButton.styleFrom(
-                              //       padding: EdgeInsets.zero,
-                              //     ),
-                              //     onPressed: () =>
-                              //         SetDailyWeightsGoalScreen.show(context),
-                              //     child: Row(
-                              //       children: [
-                              //         Text(
-                              //           S.current.setWeightsDailyGoal,
-                              //           style: ButtonText2,
-                              //         ),
-                              //         const SizedBox(width: 4),
-                              //         const Icon(
-                              //           Icons.add_rounded,
-                              //           color: Colors.white,
-                              //           size: 16,
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => RoutineHistoriesScreen.show(context),
+                child: Wrap(
+                  children: [
+                    SizedBox(
+                      height: 48,
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.fitness_center_rounded,
+                            color: PrimaryColor,
+                            size: 16,
                           ),
-                        ),
-                        if (widget.user.dailyWorkoutHistories.isEmpty)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Text(
-                              S.current.weightsChartMessage,
-                              style: BodyText2,
+                          const SizedBox(width: 8),
+                          Text(
+                            S.current.liftedWeights,
+                            style: Subtitle1w900Primary,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: PrimaryColor,
+                              size: 16,
                             ),
                           ),
-                      ],
-                    ),
-                  ),
-                  if (widget.user.dailyWorkoutHistories.isEmpty)
-                    const Divider(color: Grey700),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: AspectRatio(
-                      aspectRatio: 1.5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: BarChart(
-                          BarChartData(
-                            maxY: 10,
-                            barTouchData: BarTouchData(
-                              touchTooltipData: BarTouchTooltipData(
-                                getTooltipItem:
-                                    (group, groupIndex, rod, rodIndex) {
-                                  final weights =
-                                      (rod.y / 1.05 / 10 * maxY).round();
-                                  final formattedWeights =
-                                      Format.weights(weights);
-                                  final unit =
-                                      Format.unitOfMass(widget.user.unitOfMass);
-
-                                  return BarTooltipItem(
-                                    '$formattedWeights $unit',
-                                    BodyText1Black,
-                                  );
-                                },
-                              ),
-                              touchCallback: (barTouchResponse) {
-                                setState(() {
-                                  if (barTouchResponse.spot != null &&
-                                      barTouchResponse.touchInput
-                                          is! PointerUpEvent &&
-                                      barTouchResponse.touchInput
-                                          is! PointerExitEvent) {
-                                    touchedIndex = barTouchResponse
-                                        .spot.touchedBarGroupIndex;
-                                  } else {
-                                    touchedIndex = -1;
-                                  }
-                                });
-                              },
-                            ),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              bottomTitles: SideTitles(
-                                showTitles: true,
-                                getTextStyles: (value) => BodyText2,
-                                margin: 16,
-                                getTitles: (double value) {
-                                  switch (value.toInt()) {
-                                    case 0:
-                                      return '${_daysOfTheWeek[6]}';
-                                    case 1:
-                                      return '${_daysOfTheWeek[5]}';
-                                    case 2:
-                                      return '${_daysOfTheWeek[4]}';
-                                    case 3:
-                                      return '${_daysOfTheWeek[3]}';
-                                    case 4:
-                                      return '${_daysOfTheWeek[2]}';
-                                    case 5:
-                                      return '${_daysOfTheWeek[1]}';
-                                    case 6:
-                                      return '${_daysOfTheWeek[0]}';
-                                    default:
-                                      return '';
-                                  }
-                                },
-                              ),
-                              leftTitles: SideTitles(
-                                showTitles: true,
-                                margin: 28,
-                                getTextStyles: (valie) => Caption1Grey,
-                                getTitles: (double value) {
-                                  final toOriginalNumber =
-                                      (value / 10 * maxY).round();
-                                  final formatted = NumberFormat.compact()
-                                      .format(toOriginalNumber);
-                                  final unit = UnitOfMass
-                                      .values[widget.user.unitOfMass].label;
-
-                                  switch (value.toInt()) {
-                                    case 0:
-                                      return '0 $unit';
-                                    case 5:
-                                      return '$formatted $unit';
-                                    case 10:
-                                      return '$formatted $unit';
-                                    default:
-                                      return '';
-                                  }
-                                },
-                              ),
-                            ),
-                            borderData: FlBorderData(show: false),
-                            barGroups:
-                                (widget.user.dailyWorkoutHistories.isNotEmpty)
-                                    ? _barGroupsChild(widget.user)
-                                    : randomData(),
-                          ),
-                        ),
+                          const Spacer(),
+                          // if (widget.user.dailyWeightsGoal == null)
+                          //   TextButton(
+                          //     style: TextButton.styleFrom(
+                          //       padding: EdgeInsets.zero,
+                          //     ),
+                          //     onPressed: () =>
+                          //         SetDailyWeightsGoalScreen.show(context),
+                          //     child: Row(
+                          //       children: [
+                          //         Text(
+                          //           S.current.setWeightsDailyGoal,
+                          //           style: ButtonText2,
+                          //         ),
+                          //         const SizedBox(width: 4),
+                          //         const Icon(
+                          //           Icons.add_rounded,
+                          //           color: Colors.white,
+                          //           size: 16,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    if (widget.user.dailyWorkoutHistories.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          S.current.weightsChartMessage,
+                          style: BodyText2,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              if (widget.user.dailyWorkoutHistories.isEmpty)
+                const Divider(color: Grey700),
+              const SizedBox(height: 16),
+              _buildChart(),
+            ],
+          ),
         ),
       ),
     );
@@ -334,7 +222,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   }
 
   // TODO: Make this better
-  List<BarChartGroupData> _barGroupsChild(User user) {
+  List<BarChartGroupData> _barGroupsChild() {
     return [
       _makeBarChartGroupData(
         x: 0,
@@ -412,5 +300,98 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
         isTouched: touchedIndex == 6,
       ),
     ];
+  }
+
+  Widget _buildChart() {
+    return AspectRatio(
+      aspectRatio: 1.5,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24, right: 8),
+        child: BarChart(
+          BarChartData(
+            maxY: 10,
+            barTouchData: BarTouchData(
+              touchTooltipData: BarTouchTooltipData(
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  final weights = (rod.y / 1.05 / 10 * maxY).round();
+                  final formattedWeights = Format.weights(weights);
+                  final unit = Format.unitOfMass(widget.user.unitOfMass);
+
+                  return BarTooltipItem(
+                    '$formattedWeights $unit',
+                    BodyText1Black,
+                  );
+                },
+              ),
+              touchCallback: (barTouchResponse) {
+                setState(() {
+                  if (barTouchResponse.spot != null &&
+                      barTouchResponse.touchInput is! PointerUpEvent &&
+                      barTouchResponse.touchInput is! PointerExitEvent) {
+                    touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+                  } else {
+                    touchedIndex = -1;
+                  }
+                });
+              },
+            ),
+            titlesData: FlTitlesData(
+              show: true,
+              bottomTitles: SideTitles(
+                showTitles: true,
+                getTextStyles: (value) => BodyText2,
+                margin: 16,
+                getTitles: (double value) {
+                  switch (value.toInt()) {
+                    case 0:
+                      return '${_daysOfTheWeek[6]}';
+                    case 1:
+                      return '${_daysOfTheWeek[5]}';
+                    case 2:
+                      return '${_daysOfTheWeek[4]}';
+                    case 3:
+                      return '${_daysOfTheWeek[3]}';
+                    case 4:
+                      return '${_daysOfTheWeek[2]}';
+                    case 5:
+                      return '${_daysOfTheWeek[1]}';
+                    case 6:
+                      return '${_daysOfTheWeek[0]}';
+                    default:
+                      return '';
+                  }
+                },
+              ),
+              leftTitles: SideTitles(
+                showTitles: true,
+                margin: 28,
+                getTextStyles: (valie) => Caption1Grey,
+                getTitles: (double value) {
+                  final toOriginalNumber = (value / 10 * maxY).round();
+                  final formatted =
+                      NumberFormat.compact().format(toOriginalNumber);
+                  final unit = UnitOfMass.values[widget.user.unitOfMass].label;
+
+                  switch (value.toInt()) {
+                    case 0:
+                      return '0 $unit';
+                    case 5:
+                      return '$formatted $unit';
+                    case 10:
+                      return '$formatted $unit';
+                    default:
+                      return '';
+                  }
+                },
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            barGroups: (widget.user.dailyWorkoutHistories.isNotEmpty)
+                ? _barGroupsChild()
+                : randomData(),
+          ),
+        ),
+      ),
+    );
   }
 }

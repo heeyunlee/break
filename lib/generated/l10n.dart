@@ -175,11 +175,11 @@ class S {
     );
   }
 
-  /// `GET STARTED`
-  String get getStarted {
+  /// `START`
+  String get start {
     return Intl.message(
-      'GET STARTED',
-      name: 'getStarted',
+      'START',
+      name: 'start',
       desc: '',
       args: [],
     );
@@ -1880,6 +1880,106 @@ class S {
     return Intl.message(
       'Other',
       name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Measurement`
+  String get addMeasurement {
+    return Intl.message(
+      'Add Measurement',
+      name: 'addMeasurement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Body weight`
+  String get bodyweightMeasurement {
+    return Intl.message(
+      'Body weight',
+      name: 'bodyweightMeasurement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please add weight data`
+  String get weightsHintText {
+    return Intl.message(
+      'Please add weight data',
+      name: 'weightsHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Body Fat`
+  String get bodyFat {
+    return Intl.message(
+      'Body Fat',
+      name: 'bodyFat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skeletal Muscle Mass`
+  String get skeletalMuscleMass {
+    return Intl.message(
+      'Skeletal Muscle Mass',
+      name: 'skeletalMuscleMass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Your Own Workout`
+  String get createYourOwnWorkout {
+    return Intl.message(
+      'Create Your Own Workout',
+      name: 'createYourOwnWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log Your Workout`
+  String get logYourWorkout {
+    return Intl.message(
+      'Log Your Workout',
+      name: 'logYourWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See Your Progress`
+  String get seeYourProgress {
+    return Intl.message(
+      'See Your Progress',
+      name: 'seeYourProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share With Others`
+  String get shareWithOthers {
+    return Intl.message(
+      'Share With Others',
+      name: 'shareWithOthers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `x`
+  String get x {
+    return Intl.message(
+      'x',
+      name: 'x',
       desc: '',
       args: [],
     );

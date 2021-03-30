@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -22,6 +23,31 @@ class PreviewScreen extends StatefulWidget {
 class _PreviewScreenState extends State<PreviewScreen> {
   bool _showPreview = true;
 
+  final List<String> _iOSEnglish = [
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_english%2Fios_en_1.png?alt=media&token=b4a6aaac-544b-455b-a884-f07e74f85e2f',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_english%2Fios_en_2.png?alt=media&token=12c5c7ae-f535-4ddc-9b78-232f5d06cede',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_english%2Fios_en_3.png?alt=media&token=9e03426c-b9a1-4131-ba36-3ce209b898d3',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_english%2Fios_en_4.png?alt=media&token=b229b531-9c78-470d-9158-f54dfd5af7b8',
+  ];
+  final List<String> _iOSKorean = [
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_korean%2Fios_ko_1.png?alt=media&token=5c33e408-ec5a-40a7-98a9-90f5504608b1',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_korean%2Fios_ko_2.png?alt=media&token=c39f0b86-3be9-49e5-bedb-4340be9b766b',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_korean%2Fios_ko_3.png?alt=media&token=01cb2009-0e8e-4ec7-b972-573a0d2145a2',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS_korean%2Fios_ko_4.png?alt=media&token=75c82a5e-f15e-4af0-a2c2-d500518ceba7',
+  ];
+  final List<String> _androidEnglish = [
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_english%2Fandroid_en_1.png?alt=media&token=9e5da9a9-a16b-4d04-87b7-c4c55bede755',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_english%2Fandroid_en_2.png?alt=media&token=8d4c4cdb-3f5c-45f2-90ae-273d130bf265',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_english%2Fandroid_en_3.png?alt=media&token=8dacc278-f31c-4c55-a46d-a57b77b5d2f8',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_english%2Fandroid_en_4.png?alt=media&token=6856772c-b2af-467b-b418-6adaa357a119',
+  ];
+  final List<String> _androidKorean = [
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_korean%2Fandroid_ko_1.png?alt=media&token=d550d6bf-ac1a-409e-adce-4d14ca0eaed2',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_korean%2Fandroid_ko_2.png?alt=media&token=97b7ba7e-cac5-40a4-8376-c2abb3cb2d92',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_korean%2Fandroid_ko_3.png?alt=media&token=0d7507f2-7b22-4827-afe2-b9504c73529c',
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid_korean%2Fandroid_ko_4.png?alt=media&token=bcb906b1-7bf2-4134-b171-2d6e3b625fb8',
+  ];
+
   int _currentPage = 0;
   final PageController _pageController = PageController(
     initialPage: 0,
@@ -35,7 +61,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
       height: size.height,
       child: Column(
         children: [
-          if (Platform.isIOS)
+          if (Platform.isIOS && Intl.getCurrentLocale() == 'en')
             Container(
               height: size.height * 5 / 6,
               child: PageView(
@@ -46,64 +72,111 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   });
                 },
                 children: <Widget>[
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_5.png?alt=media&token=85220a42-5eb1-4a6a-996a-4e56016a0d0a',
-                    subtitle: 'Create your Own Routine',
+                  AppPreviewWidget(
+                    imageRoot: _iOSEnglish[0],
+                    subtitle: S.current.createYourOwnWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_1.png?alt=media&token=eef2b7d5-ff9d-4a45-8c5a-2d2f1d7d86c6',
-                    subtitle: 'Save your Progress',
+                  AppPreviewWidget(
+                    imageRoot: _iOSEnglish[1],
+                    subtitle: S.current.logYourWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_2.png?alt=media&token=92d1a816-f1d0-4b2d-a389-24ea3c9768ad',
-                    subtitle: 'Save your Progress',
+                  AppPreviewWidget(
+                    imageRoot: _iOSEnglish[2],
+                    subtitle: S.current.seeYourProgress,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_3.png?alt=media&token=bfff98db-c276-45d9-8945-6a985c3b541a',
-                    subtitle: 'Save your Progress',
-                  ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2FiOS%2Fapp_preview_4.png?alt=media&token=ee174a8a-5590-4dc4-94f3-e1cccf1e81da',
-                    subtitle: 'Workout Seamlessly',
+                  AppPreviewWidget(
+                    imageRoot: _iOSEnglish[3],
+                    subtitle: S.current.shareWithOthers,
                   ),
                 ],
               ),
             ),
-          if (Platform.isAndroid)
+          if (Platform.isIOS && Intl.getCurrentLocale() == 'ko')
             Container(
               height: size.height * 5 / 6,
               child: PageView(
                 controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
                 children: <Widget>[
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_2.png?alt=media&token=f60b1c4c-d6b8-4702-8f1e-0db286727cb8',
-                    subtitle: 'Create Your Own Routine',
+                  AppPreviewWidget(
+                    imageRoot: _iOSKorean[0],
+                    subtitle: S.current.createYourOwnWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_1.png?alt=media&token=15e54bba-b995-425d-8e02-9ac60be667cb',
-                    subtitle: 'Save your Progress',
+                  AppPreviewWidget(
+                    imageRoot: _iOSKorean[1],
+                    subtitle: S.current.logYourWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_3.png?alt=media&token=a098e834-3483-4c20-8b85-7202ebc43231',
-                    subtitle: 'Save your Progress',
+                  // AppPreviewWidget(
+                  //   imageRoot: _iOSKorean[2],
+                  //   subtitle: S.current.seeYourProgress,
+                  // ),
+                  // AppPreviewWidget(
+                  //   imageRoot: _iOSKorean[3],
+                  //   subtitle: S.current.shareWithOthers,
+                  // ),
+                ],
+              ),
+            ),
+          if (Platform.isAndroid && Intl.getCurrentLocale() == 'en')
+            Container(
+              height: size.height * 5 / 6,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                children: <Widget>[
+                  AppPreviewWidget(
+                    imageRoot: _androidEnglish[0],
+                    subtitle: S.current.createYourOwnWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_5.png?alt=media&token=faa1e4c4-9a8e-4854-a802-5f45fd103573',
-                    subtitle: 'Save your Progress',
+                  AppPreviewWidget(
+                    imageRoot: _androidEnglish[1],
+                    subtitle: S.current.logYourWorkout,
                   ),
-                  const AppPreviewWidget(
-                    imageRoot:
-                        'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/app_preview%2Fandroid%2Fapp_preview_android_4.png?alt=media&token=528f29e5-ba2f-4ac9-9ad9-00448a46f007',
-                    subtitle: 'Workout Seamlessly',
+                  // AppPreviewWidget(
+                  //   imageRoot: _androidEnglish[2],
+                  //   subtitle: S.current.seeYourProgress,
+                  // ),
+                  // AppPreviewWidget(
+                  //   imageRoot: _androidEnglish[3],
+                  //   subtitle: S.current.shareWithOthers,
+                  // ),
+                ],
+              ),
+            ),
+          if (Platform.isAndroid && Intl.getCurrentLocale() == 'ko')
+            Container(
+              height: size.height * 5 / 6,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                children: <Widget>[
+                  AppPreviewWidget(
+                    imageRoot: _androidKorean[0],
+                    subtitle: S.current.createYourOwnWorkout,
+                  ),
+                  AppPreviewWidget(
+                    imageRoot: _androidKorean[1],
+                    subtitle: S.current.logYourWorkout,
+                  ),
+                  AppPreviewWidget(
+                    imageRoot: _androidKorean[2],
+                    subtitle: S.current.seeYourProgress,
+                  ),
+                  AppPreviewWidget(
+                    imageRoot: _androidKorean[3],
+                    subtitle: S.current.shareWithOthers,
                   ),
                 ],
               ),
@@ -113,7 +186,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
             children: [
               const SizedBox(width: 8),
               SizedBox(
-                width: 80,
+                width: 100,
                 child: TextButton(
                   onPressed: () {
                     setState(() {
@@ -129,7 +202,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Center(
                   child: SmoothPageIndicator(
                     controller: _pageController,
-                    count: 5,
+                    count: 4,
                     effect: const ScrollingDotsEffect(
                       activeDotColor: PrimaryColor,
                       activeDotScale: 1.5,
@@ -141,11 +214,11 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 ),
               ),
               SizedBox(
-                width: 80,
+                width: 100,
                 child: TextButton(
                   onPressed: () {
                     setState(() {
-                      if (_currentPage < 4) {
+                      if (_currentPage < 3) {
                         HapticFeedback.mediumImpact();
                         _currentPage++;
                         _pageController.animateToPage(
@@ -161,7 +234,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     });
                   },
                   child: Text(
-                    (_currentPage == 4) ? S.current.getStarted : S.current.next,
+                    (_currentPage == 3) ? S.current.start : S.current.next,
                     style: ButtonText,
                   ),
                 ),

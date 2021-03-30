@@ -13,7 +13,7 @@
     "personalInformation": "Personal Information",
     "skip": "SKIP",
     "next": "NEXT",
-    "getStarted": "GET STARTED",
+    "start": "START",
     "continueWithGoogle": "Continue with Google",
     "continueWithFacebook": "Continue with Facebook",
     "continueWithApple": "Continue with Apple",
@@ -183,5 +183,15 @@
     "gymBall": "Gym Ball",
     "kettlebell": "Kettlebell",
     "machine": "Machine",
-    "other": "Other"
+    "other": "Other",
+    "addMeasurement": "Add Measurement",
+    "bodyweightMeasurement": "Body weight",
+    "weightsHintText": "Please add weight data",
+    "bodyFat": "Body Fat",
+    "skeletalMuscleMass": "Skeletal Muscle Mass",
+    "createYourOwnWorkout": "Create Your Own Workout",
+    "logYourWorkout": "Log Your Workout",
+    "seeYourProgress": "See Your Progress",
+    "shareWithOthers": "Share With Others",
+    "x": "x"
 }

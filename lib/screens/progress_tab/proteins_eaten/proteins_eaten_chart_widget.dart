@@ -182,10 +182,10 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: AspectRatio(
-                  aspectRatio: 1.5,
+              AspectRatio(
+                aspectRatio: 1.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
                   child: BarChart(
                     BarChartData(
                       maxY: 10,

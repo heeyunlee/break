@@ -13,7 +13,7 @@
     "personalInformation": "개인 정보",
     "skip": "건너뛰기",
     "next": "다음",
-    "getStarted": "시작하기",
+    "start": "시작하기",
     "continueWithGoogle": "구글 계정으로 계속하기",
     "continueWithFacebook": "페이스북 계정으로 계속하기",
     "continueWithApple": "애플 계정으로 계속하기",
@@ -183,5 +183,15 @@
     "gymBall": "짐 볼",
     "kettlebell": "케틀벨",
     "machine": "머신",
-    "other": "그 외"
+    "other": "그 외",
+    "addMeasurement": "신체정보 추가하기",
+    "bodyweightMeasurement": "체중",
+    "weightsHintText": "몸무게 정보를 입력해주세요",
+    "bodyFat": "체지방률",
+    "skeletalMuscleMass": "골격근량",
+    "createYourOwnWorkout": "나만의 루틴을 만들어 보세요",
+    "logYourWorkout": "오늘 나의 운동을 기록하세요",
+    "seeYourProgress": "나의 운동 능력 변화를 기록하세요",
+    "shareWithOthers": "나의 기록을 다른 사람들과 공유하세요!",
+    "x": "회"
 }

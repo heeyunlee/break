@@ -24,6 +24,8 @@ class ChoiceChipsAppBarWidget extends StatefulWidget
 class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
   final List<String> _mainMuscleGroup =
       ['All'] + MainMuscleGroup.values[0].list;
+  final List<String> _mainMuscleGroupTranslated =
+      ['All'] + MainMuscleGroup.values[0].translatedList;
 
   int _selectedIndex = 0;
   String _selectedChipLabel;
@@ -46,10 +48,15 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
     chips.add(SizedBox(width: 12));
     for (var i = 0; i < _mainMuscleGroup.length; i++) {
       var choiceChip = ChoiceChip(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        label: Text(_mainMuscleGroup[i], style: ButtonText),
+        labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        shape: StadiumBorder(
+          side: BorderSide(
+              color: (_selectedIndex == i) ? Primary300Color : Colors.grey,
+              width: 1),
+        ),
+        label: Text(_mainMuscleGroupTranslated[i], style: ButtonText),
         selected: _selectedIndex == i,
-        backgroundColor: Colors.grey[700],
+        backgroundColor: AppBarColor,
         selectedColor: PrimaryColor,
         onSelected: (bool selected) {
           // setState(() {
@@ -73,7 +80,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
     chips.add(SizedBox(width: 12));
 
     return PreferredSize(
-      preferredSize: Size.fromHeight(48),
+      preferredSize: Size.fromHeight(32),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
