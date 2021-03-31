@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/enum/location.dart';
 
 import '../../../../constants.dart';
 
 typedef DoubleCallback = Function(double rating);
+typedef StringCallBack = Function(String location);
 
 class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
   final DoubleCallback ratingCallback;
+  final StringCallBack locationCallback;
 
-  const NewRoutineDifficultyAndMoreScreen({Key key, this.ratingCallback})
-      : super(key: key);
+  const NewRoutineDifficultyAndMoreScreen({
+    Key key,
+    this.ratingCallback,
+    this.locationCallback,
+  }) : super(key: key);
 
   @override
   _NewRoutineDifficultyAndMoreScreenState createState() =>
@@ -19,12 +25,13 @@ class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
 
 class _NewRoutineDifficultyAndMoreScreenState
     extends State<NewRoutineDifficultyAndMoreScreen> {
-  double _rating;
+  double _rating = 0;
   String _ratingLabel;
+
+  String _dropdownValue = 'Location.gym';
 
   @override
   void initState() {
-    _rating = 0;
     _ratingLabel = Difficulty.values[_rating.toInt()].label;
     super.initState();
   }
@@ -43,6 +50,67 @@ class _NewRoutineDifficultyAndMoreScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Location
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.place_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(S.current.location, style: Headline6Bold),
+                ],
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.zero,
+              color: CardColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField(
+                  isExpanded: true,
+                  value: _dropdownValue,
+                  dropdownColor: CardColor,
+                  decoration: const InputDecoration(
+                    enabledBorder: InputBorder.none,
+                  ),
+                  style: BodyText1,
+                  onChanged: (value) {
+                    setState(() {
+                      _dropdownValue = value;
+                      widget.locationCallback(value);
+                    });
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: 'Location.gym',
+                      child: Text(Location.gym.translation),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Location.atHome',
+                      child: Text(Location.atHome.translation),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Location.outdoor',
+                      child: Text(Location.outdoor.translation),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Location.others',
+                      child: Text(Location.others.translation),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            /// Difficulty
+            const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(

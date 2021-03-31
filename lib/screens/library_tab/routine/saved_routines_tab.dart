@@ -6,6 +6,7 @@ import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
@@ -45,11 +46,14 @@ class SavedRoutinesTab extends StatelessWidget {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
         final routine = Routine.fromMap(data, documentId);
+        final subtitle = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
+            .translation;
 
         return CustomListTile64(
           tag: 'savedRoutines-${routine.routineId}',
           title: routine.routineTitle,
-          subtitle: routine.mainMuscleGroup[0],
+          subtitle: subtitle,
           imageUrl: routine.imageUrl,
           onTap: () => RoutineDetailScreen.show(
             context,

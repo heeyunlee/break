@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 
-class MuscleGroupCardWidget extends StatelessWidget {
+class SearchTabGridWidget extends StatelessWidget {
   final String text;
   final Function onTap;
   final Color color;
 
-  const MuscleGroupCardWidget({
+  const SearchTabGridWidget({
     Key key,
     @required this.text,
     this.onTap,

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +10,9 @@ import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -24,7 +26,7 @@ class WorkoutDetailScreen extends StatefulWidget {
     @required this.workout,
     @required this.database,
     @required this.user,
-    this.tag = 'tag',
+    this.tag,
   });
 
   final Workout workout;
@@ -33,7 +35,7 @@ class WorkoutDetailScreen extends StatefulWidget {
   final String tag;
 
   // For Navigation
-  static void show(
+  static Future<void> show(
     BuildContext context, {
     Workout workout,
     bool isRootNavigation = false,
@@ -41,6 +43,7 @@ class WorkoutDetailScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await database.userDocument(auth.currentUser.uid);
 
     await HapticFeedback.mediumImpact();
 
@@ -50,7 +53,7 @@ class WorkoutDetailScreen extends StatefulWidget {
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
             database: database,
-            user: auth.currentUser,
+            user: user,
             tag: tag,
           ),
         ),
@@ -61,7 +64,7 @@ class WorkoutDetailScreen extends StatefulWidget {
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
             database: database,
-            user: auth.currentUser,
+            user: user,
             tag: tag,
           ),
         ),
@@ -90,11 +93,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-
     return StreamBuilder<Workout>(
       initialData: workoutDummyData,
-      stream: database.workoutStream(workoutId: widget.workout.workoutId),
+      stream: widget.database.workoutStream(
+        workoutId: widget.workout.workoutId,
+      ),
       builder: (context, snapshot) {
         final workout = snapshot.data;
 
@@ -166,7 +169,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       //   ],
       // ),
       actions: <Widget>[
-        if (widget.user.uid == workout.workoutOwnerId)
+        if (widget.user.userId == workout.workoutOwnerId)
           IconButton(
             icon: const Icon(Icons.edit_rounded, color: Colors.white),
             onPressed: () => EditWorkoutScreen.show(
@@ -188,16 +191,138 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         // ),
         const SizedBox(width: 8),
       ],
-      flexibleSpace: _buildFlexibleSpace(workout),
+      flexibleSpace: _FlexibleSpaceBarWidget(
+        workout: widget.workout,
+        tag: widget.tag,
+      ),
     );
   }
 
-  Widget _buildFlexibleSpace(Workout workout) {
-    final size = MediaQuery.of(context).size;
+  // Widget _buildSliverToBoxAdapter(Workout workout) {
+  //   return SliverToBoxAdapter(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           _buildInstructions(),
+  //           SizedBox(height: 24),
+  //           _buildWorkoutHistory(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
+  // Widget _buildInstructions() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       const Text('Instructions', style: Headline6),
+  //       const SizedBox(height: 8),
+  //       Container(
+  //         height: 500,
+  //         child: PageView(
+  //           controller: _pageController,
+  //           children: <Widget>[
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 const Text(
+  //                   '1. Vestibulum non suscipit lacus',
+  //                   style: Subtitle1,
+  //                 ),
+  //                 const SizedBox(height: 4),
+  //                 const Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: const Center(child: Placeholder()),
+  //                 ),
+  //               ],
+  //             ),
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 const Text(
+  //                   '2. eget maximus lacus. Vestibulum',
+  //                   style: Subtitle1,
+  //                 ),
+  //                 const SizedBox(height: 4),
+  //                 const Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: const Center(child: Placeholder()),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       const SizedBox(height: 16),
+  //       Container(
+  //         height: 24,
+  //         alignment: Alignment.center,
+  //         child: SmoothPageIndicator(
+  //           controller: _pageController,
+  //           count: 2,
+  //           effect: ScrollingDotsEffect(
+  //             activeDotScale: 1.5,
+  //             dotHeight: 8,
+  //             dotWidth: 8,
+  //             dotColor: Colors.white.withOpacity(0.3),
+  //             activeDotColor: PrimaryColor,
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(height: 16),
+  //     ],
+  //   );
+  // }
+
+  // Widget _buildWorkoutHistory() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       const Text('History', style: Headline6),
+  //       const SizedBox(height: 8),
+  //       Container(
+  //         child: Card(
+  //           color: CardColor,
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(10),
+  //           ),
+  //           child: const Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: const Placeholder(),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+}
+
+class _FlexibleSpaceBarWidget extends StatelessWidget {
+  final Workout workout;
+  final String tag;
+
+  const _FlexibleSpaceBarWidget({
+    Key key,
+    this.workout,
+    this.tag,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final workoutTitle = workout?.workoutTitle ?? 'NULL';
-    final mainMuscleGroup = workout?.mainMuscleGroup[0] ?? 'NULL';
-    final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
+    final mainMuscleGroup = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+            .translation ??
+        'Null';
+    final equipmentRequired = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
+            .translation ??
+        'Null';
+    // final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
     final difficulty = Format.difficulty(workout.difficulty);
     final description = workout?.description ?? 'Add description';
 
@@ -206,9 +331,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         fit: StackFit.passthrough,
         children: [
           Hero(
-            tag: widget.tag,
+            tag: tag,
             child: CachedNetworkImage(
-              imageUrl: widget.workout.imageUrl,
+              imageUrl: workout.imageUrl,
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.cover,
             ),
@@ -342,105 +467,4 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       ),
     );
   }
-
-  // Widget _buildSliverToBoxAdapter(Workout workout) {
-  //   return SliverToBoxAdapter(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           _buildInstructions(),
-  //           SizedBox(height: 24),
-  //           _buildWorkoutHistory(),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildInstructions() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       const Text('Instructions', style: Headline6),
-  //       const SizedBox(height: 8),
-  //       Container(
-  //         height: 500,
-  //         child: PageView(
-  //           controller: _pageController,
-  //           children: <Widget>[
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 const Text(
-  //                   '1. Vestibulum non suscipit lacus',
-  //                   style: Subtitle1,
-  //                 ),
-  //                 const SizedBox(height: 4),
-  //                 const Padding(
-  //                   padding: const EdgeInsets.all(8.0),
-  //                   child: const Center(child: Placeholder()),
-  //                 ),
-  //               ],
-  //             ),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 const Text(
-  //                   '2. eget maximus lacus. Vestibulum',
-  //                   style: Subtitle1,
-  //                 ),
-  //                 const SizedBox(height: 4),
-  //                 const Padding(
-  //                   padding: const EdgeInsets.all(8.0),
-  //                   child: const Center(child: Placeholder()),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       const SizedBox(height: 16),
-  //       Container(
-  //         height: 24,
-  //         alignment: Alignment.center,
-  //         child: SmoothPageIndicator(
-  //           controller: _pageController,
-  //           count: 2,
-  //           effect: ScrollingDotsEffect(
-  //             activeDotScale: 1.5,
-  //             dotHeight: 8,
-  //             dotWidth: 8,
-  //             dotColor: Colors.white.withOpacity(0.3),
-  //             activeDotColor: PrimaryColor,
-  //           ),
-  //         ),
-  //       ),
-  //       SizedBox(height: 16),
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildWorkoutHistory() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: <Widget>[
-  //       const Text('History', style: Headline6),
-  //       const SizedBox(height: 8),
-  //       Container(
-  //         child: Card(
-  //           color: CardColor,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(10),
-  //           ),
-  //           child: const Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: const Placeholder(),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

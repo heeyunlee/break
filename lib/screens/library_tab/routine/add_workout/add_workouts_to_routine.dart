@@ -10,6 +10,7 @@ import 'package:workout_player/common_widgets/list_item_builder.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
@@ -56,7 +57,7 @@ class AddWorkoutsToRoutine extends StatefulWidget {
 class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   String _selectedChip;
 
-  // set string(String value) => setState(() => _selectedChip = value);
+  set string(String value) => setState(() => _selectedChip = value);
 
   String selectedWorkoutId;
   String selectedWorkoutTitle;
@@ -162,16 +163,23 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                 arrayContains: _selectedChip,
               ),
         builder: (context, snapshot) {
+          final chip = MainMuscleGroup.values
+              .firstWhere((e) => e.toString() == _selectedChip)
+              .translation;
+
           return ListItemBuilder<Workout>(
-            emptyContentTitle: S.current.noWorkoutEmptyContent(_selectedChip),
+            emptyContentTitle: S.current.noWorkoutEmptyContent(chip),
             snapshot: snapshot,
             itemBuilder: (context, workout) {
               final difficulty = Format.difficulty(workout.difficulty);
+              final leadingText = MainMuscleGroup.values
+                  .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+                  .translation;
 
               return CustomListTile3(
                 imageUrl: workout.imageUrl,
                 isLeadingDuration: false,
-                leadingText: workout.mainMuscleGroup[0],
+                leadingText: leadingText,
                 title: workout.workoutTitle,
                 subtitle:
                     '$difficulty,  ${S.current.usingEquipment(workout.equipmentRequired[0])}',

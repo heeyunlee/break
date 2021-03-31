@@ -18,14 +18,11 @@ class NewRoutineMainMuscleGroupScreen extends StatefulWidget {
 
 class _NewRoutineMainMuscleGroupScreenState
     extends State<NewRoutineMainMuscleGroupScreen> {
-  final Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
-  final List<String> _translatedList = MainMuscleGroup.values[0].translatedList;
   final List<String> _selectedMainMuscleGroup = [];
+  final Map<String, bool> _mainMuscleGroupMap = MainMuscleGroup.abs.map;
 
   @override
   Widget build(BuildContext context) {
-    print(_translatedList);
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -33,24 +30,28 @@ class _NewRoutineMainMuscleGroupScreenState
           ListView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            children: _mainMuscleGroup.keys.map((String key) {
+            children: _mainMuscleGroupMap.keys.map((String key) {
+              final title = MainMuscleGroup.values
+                  .firstWhere((e) => e.toString() == key)
+                  .translation;
+
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_mainMuscleGroup[key]) ? PrimaryColor : Grey700,
+                    color: (_mainMuscleGroupMap[key]) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
-                      title: Text(key, style: ButtonText),
+                      title: Text(title, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
-                      value: _mainMuscleGroup[key],
+                      value: _mainMuscleGroupMap[key],
                       onChanged: (bool value) {
                         setState(() {
-                          _mainMuscleGroup[key] = value;
+                          _mainMuscleGroupMap[key] = value;
                         });
-                        if (_mainMuscleGroup[key]) {
+                        if (_mainMuscleGroupMap[key]) {
                           _selectedMainMuscleGroup.add(key);
                         } else {
                           _selectedMainMuscleGroup.remove(key);

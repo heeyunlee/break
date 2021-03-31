@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:workout_player/common_widgets/horz_list_item_builder.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 // import 'package:workout_player/models/routine.dart';
 // import 'package:workout_player/models/workout.dart';
@@ -14,7 +15,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import '../../constants.dart';
 // import '../../format.dart';
 // import 'long_height_card_widget.dart';
-import 'muscle_group_card/muscle_group_card_widget.dart';
+import 'muscle_group_card/search_tab_grid_widget.dart';
 import 'muscle_group_card/muscle_group_search_screen.dart';
 
 class SearchTabBodyWidget extends StatelessWidget {
@@ -56,7 +57,23 @@ class SearchTabBodyWidget extends StatelessWidget {
             ),
           ),
           _EquipmentRequiredGridWidget(),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                const Icon(Icons.place, color: Colors.white),
+                const SizedBox(width: 8),
+                Text(
+                  S.current.location,
+                  style: Headline6,
+                ),
+              ],
+            ),
+          ),
+          _LocationGridWidget(),
           const SizedBox(height: 48),
+
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           //   child: Text('New Chest Routines', style: Headline6w900),
@@ -295,11 +312,11 @@ class _MainMuscleGroupGridWidget extends StatelessWidget {
     var gridTiles = <Widget>[];
 
     for (var i = 0; i < _mainMuscleGroup.length; i++) {
-      Widget card = MuscleGroupCardWidget(
+      Widget card = SearchTabGridWidget(
         color: PrimaryColor,
         text: _mainMuscleGroupTranslated[i],
         onTap: () => MuscleGroupSearchScreen.show(
-          context: context,
+          context,
           arrayContains: _mainMuscleGroup[i],
           searchCategory: 'mainMuscleGroup',
         ),
@@ -337,13 +354,54 @@ class _EquipmentRequiredGridWidget extends StatelessWidget {
     var gridTiles = <Widget>[];
 
     for (var i = 0; i < _equipmentRequired.length; i++) {
-      Widget card = MuscleGroupCardWidget(
+      Widget card = SearchTabGridWidget(
         color: SecondaryColor,
         text: _equipmentRequiredTranslated[i],
         onTap: () => MuscleGroupSearchScreen.show(
-          context: context,
+          context,
           arrayContains: _equipmentRequired[i],
           searchCategory: 'equipmentRequired',
+        ),
+      );
+
+      gridTiles.add(card);
+    }
+
+    final size = MediaQuery.of(context).size;
+
+    final itemWidth = size.width / 2;
+    final itemHeight = size.width / 4;
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.count(
+        childAspectRatio: (itemWidth / itemHeight),
+        crossAxisCount: 3,
+        padding: const EdgeInsets.all(0),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: gridTiles,
+      ),
+    );
+  }
+}
+
+class _LocationGridWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var _location = Location.values[0].list;
+    var _locationTranslated = Location.values[0].translatedList;
+
+    var gridTiles = <Widget>[];
+
+    for (var i = 0; i < _location.length; i++) {
+      Widget card = SearchTabGridWidget(
+        color: Colors.amber,
+        text: _locationTranslated[i],
+        onTap: () => MuscleGroupSearchScreen.show(
+          context,
+          isEqualTo: _location[i],
+          searchCategory: 'location',
         ),
       );
 

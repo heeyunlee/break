@@ -65,6 +65,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   List _selectedMainMuscleGroup = [];
   List _selectedEquipmentRequired = [];
   double _rating = 0;
+  String _location = 'Location.gym';
 
   int _pageIndex = 0;
 
@@ -81,7 +82,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     try {
       // Get Image Url
       final ref = FirebaseStorage.instance.ref().child('workout-pictures');
-
       final imageIndex = Random().nextInt(2);
       final imageUrl = await ref
           .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
@@ -105,6 +105,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         averageTotalCalories: 0,
         isPublic: true,
         initialUnitOfMass: initialUnitOfMass,
+        location: _location,
       );
 
       await widget.database.setRoutine(routine);
@@ -215,7 +216,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                   ? S.current.mainMuscleGroup
                   : (_pageIndex == 2)
                       ? S.current.equipmentRequired
-                      : S.current.difficulty,
+                      : S.current.others,
           style: Subtitle2,
         ),
         centerTitle: true,
@@ -250,6 +251,9 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
             return NewRoutineDifficultyAndMoreScreen(
               ratingCallback: (value) => setState(() {
                 _rating = value;
+              }),
+              locationCallback: (value) => setState(() {
+                _location = value;
               }),
             );
           default:

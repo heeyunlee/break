@@ -4,6 +4,7 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 
 import '../../../common_widgets/custom_list_tile_64.dart';
 import '../../../constants.dart';
@@ -53,17 +54,20 @@ class SavedWorkoutsTab extends StatelessWidget {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
         final workout = Workout.fromMap(data, documentId);
+        final subtitle = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+            .translation;
 
         return CustomListTile64(
-          tag: 'workout${workout.workoutId}',
+          tag: 'savedWorkout${workout.workoutId}',
           title: workout.workoutTitle,
-          subtitle: workout.mainMuscleGroup[0],
+          subtitle: subtitle,
           imageUrl: workout.imageUrl,
           onTap: () => WorkoutDetailScreen.show(
             context,
             workout: workout,
             isRootNavigation: false,
-            tag: 'workout${workout.workoutId}',
+            tag: 'savedWorkout${workout.workoutId}',
           ),
         );
       },

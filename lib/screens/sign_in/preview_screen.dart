@@ -110,14 +110,14 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     imageRoot: _iOSKorean[1],
                     subtitle: S.current.logYourWorkout,
                   ),
-                  // AppPreviewWidget(
-                  //   imageRoot: _iOSKorean[2],
-                  //   subtitle: S.current.seeYourProgress,
-                  // ),
-                  // AppPreviewWidget(
-                  //   imageRoot: _iOSKorean[3],
-                  //   subtitle: S.current.shareWithOthers,
-                  // ),
+                  AppPreviewWidget(
+                    imageRoot: _iOSKorean[2],
+                    subtitle: S.current.seeYourProgress,
+                  ),
+                  AppPreviewWidget(
+                    imageRoot: _iOSKorean[3],
+                    subtitle: S.current.shareWithOthers,
+                  ),
                 ],
               ),
             ),
@@ -140,14 +140,14 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     imageRoot: _androidEnglish[1],
                     subtitle: S.current.logYourWorkout,
                   ),
-                  // AppPreviewWidget(
-                  //   imageRoot: _androidEnglish[2],
-                  //   subtitle: S.current.seeYourProgress,
-                  // ),
-                  // AppPreviewWidget(
-                  //   imageRoot: _androidEnglish[3],
-                  //   subtitle: S.current.shareWithOthers,
-                  // ),
+                  AppPreviewWidget(
+                    imageRoot: _androidEnglish[2],
+                    subtitle: S.current.seeYourProgress,
+                  ),
+                  AppPreviewWidget(
+                    imageRoot: _androidEnglish[3],
+                    subtitle: S.current.shareWithOthers,
+                  ),
                 ],
               ),
             ),

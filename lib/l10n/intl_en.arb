@@ -81,7 +81,7 @@
     "publicRoutine": "Public Routine",
     "publicRoutineDescription": "Make your routine either just for yourself or sharable with other users",
     "routineTitleTitle": "Routine Title",
-    "routineTitleHintText": "Chest Routine",
+    "routineTitleHintText": "'Chest Routine'",
     "routineTitleValidatorText": "Give your routine a name!",
     "description": "Description",
     "descriptionHintText": "Add description here!",
@@ -178,7 +178,7 @@
     "bench": "Bench",
     "cable": "Cable",
     "chains": "Chains",
-    "dumbbell": "dumbbell",
+    "dumbbell": "Dumbbell",
     "eZBar" : "EZ Bar",
     "gymBall": "Gym Ball",
     "kettlebell": "Kettlebell",
@@ -193,5 +193,9 @@
     "logYourWorkout": "Log Your Workout",
     "seeYourProgress": "See Your Progress",
     "shareWithOthers": "Share With Others",
-    "x": "x"
+    "x": "x",
+    "atHome": "At Home",
+    "gym": "Gym",
+    "outdoor": "Outdoor",
+    "location": "Location"
 }

@@ -7,8 +7,12 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/library_tab/routine/edit_routine/edit_routine_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
@@ -292,6 +296,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           _buildMainMuscleGroupForm(routine),
           _buildEquipmentRequiredForm(routine),
           _buildUnitOfMassForm(routine),
+          _buildLocationForm(routine),
         ],
       ),
     );
@@ -459,6 +464,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildMainMuscleGroupForm(Routine routine) {
+    final mainMuscleGroup = MainMuscleGroup.values
+        .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
+        .translation;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -475,14 +484,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
               title: Text(S.current.mainMuscleGroup, style: ButtonText),
-              subtitle: Text(
-                (routine.mainMuscleGroup.length == 1)
-                    ? '${routine.mainMuscleGroup[0]}'
-                    : (routine.mainMuscleGroup.length == 2)
-                        ? '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}'
-                        : '${routine.mainMuscleGroup[0]}, ${routine.mainMuscleGroup[1]}, ${S.current.etc}.',
-                style: BodyText2Grey,
-              ),
+              subtitle: Text(mainMuscleGroup, style: BodyText2Grey),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: PrimaryGrey,
@@ -500,6 +502,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildEquipmentRequiredForm(Routine routine) {
+    final equipmentRequired = EquipmentRequired.values
+        .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
+        .translation;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ClipRRect(
@@ -507,11 +513,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         child: ListTile(
           title: Text(S.current.equipmentRequired, style: ButtonText),
           subtitle: Text(
-            (routine.equipmentRequired.length == 1)
-                ? '${routine.equipmentRequired[0]}'
-                : (routine.equipmentRequired.length == 2)
-                    ? '${routine.equipmentRequired[0]}, ${routine.equipmentRequired[1]}'
-                    : '${routine.equipmentRequired[0]}, ${routine.equipmentRequired[1]}, ${S.current.etc}.',
+            equipmentRequired,
             style: BodyText2Grey,
           ),
           trailing: const Icon(
@@ -545,6 +547,35 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           ),
           tileColor: CardColor,
           onTap: () => EditUnitOfMassScreen.show(
+            context: context,
+            routine: routine,
+            user: widget.user,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationForm(Routine routine) {
+    final locationIte = Location.values.where(
+      (e) => e.toString() == routine.location,
+    );
+    final location =
+        (locationIte.isEmpty) ? 'Not set yet' : locationIte.first.translation;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: ListTile(
+          title: Text(S.current.location, style: ButtonText),
+          subtitle: Text(location, style: BodyText2Grey),
+          trailing: const Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: PrimaryGrey,
+          ),
+          tileColor: CardColor,
+          onTap: () => EditRoutineLocationScreen.show(
             context: context,
             routine: routine,
             user: widget.user,

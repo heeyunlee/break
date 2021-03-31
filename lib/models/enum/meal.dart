@@ -35,7 +35,6 @@ extension MealLabelExtension on Meal {
 
 extension MealListExtension on Meal {
   List<String> get list {
-    // ignore: omit_local_variable_types
     final List<String> _mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].label;
@@ -70,7 +69,6 @@ extension MealTranslationExtension on Meal {
 
 extension MealTranslatedList on Meal {
   List<String> get translatedList {
-    // ignore: omit_local_variable_types
     final List<String> _mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].translation;

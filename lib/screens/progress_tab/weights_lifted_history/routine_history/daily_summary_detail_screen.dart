@@ -12,6 +12,8 @@ import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -221,9 +223,14 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final date =
         Format.date(widget.routineHistory.workoutStartTime ?? Timestamp.now());
     final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroup = widget.routineHistory?.mainMuscleGroup[0] ?? 'Null';
-    final equipmentRequired =
-        widget.routineHistory?.equipmentRequired[0] ?? 'Null';
+    final mainMuscleGroup = MainMuscleGroup.values
+        .firstWhere(
+            (e) => e.toString() == widget.routineHistory.mainMuscleGroup[0])
+        .translation;
+    final equipmentRequired = EquipmentRequired.values
+        .firstWhere(
+            (e) => e.toString() == widget.routineHistory.equipmentRequired[0])
+        .translation;
 
     return AnimatedBuilder(
       animation: _colorAnimationController,

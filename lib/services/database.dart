@@ -59,7 +59,7 @@ abstract class Database {
 
   // QUERY
   Query workoutsPaginatedUserQuery();
-  Query workoutsSearchQuery(String searchCategory, String arrayContains);
+  Query workoutsSearchQuery();
 
   /////////// Routine ////////////////
   // FUTURE
@@ -93,7 +93,7 @@ abstract class Database {
   // QUERY
   Query routinesPaginatedPublicQuery();
   Query routinesPaginatedUserQuery();
-  Query routinesSearchQuery(String searchCategory, String arrayContains);
+  Query routinesSearchQuery();
 
   ///////////////// Routine Workout //////////////////
   Future<void> setRoutineWorkout(
@@ -352,17 +352,11 @@ class FirestoreDatabase implements Database {
 
   // Paginated Routines Query for specific user
   @override
-  Query workoutsSearchQuery(String searchCategory, String arrayContains) =>
-      _service
-          .paginatedPublicCollectionQuery(
-            path: APIPath.workouts(),
-            order: 'workoutTitle',
-            descending: false,
-          )
-          .where(
-            searchCategory,
-            arrayContains: arrayContains,
-          );
+  Query workoutsSearchQuery() => _service.paginatedPublicCollectionQuery(
+        path: APIPath.workouts(),
+        order: 'workoutTitle',
+        descending: false,
+      );
 
   /////////////// Routine /////////////////////
   // Add Routine
@@ -542,17 +536,11 @@ class FirestoreDatabase implements Database {
 
   // Paginated Routines Query for specific user
   @override
-  Query routinesSearchQuery(String searchCategory, String arrayContains) =>
-      _service
-          .paginatedPublicCollectionQuery(
-            path: APIPath.routines(),
-            order: 'routineTitle',
-            descending: false,
-          )
-          .where(
-            searchCategory,
-            arrayContains: arrayContains,
-          );
+  Query routinesSearchQuery() => _service.paginatedPublicCollectionQuery(
+        path: APIPath.routines(),
+        order: 'routineTitle',
+        descending: false,
+      );
 
 //////////////// Workout Sets ///////////////////
   // Create or delete Workout Set

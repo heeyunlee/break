@@ -855,10 +855,10 @@ class S {
     );
   }
 
-  /// `Chest Routine`
+  /// `'Chest Routine'`
   String get routineTitleHintText {
     return Intl.message(
-      'Chest Routine',
+      '\'Chest Routine\'',
       name: 'routineTitleHintText',
       desc: '',
       args: [],
@@ -1825,10 +1825,10 @@ class S {
     );
   }
 
-  /// `dumbbell`
+  /// `Dumbbell`
   String get dumbbell {
     return Intl.message(
-      'dumbbell',
+      'Dumbbell',
       name: 'dumbbell',
       desc: '',
       args: [],
@@ -1980,6 +1980,46 @@ class S {
     return Intl.message(
       'x',
       name: 'x',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At Home`
+  String get atHome {
+    return Intl.message(
+      'At Home',
+      name: 'atHome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gym`
+  String get gym {
+    return Intl.message(
+      'Gym',
+      name: 'gym',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outdoor`
+  String get outdoor {
+    return Intl.message(
+      'Outdoor',
+      name: 'outdoor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get location {
+    return Intl.message(
+      'Location',
+      name: 'location',
       desc: '',
       args: [],
     );

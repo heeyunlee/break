@@ -59,31 +59,58 @@ class _EditRoutineMainMuscleGroupScreenState
   void initState() {
     super.initState();
     var mainMuscleGroup = <String, bool>{
-      'Abs': (widget.routine.mainMuscleGroup.contains('Abs')) ? true : false,
-      'Arms': (widget.routine.mainMuscleGroup.contains('Arms')) ? true : false,
-      'Cardio':
-          (widget.routine.mainMuscleGroup.contains('Cardio')) ? true : false,
-      'Chest':
-          (widget.routine.mainMuscleGroup.contains('Chest')) ? true : false,
-      'Full Body':
-          (widget.routine.mainMuscleGroup.contains('Full Body')) ? true : false,
-      'Glutes':
-          (widget.routine.mainMuscleGroup.contains('Glutes')) ? true : false,
-      'Hamstring':
-          (widget.routine.mainMuscleGroup.contains('Hamstring')) ? true : false,
-      'Lats': (widget.routine.mainMuscleGroup.contains('Lats')) ? true : false,
-      'Lower Body': (widget.routine.mainMuscleGroup.contains('Lower Body'))
+      MainMuscleGroup.abs.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.abs.toString()))
           ? true
           : false,
-      'Lower Back': (widget.routine.mainMuscleGroup.contains('Lower Back'))
+      MainMuscleGroup.arms.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.arms.toString()))
           ? true
           : false,
-      'Quads':
-          (widget.routine.mainMuscleGroup.contains('Quads')) ? true : false,
-      'Shoulder':
-          (widget.routine.mainMuscleGroup.contains('Shoulder')) ? true : false,
-      'Stretch':
-          (widget.routine.mainMuscleGroup.contains('Stretch')) ? true : false,
+      MainMuscleGroup.cardio.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.cardio.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.chest.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.chest.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.fullBody.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.fullBody.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.glutes.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.glutes.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.hamstring.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.hamstring.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.lats.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.lats.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.lowerBody.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.lowerBody.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.lowerBack.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.lowerBack.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.quads.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.quads.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.shoulder.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.shoulder.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.stretch.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.stretch.toString()))
+          ? true
+          : false,
     };
     _mainMuscleGroup = mainMuscleGroup;
     _mainMuscleGroup.forEach((key, value) {
@@ -174,6 +201,10 @@ class _EditRoutineMainMuscleGroupScreenState
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: _mainMuscleGroup.keys.map((String key) {
+                final title = MainMuscleGroup.values
+                    .firstWhere((e) => e.toString() == key)
+                    .translation;
+
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -184,7 +215,7 @@ class _EditRoutineMainMuscleGroupScreenState
                       child: CheckboxListTile(
                         selected: _mainMuscleGroup[key],
                         activeColor: Primary700Color,
-                        title: Text(key, style: ButtonText),
+                        title: Text(title, style: ButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],
                         onChanged: (bool value) =>

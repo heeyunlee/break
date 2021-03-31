@@ -8,8 +8,12 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/screens/library_tab/workout/edit_workout/edit_workout_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../../common_widgets/appbar_blur_bg.dart';
@@ -275,6 +279,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           _buildSecondsPerRep(),
           _buildMainMuscleGroupForm(workout),
           _buildEquipmentRequiredForm(workout),
+          _buildLocationForm(workout),
         ],
       ),
     );
@@ -480,6 +485,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildMainMuscleGroupForm(Workout workout) {
+    final mainMuscleGroup = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+            .translation ??
+        'Null';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -496,14 +506,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
               title: Text(S.current.mainMuscleGroup, style: ButtonText),
-              subtitle: Text(
-                (workout.mainMuscleGroup.length == 1)
-                    ? '${workout.mainMuscleGroup[0]}'
-                    : (workout.mainMuscleGroup.length == 2)
-                        ? '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}'
-                        : '${workout.mainMuscleGroup[0]}, ${workout.mainMuscleGroup[1]}, ${S.current.etc}.',
-                style: BodyText2Grey,
-              ),
+              subtitle: Text(mainMuscleGroup, style: BodyText2Grey),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: PrimaryGrey,
@@ -521,20 +524,18 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildEquipmentRequiredForm(Workout workout) {
+    final equipmentRequired = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
+            .translation ??
+        'Null';
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
           title: Text(S.current.equipmentRequired, style: ButtonText),
-          subtitle: Text(
-            (workout.equipmentRequired.length == 1)
-                ? '${workout.equipmentRequired[0]}'
-                : (workout.equipmentRequired.length == 2)
-                    ? '${workout.equipmentRequired[0]}, ${workout.equipmentRequired[1]}'
-                    : '${workout.equipmentRequired[0]}, ${workout.equipmentRequired[1]}, ${S.current.etc}.',
-            style: BodyText2Grey,
-          ),
+          subtitle: Text(equipmentRequired, style: BodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
             color: PrimaryGrey,
@@ -542,6 +543,35 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           tileColor: CardColor,
           onTap: () => EditWorkoutEquipmentRequiredScreen.show(
             context,
+            workout: workout,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationForm(Workout workout) {
+    final locationIte = Location.values.where(
+      (e) => e.toString() == workout.location,
+    );
+    final location =
+        (locationIte.isEmpty) ? 'Not set yet' : locationIte.first.translation;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: ListTile(
+          title: Text(S.current.location, style: ButtonText),
+          subtitle: Text(location, style: BodyText2Grey),
+          trailing: const Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: PrimaryGrey,
+          ),
+          tileColor: CardColor,
+          onTap: () => EditWorkoutLocationScreen.show(
+            context,
+            user: widget.user,
             workout: workout,
           ),
         ),

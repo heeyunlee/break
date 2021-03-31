@@ -70,21 +70,22 @@ class _WeightsHistoryChartWidgetState extends State<WeightsHistoryChartWidget> {
                 // const Divid  er(color: Grey700),
                 const SizedBox(height: 16),
                 AspectRatio(
-                  aspectRatio: 2,
+                  aspectRatio: 1.5,
                   child: LineChart(
                     LineChartData(
                       gridData: FlGridData(
-                        drawVerticalLine: true,
-                        show: false,
+                        horizontalInterval: 25,
+                        drawVerticalLine: false,
+                        show: true,
                         getDrawingHorizontalLine: (value) {
                           return FlLine(
-                            color: Colors.white24,
+                            color: Colors.white12,
                             strokeWidth: 1,
                           );
                         },
                         getDrawingVerticalLine: (value) {
                           return FlLine(
-                            color: Colors.white24,
+                            color: Colors.white12,
                             strokeWidth: 1,
                           );
                         },
@@ -141,13 +142,13 @@ class _WeightsHistoryChartWidgetState extends State<WeightsHistoryChartWidget> {
                           ],
                           isCurved: true,
                           colors: gradientColors,
-                          barWidth: 5,
+                          barWidth: 1,
                           isStrokeCapRound: true,
                           dotData: FlDotData(
                             show: false,
                           ),
                           belowBarData: BarAreaData(
-                            show: true,
+                            show: false,
                             colors: gradientColors
                                 .map((color) => color.withOpacity(0.3))
                                 .toList(),

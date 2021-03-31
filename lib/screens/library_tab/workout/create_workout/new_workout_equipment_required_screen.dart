@@ -34,6 +34,10 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: _equipmentRequired.keys.map((String key) {
+              final title = EquipmentRequired.values
+                  .firstWhere((e) => e.toString() == key)
+                  .translation;
+
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -43,7 +47,7 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
                     color: (_equipmentRequired[key]) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
-                      title: Text(key, style: ButtonText),
+                      title: Text(title, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _equipmentRequired[key],
                       onChanged: (bool value) {

@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/models/enum/location.dart';
 
 import '../../../../constants.dart';
 
-typedef StringCallback = void Function(String discription);
+typedef StringCallback = void Function(String string);
 typedef DoubleCallback = void Function(double number);
 
 class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
-  final StringCallback discriptionCallBack;
+  final StringCallback discriptionCallback;
   final DoubleCallback difficultyCallback;
   final DoubleCallback secondsPerRepCallback;
+  final StringCallback locationCallback;
 
   const NewWorkoutDifficultyAndMoreScreen({
     Key key,
-    this.discriptionCallBack,
+    this.discriptionCallback,
     this.difficultyCallback,
     this.secondsPerRepCallback,
+    this.locationCallback,
   }) : super(key: key);
 
   @override
@@ -35,6 +38,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
 
   double _secondsPerRepSlider;
   String _secondsPerRepSliderLabel;
+
+  String _dropdownValue = 'Location.gym';
 
   @override
   void initState() {
@@ -102,15 +107,15 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       ),
                       onFieldSubmitted: (value) {
                         _description = value;
-                        widget.discriptionCallBack(_description);
+                        widget.discriptionCallback(_description);
                       },
                       onChanged: (value) {
                         _description = value;
-                        widget.discriptionCallBack(_description);
+                        widget.discriptionCallback(_description);
                       },
                       onSaved: (value) {
                         _description = value;
-                        widget.discriptionCallBack(_description);
+                        widget.discriptionCallback(_description);
                       },
                     ),
                   ),
@@ -190,6 +195,67 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   child: Text(
                     S.current.secondsPerRepHelperText,
                     style: Caption1Grey,
+                  ),
+                ),
+                const SizedBox(height: 36),
+
+                /// Location
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.place_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(S.current.location, style: Headline6Bold),
+                    ],
+                  ),
+                ),
+                Card(
+                  margin: EdgeInsets.zero,
+                  color: CardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField(
+                      isExpanded: true,
+                      value: _dropdownValue,
+                      dropdownColor: CardColor,
+                      decoration: const InputDecoration(
+                        enabledBorder: InputBorder.none,
+                      ),
+                      style: BodyText1,
+                      onChanged: (value) {
+                        setState(() {
+                          _dropdownValue = value;
+                          widget.locationCallback(value);
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 'Location.gym',
+                          child: Text(Location.gym.translation),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Location.atHome',
+                          child: Text(Location.atHome.translation),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Location.outdoor',
+                          child: Text(Location.outdoor.translation),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Location.others',
+                          child: Text(Location.others.translation),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

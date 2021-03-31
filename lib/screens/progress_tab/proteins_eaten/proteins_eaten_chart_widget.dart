@@ -39,7 +39,6 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
       var sevenDayHistory = List<DailyNutritionHistory>.generate(7, (index) {
         var matchingHistory = _historiesFromFirebase
             .where((element) => element.date.toUtc() == _dates[index]);
-        // ignore: omit_local_variable_types
         double proteins =
             (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalProteins;
 
@@ -52,8 +51,8 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
     }
   }
 
+  //  SET MAX Y
   void setMaxY() {
-    ///   SET MAX Y
     if (widget.user.dailyNutritionHistories.isEmpty) {
       maxY = 150;
     } else {

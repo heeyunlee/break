@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/speed_dial_screens/add_measurement_screen.dart';
+// import 'package:workout_player/screens/speed_dial_screens/add_measurement_screen.dart';
 import 'package:workout_player/screens/speed_dial_screens/add_protein_screen.dart';
 import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 
@@ -33,17 +33,17 @@ class SpeedDialFAB extends StatelessWidget {
           onTap: () => StartWorkoutShortcutScreen.show(context),
           child: const Icon(Icons.fitness_center_rounded, color: Colors.white),
         ),
-        SpeedDialChild(
-          labelWidget: Text(
-            S.current.addMeasurement,
-            style: ButtonText,
-          ),
-          backgroundColor: Primary800Color,
-          onTap: () => AddMeasurementScreen.show(context),
-          child: Center(
-            child: const FaIcon(FontAwesomeIcons.weight, color: Colors.white),
-          ),
-        ),
+        // SpeedDialChild(
+        //   labelWidget: Text(
+        //     S.current.addMeasurement,
+        //     style: ButtonText,
+        //   ),
+        //   backgroundColor: Primary800Color,
+        //   onTap: () => AddMeasurementScreen.show(context),
+        //   child: Center(
+        //     child: const FaIcon(FontAwesomeIcons.weight, color: Colors.white),
+        //   ),
+        // ),
       ],
     );
   }

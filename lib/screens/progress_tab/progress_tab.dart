@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +14,13 @@ import '../../constants.dart';
 import '../../dummy_data.dart';
 import '../../format.dart';
 // import 'weights_history/weights_history_chart_widget.dart';
-import 'weights_history/weights_history_chart_widget.dart';
+// import 'weights_history/weights_history_chart_widget.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
+
+final StreamController<User> _currentUserStreamCtrl =
+    StreamController<User>.broadcast();
+Stream<User> get onCurrentUserChanged => _currentUserStreamCtrl.stream;
 
 class ProgressTab extends StatelessWidget {
   @override
@@ -32,8 +38,6 @@ class ProgressTab extends StatelessWidget {
           initialData: userDummyData,
           stream: database.userStream(auth.currentUser.uid),
           builder: (context, snapshot) {
-            final user = snapshot.data;
-
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
@@ -52,11 +56,11 @@ class ProgressTab extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                   ],
-                  flexibleSpace: _FlexibleSpace(user: user),
+                  flexibleSpace: _FlexibleSpace(user: snapshot.data),
                   backgroundColor: AppBarColor,
                   elevation: 0,
                 ),
-                _buildSliverToBoxAdaptor(user, database),
+                _buildSliverToBoxAdaptor(snapshot.data, database),
               ],
             );
           },
@@ -75,7 +79,7 @@ class ProgressTab extends StatelessWidget {
           children: [
             WeightsLiftedChartWidget(user: user),
             ProteinsEatenChartWidget(user: user),
-            WeightsHistoryChartWidget(),
+            // WeightsHistoryChartWidget(),
           ],
         ),
       ),

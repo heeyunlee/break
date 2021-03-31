@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/workout.dart';
 
 import 'models/routine.dart';
@@ -9,9 +11,9 @@ final workoutDummyData = Workout(
   workoutOwnerId: 'workoutOwnerId',
   workoutOwnerUserName: 'workoutOwnerUserName',
   description: 'description',
-  equipmentRequired: ['equipmentRequired'],
-  mainMuscleGroup: ['mainMuscleGroup'],
-  secondaryMuscleGroup: ['secondaryMuscleGroup'],
+  equipmentRequired: EquipmentRequired.barbell.list,
+  mainMuscleGroup: MainMuscleGroup.abs.list,
+  secondaryMuscleGroup: ['secondaryMuscleGroup.chest'],
   workoutTitle: 'workoutTitle',
   difficulty: 0,
   imageUrl: 'imageUrl',
@@ -39,9 +41,9 @@ final userDummyData = User(
 
 final routineDummyData = Routine(
   lastEditedDate: Timestamp.now(),
-  equipmentRequired: ['equipmentRequired'],
-  mainMuscleGroup: ['mainMuscleGroup'],
-  secondMuscleGroup: ['secondMuscleGroup'],
+  equipmentRequired: ['EquipmentRequired.barbell'],
+  mainMuscleGroup: ['MainMuscleGroup.chest'],
+  secondMuscleGroup: ['secondMuscleGroup.chest'],
   routineCreatedDate: Timestamp.now(),
   routineId: 'routineId',
   routineOwnerId: 'routineOwnerId',
@@ -55,4 +57,5 @@ final routineDummyData = Routine(
   isPublic: true,
   totalWeights: 0,
   trainingLevel: 0,
+  location: 'Location.gym',
 );

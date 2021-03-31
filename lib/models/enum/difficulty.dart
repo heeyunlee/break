@@ -1,3 +1,5 @@
+// TODO: Add Translation
+
 enum Difficulty {
   Beginner,
   Intermediate,

@@ -12,6 +12,7 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/create_workout/new_workout_difficulty_and_more_screen.dart';
@@ -67,6 +68,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   List _selectedEquipmentRequired = [];
   double _difficultySlider = 0;
   double _secondsPerRepSlider = 2;
+  String _location = 'Location.gym';
 
   int _pageIndex = 0;
 
@@ -79,8 +81,10 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       final userName = widget.user.userName;
       final lastEditedDate = Timestamp.now();
       final workoutCreatedDate = Timestamp.now();
-      final isBodyWeightWorkout =
-          (_selectedEquipmentRequired.contains('Bodyweight')) ? true : false;
+      final isBodyWeightWorkout = (_selectedEquipmentRequired
+              .contains(EquipmentRequired.bodyweight.toString()))
+          ? true
+          : false;
 
       // Get Image Url
       final ref = FirebaseStorage.instance.ref().child('workout-pictures');
@@ -105,6 +109,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         difficulty: _difficultySlider.toInt(),
         secondsPerRep: _secondsPerRepSlider.toInt(),
         isPublic: true,
+        location: _location,
       );
       await widget.database.setWorkout(workout);
       await Navigator.of(context, rootNavigator: false).pushReplacement(
@@ -112,8 +117,8 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
             database: widget.database,
-            user: widget.auth.currentUser,
             tag: 'newWorkout-${workout.workoutId}',
+            user: widget.user,
           ),
         ),
       );
@@ -247,7 +252,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
               );
             case 3:
               return NewWorkoutDifficultyAndMoreScreen(
-                discriptionCallBack: (value) => setState(() {
+                discriptionCallback: (value) => setState(() {
                   _description = value;
                 }),
                 difficultyCallback: (value) => setState(() {
@@ -255,6 +260,9 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                 }),
                 secondsPerRepCallback: (value) => setState(() {
                   _secondsPerRepSlider = value;
+                }),
+                locationCallback: (value) => setState(() {
+                  _location = value;
                 }),
               );
             default:

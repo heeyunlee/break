@@ -20,6 +20,7 @@ class Workout {
     this.tips,
     this.secondsPerRep,
     this.isPublic,
+    this.location,
   });
 
   final String workoutId;
@@ -39,6 +40,7 @@ class Workout {
   final String tips;
   final int secondsPerRep;
   final bool isPublic;
+  final String location;
 
   factory Workout.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -60,6 +62,7 @@ class Workout {
     final String tips = data['tips'];
     final int secondsPerRep = data['secondsPerRep'];
     final bool isPublic = data['isPublic'];
+    final String location = data['location'];
 
     return Workout(
       workoutId: documentId,
@@ -79,6 +82,7 @@ class Workout {
       tips: tips,
       secondsPerRep: secondsPerRep,
       isPublic: isPublic,
+      location: location,
     );
   }
 
@@ -100,6 +104,7 @@ class Workout {
       'tips': tips,
       'secondsPerRep': secondsPerRep,
       'isPublic': isPublic,
+      'location': location,
     };
   }
 }

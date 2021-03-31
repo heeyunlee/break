@@ -18,8 +18,8 @@ class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
 
 class _NewWorkoutMainMuscleGroupScreenState
     extends State<NewWorkoutMainMuscleGroupScreen> {
-  final Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
   final List<String> _selectedMainMuscleGroup = [];
+  final Map<String, bool> _mainMuscleGroup = MainMuscleGroup.abs.map;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,10 @@ class _NewWorkoutMainMuscleGroupScreenState
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: _mainMuscleGroup.keys.map((String key) {
+              final title = MainMuscleGroup.values
+                  .firstWhere((e) => e.toString() == key)
+                  .translation;
+
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -42,7 +46,7 @@ class _NewWorkoutMainMuscleGroupScreenState
                     color: (_mainMuscleGroup[key]) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
-                      title: Text(key, style: ButtonText),
+                      title: Text(title, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroup[key],
                       onChanged: (bool value) {

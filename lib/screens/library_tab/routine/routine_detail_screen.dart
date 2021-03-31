@@ -9,6 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
@@ -165,7 +168,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     debugPrint('_buildSliverAppBar');
     final size = MediaQuery.of(context).size;
 
-    final routineTitle = routine?.routineTitle ?? 'Add Title';
+    final routineTitle = routine.routineTitle ?? 'Add Title';
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -212,6 +215,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final weights = Format.weights(routine.totalWeights);
     final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
 
+    String location;
+    if (routine.location != null) {
+      var _location = Location.values
+          .firstWhere((e) => e.toString() == routine.location)
+          .translation;
+      location = _location;
+    }
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -255,6 +266,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         ),
                       ],
                     ),
+                    if (location != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          '${S.current.location}: $location',
+                          style: BodyText2Light,
+                        ),
+                      ),
                   ],
                 ),
                 const Spacer(),
@@ -386,9 +405,16 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final mainMuscleGroup = routine?.mainMuscleGroup[0] ?? 'Main Muscle Group';
-    final equipmentRequired =
-        routine?.equipmentRequired[0] ?? 'equipmentRequired';
+    final mainMuscleGroup = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
+            .translation ??
+        'Null';
+    final equipmentRequired = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
+            .translation ??
+        'Null';
+    // final equipmentRequired =
+    //     routine?.equipmentRequired[0] ?? 'equipmentRequired';
     final duration = Format.durationInMin(routine.duration);
 
     return FlexibleSpaceBar(
@@ -421,7 +447,6 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
             child: SizedBox(
               width: size.width,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   // Main Muscle Group
                   Column(
@@ -433,9 +458,14 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        mainMuscleGroup,
-                        style: Subtitle2,
+                      SizedBox(
+                        width: size.width / 3,
+                        child: Center(
+                          child: Text(
+                            mainMuscleGroup,
+                            style: Subtitle2,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -449,7 +479,12 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                         size: 24,
                       ),
                       const SizedBox(height: 16),
-                      Text(equipmentRequired, style: Subtitle2),
+                      SizedBox(
+                        width: size.width / 3,
+                        child: Center(
+                          child: Text(equipmentRequired, style: Subtitle2),
+                        ),
+                      ),
                     ],
                   ),
 
@@ -461,10 +496,15 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        '$duration ${S.current.minutes}',
-                        style: Subtitle2,
-                        maxLines: 1,
+                      SizedBox(
+                        width: size.width / 3,
+                        child: Center(
+                          child: Text(
+                            '$duration ${S.current.minutes}',
+                            style: Subtitle2,
+                            maxLines: 1,
+                          ),
+                        ),
                       ),
                     ],
                   ),

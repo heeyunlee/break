@@ -7,6 +7,9 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/routine/routine_detail_screen.dart';
@@ -26,8 +29,8 @@ class MuscleGroupSearchScreen extends StatelessWidget {
   final String arrayContains;
   final String searchCategory;
 
-  static void show({
-    BuildContext context,
+  static void show(
+    BuildContext context, {
     String isEqualTo,
     String arrayContains,
     String searchCategory,
@@ -46,6 +49,18 @@ class MuscleGroupSearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final title = (searchCategory == 'mainMuscleGroup')
+        ? MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == arrayContains)
+            .translation
+        : (searchCategory == 'equipmentRequired')
+            ? EquipmentRequired.values
+                .firstWhere((e) => e.toString() == arrayContains)
+                .translation
+            : Location.values
+                .firstWhere((e) => e.toString() == isEqualTo)
+                .translation;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -63,7 +78,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: Text(isEqualTo ?? arrayContains, style: Subtitle1),
+                title: Text(title, style: Subtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
@@ -91,11 +106,18 @@ class MuscleGroupSearchScreen extends StatelessWidget {
 
   Widget _buildWorkoutsBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    final query = (isEqualTo != null)
+        ? database
+            .workoutsSearchQuery()
+            .where(searchCategory, isEqualTo: isEqualTo)
+        : database
+            .workoutsSearchQuery()
+            .where(searchCategory, arrayContains: arrayContains);
 
     return PaginateFirestore(
       shrinkWrap: true,
       itemsPerPage: 10,
-      query: database.workoutsSearchQuery(searchCategory, arrayContains),
+      query: query,
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
         message: S.current.emptyContentTitle,
@@ -110,12 +132,15 @@ class MuscleGroupSearchScreen extends StatelessWidget {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
         final workout = Workout.fromMap(data, documentId);
+        final leadingText = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
+            .translation;
 
         return CustomListTile3(
           imageUrl: workout.imageUrl,
           isLeadingDuration: false,
           title: workout.workoutTitle,
-          leadingText: '${workout.equipmentRequired[0]}',
+          leadingText: leadingText,
           subtitle: workout.workoutOwnerUserName,
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
@@ -132,11 +157,18 @@ class MuscleGroupSearchScreen extends StatelessWidget {
 
   Widget _buildRoutinesBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    final query = (isEqualTo != null)
+        ? database
+            .routinesSearchQuery()
+            .where(searchCategory, isEqualTo: isEqualTo)
+        : database
+            .routinesSearchQuery()
+            .where(searchCategory, arrayContains: arrayContains);
 
     return PaginateFirestore(
       shrinkWrap: true,
       itemsPerPage: 10,
-      query: database.routinesSearchQuery(searchCategory, arrayContains),
+      query: query,
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
         message: S.current.emptyContentTitle,
