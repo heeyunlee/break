@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -24,6 +25,25 @@ abstract class Database {
   // Future<void> setSavedWorkout(SavedWorkout savedWorkout);
   // Stream<SavedWorkout> savedWorkoutStream({String workoutId});
   // Stream<List<SavedWorkout>> savedWorkoutsStream();
+
+  //////////////////// Body Measurement //////////////////////
+  Future<void> setMeasurement({
+    String uid,
+    Measurement measurement,
+  });
+  Future<void> updateMeasurement({
+    String uid,
+    String measurementId,
+    Map data,
+  });
+  Future<void> deleteMeasurement({
+    String uid,
+    Measurement measurement,
+  });
+  Stream<List<Measurement>> measurementsStream(String uid);
+
+  // Query
+  Query measurementsQuery(String uid);
 
   //////////////////// Nutrition /////////////////////
   //Future
@@ -216,6 +236,63 @@ class FirestoreDatabase implements Database {
   //       path: APIPath.savedWorkout(userId, workoutId),
   //       builder: (data, documentId) => SavedWorkout.fromMap(data, documentId),
   //     );
+
+  //////////////////////// Body Measurement ///////////////////////////
+  // Add or edit Body Measurement Data
+  @override
+  Future<void> setMeasurement({
+    String uid,
+    Measurement measurement,
+  }) =>
+      _service.setData(
+        path: APIPath.measurement(
+          uid,
+          measurement.measurementId,
+        ),
+        data: measurement.toMap(),
+      );
+
+  // Update Body Measurement Data
+  @override
+  Future<void> updateMeasurement({
+    String uid,
+    String measurementId,
+    Map data,
+  }) =>
+      _service.updateData(
+        path: APIPath.measurement(uid, measurementId),
+        data: data,
+      );
+
+  // Delete Body Measurement Data
+  @override
+  Future<void> deleteMeasurement({
+    String uid,
+    Measurement measurement,
+  }) async =>
+      _service.deleteData(
+        path: APIPath.measurement(uid, measurement.measurementId),
+      );
+
+  // Body Measurements Stream for User
+  @override
+  Stream<List<Measurement>> measurementsStream(String uid) =>
+      _service.collectionStream(
+        order: 'loggedTime',
+        descending: true,
+        limit: 30,
+        path: APIPath.measurements(uid),
+        builder: (data, documentId) => Measurement.fromMap(data, documentId),
+      );
+
+  // Measurements Query
+  // Nutrition Query for specfic User
+  @override
+  Query measurementsQuery(String uid) => _service.paginatedCollectionQuery(
+        path: APIPath.measurements(uid),
+        order: 'loggedTime',
+        descending: true,
+      );
 
   ////////////////////////// Nutrition ///////////////////////////////
   // Set

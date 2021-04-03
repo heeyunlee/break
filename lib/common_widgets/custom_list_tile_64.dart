@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants.dart';
 
@@ -43,6 +44,15 @@ class CustomListTile64 extends StatelessWidget {
                     tag: tag,
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: CardColor,
+                        highlightColor: Colors.white,
+                        child: Container(
+                          width: 64,
+                          height: 64,
+                          color: CardColor,
+                        ),
+                      ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                       fit: BoxFit.cover,
                     ),

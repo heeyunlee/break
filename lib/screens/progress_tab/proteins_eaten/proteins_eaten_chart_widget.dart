@@ -25,11 +25,11 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
   int touchedIndex;
   double maxY = 150;
 
-  List<DateTime> _dates;
-  List<String> _daysOfTheWeek;
+  List<DateTime> _dates = [];
+  List<String> _daysOfTheWeek = [];
 
-  List<DailyNutritionHistory> _historiesFromFirebase;
-  List<DailyNutritionHistory> _sevenDayHistory;
+  List<DailyNutritionHistory> _historiesFromFirebase = [];
+  List<DailyNutritionHistory> _sevenDayHistory = [];
 
   final List<double> _relativeNumber = [];
 
@@ -145,7 +145,6 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                               size: 16,
                             ),
                           ),
-                          const Spacer(),
                           const Spacer(),
                           // if (widget.user.dailyWeightsGoal == null)
                           //   TextButton(
@@ -295,7 +294,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
           colors: isTouched ? [Colors.green] : [Colors.greenAccent],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
-            show: true,
+            show: _sevenDayHistory.isEmpty,
             y: 10,
             colors: [CardColorLight],
           ),

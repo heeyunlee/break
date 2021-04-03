@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -13,10 +14,9 @@ import 'package:workout_player/services/database.dart';
 import '../../constants.dart';
 import '../../dummy_data.dart';
 import '../../format.dart';
-// import 'weights_history/weights_history_chart_widget.dart';
-// import 'weights_history/weights_history_chart_widget.dart';
-import 'weights_lifted_history/weights_lifted_chart_widget.dart';
+import 'measurement/measurements_line_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
+import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 
 final StreamController<User> _currentUserStreamCtrl =
     StreamController<User>.broadcast();
@@ -36,32 +36,46 @@ class ProgressTab extends StatelessWidget {
         backgroundColor: BackgroundColor,
         body: StreamBuilder<User>(
           initialData: userDummyData,
-          stream: database.userStream(auth.currentUser.uid),
+          stream: database.userStream(auth.currentUser.uid).asBroadcastStream(),
           builder: (context, snapshot) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  expandedHeight: 200,
-                  floating: true,
-                  pinned: true,
-                  snap: false,
-                  centerTitle: true,
-                  actions: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.settings_rounded,
-                        color: Colors.white,
+            if (snapshot.connectionState == ConnectionState.active) {
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: 200,
+                    floating: true,
+                    pinned: true,
+                    snap: false,
+                    centerTitle: true,
+                    actions: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.settings_rounded,
+                          color: Colors.white,
+                        ),
+                        onPressed: () => SettingsScreen.show(context),
                       ),
-                      onPressed: () => SettingsScreen.show(context),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  flexibleSpace: _FlexibleSpace(user: snapshot.data),
-                  backgroundColor: AppBarColor,
-                  elevation: 0,
-                ),
-                _buildSliverToBoxAdaptor(snapshot.data, database),
-              ],
+                      const SizedBox(width: 8),
+                    ],
+                    flexibleSpace: _FlexibleSpace(user: snapshot.data),
+                    backgroundColor: AppBarColor,
+                    elevation: 0,
+                  ),
+                  _buildSliverToBoxAdaptor(snapshot.data, database),
+                ],
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: SizedBox(
+                height: 200,
+                width: 20,
+              ),
             );
           },
         ),
@@ -79,7 +93,7 @@ class ProgressTab extends StatelessWidget {
           children: [
             WeightsLiftedChartWidget(user: user),
             ProteinsEatenChartWidget(user: user),
-            // WeightsHistoryChartWidget(),
+            MeasurementsLineChartWidget(user: user),
           ],
         ),
       ),

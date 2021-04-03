@@ -1,6 +1,6 @@
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
-import 'package:workout_player/format.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_card.dart';
 import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_detail_screen.dart';
@@ -16,8 +16,13 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    timeago.setLocaleMessages('ko', timeago.KoMessages());
+
     final workedOutTime = routineHistory.workoutEndTime.toDate();
-    final difference = Format.timeDifference(workedOutTime);
+    final timeAgo = timeago.format(
+      workedOutTime,
+      locale: 'ko',
+    );
 
     final notes = routineHistory.notes;
 
@@ -29,7 +34,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
         children: [
           _CustomListTile4(
             title: Text(routineHistory.username, style: Subtitle1Bold),
-            subtitle: difference,
+            subtitle: timeAgo,
           ),
           _buildNotes(notes),
           DailySummaryCard(

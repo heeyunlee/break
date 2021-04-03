@@ -126,7 +126,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           style: BodyText1Height,
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: S.current.feedbackHintText(widget.user.userName),
+            hintText: S.current.feedbackHintText,
             hintStyle: BodyText1Grey,
           ),
           onChanged: (value) {

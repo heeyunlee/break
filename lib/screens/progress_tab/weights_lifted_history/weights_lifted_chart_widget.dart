@@ -29,11 +29,11 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   int touchedIndex;
   double maxY = 20000;
 
-  List<DateTime> _dates;
-  List<String> _daysOfTheWeek;
+  List<DateTime> _dates = [];
+  List<String> _daysOfTheWeek = [];
 
-  List<DailyWorkoutHistory> _historiesFromFirebase;
-  List<DailyWorkoutHistory> _sevenDayHistory;
+  List<DailyWorkoutHistory> _historiesFromFirebase = [];
+  List<DailyWorkoutHistory> _sevenDayHistory = [];
 
   List<double> relativeNumber = [];
 
@@ -212,7 +212,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           colors: isTouched ? [Primary700Color] : [PrimaryColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
-            show: true,
+            show: _sevenDayHistory.isEmpty,
             y: 10,
             colors: [Colors.grey[800]],
           ),

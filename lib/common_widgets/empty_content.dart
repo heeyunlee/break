@@ -7,10 +7,12 @@ class EmptyContent extends StatelessWidget {
     Key key,
     this.message,
     this.button,
+    this.sizeFactor = 3,
   }) : super(key: key);
 
   final String message;
   final Widget button;
+  final num sizeFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,8 @@ class EmptyContent extends StatelessWidget {
           if (message != null) Text(message, style: Subtitle1Bold),
           Image.asset(
             'assets/images/treadmill.png',
-            height: size.height / 3,
-            width: size.height / 3,
+            height: size.height / sizeFactor,
+            width: size.height / sizeFactor,
           ),
           if (button != null) button,
         ],

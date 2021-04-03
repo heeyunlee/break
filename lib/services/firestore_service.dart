@@ -301,6 +301,18 @@ class FirestoreService {
     );
   }
 
+  Query paginatedCollectionQuery<T>({
+    @required String path,
+    @required String order,
+    @required bool descending,
+  }) {
+    final query = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(order, descending: descending);
+
+    return query;
+  }
+
   Query paginatedPublicCollectionQuery<T>({
     @required String path,
     @required String order,

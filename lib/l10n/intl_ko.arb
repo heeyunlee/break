@@ -32,7 +32,7 @@
     "FeedbackAndFeatureRequests": "피드백 및 기능 추가 요청",
     "yourFeedbackMatters": "더 좋은 서비스를 위해 노력하겠습니다!",
     "submit": "완료",
-    "feedbackHintText": "어떻게 하면 {username}님이 더욱 더 즐겁고 행복하게 건강을 유지할 수 있게 도움을 드릴수 있을지 궁금합니다!",
+    "feedbackHintText": "어떻게 하면 유저님이 더욱 더 즐겁고 행복하게 건강을 유지할 수 있게 도움을 드릴수 있을지 궁금합니다!",
     "about": "정보",
     "applicationName": "플레이어 H",
     "launguage": "언어",
@@ -197,5 +197,8 @@
     "atHome": "홈 트레이닝",
     "gym": "헬스장",
     "outdoor": "야외",
-    "location": "장소"
+    "location": "장소",
+    "bodyMeasurement": "인바디",
+    "measurementsEmptyMessage": "아직 인바디 기록이 없어요!",
+    "deleteMeasurementSnackbar": "성공적으로 인바디 기록을 삭제했습니다!" 
 }

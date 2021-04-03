@@ -365,13 +365,13 @@ class S {
     );
   }
 
-  /// `Please tell us what we could do to improve this app and {username} workout experience.`
-  String feedbackHintText(Object username) {
+  /// `Please tell us what we could do to improve this app and your workout experience.`
+  String get feedbackHintText {
     return Intl.message(
-      'Please tell us what we could do to improve this app and $username workout experience.',
+      'Please tell us what we could do to improve this app and your workout experience.',
       name: 'feedbackHintText',
       desc: '',
-      args: [username],
+      args: [],
     );
   }
 
@@ -2020,6 +2020,36 @@ class S {
     return Intl.message(
       'Location',
       name: 'location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Body Measurement`
+  String get bodyMeasurement {
+    return Intl.message(
+      'Body Measurement',
+      name: 'bodyMeasurement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't added any body measurements records yet!`
+  String get measurementsEmptyMessage {
+    return Intl.message(
+      'You haven\'t added any body measurements records yet!',
+      name: 'measurementsEmptyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully delete Measurement!`
+  String get deleteMeasurementSnackbar {
+    return Intl.message(
+      'Successfully delete Measurement!',
+      name: 'deleteMeasurementSnackbar',
       desc: '',
       args: [],
     );

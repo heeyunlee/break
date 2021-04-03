@@ -49,7 +49,6 @@ class SavedRoutinesTab extends StatelessWidget {
         final subtitle = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
             .translation;
-
         return CustomListTile64(
           tag: 'savedRoutines-${routine.routineId}',
           title: routine.routineTitle,

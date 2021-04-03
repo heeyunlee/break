@@ -10,6 +10,7 @@ import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
@@ -126,14 +127,29 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       debugPrint('validated');
-      print('bodyweight $_bodyWeight');
-      print('bodyfat $_bodyFat');
-      print('muscle mass is $_skeletalMuscleMass');
-      print('bmi is $_bmi');
-      print('notes is $_notes');
-      print(_loggedTime);
-      print(_loggedTimeInString);
-      print(_loggedDate);
+
+      final id = documentIdFromCurrentDate();
+
+      final bodyMeasurement = Measurement(
+        measurementId: 'BM$id',
+        userId: widget.user.userId,
+        username: widget.user.userName,
+        loggedTime: _loggedTime,
+        loggedDate: _loggedDate,
+        bodyWeight: _bodyWeight,
+        bodyFat: _bodyFat,
+        skeletalMuscleMass: _skeletalMuscleMass,
+        bmi: _bmi,
+        notes: _notes,
+      );
+
+      await widget.database.setMeasurement(
+        uid: widget.user.userId,
+        measurement: bodyMeasurement,
+      );
+
+      Navigator.of(context).pop();
+
       try {} on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(
@@ -185,7 +201,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         ),
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addWorkoutLog, style: Subtitle2),
+        title: Text(S.current.addMeasurement, style: Subtitle2),
         centerTitle: true,
       ),
       body: _buildBody(),

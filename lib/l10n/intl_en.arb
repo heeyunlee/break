@@ -32,7 +32,7 @@
     "FeedbackAndFeatureRequests": "Feedback & Feature Requests",
     "yourFeedbackMatters": "Your Feedback Matters!",
     "submit": "SUBMIT",
-    "feedbackHintText": "Please tell us what we could do to improve this app and {username} workout experience.",
+    "feedbackHintText": "Please tell us what we could do to improve this app and your workout experience.",
     "about": "About",
     "applicationName": "PLAYER H",
     "launguage": "Language",
@@ -197,5 +197,8 @@
     "atHome": "At Home",
     "gym": "Gym",
     "outdoor": "Outdoor",
-    "location": "Location"
+    "location": "Location",
+    "bodyMeasurement": "Body Measurement",
+    "measurementsEmptyMessage": "You haven't added any body measurements records yet!",
+    "deleteMeasurementSnackbar": "Successfully delete Measurement!" 
 }

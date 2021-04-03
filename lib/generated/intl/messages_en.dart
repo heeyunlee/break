@@ -21,19 +21,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(chip) => "No ${chip} routines yet...";
 
-  static m1(username) => "Please tell us what we could do to improve this app and ${username} workout experience.";
+  static m1(workout) => "No ${workout} workouts...";
 
-  static m2(workout) => "No ${workout} workouts...";
+  static m2(days) => "${days} days ago";
 
-  static m3(days) => "${days} days ago";
+  static m3(hours) => "${hours} hours ago";
 
-  static m4(hours) => "${hours} hours ago";
+  static m4(minutes) => "${minutes} minutes ago";
 
-  static m5(minutes) => "${minutes} minutes ago";
+  static m5(seconds) => "${seconds} seconds ago";
 
-  static m6(seconds) => "${seconds} seconds ago";
-
-  static m7(equipment) => "using ${equipment}";
+  static m6(equipment) => "using ${equipment}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -61,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "beforeWorkout" : MessageLookupByLibrary.simpleMessage("Before Workout"),
     "bench" : MessageLookupByLibrary.simpleMessage("Bench"),
     "bodyFat" : MessageLookupByLibrary.simpleMessage("Body Fat"),
+    "bodyMeasurement" : MessageLookupByLibrary.simpleMessage("Body Measurement"),
     "bodyweight" : MessageLookupByLibrary.simpleMessage("Bodyweight"),
     "bodyweightMeasurement" : MessageLookupByLibrary.simpleMessage("Body weight"),
     "breakfast" : MessageLookupByLibrary.simpleMessage("Breakfast"),
@@ -85,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteBottomSheetButtonText" : MessageLookupByLibrary.simpleMessage("Delete History"),
     "deleteBottomSheetMessage" : MessageLookupByLibrary.simpleMessage("It will delete your data permanently. You can\'t undo this process"),
     "deleteBottomSheetTitle" : MessageLookupByLibrary.simpleMessage("Are You Sure"),
+    "deleteMeasurementSnackbar" : MessageLookupByLibrary.simpleMessage("Successfully delete Measurement!"),
     "deleteProteinSnackbar" : MessageLookupByLibrary.simpleMessage("Deleted a protein entry"),
     "deleteRoutineButtonText" : MessageLookupByLibrary.simpleMessage("Delete Routine"),
     "deleteRoutineHistorySnackbar" : MessageLookupByLibrary.simpleMessage("Deleted workout history"),
@@ -120,7 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "equipmentRequiredAlertTitle" : MessageLookupByLibrary.simpleMessage("No Equipment Required Selected"),
     "etc" : MessageLookupByLibrary.simpleMessage("etc."),
     "everyone" : MessageLookupByLibrary.simpleMessage("Everyone"),
-    "feedbackHintText" : m1,
+    "feedbackHintText" : MessageLookupByLibrary.simpleMessage("Please tell us what we could do to improve this app and your workout experience."),
     "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
     "fullBody" : MessageLookupByLibrary.simpleMessage("Full Body"),
     "glutes" : MessageLookupByLibrary.simpleMessage("Glutes"),
@@ -150,12 +150,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "mainMuscleGroupAlertTitle" : MessageLookupByLibrary.simpleMessage("No Main Muscle Group Selected"),
     "makeItVisibleTo" : MessageLookupByLibrary.simpleMessage("Make it visible to:   "),
     "mealType" : MessageLookupByLibrary.simpleMessage("Meal Type"),
+    "measurementsEmptyMessage" : MessageLookupByLibrary.simpleMessage("You haven\'t added any body measurements records yet!"),
     "minutes" : MessageLookupByLibrary.simpleMessage("minutes"),
     "moreAboutThisWorkout" : MessageLookupByLibrary.simpleMessage("More About This Workout"),
     "moreSettings" : MessageLookupByLibrary.simpleMessage("More Settings"),
     "next" : MessageLookupByLibrary.simpleMessage("NEXT"),
     "noRoutineAlertTitle" : MessageLookupByLibrary.simpleMessage("No routine Title!"),
-    "noWorkoutEmptyContent" : m2,
+    "noWorkoutEmptyContent" : m1,
     "notes" : MessageLookupByLibrary.simpleMessage("Notes"),
     "notesHintText" : MessageLookupByLibrary.simpleMessage("no notes..."),
     "ok" : MessageLookupByLibrary.simpleMessage("OK"),
@@ -211,10 +212,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "stretch" : MessageLookupByLibrary.simpleMessage("Stretch"),
     "submit" : MessageLookupByLibrary.simpleMessage("SUBMIT"),
     "time" : MessageLookupByLibrary.simpleMessage("Time"),
-    "timeDifferenceInDays" : m3,
-    "timeDifferenceInHours" : m4,
-    "timeDifferenceInMinutes" : m5,
-    "timeDifferenceInSeconds" : m6,
+    "timeDifferenceInDays" : m2,
+    "timeDifferenceInHours" : m3,
+    "timeDifferenceInMinutes" : m4,
+    "timeDifferenceInSeconds" : m5,
     "totalVolumeHintText" : MessageLookupByLibrary.simpleMessage("Total Volume: in"),
     "totalVolumeValidatorText" : MessageLookupByLibrary.simpleMessage("Please enter volumes!"),
     "trainingLevel" : MessageLookupByLibrary.simpleMessage("Training Level"),
@@ -223,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "usernameEmptyContent" : MessageLookupByLibrary.simpleMessage("Username cannot be empty. Please add something"),
     "usernameEmptyTitle" : MessageLookupByLibrary.simpleMessage("Username is Empty"),
     "usernameHintText" : MessageLookupByLibrary.simpleMessage("\"Player H\""),
-    "usingEquipment" : m7,
+    "usingEquipment" : m6,
     "weightsChartMessage" : MessageLookupByLibrary.simpleMessage("Start working out now and see your progress!"),
     "weightsHintText" : MessageLookupByLibrary.simpleMessage("Please add weight data"),
     "workout" : MessageLookupByLibrary.simpleMessage("workout"),
