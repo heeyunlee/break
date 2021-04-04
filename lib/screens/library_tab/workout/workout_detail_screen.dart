@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/common_widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/format.dart';
@@ -93,48 +94,50 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Workout>(
-      initialData: workoutDummyData,
-      stream: widget.database.workoutStream(
-        workoutId: widget.workout.workoutId,
-      ),
-      builder: (context, snapshot) {
-        final workout = snapshot.data;
-
-        // return DefaultTabController(
-        //   length: 2,
-        //   child: Scaffold(
-        return Scaffold(
-          backgroundColor: BackgroundColor,
-          body: Stack(
+    return Scaffold(
+      backgroundColor: BackgroundColor,
+      body: CustomStreamBuilderWidget<Workout>(
+        initialData: workoutDummyData,
+        stream: widget.database
+            .workoutStream(
+              workoutId: widget.workout.workoutId,
+            )
+            .asBroadcastStream(),
+        hasDataWidget: (context, snapshot) {
+          return Stack(
             children: [
               CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  _buildSliverAppBar(context, workout),
+                  _buildSliverAppBar(context, snapshot.data),
                   // _buildSliverToBoxAdapter(workout),
                 ],
               ),
             ],
-          ),
-          // body: NestedScrollView(
-          //   controller: _scrollController,
-          //   headerSliverBuilder:
-          //       (BuildContext context, bool innerBoxIsScrolled) {
-          //     return <Widget>[
-          //       _buildSliverAppBar(context, workout),
-          //     ];
-          //   },
-          //   body: TabBarView(
-          //     children: [
-          //       Placeholder(),
-          //       Placeholder(),
-          //     ],
-          //   ),
-          // ),
-          // ),
-        );
-      },
+          );
+        },
+      ),
+      // body: StreamBuilder<Workout>(
+      //   initialData: workoutDummyData,
+      //   stream: widget.database.workoutStream(
+      //     workoutId: widget.workout.workoutId,
+      //   ),
+      //   builder: (context, snapshot) {
+      //     final workout = snapshot.data;
+
+      //     return Stack(
+      //       children: [
+      //         CustomScrollView(
+      //           physics: const BouncingScrollPhysics(),
+      //           slivers: [
+      //             _buildSliverAppBar(context, workout),
+      //             // _buildSliverToBoxAdapter(workout),
+      //           ],
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // ),
     );
   }
 
@@ -142,6 +145,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     final size = MediaQuery.of(context).size;
 
     return SliverAppBar(
+      brightness: Brightness.dark,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back_rounded,
@@ -173,7 +177,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
           IconButton(
             icon: const Icon(Icons.edit_rounded, color: Colors.white),
             onPressed: () => EditWorkoutScreen.show(
-              context: context,
+              context,
               workout: workout,
             ),
           ),

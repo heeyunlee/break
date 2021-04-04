@@ -83,6 +83,8 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(S.current.location, style: Subtitle1),
         leading: IconButton(

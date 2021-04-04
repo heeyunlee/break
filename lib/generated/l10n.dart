@@ -2054,6 +2054,186 @@ class S {
       args: [],
     );
   }
+
+  /// `Add at least two data to see your chart`
+  String get addMasurementDataMessage {
+    return Intl.message(
+      'Add at least two data to see your chart',
+      name: 'addMasurementDataMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've finished your workout! \nKeep Lifting! 🎉`
+  String get afterWorkoutSnackbar {
+    return Intl.message(
+      'You\'ve finished your workout! \nKeep Lifting! 🎉',
+      name: 'afterWorkoutSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add few sets to your workout`
+  String get addSetsToWorkout {
+    return Intl.message(
+      'Add few sets to your workout',
+      name: 'addSetsToWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weights`
+  String get weights {
+    return Intl.message(
+      'Weights',
+      name: 'weights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reps`
+  String get reps {
+    return Intl.message(
+      'Reps',
+      name: 'reps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To Previous Workout`
+  String get toPreviousWorkout {
+    return Intl.message(
+      'To Previous Workout',
+      name: 'toPreviousWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To previous set`
+  String get toPreviousSet {
+    return Intl.message(
+      'To previous set',
+      name: 'toPreviousSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause Workout`
+  String get pauseWorkout {
+    return Intl.message(
+      'Pause Workout',
+      name: 'pauseWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resume Workout`
+  String get resumeWorkout {
+    return Intl.message(
+      'Resume Workout',
+      name: 'resumeWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To Next Set`
+  String get toNextSet {
+    return Intl.message(
+      'To Next Set',
+      name: 'toNextSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To Next Workout`
+  String get toNextWorkout {
+    return Intl.message(
+      'To Next Workout',
+      name: 'toNextWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SAVE & END WORKOUT`
+  String get saveAndEndWorkout {
+    return Intl.message(
+      'SAVE & END WORKOUT',
+      name: 'saveAndEndWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stop your workout? Data won't be saved`
+  String get endWorkoutWarningMessage {
+    return Intl.message(
+      'Stop your workout? Data won\'t be saved',
+      name: 'endWorkoutWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stop the workout`
+  String get stopTheWorkout {
+    return Intl.message(
+      'Stop the workout',
+      name: 'stopTheWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's Workout Summary: `
+  String get todaysWorkoutSummary {
+    return Intl.message(
+      'Today\'s Workout Summary: ',
+      name: 'todaysWorkoutSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stats`
+  String get stats {
+    return Intl.message(
+      'Stats',
+      name: 'stats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do you feel? Add Notes`
+  String get addNotesHintText {
+    return Intl.message(
+      'How do you feel? Add Notes',
+      name: 'addNotesHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How was your workout?`
+  String get setEffortsTitle {
+    return Intl.message(
+      'How was your workout?',
+      name: 'setEffortsTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

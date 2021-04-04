@@ -79,6 +79,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
             builder: (context, child) => AppBar(
               centerTitle: true,
               elevation: 0,
+              brightness: Brightness.dark,
               backgroundColor: _colorTween.value,
               title: Transform.translate(
                 offset: _transTween.value,

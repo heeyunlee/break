@@ -97,6 +97,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(S.current.editUserNameTitle, style: Subtitle1),

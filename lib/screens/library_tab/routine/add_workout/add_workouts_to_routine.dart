@@ -6,10 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/common_widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/common_widgets/custom_list_tile_3.dart';
+import 'package:workout_player/common_widgets/custom_stream_builder_widget.dart';
+import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
+import 'package:workout_player/common_widgets/shimmer/list_view_shimmer.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -123,6 +127,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               pinned: true,
               snap: false,
               centerTitle: true,
+              brightness: Brightness.dark,
               title: Text(S.current.addWorkoutButtonText, style: Subtitle1),
               flexibleSpace: AppbarBlurBG(),
               backgroundColor: Colors.transparent,
@@ -153,50 +158,99 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   Widget _buildBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
+    final chip = (_selectedChip != 'All')
+        ? MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == _selectedChip)
+            .translation
+        : '전부';
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: StreamBuilder<List<Workout>>(
+      child: CustomStreamBuilderWidget(
         stream: (_selectedChip == 'All')
             ? database.workoutsStream()
             : database.workoutsSearchStream(
                 searchCategory: 'mainMuscleGroup',
                 arrayContains: _selectedChip,
               ),
-        builder: (context, snapshot) {
-          final chip = MainMuscleGroup.values
-              .firstWhere((e) => e.toString() == _selectedChip)
-              .translation;
+        errorWidget: EmptyContent(),
+        loadingWidget: ListViewShimmer(),
+        hasDataWidget: (context, snapshot) => ListItemBuilder<Workout>(
+          emptyContentTitle: S.current.noWorkoutEmptyContent(chip),
+          snapshot: snapshot,
+          itemBuilder: (context, workout) {
+            final difficulty = Format.difficulty(workout.difficulty);
+            final leadingText = MainMuscleGroup.values
+                .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+                .translation;
 
-          return ListItemBuilder<Workout>(
-            emptyContentTitle: S.current.noWorkoutEmptyContent(chip),
-            snapshot: snapshot,
-            itemBuilder: (context, workout) {
-              final difficulty = Format.difficulty(workout.difficulty);
-              final leadingText = MainMuscleGroup.values
-                  .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
-                  .translation;
+            final equipment = EquipmentRequired.values
+                .firstWhere(
+                  (e) => e.toString() == workout.equipmentRequired[0],
+                )
+                .translation;
 
-              return CustomListTile3(
-                imageUrl: workout.imageUrl,
-                isLeadingDuration: false,
-                leadingText: leadingText,
-                title: workout.workoutTitle,
-                subtitle:
-                    '$difficulty,  ${S.current.usingEquipment(workout.equipmentRequired[0])}',
-                onTap: () {
-                  setState(() {
-                    selectedWorkoutId = workout.workoutId;
-                    selectedWorkoutTitle = workout.workoutTitle;
-                    isBodyWeightWorkout = workout.isBodyWeightWorkout;
-                    secondsPerRep = workout.secondsPerRep ?? 3;
-                  });
-                  _submit();
-                },
-              );
-            },
-          );
-        },
+            return CustomListTile3(
+              imageUrl: workout.imageUrl,
+              isLeadingDuration: false,
+              leadingText: leadingText,
+              title: workout.workoutTitle,
+              subtitle: '$difficulty,  ${S.current.usingEquipment(equipment)}',
+              onTap: () {
+                setState(() {
+                  selectedWorkoutId = workout.workoutId;
+                  selectedWorkoutTitle = workout.workoutTitle;
+                  isBodyWeightWorkout = workout.isBodyWeightWorkout;
+                  secondsPerRep = workout.secondsPerRep ?? 3;
+                });
+                _submit();
+              },
+            );
+          },
+        ),
       ),
+      // child: StreamBuilder<List<Workout>>(
+      //   stream: (_selectedChip == 'All')
+      //       ? database.workoutsStream()
+      //       : database.workoutsSearchStream(
+      //           searchCategory: 'mainMuscleGroup',
+      //           arrayContains: _selectedChip,
+      //         ),
+      //   builder: (context, snapshot) {
+      // final chip = MainMuscleGroup.values
+      //     .firstWhere((e) => e.toString() == _selectedChip)
+      //     .translation;
+
+      // return ListItemBuilder<Workout>(
+      //   emptyContentTitle: S.current.noWorkoutEmptyContent(chip),
+      //   snapshot: snapshot,
+      //   itemBuilder: (context, workout) {
+      //     final difficulty = Format.difficulty(workout.difficulty);
+      //     final leadingText = MainMuscleGroup.values
+      //         .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+      //         .translation;
+
+      //     return CustomListTile3(
+      //       imageUrl: workout.imageUrl,
+      //       isLeadingDuration: false,
+      //       leadingText: leadingText,
+      //       title: workout.workoutTitle,
+      //       subtitle:
+      //           '$difficulty,  ${S.current.usingEquipment(workout.equipmentRequired[0])}',
+      //       onTap: () {
+      //         setState(() {
+      //           selectedWorkoutId = workout.workoutId;
+      //           selectedWorkoutTitle = workout.workoutTitle;
+      //           isBodyWeightWorkout = workout.isBodyWeightWorkout;
+      //           secondsPerRep = workout.secondsPerRep ?? 3;
+      //         });
+      //         _submit();
+      //       },
+      //     );
+      //   },
+      // );
+      //   },
+      // ),
     );
   }
 }

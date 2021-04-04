@@ -24,7 +24,6 @@ class WorkoutMediumCard extends StatefulWidget {
     this.database,
     this.routine,
     this.routineWorkout,
-    // this.user,
     this.auth,
   });
 

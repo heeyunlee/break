@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -51,21 +52,21 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          if (!widget.routineWorkout.isBodyWeightWorkout)
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.add_rounded,
-                                color: Colors.white,
-                              ),
-                            ),
+                          // if (!widget.routineWorkout.isBodyWeightWorkout)
+                          //   IconButton(
+                          //     onPressed: () {},
+                          //     icon: const Icon(
+                          //       Icons.add_rounded,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
                           RichText(
                             text: TextSpan(
                               style: BodyText2,
                               children: <TextSpan>[
                                 if (widget.routineWorkout.isBodyWeightWorkout)
-                                  const TextSpan(
-                                    text: 'Bodyweight',
+                                  TextSpan(
+                                    text: S.current.bodyweight,
                                     style: Headline5,
                                   ),
                                 if (!widget.routineWorkout.isBodyWeightWorkout)
@@ -75,22 +76,22 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                               ],
                             ),
                           ),
-                          if (!widget.routineWorkout.isBodyWeightWorkout)
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.remove_rounded,
-                                color: Colors.white,
-                              ),
-                            ),
+                          // if (!widget.routineWorkout.isBodyWeightWorkout)
+                          //   IconButton(
+                          //     onPressed: () {},
+                          //     icon: const Icon(
+                          //       Icons.remove_rounded,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
                         ],
                       ),
                     ),
                     Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text('Weights', style: BodyText2Grey),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(S.current.weights, style: BodyText2Grey),
                         ),
                         const Divider(color: BackgroundColor, height: 0),
                       ],
@@ -108,13 +109,13 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
+                          // IconButton(
+                          //   onPressed: () {},
+                          //   icon: const Icon(
+                          //     Icons.add_rounded,
+                          //     color: Colors.white,
+                          //   ),
+                          // ),
                           RichText(
                             text: TextSpan(
                               style: Headline3,
@@ -124,21 +125,21 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.remove_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
+                          // IconButton(
+                          //   onPressed: () {},
+                          //   icon: const Icon(
+                          //     Icons.remove_rounded,
+                          //     color: Colors.white,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
                     Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text('Reps', style: BodyText2Grey),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(S.current.reps, style: BodyText2Grey),
                         ),
                         const Divider(color: BackgroundColor, height: 0),
                       ],

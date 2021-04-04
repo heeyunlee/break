@@ -79,6 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
         centerTitle: true,
         flexibleSpace: AppbarBlurBG(),
         backgroundColor: Colors.transparent,

@@ -41,6 +41,7 @@ abstract class Database {
     Measurement measurement,
   });
   Stream<List<Measurement>> measurementsStream(String uid);
+  Stream<List<Measurement>> measurementsStreamThisWeek(String uid);
 
   // Query
   Query measurementsQuery(String uid);
@@ -280,7 +281,14 @@ class FirestoreDatabase implements Database {
       _service.collectionStream(
         order: 'loggedTime',
         descending: true,
-        limit: 30,
+        path: APIPath.measurements(uid),
+        builder: (data, documentId) => Measurement.fromMap(data, documentId),
+      );
+
+  // Body Measurements Stream for User
+  @override
+  Stream<List<Measurement>> measurementsStreamThisWeek(String uid) =>
+      _service.collectionStreamOfThisWeek(
         path: APIPath.measurements(uid),
         builder: (data, documentId) => Measurement.fromMap(data, documentId),
       );

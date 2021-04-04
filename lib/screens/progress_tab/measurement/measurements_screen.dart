@@ -76,6 +76,7 @@ class MeasurementsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.current.bodyMeasurement, style: Subtitle2),
         centerTitle: true,
+        brightness: Brightness.dark,
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: IconButton(

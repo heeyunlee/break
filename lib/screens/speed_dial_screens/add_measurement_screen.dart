@@ -195,6 +195,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        centerTitle: true,
+        brightness: Brightness.dark,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close_rounded, color: Colors.white),
@@ -202,7 +204,6 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         title: Text(S.current.addMeasurement, style: Subtitle2),
-        centerTitle: true,
       ),
       body: _buildBody(),
       floatingActionButton: Container(

@@ -241,6 +241,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           return Scaffold(
             backgroundColor: BackgroundColor,
             appBar: AppBar(
+              brightness: Brightness.dark,
               leading: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close_rounded, color: Colors.white),

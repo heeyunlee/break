@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/common_widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
@@ -36,36 +37,27 @@ class _MeasurementsLineChartWidgetState
 
   final DateTime _now = DateTime.now();
   DateTime _today;
-  List<DateTime> _dates = [];
+  List<DateTime> _dates;
   List<String> _daysOfTheWeek = [];
+  // ignore: prefer_final_fields
   List<Measurement> _thisWeekData = [];
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
+    debugPrint('setMaxY func');
     if (measurements.isEmpty || measurements.length < 2) {
       maxY = 80;
       minY = 70;
     } else {
-      print('date is $_dates');
-      print('measre ${measurements[0].loggedDate.toUtc()}');
-      // final now = DateTime.now().toUtc();
-      // _thisWeekData = measurements
-      //     .where((element) => _now.difference(element.loggedDate).inDays < 7)
-      //     .toList();
-      // var sd = [];
-      // for (var i = 0; i < _dates.length; i++) {
-      //   var m =
-      //       measurements.firstWhere((e) => e.loggedDate.toUtc() == _dates[i]);
-      //   sd.add(m);
-      // }
-      // _thisWeekData = sd;
-
-      _dates.forEach((date) {
-        var measurement = measurements.firstWhere(
-          (element) => element.loggedDate.toUtc() == date,
-        );
-        _thisWeekData.add(measurement);
-      });
+      _dates.forEach(
+        (date) {
+          var data = measurements
+              .where((element) => element.loggedDate.toUtc() == date);
+          if (data.isNotEmpty) {
+            _thisWeekData.add(data.first);
+          }
+        },
+      );
 
       final largest =
           measurements.map<double>((e) => e.bodyWeight.toDouble()).reduce(max);
@@ -76,13 +68,13 @@ class _MeasurementsLineChartWidgetState
       final roundedLowest = lowest ~/ 10 * 10;
       maxY = roundedLargest.toDouble();
       minY = roundedLowest.toDouble();
-      print('max Y is $maxY');
-      print('min Y is $minY');
     }
   }
 
   // ignore: missing_return
   double flipNumber(double number) {
+    debugPrint('flipNumber func');
+
     switch (number.toInt()) {
       case 6:
         return 0.toDouble();
@@ -105,7 +97,8 @@ class _MeasurementsLineChartWidgetState
   @override
   void initState() {
     super.initState();
-    // _now = DateTime.now();
+    debugPrint('initiated');
+
     _today = DateTime.utc(_now.year, _now.month, _now.day);
 
     // Create list of 7 days
@@ -122,6 +115,7 @@ class _MeasurementsLineChartWidgetState
   @override
   void dispose() {
     super.dispose();
+    debugPrint('disposed');
   }
 
   @override
@@ -136,50 +130,7 @@ class _MeasurementsLineChartWidgetState
         color: CardColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => MeasurementsScreen.show(context),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.line_weight_rounded,
-                          color: SecondaryColor,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          S.current.bodyMeasurement,
-                          style: Subtitle1w900Secondary,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: SecondaryColor,
-                            size: 16,
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-              // const Divider(color: Grey700),
-              const SizedBox(height: 16),
-              _buildChartWidget(),
-            ],
-          ),
+          child: _buildChartWidget(),
         ),
       ),
     );
@@ -189,110 +140,166 @@ class _MeasurementsLineChartWidgetState
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
-    return AspectRatio(
-      aspectRatio: 1.4,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: StreamBuilder<List<Measurement>>(
-          stream: database.measurementsStream(auth.currentUser.uid),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              setMaxY(snapshot.data);
+    return CustomStreamBuilderWidget<List<Measurement>>(
+      stream: database.measurementsStreamThisWeek(auth.currentUser.uid),
+      hasDataWidget: (context, snapshot) {
+        setMaxY(snapshot.data);
 
-              return LineChart(
-                LineChartData(
-                  gridData: FlGridData(
-                    horizontalInterval: 5,
-                    drawVerticalLine: false,
-                    show: true,
-                    getDrawingHorizontalLine: (value) {
-                      return FlLine(
-                        color: Colors.white12,
-                        strokeWidth: 1,
-                      );
-                    },
-                    getDrawingVerticalLine: (value) {
-                      return FlLine(
-                        color: Colors.white12,
-                        strokeWidth: 1,
-                      );
-                    },
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => MeasurementsScreen.show(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.line_weight_rounded,
+                        color: SecondaryColor,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        S.current.bodyMeasurement,
+                        style: Subtitle1w900Secondary,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: SecondaryColor,
+                          size: 16,
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
                   ),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 22,
-                      margin: 24,
-                      getTextStyles: (value) => BodyText2,
-                      getTitles: (value) {
-                        switch (value.toInt()) {
-                          case 0:
-                            return '${_daysOfTheWeek[6]}';
-                          case 1:
-                            return '${_daysOfTheWeek[5]}';
-                          case 2:
-                            return '${_daysOfTheWeek[4]}';
-                          case 3:
-                            return '${_daysOfTheWeek[3]}';
-                          case 4:
-                            return '${_daysOfTheWeek[2]}';
-                          case 5:
-                            return '${_daysOfTheWeek[1]}';
-                          case 6:
-                            return '${_daysOfTheWeek[0]}';
+                  if (snapshot.data.length < 2)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        S.current.addMasurementDataMessage,
+                        style: BodyText2,
+                      ),
+                    ),
+                  if (snapshot.data.length >= 2) const SizedBox(height: 16),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            AspectRatio(
+              aspectRatio: 1.4,
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
+                  child: LineChart(
+                    LineChartData(
+                      gridData: FlGridData(
+                        horizontalInterval: (maxY - minY) / 4,
+                        drawVerticalLine: false,
+                        show: true,
+                        getDrawingHorizontalLine: (value) {
+                          return FlLine(
+                            color: Colors.white12,
+                            strokeWidth: 1,
+                          );
+                        },
+                        getDrawingVerticalLine: (value) {
+                          return FlLine(
+                            color: Colors.white12,
+                            strokeWidth: 1,
+                          );
+                        },
+                      ),
+                      titlesData: FlTitlesData(
+                        show: true,
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 22,
+                          margin: 24,
+                          getTextStyles: (value) => BodyText2,
+                          getTitles: (value) {
+                            switch (value.toInt()) {
+                              case 0:
+                                return '${_daysOfTheWeek[6]}';
+                              case 1:
+                                return '${_daysOfTheWeek[5]}';
+                              case 2:
+                                return '${_daysOfTheWeek[4]}';
+                              case 3:
+                                return '${_daysOfTheWeek[3]}';
+                              case 4:
+                                return '${_daysOfTheWeek[2]}';
+                              case 5:
+                                return '${_daysOfTheWeek[1]}';
+                              case 6:
+                                return '${_daysOfTheWeek[0]}';
 
-                          default:
+                              default:
+                                return '';
+                            }
+                          },
+                        ),
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          margin: 20,
+                          // reservedSize: 20,
+                          getTextStyles: (value) => Caption1Grey,
+                          getTitles: (value) {
+                            final unit = Format.unitOfMass(
+                              widget.user.unitOfMass,
+                            );
+                            final interaval = (maxY - minY) / 4;
+
+                            if (value == maxY) {
+                              return '${maxY.toInt()} $unit';
+                            } else if (value == maxY - interaval) {
+                              return '${(maxY - interaval).toInt()} $unit';
+                            } else if (value == maxY - interaval * 2) {
+                              return '${(maxY - interaval * 2).toInt()} $unit';
+                            } else if (value == maxY - interaval * 3) {
+                              return '${(maxY - interaval * 3).toInt()} $unit';
+                            } else if (value == minY) {
+                              return '${minY.toInt()} $unit';
+                            }
                             return '';
-                        }
-                      },
+                          },
+                        ),
+                      ),
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border(
+                          bottom: BorderSide(color: Colors.white12, width: 1),
+                        ),
+                      ),
+                      minX: 0,
+                      maxX: 6,
+                      minY: minY,
+                      maxY: maxY,
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: (snapshot.data.length > 1)
+                              ? actualSpots()
+                              : _randomSpots(),
+                          isCurved: true,
+                          colors: gradientColors,
+                          barWidth: 2,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: true),
+                        ),
+                      ],
                     ),
-                    leftTitles: SideTitles(
-                      showTitles: true,
-                      margin: 12,
-                      getTextStyles: (value) => Caption1Grey,
-                      getTitles: (value) {
-                        final unit = Format.unitOfMass(
-                          widget.user.unitOfMass,
-                        );
-
-                        if (value == maxY) {
-                          return '${maxY.toInt()} $unit';
-                        } else if (value == maxY - 5) {
-                          return '${(maxY - 5).toInt()} $unit';
-                        } else if (value == maxY - 10) {
-                          return '${(maxY - 10).toInt()} $unit';
-                        }
-                        return '';
-                      },
-                    ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  minX: 0,
-                  maxX: 6,
-                  minY: minY,
-                  maxY: maxY,
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: (snapshot.data.length > 1)
-                          ? actualSpots()
-                          : _randomSpots(),
-                      isCurved: true,
-                      colors: gradientColors,
-                      barWidth: 2,
-                      isStrokeCapRound: true,
-                      dotData: FlDotData(show: true),
-                    ),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Container();
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        ),
-      ),
+                  )),
+            ),
+          ],
+        );
+      },
     );
   }
 

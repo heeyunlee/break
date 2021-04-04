@@ -40,6 +40,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: Text(S.current.routineHistoryTitle, style: Subtitle2),
         centerTitle: true,
         backgroundColor: AppBarColor,

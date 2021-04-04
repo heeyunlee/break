@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.white),
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
     );
 
     return MultiProvider(

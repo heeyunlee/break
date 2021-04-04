@@ -94,6 +94,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         centerTitle: true,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
         leading: IconButton(

@@ -47,6 +47,7 @@ class ProgressTab extends StatelessWidget {
                     pinned: true,
                     snap: false,
                     centerTitle: true,
+                    brightness: Brightness.dark,
                     actions: [
                       IconButton(
                         icon: const Icon(
@@ -94,6 +95,7 @@ class ProgressTab extends StatelessWidget {
             WeightsLiftedChartWidget(user: user),
             ProteinsEatenChartWidget(user: user),
             MeasurementsLineChartWidget(user: user),
+            const SizedBox(height: 36),
           ],
         ),
       ),

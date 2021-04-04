@@ -10,6 +10,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -56,6 +59,15 @@ class _RoutineHistorySummaryScreenState
   bool _isPublic = true;
   double _effort = 3;
 
+  String _title;
+  final List<dynamic> _translatedMuscleGroup = [];
+  final List<dynamic> _translatedEquipments = [];
+  List<dynamic> _musclesAndEquipment;
+
+  String _formattedUnit;
+  String _formattedWeight;
+  String _formattedDuration;
+
   @override
   void initState() {
     super.initState();
@@ -90,41 +102,63 @@ class _RoutineHistorySummaryScreenState
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
+  }
+
+  void dataFormat(RoutineHistory routineHistory) {
+    _title = routineHistory.routineTitle ?? 'Title';
+    final _mainMuscleGroups = routineHistory.mainMuscleGroup;
+    _mainMuscleGroups.forEach(
+      (element) {
+        var translated = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == element)
+            .translation;
+        _translatedMuscleGroup.add(translated);
+      },
+    );
+    final _equipments = routineHistory.equipmentRequired;
+    _equipments.forEach(
+      (element) {
+        var translated = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == element)
+            .translation;
+        _translatedEquipments.add(translated);
+      },
+    );
+
+    _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
+
+    // Unit Of Mass
+    final _unit = routineHistory.unitOfMass;
+    _formattedUnit = Format.unitOfMass(_unit);
+
+    // Number Formatting
+    final _weights = routineHistory.totalWeights;
+    _formattedWeight = Format.weights(_weights);
+
+    // Date / Time
+    final startTime = routineHistory.workoutStartTime;
+    final formattedStartTime = Format.timeInHM(startTime);
+    final endTime = routineHistory.workoutEndTime;
+    final formattedEndTime = Format.timeInHM(endTime);
+
+    _formattedDuration = '$formattedStartTime ~ $formattedEndTime';
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // Data
-    final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroups = widget.routineHistory.mainMuscleGroup;
-    final equipments = widget.routineHistory.equipmentRequired;
-
-    // Unit Of Mass
-    final unit = widget.routineHistory.unitOfMass;
-    final formattedUnit = Format.unitOfMass(unit);
-
-    // Number Formatting
-    final weights = widget.routineHistory.totalWeights;
-    final formattedWeight = Format.weights(weights);
-
-    // Date / Time
-    final startTime = widget.routineHistory.workoutStartTime;
-    final formattedStartTime = Format.timeInHM(startTime);
-    final endTime = widget.routineHistory.workoutEndTime;
-    final formattedEndTime = Format.timeInHM(endTime);
-
-    final formattedDuration = '$formattedStartTime ~ $formattedEndTime';
+    dataFormat(widget.routineHistory);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -169,63 +203,7 @@ class _RoutineHistorySummaryScreenState
                         ),
                       ),
                       // TODO: Polish below code
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            const Text(
-                              'Today\'s Workout: ',
-                              style: Subtitle1Grey,
-                            ),
-                            Text(
-                              title,
-                              maxLines: 1,
-                              style: Headline5Bold.copyWith(
-                                fontSize: size.height * 0.03,
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              clipBehavior: Clip.none,
-                              child: Row(
-                                children: [
-                                  Chip(
-                                    label: Text(
-                                      '${mainMuscleGroups[0]}',
-                                      style: ButtonText,
-                                    ),
-                                    backgroundColor: PrimaryColor,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  if (mainMuscleGroups.length > 1)
-                                    Chip(
-                                      label: Text('${mainMuscleGroups[1]}',
-                                          style: ButtonText),
-                                      backgroundColor: PrimaryColor,
-                                    ),
-                                  const SizedBox(width: 8),
-                                  Chip(
-                                    label: Text(
-                                      '${equipments[0]}',
-                                      style: ButtonText,
-                                    ),
-                                    backgroundColor: PrimaryColor,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  if (equipments.length > 1)
-                                    Chip(
-                                      label: Text('${equipments[1]}',
-                                          style: ButtonText),
-                                      backgroundColor: PrimaryColor,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      _buildChips(),
                     ],
                   ),
                 ),
@@ -240,7 +218,7 @@ class _RoutineHistorySummaryScreenState
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
-                            'Stats',
+                            S.current.stats,
                             maxLines: 1,
                             style: Headline6w900.copyWith(
                               fontSize: size.height * 0.02,
@@ -249,15 +227,14 @@ class _RoutineHistorySummaryScreenState
                         ),
                         SizedBox(height: size.height * 0.018),
                         _SummaryRowWidget(
-                          title: formattedWeight,
-                          subtitle: ' $formattedUnit  Lifted',
+                          title: '$_formattedWeight ',
+                          subtitle: _formattedUnit,
                           imageUrl:
                               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
                         ),
                         SizedBox(height: size.height * 0.018),
                         _SummaryRowWidget(
-                          title: formattedDuration,
-                          // subtitle: ' min  Spent',
+                          title: _formattedDuration,
                           imageUrl:
                               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
                         ),
@@ -268,7 +245,7 @@ class _RoutineHistorySummaryScreenState
                             vertical: 8,
                           ),
                           child: Text(
-                            'Note',
+                            S.current.notes,
                             style: Headline6w900.copyWith(
                               fontSize: size.height * 0.02,
                             ),
@@ -286,8 +263,8 @@ class _RoutineHistorySummaryScreenState
                               controller: _textController1,
                               style: BodyText2,
                               focusNode: focusNode1,
-                              decoration: const InputDecoration(
-                                hintText: 'How do you feel? Add Notes',
+                              decoration: InputDecoration(
+                                hintText: S.current.addNotesHintText,
                                 hintStyle: BodyText2Grey,
                                 border: InputBorder.none,
                               ),
@@ -306,7 +283,7 @@ class _RoutineHistorySummaryScreenState
                             vertical: 8,
                           ),
                           child: Text(
-                            'How was your workout?',
+                            S.current.setEffortsTitle,
                             style: Headline6w900.copyWith(
                               fontSize: size.height * 0.02,
                             ),
@@ -355,14 +332,16 @@ class _RoutineHistorySummaryScreenState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              'Make it visible to:    ',
+                            Text(
+                              S.current.makeItVisibleTo,
                               style: BodyText2Light,
                             ),
                             SizedBox(
                               width: 72,
                               child: Text(
-                                (_isPublic) ? 'Everyone' : 'Just Me',
+                                (_isPublic)
+                                    ? S.current.everyone
+                                    : S.current.justMe,
                                 style: BodyText2w900,
                               ),
                             ),
@@ -414,6 +393,50 @@ class _RoutineHistorySummaryScreenState
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildChips() {
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Text(
+            S.current.todaysWorkoutSummary,
+            style: Subtitle1Grey,
+          ),
+          Text(
+            _title,
+            maxLines: 1,
+            style: Headline5Bold.copyWith(
+              fontSize: size.height * 0.03,
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            child: Row(
+              children: List.generate(
+                _musclesAndEquipment.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Chip(
+                    label: Text(
+                      _musclesAndEquipment[index],
+                      style: ButtonText,
+                    ),
+                    backgroundColor: PrimaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

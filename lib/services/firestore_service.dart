@@ -124,6 +124,29 @@ class FirestoreService {
     );
   }
 
+  Stream<List<T>> collectionStreamOfThisWeek<T>({
+    @required String path,
+    @required T Function(Map<String, dynamic> data, String documentId) builder,
+  }) {
+    final lastWeek = DateTime.now().subtract(Duration(days: 7));
+
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where('loggedTime', isGreaterThanOrEqualTo: lastWeek)
+        .orderBy(
+          'loggedTime',
+          descending: true,
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      // converting snapshots of data to list of Data
+      (snapshot) => snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList(),
+    );
+  }
+
   // Collection Stream with/without limit and with order
   Stream<List<T>> publicCollectionStream<T>({
     @required String path,

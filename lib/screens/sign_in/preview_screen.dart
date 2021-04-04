@@ -203,11 +203,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   child: SmoothPageIndicator(
                     controller: _pageController,
                     count: 4,
-                    effect: const ScrollingDotsEffect(
+                    effect: const WormEffect(
                       activeDotColor: PrimaryColor,
-                      activeDotScale: 1.5,
-                      dotHeight: 8,
-                      dotWidth: 8,
+                      dotHeight: 9,
+                      dotWidth: 9,
                       spacing: 10,
                     ),
                   ),

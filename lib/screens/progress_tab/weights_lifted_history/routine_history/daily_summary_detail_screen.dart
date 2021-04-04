@@ -246,6 +246,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
           offset: _transTween.value,
           child: Text(title, style: Subtitle1),
         ),
+        brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
         floating: false,
         pinned: true,

@@ -200,6 +200,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
         leading: IconButton(
           icon: const Icon(
             Icons.close_rounded,

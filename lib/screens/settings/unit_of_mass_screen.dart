@@ -81,6 +81,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        centerTitle: true,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: Subtitle1),
         leading: IconButton(

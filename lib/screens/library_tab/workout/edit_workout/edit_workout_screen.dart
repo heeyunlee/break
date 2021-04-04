@@ -39,7 +39,7 @@ class EditWorkoutScreen extends StatefulWidget {
   final Workout workout;
   final User user;
 
-  static Future<void> show({BuildContext context, Workout workout}) async {
+  static Future<void> show(BuildContext context, {Workout workout}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userDocument(auth.currentUser.uid);
@@ -132,7 +132,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<void> _delete(BuildContext context, Workout workout) async {
     try {
       await widget.database.deleteWorkout(workout);
+
+      didChangeDependencies();
+
+      // Navigation
       Navigator.of(context).popUntil((route) => route.isFirst);
+
+      // Snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.current.deleteWorkoutSnackbar),
         duration: Duration(seconds: 2),
@@ -187,12 +193,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           workoutId: widget.workout.workoutId,
         ),
         builder: (context, snapshot) {
-          final workout = snapshot.data;
-
           return Scaffold(
             extendBodyBehindAppBar: true,
             backgroundColor: BackgroundColor,
             appBar: AppBar(
+              centerTitle: true,
+              brightness: Brightness.dark,
               backgroundColor: Colors.transparent,
               leading: IconButton(
                 icon: const Icon(
@@ -205,22 +211,33 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 },
               ),
               title: Text(S.current.editWorkoutTitle, style: Subtitle1),
+              flexibleSpace: AppbarBlurBG(),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
                   child: Text(S.current.save, style: ButtonText),
                 ),
               ],
-              flexibleSpace: AppbarBlurBG(),
             ),
-
-            /// Using Builder() to build Body so that _buildContents can
-            /// refer to Scaffold using Scaffold.of()
             body: Builder(
-              builder: (BuildContext context) {
-                return _buildContents(workout, context);
-              },
+              builder: (BuildContext context) =>
+                  _buildContents(snapshot.data, context),
             ),
+            // body: CustomStreamBuilderWidget(
+            //   initialData: workoutDummyData,
+            //   stream: widget.database.workoutStream(
+            //     workoutId: widget.workout.workoutId,
+            //   ),
+            //   errorWidget: EmptyContent(
+            //     message: S.current.somethingWentWrong,
+            //   ),
+            //   hasDataWidget: (context, snapshot) {
+            //     return Builder(
+            //       builder: (BuildContext context) =>
+            //           _buildContents(snapshot.data, context),
+            //     );
+            //   },
+            // ),
           );
         });
   }

@@ -13,6 +13,7 @@ import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/common_widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -207,13 +208,13 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         routineHistory: routineHistory,
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('You\'ve finished your workout! \nKeep Lifting! 🎉'),
+        content: Text(S.current.afterWorkoutSnackbar),
       ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
         context,
-        title: 'Operation Failed',
+        title: S.current.operationFailed,
         exception: e.toString(),
       );
     }
@@ -333,6 +334,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
@@ -348,8 +350,6 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       backgroundColor: BackgroundColor,
       body: _buildBody(),
     );
-
-    // return _buildBody();
   }
 
   Widget _buildBody() {
@@ -387,18 +387,18 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                 workoutSet,
               );
             } else {
-              return const EmptyContent(
-                message: 'Add few sets to your workout',
+              return EmptyContent(
+                message: S.current.addSetsToWorkout,
               );
             }
           } else {
-            return const EmptyContent(
-              message: 'Add Workouts to your routine!',
+            return EmptyContent(
+              message: S.current.addWorkoutToRoutine,
             );
           }
         } else if (snapshot.hasError) {
-          return const EmptyContent(
-            message: 'Something went wrong',
+          return EmptyContent(
+            message: S.current.somethingWentWrong,
           );
         }
         return const Center(child: CircularProgressIndicator());
@@ -514,7 +514,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     /// Previous Workout Button
                     Tooltip(
                       verticalOffset: -56,
-                      message: 'To Previous Workout',
+                      message: S.current.toPreviousWorkout,
                       child: IconButton(
                         icon: SvgPicture.asset(
                           'assets/icons/skip_previous_twice-24px.svg',
@@ -533,7 +533,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     /// Previous Set
                     Tooltip(
                       verticalOffset: -56,
-                      message: 'To previous set',
+                      message: S.current.toPreviousSet,
                       child: IconButton(
                         iconSize: size.height * 0.06,
                         icon: Icon(
@@ -553,8 +553,8 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     Tooltip(
                       verticalOffset: -56,
                       message: (_isPaused)
-                          ? 'Pause the Workout'
-                          : 'Start the Workout',
+                          ? S.current.pauseWorkout
+                          : S.current.resumeWorkout,
                       child: IconButton(
                         onPressed: () => _pausePlay(workoutSet),
                         iconSize: size.height * 0.06,
@@ -572,7 +572,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     /// Skip Next Set
                     Tooltip(
                       verticalOffset: -56,
-                      message: 'To Next Set',
+                      message: S.current.toNextSet,
                       child: IconButton(
                         iconSize: size.height * 0.06,
                         icon: Icon(
@@ -595,7 +595,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                     /// Skip Next Routine Workout
                     Tooltip(
                       verticalOffset: -56,
-                      message: 'To Next Workout',
+                      message: S.current.toPreviousWorkout,
                       child: IconButton(
                         icon: SvgPicture.asset(
                           'assets/icons/skip_next_twice-24px.svg',
@@ -625,37 +625,24 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                         padding: const EdgeInsets.all(16),
                         child: MaxWidthRaisedButton(
                           width: double.infinity,
-                          buttonText: 'SAVE & END WORKOUT',
+                          buttonText: S.current.saveAndEndWorkout,
                           color: Colors.grey[700],
                           onPressed: () => _submit(routineWorkouts),
                         ),
-                        // child: StreamBuilder<User>(
-                        //     stream: widget.database.userStream(
-                        //       userId: widget.user.userId,
-                        //     ),
-                        //     builder: (context, snapshot) {
-                        //       final userData = snapshot.data;
-
-                        //       return MaxWidthRaisedButton(
-                        //         color: Colors.grey[700],
-                        //         buttonText: 'SAVE & END WORKOUT',
-                        //         onPressed: () =>
-                        //             _submit(routineWorkouts, userData),
-                        //       );
-                        //     }),
                       )
-                    : (routineWorkoutIndex == routineWorkoutsLength &&
-                            setIndex == workoutSetsLength)
-                        ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: MaxWidthRaisedButton(
-                              width: double.infinity,
-                              onPressed: () {},
-                              color: PrimaryColor,
-                              buttonText: 'ADD NEW WORKOUT',
-                            ),
-                          )
-                        : Container(),
+                    : Container(),
+                // : (routineWorkoutIndex == routineWorkoutsLength &&
+                //         setIndex == workoutSetsLength)
+                //     ? Padding(
+                //         padding: const EdgeInsets.all(16.0),
+                //         child: MaxWidthRaisedButton(
+                //           width: double.infinity,
+                //           onPressed: () {},
+                //           color: PrimaryColor,
+                //           buttonText: 'ADD NEW WORKOUT',
+                //         ),
+                //       )
+                //     : Container(),
               ),
             ],
           ),
@@ -724,15 +711,17 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
   Future<bool> _closeModalBottomSheet() {
     return showAdaptiveModalBottomSheet(
       context: context,
-      title: Text('Stop your workout? Data won\'t be saved',
-          textAlign: TextAlign.center),
-      firstActionText: 'Stop the workout',
+      title: Text(
+        S.current.endWorkoutWarningMessage,
+        textAlign: TextAlign.center,
+      ),
+      firstActionText: S.current.stopTheWorkout,
       isFirstActionDefault: false,
       firstActionOnPressed: () {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
-      cancelText: 'Cancel',
+      cancelText: S.current.cancel,
       isCancelDefault: true,
     );
   }

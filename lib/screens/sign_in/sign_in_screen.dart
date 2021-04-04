@@ -289,6 +289,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   _showPreview = true;
                 }),
               ),
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

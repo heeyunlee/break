@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -49,6 +50,10 @@ class AddProteinScreen extends StatefulWidget {
 class _AddProteinScreenState extends State<AddProteinScreen> {
   var _textController1 = TextEditingController();
 
+  Timestamp _loggedTime;
+  String _loggedTimeInString;
+  DateTime _loggedDate;
+
   int _intValue = 25;
   int _decimalValue = 0;
   double _proteinAmount;
@@ -63,6 +68,11 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   @override
   void initState() {
     super.initState();
+    _loggedTime = Timestamp.now();
+    _loggedTimeInString = Format.yMdjmInDateTime(_loggedTime.toDate());
+    final nowInDate = _loggedTime.toDate();
+    _loggedDate = DateTime.utc(nowInDate.year, nowInDate.month, nowInDate.day);
+
     _proteinAmount = _intValue + _decimalValue * 0.1;
     _textController1 = TextEditingController(text: _notes);
 
@@ -83,16 +93,13 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       try {
         // Create new Nutrition Data
         final id = 'NUT${documentIdFromCurrentDate()}';
-        final now = Timestamp.now();
-        final today = DateTime.utc(
-            now.toDate().year, now.toDate().month, now.toDate().day);
 
         final nutrition = Nutrition(
           nutritionId: id,
           userId: widget.auth.currentUser.uid,
           username: widget.user.userName,
-          loggedTime: now,
-          loggedDate: today,
+          loggedTime: _loggedTime,
+          loggedDate: _loggedDate,
           proteinAmount: _proteinAmount,
           type: _mealType,
           notes: _notes,
@@ -102,12 +109,14 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         final nutritions = widget.user.dailyNutritionHistories;
 
         final index = widget.user.dailyNutritionHistories
-            .indexWhere((element) => element.date.toUtc() == today);
+            .indexWhere((element) => element.date.toUtc() == _loggedDate);
 
         if (index == -1) {
           // create new nutrition data if not exists
-          final newNutrition =
-              DailyNutritionHistory(date: today, totalProteins: _proteinAmount);
+          final newNutrition = DailyNutritionHistory(
+            date: _loggedDate,
+            totalProteins: _proteinAmount,
+          );
           nutritions.add(newNutrition);
         } else {
           // Update nutrition data if exists
@@ -155,6 +164,33 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
     }
   }
 
+  void _showDatePicker(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: CardColorLight,
+          height: size.height / 3,
+          child: CupertinoTheme(
+            data: CupertinoThemeData(brightness: Brightness.dark),
+            child: CupertinoDatePicker(
+              initialDateTime: _loggedTime.toDate(),
+              onDateTimeChanged: (value) => setState(() {
+                _loggedTime = Timestamp.fromDate(value);
+                _loggedTimeInString = Format.yMdjmInDateTime(
+                  _loggedTime.toDate(),
+                );
+                _loggedDate = DateTime.utc(value.year, value.month, value.day);
+              }),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -162,6 +198,8 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        centerTitle: true,
+        brightness: Brightness.dark,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close_rounded, color: Colors.white),
@@ -169,7 +207,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         title: Text(S.current.addProteins, style: Subtitle2),
-        centerTitle: true,
       ),
       body: _buildBody(),
       floatingActionButton: Container(
@@ -185,8 +222,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   }
 
   Widget _buildBody() {
-    final today = Format.yMdjm(Timestamp.now());
-
     return Theme(
       data: ThemeData(
         primaryColor: PrimaryColor,
@@ -206,21 +241,24 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(S.current.time, style: BodyText1w800),
               ),
-              Card(
-                color: CardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        '$today',
-                        style: BodyText1,
+              GestureDetector(
+                onTap: () => _showDatePicker(context),
+                child: Card(
+                  color: CardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          _loggedTimeInString,
+                          style: BodyText1,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 16),

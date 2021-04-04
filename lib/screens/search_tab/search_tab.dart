@@ -20,6 +20,7 @@ class SearchTab extends StatelessWidget {
             SliverAppBar(
               floating: false,
               pinned: true,
+              brightness: Brightness.dark,
               backgroundColor: AppBarColor,
               expandedHeight: size.height * 3.5 / 7,
               flexibleSpace: FlexibleSpaceBar(

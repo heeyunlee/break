@@ -93,6 +93,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         title: Text(S.current.proteinEntriesTitle, style: Subtitle2),
+        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: AppBarColor,
         flexibleSpace: const AppbarBlurBG(),

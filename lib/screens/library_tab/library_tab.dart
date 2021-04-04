@@ -54,6 +54,7 @@ class LibraryTab extends StatelessWidget {
       pinned: true,
       snap: false,
       centerTitle: true,
+      brightness: Brightness.dark,
       flexibleSpace: const AppbarBlurBG(),
       backgroundColor: AppBarColor,
       elevation: 0,

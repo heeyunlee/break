@@ -67,6 +67,7 @@ class _StartWorkoutShortcutScreenState
               pinned: true,
               snap: false,
               centerTitle: true,
+              brightness: Brightness.dark,
               title: Text(S.current.chooseRoutineToStart, style: Subtitle1),
               flexibleSpace: const AppbarBlurBG(),
               backgroundColor: Colors.transparent,

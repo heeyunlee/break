@@ -115,6 +115,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         centerTitle: true,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
         title: Text(S.current.addWorkoutToRoutine, style: Subtitle1),

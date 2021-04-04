@@ -203,6 +203,8 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.close_rounded,

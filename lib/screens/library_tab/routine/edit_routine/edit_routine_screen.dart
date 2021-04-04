@@ -40,7 +40,7 @@ class EditRoutineScreen extends StatefulWidget {
   final Routine routine;
   final User user;
 
-  static Future<void> show({BuildContext context, Routine routine}) async {
+  static Future<void> show(BuildContext context, {Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await database.userDocument(auth.currentUser.uid);
@@ -210,6 +210,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             backgroundColor: BackgroundColor,
             appBar: AppBar(
               centerTitle: true,
+              brightness: Brightness.dark,
               backgroundColor: Colors.transparent,
               leading: IconButton(
                 icon: const Icon(

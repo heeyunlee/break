@@ -129,6 +129,8 @@ class _EditWorkoutEquipmentRequiredScreenState
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         elevation: 0,
+        brightness: Brightness.dark,
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(

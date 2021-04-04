@@ -152,6 +152,8 @@ class _EditRoutineEquipmentRequiredScreenState
       backgroundColor: BackgroundColor,
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(

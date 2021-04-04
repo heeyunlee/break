@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/common_widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
@@ -135,19 +136,21 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
 
-    return StreamBuilder<Routine>(
-      initialData: routineDummyData,
-      stream: widget.database.routineStream(
-        routineId: widget.routine.routineId,
-      ),
-      builder: (context, snapshot) {
-        final routine = snapshot.data;
+    return Scaffold(
+      backgroundColor: BackgroundColor,
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _scrollListener,
+        child: CustomStreamBuilderWidget<Routine>(
+          initialData: routineDummyData,
+          stream: widget.database
+              .routineStream(
+                routineId: widget.routine.routineId,
+              )
+              .asBroadcastStream(),
+          hasDataWidget: (context, snapshot) {
+            final routine = snapshot.data;
 
-        return Scaffold(
-          backgroundColor: BackgroundColor,
-          body: NotificationListener<ScrollNotification>(
-            onNotification: _scrollListener,
-            child: Stack(
+            return Stack(
               children: [
                 CustomScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -157,10 +160,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   ],
                 ),
               ],
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -183,6 +186,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           },
         ),
         centerTitle: true,
+        brightness: Brightness.dark,
         title: Transform.translate(
           offset: _transTween.value,
           child: Text(routineTitle, style: Subtitle1),
@@ -284,7 +288,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       color: Colors.white,
                     ),
                     onPressed: () => EditRoutineScreen.show(
-                      context: context,
+                      context,
                       routine: routine,
                     ),
                   ),
@@ -347,7 +351,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             const Divider(endIndent: 8, indent: 8, color: Grey800),
             const SizedBox(height: 8),
             StreamBuilder<List<RoutineWorkout>>(
-                stream: widget.database.routineWorkoutsStream(routine),
+                stream: widget.database
+                    .routineWorkoutsStream(routine)
+                    .asBroadcastStream(),
                 builder: (context, snapshot) {
                   return Column(
                     children: [

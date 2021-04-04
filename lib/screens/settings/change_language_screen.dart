@@ -30,6 +30,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     return Scaffold(
       backgroundColor: BackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         title: const Text('Language Preference', style: Subtitle1),
         leading: IconButton(
