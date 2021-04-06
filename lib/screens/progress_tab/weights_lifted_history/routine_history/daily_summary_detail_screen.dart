@@ -73,6 +73,10 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
   String _notes;
   bool _isPublic;
 
+  final List<dynamic> _translatedMuscleGroup = [];
+  final List<dynamic> _translatedEquipments = [];
+  List<dynamic> _musclesAndEquipment;
+
   // For SliverApp to Work
   AnimationController _colorAnimationController;
   AnimationController _textAnimationController;
@@ -193,9 +197,33 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     }
   }
 
+  void dataFormat(RoutineHistory routineHistory) {
+    final _mainMuscleGroups = routineHistory.mainMuscleGroup;
+    _mainMuscleGroups.forEach(
+      (element) {
+        var translated = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == element)
+            .translation;
+        _translatedMuscleGroup.add(translated);
+      },
+    );
+    final _equipments = routineHistory.equipmentRequired;
+    _equipments.forEach(
+      (element) {
+        var translated = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == element)
+            .translation;
+        _translatedEquipments.add(translated);
+      },
+    );
+
+    _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
+    dataFormat(widget.routineHistory);
 
     return Scaffold(
       backgroundColor: BackgroundColor,
@@ -223,14 +251,6 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
     final date =
         Format.date(widget.routineHistory.workoutStartTime ?? Timestamp.now());
     final title = widget.routineHistory?.routineTitle ?? 'Title';
-    final mainMuscleGroup = MainMuscleGroup.values
-        .firstWhere(
-            (e) => e.toString() == widget.routineHistory.mainMuscleGroup[0])
-        .translation;
-    final equipmentRequired = EquipmentRequired.values
-        .firstWhere(
-            (e) => e.toString() == widget.routineHistory.equipmentRequired[0])
-        .translation;
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -289,22 +309,23 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                       overflow: TextOverflow.fade,
                     ),
                     // TODO: FIX HERE
-                    Row(
-                      children: [
-                        Chip(
-                          label: Text(
-                            '$mainMuscleGroup ${S.current.workout}',
-                            style: ButtonText,
-                          ),
-                          backgroundColor: PrimaryColor,
-                        ),
-                        const SizedBox(width: 16),
-                        Chip(
-                          label: Text(equipmentRequired, style: ButtonText),
-                          backgroundColor: PrimaryColor,
-                        ),
-                      ],
-                    ),
+                    _buildChips(),
+                    // Row(
+                    //   children: [
+                    //     Chip(
+                    //       label: Text(
+                    //         '$mainMuscleGroup ${S.current.workout}',
+                    //         style: ButtonText,
+                    //       ),
+                    //       backgroundColor: PrimaryColor,
+                    //     ),
+                    //     const SizedBox(width: 16),
+                    //     Chip(
+                    //       label: Text(equipmentRequired, style: ButtonText),
+                    //       backgroundColor: PrimaryColor,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -503,6 +524,28 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
       firstActionOnPressed: () => _delete(context, widget.routineHistory),
       cancelText: S.current.cancel,
       isCancelDefault: true,
+    );
+  }
+
+  Widget _buildChips() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      child: Row(
+        children: List.generate(
+          _musclesAndEquipment.length,
+          (index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Chip(
+              label: Text(
+                _musclesAndEquipment[index],
+                style: ButtonText,
+              ),
+              backgroundColor: PrimaryColor,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

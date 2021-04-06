@@ -43,7 +43,7 @@
 	<key>FacebookAppID</key>
 	<string>2951446544958094</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
-	<false/>
+	<string>FALSE</string>
 	<key>FacebookDisplayName</key>
 	<string>PLAYER H</string>
 	<key>KAKAO_APP_KEY</key>
@@ -58,6 +58,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -218,5 +218,8 @@
     "todaysWorkoutSummary": "오늘의 운동 요약: ",
     "stats": "스탯",
     "addNotesHintText": "간단한 메모를 감겨주세요!",
-    "setEffortsTitle": "오늘 운동은 어땠나요?"
+    "setEffortsTitle": "오늘 운동은 어땠나요?",
+    "beginner": "초급",
+    "intermediate": "중급",
+    "advanced": "상급"
 }

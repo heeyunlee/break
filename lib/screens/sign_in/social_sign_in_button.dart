@@ -5,20 +5,20 @@ import '../../constants.dart';
 class SocialSignInButton extends StatelessWidget {
   const SocialSignInButton({
     Key key,
-    this.color,
-    this.disabledColor,
-    this.onPressed,
+    @required this.color,
+    @required this.buttonText,
     this.logo,
-    this.buttonText,
     this.textColor = Colors.black,
+    this.onPressed,
+    this.iconData,
   }) : super(key: key);
 
   final Color color;
-  final Color disabledColor;
-  final void Function() onPressed;
   final String logo;
   final String buttonText;
   final Color textColor;
+  final void Function() onPressed;
+  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +30,27 @@ class SocialSignInButton extends StatelessWidget {
         width: size.width - 64,
         height: 48,
         child: ElevatedButton(
-          // disabledColor: disabledColor,
-          // color: color,
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(24),
             ),
             primary: color,
           ),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
-              Image.asset(
-                logo,
-                height: 18,
-                width: 18,
-              ),
+              (logo != null)
+                  ? Image.asset(
+                      logo,
+                      height: 18,
+                      width: 18,
+                    )
+                  : Icon(
+                      iconData,
+                      color: Colors.white,
+                      size: 20,
+                    ),
               Center(
                 child: Text(
                   buttonText,

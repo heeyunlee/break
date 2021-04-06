@@ -29,7 +29,7 @@ class Format {
   static String difficulty(int difficulty) {
     final difficultyNotNull = difficulty ?? 2;
 
-    return Difficulty.values[difficultyNotNull].label;
+    return Difficulty.values[difficultyNotNull].translation;
   }
 
   static String date(Timestamp date) {

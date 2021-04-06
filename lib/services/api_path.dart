@@ -15,7 +15,7 @@ class APIPath {
 
   /// User Feedback
   static String userFeedback(String userFeedbackId) =>
-      'userFeedbacks/$userFeedbackId';
+      'user_feedbacks/$userFeedbackId';
 
   /// Workout
   static String workouts() => 'workouts';

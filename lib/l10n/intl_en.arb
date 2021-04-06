@@ -218,5 +218,8 @@
     "todaysWorkoutSummary": "Today's Workout Summary: ",
     "stats": "Stats",
     "addNotesHintText": "How do you feel? Add Notes",
-    "setEffortsTitle": "How was your workout?"
+    "setEffortsTitle": "How was your workout?",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
 }

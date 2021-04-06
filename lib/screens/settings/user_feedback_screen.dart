@@ -63,7 +63,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       final createdDate = Timestamp.now();
 
       final userFeedback = UserFeedback(
-        userFeedbackId: userFeedbackId,
+        userFeedbackId: 'UF$userFeedbackId',
         userId: widget.user.userId,
         username: widget.user.userName,
         createdDate: createdDate,

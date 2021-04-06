@@ -10,7 +10,7 @@ class AppPreviewShimmer extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: BackgroundColor,
-      highlightColor: CardColor,
+      highlightColor: BackgroundColor,
       child: Container(
         height: size.height * 5 / 6,
         width: size.width * 5 / 6,

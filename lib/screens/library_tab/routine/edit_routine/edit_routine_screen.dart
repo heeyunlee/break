@@ -109,7 +109,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     _duration = widget.routine.duration;
 
     _difficultySlider = widget.routine.trainingLevel.toDouble();
-    _difficultySliderLabel = Difficulty.values[_difficultySlider.toInt()].label;
+    _difficultySliderLabel =
+        Difficulty.values[_difficultySlider.toInt()].translation;
   }
 
   @override
@@ -448,8 +449,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onChanged: (newRating) {
                   setState(() {
                     _difficultySlider = newRating;
-                    _difficultySliderLabel =
-                        Difficulty.values[_difficultySlider.toInt()].label;
+                    _difficultySliderLabel = Difficulty
+                        .values[_difficultySlider.toInt()].translation;
                   });
                 },
                 min: 0,

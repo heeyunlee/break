@@ -104,7 +104,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     _textController2 = TextEditingController(text: _description);
 
     _difficultySlider = widget.workout.difficulty.toDouble();
-    _difficultySliderLabel = Difficulty.values[_difficultySlider.toInt()].label;
+    _difficultySliderLabel =
+        Difficulty.values[_difficultySlider.toInt()].translation;
 
     _secondsPerRepSlider = widget.workout.secondsPerRep.toDouble();
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
@@ -440,7 +441,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               setState(() {
                 _difficultySlider = newRating;
                 _difficultySliderLabel =
-                    Difficulty.values[_difficultySlider.toInt()].label;
+                    Difficulty.values[_difficultySlider.toInt()].translation;
               });
             },
             // label: '$_ratingLabel',

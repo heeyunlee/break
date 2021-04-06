@@ -48,7 +48,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
     _textController = TextEditingController(text: _description);
 
     _difficultySlider = 0;
-    _difficultySliderLabel = Difficulty.values[_difficultySlider.toInt()].label;
+    _difficultySliderLabel =
+        Difficulty.values[_difficultySlider.toInt()].translation;
 
     _secondsPerRepSlider = 2;
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
@@ -145,8 +146,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
                         _difficultySlider = newRating;
                         widget.difficultyCallback(_difficultySlider);
 
-                        _difficultySliderLabel =
-                            Difficulty.values[_difficultySlider.toInt()].label;
+                        _difficultySliderLabel = Difficulty
+                            .values[_difficultySlider.toInt()].translation;
                       });
                     },
                     label: '$_difficultySliderLabel',

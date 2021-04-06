@@ -15,6 +15,7 @@ import 'package:workout_player/services/database.dart';
 
 import '../../common_widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
+import 'sign_up_outlined_button.dart';
 
 Logger logger = Logger();
 
@@ -61,6 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
   set setBool(bool value) => setState(() => _showPreview = value);
 
   /// SIGN IN ANONYMOUSLY
+  // ignore: unused_element
   Future<void> _signInAnonymously(BuildContext context) async {
     try {
       await widget.signInBloc.signInAnonymously();
@@ -341,38 +343,43 @@ class _SignInScreenState extends State<SignInScreen> {
                           height: 120,
                         ),
                         const SizedBox(height: 24),
-                        // const Text('All About That Health', style: Headline5),
+                        const Text('Make Fitness Fun Again', style: Headline5),
                       ],
                     ),
             ),
           ),
 
-          /// Sign In With Google Button
+          /// Sign In With Email
           SocialSignInButton(
-            color: Colors.white,
-            disabledColor: Colors.white.withOpacity(0.38),
+            buttonText: 'Continue with Email',
+            iconData: Icons.email_rounded,
+            color: Primary600Color,
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+
+          /// Sign In With Google Button
+          SignUpOutlinedButton(
+            buttonText: S.current.continueWithGoogle,
+            logo: 'assets/logos/google_logo.png',
             onPressed:
                 widget.isLoading ? null : () => _signInWithGoogle(context),
-            logo: 'assets/logos/google_logo.png',
-            buttonText: S.current.continueWithGoogle,
           ),
 
           /// Sign In With Facebook Button
-          SocialSignInButton(
-            color: const Color(0xff1877F2),
-            disabledColor: Color(0xff1877F2).withOpacity(0.38),
-            textColor: Colors.white,
+          SignUpOutlinedButton(
+            // logoColor: const Color(0xff1877F2),
+            logoSize: 20,
             onPressed:
                 widget.isLoading ? null : () => _signInWithFacebook(context),
-            logo: 'assets/logos/facebook_logo.png',
+            logo: 'assets/logos/f_logo_RGB-Blue_144.png',
             buttonText: S.current.continueWithFacebook,
           ),
 
           /// Sign In With Apple Button
           if (Platform.isIOS)
-            SocialSignInButton(
-              color: Colors.white,
-              disabledColor: Colors.white.withOpacity(0.38),
+            SignUpOutlinedButton(
+              logoColor: Colors.white,
               onPressed:
                   widget.isLoading ? null : () => _signInWithApple(context),
               logo: 'assets/logos/apple_logo.png',
@@ -389,16 +396,16 @@ class _SignInScreenState extends State<SignInScreen> {
           //     logo: 'assets/logos/kakao_logo.png',
           //     buttonText: S.current.continueWithKakao,
           //   ),
-          const SizedBox(height: 48),
-          TextButton(
-            onPressed: widget.isLoading
-                ? null
-                : () async {
-                    await _signInAnonymously(context);
-                  },
-            child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
-          ),
-          const SizedBox(height: 38),
+
+          // TextButton(
+          //   onPressed: widget.isLoading
+          //       ? null
+          //       : () async {
+          //           await _signInAnonymously(context);
+          //         },
+          //   child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
+          // ),
+          const SizedBox(height: 64),
         ],
       ),
     );

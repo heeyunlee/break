@@ -32,7 +32,7 @@ class _NewRoutineDifficultyAndMoreScreenState
 
   @override
   void initState() {
-    _ratingLabel = Difficulty.values[_rating.toInt()].label;
+    _ratingLabel = Difficulty.values[_rating.toInt()].translation;
     super.initState();
   }
 
@@ -131,7 +131,8 @@ class _NewRoutineDifficultyAndMoreScreenState
                 onChanged: (newRating) {
                   setState(() {
                     _rating = newRating;
-                    _ratingLabel = Difficulty.values[_rating.toInt()].label;
+                    _ratingLabel =
+                        Difficulty.values[_rating.toInt()].translation;
                     widget.ratingCallback(_rating);
                   });
                 },

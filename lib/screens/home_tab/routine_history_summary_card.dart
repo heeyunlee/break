@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
@@ -21,7 +22,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
     final workedOutTime = routineHistory.workoutEndTime.toDate();
     final timeAgo = timeago.format(
       workedOutTime,
-      locale: 'ko',
+      locale: Intl.getCurrentLocale(),
     );
 
     final notes = routineHistory.notes;

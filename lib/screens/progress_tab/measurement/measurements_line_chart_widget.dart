@@ -248,7 +248,7 @@ class _MeasurementsLineChartWidgetState
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          margin: 20,
+                          margin: 24,
                           // reservedSize: 20,
                           getTextStyles: (value) => Caption1Grey,
                           getTitles: (value) {

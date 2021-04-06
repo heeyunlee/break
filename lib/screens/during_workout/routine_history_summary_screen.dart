@@ -202,7 +202,6 @@ class _RoutineHistorySummaryScreenState
                           ),
                         ),
                       ),
-                      // TODO: Polish below code
                       _buildChips(),
                     ],
                   ),
