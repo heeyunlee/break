@@ -55,33 +55,53 @@ class _EditWorkoutEquipmentRequiredScreenState
   @override
   void initState() {
     super.initState();
+
+    // TODO: MAKE THIS BETTER
     var equipmentRequired = <String, bool>{
-      'Barbell':
-          (widget.workout.equipmentRequired.contains('Barbell')) ? true : false,
-      'Bench':
-          (widget.workout.equipmentRequired.contains('Bench')) ? true : false,
-      'Bodyweight': (widget.workout.equipmentRequired.contains('Bodyweight'))
+      EquipmentRequired.barbell.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.barbell.toString()))
           ? true
           : false,
-      'Cable':
-          (widget.workout.equipmentRequired.contains('Cable')) ? true : false,
-      'Chains':
-          (widget.workout.equipmentRequired.contains('Chains')) ? true : false,
-      'Dumbbell': (widget.workout.equipmentRequired.contains('Dumbbell'))
+      EquipmentRequired.bench.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.bench.toString()))
           ? true
           : false,
-      'EZ Bar':
-          (widget.workout.equipmentRequired.contains('EZ Bar')) ? true : false,
-      'Gym ball': (widget.workout.equipmentRequired.contains('Gym ball'))
+      EquipmentRequired.bodyweight.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.bodyweight.toString()))
           ? true
           : false,
-      'Kettlebell': (widget.workout.equipmentRequired.contains('Kettlebell'))
+      EquipmentRequired.cable.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.cable.toString()))
           ? true
           : false,
-      'Machine':
-          (widget.workout.equipmentRequired.contains('Machine')) ? true : false,
-      'Others':
-          (widget.workout.equipmentRequired.contains('Others')) ? true : false,
+      EquipmentRequired.chains.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.chains.toString()))
+          ? true
+          : false,
+      EquipmentRequired.dumbbell.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.dumbbell.toString()))
+          ? true
+          : false,
+      EquipmentRequired.eZBar.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.eZBar.toString()))
+          ? true
+          : false,
+      EquipmentRequired.gymBall.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.gymBall.toString()))
+          ? true
+          : false,
+      EquipmentRequired.kettlebell.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.kettlebell.toString()))
+          ? true
+          : false,
+      EquipmentRequired.machine.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.machine.toString()))
+          ? true
+          : false,
+      EquipmentRequired.other.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.other.toString()))
+          ? true
+          : false,
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {
@@ -161,6 +181,10 @@ class _EditWorkoutEquipmentRequiredScreenState
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: _equipmentRequired.keys.map((String key) {
+                final title = EquipmentRequired.values
+                    .firstWhere((e) => e.toString() == key)
+                    .translation;
+
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -171,7 +195,7 @@ class _EditWorkoutEquipmentRequiredScreenState
                       child: CheckboxListTile(
                         selected: _equipmentRequired[key],
                         activeColor: Primary700Color,
-                        title: Text(key, style: ButtonText),
+                        title: Text(title, style: ButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _equipmentRequired[key],
                         onChanged: (bool value) =>

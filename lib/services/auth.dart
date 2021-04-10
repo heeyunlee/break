@@ -11,6 +11,11 @@ abstract class AuthBase {
   auth.User get currentUser;
   Stream<auth.User> authStateChanges();
   Future<auth.User> signInAnonymously();
+  Future<auth.User> signInWithEmailWithPassword(String email, String password);
+  Future<auth.User> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  );
   Future<auth.User> signInWithGoogle();
   Future<auth.User> signInWithFacebook();
   Future<auth.User> signInWithApple();
@@ -39,6 +44,7 @@ class AuthService implements AuthBase {
     _user = value;
   }
 
+  //// Sign In Anonymously
   @override
   Future<auth.User> signInAnonymously() async {
     var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
@@ -51,7 +57,41 @@ class AuthService implements AuthBase {
     return user;
   }
 
-  // TODO: Add Sign up with Email
+  /////// Sign In With Email and Password
+  @override
+  Future<auth.User> signInWithEmailWithPassword(
+      String email, String password) async {
+    var userCredential =
+        await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    final user = userCredential.user;
+
+    final currentUser = _auth.currentUser;
+    assert(user.uid == currentUser.uid);
+    setUser(user);
+
+    return user;
+  }
+
+  ///// Create User With Email And Password
+  @override
+  Future<auth.User> createUserWithEmailAndPassword(
+      String email, String password) async {
+    var userCredential =
+        await auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    final user = userCredential.user;
+
+    final currentUser = _auth.currentUser;
+    assert(user.uid == currentUser.uid);
+    setUser(user);
+
+    return user;
+  }
 
   /// SIGN IN WITH GOOGLE
   @override
@@ -99,8 +139,9 @@ class AuthService implements AuthBase {
     try {
       final facebookLogin = await FacebookAuth.instance.login();
       final credential = auth.FacebookAuthProvider.credential(
-        facebookLogin.token,
+        facebookLogin.accessToken.token,
       );
+
       final authResult = await _auth.signInWithCredential(credential);
       final user = authResult.user;
       final currentUser = _auth.currentUser;
@@ -108,23 +149,23 @@ class AuthService implements AuthBase {
       setUser(user);
 
       return user;
-    } on FacebookAuthException catch (e) {
-      switch (e.errorCode) {
+    } on auth.FirebaseAuthException catch (e) {
+      switch (e.message) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
-          logger.d(e.errorCode);
+          logger.d(e.message);
           throw auth.FirebaseAuthException(
             code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
             message: 'You have a previous login operation in progress',
           );
         case FacebookAuthErrorCode.CANCELLED:
-          logger.d(e.errorCode);
+          logger.d(e.message);
 
           throw auth.FirebaseAuthException(
             code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
             message: 'Login Cancelled',
           );
         case FacebookAuthErrorCode.FAILED:
-          logger.d(e.errorCode);
+          logger.d(e.message);
 
           throw auth.FirebaseAuthException(
             code: 'ERROR_FACEBOOK_LOGIN_FAILED',

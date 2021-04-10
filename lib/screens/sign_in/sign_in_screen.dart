@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -15,7 +16,7 @@ import 'package:workout_player/services/database.dart';
 
 import '../../common_widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
-import 'sign_up_outlined_button.dart';
+import 'email_sign_up_screen.dart';
 
 Logger logger = Logger();
 
@@ -82,6 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
         unitOfMass: 1,
         lastLoginDate: currentTime,
         dailyWorkoutHistories: [],
+        dailyNutritionHistories: [],
       );
       await widget.database.setUser(userData);
     } on Exception catch (e) {
@@ -103,6 +105,8 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
+      final locale = Intl.getCurrentLocale();
+
       // Create new data do NOT exist
       if (user == null) {
         final currentTime = Timestamp.now();
@@ -114,9 +118,10 @@ class _SignInScreenState extends State<SignInScreen> {
           signUpProvider: 'Google',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
-          unitOfMass: 1,
+          unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -146,6 +151,8 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
+      final locale = Intl.getCurrentLocale();
+
       // Create new data do NOT exist
       if (user == null) {
         final currentTime = Timestamp.now();
@@ -157,9 +164,10 @@ class _SignInScreenState extends State<SignInScreen> {
           signUpProvider: 'Facebook',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
-          unitOfMass: 1,
+          unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -188,6 +196,7 @@ class _SignInScreenState extends State<SignInScreen> {
         widget.signInBloc.auth.currentUser.uid,
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
+      final locale = Intl.getCurrentLocale();
 
       // Create new data do NOT exist
       if (user == null) {
@@ -201,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
           signUpProvider: 'Apple',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
-          unitOfMass: 1,
+          unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
         );
@@ -335,15 +344,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     )
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/logos/playerh_logo.png',
-                          width: 120,
-                          height: 120,
+                        const Text('herakles', style: Headline3Menlo),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'wokrout. share. and gain.',
+                          style: Subtitle2Menlo,
                         ),
-                        const SizedBox(height: 24),
-                        const Text('Make Fitness Fun Again', style: Headline5),
                       ],
                     ),
             ),
@@ -351,39 +360,40 @@ class _SignInScreenState extends State<SignInScreen> {
 
           /// Sign In With Email
           SocialSignInButton(
-            buttonText: 'Continue with Email',
+            buttonText: S.current.continueWithEmail,
             iconData: Icons.email_rounded,
             color: Primary600Color,
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () => EmailSignUpScreen.show(context),
           ),
 
           /// Sign In With Google Button
-          SignUpOutlinedButton(
+          SocialSignInButton(
             buttonText: S.current.continueWithGoogle,
             logo: 'assets/logos/google_logo.png',
+            color: Colors.white,
             onPressed:
                 widget.isLoading ? null : () => _signInWithGoogle(context),
           ),
 
           /// Sign In With Facebook Button
-          SignUpOutlinedButton(
-            // logoColor: const Color(0xff1877F2),
-            logoSize: 20,
+          SocialSignInButton(
+            buttonText: S.current.continueWithFacebook,
+            logo: 'assets/logos/facebook_logo.png',
+            color: const Color(0xff1877F2),
+            textColor: Colors.white,
             onPressed:
                 widget.isLoading ? null : () => _signInWithFacebook(context),
-            logo: 'assets/logos/f_logo_RGB-Blue_144.png',
-            buttonText: S.current.continueWithFacebook,
           ),
 
           /// Sign In With Apple Button
           if (Platform.isIOS)
-            SignUpOutlinedButton(
-              logoColor: Colors.white,
+            SocialSignInButton(
+              buttonText: S.current.continueWithApple,
+              logo: 'assets/logos/apple_logo.png',
+              color: Colors.white,
               onPressed:
                   widget.isLoading ? null : () => _signInWithApple(context),
-              logo: 'assets/logos/apple_logo.png',
-              buttonText: S.current.continueWithApple,
             ),
 
           // // TODO: Add Sign In with Kakao
@@ -405,7 +415,8 @@ class _SignInScreenState extends State<SignInScreen> {
           //         },
           //   child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
           // ),
-          const SizedBox(height: 64),
+
+          const SizedBox(height: 48),
         ],
       ),
     );

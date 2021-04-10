@@ -9,6 +9,8 @@ class WorkoutSet {
     this.weights,
     this.reps,
     this.restTime,
+    this.setIndex,
+    this.restIndex,
   });
 
   final String workoutSetId;
@@ -18,6 +20,8 @@ class WorkoutSet {
   final num weights;
   final int reps;
   final int restTime;
+  final int setIndex;
+  final int restIndex;
 
   factory WorkoutSet.fromMap(Map<String, dynamic> data) {
     if (data == null) {
@@ -30,6 +34,8 @@ class WorkoutSet {
     final num weights = data['weights'];
     final int reps = data['reps'];
     final int restTime = data['restTime'];
+    final int setIndex = data['setIndex'];
+    final int restIndex = data['restIndex'];
 
     return WorkoutSet(
       workoutSetId: workoutSetId,
@@ -39,6 +45,8 @@ class WorkoutSet {
       weights: weights,
       reps: reps,
       restTime: restTime,
+      setIndex: setIndex,
+      restIndex: restIndex,
     );
   }
 
@@ -51,6 +59,8 @@ class WorkoutSet {
       'weights': weights,
       'reps': reps,
       'restTime': restTime,
+      'setIndex': setIndex,
+      'restIndex': restIndex,
     };
   }
 }

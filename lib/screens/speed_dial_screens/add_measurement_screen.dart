@@ -159,6 +159,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         );
       }
     }
+    return null;
   }
 
   void _showDatePicker(BuildContext context) {

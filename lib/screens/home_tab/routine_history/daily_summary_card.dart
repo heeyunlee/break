@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../../../constants.dart';
+import '../../../constants.dart';
 
 class DailySummaryCard extends StatelessWidget {
   DailySummaryCard({

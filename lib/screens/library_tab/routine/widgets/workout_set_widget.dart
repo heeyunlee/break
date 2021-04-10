@@ -136,15 +136,13 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         'lastEditedDate': now,
       };
 
-      await widget.database
-          .setWorkoutSet(
+      await widget.database.setWorkoutSet(
         widget.routine,
         widget.routineWorkout,
         routineWorkout,
-      )
-          .then((value) async {
-        await widget.database.updateRoutine(widget.routine, routine);
-      });
+      );
+      await widget.database.updateRoutine(widget.routine, routine);
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
@@ -173,6 +171,12 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         final workoutWeights = num.parse(_weights);
         print('workoutWeights is ${workoutWeights.runtimeType}');
 
+        // /// Workout Set
+        // final sets = widget.routineWorkout.sets
+        //     .where((element) => element.isRest == false)
+        //     .toList();
+        // final setIndex = sets.length + 1;
+
         /// Update Workout Set
         final newSet = WorkoutSet(
           workoutSetId: set.workoutSetId,
@@ -182,6 +186,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           restTime: int.parse(_restTime),
           reps: int.parse(_reps),
           weights: num.parse(_weights),
+          setIndex: set.setIndex,
         );
 
         workoutSets[widget.index] = newSet;
@@ -189,11 +194,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         /// Update Routine Workout
         // NumberOfReps
         var numberOfReps = 0;
-        print('numberOfReps is ${numberOfReps.runtimeType}');
+        // print('numberOfReps is ${numberOfReps.runtimeType}');
 
         var numberOfRepsCalculated = false;
-        print(
-            'numberOfRepsCalculated is ${numberOfRepsCalculated.runtimeType}');
+        // print(
+        //     'numberOfRepsCalculated is ${numberOfRepsCalculated.runtimeType}');
 
         if (!numberOfRepsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
@@ -202,12 +207,12 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           }
           numberOfRepsCalculated = true;
         }
-        print('numberOfReps is ${numberOfReps.runtimeType}');
+        // print('numberOfReps is ${numberOfReps.runtimeType}');
 
         // Total Weights
         // ignore: omit_local_variable_types
         num totalWeights = 0;
-        print('totalWeights is ${totalWeights.runtimeType}');
+        // print('totalWeights is ${totalWeights.runtimeType}');
 
         var totalWeightsCalculated = false;
 
@@ -301,7 +306,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   bool restTimeTabbed = false;
 
   Widget _buildRow(WorkoutSet set, AuthBase auth) {
-    final title = set?.setTitle;
+    final title = '${S.current.set} ${set.setIndex}';
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
     final weights = widget.set.weights;
     final formattedWeights = '${Format.weights(weights)} $unit';
@@ -371,6 +376,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             onFieldSubmitted: (value) {
                               _weights = value;
                               updateSet();
+                              setState(() {
+                                weightsTabbed = false;
+                              });
+                              focusNode1.unfocus();
                             },
                             onChanged: (value) => _weights = value,
                             onSaved: (value) => _weights = value,
@@ -417,7 +426,12 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             ),
                             onFieldSubmitted: (value) {
                               _reps = value;
+
                               updateSet();
+                              setState(() {
+                                repsTabbed = false;
+                              });
+                              focusNode2.unfocus();
                             },
                             onChanged: (value) => _reps = value,
                             onSaved: (value) => _reps = value,
@@ -464,6 +478,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             onFieldSubmitted: (value) {
                               _restTime = value;
                               updateSet();
+
+                              setState(() {
+                                restTimeTabbed = false;
+                              });
+                              focusNode3.unfocus();
                             },
                             onChanged: (value) => _restTime = value,
                             onSaved: (value) => _restTime = value,

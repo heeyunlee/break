@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/empty_content.dart';
@@ -23,7 +24,7 @@ class SavedWorkoutsTab extends StatelessWidget {
     return PaginateFirestore(
       shrinkWrap: true,
       query: query,
-      physics: const BouncingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
         message: S.current.savedWorkoutsEmptyText,
@@ -54,13 +55,20 @@ class SavedWorkoutsTab extends StatelessWidget {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
         final workout = Workout.fromMap(data, documentId);
+
+        final locale = Intl.getCurrentLocale();
+
+        final title = (locale == 'ko' || locale == 'en')
+            ? workout.translated[locale]
+            : workout.workoutTitle;
+
         final subtitle = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
             .translation;
 
         return CustomListTile64(
           tag: 'savedWorkout${workout.workoutId}',
-          title: workout.workoutTitle,
+          title: title,
           subtitle: subtitle,
           imageUrl: workout.imageUrl,
           onTap: () => WorkoutDetailScreen.show(

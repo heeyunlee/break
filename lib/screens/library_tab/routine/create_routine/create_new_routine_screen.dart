@@ -81,15 +81,17 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
     try {
       // Get Image Url
-      final ref = FirebaseStorage.instance.ref().child('workout-pictures');
+      final ref = FirebaseStorage.instance.ref().child(
+            'workout-pictures/800by800',
+          );
       final imageIndex = Random().nextInt(2);
       final imageUrl = await ref
-          .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
+          .child('${_selectedMainMuscleGroup[0]}${imageIndex}_800x800.jpeg')
           .getDownloadURL();
 
       // Create New Routine
       final routine = Routine(
-        routineId: routineId,
+        routineId: 'RT$routineId',
         routineOwnerId: userId,
         routineOwnerUserName: userName,
         routineTitle: _routineTitle,
@@ -107,6 +109,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         initialUnitOfMass: initialUnitOfMass,
         location: _location,
       );
+
+      // print(imageUrl);
 
       await widget.database.setRoutine(routine);
       await Navigator.of(context, rootNavigator: false).pushReplacement(

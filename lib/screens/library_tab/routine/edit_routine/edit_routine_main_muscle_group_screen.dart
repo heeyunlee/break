@@ -58,6 +58,8 @@ class _EditRoutineMainMuscleGroupScreenState
   @override
   void initState() {
     super.initState();
+    // TODO: MAKE THIS BETTER
+
     var mainMuscleGroup = <String, bool>{
       MainMuscleGroup.abs.toString(): (widget.routine.mainMuscleGroup
               .contains(MainMuscleGroup.abs.toString()))
@@ -65,6 +67,10 @@ class _EditRoutineMainMuscleGroupScreenState
           : false,
       MainMuscleGroup.arms.toString(): (widget.routine.mainMuscleGroup
               .contains(MainMuscleGroup.arms.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.back.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.back.toString()))
           ? true
           : false,
       MainMuscleGroup.cardio.toString(): (widget.routine.mainMuscleGroup
@@ -109,6 +115,10 @@ class _EditRoutineMainMuscleGroupScreenState
           : false,
       MainMuscleGroup.stretch.toString(): (widget.routine.mainMuscleGroup
               .contains(MainMuscleGroup.stretch.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.traps.toString(): (widget.routine.mainMuscleGroup
+              .contains(MainMuscleGroup.traps.toString()))
           ? true
           : false,
     };

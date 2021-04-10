@@ -213,7 +213,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
     final description =
         (routine.description == null || routine.description.isNotEmpty
-            ? 'Add description'
+            ? S.current.addDescription
             : routine.description);
     final lastEditedDate = Format.dateShort(routine.lastEditedDate);
     final weights = Format.weights(routine.totalWeights);
@@ -262,7 +262,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                           style: BodyText2Light,
                         ),
                         const SizedBox(width: 8),
-                        const Text('•', style: BodyText2Light),
+                        const Text('|', style: BodyText2Light),
                         const SizedBox(width: 8),
                         Text(
                           '${S.current.lastEditedOn} $lastEditedDate',
@@ -365,6 +365,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                           database: widget.database,
                           routine: routine,
                           routineWorkout: routineWorkout,
+                          auth: widget.auth,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -419,8 +420,7 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
             .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
             .translation ??
         'Null';
-    // final equipmentRequired =
-    //     routine?.equipmentRequired[0] ?? 'equipmentRequired';
+
     final duration = Format.durationInMin(routine.duration);
 
     return FlexibleSpaceBar(
@@ -436,6 +436,11 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          // CachedNetworkImage(
+          //   imageUrl: routine.imageUrl,
+          //   errorWidget: (context, url, error) => const Icon(Icons.error),
+          //   fit: BoxFit.cover,
+          // ),
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(

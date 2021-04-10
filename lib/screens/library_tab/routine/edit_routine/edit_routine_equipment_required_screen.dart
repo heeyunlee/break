@@ -55,7 +55,13 @@ class _EditRoutineEquipmentRequiredScreenState
   @override
   void initState() {
     super.initState();
+    // TODO: MAKE THIS BETTER
+
     var equipmentRequired = <String, bool>{
+      EquipmentRequired.band.toString(): (widget.routine.equipmentRequired
+              .contains(EquipmentRequired.band.toString()))
+          ? true
+          : false,
       EquipmentRequired.barbell.toString(): (widget.routine.equipmentRequired
               .contains(EquipmentRequired.barbell.toString()))
           ? true
@@ -94,6 +100,10 @@ class _EditRoutineEquipmentRequiredScreenState
           : false,
       EquipmentRequired.machine.toString(): (widget.routine.equipmentRequired
               .contains(EquipmentRequired.machine.toString()))
+          ? true
+          : false,
+      EquipmentRequired.plate.toString(): (widget.routine.equipmentRequired
+              .contains(EquipmentRequired.plate.toString()))
           ? true
           : false,
       EquipmentRequired.other.toString(): (widget.routine.equipmentRequired

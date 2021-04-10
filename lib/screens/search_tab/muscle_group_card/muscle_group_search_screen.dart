@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
@@ -137,10 +138,16 @@ class MuscleGroupSearchScreen extends StatelessWidget {
             .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
             .translation;
 
+        final locale = Intl.getCurrentLocale();
+
+        final title = (locale == 'ko' || locale == 'en')
+            ? workout.translated[locale]
+            : workout.workoutTitle;
+
         return CustomListTile3(
           imageUrl: workout.imageUrl,
           isLeadingDuration: false,
-          title: workout.workoutTitle,
+          title: title,
           leadingText: leadingText,
           subtitle: workout.workoutOwnerUserName,
           tag: 'MoreScreen-${workout.workoutId}',

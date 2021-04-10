@@ -21,6 +21,7 @@ class Routine {
     this.isPublic,
     this.initialUnitOfMass,
     this.location,
+    this.thumbnailImageUrl,
     // TODO: ADD THEM LATER
     // this.tags,
     // this.routineGoal,
@@ -46,6 +47,7 @@ class Routine {
   final bool isPublic;
   final int initialUnitOfMass;
   final String location;
+  final String thumbnailImageUrl;
   // final String tags;
   // final String routineGoal;
   // final String workoutType;
@@ -71,6 +73,7 @@ class Routine {
     final bool isPublic = data['isPublic'];
     final int initialUnitOfMass = data['initialUnitOfMass'];
     final String location = data['location'];
+    final String thumbnailImageUrl = data['thumbnailImageUrl'];
     // final String tags = data['tags'];
     // final String routineGoal = data['routineGoal'];
     // final String workoutType = data['workoutType'];
@@ -94,6 +97,7 @@ class Routine {
       isPublic: isPublic,
       initialUnitOfMass: initialUnitOfMass,
       location: location,
+      thumbnailImageUrl: thumbnailImageUrl,
       // tags: tags,
       // routineGoal: routineGoal,
       // workoutType: workoutType,
@@ -119,6 +123,7 @@ class Routine {
       'isPublic': isPublic,
       'initialUnitOfMass': initialUnitOfMass,
       'location': location,
+      'thumbnailImageUrl': thumbnailImageUrl,
       // 'tags': tags,
       // 'routineGoal': routineGoal,
       // 'workoutType': workoutType,

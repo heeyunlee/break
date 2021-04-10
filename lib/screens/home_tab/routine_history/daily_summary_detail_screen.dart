@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
@@ -399,9 +400,15 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                             ? '$sets ${S.current.sets}  •  ${S.current.bodyweight} + $weights $unit'
                             : '$sets ${S.current.sets}  • $weights $unit';
 
+                    final locale = Intl.getCurrentLocale();
+
+                    final title = (locale == 'ko' || locale == 'en')
+                        ? routineWorkout.translated[locale]
+                        : routineWorkout.workoutTitle;
+
                     return ActivityListTile(
                       index: routineWorkout.index,
-                      title: routineWorkout.workoutTitle,
+                      title: title,
                       subtitle: subtitle,
                     );
                   },

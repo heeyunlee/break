@@ -5,7 +5,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - cloud_firestore (1.0.1):
+  - cloud_firestore (1.0.4):
     - Firebase/Firestore (= 7.3.0)
     - firebase_core
     - Flutter
@@ -42,17 +42,18 @@ PODS:
     - Firebase/Analytics (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_auth (1.0.1):
+  - firebase_auth (1.0.2):
     - Firebase/Auth (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.0.1):
+  - firebase_core (1.0.3):
     - Firebase/CoreOnly (= 7.3.0)
     - Flutter
-  - firebase_crashlytics (1.0.0):
+  - firebase_crashlytics (2.0.0):
     - Firebase/Crashlytics (= 7.3.0)
     - firebase_core
-  - firebase_storage (8.0.0):
+    - Flutter
+  - firebase_storage (8.0.2):
     - Firebase/Storage (= 7.3.0)
     - firebase_core
     - Flutter
@@ -95,7 +96,7 @@ PODS:
     - FirebaseCore (~> 7.0)
     - GTMSessionFetcher/Core (~> 1.4)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (1.0.0):
+  - flutter_facebook_auth (2.0.0):
     - FBSDKCoreKit (~> 9.1.0)
     - FBSDKLoginKit (~> 9.1.0)
     - Flutter
@@ -252,15 +253,15 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  cloud_firestore: 69d71054fcab9a1c0d4779362f85b94aec7ff7d7
+  cloud_firestore: d5902cdb3c48c2e8c73cd093fc9471ebe7f44a4c
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   FBSDKLoginKit: d98498c598ec09de657385a9349a1f21119b7f86
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   firebase_analytics: ee4abb07bfa857e7c95d97144efe9eb68be414cd
-  firebase_auth: 9f6491ea8e44570323361ae713a2ae3175b3f21a
-  firebase_core: d2e03528e2a600891f6f460b5e92932624480d1d
-  firebase_crashlytics: a62319db93baf2bfeca8a2384af3f29e3d62b09c
-  firebase_storage: a4b292db6551a64c3697c7e67cb1df524b494bb1
+  firebase_auth: 9e9e667b904ee5701ab50330a5718cce0bf1a469
+  firebase_core: b5d81dfd4fb2d6f700e67de34d9a633ae325c4e9
+  firebase_crashlytics: 3b8018f6c88a59be95f9e2f38f04e5c0f05e0c6a
+  firebase_storage: 78b9c7d73a4e75a9bed8697fab8424979e31d7dd
   FirebaseAnalytics: 2580c2d62535ae7b644143d48941fcc239ea897a
   FirebaseAuth: c224a0cf1afa0949bd5c7bfcf154b4f5ce8ddef2
   FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
@@ -270,7 +271,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 7f7ed0e7e27fb51f57291e1876e2ddb1524126c1
   FirebaseStorage: 5002b1895bfe74a5ce92ad54f966e6162d0da2e5
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_facebook_auth: 24b6e255a5b2336963da48d0d3eeee4df824c0ed
+  flutter_facebook_auth: 4b170c07b7fce791497093fcc3f134fb215f3f07
   flutter_kakao_login: 7202b6e94a37e8fbd682c32ff03227a9eabe80be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc

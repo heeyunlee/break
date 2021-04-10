@@ -5,11 +5,11 @@ import '../constants.dart';
 class MaxWidthRaisedButton extends StatelessWidget {
   const MaxWidthRaisedButton({
     Key key,
+    @required this.buttonText,
     this.color,
-    this.buttonText,
     this.icon,
     this.onPressed,
-    @required this.width,
+    this.width,
   }) : super(key: key);
 
   final Color color;
@@ -20,9 +20,11 @@ class MaxWidthRaisedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(width, 48),
+        minimumSize: Size(width ?? size.width, 48),
         primary: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

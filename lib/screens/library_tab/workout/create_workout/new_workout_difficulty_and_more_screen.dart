@@ -51,7 +51,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
     _difficultySliderLabel =
         Difficulty.values[_difficultySlider.toInt()].translation;
 
-    _secondsPerRepSlider = 2;
+    _secondsPerRepSlider = 3;
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
     debugPrint('NewWorkoutDifficultyAndMoreScreen init');
   }

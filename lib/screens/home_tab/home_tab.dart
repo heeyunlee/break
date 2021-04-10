@@ -4,7 +4,6 @@ import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_detail_screen.dart';
 
 import '../../constants.dart';
 import '../../services/database.dart';
@@ -12,6 +11,7 @@ import '../../common_widgets/empty_content.dart';
 import '../../common_widgets/speed_dial_fab.dart';
 import '../../models/routine_history.dart';
 import '../settings/settings_screen.dart';
+import 'routine_history/daily_summary_detail_screen.dart';
 import 'routine_history_summary_card.dart';
 
 class HomeTab extends StatefulWidget {
@@ -83,11 +83,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
               backgroundColor: _colorTween.value,
               title: Transform.translate(
                 offset: _transTween.value,
-                child: Image.asset(
-                  'assets/logos/playerh_logo.png',
-                  width: 32,
-                  height: 32,
-                ),
+                child: const Text('herakles', style: Subtitle2MenloBold),
+                // child: Image.asset(
+                //   'assets/logos/playerh_logo.png',
+                //   width: 32,
+                //   height: 32,
+                // ),
               ),
               actions: [
                 IconButton(

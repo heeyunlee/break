@@ -59,6 +59,7 @@ class _EditWorkoutMainMuscleGroupScreenState
   void initState() {
     super.initState();
 
+    // TODO: MAKE THIS BETTER
     var mainMuscleGroup = <String, bool>{
       MainMuscleGroup.abs.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.abs.toString()))
@@ -66,6 +67,10 @@ class _EditWorkoutMainMuscleGroupScreenState
           : false,
       MainMuscleGroup.arms.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.arms.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.back.toString(): (widget.workout.mainMuscleGroup
+              .contains(MainMuscleGroup.back.toString()))
           ? true
           : false,
       MainMuscleGroup.cardio.toString(): (widget.workout.mainMuscleGroup
@@ -110,6 +115,10 @@ class _EditWorkoutMainMuscleGroupScreenState
           : false,
       MainMuscleGroup.stretch.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.stretch.toString()))
+          ? true
+          : false,
+      MainMuscleGroup.traps.toString(): (widget.workout.mainMuscleGroup
+              .contains(MainMuscleGroup.traps.toString()))
           ? true
           : false,
     };

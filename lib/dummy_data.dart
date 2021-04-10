@@ -23,6 +23,13 @@ final workoutDummyData = Workout(
   lastEditedDate: Timestamp.now(),
   secondsPerRep: 0,
   tips: 'tips',
+  translated: {
+    'de': 'Name des Trainings',
+    'en': 'Workout Title',
+    'es': 'Nombre del entrenamiento',
+    'fr': 'Nom de l\'entraînement',
+    'ko': '운동 이름'
+  },
 );
 
 final userDummyData = User(

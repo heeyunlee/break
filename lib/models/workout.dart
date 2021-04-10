@@ -21,6 +21,8 @@ class Workout {
     this.secondsPerRep,
     this.isPublic,
     this.location,
+    this.translated,
+    this.thumbnailImageUrl,
   });
 
   final String workoutId;
@@ -41,6 +43,8 @@ class Workout {
   final int secondsPerRep;
   final bool isPublic;
   final String location;
+  final Map<String, dynamic> translated;
+  final String thumbnailImageUrl;
 
   factory Workout.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -63,6 +67,8 @@ class Workout {
     final int secondsPerRep = data['secondsPerRep'];
     final bool isPublic = data['isPublic'];
     final String location = data['location'];
+    final Map<String, dynamic> translated = data['translated'];
+    final String thumbnailImageUrl = data['thumbnailImageUrl'];
 
     return Workout(
       workoutId: documentId,
@@ -83,6 +89,8 @@ class Workout {
       secondsPerRep: secondsPerRep,
       isPublic: isPublic,
       location: location,
+      translated: translated,
+      thumbnailImageUrl: thumbnailImageUrl,
     );
   }
 
@@ -105,6 +113,8 @@ class Workout {
       'secondsPerRep': secondsPerRep,
       'isPublic': isPublic,
       'location': location,
+      'translated': translated,
+      'thumbnailImageUrl': thumbnailImageUrl,
     };
   }
 }

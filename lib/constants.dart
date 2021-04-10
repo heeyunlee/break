@@ -56,6 +56,13 @@ const Headline3 = TextStyle(
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
+const Headline3Menlo = TextStyle(
+  fontSize: 48,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+  letterSpacing: 0,
+  fontFamily: 'menlo',
+);
 const Headline4 = TextStyle(
   fontSize: 34,
   fontWeight: FontWeight.w400,
@@ -244,6 +251,20 @@ const Subtitle2 = TextStyle(
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
+);
+const Subtitle2Menlo = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
+  letterSpacing: 0.1,
+  fontFamily: 'menlo',
+);
+const Subtitle2MenloBold = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+  letterSpacing: 0.1,
+  fontFamily: 'menlo',
 );
 const Subtitle2Bold = TextStyle(
   fontSize: 14,

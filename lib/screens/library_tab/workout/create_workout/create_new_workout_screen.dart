@@ -67,7 +67,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   List _selectedMainMuscleGroup = [];
   List _selectedEquipmentRequired = [];
   double _difficultySlider = 0;
-  double _secondsPerRepSlider = 2;
+  double _secondsPerRepSlider = 3;
   String _location = 'Location.gym';
 
   int _pageIndex = 0;
@@ -94,7 +94,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           .getDownloadURL();
 
       final workout = Workout(
-        workoutId: workoutId,
+        workoutId: 'WK$workoutId',
         workoutOwnerId: userId,
         workoutOwnerUserName: userName,
         workoutTitle: _workoutTitle,
@@ -110,9 +110,22 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         secondsPerRep: _secondsPerRepSlider.toInt(),
         isPublic: true,
         location: _location,
+        translated: {
+          'de': 'Name des Trainings',
+          'en': 'Workout Title',
+          'es': 'Nombre del entrenamiento',
+          'fr': 'Nom de l\'entraînement',
+          'ko': '운동 이름'
+        },
       );
       await widget.database.setWorkout(workout);
-      await Navigator.of(context, rootNavigator: false).pushReplacement(
+      // await WorkoutDetailScreen.show(
+      //   context,
+      //   isRootNavigation: false,
+      //   tag: 'newWorkout-${workout.workoutId}',
+      //   workout: workout,
+      // );
+      await Navigator.of(context, rootNavigator: true).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
             workout: workout,

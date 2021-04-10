@@ -169,8 +169,10 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       print(index);
 
       if (index == -1) {
-        final newHistory =
-            DailyWorkoutHistory(date: workoutDate, totalWeights: totalWeights);
+        final newHistory = DailyWorkoutHistory(
+          date: workoutDate,
+          totalWeights: totalWeights,
+        );
         histories.add(newHistory);
         print(0);
       } else {

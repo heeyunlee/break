@@ -8,12 +8,12 @@ import 'package:workout_player/common_widgets/empty_content.dart';
 import 'package:workout_player/common_widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/screens/home_tab/routine_history/daily_summary_card.dart';
+import 'package:workout_player/screens/home_tab/routine_history/daily_summary_detail_screen.dart';
 import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
-import 'routine_history/daily_summary_card.dart';
-import 'routine_history/daily_summary_detail_screen.dart';
 
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;

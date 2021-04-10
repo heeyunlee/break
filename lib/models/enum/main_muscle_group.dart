@@ -3,6 +3,7 @@ import 'package:workout_player/generated/l10n.dart';
 enum MainMuscleGroup {
   abs,
   arms,
+  back,
   cardio,
   chest,
   fullBody,
@@ -14,6 +15,7 @@ enum MainMuscleGroup {
   quads,
   shoulder,
   stretch,
+  traps,
 }
 
 extension MainMuscleGroupTranslationExtension on MainMuscleGroup {
@@ -23,6 +25,8 @@ extension MainMuscleGroupTranslationExtension on MainMuscleGroup {
         return S.current.abs;
       case MainMuscleGroup.arms:
         return S.current.arms;
+      case MainMuscleGroup.back:
+        return S.current.back;
       case MainMuscleGroup.cardio:
         return S.current.cardio;
       case MainMuscleGroup.chest:
@@ -45,6 +49,47 @@ extension MainMuscleGroupTranslationExtension on MainMuscleGroup {
         return S.current.shoulder;
       case MainMuscleGroup.stretch:
         return S.current.stretch;
+      case MainMuscleGroup.traps:
+        return S.current.traps;
+      default:
+        return null;
+    }
+  }
+}
+
+extension MainMuscleGroupBroadGroup on MainMuscleGroup {
+  String get broadGroup {
+    switch (this) {
+      case MainMuscleGroup.abs:
+        return S.current.abs;
+      case MainMuscleGroup.arms:
+        return S.current.arms;
+      case MainMuscleGroup.back:
+        return S.current.back;
+      case MainMuscleGroup.cardio:
+        return S.current.cardio;
+      case MainMuscleGroup.chest:
+        return S.current.chest;
+      case MainMuscleGroup.fullBody:
+        return S.current.fullBody;
+      case MainMuscleGroup.glutes:
+        return S.current.lowerBody;
+      case MainMuscleGroup.hamstring:
+        return S.current.lowerBody;
+      case MainMuscleGroup.lats:
+        return S.current.back;
+      case MainMuscleGroup.lowerBody:
+        return S.current.lowerBody;
+      case MainMuscleGroup.lowerBack:
+        return S.current.back;
+      case MainMuscleGroup.quads:
+        return S.current.lowerBody;
+      case MainMuscleGroup.shoulder:
+        return S.current.shoulder;
+      case MainMuscleGroup.stretch:
+        return S.current.stretch;
+      case MainMuscleGroup.traps:
+        return S.current.back;
       default:
         return null;
     }

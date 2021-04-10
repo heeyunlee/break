@@ -22,6 +22,8 @@ class LandingScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final user = snapshot.data;
           if (user == null) {
+            // return SplashScreen();
+
             return SignInScreen.create(context);
           }
           // Listening to the Firebase Cloud Firestore database

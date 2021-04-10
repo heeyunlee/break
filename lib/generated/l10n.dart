@@ -445,20 +445,20 @@ class S {
     );
   }
 
-  /// `sets`
+  /// `Sets`
   String get sets {
     return Intl.message(
-      'sets',
+      'Sets',
       name: 'sets',
       desc: '',
       args: [],
     );
   }
 
-  /// `set`
+  /// `Set`
   String get set {
     return Intl.message(
-      'set',
+      'Set',
       name: 'set',
       desc: '',
       args: [],
@@ -2262,6 +2262,326 @@ class S {
       name: 'advanced',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Continue with Email`
+  String get continueWithEmail {
+    return Intl.message(
+      'Continue with Email',
+      name: 'continueWithEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createAccount {
+    return Intl.message(
+      'Create Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In with Email`
+  String get signInWithEmail {
+    return Intl.message(
+      'Sign In with Email',
+      name: 'signInWithEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUp {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log In`
+  String get logIn {
+    return Intl.message(
+      'Log In',
+      name: 'logIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password`
+  String get passwordHintText {
+    return Intl.message(
+      'Please enter your password',
+      name: 'passwordHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter email`
+  String get emptyEmailValidationText {
+    return Intl.message(
+      'Please enter email',
+      name: 'emptyEmailValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter valid email address`
+  String get invalidEmailValidationText {
+    return Intl.message(
+      'Please enter valid email address',
+      name: 'invalidEmailValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a password`
+  String get emptyPasswordValidationText {
+    return Intl.message(
+      'Please enter a password',
+      name: 'emptyPasswordValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter at least 8 letters`
+  String get shortPasswordValidationText {
+    return Intl.message(
+      'Please enter at least 8 letters',
+      name: 'shortPasswordValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm your password`
+  String get confirmPasswordHintText {
+    return Intl.message(
+      'Confirm your password',
+      name: 'confirmPasswordHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a password again`
+  String get emptyConfirmPasswordValidationtext {
+    return Intl.message(
+      'Please enter a password again',
+      name: 'emptyConfirmPasswordValidationtext',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password do not match`
+  String get passwordNotMatchValidationText {
+    return Intl.message(
+      'Password do not match',
+      name: 'passwordNotMatchValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account?`
+  String get alreadyHaveAnAccount {
+    return Intl.message(
+      'Already have an account?',
+      name: 'alreadyHaveAnAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Need an account?`
+  String get needAnAccount {
+    return Intl.message(
+      'Need an account?',
+      name: 'needAnAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In`
+  String get signIn {
+    return Intl.message(
+      'Sign In',
+      name: 'signIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register!`
+  String get register {
+    return Intl.message(
+      'Register!',
+      name: 'register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Not Found`
+  String get userNotFound {
+    return Intl.message(
+      'User Not Found',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User was not found. Please check your email again.`
+  String get userNotFoundMessage {
+    return Intl.message(
+      'User was not found. Please check your email again.',
+      name: 'userNotFoundMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong Password`
+  String get wrongPassword {
+    return Intl.message(
+      'Wrong Password',
+      name: 'wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your password again`
+  String get wrongPasswordMessage {
+    return Intl.message(
+      'Please check your password again',
+      name: 'wrongPasswordMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email Already In Use`
+  String get emailAlreadyInUse {
+    return Intl.message(
+      'Email Already In Use',
+      name: 'emailAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The email addresss is already in use by another account. Please sign in of sign up with different email`
+  String get emailAlreadyInUseMessage {
+    return Intl.message(
+      'The email addresss is already in use by another account. Please sign in of sign up with different email',
+      name: 'emailAlreadyInUseMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Band`
+  String get band {
+    return Intl.message(
+      'Band',
+      name: 'band',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plate`
+  String get plate {
+    return Intl.message(
+      'Plate',
+      name: 'plate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traps`
+  String get traps {
+    return Intl.message(
+      'Traps',
+      name: 'traps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Description`
+  String get addDescription {
+    return Intl.message(
+      'Add Description',
+      name: 'addDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `worked out {mainMuscleGroup}`
+  String workedOutMainMuscleGroup(Object mainMuscleGroup) {
+    return Intl.message(
+      'worked out $mainMuscleGroup',
+      name: 'workedOutMainMuscleGroup',
+      desc: '',
+      args: [mainMuscleGroup],
     );
   }
 }

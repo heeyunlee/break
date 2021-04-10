@@ -17,6 +17,7 @@ class RoutineWorkout {
     this.isBodyWeightWorkout,
     this.duration,
     this.secondsPerRep,
+    this.translated,
   });
 
   int index;
@@ -32,6 +33,7 @@ class RoutineWorkout {
   bool isBodyWeightWorkout;
   int duration;
   int secondsPerRep;
+  Map<String, dynamic> translated;
 
   RoutineWorkout.fromJson(Map<String, dynamic> data, String documentId) {
     routineWorkoutId = documentId;
@@ -52,6 +54,7 @@ class RoutineWorkout {
     isBodyWeightWorkout = data['isBodyWeightWorkout'];
     duration = data['duration'];
     secondsPerRep = data['secondsPerRep'];
+    translated = data['translated'];
   }
 
   Map<String, dynamic> toJson() {
@@ -70,15 +73,8 @@ class RoutineWorkout {
     data['isBodyWeightWorkout'] = isBodyWeightWorkout;
     data['duration'] = duration;
     data['secondsPerRep'] = secondsPerRep;
+    data['translated'] = translated;
 
     return data;
-    // return {
-    //   'index': index,
-    //   'workoutId': workoutId,
-    //   'workoutTitle': workoutTitle,
-    //   'numberOfSets': numberOfSets,
-    //   'numberOfReps': numberOfReps,
-    //   'sets': sets,
-    // };
   }
 }

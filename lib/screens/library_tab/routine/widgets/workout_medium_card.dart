@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -65,8 +65,12 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
             .where((element) => element.isRest == false)
             .toList();
 
+        print('set length is ${sets.length}');
+
         final id = UniqueKey().toString();
         final setIndex = sets.length + 1;
+
+        print('set Index is $setIndex');
 
         // Get latest set data
         final latestSet = sets.last;
@@ -80,6 +84,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           weights: latestSet.weights,
           reps: latestSet.reps,
           restTime: 0,
+          setIndex: setIndex,
         );
       } else {
         debugPrint('sets DO NOT exist');
@@ -97,6 +102,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           weights: 0.00,
           reps: 0,
           restTime: 0,
+          setIndex: setIndex,
         );
       }
 
@@ -174,6 +180,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           weights: 0,
           reps: 0,
           restTime: latestRest.restTime,
+          restIndex: restIndex,
         );
 
         /// Routine Workout
@@ -215,6 +222,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           weights: 0,
           reps: 0,
           restTime: 60,
+          restIndex: restIndex,
         );
 
         /// Routine Workout
@@ -283,11 +291,10 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
     final routine = widget.routine;
     final routineWorkout = widget.routineWorkout;
 
-    // Sets
+    // FORMATTING
     final numberOfSets = routineWorkout?.numberOfSets ?? 0;
     final formattedNumberOfSets = (numberOfSets > 1)
         ? '$numberOfSets ${S.current.sets}'
@@ -302,6 +309,14 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         : (widget.routineWorkout.isBodyWeightWorkout)
             ? '${S.current.bodyweight} + $weights $unit'
             : '$weights $unit';
+
+    final locale = Intl.getCurrentLocale();
+    final translation = widget.routineWorkout.translated;
+    final title = (translation == null || translation.isEmpty)
+        ? widget.routineWorkout.workoutTitle
+        : (locale == 'ko' || locale == 'en')
+            ? widget.routineWorkout.translated[locale]
+            : widget.routineWorkout.workoutTitle;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -330,13 +345,13 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
             ),
           ),
           initiallyExpanded: true,
-          title: (routineWorkout.workoutTitle.length > 24)
+          title: (title.length > 24)
               ? FittedBox(
                   fit: BoxFit.cover,
-                  child: Text(routineWorkout.workoutTitle, style: Headline6),
+                  child: Text(title, style: Headline6),
                 )
               : Text(
-                  routineWorkout.workoutTitle,
+                  title,
                   style: Headline6,
                   overflow: TextOverflow.fade,
                   softWrap: false,
@@ -345,7 +360,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           subtitle: Row(
             children: <Widget>[
               Text(formattedNumberOfSets, style: Subtitle2),
-              const Text('  •  ', style: Subtitle2),
+              const Text('   |   ', style: Subtitle2),
               Text(formattedTotalWeights, style: Subtitle2),
             ],
           ),
@@ -375,15 +390,15 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                     routineWorkout: routineWorkout,
                     set: routineWorkout.sets[index],
                     index: index,
-                    auth: auth,
+                    auth: widget.auth,
                     // user: widget.user,
                   );
                 },
               ),
             if (routineWorkout.sets.isNotEmpty == true &&
-                auth.currentUser.uid == widget.routine.routineOwnerId)
+                widget.auth.currentUser.uid == widget.routine.routineOwnerId)
               const Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (auth.currentUser.uid == widget.routine.routineOwnerId)
+            if (widget.auth.currentUser.uid == widget.routine.routineOwnerId)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

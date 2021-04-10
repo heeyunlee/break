@@ -1,6 +1,7 @@
 import 'package:workout_player/generated/l10n.dart';
 
 enum EquipmentRequired {
+  band,
   barbell,
   bench,
   bodyweight,
@@ -11,12 +12,16 @@ enum EquipmentRequired {
   gymBall,
   kettlebell,
   machine,
+  plate,
+
   other,
 }
 
 extension EquipmentRequiredTranslatedExtension on EquipmentRequired {
   String get translation {
     switch (this) {
+      case EquipmentRequired.band:
+        return S.current.band;
       case EquipmentRequired.barbell:
         return S.current.barbell;
       case EquipmentRequired.bench:
@@ -37,6 +42,8 @@ extension EquipmentRequiredTranslatedExtension on EquipmentRequired {
         return S.current.kettlebell;
       case EquipmentRequired.machine:
         return S.current.machine;
+      case EquipmentRequired.plate:
+        return S.current.plate;
       case EquipmentRequired.other:
         return S.current.other;
       default:

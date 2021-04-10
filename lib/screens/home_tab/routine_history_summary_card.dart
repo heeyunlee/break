@@ -2,9 +2,12 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_card.dart';
-import 'package:workout_player/screens/progress_tab/weights_lifted_history/routine_history/daily_summary_detail_screen.dart';
+
+import 'routine_history/daily_summary_card.dart';
+import 'routine_history/daily_summary_detail_screen.dart';
 
 class RoutineHistorySummaryFeedCard extends StatelessWidget {
   RoutineHistorySummaryFeedCard({
@@ -27,6 +30,10 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
 
     final notes = routineHistory.notes;
 
+    final mainMuscleGroup = MainMuscleGroup.values
+        .firstWhere((e) => e.toString() == routineHistory.mainMuscleGroup[0])
+        .broadGroup;
+
     return Container(
       color: CardColor,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -34,7 +41,8 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _CustomListTile4(
-            title: Text(routineHistory.username, style: Subtitle1Bold),
+            username: routineHistory.username,
+            muscleGroup: S.current.workedOutMainMuscleGroup(mainMuscleGroup),
             subtitle: timeAgo,
           ),
           _buildNotes(notes),
@@ -77,7 +85,8 @@ class _CustomListTile4 extends StatelessWidget {
     Key key,
     this.tag,
     this.imageUrl,
-    this.title,
+    this.username,
+    this.muscleGroup,
     this.leadingText,
     this.subtitle,
     this.onTap,
@@ -88,7 +97,8 @@ class _CustomListTile4 extends StatelessWidget {
 
   final Object tag;
   final String imageUrl;
-  final Widget title;
+  final String username;
+  final String muscleGroup;
   final String leadingText;
   final String subtitle;
   final void Function() onTap;
@@ -122,7 +132,15 @@ class _CustomListTile4 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 4),
-                    title,
+                    RichText(
+                      text: TextSpan(
+                        text: username,
+                        style: Subtitle1Bold,
+                        children: <TextSpan>[
+                          TextSpan(text: muscleGroup, style: BodyText2Light)
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
