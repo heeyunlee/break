@@ -15,8 +15,8 @@ import '../../constants.dart';
 
 Logger logger = Logger();
 
-class PersonalInformationScreen extends StatefulWidget {
-  const PersonalInformationScreen({
+class ChangeDisplayNameScreen extends StatefulWidget {
+  const ChangeDisplayNameScreen({
     Key key,
     @required this.database,
     @required this.user,
@@ -27,12 +27,12 @@ class PersonalInformationScreen extends StatefulWidget {
   final User user;
   final AuthBase auth;
 
-  static Future<void> show({BuildContext context, User user}) async {
+  static Future<void> show(BuildContext context, {User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => PersonalInformationScreen(
+        builder: (context) => ChangeDisplayNameScreen(
           database: database,
           user: user,
           auth: auth,
@@ -42,20 +42,20 @@ class PersonalInformationScreen extends StatefulWidget {
   }
 
   @override
-  _PersonalInformationScreenState createState() =>
-      _PersonalInformationScreenState();
+  _ChangeDisplayNameScreenState createState() =>
+      _ChangeDisplayNameScreenState();
 }
 
-class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
-  String _userName;
+class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
+  String _displayName;
 
   var _textController1 = TextEditingController();
   FocusNode focusNode1;
 
   @override
   void initState() {
-    _userName = widget.user.userName;
-    _textController1 = TextEditingController(text: _userName);
+    _displayName = widget.user.displayName;
+    _textController1 = TextEditingController(text: _displayName);
 
     super.initState();
   }
@@ -66,14 +66,21 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   }
 
   // Submit data to Firestore
-  Future<void> _updateUserName() async {
-    if (_userName.isNotEmpty) {
+  Future<void> _updateDisplayName() async {
+    if (_displayName.isNotEmpty) {
       try {
         final user = {
-          'userName': _userName,
+          'displayName': _displayName,
         };
         await widget.database.updateUser(widget.auth.currentUser.uid, user);
-        debugPrint('Updated Username');
+        debugPrint('Updated Display Name');
+
+        // SnackBar
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.current.updateDisplayNameSnackbar),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ));
       } on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(
@@ -85,8 +92,8 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
     } else {
       return showAlertDialog(
         context,
-        title: S.current.usernameEmptyTitle,
-        content: S.current.usernameEmptyContent,
+        title: S.current.displayNameEmptyTitle,
+        content: S.current.displayNameEmptyContent,
         defaultActionText: S.current.ok,
       );
     }
@@ -100,7 +107,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.editUserNameTitle, style: Subtitle1),
+        title: Text(S.current.editDisplayNameTitle, style: Subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -127,7 +134,7 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
             maxLength: 25,
             decoration: InputDecoration(
               hintStyle: SearchBarHintStyle,
-              hintText: S.current.usernameHintText,
+              hintText: S.current.displayNameHintText,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
               ),
@@ -137,20 +144,20 @@ class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
               counterStyle: Caption1Grey,
             ),
             onChanged: (value) => setState(() {
-              _userName = value;
+              _displayName = value;
             }),
             onSaved: (value) => setState(() {
-              _userName = value;
+              _displayName = value;
             }),
             onFieldSubmitted: (value) {
               setState(() {
-                _userName = value;
+                _displayName = value;
               });
-              _updateUserName();
+              _updateDisplayName();
             },
           ),
         ),
-        Text(S.current.yourUsername, style: BodyText1Grey),
+        Text(S.current.yourDisplayName, style: BodyText1Grey),
       ],
     );
   }

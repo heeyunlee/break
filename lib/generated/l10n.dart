@@ -275,51 +275,51 @@ class S {
     );
   }
 
-  /// `Edit Username`
-  String get editUserNameTitle {
+  /// `Edit Display Name`
+  String get editDisplayNameTitle {
     return Intl.message(
-      'Edit Username',
-      name: 'editUserNameTitle',
+      'Edit Display Name',
+      name: 'editDisplayNameTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your username`
-  String get yourUsername {
+  /// `Your Display Name`
+  String get yourDisplayName {
     return Intl.message(
-      'Your username',
-      name: 'yourUsername',
+      'Your Display Name',
+      name: 'yourDisplayName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Username is Empty`
-  String get usernameEmptyTitle {
+  /// `Display Name is Empty`
+  String get displayNameEmptyTitle {
     return Intl.message(
-      'Username is Empty',
-      name: 'usernameEmptyTitle',
+      'Display Name is Empty',
+      name: 'displayNameEmptyTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Username cannot be empty. Please add something`
-  String get usernameEmptyContent {
+  /// `Display Name cannot be empty. Please add something`
+  String get displayNameEmptyContent {
     return Intl.message(
-      'Username cannot be empty. Please add something',
-      name: 'usernameEmptyContent',
+      'Display Name cannot be empty. Please add something',
+      name: 'displayNameEmptyContent',
       desc: '',
       args: [],
     );
   }
 
-  /// `"Player H"`
-  String get usernameHintText {
+  /// `"Hercules"`
+  String get displayNameHintText {
     return Intl.message(
-      '"Player H"',
-      name: 'usernameHintText',
+      '"Hercules"',
+      name: 'displayNameHintText',
       desc: '',
       args: [],
     );
@@ -385,10 +385,10 @@ class S {
     );
   }
 
-  /// `PLAYER H`
+  /// `Herakles`
   String get applicationName {
     return Intl.message(
-      'PLAYER H',
+      'Herakles',
       name: 'applicationName',
       desc: '',
       args: [],
@@ -2582,6 +2582,116 @@ class S {
       name: 'workedOutMainMuscleGroup',
       desc: '',
       args: [mainMuscleGroup],
+    );
+  }
+
+  /// ` and `
+  String get and {
+    return Intl.message(
+      ' and ',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms`
+  String get terms {
+    return Intl.message(
+      'Terms',
+      name: 'terms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Policy`
+  String get privacyPolicy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By signing in with above provider, you acknowledge that you've read and accepted our\n`
+  String get acceptingTerms {
+    return Intl.message(
+      'By signing in with above provider, you acknowledge that you\'ve read and accepted our\n',
+      name: 'acceptingTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAcocunt {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAcocunt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Account`
+  String get manageAccount {
+    return Intl.message(
+      'Manage Account',
+      name: 'manageAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get account {
+    return Intl.message(
+      'Account',
+      name: 'account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display Name`
+  String get displayName {
+    return Intl.message(
+      'Display Name',
+      name: 'displayName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Email`
+  String get editEmail {
+    return Intl.message(
+      'Edit Email',
+      name: 'editEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully Updated Email!`
+  String get updateEmailSnackbar {
+    return Intl.message(
+      'Successfully Updated Email!',
+      name: 'updateEmailSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully Updated Display Name!`
+  String get updateDisplayNameSnackbar {
+    return Intl.message(
+      'Successfully Updated Display Name!',
+      name: 'updateDisplayNameSnackbar',
+      desc: '',
+      args: [],
     );
   }
 }

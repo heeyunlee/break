@@ -54,17 +54,21 @@ dependencies:
   dotted_line: ^3.0.0
   miniplayer: ^1.0.0+2
   timeago: ^3.0.2
+  url_launcher: ^6.0.3
+  easy_localization: ^3.0.0
 dev_dependencies:
   flutter_launcher_icons: ^0.9.0
   flutter_test:
     sdk: flutter
 
 flutter_icons:
-  image_path: "assets/logos/playerh_logo.png"
+  image_path_ios: "assets/logos/herakles_logo.png"
+  image_path_android: "assets/logos/herakles_logo.png"
   andriod: true
   ios: true
-  adaptive_icon_background: "#000000"
-  adaptive_icon_foreground: "#000000"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#121212"
+  adaptive_icon_foreground: "#121212"
 
 flutter:
   fonts:

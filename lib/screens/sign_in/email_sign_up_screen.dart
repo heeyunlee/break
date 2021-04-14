@@ -97,16 +97,19 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         if (isSignUpMode) {
           await widget.auth.createUserWithEmailAndPassword(_email, _password);
 
+          final firebaseUser = widget.auth.currentUser;
           final uniqueId = UniqueKey().toString();
+          final id = 'Player $uniqueId';
           final currentTime = Timestamp.now();
           final locale = Intl.getCurrentLocale();
 
           final user = User(
-            userId: widget.auth.currentUser.uid,
-            userName: widget.auth.currentUser.displayName ?? 'Player $uniqueId',
-            userEmail: widget.auth.currentUser.email,
+            userId: firebaseUser.uid,
+            displayName: firebaseUser.providerData[0].displayName ?? id,
+            userName: firebaseUser.providerData[0].displayName ?? id,
+            userEmail: firebaseUser.providerData[0].email,
             signUpDate: currentTime,
-            signUpProvider: 'Email',
+            signUpProvider: firebaseUser.providerData[0].providerId,
             totalWeights: 0,
             totalNumberOfWorkouts: 0,
             unitOfMass: (locale == 'ko') ? 0 : 1,

@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('herakles', style: Headline3Menlo),
+            const Text('Hēraklês', style: Headline3Menlo),
             const SizedBox(height: 8),
             const Text(
               'wokrout. share. and gain.',

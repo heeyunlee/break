@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/sign_in/preview_screen.dart';
@@ -19,6 +21,19 @@ import '../../constants.dart';
 import 'email_sign_up_screen.dart';
 
 Logger logger = Logger();
+
+const _termsUrl =
+    'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
+const _privacyServiceUrl =
+    'https://app.termly.io/document/privacy-policy/34f278e4-7150-48c6-88c0-ee9a3ee082d1';
+
+void _launchTermsURL() async => await canLaunch(_termsUrl)
+    ? await launch(_termsUrl)
+    : throw 'Could not launch $_termsUrl';
+
+void _launchPrivacyServiceURL() async => await canLaunch(_privacyServiceUrl)
+    ? await launch(_privacyServiceUrl)
+    : throw 'Could not launch $_privacyServiceUrl';
 
 class SignInScreen extends StatefulWidget {
   final SignInBloc signInBloc;
@@ -70,17 +85,20 @@ class _SignInScreenState extends State<SignInScreen> {
 
       final firebaseUser = widget.signInBloc.auth.currentUser;
       final uniqueId = UniqueKey().toString();
-
+      final id = 'Player $uniqueId';
       final currentTime = Timestamp.now();
+      final locale = Intl.getCurrentLocale();
+
       final userData = User(
         userId: firebaseUser.uid,
-        userName: 'Player $uniqueId',
-        userEmail: firebaseUser.email,
+        displayName: firebaseUser.providerData[0].displayName ?? id,
+        userName: firebaseUser.providerData[0].displayName ?? id,
+        userEmail: firebaseUser.providerData[0].email,
         signUpDate: currentTime,
-        signUpProvider: 'Anon',
+        signUpProvider: firebaseUser.providerData[0].providerId,
         totalWeights: 0,
         totalNumberOfWorkouts: 0,
-        unitOfMass: 1,
+        unitOfMass: (locale == 'ko') ? 0 : 1,
         lastLoginDate: currentTime,
         dailyWorkoutHistories: [],
         dailyNutritionHistories: [],
@@ -109,13 +127,16 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Create new data do NOT exist
       if (user == null) {
+        final uniqueId = UniqueKey().toString();
+        final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
         final userData = User(
           userId: firebaseUser.uid,
-          userName: firebaseUser.displayName,
-          userEmail: firebaseUser.email,
+          displayName: firebaseUser.providerData[0].displayName ?? id,
+          userName: firebaseUser.providerData[0].displayName ?? id,
+          userEmail: firebaseUser.providerData[0].email,
           signUpDate: currentTime,
-          signUpProvider: 'Google',
+          signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
@@ -150,18 +171,23 @@ class _SignInScreenState extends State<SignInScreen> {
         widget.signInBloc.auth.currentUser.uid,
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
+      print(firebaseUser);
 
       final locale = Intl.getCurrentLocale();
 
       // Create new data do NOT exist
       if (user == null) {
+        final uniqueId = UniqueKey().toString();
+        final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
+
         final userData = User(
           userId: firebaseUser.uid,
-          userName: firebaseUser.displayName,
-          userEmail: firebaseUser.email,
+          displayName: firebaseUser.providerData[0].displayName ?? id,
+          userName: firebaseUser.providerData[0].displayName ?? id,
+          userEmail: firebaseUser.providerData[0].email,
           signUpDate: currentTime,
-          signUpProvider: 'Facebook',
+          signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
@@ -198,21 +224,27 @@ class _SignInScreenState extends State<SignInScreen> {
       final firebaseUser = widget.signInBloc.auth.currentUser;
       final locale = Intl.getCurrentLocale();
 
+      print(firebaseUser);
+
       // Create new data do NOT exist
       if (user == null) {
         final uniqueId = UniqueKey().toString();
+        final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
+
         final userData = User(
           userId: firebaseUser.uid,
-          userName: firebaseUser.displayName ?? 'Player $uniqueId',
-          userEmail: firebaseUser.email,
+          displayName: firebaseUser.providerData[0].displayName ?? id,
+          userName: firebaseUser.providerData[0].displayName ?? id,
+          userEmail: firebaseUser.providerData[0].email,
           signUpDate: currentTime,
-          signUpProvider: 'Apple',
+          signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -347,10 +379,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('herakles', style: Headline3Menlo),
+                        const Text('Hēraklês', style: Headline3Menlo),
                         const SizedBox(height: 8),
                         const Text(
-                          'wokrout. share. and gain.',
+                          'wokrout. record. and share.',
                           style: Subtitle2Menlo,
                         ),
                       ],
@@ -395,6 +427,31 @@ class _SignInScreenState extends State<SignInScreen> {
               onPressed:
                   widget.isLoading ? null : () => _signInWithApple(context),
             ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+            child: RichText(
+              text: TextSpan(
+                text:
+                    'By signing in with above provider, you acknowledge that you\'ve read and accepted our\n',
+                style: OverlineGrey,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: S.current.terms,
+                    style: OverlineGreyUnderlined,
+                    recognizer: TapGestureRecognizer()..onTap = _launchTermsURL,
+                  ),
+                  TextSpan(text: S.current.and, style: OverlineGrey),
+                  TextSpan(
+                    text: S.current.privacyPolicy,
+                    style: OverlineGreyUnderlined,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = _launchPrivacyServiceURL,
+                  ),
+                ],
+              ),
+            ),
+          ),
 
           // // TODO: Add Sign In with Kakao
           // if (Platform.isIOS)

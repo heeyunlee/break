@@ -9,6 +9,7 @@ import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/settings/manage_account_screen.dart';
 import 'package:workout_player/screens/settings/unit_of_mass_screen.dart';
 import 'package:workout_player/screens/settings/user_feedback_screen.dart';
 import 'package:workout_player/services/auth.dart';
@@ -17,7 +18,6 @@ import 'package:workout_player/services/database.dart';
 import '../../common_widgets/show_alert_dialog.dart';
 import '../../constants.dart';
 import 'change_language_screen.dart';
-import 'personal_information_screen.dart';
 
 Logger logger = Logger();
 
@@ -117,21 +117,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(S.current.account, style: BodyText2BoldGrey),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.person, color: Colors.white),
                     title: Text(
-                      S.current.personalInformation,
+                      S.current.manageAccount,
                       style: BodyText2,
                     ),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
+                      size: 20,
                     ),
-                    onTap: () => PersonalInformationScreen.show(
-                      context: context,
-                      user: user,
-                    ),
+                    onTap: () => ManageAccountScreen.show(context),
                   ),
+                  CustomDivider,
                   ListTile(
                     leading: const Icon(
                       Icons.straighten_rounded,
@@ -149,6 +152,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: Colors.grey,
+                          size: 20,
                         ),
                       ],
                     ),
@@ -166,6 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
+                      size: 20,
                     ),
                     onTap: () => UserFeedbackScreen.show(context),
                   ),
@@ -178,13 +183,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
+                      size: 20,
                     ),
                     onTap: () {
                       // TODO: Update Version Number
                       showAboutDialog(
                         context: context,
                         applicationName: S.current.applicationName,
-                        applicationVersion: '0.2.0+3',
+                        applicationVersion: '0.2.0+4',
                         applicationIcon: Container(
                           decoration: BoxDecoration(
                             color: Colors.black,
@@ -215,6 +221,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: Colors.grey,
+                          size: 20,
                         ),
                       ],
                     ),
@@ -228,6 +235,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       buttonText: S.current.logout,
                       color: Grey700,
                       onPressed: () => _confirmSignOut(context),
+                    ),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        S.current.deleteAcocunt,
+                        style: BodyText1Grey,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 38),

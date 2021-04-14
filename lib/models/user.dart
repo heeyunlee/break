@@ -18,6 +18,7 @@ class User {
     this.dailyNutritionHistories,
     this.dailyWeightsGoal,
     this.dailyProteinGoal,
+    this.displayName,
   });
 
   String userId;
@@ -35,6 +36,7 @@ class User {
   List<DailyNutritionHistory> dailyNutritionHistories;
   num dailyWeightsGoal;
   num dailyProteinGoal;
+  String displayName;
 
   factory User.fromJson(Map<String, dynamic> data, String documentId) {
     if (data == null) {
@@ -53,8 +55,6 @@ class User {
     List<DailyWorkoutHistory> dailyWorkoutHistories = <DailyWorkoutHistory>[];
     List<DailyNutritionHistory> dailyNutritionHistories =
         <DailyNutritionHistory>[];
-    final dailyWeightsGoal = data['dailyWeightsGoal'];
-    final dailyProteinGoal = data['dailyWeightsGoal'];
 
     if (data['dailyWorkoutHistories'] != null) {
       data['dailyWorkoutHistories'].forEach((item) {
@@ -67,6 +67,9 @@ class User {
         dailyNutritionHistories.add(DailyNutritionHistory.fromMap(item));
       });
     }
+    final dailyWeightsGoal = data['dailyWeightsGoal'];
+    final dailyProteinGoal = data['dailyWeightsGoal'];
+    final displayName = data['displayName'];
 
     return User(
       userId: documentId,
@@ -84,6 +87,7 @@ class User {
       dailyNutritionHistories: dailyNutritionHistories,
       dailyWeightsGoal: dailyWeightsGoal,
       dailyProteinGoal: dailyProteinGoal,
+      displayName: displayName,
     );
   }
 
@@ -109,6 +113,7 @@ class User {
     }
     data['dailyWeightsGoal'] = dailyWeightsGoal;
     data['dailyProteinGoal'] = dailyProteinGoal;
+    data['displayName'] = displayName;
 
     return data;
   }

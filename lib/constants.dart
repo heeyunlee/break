@@ -379,6 +379,13 @@ const BodyText2w900 = TextStyle(
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
+const BodyText2BoldGrey = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+  color: Colors.grey,
+  letterSpacing: 0.25,
+  fontFamily: 'NanumSquareRound',
+);
 const ButtonText = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
@@ -428,6 +435,21 @@ const Overline = TextStyle(
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
+const OverlineGrey = TextStyle(
+  fontSize: 10,
+  fontWeight: FontWeight.normal,
+  color: Colors.grey,
+  letterSpacing: 1.5,
+  fontFamily: 'NanumSquareRound',
+);
+const OverlineGreyUnderlined = TextStyle(
+  fontSize: 10,
+  fontWeight: FontWeight.normal,
+  color: Colors.grey,
+  letterSpacing: 1.5,
+  fontFamily: 'NanumSquareRound',
+  decoration: TextDecoration.underline,
+);
 
 const SearchBarHintStyle = TextStyle(
   color: Colors.grey,
@@ -449,4 +471,8 @@ const GoogleSignInStyleWhite = TextStyle(
 );
 
 // OTHERS //
-const DefaultPadding = 16;
+const CustomDivider = Divider(
+  color: Grey700,
+  indent: 16,
+  endIndent: 16,
+);

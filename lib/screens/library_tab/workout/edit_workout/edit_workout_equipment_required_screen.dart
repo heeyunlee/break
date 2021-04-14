@@ -58,6 +58,10 @@ class _EditWorkoutEquipmentRequiredScreenState
 
     // TODO: MAKE THIS BETTER
     var equipmentRequired = <String, bool>{
+      EquipmentRequired.band.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.band.toString()))
+          ? true
+          : false,
       EquipmentRequired.barbell.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.barbell.toString()))
           ? true
@@ -96,6 +100,10 @@ class _EditWorkoutEquipmentRequiredScreenState
           : false,
       EquipmentRequired.machine.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.machine.toString()))
+          ? true
+          : false,
+      EquipmentRequired.plate.toString(): (widget.workout.equipmentRequired
+              .contains(EquipmentRequired.plate.toString()))
           ? true
           : false,
       EquipmentRequired.other.toString(): (widget.workout.equipmentRequired
