@@ -132,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       color: Colors.grey,
                       size: 20,
                     ),
-                    onTap: () => ManageAccountScreen.show(context),
+                    onTap: () => ManageAccountScreen.show(context, user: user),
                   ),
                   CustomDivider,
                   ListTile(
@@ -190,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       showAboutDialog(
                         context: context,
                         applicationName: S.current.applicationName,
-                        applicationVersion: '0.2.0+4',
+                        applicationVersion: '0.2.1',
                         applicationIcon: Container(
                           decoration: BoxDecoration(
                             color: Colors.black,
@@ -235,15 +235,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       buttonText: S.current.logout,
                       color: Grey700,
                       onPressed: () => _confirmSignOut(context),
-                    ),
-                  ),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        S.current.deleteAcocunt,
-                        style: BodyText1Grey,
-                      ),
                     ),
                   ),
                   const SizedBox(height: 38),

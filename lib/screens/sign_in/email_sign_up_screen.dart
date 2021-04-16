@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/common_widgets/show_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -16,6 +18,19 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 Logger logger = Logger();
+
+const _termsUrl =
+    'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
+const _privacyServiceUrl =
+    'https://app.termly.io/document/privacy-policy/34f278e4-7150-48c6-88c0-ee9a3ee082d1';
+
+void _launchTermsURL() async => await canLaunch(_termsUrl)
+    ? await launch(_termsUrl)
+    : throw 'Could not launch $_termsUrl';
+
+void _launchPrivacyServiceURL() async => await canLaunch(_privacyServiceUrl)
+    ? await launch(_privacyServiceUrl)
+    : throw 'Could not launch $_privacyServiceUrl';
 
 class EmailSignUpScreen extends StatefulWidget {
   final AuthBase auth;
@@ -168,6 +183,8 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   }
 
   Widget _buildBody() {
+    final locale = Intl.getCurrentLocale();
+
     return KeyboardActions(
       config: _buildConfig(),
       child: SingleChildScrollView(
@@ -333,6 +350,39 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                   color: Primary600Color,
                 ),
 
+                if (isSignUpMode)
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: S.current.acceptingTermsEmail,
+                        style: OverlineGrey,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: S.current.terms,
+                            style: OverlineGreyUnderlined,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _launchTermsURL,
+                          ),
+                          TextSpan(text: S.current.and, style: OverlineGrey),
+                          TextSpan(
+                            text: S.current.privacyPolicy,
+                            style: OverlineGreyUnderlined,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = _launchPrivacyServiceURL,
+                          ),
+                          if (locale == 'ko')
+                            TextSpan(
+                              text: S.current.acepptingTermsKorean,
+                              style: OverlineGrey,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                 // Register or Sign In
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -356,7 +406,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

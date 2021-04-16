@@ -257,12 +257,20 @@
     "and": " and ",
     "terms": "Terms",
     "privacyPolicy": "Privacy Policy",
-    "acceptingTerms": "By signing in with above provider, you acknowledge that you've read and accepted our\n",
+    "acceptingTerms": "By signing in with one of the social login providers, you acknowledge that you've read and accepted our\n",
+    "acepptingTermsKorean": "에 동의하는 것입니다",
+    "acceptingTermsEmail": "By creating an account, you acknowledge that you've read and accepted our\n",
     "deleteAcocunt": "Delete Account",
     "manageAccount": "Manage Account",
     "account": "Account",
     "displayName": "Display Name",
     "editEmail": "Edit Email",
     "updateEmailSnackbar": "Successfully Updated Email!",
-    "updateDisplayNameSnackbar": "Successfully Updated Display Name!"
+    "updateDisplayNameSnackbar": "Successfully Updated Display Name!",
+    "deleteAccountTitle": "Delete {username}'s Account?",
+    "byDeletingAccount": "By deleting the account:",
+    "deletingAccountWarning1": "\u2022 Your personal data will be deleted permenantely and will not be able to recover",
+    "deletingAccountWarning2": "\u2022 Some data that are not saved on your user account might not be deleted",
+    "deletingAccountWarning3": "\u2022 Continue?",
+    "continueButton": "CONTINUE"
 }

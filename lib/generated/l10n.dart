@@ -2615,11 +2615,31 @@ class S {
     );
   }
 
-  /// `By signing in with above provider, you acknowledge that you've read and accepted our\n`
+  /// `By signing in with one of the social login providers, you acknowledge that you've read and accepted our\n`
   String get acceptingTerms {
     return Intl.message(
-      'By signing in with above provider, you acknowledge that you\'ve read and accepted our\n',
+      'By signing in with one of the social login providers, you acknowledge that you\'ve read and accepted our\n',
       name: 'acceptingTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `에 동의하는 것입니다`
+  String get acepptingTermsKorean {
+    return Intl.message(
+      '에 동의하는 것입니다',
+      name: 'acepptingTermsKorean',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By creating an account, you acknowledge that you've read and accepted our\n`
+  String get acceptingTermsEmail {
+    return Intl.message(
+      'By creating an account, you acknowledge that you\'ve read and accepted our\n',
+      name: 'acceptingTermsEmail',
       desc: '',
       args: [],
     );
@@ -2690,6 +2710,66 @@ class S {
     return Intl.message(
       'Successfully Updated Display Name!',
       name: 'updateDisplayNameSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete {username}'s Account?`
+  String deleteAccountTitle(Object username) {
+    return Intl.message(
+      'Delete $username\'s Account?',
+      name: 'deleteAccountTitle',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `By deleting the account:`
+  String get byDeletingAccount {
+    return Intl.message(
+      'By deleting the account:',
+      name: 'byDeletingAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `• Your personal data will be deleted permenantely and will not be able to recover`
+  String get deletingAccountWarning1 {
+    return Intl.message(
+      '• Your personal data will be deleted permenantely and will not be able to recover',
+      name: 'deletingAccountWarning1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `• Some data that are not saved on your user account might not be deleted`
+  String get deletingAccountWarning2 {
+    return Intl.message(
+      '• Some data that are not saved on your user account might not be deleted',
+      name: 'deletingAccountWarning2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `• Continue?`
+  String get deletingAccountWarning3 {
+    return Intl.message(
+      '• Continue?',
+      name: 'deletingAccountWarning3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CONTINUE`
+  String get continueButton {
+    return Intl.message(
+      'CONTINUE',
+      name: 'continueButton',
       desc: '',
       args: [],
     );

@@ -356,6 +356,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildSignInScreen(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final locale = Intl.getCurrentLocale();
 
     return Container(
       height: size.height,
@@ -379,7 +380,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Hēraklês', style: Headline3Menlo),
+                        const Text('HēraKless', style: Headline3Menlo),
                         const SizedBox(height: 8),
                         const Text(
                           'wokrout. record. and share.',
@@ -431,9 +432,9 @@ class _SignInScreenState extends State<SignInScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
             child: RichText(
+              textAlign: TextAlign.center,
               text: TextSpan(
-                text:
-                    'By signing in with above provider, you acknowledge that you\'ve read and accepted our\n',
+                text: S.current.acceptingTerms,
                 style: OverlineGrey,
                 children: <TextSpan>[
                   TextSpan(
@@ -448,6 +449,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = _launchPrivacyServiceURL,
                   ),
+                  if (locale == 'ko')
+                    TextSpan(
+                      text: S.current.acepptingTermsKorean,
+                      style: OverlineGrey,
+                    ),
                 ],
               ),
             ),

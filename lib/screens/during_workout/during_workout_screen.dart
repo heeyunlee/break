@@ -421,6 +421,16 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     final currentProgress = currentIndex / setLength * 100;
     final formattedCurrentProgress = '${f.format(currentProgress)} %';
 
+    final setTitle = '${S.current.set} ${workoutSet.setIndex}';
+
+    final locale = Intl.getCurrentLocale();
+    final translation = routineWorkout.translated;
+    final title = (translation == null || translation.isEmpty)
+        ? routineWorkout.workoutTitle
+        : (locale == 'ko' || locale == 'en')
+            ? routineWorkout.translated[locale]
+            : routineWorkout.workoutTitle;
+
     return Stack(
       children: [
         Container(color: Colors.green.withOpacity(0.02)),
@@ -445,7 +455,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                   horizontal: 24,
                   vertical: 4,
                 ),
-                child: Text(workoutSet.setTitle,
+                child: Text(setTitle,
                     style: Headline5.copyWith(fontSize: size.height * 0.03)),
               ),
               Padding(
@@ -458,10 +468,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                       style:
                           Headline6Grey.copyWith(fontSize: size.height * 0.02),
                     ),
-                    Text(
-                      routineWorkout.workoutTitle,
-                      style: Headline6Grey,
-                    ),
+                    Text(title, style: Headline6Grey),
                   ],
                 ),
               ),

@@ -128,7 +128,7 @@ class _FlexibleSpace extends StatelessWidget {
                 size: 48,
               ),
               const SizedBox(width: 16),
-              Text(user.userName, style: Subtitle1w900),
+              Text(user.displayName, style: Subtitle1w900),
             ],
           ),
           const SizedBox(height: 24),
