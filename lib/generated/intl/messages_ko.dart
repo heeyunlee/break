@@ -68,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "and" : MessageLookupByLibrary.simpleMessage(" 및 "),
     "announcementCardTitle1" : MessageLookupByLibrary.simpleMessage("나만의\n루틴을\n만들어보세요!"),
     "announcementCardTitle2" : MessageLookupByLibrary.simpleMessage("운동을\n기록하세요!"),
-    "applicationName" : MessageLookupByLibrary.simpleMessage("플레이어 H"),
+    "applicationName" : MessageLookupByLibrary.simpleMessage("헤라클레스"),
     "arms" : MessageLookupByLibrary.simpleMessage("팔"),
     "atHome" : MessageLookupByLibrary.simpleMessage("홈 트레이닝"),
     "back" : MessageLookupByLibrary.simpleMessage("등"),

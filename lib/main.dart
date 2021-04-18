@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -44,22 +45,24 @@ class MyApp extends StatelessWidget {
         //   create: (context) => UserSavedWorkoutModel(),
         // ),
       ],
-      child: MaterialApp(
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'NanumSquareRound',
+      child: FeatureDiscovery(
+        child: MaterialApp(
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'NanumSquareRound',
+          ),
+          home: LandingScreen(),
+          routes: {
+            LibraryTab.routeName: (context) => LibraryTab(),
+          },
         ),
-        home: LandingScreen(),
-        routes: {
-          LibraryTab.routeName: (context) => LibraryTab(),
-        },
       ),
     );
   }

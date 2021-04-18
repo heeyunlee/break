@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
-import 'package:workout_player/common_widgets/max_width_raised_button.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
@@ -196,7 +195,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Colors.black,
                           ),
                           child: Image.asset(
-                            'assets/logos/playerh_logo.png',
+                            'assets/logos/herakless_logo.png',
                             width: 36,
                             height: 36,
                           ),
@@ -227,17 +226,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     onTap: () => ChangeLanguageScreen.show(context),
                   ),
-                  const Spacer(),
+                  CustomDivider,
+                  const SizedBox(height: 16),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: MaxWidthRaisedButton(
-                      width: double.infinity,
-                      buttonText: S.current.logout,
-                      color: Grey700,
-                      onPressed: () => _confirmSignOut(context),
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(S.current.logIn, style: BodyText2BoldGrey),
                   ),
-                  const SizedBox(height: 38),
+                  ListTile(
+                    onTap: () => _confirmSignOut(context),
+                    leading: const Icon(Icons.logout, color: Colors.white),
+                    title: Text(S.current.logout, style: BodyText2),
+                  ),
+                  const Spacer(),
                 ],
               ),
             ),

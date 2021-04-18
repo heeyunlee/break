@@ -385,10 +385,10 @@ class S {
     );
   }
 
-  /// `Herakles`
+  /// `Hērakless`
   String get applicationName {
     return Intl.message(
-      'Herakles',
+      'Hērakless',
       name: 'applicationName',
       desc: '',
       args: [],
@@ -2575,10 +2575,10 @@ class S {
     );
   }
 
-  /// `worked out {mainMuscleGroup}`
+  /// ` worked out {mainMuscleGroup}`
   String workedOutMainMuscleGroup(Object mainMuscleGroup) {
     return Intl.message(
-      'worked out $mainMuscleGroup',
+      ' worked out $mainMuscleGroup',
       name: 'workedOutMainMuscleGroup',
       desc: '',
       args: [mainMuscleGroup],

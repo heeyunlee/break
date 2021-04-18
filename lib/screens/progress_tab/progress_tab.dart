@@ -7,6 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/progress_tab/flexible_space_tablet.dart';
 import 'package:workout_player/screens/settings/settings_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -30,6 +31,9 @@ class ProgressTab extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
+    final size = MediaQuery.of(context).size;
+    final bool isMobile = size.shortestSide < 600;
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -42,7 +46,7 @@ class ProgressTab extends StatelessWidget {
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    expandedHeight: 200,
+                    expandedHeight: isMobile ? 200 : 300,
                     floating: true,
                     pinned: true,
                     snap: false,
@@ -58,7 +62,9 @@ class ProgressTab extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                     ],
-                    flexibleSpace: _FlexibleSpace(user: snapshot.data),
+                    flexibleSpace: (isMobile)
+                        ? _FlexibleSpaceMobile(user: snapshot.data)
+                        : FlexibleSpaceTablet(user: snapshot.data),
                     backgroundColor: AppBarColor,
                     elevation: 0,
                   ),
@@ -103,10 +109,10 @@ class ProgressTab extends StatelessWidget {
   }
 }
 
-class _FlexibleSpace extends StatelessWidget {
+class _FlexibleSpaceMobile extends StatelessWidget {
   final User user;
 
-  const _FlexibleSpace({Key key, this.user}) : super(key: key);
+  const _FlexibleSpaceMobile({Key key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

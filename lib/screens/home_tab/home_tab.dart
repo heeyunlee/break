@@ -102,14 +102,14 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         ),
         backgroundColor: BackgroundColor,
         body: Builder(
-          builder: (BuildContext context) => _buildBody(context),
+          builder: (BuildContext context) => _buildMobileBody(context),
         ),
         floatingActionButton: SpeedDialFAB(),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildMobileBody(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
 
     return RefreshIndicator(

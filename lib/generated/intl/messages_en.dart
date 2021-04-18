@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m7(equipment) => "using ${equipment}";
 
-  static m8(mainMuscleGroup) => "worked out ${mainMuscleGroup}";
+  static m8(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -68,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "and" : MessageLookupByLibrary.simpleMessage(" and "),
     "announcementCardTitle1" : MessageLookupByLibrary.simpleMessage("CREATE\nYOUR\nOWN\nROUTINE"),
     "announcementCardTitle2" : MessageLookupByLibrary.simpleMessage("SAVE\nYOUR\nPROGRESS"),
-    "applicationName" : MessageLookupByLibrary.simpleMessage("Herakles"),
+    "applicationName" : MessageLookupByLibrary.simpleMessage("Hērakless"),
     "arms" : MessageLookupByLibrary.simpleMessage("Arms"),
     "atHome" : MessageLookupByLibrary.simpleMessage("At Home"),
     "back" : MessageLookupByLibrary.simpleMessage("Back"),

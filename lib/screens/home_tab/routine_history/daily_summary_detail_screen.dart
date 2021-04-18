@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/common_widgets/list_item_builder.dart';
@@ -21,7 +20,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import 'activity_list_tile.dart';
+import 'routine_workout_card.dart';
 import 'summary_row_widget.dart';
 
 Logger logger = Logger();
@@ -391,25 +390,9 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
                 return ListItemBuilder<RoutineWorkout>(
                   snapshot: snapshot,
                   itemBuilder: (context, routineWorkout) {
-                    final sets = routineWorkout.numberOfSets;
-                    final weights = Format.weights(routineWorkout.totalWeights);
-                    final subtitle = (routineWorkout.isBodyWeightWorkout &&
-                            routineWorkout.totalWeights == 0)
-                        ? '$sets ${S.current.sets}  •  ${S.current.bodyweight}'
-                        : (routineWorkout.isBodyWeightWorkout)
-                            ? '$sets ${S.current.sets}  •  ${S.current.bodyweight} + $weights $unit'
-                            : '$sets ${S.current.sets}  • $weights $unit';
-
-                    final locale = Intl.getCurrentLocale();
-
-                    final title = (locale == 'ko' || locale == 'en')
-                        ? routineWorkout.translated[locale]
-                        : routineWorkout.workoutTitle;
-
-                    return ActivityListTile(
-                      index: routineWorkout.index,
-                      title: title,
-                      subtitle: subtitle,
+                    return RoutineWorkoutCard(
+                      routineWorkout: routineWorkout,
+                      routineHistory: routineHistory,
                     );
                   },
                 );
