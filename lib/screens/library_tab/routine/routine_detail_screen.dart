@@ -104,8 +104,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     if (scrollInfo.metrics.axis == Axis.vertical) {
       _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
 
-      _textAnimationController
-          .animateTo((scrollInfo.metrics.pixels - 130) / 50);
+      _textAnimationController.animateTo((scrollInfo.metrics.pixels - 60) / 50);
       return true;
     }
     return false;
@@ -119,7 +118,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _colorTween = ColorTween(begin: Colors.transparent, end: AppBarColor)
         .animate(_colorAnimationController);
-    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+    _transTween = Tween(begin: Offset(0, 40), end: Offset(0, 0))
         .animate(_textAnimationController);
     super.initState();
   }
@@ -201,6 +200,20 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           routine: widget.routine,
           tag: widget.tag,
         ),
+        actions: [
+          if (widget.auth.currentUser.uid == routine.routineOwnerId)
+            IconButton(
+              icon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => EditRoutineScreen.show(
+                context,
+                routine: routine,
+              ),
+            ),
+          const SizedBox(width: 8),
+        ],
       ),
     );
   }
@@ -211,6 +224,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final routineTitle = routine?.routineTitle ?? 'Add Title';
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
+    final duration = Format.durationInMin(routine.duration);
     final description =
         (routine.description == null || routine.description.isNotEmpty
             ? S.current.addDescription
@@ -233,65 +247,121 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
+            // Text(
+            //   routineTitle,
+            //   style: GoogleFonts.blackHanSans(
+            //     color: Colors.white,
+            //     fontSize: 34,
+            //   ),
+            //   maxLines: 1,
+            //   overflow: TextOverflow.fade,
+            //   softWrap: false,
+            // ),
+            const SizedBox(height: 8),
             Text(
               routineTitle,
               style: GoogleFonts.blackHanSans(
                 color: Colors.white,
-                fontSize: 34,
+                fontSize: 28,
               ),
               maxLines: 1,
               overflow: TextOverflow.fade,
               softWrap: false,
             ),
-            const SizedBox(height: 8),
+            Text(
+              'Created by $routineOwnerUserName',
+              style: Subtitle2BoldGrey,
+            ),
             Row(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      routineOwnerUserName,
-                      style: Subtitle2Bold,
-                    ),
                     const SizedBox(height: 4),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          weights + ' ' + unitOfMass,
-                          style: BodyText2Light,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('|', style: BodyText2Light),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${S.current.lastEditedOn} $lastEditedDate',
-                          style: BodyText2Light,
-                        ),
-                      ],
-                    ),
-                    if (location != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          '${S.current.location}: $location',
-                          style: BodyText2Light,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(location, style: BodyText2Light),
+                          Text('  \u2022  ', style: Caption1),
+                          Text(
+                            weights + ' ' + unitOfMass,
+                            style: BodyText2Light,
+                          ),
+                          Text('  \u2022  ', style: Caption1),
+                          Text(
+                            '$duration ${S.current.minutes}',
+                            style: BodyText2Light,
+                          ),
+                        ],
                       ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.star_rate_rounded,
+                            color: Color(0xffFFD700),
+                          ),
+                          const SizedBox(width: 8),
+                          Text('4.3', style: BodyText2Light)
+                        ],
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 8),
+                    //   child: Row(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       const Icon(
+                    //         Icons.location_on_rounded,
+                    //         color: Colors.white,
+                    //         size: 20,
+                    //       ),
+                    //       const SizedBox(width: 8),
+                    //       Text(location, style: BodyText2Light),
+                    //     ],
+                    //   ),
+                    // ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Text(
+                    //       weights + ' ' + unitOfMass,
+                    //       style: BodyText2Light,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     const Text('|', style: BodyText2Light),
+                    //     const SizedBox(width: 8),
+                    //     Text(
+                    //       '${S.current.lastEditedOn} $lastEditedDate',
+                    //       style: BodyText2Light,
+                    //     ),
+                    //   ],
+                    // ),
+                    // if (location != null)
+                    //   Padding(
+                    //     padding: const EdgeInsets.only(top: 8),
+                    //     child: Text(
+                    //       '${S.current.location}: $location',
+                    //       style: BodyText2Light,
+                    //     ),
+                    //   ),
                   ],
                 ),
                 const Spacer(),
-                if (widget.auth.currentUser.uid == routine.routineOwnerId)
-                  IconButton(
-                    icon: const Icon(
-                      Icons.edit_rounded,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => EditRoutineScreen.show(
-                      context,
-                      routine: routine,
-                    ),
-                  ),
+                // if (widget.auth.currentUser.uid == routine.routineOwnerId)
+                //   IconButton(
+                //     icon: const Icon(
+                //       Icons.edit_rounded,
+                //       color: Colors.white,
+                //     ),
+                //     onPressed: () => EditRoutineScreen.show(
+                //       context,
+                //       routine: routine,
+                //     ),
+                //   ),
               ],
             ),
             const SizedBox(height: 16),
@@ -412,16 +482,20 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final mainMuscleGroup = MainMuscleGroup.values
-            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
-            .translation ??
-        'Null';
-    final equipmentRequired = EquipmentRequired.values
-            .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
-            .translation ??
-        'Null';
+    final routineTitle = routine?.routineTitle ?? 'Add Title';
+    final routineOwnerUserName =
+        routine?.routineOwnerUserName ?? 'routineOwnerUserName';
 
-    final duration = Format.durationInMin(routine.duration);
+    // final mainMuscleGroup = MainMuscleGroup.values
+    //         .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
+    //         .translation ??
+    //     'Null';
+    // final equipmentRequired = EquipmentRequired.values
+    //         .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
+    //         .translation ??
+    //     'Null';
+
+    // final duration = Format.durationInMin(routine.duration);
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -436,11 +510,6 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          // CachedNetworkImage(
-          //   imageUrl: routine.imageUrl,
-          //   errorWidget: (context, url, error) => const Icon(Icons.error),
-          //   fit: BoxFit.cover,
-          // ),
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -457,69 +526,27 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
             bottom: 8,
             child: SizedBox(
               width: size.width,
-              child: Row(
-                children: <Widget>[
-                  // Main Muscle Group
-                  Column(
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        'assets/icons/icon_bicep.svg',
-                        width: 24,
-                        height: 24,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: size.width / 3,
-                        child: Center(
-                          child: Text(
-                            mainMuscleGroup,
-                            style: Subtitle2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Equipment Required
-                  Column(
-                    children: <Widget>[
-                      FaIcon(
-                        FontAwesomeIcons.dumbbell,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: size.width / 3,
-                        child: Center(
-                          child: Text(equipmentRequired, style: Subtitle2),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Duration
-                  Column(
-                    children: <Widget>[
-                      FaIcon(
-                        FontAwesomeIcons.clock,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: size.width / 3,
-                        child: Center(
-                          child: Text(
-                            '$duration ${S.current.minutes}',
-                            style: Subtitle2,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(
+                    //   routineTitle,
+                    //   style: GoogleFonts.blackHanSans(
+                    //     color: Colors.white,
+                    //     fontSize: 28,
+                    //   ),
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.fade,
+                    //   softWrap: false,
+                    // ),
+                    // Text(
+                    //   'Created by $routineOwnerUserName',
+                    //   style: Subtitle2BoldGrey,
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),
