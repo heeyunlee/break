@@ -60,6 +60,22 @@ class FirestoreService {
     await batch.commit();
   }
 
+  // Update one documents at once
+  Future<void> batchUpdateData({
+    @required List<String> path,
+    @required List<Map<String, dynamic>> data,
+  }) async {
+    print('batch data triggered');
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (var i = 0; i < path.length; i++) {
+      final reference = FirebaseFirestore.instance.doc(path[i]);
+      batch.update(reference, data[i]);
+    }
+
+    await batch.commit();
+  }
+
   // Delete data from Cloud Firestore
   Future<void> deleteData({
     @required String path,

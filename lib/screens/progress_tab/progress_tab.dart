@@ -8,7 +8,6 @@ import 'package:workout_player/common_widgets/speed_dial_fab.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/progress_tab/flexible_space_tablet.dart';
-import 'package:workout_player/screens/settings/settings_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -52,16 +51,16 @@ class ProgressTab extends StatelessWidget {
                     snap: false,
                     centerTitle: true,
                     brightness: Brightness.dark,
-                    actions: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.settings_rounded,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => SettingsScreen.show(context),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
+                    // actions: [
+                    //   IconButton(
+                    //     icon: const Icon(
+                    //       Icons.settings_rounded,
+                    //       color: Colors.white,
+                    //     ),
+                    //     onPressed: () => SettingsScreen.show(context),
+                    //   ),
+                    //   const SizedBox(width: 8),
+                    // ],
                     flexibleSpace: (isMobile)
                         ? _FlexibleSpaceMobile(user: snapshot.data)
                         : FlexibleSpaceTablet(user: snapshot.data),

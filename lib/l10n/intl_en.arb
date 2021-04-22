@@ -259,7 +259,7 @@
     "privacyPolicy": "Privacy Policy",
     "acceptingTerms": "By signing in with one of the social login providers, you acknowledge that you've read and accepted our\n",
     "acepptingTermsKorean": "에 동의하는 것입니다",
-    "acceptingTermsEmail": "By creating an account, you acknowledge that you've read and accepted our\n",
+    "acceptingTermsEmail": "By signing up you acknowledge that you've read and accepted our\n",
     "deleteAcocunt": "Delete Account",
     "manageAccount": "Manage Account",
     "account": "Account",
@@ -272,5 +272,6 @@
     "deletingAccountWarning1": "\u2022 Your personal data will be deleted permenantely and will not be able to recover",
     "deletingAccountWarning2": "\u2022 Some data that are not saved on your user account might not be deleted",
     "deletingAccountWarning3": "\u2022 Continue?",
-    "continueButton": "CONTINUE"
+    "continueButton": "CONTINUE",
+    "rest": "Rest"
 }

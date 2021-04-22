@@ -8,58 +8,30 @@ import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/settings/manage_account_screen.dart';
-import 'package:workout_player/screens/settings/unit_of_mass_screen.dart';
-import 'package:workout_player/screens/settings/user_feedback_screen.dart';
+import 'package:workout_player/screens/settings_tab/unit_of_mass_screen.dart';
+import 'package:workout_player/screens/settings_tab/user_feedback_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../common_widgets/show_alert_dialog.dart';
 import '../../constants.dart';
 import 'change_language_screen.dart';
+import 'manage_account_screen.dart';
 
 Logger logger = Logger();
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({
-    Key key,
-    this.database,
-    this.auth,
-  }) : super(key: key);
-
-  final Database database;
-  final AuthBase auth;
-
-  static void show(BuildContext context, {User user}) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => SettingsScreen(
-          database: database,
-          auth: auth,
-        ),
-      ),
-    );
-  }
-
-  @override
-  _SettingsScreenState createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  Future<void> _signOut(BuildContext context) async {
+class SettingsTab extends StatelessWidget {
+  Future<void> _signOut(BuildContext context, AuthBase auth) async {
     try {
       // FirebaseCrashlytics.instance.crash();
-      await widget.auth.signOut();
+      await auth.signOut();
       Navigator.of(context).pop();
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<void> _confirmSignOut(BuildContext context) async {
+  Future<void> _confirmSignOut(BuildContext context, AuthBase auth) async {
     final didRequestSignOut = await showAlertDialog(
       context,
       title: S.current.logout,
@@ -68,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       defaultActionText: S.current.logout,
     );
     if (didRequestSignOut == true) {
-      return _signOut(context);
+      return _signOut(context, auth);
     }
   }
 
@@ -82,15 +54,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         centerTitle: true,
         flexibleSpace: AppbarBlurBG(),
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.close_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.close_rounded,
+        //     color: Colors.white,
+        //   ),
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   },
+        // ),
         title: Text(S.current.settingsScreenTitle, style: Subtitle1),
       ),
       body: Builder(
@@ -101,10 +73,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildBody(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
 
     return StreamBuilder<User>(
         initialData: userDummyData,
-        stream: widget.database.userStream(widget.auth.currentUser.uid),
+        stream: database.userStream(auth.currentUser.uid),
         builder: (context, snapshot) {
           final user = snapshot.data;
 
@@ -233,7 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text(S.current.logIn, style: BodyText2BoldGrey),
                   ),
                   ListTile(
-                    onTap: () => _confirmSignOut(context),
+                    onTap: () => _confirmSignOut(context, auth),
                     leading: const Icon(Icons.logout, color: Colors.white),
                     title: Text(S.current.logout, style: BodyText2),
                   ),

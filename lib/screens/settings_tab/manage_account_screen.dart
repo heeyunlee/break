@@ -6,12 +6,12 @@ import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/settings/change_email_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
 import 'change_display_name_screen.dart';
+import 'change_email_screen.dart';
 import 'delete_account_screen.dart';
 
 Logger logger = Logger();

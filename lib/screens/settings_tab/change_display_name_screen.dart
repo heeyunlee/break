@@ -73,6 +73,52 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
           'displayName': _displayName,
         };
         await widget.database.updateUser(widget.auth.currentUser.uid, user);
+
+        // Updating username in Routine History
+        List<Map<String, dynamic>> routineHistories = [];
+        final historiesDoc =
+            await widget.database.routineHistoriesStream().first;
+        if (historiesDoc.isNotEmpty) {
+          historiesDoc.forEach((element) {
+            final updatedElement = {
+              'routineHistoryId': element.routineHistoryId,
+              'username': _displayName,
+            };
+
+            routineHistories.add(updatedElement);
+          });
+
+          await widget.database.batchUpdateRoutineHistories(routineHistories);
+        }
+
+        // Updating username in Routine
+        List<Map<String, dynamic>> routines = [];
+        final routinesDoc = await widget.database.userRoutinesStream().first;
+        if (routinesDoc.isNotEmpty) {
+          routinesDoc.forEach((element) {
+            final routine = {
+              'routineId': element.routineId,
+              'routineOwnerUserName': _displayName,
+            };
+            routines.add(routine);
+          });
+          await widget.database.batchUpdateRoutines(routines);
+        }
+
+        // Updating username in Workout
+        List<Map<String, dynamic>> workouts = [];
+        final workoutsDoc = await widget.database.userWorkoutsStream().first;
+        if (workoutsDoc.isNotEmpty) {
+          workoutsDoc.forEach((element) {
+            final workout = {
+              'workoutId': element.workoutId,
+              'workoutOwnerUserName': _displayName,
+            };
+            workouts.add(workout);
+          });
+          await widget.database.batchUpdateWorkouts(workouts);
+        }
+
         debugPrint('Updated Display Name');
 
         // SnackBar

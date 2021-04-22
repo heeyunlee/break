@@ -140,7 +140,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
         userId: widget.user.userId,
-        username: widget.user.userName,
+        username: widget.user.displayName,
         routineId: widget.routine.routineId,
         routineTitle: widget.routine.routineTitle,
         isPublic: true,
@@ -421,7 +421,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     final currentProgress = currentIndex / setLength * 100;
     final formattedCurrentProgress = '${f.format(currentProgress)} %';
 
-    final setTitle = '${S.current.set} ${workoutSet.setIndex}';
+    final setTitle = (workoutSet.isRest)
+        ? S.current.rest
+        : '${S.current.set} ${workoutSet.setIndex}';
 
     final locale = Intl.getCurrentLocale();
     final translation = routineWorkout.translated;
@@ -465,8 +467,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                   children: [
                     Text(
                       '${routineWorkout.index}.  ',
-                      style:
-                          Headline6Grey.copyWith(fontSize: size.height * 0.02),
+                      style: Headline6Grey.copyWith(
+                        fontSize: size.height * 0.02,
+                      ),
                     ),
                     Text(title, style: Headline6Grey),
                   ],

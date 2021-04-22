@@ -82,6 +82,9 @@ abstract class Database {
   Query workoutsPaginatedUserQuery();
   Query workoutsSearchQuery();
 
+  // BATCH
+  Future<void> batchUpdateWorkouts(List<Map<String, dynamic>> workouts);
+
   /////////// Routine ////////////////
   // FUTURE
   Future<void> setRoutine(Routine routine);
@@ -115,6 +118,9 @@ abstract class Database {
   Query routinesPaginatedPublicQuery();
   Query routinesPaginatedUserQuery();
   Query routinesSearchQuery();
+
+  // Batch
+  Future<void> batchUpdateRoutines(List<Map<String, dynamic>> routines);
 
   ///////////////// Routine Workout //////////////////
   Future<void> setRoutineWorkout(
@@ -165,6 +171,9 @@ abstract class Database {
   // QUERY
   Query routineHistoriesPaginatedPublicQuery();
   Query routineHistoriesPaginatedUserQuery();
+  Future<void> batchUpdateRoutineHistories(
+    List<Map<String, dynamic>> routineHistories,
+  );
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -443,6 +452,25 @@ class FirestoreDatabase implements Database {
         descending: false,
       );
 
+  /// BATCH
+  // Batch Update of Workout
+  @override
+  Future<void> batchUpdateWorkouts(
+    List<Map<String, dynamic>> workouts,
+  ) async {
+    final workoutId = <String>[];
+
+    workouts.forEach((element) {
+      var id = APIPath.workout(element['workoutId']);
+      workoutId.add(id);
+    });
+
+    await _service.batchUpdateData(
+      path: workoutId,
+      data: workouts,
+    );
+  }
+
   /////////////// Routine /////////////////////
   // Add Routine
   @override
@@ -548,6 +576,24 @@ class FirestoreDatabase implements Database {
         path: APIPath.routines(),
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
+
+  // Batch Update of Routine
+  @override
+  Future<void> batchUpdateRoutines(
+    List<Map<String, dynamic>> routines,
+  ) async {
+    final routineId = <String>[];
+
+    routines.forEach((element) {
+      var id = APIPath.routine(element['routineId']);
+      routineId.add(id);
+    });
+
+    await _service.batchUpdateData(
+      path: routineId,
+      data: routines,
+    );
+  }
 
   /////////////////// Routine Workouts ///////////////////
   // Add or edit Routine Workout
@@ -712,6 +758,31 @@ class FirestoreDatabase implements Database {
         userId: userId,
       );
 
+  // Batch Update of Routine History
+  @override
+  Future<void> batchUpdateRoutineHistories(
+    List<Map<String, dynamic>> routineHistories,
+  ) async {
+    final routineHistoriesId = <String>[];
+
+    routineHistories.forEach((routineHistory) {
+      var id = APIPath.routineHistory(routineHistory['routineHistoryId']);
+      routineHistoriesId.add(id);
+    });
+
+    await _service.batchUpdateData(
+      path: routineHistoriesId,
+      data: routineHistories,
+    );
+  }
+
+  // // Single User Data
+  // @override
+  // Future<List<RoutineHistory>> getRoutineHistories(String uid) => _service.getDocument(
+  //       path: APIPath.routineHistories(),
+  //       builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+  //     );
+
   /// Routine Workouts for Routine History
   // Add or edit Routine Workout
   @override
@@ -732,7 +803,6 @@ class FirestoreDatabase implements Database {
     debugPrint('batchRoutineWorkouts pressed');
 
     final routineWorkoutIds = <String>[];
-    // ignore: omit_local_variable_types
     final List<Map<String, dynamic>> routineWorkoutsAsMap = [];
 
     routineWorkout.forEach((routineWorkout) {

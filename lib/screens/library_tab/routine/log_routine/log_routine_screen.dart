@@ -126,7 +126,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         final routineHistory = RoutineHistory(
           routineHistoryId: 'RH$_id',
           userId: widget.user.userId,
-          username: widget.user.userName,
+          username: widget.user.displayName,
           routineId: widget.routine.routineId,
           routineTitle: widget.routine.routineTitle,
           equipmentRequired: widget.routine.equipmentRequired,

@@ -2635,10 +2635,10 @@ class S {
     );
   }
 
-  /// `By creating an account, you acknowledge that you've read and accepted our\n`
+  /// `By signing up you acknowledge that you've read and accepted our\n`
   String get acceptingTermsEmail {
     return Intl.message(
-      'By creating an account, you acknowledge that you\'ve read and accepted our\n',
+      'By signing up you acknowledge that you\'ve read and accepted our\n',
       name: 'acceptingTermsEmail',
       desc: '',
       args: [],
@@ -2770,6 +2770,16 @@ class S {
     return Intl.message(
       'CONTINUE',
       name: 'continueButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rest`
+  String get rest {
+    return Intl.message(
+      'Rest',
+      name: 'rest',
       desc: '',
       args: [],
     );

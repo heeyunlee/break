@@ -229,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "quickSummary" : MessageLookupByLibrary.simpleMessage("운동 요약"),
     "register" : MessageLookupByLibrary.simpleMessage("회원가입!"),
     "reps" : MessageLookupByLibrary.simpleMessage("횟수"),
+    "rest" : MessageLookupByLibrary.simpleMessage("휴식"),
     "resumeWorkout" : MessageLookupByLibrary.simpleMessage("운동 계속하기"),
     "routineHistoryTitle" : MessageLookupByLibrary.simpleMessage("운동 기록"),
     "routineHistoyEmptyMessage" : MessageLookupByLibrary.simpleMessage("커스텀 루틴을 이용하여 운동하고 기록해보세요!"),

@@ -364,8 +364,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               controller: _textController1,
               style: BodyText2,
               focusNode: focusNode1,
+              maxLength: 45,
               decoration: const InputDecoration(
                 border: InputBorder.none,
+                counterText: '',
               ),
               validator: (value) =>
                   value.isNotEmpty ? null : S.current.routineTitleValidatorText,

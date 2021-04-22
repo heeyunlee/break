@@ -10,7 +10,6 @@ import '../../services/database.dart';
 import '../../common_widgets/empty_content.dart';
 import '../../common_widgets/speed_dial_fab.dart';
 import '../../models/routine_history.dart';
-import '../settings/settings_screen.dart';
 import 'routine_history/daily_summary_detail_screen.dart';
 import 'routine_history_summary_card.dart';
 
@@ -85,18 +84,18 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                 offset: _transTween.value,
                 child: const Text('HēraKless', style: Subtitle2MenloBold),
               ),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.settings_rounded,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => SettingsScreen.show(
-                    context,
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
+              // actions: [
+              //   IconButton(
+              //     icon: const Icon(
+              //       Icons.settings_rounded,
+              //       color: Colors.white,
+              //     ),
+              //     onPressed: () => SettingsScreen.show(
+              //       context,
+              //     ),
+              //   ),
+              //   const SizedBox(width: 8),
+              // ],
             ),
           ),
         ),

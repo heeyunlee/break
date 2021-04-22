@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum TabItem { explore, search, progress, library }
+enum TabItem { explore, search, progress, library, settings }
 
 class TabItemData {
   const TabItemData({
@@ -35,6 +35,12 @@ class TabItemData {
     TabItem.progress: TabItemData(
       label: 'Progress',
       selectedIcon: Icons.bar_chart_rounded,
+      isIconPNG: false,
+      // unselectedIcon: Icons.bar_chart_outlined,
+    ),
+    TabItem.settings: TabItemData(
+      label: 'Settings',
+      selectedIcon: Icons.more_horiz_rounded,
       isIconPNG: false,
       // unselectedIcon: Icons.bar_chart_outlined,
     ),

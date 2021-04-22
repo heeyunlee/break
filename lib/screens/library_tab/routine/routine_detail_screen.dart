@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +29,8 @@ import 'edit_routine/edit_routine_screen.dart';
 import 'widgets/workout_medium_card.dart';
 
 Logger logger = Logger();
+const _bicepImageUrl =
+    'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
 
 class RoutineDetailScreen extends StatefulWidget {
   static const routeName = '/playlist-detail';
@@ -201,6 +201,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           tag: widget.tag,
         ),
         actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.bookmark_border_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
           if (widget.auth.currentUser.uid == routine.routineOwnerId)
             IconButton(
               icon: const Icon(
@@ -221,17 +228,45 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget _buildSliverToBoxAdaptor(BuildContext context, Routine routine) {
     final size = MediaQuery.of(context).size;
 
-    final routineTitle = routine?.routineTitle ?? 'Add Title';
-    final routineOwnerUserName =
-        routine?.routineOwnerUserName ?? 'routineOwnerUserName';
+    final trainingLevel = Format.difficulty(routine.trainingLevel);
+
     final duration = Format.durationInMin(routine.duration);
     final description =
-        (routine.description == null || routine.description.isNotEmpty
+        (routine.description == null || routine.description.isEmpty
             ? S.current.addDescription
             : routine.description);
-    final lastEditedDate = Format.dateShort(routine.lastEditedDate);
     final weights = Format.weights(routine.totalWeights);
     final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
+
+    String _mainMuscleGroups = '';
+    for (var i = 0; i < routine.mainMuscleGroup.length; i++) {
+      String _mainMuscleGroup;
+      if (i == 0) {
+        _mainMuscleGroups = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[i])
+            .translation;
+      } else {
+        _mainMuscleGroup = MainMuscleGroup.values
+            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[i])
+            .translation;
+        _mainMuscleGroups = _mainMuscleGroups + ', $_mainMuscleGroup';
+      }
+    }
+
+    String _equipments = '';
+    for (var i = 0; i < routine.equipmentRequired.length; i++) {
+      String _equipment;
+      if (i == 0) {
+        _equipments = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == routine.equipmentRequired[i])
+            .translation;
+      } else {
+        _equipment = EquipmentRequired.values
+            .firstWhere((e) => e.toString() == routine.equipmentRequired[i])
+            .translation;
+        _equipments = _equipments + ', $_equipment';
+      }
+    }
 
     String location;
     if (routine.location != null) {
@@ -247,122 +282,110 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const SizedBox(height: 24),
-            // Text(
-            //   routineTitle,
-            //   style: GoogleFonts.blackHanSans(
-            //     color: Colors.white,
-            //     fontSize: 34,
-            //   ),
-            //   maxLines: 1,
-            //   overflow: TextOverflow.fade,
-            //   softWrap: false,
-            // ),
-            const SizedBox(height: 8),
-            Text(
-              routineTitle,
-              style: GoogleFonts.blackHanSans(
-                color: Colors.white,
-                fontSize: 28,
+            const SizedBox(height: 4),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  Text(
+                    weights + ' ' + unitOfMass,
+                    style: BodyText2Light,
+                  ),
+                  Text('  \u2022  ', style: Caption1),
+                  Text(
+                    '$duration ${S.current.minutes}',
+                    style: BodyText2Light,
+                  ),
+                  Text('  \u2022  ', style: Caption1),
+                  Text(trainingLevel, style: BodyText2Light)
+
+                  // const SizedBox(width: 4),
+                  // Text('  \u2022  ', style: Caption1),
+                  // const SizedBox(width: 4),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 2),
+                  //   child: Text('4.3', style: BodyText2Light),
+                  // ),
+                  // const SizedBox(width: 4),
+                  // Icon(
+                  //   Icons.star_rate_rounded,
+                  //   size: 20,
+                  //   color: Color(0xffFFD700),
+                  // ),
+                  // const SizedBox(width: 4),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 2),
+                  //   child: Text('25 ratings', style: BodyText2Light),
+                  // ),
+                ],
               ),
-              maxLines: 1,
-              overflow: TextOverflow.fade,
-              softWrap: false,
             ),
-            Text(
-              'Created by $routineOwnerUserName',
-              style: Subtitle2BoldGrey,
+
+            // Main Muscle Group
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: _bicepImageUrl,
+                    color: Colors.white,
+                    width: 20,
+                    height: 20,
+                  ),
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: size.width - 68,
+                    child: Text(
+                      _mainMuscleGroups,
+                      style: BodyText1,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
-                        children: [
-                          Text(location, style: BodyText2Light),
-                          Text('  \u2022  ', style: Caption1),
-                          Text(
-                            weights + ' ' + unitOfMass,
-                            style: BodyText2Light,
-                          ),
-                          Text('  \u2022  ', style: Caption1),
-                          Text(
-                            '$duration ${S.current.minutes}',
-                            style: BodyText2Light,
-                          ),
-                        ],
-                      ),
+
+            // Equipment Required
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.fitness_center_rounded,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: size.width - 68,
+                    child: Text(
+                      _equipments,
+                      style: BodyText1,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.star_rate_rounded,
-                            color: Color(0xffFFD700),
-                          ),
-                          const SizedBox(width: 8),
-                          Text('4.3', style: BodyText2Light)
-                        ],
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 8),
-                    //   child: Row(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       const Icon(
-                    //         Icons.location_on_rounded,
-                    //         color: Colors.white,
-                    //         size: 20,
-                    //       ),
-                    //       const SizedBox(width: 8),
-                    //       Text(location, style: BodyText2Light),
-                    //     ],
-                    //   ),
-                    // ),
-                    // Row(
-                    //   children: <Widget>[
-                    //     Text(
-                    //       weights + ' ' + unitOfMass,
-                    //       style: BodyText2Light,
-                    //     ),
-                    //     const SizedBox(width: 8),
-                    //     const Text('|', style: BodyText2Light),
-                    //     const SizedBox(width: 8),
-                    //     Text(
-                    //       '${S.current.lastEditedOn} $lastEditedDate',
-                    //       style: BodyText2Light,
-                    //     ),
-                    //   ],
-                    // ),
-                    // if (location != null)
-                    //   Padding(
-                    //     padding: const EdgeInsets.only(top: 8),
-                    //     child: Text(
-                    //       '${S.current.location}: $location',
-                    //       style: BodyText2Light,
-                    //     ),
-                    //   ),
-                  ],
-                ),
-                const Spacer(),
-                // if (widget.auth.currentUser.uid == routine.routineOwnerId)
-                //   IconButton(
-                //     icon: const Icon(
-                //       Icons.edit_rounded,
-                //       color: Colors.white,
-                //     ),
-                //     onPressed: () => EditRoutineScreen.show(
-                //       context,
-                //       routine: routine,
-                //     ),
-                //   ),
-              ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Location
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.location_on_rounded,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 16),
+                  Text(location, style: BodyText1),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             Text(
@@ -486,16 +509,41 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
     final routineOwnerUserName =
         routine?.routineOwnerUserName ?? 'routineOwnerUserName';
 
-    // final mainMuscleGroup = MainMuscleGroup.values
-    //         .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
-    //         .translation ??
-    //     'Null';
-    // final equipmentRequired = EquipmentRequired.values
-    //         .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
-    //         .translation ??
-    //     'Null';
-
-    // final duration = Format.durationInMin(routine.duration);
+    Widget _getTitleWidget() {
+      if (routineTitle.length < 21) {
+        return Text(
+          routineTitle,
+          style: GoogleFonts.blackHanSans(
+            color: Colors.white,
+            fontSize: 28,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        );
+      } else if (routineTitle.length >= 21 && routineTitle.length < 35) {
+        return FittedBox(
+          child: Text(
+            routineTitle,
+            style: GoogleFonts.blackHanSans(
+              color: Colors.white,
+              fontSize: 28,
+            ),
+          ),
+        );
+      } else {
+        return Text(
+          routineTitle,
+          style: GoogleFonts.blackHanSans(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        );
+      }
+    }
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -531,20 +579,12 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   routineTitle,
-                    //   style: GoogleFonts.blackHanSans(
-                    //     color: Colors.white,
-                    //     fontSize: 28,
-                    //   ),
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.fade,
-                    //   softWrap: false,
-                    // ),
-                    // Text(
-                    //   'Created by $routineOwnerUserName',
-                    //   style: Subtitle2BoldGrey,
-                    // ),
+                    _getTitleWidget(),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Created by $routineOwnerUserName',
+                      style: Subtitle2BoldGrey,
+                    ),
                   ],
                 ),
               ),
