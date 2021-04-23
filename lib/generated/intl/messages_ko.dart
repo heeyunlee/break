@@ -276,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stopTheWorkout" : MessageLookupByLibrary.simpleMessage("운동 종료"),
     "stretch" : MessageLookupByLibrary.simpleMessage("스트레칭"),
     "submit" : MessageLookupByLibrary.simpleMessage("완료"),
+    "support" : MessageLookupByLibrary.simpleMessage("서포트"),
     "terms" : MessageLookupByLibrary.simpleMessage("서비스 약관"),
     "time" : MessageLookupByLibrary.simpleMessage("시간"),
     "timeDifferenceInDays" : m3,

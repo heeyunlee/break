@@ -385,10 +385,10 @@ class S {
     );
   }
 
-  /// `Hērakless`
+  /// `HēraKless`
   String get applicationName {
     return Intl.message(
-      'Hērakless',
+      'HēraKless',
       name: 'applicationName',
       desc: '',
       args: [],
@@ -2780,6 +2780,16 @@ class S {
     return Intl.message(
       'Rest',
       name: 'rest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support`
+  String get support {
+    return Intl.message(
+      'Support',
+      name: 'support',
       desc: '',
       args: [],
     );

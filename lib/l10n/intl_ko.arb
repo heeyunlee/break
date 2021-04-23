@@ -273,5 +273,6 @@
     "deletingAccountWarning2": "\u2022 루틴 등 계정에 저장되지 않은 정보가 다른 사람에게 계속 표시될 수 있습니다",
     "deletingAccountWarning3": "\u2022 계속하시겠습니까?",
     "continueButton": "계속",
-    "rest": "휴식"
+    "rest": "휴식",
+    "support": "서포트"
 }

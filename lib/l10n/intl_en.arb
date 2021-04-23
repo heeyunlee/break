@@ -34,7 +34,7 @@
     "submit": "SUBMIT",
     "feedbackHintText": "Please tell us what we could do to improve this app and your workout experience.",
     "about": "About",
-    "applicationName": "Hērakless",
+    "applicationName": "HēraKless",
     "launguage": "Language",
     "logout": "Logout",
     "confirmSignOutContext": "Are you sure you want to logout?",
@@ -273,5 +273,6 @@
     "deletingAccountWarning2": "\u2022 Some data that are not saved on your user account might not be deleted",
     "deletingAccountWarning3": "\u2022 Continue?",
     "continueButton": "CONTINUE",
-    "rest": "Rest"
+    "rest": "Rest",
+    "support": "Support"
 }
