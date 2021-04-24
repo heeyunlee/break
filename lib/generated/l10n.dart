@@ -2794,6 +2794,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Added to your Saved Routines`
+  String get savedRoutineSnackbar {
+    return Intl.message(
+      'Added to your Saved Routines',
+      name: 'savedRoutineSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed from your Saved Routines`
+  String get unsavedRoutineSnackbar {
+    return Intl.message(
+      'Removed from your Saved Routines',
+      name: 'unsavedRoutineSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved Routines`
+  String get savedRoutines {
+    return Intl.message(
+      'Saved Routines',
+      name: 'savedRoutines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `routine`
+  String get routine {
+    return Intl.message(
+      'routine',
+      name: 'routine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `routines`
+  String get routinesLowerCase {
+    return Intl.message(
+      'routines',
+      name: 'routinesLowerCase',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

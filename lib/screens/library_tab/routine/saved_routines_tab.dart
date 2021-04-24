@@ -13,6 +13,7 @@ import '../../../services/database.dart';
 import 'create_routine/create_new_routine_screen.dart';
 import 'create_routine/create_new_routine_widget.dart';
 import 'routine_detail_screen.dart';
+import 'saved_routines/saved_routines_tile_widget.dart';
 
 class SavedRoutinesTab extends StatelessWidget {
   @override
@@ -36,6 +37,7 @@ class SavedRoutinesTab extends StatelessWidget {
         children: [
           const SizedBox(height: 8),
           if (query.snapshots() != null) CreateNewRoutineWidget(),
+          SavedRoutinesTileWidget(),
         ],
       ),
       footer: const SizedBox(height: 16),

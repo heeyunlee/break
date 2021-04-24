@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -131,6 +132,84 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   }
   // For SliverApp to Work
 
+  Widget _saveButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.bookmark_border_rounded,
+        color: Colors.white,
+      ),
+      onPressed: () async {
+        final user = {
+          'savedRoutines': FieldValue.arrayUnion([widget.routine.routineId]),
+        };
+
+        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.current.savedRoutineSnackbar),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        debugPrint('added routine to saved routine');
+      },
+    );
+  }
+
+  Widget _unsaveButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.bookmark_rounded,
+        color: Colors.white,
+      ),
+      onPressed: () async {
+        final user = {
+          'savedRoutines': FieldValue.arrayRemove([widget.routine.routineId]),
+        };
+
+        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.current.unsavedRoutineSnackbar),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        debugPrint('Removed routine from saved routine');
+      },
+    );
+  }
+
+  Widget _getSaveButton() {
+    return CustomStreamBuilderWidget<User>(
+      initialData: widget.user,
+      stream: widget.database.userStream(widget.auth.currentUser.uid),
+      hasDataWidget: (context, snapshot) {
+        final User user = snapshot.data;
+
+        if (user.savedRoutines != null) {
+          if (user.savedRoutines.isNotEmpty) {
+            if (user.savedRoutines.contains(widget.routine.routineId)) {
+              return _unsaveButton();
+            } else {
+              return _saveButton();
+            }
+          } else {
+            return _saveButton();
+          }
+        } else {
+          return _saveButton();
+        }
+      },
+      errorWidget: const Icon(Icons.error, color: Colors.white),
+      loadingWidget: const Icon(Icons.sync, color: Colors.white),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
@@ -141,21 +220,17 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         onNotification: _scrollListener,
         child: CustomStreamBuilderWidget<Routine>(
           initialData: routineDummyData,
-          stream: widget.database
-              .routineStream(
-                routineId: widget.routine.routineId,
-              )
-              .asBroadcastStream(),
+          stream: widget.database.routineStream(
+            routineId: widget.routine.routineId,
+          ),
           hasDataWidget: (context, snapshot) {
-            final routine = snapshot.data;
-
             return Stack(
               children: [
                 CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    _buildSliverAppBar(routine),
-                    _buildSliverToBoxAdaptor(context, routine),
+                    _buildSliverAppBar(snapshot.data),
+                    _buildSliverToBoxAdaptor(context, snapshot.data),
                   ],
                 ),
               ],
@@ -201,13 +276,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           tag: widget.tag,
         ),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.bookmark_border_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
+          if (widget.auth.currentUser.uid != routine.routineOwnerId)
+            _getSaveButton(),
           if (widget.auth.currentUser.uid == routine.routineOwnerId)
             IconButton(
               icon: const Icon(
@@ -298,25 +368,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   ),
                   Text('  \u2022  ', style: Caption1),
                   Text(trainingLevel, style: BodyText2Light)
-
-                  // const SizedBox(width: 4),
-                  // Text('  \u2022  ', style: Caption1),
-                  // const SizedBox(width: 4),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 2),
-                  //   child: Text('4.3', style: BodyText2Light),
-                  // ),
-                  // const SizedBox(width: 4),
-                  // Icon(
-                  //   Icons.star_rate_rounded,
-                  //   size: 20,
-                  //   color: Color(0xffFFD700),
-                  // ),
-                  // const SizedBox(width: 4),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 2),
-                  //   child: Text('25 ratings', style: BodyText2Light),
-                  // ),
                 ],
               ),
             ),
@@ -431,15 +482,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             ),
             if (widget.auth.currentUser.uid != routine.routineOwnerId)
               const SizedBox(height: 16),
-            // if (widget.auth.currentUser.uid != routine.routineOwnerId)
-            //   MaxWidthRaisedButton(
-            //     color: Primary400Color,
-            //     onPressed: () => DuringWorkoutScreen.show(
-            //       context,
-            //       routine: routine,
-            //     ),
-            //     buttonText: 'Copy this Routine',
-            //   ),
             const SizedBox(height: 16),
             const Divider(endIndent: 8, indent: 8, color: Grey800),
             const SizedBox(height: 8),

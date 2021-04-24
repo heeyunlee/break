@@ -19,8 +19,12 @@ class CreateNewRoutineWidget extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                color: Grey800,
-                child: const Icon(Icons.add_rounded, color: Colors.white),
+                // color: Grey800,
+                child: const Icon(
+                  Icons.add_rounded,
+                  color: Colors.white,
+                  size: 32,
+                ),
               ),
               const SizedBox(width: 16),
               Text(S.current.createNewRoutine, style: BodyText1Bold),

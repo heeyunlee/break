@@ -274,5 +274,10 @@
     "deletingAccountWarning3": "\u2022 계속하시겠습니까?",
     "continueButton": "계속",
     "rest": "휴식",
-    "support": "서포트"
+    "support": "서포트",
+    "savedRoutineSnackbar": "루틴을 저장했습니다",
+    "unsavedRoutineSnackbar": "루틴 저장을 취소했습니다",
+    "savedRoutines": "저장된 루틴",
+    "routine": "루틴",
+    "routinesLowerCase": "루틴"
 }

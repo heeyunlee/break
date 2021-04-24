@@ -274,5 +274,10 @@
     "deletingAccountWarning3": "\u2022 Continue?",
     "continueButton": "CONTINUE",
     "rest": "Rest",
-    "support": "Support"
+    "support": "Support",
+    "savedRoutineSnackbar": "Added to your Saved Routines",
+    "unsavedRoutineSnackbar": "Removed from your Saved Routines",
+    "savedRoutines": "Saved Routines",
+    "routine": "routine",
+    "routinesLowerCase": "routines"
 }

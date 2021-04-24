@@ -26,8 +26,8 @@ class User {
   String userEmail;
   Timestamp signUpDate;
   String signUpProvider;
-  List<String> savedWorkouts;
-  List<String> savedRoutines;
+  List<dynamic> savedWorkouts;
+  List<dynamic> savedRoutines;
   num totalWeights;
   int totalNumberOfWorkouts;
   int unitOfMass;
