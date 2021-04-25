@@ -26,10 +26,18 @@ class SavedRoutinesTab extends StatelessWidget {
       query: query,
       physics: const BouncingScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: EmptyContentWidget(
-        imageUrl: 'assets/images/saved_routines_empty_bg.png',
-        bodyText: S.current.savedRoutineEmptyText,
-        onPressed: () => CreateNewRoutineScreen.show(context),
+      emptyDisplay: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            SavedRoutinesTileWidget(),
+            EmptyContentWidget(
+              imageUrl: 'assets/images/saved_routines_empty_bg.png',
+              bodyText: S.current.savedRoutineEmptyText,
+              onPressed: () => CreateNewRoutineScreen.show(context),
+            ),
+          ],
+        ),
       ),
       itemsPerPage: 10,
       header: Column(

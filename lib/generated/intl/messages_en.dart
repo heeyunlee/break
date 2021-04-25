@@ -203,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "needAnAccount" : MessageLookupByLibrary.simpleMessage("Need an account?"),
     "next" : MessageLookupByLibrary.simpleMessage("NEXT"),
     "noRoutineAlertTitle" : MessageLookupByLibrary.simpleMessage("No routine Title!"),
+    "noSavedRoutinesYet" : MessageLookupByLibrary.simpleMessage("No saved routines yet..."),
     "noWorkoutEmptyContent" : m2,
     "notes" : MessageLookupByLibrary.simpleMessage("Notes"),
     "notesHintText" : MessageLookupByLibrary.simpleMessage("no notes..."),

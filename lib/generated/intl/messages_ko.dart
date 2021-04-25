@@ -203,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "needAnAccount" : MessageLookupByLibrary.simpleMessage("계졍이 필요하신가요?"),
     "next" : MessageLookupByLibrary.simpleMessage("다음"),
     "noRoutineAlertTitle" : MessageLookupByLibrary.simpleMessage("루틴 이름이 없습니다!"),
+    "noSavedRoutinesYet" : MessageLookupByLibrary.simpleMessage("아직 저장된 루틴이 없습니다..."),
     "noWorkoutEmptyContent" : m2,
     "notes" : MessageLookupByLibrary.simpleMessage("메모"),
     "notesHintText" : MessageLookupByLibrary.simpleMessage("아직 아무것도 없습니다..."),

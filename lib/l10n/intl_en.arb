@@ -279,5 +279,6 @@
     "unsavedRoutineSnackbar": "Removed from your Saved Routines",
     "savedRoutines": "Saved Routines",
     "routine": "routine",
-    "routinesLowerCase": "routines"
+    "routinesLowerCase": "routines",
+    "noSavedRoutinesYet": "No saved routines yet..."
 }

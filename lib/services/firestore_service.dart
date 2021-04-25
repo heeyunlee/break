@@ -27,22 +27,22 @@ class FirestoreService {
     await reference.update(data);
   }
 
-  // Create new Data if NOT exist, and Update data if data already exists
-  Future<void> getData({
-    @required String path,
-    @required Map<String, dynamic> data,
-  }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    await reference.get().then(
-      (value) {
-        if (value.exists) {
-          return reference.update(data);
-        } else {
-          reference.set(data);
-        }
-      },
-    );
-  }
+  // // Create new Data if NOT exist, and Update data if data already exists
+  // Future<void> getData({
+  //   @required String path,
+  //   @required Map<String, dynamic> data,
+  // }) async {
+  //   final reference = FirebaseFirestore.instance.doc(path);
+  //   await reference.get().then(
+  //     (value) {
+  //       if (value.exists) {
+  //         return reference.update(data);
+  //       } else {
+  //         reference.set(data);
+  //       }
+  //     },
+  //   );
+  // }
 
   // Write more than one documents at once
   Future<void> batchData({
@@ -98,7 +98,7 @@ class FirestoreService {
   // Document Stream
   Stream<T> documentStream<T>({
     @required String path,
-    T Function(Map<String, dynamic> data, String documentID) builder,
+    T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshots = reference.snapshots();
@@ -108,7 +108,7 @@ class FirestoreService {
   // Document Future
   Future<T> getDocument<T>({
     @required String path,
-    T Function(Map<String, dynamic> data, String documentID) builder,
+    T Function(Map<String, dynamic> data, String documentId) builder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshot = await reference.get();

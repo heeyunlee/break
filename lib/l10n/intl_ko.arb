@@ -279,5 +279,6 @@
     "unsavedRoutineSnackbar": "루틴 저장을 취소했습니다",
     "savedRoutines": "저장된 루틴",
     "routine": "루틴",
-    "routinesLowerCase": "루틴"
+    "routinesLowerCase": "루틴",
+    "noSavedRoutinesYet": "아직 저장된 루틴이 없습니다..."
 }

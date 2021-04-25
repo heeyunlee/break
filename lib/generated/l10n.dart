@@ -2844,6 +2844,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No saved routines yet...`
+  String get noSavedRoutinesYet {
+    return Intl.message(
+      'No saved routines yet...',
+      name: 'noSavedRoutinesYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

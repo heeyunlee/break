@@ -15,7 +15,7 @@ import 'package:workout_player/services/firestore_service.dart';
 abstract class Database {
   /////////////////// User ///////////////////
   // FUTURE
-  Future<void> getUser(User user);
+  // Future<void> getUser(User user);
   Future<void> setUser(User user);
   Future<void> updateUser(String uid, Map data);
   Future<User> userDocument(String uid);
@@ -90,6 +90,8 @@ abstract class Database {
   Future<void> setRoutine(Routine routine);
   Future<void> updateRoutine(Routine routine, Map data);
   Future<void> deleteRoutine(Routine routine);
+  Future<Routine> getRoutine(String routineId);
+  Stream<Routine> getRoutine2(String routineId);
 
   // STREAM
   Stream<Routine> routineStream({String routineId});
@@ -188,12 +190,12 @@ class FirestoreDatabase implements Database {
   final _service = FirestoreService.instance;
 
   ////////////////////////// Users /////////////////////////////
-  // Get User Data
-  @override
-  Future<void> getUser(User user) => _service.getData(
-        path: APIPath.user(user.userId),
-        data: user.toJson(),
-      );
+  // // Get User Data
+  // @override
+  // Future<void> getUser(User user) => _service.getData(
+  //       path: APIPath.user(user.userId),
+  //       data: user.toJson(),
+  //     );
 
   // Add or edit User Data
   @override
@@ -490,6 +492,22 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> deleteRoutine(Routine routine) async => _service.deleteData(
         path: APIPath.routine(routine.routineId),
+      );
+
+  // Get Routine
+  @override
+  Future<Routine> getRoutine(String routineId) async =>
+      _service.getDocument<Routine>(
+        path: APIPath.routine(routineId),
+        builder: (data, documentId) => Routine.fromMap(data, documentId),
+      );
+
+  // Get Routine
+  @override
+  Stream<Routine> getRoutine2(String routineId) =>
+      _service.documentStream<Routine>(
+        path: APIPath.routine(routineId),
+        builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
   // All Public Routines Stream

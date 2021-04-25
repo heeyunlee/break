@@ -102,6 +102,8 @@ class _SignInScreenState extends State<SignInScreen> {
         lastLoginDate: currentTime,
         dailyWorkoutHistories: [],
         dailyNutritionHistories: [],
+        savedRoutines: [],
+        savedWorkouts: [],
       );
       await widget.database.setUser(userData);
     } on Exception catch (e) {
@@ -143,6 +145,8 @@ class _SignInScreenState extends State<SignInScreen> {
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
           dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -194,6 +198,8 @@ class _SignInScreenState extends State<SignInScreen> {
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
           dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
         );
         await widget.database.setUser(userData);
       } else {
@@ -245,6 +251,8 @@ class _SignInScreenState extends State<SignInScreen> {
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
           dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
         );
         await widget.database.setUser(userData);
       } else {

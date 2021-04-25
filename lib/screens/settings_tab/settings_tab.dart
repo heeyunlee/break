@@ -63,7 +63,7 @@ class SettingsTab extends StatelessWidget {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: '0.2.2',
+      applicationVersion: '0.2.3',
       applicationIcon: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -272,7 +272,8 @@ class SettingsTab extends StatelessWidget {
                     title: Text(S.current.logout, style: BodyText2),
                   ),
                   const Spacer(),
-                  Center(child: const Text('v.0.2.2', style: Caption1Grey)),
+                  // TODO: Change Version HERE
+                  Center(child: const Text('v.0.2.3', style: Caption1Grey)),
                   const SizedBox(height: 38),
                 ],
               ),
