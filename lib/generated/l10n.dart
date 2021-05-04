@@ -2854,6 +2854,86 @@ class S {
       args: [],
     );
   }
+
+  /// `E-MAIL ADDRESS`
+  String get emailAddress {
+    return Intl.message(
+      'E-MAIL ADDRESS',
+      name: 'emailAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PASSWORD`
+  String get passwordAllCap {
+    return Intl.message(
+      'PASSWORD',
+      name: 'passwordAllCap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FIRST NAME`
+  String get firstName {
+    return Intl.message(
+      'FIRST NAME',
+      name: 'firstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Add your first name`
+  String get firstNameValidationText {
+    return Intl.message(
+      'Please Add your first name',
+      name: 'firstNameValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `John`
+  String get firstNameHintText {
+    return Intl.message(
+      'John',
+      name: 'firstNameHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LAST NAME`
+  String get lastName {
+    return Intl.message(
+      'LAST NAME',
+      name: 'lastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Add your last name`
+  String get lastNameValidationText {
+    return Intl.message(
+      'Please Add your last name',
+      name: 'lastNameValidationText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Doe`
+  String get lastNameHintText {
+    return Intl.message(
+      'Doe',
+      name: 'lastNameHintText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

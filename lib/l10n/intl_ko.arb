@@ -280,5 +280,13 @@
     "savedRoutines": "저장된 루틴",
     "routine": "루틴",
     "routinesLowerCase": "루틴",
-    "noSavedRoutinesYet": "아직 저장된 루틴이 없습니다..."
+    "noSavedRoutinesYet": "아직 저장된 루틴이 없습니다...",
+    "emailAddress": "이메일 주소",
+    "passwordAllCap": "비밀번호",
+    "firstName": "이름",
+    "firstNameValidationText": "이름을 입력해 주세요",
+    "firstNameHintText": "길동",
+    "lastName": "성",
+    "lastNameValidationText": "성을 입력해 주세요",
+    "lastNameHintText": "홍"
 }

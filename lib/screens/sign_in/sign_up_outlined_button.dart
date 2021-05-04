@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../constants.dart';
 
@@ -8,6 +9,7 @@ class SignUpOutlinedButton extends StatelessWidget {
   final String buttonText;
   final Color logoColor;
   final double logoSize;
+  final bool isLogoSVG;
 
   const SignUpOutlinedButton({
     Key key,
@@ -16,6 +18,7 @@ class SignUpOutlinedButton extends StatelessWidget {
     this.onPressed,
     this.logoColor,
     this.logoSize = 18,
+    this.isLogoSVG = false,
   }) : super(key: key);
 
   @override
@@ -38,16 +41,24 @@ class SignUpOutlinedButton extends StatelessWidget {
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
-              Image.asset(
-                logo,
-                height: logoSize,
-                width: logoSize,
-                color: logoColor,
-              ),
+              if (!isLogoSVG)
+                Image.asset(
+                  logo,
+                  height: logoSize,
+                  width: logoSize,
+                  color: logoColor,
+                ),
+              if (isLogoSVG)
+                SvgPicture.asset(
+                  logo,
+                  height: logoSize,
+                  width: logoSize,
+                  color: logoColor,
+                ),
               Center(
                 child: Text(
                   buttonText,
-                  style: GoogleSignInStyle.copyWith(color: Colors.white),
+                  style: GoogleSignInStyleWhite,
                 ),
               ),
             ],

@@ -6,10 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
-import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workout_player/screens/sign_in/email/password_strength_meter.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -63,19 +61,20 @@ class EmailSignUpScreen extends StatefulWidget with EmailAndPasswordValidators {
 class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  bool isSignUpMode = false;
-
   TextEditingController _textController1;
   TextEditingController _textController2;
   TextEditingController _textController3;
+  TextEditingController _textController4;
 
   FocusNode _focusNode1;
   FocusNode _focusNode2;
   FocusNode _focusNode3;
+  FocusNode _focusNode4;
 
   String get _email => _textController1.text;
-  String get _password => _textController2.text;
-  String get _confirmPassword => _textController3.text;
+  String get _firstName => _textController2.text;
+  String get _lastName => _textController3.text;
+  String get _password => _textController4.text;
   bool submitted = false;
 
   @override
@@ -84,9 +83,11 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     _textController1 = TextEditingController();
     _textController2 = TextEditingController();
     _textController3 = TextEditingController();
+    _textController4 = TextEditingController();
     _focusNode1 = FocusNode();
     _focusNode2 = FocusNode();
     _focusNode3 = FocusNode();
+    _focusNode4 = FocusNode();
   }
 
   @override
@@ -94,9 +95,11 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     _textController1.dispose();
     _textController2.dispose();
     _textController3.dispose();
+    _textController4.dispose();
     _focusNode1.dispose();
     _focusNode2.dispose();
     _focusNode3.dispose();
+    _focusNode4.dispose();
 
     super.dispose();
   }
@@ -118,46 +121,30 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
       });
 
       try {
-        if (isSignUpMode) {
-          await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        await widget.auth.createUserWithEmailAndPassword(_email, _password);
 
-          final firebaseUser = widget.auth.currentUser;
-          final uniqueId = UniqueKey().toString();
-          final id = 'Player $uniqueId';
-          final currentTime = Timestamp.now();
-          final locale = Intl.getCurrentLocale();
+        final firebaseUser = widget.auth.currentUser;
+        final uniqueId = UniqueKey().toString();
+        final id = 'Player $uniqueId';
+        final currentTime = Timestamp.now();
+        final locale = Intl.getCurrentLocale();
 
-          final user = User(
-            userId: firebaseUser.uid,
-            displayName: firebaseUser.providerData[0].displayName ?? id,
-            userName: firebaseUser.providerData[0].displayName ?? id,
-            userEmail: firebaseUser.providerData[0].email,
-            signUpDate: currentTime,
-            signUpProvider: firebaseUser.providerData[0].providerId,
-            totalWeights: 0,
-            totalNumberOfWorkouts: 0,
-            unitOfMass: (locale == 'ko') ? 0 : 1,
-            lastLoginDate: currentTime,
-            dailyWorkoutHistories: [],
-            dailyNutritionHistories: [],
-          );
+        final user = User(
+          userId: firebaseUser.uid,
+          displayName: '$_firstName $_lastName' ?? id,
+          userName: firebaseUser.providerData[0].displayName ?? id,
+          userEmail: firebaseUser.providerData[0].email,
+          signUpDate: currentTime,
+          signUpProvider: firebaseUser.providerData[0].providerId,
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: (locale == 'ko') ? 0 : 1,
+          lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
+        );
 
-          await widget.database.setUser(user);
-        } else {
-          await widget.auth.signInWithEmailWithPassword(_email, _password);
-
-          // Update Data if exist
-          final currentTime = Timestamp.now();
-
-          final updatedUserData = {
-            'lastLoginDate': currentTime,
-          };
-
-          await widget.database.updateUser(
-            widget.auth.currentUser.uid,
-            updatedUserData,
-          );
-        }
+        await widget.database.setUser(user);
         Navigator.of(context).pop();
       } on FirebaseException catch (e) {
         logger.d(e);
@@ -174,7 +161,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(S.current.signInWithEmail, style: Subtitle2),
+        title: Text(S.current.signUp, style: Subtitle2),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
@@ -190,10 +177,21 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   Widget _buildBody() {
     final locale = Intl.getCurrentLocale();
+
     bool _showEmailErrorText =
         submitted && !widget.validator.isEmailValid(_email);
     String _emailErrorText =
         _showEmailErrorText ? widget.invalidEmailText : null;
+
+    bool _showFirstNameErrorText =
+        submitted && !widget.validator.isFirstNameValid(_firstName);
+    String _firstNameErrorText =
+        _showFirstNameErrorText ? S.current.firstNameValidationText : null;
+
+    bool _showLastNameErrorText =
+        submitted && !widget.validator.isLastNameValid(_firstName);
+    String _lastNameErrorText =
+        _showLastNameErrorText ? S.current.lastNameValidationText : null;
 
     bool _showPaswordErrorText =
         submitted && !widget.validator.isPasswordValid(_password);
@@ -213,7 +211,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.email, style: Subtitle2),
+                  child: Text(S.current.emailAddress, style: Subtitle2),
                 ),
                 TextFormField(
                   autofocus: true,
@@ -254,17 +252,102 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                         : null,
                   ),
                   style: BodyText1Bold,
-                  // validator: widget.validator.isEmailValidMessage(_email),
+                  onChanged: (value) => setState(() {}),
+                ),
+                const SizedBox(height: 8),
 
-                  // validator: (value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return S.current.emptyEmailValidationText;
-                  //   }
-                  //   if (!EmailValidator.validate(_email)) {
-                  //     return S.current.invalidEmailValidationText;
-                  //   }
-                  //   return null;
-                  // },
+                // FIRST NAME
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.current.firstName, style: Subtitle2),
+                ),
+                TextFormField(
+                  autocorrect: false,
+                  enableSuggestions: true,
+                  focusNode: _focusNode2,
+                  controller: _textController2,
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(16),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: SecondaryColor),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    errorText: _firstNameErrorText,
+                    hintText: S.current.firstNameHintText,
+                    hintStyle: BodyText1Grey,
+                    suffixIcon: _focusNode2.hasFocus
+                        ? GestureDetector(
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              _textController2.clear();
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
+                  ),
+                  style: BodyText1Bold,
+                  onChanged: (value) => setState(() {}),
+                ),
+                const SizedBox(height: 8),
+
+                // LAST NAME
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.current.lastName, style: Subtitle2),
+                ),
+                TextFormField(
+                  autocorrect: false,
+                  enableSuggestions: true,
+                  focusNode: _focusNode3,
+                  controller: _textController3,
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(16),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: SecondaryColor),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    errorText: _lastNameErrorText,
+                    hintText: S.current.lastNameHintText,
+                    hintStyle: BodyText1Grey,
+                    suffixIcon: _focusNode3.hasFocus
+                        ? GestureDetector(
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              _textController3.clear();
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
+                  ),
+                  style: BodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -272,14 +355,14 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // PASSWORD
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.password, style: Subtitle2),
+                  child: Text(S.current.passwordAllCap, style: Subtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
                   enableSuggestions: false,
                   obscureText: true,
-                  focusNode: _focusNode2,
-                  controller: _textController2,
+                  focusNode: _focusNode4,
+                  controller: _textController4,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -299,11 +382,11 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     errorText: _passwordErrorText,
                     hintText: S.current.passwordHintText,
                     hintStyle: BodyText1Grey,
-                    suffixIcon: _focusNode2.hasFocus
+                    suffixIcon: _focusNode4.hasFocus
                         ? GestureDetector(
                             onTap: () {
                               HapticFeedback.mediumImpact();
-                              _textController2.clear();
+                              _textController4.clear();
                             },
                             child: const Icon(
                               Icons.cancel,
@@ -314,152 +397,61 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                         : null,
                   ),
                   style: BodyText1Bold,
-                  // validator: (value) {
-                  //   if (value.isEmpty || value == null) {
-                  //     return S.current.emptyPasswordValidationText;
-                  //   }
-                  //   if (!isSignUpMode) {
-                  //     return null;
-                  //   } else {
-                  //     if (value.length < 8) {
-                  //       return S.current.shortPasswordValidationText;
-                  //     }
-                  //     return null;
-                  //   }
-                  // },
                   onChanged: (value) => setState(() {}),
                 ),
 
-                if (isSignUpMode) const SizedBox(height: 8),
+                const SizedBox(height: 8),
 
-                if (isSignUpMode) PasswordStrengthMeter(),
+                // PasswordStrengthMeter(),
 
-                Text(
-                  estimatePasswordStrength(_password).toString(),
-                  style: BodyText1,
-                ),
-
-                // CONFIRM PASSWORD
-                if (isSignUpMode)
-                  Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          S.current.confirmPassword,
-                          style: Subtitle2,
-                        ),
-                      ),
-                      TextFormField(
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        obscureText: true,
-                        focusNode: _focusNode3,
-                        controller: _textController3,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(16),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: SecondaryColor),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          hintText: S.current.confirmPasswordHintText,
-                          hintStyle: BodyText1Grey,
-                        ),
-                        style: BodyText1Bold,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.current.emptyConfirmPasswordValidationtext;
-                          } else if (value != _password) {
-                            return S.current.passwordNotMatchValidationText;
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => setState(() {}),
-                      ),
-                    ],
-                  ),
+                // Text(
+                //   estimatePasswordStrength(_password).toString(),
+                //   style: BodyText1,
+                // ),
 
                 // SUBMIT BUTTON
                 const SizedBox(height: 36),
                 MaxWidthRaisedButton(
-                  buttonText:
-                      (isSignUpMode) ? S.current.signUp : S.current.logIn,
+                  buttonText: S.current.signUp,
                   onPressed: widget.validator.isEmailValid(_email) &&
-                          widget.validator.isPasswordValid(_password)
+                          widget.validator.isPasswordValid(_password) &&
+                          widget.validator.isFirstNameValid(_firstName) &&
+                          widget.validator.isLastNameValid(_lastName)
                       ? _submitLogIn
                       : null,
                   color: Primary600Color,
                 ),
 
-                if (isSignUpMode)
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: S.current.acceptingTermsEmail,
-                        style: OverlineGrey,
-                        children: <TextSpan>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: S.current.acceptingTermsEmail,
+                      style: OverlineGrey,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: S.current.terms,
+                          style: OverlineGreyUnderlined,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = _launchTermsURL,
+                        ),
+                        TextSpan(text: S.current.and, style: OverlineGrey),
+                        TextSpan(
+                          text: S.current.privacyPolicy,
+                          style: OverlineGreyUnderlined,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = _launchPrivacyServiceURL,
+                        ),
+                        if (locale == 'ko')
                           TextSpan(
-                            text: S.current.terms,
-                            style: OverlineGreyUnderlined,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = _launchTermsURL,
+                            text: S.current.acepptingTermsKorean,
+                            style: OverlineGrey,
                           ),
-                          TextSpan(text: S.current.and, style: OverlineGrey),
-                          TextSpan(
-                            text: S.current.privacyPolicy,
-                            style: OverlineGreyUnderlined,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = _launchPrivacyServiceURL,
-                          ),
-                          if (locale == 'ko')
-                            TextSpan(
-                              text: S.current.acepptingTermsKorean,
-                              style: OverlineGrey,
-                            ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-
-                // TOGGLE LOG IN or SIGN UP
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      (isSignUpMode)
-                          ? S.current.alreadyHaveAnAccount
-                          : S.current.needAnAccount,
-                      style: BodyText2Grey,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isSignUpMode = !isSignUpMode;
-                          submitted = false;
-                          _textController1.clear();
-                          _textController2.clear();
-                          _textController3.clear();
-                        });
-                      },
-                      child: Text(
-                        (isSignUpMode) ? S.current.signIn : S.current.register,
-                        style: BodyText2w900,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -508,6 +500,21 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         ),
         KeyboardActionsItem(
           focusNode: _focusNode3,
+          displayDoneButton: false,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.done, style: ButtonText),
+                ),
+              );
+            }
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: _focusNode4,
           displayDoneButton: false,
           toolbarButtons: [
             (node) {

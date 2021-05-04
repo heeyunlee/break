@@ -4,6 +4,8 @@ import 'package:workout_player/generated/l10n.dart';
 abstract class StringValidator {
   bool isEmailValid(String email);
   bool isPasswordValid(String password);
+  bool isFirstNameValid(String name);
+  bool isLastNameValid(String name);
 }
 
 class StringValidatorBase implements StringValidator {
@@ -17,6 +19,24 @@ class StringValidatorBase implements StringValidator {
   }
 
   @override
+  bool isFirstNameValid(String name) {
+    if (name == null || name.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @override
+  bool isLastNameValid(String name) {
+    if (name == null || name.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @override
   bool isPasswordValid(String password) {
     if (password == null || password.isEmpty) {
       return false;
@@ -25,20 +45,13 @@ class StringValidatorBase implements StringValidator {
     }
   }
 
-  @override
-  bool isConfirmPasswordValid(String password) {
-    if (password == null || password.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  String Function(String) isPasswordStrong(String password) {
-    if (password.isEmpty || password == null) {
-      return (_) => S.current.emptyPasswordValidationText;
-    }
-  }
+  // // TODO: FIX HERE
+  // @override
+  // String Function(String) isPasswordStrong(String password) {
+  //   if (password.isEmpty || password == null) {
+  //     return (_) => S.current.emptyPasswordValidationText;
+  //   }
+  // }
 }
 
 class EmailAndPasswordValidators {

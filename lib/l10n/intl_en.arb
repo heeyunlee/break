@@ -280,5 +280,13 @@
     "savedRoutines": "Saved Routines",
     "routine": "routine",
     "routinesLowerCase": "routines",
-    "noSavedRoutinesYet": "No saved routines yet..."
+    "noSavedRoutinesYet": "No saved routines yet...",
+    "emailAddress": "E-MAIL ADDRESS",
+    "passwordAllCap": "PASSWORD",
+    "firstName": "FIRST NAME",
+    "firstNameValidationText": "Please Add your first name",
+    "firstNameHintText": "John",
+    "lastName": "LAST NAME",
+    "lastNameValidationText": "Please Add your last name",
+    "lastNameHintText": "Doe"
 }

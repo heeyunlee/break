@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
 
+// TODO: FINISH PASSWROD STRENGTH METER
+
 class PasswordStrengthMeter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:miniplayer/miniplayer.dart';
-import 'package:workout_player/screens/bottom_navigation.dart';
 import 'package:workout_player/screens/cupertino_home_scaffold.dart';
 import 'package:workout_player/screens/home_tab/home_tab.dart';
 import 'package:workout_player/screens/progress_tab/progress_tab.dart';
 import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/screens/settings_tab/settings_tab.dart';
 import 'package:workout_player/screens/tab_item.dart';
-import 'package:workout_player/screens/tab_navigator.dart';
+// import 'package:workout_player/screens/tab_navigator.dart';
 
 import 'library_tab/library_tab.dart';
 
@@ -82,13 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildOffstageNavigator(TabItem tabItem) {
-    return Offstage(
-      offstage: _currentTab != tabItem,
-      child: TabNavigator(
-        navigatorKey: _tabNavigatorKeys[tabItem],
-        tabItem: tabItem,
-      ),
-    );
-  }
+  // Widget _buildOffstageNavigator(TabItem tabItem) {
+  //   return Offstage(
+  //     offstage: _currentTab != tabItem,
+  //     child: TabNavigator(
+  //       navigatorKey: _tabNavigatorKeys[tabItem],
+  //       tabItem: tabItem,
+  //     ),
+  //   );
+  // }
 }

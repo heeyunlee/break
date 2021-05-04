@@ -14,22 +14,9 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
 
-    // auth.authStateChanges().listen(
-    //   (_fireAuth.User user) {
-    //     if (user == null) {
-    //       return SignInScreen.create(context);
-    //     } else {
-    //       return Provider<Database>(
-    //         create: (_) => FirestoreDatabase(userId: user.uid),
-    //         child: HomeScreen(),
-    //       );
-    //     }
-    //   },
-    // );
-
-    // // Return either HomeScreen or AuthScreen or SplashScreen when loading
+    // Return either HomeScreen or AuthScreen or SplashScreen when loading
     return StreamBuilder<fire_auth.User>(
-      stream: auth.authStateChanges().asBroadcastStream(),
+      stream: auth.idTokenChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final user = snapshot.data;

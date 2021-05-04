@@ -10,6 +10,7 @@ Logger logger = Logger();
 abstract class AuthBase {
   auth.User get currentUser;
   Stream<auth.User> authStateChanges();
+  Stream<auth.User> idTokenChanges();
   Future<auth.User> signInAnonymously();
   Future<auth.User> signInWithEmailWithPassword(String email, String password);
   Future<auth.User> createUserWithEmailAndPassword(
@@ -29,6 +30,9 @@ class AuthService implements AuthBase {
 
   @override
   Stream<auth.User> authStateChanges() => _auth.authStateChanges();
+
+  @override
+  Stream<auth.User> idTokenChanges() => _auth.idTokenChanges();
 
   @override
   auth.User get currentUser => _auth.currentUser;
@@ -100,31 +104,22 @@ class AuthService implements AuthBase {
     final googleSignIn = GoogleSignIn();
     final googleSignInAccount = await googleSignIn.signIn();
 
-    print('1');
-
     if (googleSignInAccount != null) {
-      print('2');
-
       // Obtain the auth details from the request
       final googleAuth = await googleSignInAccount.authentication;
       if (googleAuth.idToken != null) {
-        print('3');
-
         final auth.GoogleAuthCredential credential =
             auth.GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        print('4');
 
         final authResult = await _auth.signInWithCredential(credential);
         final user = authResult.user;
-        print('5');
 
         final currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
         setUser(user);
-        print('6');
 
         return user;
       } else {
@@ -144,20 +139,36 @@ class AuthService implements AuthBase {
   // Sign In with Facebook
   @override
   Future<auth.User> signInWithFacebook() async {
-    // //Trigger the authentication flow
+    print('facebook auth triggered');
+    // Trigger the authentication flow
     try {
       final facebookLogin = await FacebookAuth.instance.login();
-      final credential = auth.FacebookAuthProvider.credential(
-        facebookLogin.accessToken.token,
-      );
+      if (facebookLogin.status == LoginStatus.success) {
+        final credential = auth.FacebookAuthProvider.credential(
+          facebookLogin.accessToken.token,
+        );
 
-      final authResult = await _auth.signInWithCredential(credential);
-      final user = authResult.user;
-      final currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      setUser(user);
+        final authResult = await _auth.signInWithCredential(credential);
+        final user = authResult.user;
 
-      return user;
+        final currentUser = _auth.currentUser;
+        assert(user.uid == currentUser.uid);
+        setUser(user);
+
+        return user;
+      } else if (facebookLogin.status == LoginStatus.cancelled) {
+        throw auth.FirebaseAuthException(
+          code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+          message: 'Sign in aborted by user',
+        );
+      } else if (facebookLogin.status == LoginStatus.failed) {
+        throw auth.FirebaseAuthException(
+          code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+          message: 'Sign in Failed',
+        );
+      } else {
+        return null;
+      }
     } on auth.FirebaseAuthException catch (e) {
       switch (e.message) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
@@ -215,9 +226,9 @@ class AuthService implements AuthBase {
       final authResult = await _auth.signInWithCredential(credential);
       final user = authResult.user;
 
-      // final currentUser = _auth.currentUser;
-      // assert(user.uid == currentUser.uid);
-      // setUser(user);
+      final currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+      setUser(user);
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
