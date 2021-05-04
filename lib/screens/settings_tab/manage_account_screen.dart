@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';

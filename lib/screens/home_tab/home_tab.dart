@@ -7,8 +7,8 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';
 import '../../services/database.dart';
-import '../../common_widgets/empty_content.dart';
-import '../../common_widgets/speed_dial_fab.dart';
+import '../../widgets/empty_content.dart';
+import '../../widgets/speed_dial_fab.dart';
 import '../../models/routine_history.dart';
 import 'routine_history/daily_summary_detail_screen.dart';
 import 'routine_history_summary_card.dart';

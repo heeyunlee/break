@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/custom_stream_builder_widget.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
@@ -17,8 +17,8 @@ import 'package:workout_player/screens/during_workout/during_workout_screen.dart
 import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
-import '../../../common_widgets/list_item_builder.dart';
-import '../../../common_widgets/max_width_raised_button.dart';
+import '../../../widgets/list_item_builder.dart';
+import '../../../widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
 import '../../../dummy_data.dart';
 import '../../../format.dart';

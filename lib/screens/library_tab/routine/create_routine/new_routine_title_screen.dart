@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';

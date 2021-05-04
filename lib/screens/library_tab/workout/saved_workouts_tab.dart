@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/empty_content.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 
-import '../../../common_widgets/custom_list_tile_64.dart';
+import '../../../widgets/custom_list_tile_64.dart';
 import '../../../constants.dart';
 import '../../../models/workout.dart';
 import '../../../services/database.dart';

@@ -15,10 +15,10 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/edit_routine/edit_routine_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
-import '../../../../common_widgets/appbar_blur_bg.dart';
-import '../../../../common_widgets/max_width_raised_button.dart';
-import '../../../../common_widgets/show_adaptive_modal_bottom_sheet.dart';
-import '../../../../common_widgets/show_exception_alert_dialog.dart';
+import '../../../../widgets/appbar_blur_bg.dart';
+import '../../../../widgets/max_width_raised_button.dart';
+import '../../../../widgets/show_adaptive_modal_bottom_sheet.dart';
+import '../../../../widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/database.dart';

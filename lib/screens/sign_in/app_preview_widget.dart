@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/common_widgets/shimmer/app_preview_shimmer.dart';
+import 'package:workout_player/widgets/shimmer/app_preview_shimmer.dart';
 
 import '../../constants.dart';
 

@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../common_widgets/appbar_blur_bg.dart';
-import '../../common_widgets/choice_chips_app_bar_widget.dart';
-import '../../common_widgets/custom_list_tile_3.dart';
-import '../../common_widgets/list_item_builder.dart';
+import '../../widgets/appbar_blur_bg.dart';
+import '../../widgets/choice_chips_app_bar_widget.dart';
+import '../../widgets/custom_list_tile_3.dart';
+import '../../widgets/list_item_builder.dart';
 import '../../constants.dart';
 import '../../models/routine.dart';
 import '../../services/database.dart';

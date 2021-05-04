@@ -23,13 +23,32 @@ class MaxWidthRaisedButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(width ?? size.width, 48),
-        primary: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return Colors.grey;
+            } else {
+              return color;
+            }
+          },
+        ),
+        minimumSize: MaterialStateProperty.resolveWith<Size>(
+          (_) => Size(width ?? size.width, 48),
+        ),
+        shape: MaterialStateProperty.resolveWith(
+          (_) => RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
+      // style: ElevatedButton.styleFrom(
+      //   minimumSize: Size(width ?? size.width, 48),
+      //   primary: color,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(10),
+      //   ),
+      // ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

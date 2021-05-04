@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:logger/logger.dart';
+import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workout_player/common_widgets/max_width_raised_button.dart';
-import 'package:workout_player/common_widgets/show_alert_dialog.dart';
+import 'package:workout_player/screens/sign_in/email/password_strength_meter.dart';
+import 'package:workout_player/widgets/max_width_raised_button.dart';
+import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+
+import '../string_validator.dart';
 
 Logger logger = Logger();
 
@@ -32,12 +35,11 @@ void _launchPrivacyServiceURL() async => await canLaunch(_privacyServiceUrl)
     ? await launch(_privacyServiceUrl)
     : throw 'Could not launch $_privacyServiceUrl';
 
-class EmailSignUpScreen extends StatefulWidget {
+class EmailSignUpScreen extends StatefulWidget with EmailAndPasswordValidators {
   final AuthBase auth;
   final Database database;
 
-  const EmailSignUpScreen({Key key, this.auth, this.database})
-      : super(key: key);
+  EmailSignUpScreen({Key key, this.auth, this.database}) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -73,6 +75,8 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   String get _email => _textController1.text;
   String get _password => _textController2.text;
+  String get _confirmPassword => _textController3.text;
+  bool submitted = false;
 
   @override
   void initState() {
@@ -99,7 +103,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form.validate() ?? false) {
       form.save();
       return true;
     }
@@ -107,7 +111,12 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   }
 
   Future<void> _submitLogIn() async {
+    print('_submitLogIn pressed');
     if (_validateAndSaveForm()) {
+      setState(() {
+        submitted = true;
+      });
+
       try {
         if (isSignUpMode) {
           await widget.auth.createUserWithEmailAndPassword(_email, _password);
@@ -135,9 +144,6 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
           await widget.database.setUser(user);
         } else {
-          print(_email);
-          print(_password);
-
           await widget.auth.signInWithEmailWithPassword(_email, _password);
 
           // Update Data if exist
@@ -184,6 +190,15 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   Widget _buildBody() {
     final locale = Intl.getCurrentLocale();
+    bool _showEmailErrorText =
+        submitted && !widget.validator.isEmailValid(_email);
+    String _emailErrorText =
+        _showEmailErrorText ? widget.invalidEmailText : null;
+
+    bool _showPaswordErrorText =
+        submitted && !widget.validator.isPasswordValid(_password);
+    String _passwordErrorText =
+        _showPaswordErrorText ? widget.emptyPasswordText : null;
 
     return KeyboardActions(
       config: _buildConfig(),
@@ -195,7 +210,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Email
+                // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(S.current.email, style: Subtitle2),
@@ -221,23 +236,36 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
+                    errorText: _emailErrorText,
                     hintText: 'JohnDoe@abc.com',
                     hintStyle: BodyText1Grey,
+                    suffixIcon: _focusNode1.hasFocus
+                        ? GestureDetector(
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              _textController1.clear();
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
                   ),
                   style: BodyText1Bold,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return S.current.emptyEmailValidationText;
-                    }
-                    if (!EmailValidator.validate(_email)) {
-                      return S.current.invalidEmailValidationText;
-                    }
-                    return null;
-                  },
-                  // onChanged: (value) {},
-                  // onEditingComplete: () {},
-                  // onFieldSubmitted: (value) {},
-                  // onSaved: (value) {},
+                  // validator: widget.validator.isEmailValidMessage(_email),
+
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return S.current.emptyEmailValidationText;
+                  //   }
+                  //   if (!EmailValidator.validate(_email)) {
+                  //     return S.current.invalidEmailValidationText;
+                  //   }
+                  //   return null;
+                  // },
+                  onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
 
@@ -268,29 +296,48 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
+                    errorText: _passwordErrorText,
                     hintText: S.current.passwordHintText,
                     hintStyle: BodyText1Grey,
+                    suffixIcon: _focusNode2.hasFocus
+                        ? GestureDetector(
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              _textController2.clear();
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
                   ),
                   style: BodyText1Bold,
-                  validator: (value) {
-                    if (value.isEmpty || value == null) {
-                      return S.current.emptyPasswordValidationText;
-                    }
-                    if (!isSignUpMode) {
-                      return null;
-                    } else {
-                      if (value.length < 8) {
-                        return S.current.shortPasswordValidationText;
-                      }
-                      return null;
-                    }
-                  },
-                  // onChanged: (value) {},
-                  // onEditingComplete: () {},
-                  // onFieldSubmitted: (value) {},
+                  // validator: (value) {
+                  //   if (value.isEmpty || value == null) {
+                  //     return S.current.emptyPasswordValidationText;
+                  //   }
+                  //   if (!isSignUpMode) {
+                  //     return null;
+                  //   } else {
+                  //     if (value.length < 8) {
+                  //       return S.current.shortPasswordValidationText;
+                  //     }
+                  //     return null;
+                  //   }
+                  // },
+                  onChanged: (value) => setState(() {}),
                 ),
 
                 if (isSignUpMode) const SizedBox(height: 8),
+
+                if (isSignUpMode) PasswordStrengthMeter(),
+
+                Text(
+                  estimatePasswordStrength(_password).toString(),
+                  style: BodyText1,
+                ),
 
                 // CONFIRM PASSWORD
                 if (isSignUpMode)
@@ -336,17 +383,20 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           }
                           return null;
                         },
-                        onChanged: (value) {},
+                        onChanged: (value) => setState(() {}),
                       ),
                     ],
                   ),
 
+                // SUBMIT BUTTON
                 const SizedBox(height: 36),
-
                 MaxWidthRaisedButton(
                   buttonText:
                       (isSignUpMode) ? S.current.signUp : S.current.logIn,
-                  onPressed: _submitLogIn,
+                  onPressed: widget.validator.isEmailValid(_email) &&
+                          widget.validator.isPasswordValid(_password)
+                      ? _submitLogIn
+                      : null,
                   color: Primary600Color,
                 ),
 
@@ -383,7 +433,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                   ),
 
-                // Register or Sign In
+                // TOGGLE LOG IN or SIGN UP
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -398,6 +448,10 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                       onPressed: () {
                         setState(() {
                           isSignUpMode = !isSignUpMode;
+                          submitted = false;
+                          _textController1.clear();
+                          _textController2.clear();
+                          _textController3.clear();
                         });
                       },
                       child: Text(

@@ -16,9 +16,9 @@ import 'package:workout_player/screens/sign_in/social_sign_in_button.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../common_widgets/show_exception_alert_dialog.dart';
+import '../../widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
-import 'email_sign_up_screen.dart';
+import 'email/email_sign_up_screen.dart';
 
 Logger logger = Logger();
 

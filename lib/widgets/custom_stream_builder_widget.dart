@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/common_widgets/empty_content.dart';
+
+import 'empty_content.dart';
 
 typedef HasDataWidget<T> = Widget Function(
     BuildContext context, AsyncSnapshot<T> snapshot);

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';

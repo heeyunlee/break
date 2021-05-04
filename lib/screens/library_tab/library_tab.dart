@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
-import 'package:workout_player/common_widgets/speed_dial_fab.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/speed_dial_fab.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';

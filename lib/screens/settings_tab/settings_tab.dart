@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workout_player/common_widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
@@ -14,7 +14,7 @@ import 'package:workout_player/screens/settings_tab/user_feedback_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../common_widgets/show_alert_dialog.dart';
+import '../../widgets/show_alert_dialog.dart';
 import '../../constants.dart';
 import 'change_language_screen.dart';
 import 'manage_account_screen.dart';

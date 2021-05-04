@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/common_widgets/custom_list_tile_64.dart';
-import 'package:workout_player/common_widgets/empty_content.dart';
-import 'package:workout_player/common_widgets/empty_content_widget.dart';
+import 'package:workout_player/widgets/custom_list_tile_64.dart';
+import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 

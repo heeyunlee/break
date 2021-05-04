@@ -100,22 +100,31 @@ class AuthService implements AuthBase {
     final googleSignIn = GoogleSignIn();
     final googleSignInAccount = await googleSignIn.signIn();
 
+    print('1');
+
     if (googleSignInAccount != null) {
+      print('2');
+
       // Obtain the auth details from the request
       final googleAuth = await googleSignInAccount.authentication;
-      print(googleAuth.accessToken);
       if (googleAuth.idToken != null) {
+        print('3');
+
         final auth.GoogleAuthCredential credential =
             auth.GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
+        print('4');
+
         final authResult = await _auth.signInWithCredential(credential);
         final user = authResult.user;
+        print('5');
 
         final currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
         setUser(user);
+        print('6');
 
         return user;
       } else {
@@ -206,11 +215,9 @@ class AuthService implements AuthBase {
       final authResult = await _auth.signInWithCredential(credential);
       final user = authResult.user;
 
-      final currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      setUser(user);
-
-      print(auth.AdditionalUserInfo(isNewUser: true).isNewUser);
+      // final currentUser = _auth.currentUser;
+      // assert(user.uid == currentUser.uid);
+      // setUser(user);
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
