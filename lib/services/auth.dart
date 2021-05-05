@@ -1,7 +1,10 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -20,7 +23,7 @@ abstract class AuthBase {
   Future<auth.User> signInWithGoogle();
   Future<auth.User> signInWithFacebook();
   Future<auth.User> signInWithApple();
-  // Future<auth.User> signInWithKakao();
+  Future<auth.User> signInWithKakao();
 
   Future<void> signOut();
 }
@@ -237,6 +240,80 @@ class AuthService implements AuthBase {
         code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
         message: '$e',
       );
+    }
+  }
+
+  @override
+  Future<auth.User> signInWithKakao() async {
+    debugPrint('signInwithKakao triggered in auth');
+    try {
+      final token = await _getToken();
+      final authResult = await _auth.signInWithCustomToken(
+        await _verifyToken(token),
+      );
+
+      print('auth result is $authResult');
+
+      final user = authResult.user;
+      print(5);
+
+      final currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+      setUser(user);
+
+      return user;
+    } on KakaoAuthException catch (e) {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        message: '$e',
+      );
+      // some error happened during the course of user login... deal with it.
+    } on KakaoClientException catch (e) {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        message: '$e',
+      );
+      //
+    } catch (e) {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        message: '$e',
+      );
+      //
+    }
+  }
+
+  Future<String> _getToken() async {
+    debugPrint('get token function triggered');
+    final installed = await isKakaoTalkInstalled();
+    final authCode = installed
+        ? await AuthCodeClient.instance.requestWithTalk()
+        : await AuthCodeClient.instance.request();
+    final token = await AuthApi.instance.issueAccessToken(authCode);
+
+    await AccessTokenStore.instance.toStore(token);
+    return token.accessToken;
+  }
+
+  Future<String> _verifyToken(String kakaoToken) async {
+    try {
+      final HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('verifyKakaoToken');
+
+      final HttpsCallableResult result = await callable.call(
+        <String, dynamic>{
+          'token': kakaoToken,
+        },
+      );
+      print('result is ${result.toString()}');
+
+      if (result.data['error'] != null) {
+        return Future.error(result.data['error']);
+      } else {
+        return result.data['token'];
+      }
+    } catch (e) {
+      return Future.error(e);
     }
   }
 

@@ -1,7 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as express from 'express';
 
 admin.initializeApp();
+
+const app = express();
+app.get('/timestamp', (request, response) => {
+   response.send('');
+})
 
 // const db = admin.firestore();
 
@@ -9,10 +15,7 @@ admin.initializeApp();
 // // https://firebase.google.com/docs/functions/typescript
 //
 
- export const helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info("Hello logs!", {structuredData: true});
-    response.send("Hello World, from Firebase!");
- });
+ export const helloWorld = functions.https.onRequest(app);
 
  export const getSavedRoutine_v0 = functions.https.onRequest(async (request, response) => {})
 

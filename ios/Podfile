@@ -34,6 +34,8 @@ target 'Runner' do
   # pod 'FBSDKLoginKit'
   
   pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '7.11.0'
+  pod 'KakaoSDKAuth'  # Authentication
+  pod 'KakaoSDKUser'  # Kakao Login, User 
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

@@ -50,13 +50,15 @@
 	<string>HēraKless</string>
 	<key>KAKAO_APP_KEY</key>
 	<string>c17f0f1bc6e039d488fb5264fdf93a10</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaoc17f0f1bc6e039d488fb5264fdf93a10</string>
 		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
+		<!-- <string>storykompassauth</string> -->
 		<string>kakaolink</string>
-		<string>storylink</string>
+		<!-- <string>storylink</string> -->
 		<string>https</string>
 		<string>http</string>
 		<string>fbapi</string>
@@ -70,8 +72,12 @@
 	<array>
 		<string>_dartobservatory._tcp</string>
 	</array>
+
+	<!-- Debug Specific Code -->
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Allow Flutter tools on your computer to connect and debug your application</string>
+	<!-- Debug Specific Code -->
+
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -253,51 +254,52 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // TODO: CONFIGURE SIGN IN WITH KAKAO
-  // /// SIGN IN WITH Kakao
-  // void _signInWithKakao(BuildContext context) async {
-  //   try {
-  //     await widget.signInBloc.signInWithKakao();
+  /// SIGN IN WITH Kakao
+  void _signInWithKakao(BuildContext context) async {
+    debugPrint('sign in with Kakao triggered');
+    try {
+      await widget.signInBloc.signInWithKakao();
 
-  //     // // Write User data to Firebase
-  //     // final user = await widget.database.userDocument(
-  //     //   widget.signInBloc.auth.currentUser.uid,
-  //     // );
-  //     // final firebaseUser = widget.signInBloc.auth.currentUser;
+      // // Write User data to Firebase
+      // final user = await widget.database.userDocument(
+      //   widget.signInBloc.auth.currentUser.uid,
+      // );
+      // final firebaseUser = widget.signInBloc.auth.currentUser;
 
-  //     // // Create new data do NOT exist
-  //     // if (user == null) {
-  //     //   final uniqueId = UniqueKey().toString();
-  //     //   final currentTime = Timestamp.now();
-  //     //   final userData = User(
-  //     //     userId: firebaseUser.uid,
-  //     //     userName: firebaseUser.displayName ?? 'Player $uniqueId',
-  //     //     userEmail: firebaseUser.email,
-  //     //     signUpDate: currentTime,
-  //     //     signUpProvider: 'Kakao',
-  //     //     totalWeights: 0,
-  //     //     totalNumberOfWorkouts: 0,
-  //     //     unitOfMass: 1,
-  //     //     lastLoginDate: currentTime,
-  //     //     dailyWorkoutHistories: [],
-  //     //   );
+      // // Create new data do NOT exist
+      // if (user == null) {
+      //   final uniqueId = UniqueKey().toString();
+      //   final currentTime = Timestamp.now();
+      //   final userData = User(
+      //     userId: firebaseUser.uid,
+      //     userName: firebaseUser.displayName ?? 'Player $uniqueId',
+      //     userEmail: firebaseUser.email,
+      //     signUpDate: currentTime,
+      //     signUpProvider: 'Kakao',
+      //     totalWeights: 0,
+      //     totalNumberOfWorkouts: 0,
+      //     unitOfMass: 1,
+      //     lastLoginDate: currentTime,
+      //     dailyWorkoutHistories: [],
+      //   );
 
-  //     //   await widget.database.setUser(userData);
-  //     // } else {
-  //     //   // Update Data if exist
-  //     //   final currentTime = Timestamp.now();
+      //   await widget.database.setUser(userData);
+      // } else {
+      //   // Update Data if exist
+      //   final currentTime = Timestamp.now();
 
-  //     //   final updatedUserData = {
-  //     //     'lastLoginDate': currentTime,
-  //     //   };
+      //   final updatedUserData = {
+      //     'lastLoginDate': currentTime,
+      //   };
 
-  //     //   await widget.database.updateUser(firebaseUser.uid, updatedUserData);
-  //     // }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     logger.d(e);
-  //     _showSignInError(e, context);
-  //   }
-  // }
+      //   await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      // }
+    } on Exception catch (e) {
+      print(e);
+      logger.d(e);
+      _showSignInError(e, context);
+    }
+  }
 
   void _showSignInError(Exception exception, BuildContext context) {
     showExceptionAlertDialog(
@@ -423,16 +425,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
           const SizedBox(height: 8),
 
-          // // TODO: Add Sign In with Kakao
-          // if (Platform.isIOS)
-          //   SocialSignInButton(
-          //     color: Color(0xfffee500),
-          //     disabledColor: Colors.white.withOpacity(0.38),
-          //     onPressed:
-          //         widget.isLoading ? null : () => _signInWithKakao(context),
-          //     logo: 'assets/logos/kakao_logo.png',
-          //     buttonText: S.current.continueWithKakao,
-          //   ),
+          // TODO: Add Sign In with Kakao
+          if (Platform.isIOS)
+            SignUpOutlinedButton(
+              onPressed:
+                  widget.isLoading ? null : () => _signInWithKakao(context),
+              logo: 'assets/logos/kakao_logo.png',
+              buttonText: S.current.continueWithKakao,
+            ),
 
           // TextButton(
           //   onPressed: widget.isLoading

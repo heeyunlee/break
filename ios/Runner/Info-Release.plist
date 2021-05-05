@@ -50,6 +50,8 @@
 	<string>HēraKless</string>
 	<key>KAKAO_APP_KEY</key>
 	<string>c17f0f1bc6e039d488fb5264fdf93a10</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaoc17f0f1bc6e039d488fb5264fdf93a10</string>

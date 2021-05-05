@@ -29,6 +29,6 @@ class SignInBloc {
       await _signIn(auth.signInWithFacebook);
   Future<fireAuth.User> signInWithApple() async =>
       await _signIn(auth.signInWithApple);
-  // Future<fireAuth.User> signInWithKakao() async =>
-  //     await _signIn(auth.signInWithKakao);
+  Future<fireAuth.User> signInWithKakao() async =>
+      await _signIn(auth.signInWithKakao);
 }
