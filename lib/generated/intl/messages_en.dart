@@ -98,7 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueWithEmail" : MessageLookupByLibrary.simpleMessage("Continue with Email"),
     "continueWithFacebook" : MessageLookupByLibrary.simpleMessage("Continue with Facebook"),
     "continueWithGoogle" : MessageLookupByLibrary.simpleMessage("Continue with Google"),
-    "continueWithKakao" : MessageLookupByLibrary.simpleMessage("Login with Kakao"),
+    "continueWithKakao" : MessageLookupByLibrary.simpleMessage("Continue with Kakao"),
     "createAccount" : MessageLookupByLibrary.simpleMessage("Create Account"),
     "createNewRoutine" : MessageLookupByLibrary.simpleMessage("Create New Routine"),
     "createNewRoutineSnackbar" : MessageLookupByLibrary.simpleMessage("Created a new routine!"),

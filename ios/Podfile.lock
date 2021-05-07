@@ -45,11 +45,11 @@ PODS:
   - Firebase/Storage (7.11.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 7.11.0)
-  - firebase_analytics (8.0.2):
+  - firebase_analytics (8.0.3):
     - Firebase/Analytics (= 7.11.0)
     - firebase_core
     - Flutter
-  - firebase_auth (1.1.2):
+  - firebase_auth (1.1.3):
     - Firebase/Auth (= 7.11.0)
     - firebase_core
     - Flutter
@@ -128,11 +128,6 @@ PODS:
     - FBSDKCoreKit (~> 9.1.0)
     - FBSDKLoginKit (~> 9.1.0)
     - Flutter
-  - flutter_kakao_login (1.0.0):
-    - Flutter
-    - KakaoSDKAuth (~> 2.0.1)
-    - KakaoSDKCommon (~> 2.0.1)
-    - KakaoSDKUser (~> 2.0.1)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -222,7 +217,6 @@ DEPENDENCIES:
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.11.0`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
-  - flutter_kakao_login (from `.symlinks/plugins/flutter_kakao_login/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - kakao_flutter_sdk (from `.symlinks/plugins/kakao_flutter_sdk/ios`)
   - KakaoSDKAuth
@@ -286,8 +280,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
-  flutter_kakao_login:
-    :path: ".symlinks/plugins/flutter_kakao_login/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   kakao_flutter_sdk:
@@ -320,8 +312,8 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   FBSDKLoginKit: d98498c598ec09de657385a9349a1f21119b7f86
   Firebase: c121feb35e4126c0b355e3313fa9b487d47319fd
-  firebase_analytics: 620e8cc1705feb6b9c40b6127bea9b39e03e3970
-  firebase_auth: e7065954aa2a7c8ef1a8502fba3009bcdd8fc91a
+  firebase_analytics: 1212d578d019d82c6301bc64c818ef54abe385e4
+  firebase_auth: e831dc75625eceb49a508832c165a63032eecc35
   firebase_core: 84dcd80ac6d29c3d1039071b7306ee99688eb9c7
   firebase_crashlytics: 1bf37e6bace6394a2bab8f316de395f49a836189
   firebase_storage: c92e1108d723373191eafd442e21cb2bd96d2b08
@@ -336,7 +328,6 @@ SPEC CHECKSUMS:
   FirebaseStorage: 8542711850ca181a3931c0ed483006a7b46039e7
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_facebook_auth: 4b170c07b7fce791497093fcc3f134fb215f3f07
-  flutter_kakao_login: 7202b6e94a37e8fbd682c32ff03227a9eabe80be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f

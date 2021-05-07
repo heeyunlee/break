@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class SocialSignInButton extends StatelessWidget {
+  final Color color;
+  final String logo;
+  final String buttonText;
+  final Color textColor;
+  final void Function() onPressed;
+  final IconData iconData;
+  final double width;
+  final Color disabledColor;
+  final bool isLogoSVG;
+
   const SocialSignInButton({
     Key key,
     @required this.color,
@@ -11,14 +21,10 @@ class SocialSignInButton extends StatelessWidget {
     this.textColor = Colors.black,
     this.onPressed,
     this.iconData,
+    this.width,
+    this.disabledColor,
+    this.isLogoSVG = false,
   }) : super(key: key);
-
-  final Color color;
-  final String logo;
-  final String buttonText;
-  final Color textColor;
-  final void Function() onPressed;
-  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +37,24 @@ class SocialSignInButton extends StatelessWidget {
         height: 48,
         child: ElevatedButton(
           onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return disabledColor ?? color.withOpacity(0.5);
+                } else {
+                  return color;
+                }
+              },
             ),
-            primary: color,
+            minimumSize: MaterialStateProperty.resolveWith<Size>(
+              (_) => Size(width ?? size.width, 48),
+            ),
+            shape: MaterialStateProperty.resolveWith(
+              (_) => RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
           ),
           child: Stack(
             alignment: Alignment.centerLeft,

@@ -4,21 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/sign_in/preview_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
-import 'package:workout_player/screens/sign_in/social_sign_in_button.dart';
+import 'package:workout_player/screens/sign_in/widgets/social_sign_in_button.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
 import 'log_in_with_email_scree.dart';
-import 'sign_up_outlined_button.dart';
 import 'email_signup/email_sign_up_screen.dart';
 
 Logger logger = Logger();
@@ -94,8 +92,6 @@ class _SignInScreenState extends State<SignInScreen> {
   //     );
   //     await widget.database.setUser(userData);
   //   } on Exception catch (e) {
-  //     print(e);
-
   //     logger.d(e);
   //     _showSignInError(e, context);
   //   }
@@ -103,6 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   /// SIGN IN WITH GOOGLE
   Future<void> _signInWithGoogle(BuildContext context) async {
+    debugPrint('sign in with google pressed');
     try {
       await widget.signInBloc.signInWithGoogle();
 
@@ -205,6 +202,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   /// SIGN IN WITH APPLE
   void _signInWithApple(BuildContext context) async {
+    debugPrint('sign in with apple pressed');
     try {
       await widget.signInBloc.signInWithApple();
 
@@ -253,49 +251,53 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  // TODO: CONFIGURE SIGN IN WITH KAKAO
   /// SIGN IN WITH Kakao
   void _signInWithKakao(BuildContext context) async {
     debugPrint('sign in with Kakao triggered');
     try {
       await widget.signInBloc.signInWithKakao();
 
-      // // Write User data to Firebase
-      // final user = await widget.database.userDocument(
-      //   widget.signInBloc.auth.currentUser.uid,
-      // );
-      // final firebaseUser = widget.signInBloc.auth.currentUser;
+      // GET User data to Firebase
+      final user = await widget.database.userDocument(
+        widget.signInBloc.auth.currentUser.uid,
+      );
+      final firebaseUser = widget.signInBloc.auth.currentUser;
 
-      // // Create new data do NOT exist
-      // if (user == null) {
-      //   final uniqueId = UniqueKey().toString();
-      //   final currentTime = Timestamp.now();
-      //   final userData = User(
-      //     userId: firebaseUser.uid,
-      //     userName: firebaseUser.displayName ?? 'Player $uniqueId',
-      //     userEmail: firebaseUser.email,
-      //     signUpDate: currentTime,
-      //     signUpProvider: 'Kakao',
-      //     totalWeights: 0,
-      //     totalNumberOfWorkouts: 0,
-      //     unitOfMass: 1,
-      //     lastLoginDate: currentTime,
-      //     dailyWorkoutHistories: [],
-      //   );
+      print(firebaseUser.toString());
 
-      //   await widget.database.setUser(userData);
-      // } else {
-      //   // Update Data if exist
-      //   final currentTime = Timestamp.now();
+      // Create new data do NOT exist
+      if (user == null) {
+        final uniqueId = UniqueKey().toString();
+        final currentTime = Timestamp.now();
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: firebaseUser.displayName ?? 'Player $uniqueId',
+          displayName: firebaseUser.displayName ?? 'Player $uniqueId',
+          userEmail: firebaseUser.email,
+          signUpDate: currentTime,
+          signUpProvider: 'kakaocorp.com',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: 1,
+          lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
+        );
 
-      //   final updatedUserData = {
-      //     'lastLoginDate': currentTime,
-      //   };
+        await widget.database.setUser(userData);
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
 
-      //   await widget.database.updateUser(firebaseUser.uid, updatedUserData);
-      // }
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+      }
     } on Exception catch (e) {
-      print(e);
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -311,7 +313,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('scaffold building...');
+    debugPrint('sign in screen scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -320,9 +322,11 @@ class _SignInScreenState extends State<SignInScreen> {
             ? null
             : IconButton(
                 icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: () => setState(() {
-                  _showPreview = true;
-                }),
+                onPressed: widget.isLoading
+                    ? null
+                    : () => setState(() {
+                          _showPreview = true;
+                        }),
               ),
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
@@ -387,52 +391,56 @@ class _SignInScreenState extends State<SignInScreen> {
             buttonText: S.current.signUp,
             iconData: Icons.email_rounded,
             color: Primary600Color,
+            disabledColor: Primary600Color.withOpacity(0.85),
             textColor: Colors.white,
-            onPressed: () => EmailSignUpScreen.show(context),
+            onPressed:
+                widget.isLoading ? null : () => EmailSignUpScreen.show(context),
           ),
 
           // SIGN IN WITH GOOGLE
-          SignUpOutlinedButton(
+          SocialSignInButton(
             buttonText: S.current.continueWithGoogle,
+            color: Colors.white,
+            disabledColor: Colors.white.withOpacity(0.85),
+            textColor: Colors.black.withOpacity(0.85),
             logo: 'assets/logos/google_logo.png',
-            logoSize: 18,
-            isLogoSVG: false,
             onPressed:
                 widget.isLoading ? null : () => _signInWithGoogle(context),
           ),
 
           // SIGN IN WITH FACEBOOK
-          SignUpOutlinedButton(
+          SocialSignInButton(
             buttonText: S.current.continueWithFacebook,
-            logo: 'assets/logos/facebook_logo.svg',
-            logoSize: 20,
-            isLogoSVG: true,
+            color: Color(0xff1877F2),
+            disabledColor: Color(0xff1877F2).withOpacity(0.85),
+            textColor: Colors.white.withOpacity(0.85),
+            logo: 'assets/logos/facebook_logo.png',
             onPressed:
                 widget.isLoading ? null : () => _signInWithFacebook(context),
           ),
 
-          // SIGN IN WITH GOOGLE
+          // SIGN IN WITH APPLE
           if (Platform.isIOS)
-            SignUpOutlinedButton(
+            SocialSignInButton(
               buttonText: S.current.continueWithApple,
+              color: Colors.white,
+              textColor: Colors.black.withOpacity(0.85),
+              disabledColor: Colors.white.withOpacity(0.85),
               logo: 'assets/logos/apple_logo.png',
-              logoSize: 18,
-              isLogoSVG: false,
-              logoColor: Colors.white,
               onPressed:
                   widget.isLoading ? null : () => _signInWithApple(context),
             ),
 
-          const SizedBox(height: 8),
-
-          // TODO: Add Sign In with Kakao
-          if (Platform.isIOS)
-            SignUpOutlinedButton(
-              onPressed:
-                  widget.isLoading ? null : () => _signInWithKakao(context),
-              logo: 'assets/logos/kakao_logo.png',
-              buttonText: S.current.continueWithKakao,
-            ),
+          // SIGN IN WITH KAKAO
+          SocialSignInButton(
+            buttonText: S.current.continueWithKakao,
+            color: Color(0xffFEE500),
+            disabledColor: Color(0xffFEE500).withOpacity(0.85),
+            logo: 'assets/logos/kakao_logo.png',
+            textColor: Colors.black.withOpacity(0.85),
+            onPressed:
+                widget.isLoading ? null : () => _signInWithKakao(context),
+          ),
 
           // TextButton(
           //   onPressed: widget.isLoading
@@ -444,7 +452,9 @@ class _SignInScreenState extends State<SignInScreen> {
           // ),
 
           TextButton(
-            onPressed: () => LogInWithEmailScreen.show(context),
+            onPressed: widget.isLoading
+                ? null
+                : () => LogInWithEmailScreen.show(context),
             child: Text(
               S.current.logIn,
               style: GoogleSignInStyleWhite,

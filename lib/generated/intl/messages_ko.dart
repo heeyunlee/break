@@ -98,7 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueWithEmail" : MessageLookupByLibrary.simpleMessage("이메일로 계속하기"),
     "continueWithFacebook" : MessageLookupByLibrary.simpleMessage("페이스북 계정으로 계속하기"),
     "continueWithGoogle" : MessageLookupByLibrary.simpleMessage("구글 계정으로 계속하기"),
-    "continueWithKakao" : MessageLookupByLibrary.simpleMessage("카카오 로그인"),
+    "continueWithKakao" : MessageLookupByLibrary.simpleMessage("카카오 계정으로 계속하기"),
     "createAccount" : MessageLookupByLibrary.simpleMessage("게정 생성"),
     "createNewRoutine" : MessageLookupByLibrary.simpleMessage("새로운 루틴 만들기"),
     "createNewRoutineSnackbar" : MessageLookupByLibrary.simpleMessage("새로운 루틴을 만드셨습니다!"),

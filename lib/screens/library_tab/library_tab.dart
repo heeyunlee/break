@@ -39,16 +39,6 @@ class LibraryTab extends StatelessWidget {
   Widget _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
       title: Text(S.current.library, style: Subtitle2),
-      // actions: [
-      //   IconButton(
-      //     icon: const Icon(
-      //       Icons.settings_rounded,
-      //       color: Colors.white,
-      //     ),
-      //     onPressed: () => SettingsScreen.show(context),
-      //   ),
-      //   const SizedBox(width: 8),
-      // ],
       floating: true,
       pinned: true,
       snap: false,

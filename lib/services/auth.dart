@@ -1,8 +1,8 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-// import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
@@ -51,9 +51,10 @@ class AuthService implements AuthBase {
     _user = value;
   }
 
-  //// Sign In Anonymously
+  ///////// Sign In Anonymously
   @override
   Future<auth.User> signInAnonymously() async {
+    debugPrint('signInAnonymously triggered in auth');
     var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
     final user = userCredential.user;
 
@@ -64,10 +65,14 @@ class AuthService implements AuthBase {
     return user;
   }
 
-  /////// Sign In With Email and Password
+  ///////// Sign In With Email and Password
   @override
   Future<auth.User> signInWithEmailWithPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
+    debugPrint('signInWithEmailWithPassword triggered in auth');
+
     var userCredential =
         await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
@@ -82,10 +87,12 @@ class AuthService implements AuthBase {
     return user;
   }
 
-  ///// Create User With Email And Password
+  ///////// Create User With Email And Password
   @override
   Future<auth.User> createUserWithEmailAndPassword(
       String email, String password) async {
+    debugPrint('createUserWithEmailAndPassword triggered in auth');
+
     var userCredential =
         await auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
@@ -103,6 +110,8 @@ class AuthService implements AuthBase {
   /// SIGN IN WITH GOOGLE
   @override
   Future<auth.User> signInWithGoogle() async {
+    debugPrint('signInWithGoogle triggered in auth');
+
     // Trigger Authentication flow
     final googleSignIn = GoogleSignIn();
     final googleSignInAccount = await googleSignIn.signIn();
@@ -142,8 +151,8 @@ class AuthService implements AuthBase {
   // Sign In with Facebook
   @override
   Future<auth.User> signInWithFacebook() async {
-    print('facebook auth triggered');
     // Trigger the authentication flow
+    debugPrint('signInWithFacebook auth triggered in auth');
     try {
       final facebookLogin = await FacebookAuth.instance.login();
       if (facebookLogin.status == LoginStatus.success) {
@@ -203,6 +212,8 @@ class AuthService implements AuthBase {
   // Sign In With Apple
   @override
   Future<auth.User> signInWithApple() async {
+    debugPrint('signInWithApple triggered in auth');
+
     //Trigger the authentication flow
     try {
       final result = await SignInWithApple.getAppleIDCredential(
@@ -247,15 +258,12 @@ class AuthService implements AuthBase {
   Future<auth.User> signInWithKakao() async {
     debugPrint('signInwithKakao triggered in auth');
     try {
-      final token = await _getToken();
+      final accessToken = await _getToken();
       final authResult = await _auth.signInWithCustomToken(
-        await _verifyToken(token),
+        await _verifyToken(accessToken),
       );
 
-      print('auth result is $authResult');
-
       final user = authResult.user;
-      print(5);
 
       final currentUser = _auth.currentUser;
       assert(user.uid == currentUser.uid);
@@ -296,16 +304,17 @@ class AuthService implements AuthBase {
   }
 
   Future<String> _verifyToken(String kakaoToken) async {
+    debugPrint('_verifyToken function triggered in auth');
+
     try {
-      final HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('verifyKakaoToken');
+      FirebaseFunctions functions = FirebaseFunctions.instance;
+      HttpsCallable callable = functions.httpsCallable('verifyKakaoToken');
 
       final HttpsCallableResult result = await callable.call(
         <String, dynamic>{
           'token': kakaoToken,
         },
       );
-      print('result is ${result.toString()}');
 
       if (result.data['error'] != null) {
         return Future.error(result.data['error']);
@@ -316,24 +325,6 @@ class AuthService implements AuthBase {
       return Future.error(e);
     }
   }
-
-  // /// SIGN IN WITH Kakao
-  // @override
-  // Future<auth.User> signInWithKakao() async {
-  //   // ignore: omit_local_variable_types
-  //   final FlutterKakaoLogin kakaoSignIn = FlutterKakaoLogin();
-  //   await kakaoSignIn.init('c17f0f1bc6e039d488fb5264fdf93a10');
-  //   final result = await kakaoSignIn.logIn();
-  //   final token = await (kakaoSignIn.currentToken);
-  //   final accessToken = token.accessToken;
-  //   print(accessToken);
-  //   // print('sd');
-  //   // final oAuthProvider = auth.OAuthProvider('kakao.com');
-  //   // final credential = oAuthProvider.credential(
-  //   //   accessToken: result.token.accessToken,
-  //   // );
-  //   // print(credential);
-  // }
 
   // Sign Out
   @override

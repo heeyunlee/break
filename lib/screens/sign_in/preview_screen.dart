@@ -7,7 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';
-import 'app_preview_widget.dart';
+import 'widgets/app_preview_widget.dart';
 
 typedef BoolCallback = void Function(bool value);
 

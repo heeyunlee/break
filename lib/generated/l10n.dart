@@ -215,10 +215,10 @@ class S {
     );
   }
 
-  /// `Login with Kakao`
+  /// `Continue with Kakao`
   String get continueWithKakao {
     return Intl.message(
-      'Login with Kakao',
+      'Continue with Kakao',
       name: 'continueWithKakao',
       desc: '',
       args: [],

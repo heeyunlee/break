@@ -84,7 +84,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
   }
 
   Future<void> _submitLogIn() async {
-    print('_submitLogIn pressed');
+    debugPrint('_submitLogIn pressed');
     if (_validateAndSaveForm()) {
       setState(() {
         submitted = true;

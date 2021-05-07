@@ -42,7 +42,6 @@ class DuringWorkoutScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     Routine routine,
-    // User user,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -91,7 +90,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
   @override
   void initState() {
     super.initState();
-    print('init');
+    debugPrint('init');
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
@@ -102,7 +101,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
   @override
   void dispose() {
-    print('dispose');
+    debugPrint('dispose');
 
     _animationController.dispose();
     super.dispose();
@@ -166,15 +165,12 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       final index = widget.user.dailyWorkoutHistories
           .indexWhere((element) => element.date.toUtc() == workoutDate);
 
-      print(index);
-
       if (index == -1) {
         final newHistory = DailyWorkoutHistory(
           date: workoutDate,
           totalWeights: totalWeights,
         );
         histories.add(newHistory);
-        print(0);
       } else {
         // final index = widget.user.dailyWorkoutHistories
         //     .indexWhere((element) => element.date.toUtc() == workoutDate);
@@ -185,7 +181,6 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
           totalWeights: oldHistory.totalWeights + totalWeights,
         );
         histories[index] = newHistory;
-        print(1);
       }
 
       // User
@@ -233,9 +228,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       routineWorkoutIndex--;
     });
 
-    debugPrint('current Index is $currentIndex');
-    debugPrint('set index is $setIndex');
-    debugPrint('rW index is $routineWorkoutIndex');
+    // debugPrint('current Index is $currentIndex');
+    // debugPrint('set index is $setIndex');
+    // debugPrint('rW index is $routineWorkoutIndex');
   }
 
   Future<void> _skipPrevious(List<RoutineWorkout> routineWorkouts) async {
@@ -255,9 +250,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       });
     }
 
-    debugPrint('current Index is $currentIndex');
-    debugPrint('set index is $setIndex');
-    debugPrint('rW index is $routineWorkoutIndex');
+    //   debugPrint('current Index is $currentIndex');
+    //   debugPrint('set index is $setIndex');
+    //   debugPrint('rW index is $routineWorkoutIndex');
   }
 
   Future<void> _pausePlay(WorkoutSet workoutSet) async {
@@ -266,14 +261,14 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       if (workoutSet.isRest) _countDownController.pause();
       setState(() {
         _isPaused = !_isPaused;
-        debugPrint('_isPaused is $_isPaused');
+        // debugPrint('_isPaused is $_isPaused');
       });
     } else {
       await _animationController.reverse();
       if (workoutSet.isRest) _countDownController.resume();
       setState(() {
         _isPaused = !_isPaused;
-        debugPrint('_isPaused is $_isPaused');
+        // debugPrint('_isPaused is $_isPaused');
       });
     }
   }
@@ -304,9 +299,9 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       }
     }
 
-    debugPrint('current Index is $currentIndex');
-    debugPrint('set index is $setIndex');
-    debugPrint('rW index is $routineWorkoutIndex');
+    // debugPrint('current Index is $currentIndex');
+    // debugPrint('set index is $setIndex');
+    // debugPrint('rW index is $routineWorkoutIndex');
   }
 
   Future<void> _skipWorkout(
@@ -314,9 +309,6 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     RoutineWorkout routineWorkout,
   ) async {
     final workoutSetLength = routineWorkout.sets.length - 1;
-
-    print(workoutSetLength);
-    print(setIndex);
 
     setState(() {
       _isPaused = false;
@@ -327,13 +319,15 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       routineWorkoutIndex++;
     });
 
-    debugPrint('current Index is $currentIndex');
-    debugPrint('set index is $setIndex');
-    debugPrint('rW index is $routineWorkoutIndex');
+    // debugPrint('current Index is $currentIndex');
+    // debugPrint('set index is $setIndex');
+    // debugPrint('rW index is $routineWorkoutIndex');
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('during workout screen sccaffold building');
+
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -378,7 +372,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
                 for (var i = 0; i < routineWorkouts.length; i++) {
                   var length = routineWorkouts[i].sets.length;
                   setLength = setLength + length;
-                  debugPrint('$setLength');
+                  // debugPrint('$setLength');
                 }
                 setLengthCalculated = true;
               }

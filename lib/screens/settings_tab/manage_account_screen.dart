@@ -11,7 +11,7 @@ import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
 import 'change_display_name_screen.dart';
-import 'change_email_screen.dart';
+// import 'change_email_screen.dart';
 import 'delete_account_screen.dart';
 
 Logger logger = Logger();
@@ -121,29 +121,29 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                       user: user,
                     ),
                   ),
-                  ListTile(
-                    title: Text(S.current.email, style: BodyText2),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (user.userEmail != null)
-                          Text(
-                            user.userEmail,
-                            style: BodyText2Grey,
-                          ),
-                        const SizedBox(width: 16),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                    onTap: () => ChangeEmailScreen.show(
-                      context,
-                      user: user,
-                    ),
-                  ),
+                  // ListTile(
+                  //   title: Text(S.current.email, style: BodyText2),
+                  //   trailing: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       if (user.userEmail != null)
+                  //         Text(
+                  //           user.userEmail,
+                  //           style: BodyText2Grey,
+                  //         ),
+                  //       const SizedBox(width: 16),
+                  //       const Icon(
+                  //         Icons.arrow_forward_ios_rounded,
+                  //         color: Colors.grey,
+                  //         size: 20,
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   onTap: () => ChangeEmailScreen.show(
+                  //     context,
+                  //     user: user,
+                  //   ),
+                  // ),
                   const Divider(color: Grey700, indent: 16, endIndent: 16),
                   ListTile(
                     onTap: () => DeleteAccountScreen.show(context, user: user),

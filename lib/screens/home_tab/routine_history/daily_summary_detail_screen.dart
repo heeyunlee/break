@@ -222,7 +222,7 @@ class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('scaffold building...');
+    debugPrint('dailySummaryDetail screen scaffold building...');
     dataFormat(widget.routineHistory);
 
     return Scaffold(

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/widgets/shimmer/app_preview_shimmer.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class AppPreviewWidget extends StatelessWidget {
   const AppPreviewWidget({
