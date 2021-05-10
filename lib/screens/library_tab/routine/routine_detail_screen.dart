@@ -7,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/screens/miniplayer/workout_miniplayer.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/during_workout/during_workout_screen.dart';
 import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
@@ -34,31 +34,30 @@ const _bicepImageUrl =
     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
 
 class RoutineDetailScreen extends StatefulWidget {
-  static const routeName = '/playlist-detail';
-  RoutineDetailScreen({
-    this.database,
-    this.routine,
-    this.tag,
-    this.auth,
-    this.user,
-  });
-
   final Database database;
   final Routine routine;
   final String tag;
   final AuthBase auth;
   final User user;
 
+  RoutineDetailScreen({
+    required this.database,
+    required this.routine,
+    required this.tag,
+    required this.auth,
+    required this.user,
+  });
+
   // For Navigation
   static Future<void> show(
     BuildContext context, {
-    Routine routine,
+    required Routine routine,
     bool isRootNavigation = false,
-    String tag,
+    required String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
 
@@ -83,6 +82,7 @@ class RoutineDetailScreen extends StatefulWidget {
             routine: routine,
             auth: auth,
             user: user,
+            tag: tag,
           ),
         ),
       );
@@ -96,10 +96,10 @@ class RoutineDetailScreen extends StatefulWidget {
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with TickerProviderStateMixin {
   // For SliverApp to Work
-  AnimationController _colorAnimationController;
-  AnimationController _textAnimationController;
-  Animation _colorTween;
-  Animation<Offset> _transTween;
+  late AnimationController _colorAnimationController;
+  late AnimationController _textAnimationController;
+  late Animation _colorTween;
+  late Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.axis == Axis.vertical) {
@@ -143,7 +143,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           'savedRoutines': FieldValue.arrayUnion([widget.routine.routineId]),
         };
 
-        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -169,7 +169,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           'savedRoutines': FieldValue.arrayRemove([widget.routine.routineId]),
         };
 
-        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -187,13 +187,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget _getSaveButton() {
     return CustomStreamBuilderWidget<User>(
       initialData: widget.user,
-      stream: widget.database.userStream(widget.auth.currentUser.uid),
+      stream: widget.database.userStream(widget.auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data;
 
         if (user.savedRoutines != null) {
-          if (user.savedRoutines.isNotEmpty) {
-            if (user.savedRoutines.contains(widget.routine.routineId)) {
+          if (user.savedRoutines!.isNotEmpty) {
+            if (user.savedRoutines!.contains(widget.routine.routineId)) {
               return _unsaveButton();
             } else {
               return _saveButton();
@@ -243,9 +243,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   Widget _buildSliverAppBar(Routine routine) {
     debugPrint('_buildSliverAppBar');
-    final size = MediaQuery.of(context).size;
-
-    final routineTitle = routine.routineTitle ?? 'Add Title';
+    final Size size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -263,7 +261,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         brightness: Brightness.dark,
         title: Transform.translate(
           offset: _transTween.value,
-          child: Text(routineTitle, style: Subtitle1),
+          child: Text(routine.routineTitle, style: Subtitle1),
         ),
         backgroundColor: _colorTween.value,
         floating: false,
@@ -276,9 +274,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           tag: widget.tag,
         ),
         actions: [
-          if (widget.auth.currentUser.uid != routine.routineOwnerId)
+          if (widget.auth.currentUser!.uid != routine.routineOwnerId)
             _getSaveButton(),
-          if (widget.auth.currentUser.uid == routine.routineOwnerId)
+          if (widget.auth.currentUser!.uid == routine.routineOwnerId)
             IconButton(
               icon: const Icon(
                 Icons.edit_rounded,
@@ -298,13 +296,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget _buildSliverToBoxAdaptor(BuildContext context, Routine routine) {
     final size = MediaQuery.of(context).size;
 
-    final trainingLevel = Format.difficulty(routine.trainingLevel);
+    final trainingLevel = Format.difficulty(routine.trainingLevel)!;
 
     final duration = Format.durationInMin(routine.duration);
-    final description =
-        (routine.description == null || routine.description.isEmpty
+    final String description = routine.description == null
+        ? S.current.addDescription
+        : routine.description!.isEmpty
             ? S.current.addDescription
-            : routine.description);
+            : routine.description!;
     final weights = Format.weights(routine.totalWeights);
     final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
 
@@ -314,11 +313,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       if (i == 0) {
         _mainMuscleGroups = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == routine.mainMuscleGroup[i])
-            .translation;
+            .translation!;
       } else {
         _mainMuscleGroup = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == routine.mainMuscleGroup[i])
-            .translation;
+            .translation!;
         _mainMuscleGroups = _mainMuscleGroups + ', $_mainMuscleGroup';
       }
     }
@@ -329,22 +328,18 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       if (i == 0) {
         _equipments = EquipmentRequired.values
             .firstWhere((e) => e.toString() == routine.equipmentRequired[i])
-            .translation;
+            .translation!;
       } else {
         _equipment = EquipmentRequired.values
             .firstWhere((e) => e.toString() == routine.equipmentRequired[i])
-            .translation;
+            .translation!;
         _equipments = _equipments + ', $_equipment';
       }
     }
 
-    String location;
-    if (routine.location != null) {
-      var _location = Location.values
-          .firstWhere((e) => e.toString() == routine.location)
-          .translation;
-      location = _location;
-    }
+    String location = Location.values
+        .firstWhere((e) => e.toString() == routine.location)
+        .translation!;
 
     return SliverToBoxAdapter(
       child: Padding(
@@ -465,7 +460,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton(
-                  onPressed: () => DuringWorkoutScreen.show(
+                  onPressed: () => WorkoutMiniplayer.show(
                     context,
                     routine: routine,
                   ),
@@ -480,7 +475,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 ),
               ],
             ),
-            if (widget.auth.currentUser.uid != routine.routineOwnerId)
+            if (widget.auth.currentUser!.uid != routine.routineOwnerId)
               const SizedBox(height: 16),
             const SizedBox(height: 16),
             const Divider(endIndent: 8, indent: 8, color: Grey800),
@@ -504,14 +499,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         ),
                       ),
                       const SizedBox(height: 8),
-                      if (widget.auth.currentUser.uid == routine.routineOwnerId)
+                      if (widget.auth.currentUser!.uid ==
+                          routine.routineOwnerId)
                         const Divider(
                           endIndent: 8,
                           indent: 8,
                           color: Colors.white12,
                         ),
                       const SizedBox(height: 16),
-                      if (widget.auth.currentUser.uid == routine.routineOwnerId)
+                      if (widget.auth.currentUser!.uid ==
+                          routine.routineOwnerId)
                         MaxWidthRaisedButton(
                           width: double.infinity,
                           icon: const Icon(
@@ -540,16 +537,18 @@ class _FlexibleSpaceBarWidget extends StatelessWidget {
   final String tag;
   final Routine routine;
 
-  const _FlexibleSpaceBarWidget({Key key, this.tag, this.routine})
-      : super(key: key);
+  const _FlexibleSpaceBarWidget({
+    Key? key,
+    required this.tag,
+    required this.routine,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final routineTitle = routine?.routineTitle ?? 'Add Title';
-    final routineOwnerUserName =
-        routine?.routineOwnerUserName ?? 'routineOwnerUserName';
+    final routineTitle = routine.routineTitle;
+    final routineOwnerUserName = routine.routineOwnerUserName;
 
     Widget _getTitleWidget() {
       if (routineTitle.length < 21) {

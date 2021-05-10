@@ -10,10 +10,6 @@ class Rating {
   });
 
   factory Rating.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
-
     final num rating = data['rating'];
     final String ratingOwnerId = data['ratingOwnerId'];
 

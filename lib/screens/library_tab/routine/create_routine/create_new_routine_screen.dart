@@ -41,7 +41,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -51,7 +51,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
       screen: CreateNewRoutineScreen(
         database: database,
         auth: auth,
-        user: user,
+        user: user!,
       ),
     );
   }
@@ -119,6 +119,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
             routine: routine,
             auth: widget.auth,
             database: widget.database,
+            user: widget.user,
             tag: 'newRoutine-${routine.routineId}',
           ),
         ),
@@ -135,7 +136,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   void saveTitle() {
     debugPrint('saveTitle Pressed');
-    if (_routineTitle != null && _routineTitle != '') {
+    if (_routineTitle != '') {
       setState(() {
         _pageIndex = 1;
       });

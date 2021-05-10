@@ -97,26 +97,25 @@ class CustomListTile3 extends StatelessWidget {
       child: Stack(
         fit: StackFit.passthrough,
         children: [
-          if (imageUrl != null)
-            CachedNetworkImage(
-              imageUrl: imageUrl,
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              fit: BoxFit.cover,
-            ),
-          if (imageUrl != null) Container(color: Colors.black.withOpacity(0.4)),
-          if (imageUrl == null)
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment(0.0, 0.0),
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.blueGrey,
-                    Colors.blueGrey.shade900,
-                  ],
-                ),
-              ),
-            ),
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: BoxFit.cover,
+          ),
+          Container(color: Colors.black.withOpacity(0.4)),
+          // if (imageUrl == null)
+          //   Container(
+          //     decoration: BoxDecoration(
+          //       gradient: LinearGradient(
+          //         begin: Alignment(0.0, 0.0),
+          //         end: Alignment.bottomCenter,
+          //         colors: [
+          //           Colors.blueGrey,
+          //           Colors.blueGrey.shade900,
+          //         ],
+          //       ),
+          //     ),
+          //   ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

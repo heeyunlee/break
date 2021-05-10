@@ -23,14 +23,14 @@ class RoutineHistorySummaryScreen extends StatefulWidget {
   final Database database;
 
   const RoutineHistorySummaryScreen({
-    Key key,
-    this.routineHistory,
-    this.database,
+    Key? key,
+    required this.routineHistory,
+    required this.database,
   }) : super(key: key);
 
-  static void show({
-    BuildContext context,
-    RoutineHistory routineHistory,
+  static void show(
+    BuildContext context, {
+    required RoutineHistory routineHistory,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context, rootNavigator: true).push(
@@ -51,28 +51,31 @@ class RoutineHistorySummaryScreen extends StatefulWidget {
 
 class _RoutineHistorySummaryScreenState
     extends State<RoutineHistorySummaryScreen> with TickerProviderStateMixin {
-  FocusNode focusNode1;
-  var _textController1 = TextEditingController();
-  ConfettiController _confettiController;
+  late ConfettiController _confettiController;
 
-  String _notes;
   bool _isPublic = true;
-  double _effort = 3;
+  num? _effort = 3;
 
-  String _title;
+  late String _title = widget.routineHistory.routineTitle;
   final List<dynamic> _translatedMuscleGroup = [];
   final List<dynamic> _translatedEquipments = [];
-  List<dynamic> _musclesAndEquipment;
+  late List<dynamic> _musclesAndEquipment;
 
-  String _formattedUnit;
-  String _formattedWeight;
-  String _formattedDuration;
+  late String _formattedUnit;
+  late String _formattedWeight;
+  late String _formattedDuration;
+
+  // Notes
+  String? get _notes => _textController1.text;
+  late TextEditingController _textController1;
+  late FocusNode focusNode1;
 
   @override
   void initState() {
     super.initState();
     focusNode1 = FocusNode();
-    _textController1 = TextEditingController(text: _notes);
+    _textController1 = TextEditingController();
+
     _confettiController = ConfettiController(duration: Duration(seconds: 3));
     _confettiController.play();
   }
@@ -109,7 +112,7 @@ class _RoutineHistorySummaryScreenState
   }
 
   void dataFormat(RoutineHistory routineHistory) {
-    _title = routineHistory.routineTitle ?? 'Title';
+    _title = routineHistory.routineTitle;
     final _mainMuscleGroups = routineHistory.mainMuscleGroup;
     _mainMuscleGroups.forEach(
       (element) {
@@ -267,11 +270,9 @@ class _RoutineHistorySummaryScreenState
                                 hintStyle: BodyText2Grey,
                                 border: InputBorder.none,
                               ),
-                              onFieldSubmitted: (value) {
-                                _notes = value;
-                              },
-                              onChanged: (value) => _notes = value,
-                              onSaved: (value) => _notes = value,
+                              onFieldSubmitted: (value) => setState(() {}),
+                              onChanged: (value) => setState(() {}),
+                              onSaved: (value) => setState(() {}),
                             ),
                           ),
                         ),
@@ -443,15 +444,15 @@ class _RoutineHistorySummaryScreenState
 
 class _SummaryRowWidget extends StatelessWidget {
   const _SummaryRowWidget({
-    Key key,
-    this.imageUrl,
-    this.title,
+    Key? key,
+    required this.imageUrl,
+    required this.title,
     this.subtitle,
   }) : super(key: key);
 
   final String imageUrl;
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {

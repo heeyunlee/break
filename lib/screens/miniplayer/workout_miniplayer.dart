@@ -19,16 +19,16 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/screens/during_workout/weights_and_reps_widget.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import 'routine_history_summary_screen.dart';
+import 'weights_and_reps_widget.dart';
 
 Logger logger = Logger();
 
-class DuringWorkoutScreen extends StatefulWidget {
-  const DuringWorkoutScreen({
+class WorkoutMiniplayer extends StatefulWidget {
+  const WorkoutMiniplayer({
     Key? key,
     required this.database,
     required this.routine,
@@ -45,27 +45,27 @@ class DuringWorkoutScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
 
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
-        builder: (context) => DuringWorkoutScreen(
+        builder: (context) => WorkoutMiniplayer(
           database: database,
           routine: routine,
-          user: user,
+          user: user!,
         ),
       ),
     );
   }
 
   @override
-  _DuringWorkoutScreenState createState() => _DuringWorkoutScreenState();
+  _WorkoutMiniplayerState createState() => _WorkoutMiniplayerState();
 }
 
-class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
+class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     with SingleTickerProviderStateMixin {
   // TODO: late variable used
   late AnimationController _animationController;
@@ -204,7 +204,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       await widget.database.updateUser(widget.user.userId, user);
       Navigator.of(context).popUntil((route) => route.isFirst);
       RoutineHistorySummaryScreen.show(
-        context: context,
+        context,
         routineHistory: routineHistory,
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -429,7 +429,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
     final locale = Intl.getCurrentLocale();
     final translation = routineWorkout.translated;
-    final title = (translation == null || translation.isEmpty)
+    final title = (translation.isEmpty)
         ? routineWorkout.workoutTitle
         : (locale == 'ko' || locale == 'en')
             ? routineWorkout.translated[locale]
@@ -672,7 +672,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
   ) {
     final size = MediaQuery.of(context).size;
     final routineWorkoutLength = routineWorkouts.length - 1;
-    final workoutSetLength = routineWorkout.sets.length - 1;
+    final workoutSetLength = routineWorkout.sets!.length - 1;
 
     return Center(
       child: Card(
@@ -690,7 +690,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
               width: 280,
               height: 280,
               duration: _restTime.inSeconds,
-              fillColor: Colors.grey[600],
+              fillColor: Colors.grey[600]!,
               ringColor: Colors.red,
               isReverse: true,
               strokeWidth: 8,
@@ -722,9 +722,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     );
   }
 
-  Future<bool> _closeModalBottomSheet() {
+  Future<bool?> _closeModalBottomSheet() {
     return showAdaptiveModalBottomSheet(
-      context: context,
+      context,
+      // TODO: make translation here
+      message: Text('end Workout?'),
       title: Text(
         S.current.endWorkoutWarningMessage,
         textAlign: TextAlign.center,

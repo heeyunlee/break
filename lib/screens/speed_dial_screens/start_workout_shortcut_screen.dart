@@ -119,8 +119,7 @@ class _StartWorkoutShortcutScreenState
               final weights = Format.weights(routine.totalWeights);
               final unit = Format.unitOfMass(routine.initialUnitOfMass);
 
-              final duration =
-                  Duration(seconds: routine?.duration ?? 0).inMinutes;
+              final duration = Duration(seconds: routine.duration).inMinutes;
 
               return CustomListTile3(
                 isLeadingDuration: true,

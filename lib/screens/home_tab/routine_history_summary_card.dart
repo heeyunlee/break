@@ -11,12 +11,12 @@ import 'routine_history/routine_history_detail_screen.dart';
 
 class RoutineHistorySummaryFeedCard extends StatelessWidget {
   RoutineHistorySummaryFeedCard({
-    @required this.routineHistory,
+    required this.routineHistory,
     this.onTap,
   });
 
   final RoutineHistory routineHistory;
-  final Function onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,11 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
       locale: Intl.getCurrentLocale(),
     );
 
-    final notes = routineHistory.notes;
+    final String? notes = routineHistory.notes;
 
     final mainMuscleGroup = MainMuscleGroup.values
         .firstWhere((e) => e.toString() == routineHistory.mainMuscleGroup[0])
-        .broadGroup;
+        .broadGroup!;
 
     return Container(
       color: CardColor,
@@ -51,8 +51,9 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             date: routineHistory.workoutEndTime,
             workoutTitle: routineHistory.routineTitle,
             totalWeights: routineHistory.totalWeights,
-            caloriesBurnt: routineHistory.totalCalories,
+            caloriesBurnt: routineHistory.totalCalories ?? 0,
             totalDuration: routineHistory.totalDuration,
+            unitOfMass: routineHistory.unitOfMass,
             onTap: () => RoutineHistoryDetailScreen.show(
               context,
               routineHistory: routineHistory,
@@ -63,7 +64,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNotes(String notes) {
+  Widget _buildNotes(String? notes) {
     if (notes != null) {
       if (notes.isNotEmpty) {
         return Padding(
@@ -82,28 +83,22 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
 
 class _CustomListTile4 extends StatelessWidget {
   const _CustomListTile4({
-    Key key,
-    this.tag,
-    this.imageUrl,
-    this.username,
-    this.muscleGroup,
-    this.leadingText,
-    this.subtitle,
+    Key? key,
+    required this.username,
+    required this.muscleGroup,
+    required this.subtitle,
     this.onTap,
     this.onLongTap,
     this.trailingIconButton,
-    this.isLeadingDuration,
+    this.isLeadingDuration = false,
   }) : super(key: key);
 
-  final Object tag;
-  final String imageUrl;
   final String username;
   final String muscleGroup;
-  final String leadingText;
   final String subtitle;
-  final void Function() onTap;
-  final void Function() onLongTap;
-  final Widget trailingIconButton;
+  final void Function()? onTap;
+  final void Function()? onLongTap;
+  final Widget? trailingIconButton;
   final bool isLeadingDuration;
 
   @override

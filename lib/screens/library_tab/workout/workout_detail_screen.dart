@@ -24,10 +24,10 @@ import 'edit_workout/edit_workout_screen.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   WorkoutDetailScreen({
-    @required this.workout,
-    @required this.database,
-    @required this.user,
-    this.tag,
+    required this.workout,
+    required this.database,
+    required this.user,
+    required this.tag,
   });
 
   final Workout workout;
@@ -38,13 +38,13 @@ class WorkoutDetailScreen extends StatefulWidget {
   // For Navigation
   static Future<void> show(
     BuildContext context, {
-    Workout workout,
+    required Workout workout,
     bool isRootNavigation = false,
-    String tag,
+    required String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
 
@@ -206,16 +206,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     final locale = Intl.getCurrentLocale();
 
     final mainMuscleGroup = MainMuscleGroup.values
-            .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
-            .translation ??
-        'Null';
+        .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
+        .translation!;
     final equipmentRequired = EquipmentRequired.values
-            .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
-            .translation ??
-        'Null';
-    // final equipmentRequired = workout?.equipmentRequired[0] ?? 'NULL';
-    final difficulty = Format.difficulty(workout.difficulty);
-    final description = workout?.description ?? 'Add description';
+        .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
+        .translation!;
+    final difficulty = Format.difficulty(workout.difficulty)!;
+    final description = workout.description;
 
     return FlexibleSpaceBar(
       background: Stack(

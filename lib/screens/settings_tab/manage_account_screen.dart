@@ -81,7 +81,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
         builder: (context, snapshot) {
           final user = snapshot.data;
 
-          print(user);
+          // print(user);
 
           // var context2 = context;
           return SingleChildScrollView(
@@ -91,9 +91,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(
-                    height: Scaffold.of(context).appBarMaxHeight ?? 0 + 16,
-                  ),
+                  SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
@@ -106,11 +104,11 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (user!.displayName != null)
-                          Text(
-                            user.displayName,
-                            style: BodyText2Grey,
-                          ),
+                        // if (user!.displayName != null)
+                        Text(
+                          user!.displayName,
+                          style: BodyText2Grey,
+                        ),
                         const SizedBox(width: 16),
                         const Icon(
                           Icons.arrow_forward_ios_rounded,

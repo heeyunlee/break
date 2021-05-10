@@ -44,7 +44,8 @@ class SavedWorkoutsTab extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 8),
-          if (query.snapshots() != null) CreateNewWorkoutWidget(),
+          // if (query.snapshots() != null) CreateNewWorkoutWidget(),
+          CreateNewWorkoutWidget(),
         ],
       ),
       footer: const SizedBox(height: 16),
@@ -53,7 +54,7 @@ class SavedWorkoutsTab extends StatelessWidget {
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data();
+        final data = documentSnapshot.data()!;
         final workout = Workout.fromMap(data, documentId);
 
         final locale = Intl.getCurrentLocale();
@@ -64,7 +65,7 @@ class SavedWorkoutsTab extends StatelessWidget {
 
         final subtitle = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
-            .translation;
+            .translation!;
 
         return CustomListTile64(
           tag: 'savedWorkout${workout.workoutId}',

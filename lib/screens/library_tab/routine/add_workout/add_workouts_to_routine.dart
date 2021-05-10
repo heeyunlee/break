@@ -210,7 +210,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                   _selectedWorkoutId = workout.workoutId;
                   _selectedWorkoutTitle = workout.workoutTitle;
                   _isBodyWeightWorkout = workout.isBodyWeightWorkout;
-                  _secondsPerRep = workout.secondsPerRep ?? 3;
+                  _secondsPerRep = workout.secondsPerRep;
                   _translated = workout.translated;
                 });
                 _submit();

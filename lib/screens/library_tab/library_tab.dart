@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/screens/settings_tab/settings_tab.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/speed_dial_fab.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -8,7 +9,7 @@ import 'routine/saved_routines_tab.dart';
 import 'workout/saved_workouts_tab.dart';
 
 class LibraryTab extends StatelessWidget {
-  static const routeName = 'library';
+  // static const routeName = 'library';
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,16 @@ class LibraryTab extends StatelessWidget {
       flexibleSpace: const AppbarBlurBG(),
       backgroundColor: AppBarColor,
       elevation: 0,
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.settings_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () => SettingsTab.show(context),
+        ),
+        const SizedBox(width: 8),
+      ],
       bottom: TabBar(
         unselectedLabelColor: Colors.white,
         labelColor: PrimaryColor,

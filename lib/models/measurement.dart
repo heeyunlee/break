@@ -7,10 +7,10 @@ class Measurement {
   final Timestamp loggedTime;
   final DateTime loggedDate;
   final num bodyWeight;
-  final num? bodyFat;
-  final num? skeletalMuscleMass;
-  final num? bmi;
-  final String? notes;
+  final num? bodyFat; // Nullable
+  final num? skeletalMuscleMass; // Nullable
+  final num? bmi; // Nullable
+  final String? notes; // Nullables
 
   Measurement({
     required this.measurementId,
@@ -26,18 +26,15 @@ class Measurement {
   });
 
   factory Measurement.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp loggedTime = data['loggedTime'];
     final DateTime loggedDate = data['loggedDate'].toDate();
     final num bodyWeight = data['bodyWeight'];
-    final num bodyFat = data['bodyFat'];
-    final num skeletalMuscleMass = data['skeletalMuscleMass'];
-    final num bmi = data['bmi'];
-    final String notes = data['notes'];
+    final num? bodyFat = data['bodyFat'];
+    final num? skeletalMuscleMass = data['skeletalMuscleMass'];
+    final num? bmi = data['bmi'];
+    final String? notes = data['notes'];
 
     return Measurement(
       measurementId: documentId,

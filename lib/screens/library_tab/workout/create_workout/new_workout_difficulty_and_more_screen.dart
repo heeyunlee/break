@@ -16,11 +16,11 @@ class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallback locationCallback;
 
   const NewWorkoutDifficultyAndMoreScreen({
-    Key key,
-    this.discriptionCallback,
-    this.difficultyCallback,
-    this.secondsPerRepCallback,
-    this.locationCallback,
+    Key? key,
+    required this.discriptionCallback,
+    required this.difficultyCallback,
+    required this.secondsPerRepCallback,
+    required this.locationCallback,
   }) : super(key: key);
 
   @override
@@ -30,14 +30,14 @@ class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
 
 class _NewWorkoutDifficultyAndMoreScreenState
     extends State<NewWorkoutDifficultyAndMoreScreen> {
-  String _description;
-  var _textController = TextEditingController();
+  late String? _description;
+  late TextEditingController _textController;
 
-  double _difficultySlider;
-  String _difficultySliderLabel;
+  late double _difficultySlider;
+  late String _difficultySliderLabel;
 
-  double _secondsPerRepSlider;
-  String _secondsPerRepSliderLabel;
+  late double _secondsPerRepSlider;
+  late String _secondsPerRepSliderLabel;
 
   String _dropdownValue = 'Location.gym';
 
@@ -49,7 +49,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
 
     _difficultySlider = 0;
     _difficultySliderLabel =
-        Difficulty.values[_difficultySlider.toInt()].translation;
+        Difficulty.values[_difficultySlider.toInt()].translation!;
 
     _secondsPerRepSlider = 3;
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
@@ -108,15 +108,15 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       ),
                       onFieldSubmitted: (value) {
                         _description = value;
-                        widget.discriptionCallback(_description);
+                        widget.discriptionCallback(_description!);
                       },
                       onChanged: (value) {
                         _description = value;
-                        widget.discriptionCallback(_description);
+                        widget.discriptionCallback(_description!);
                       },
                       onSaved: (value) {
                         _description = value;
-                        widget.discriptionCallback(_description);
+                        widget.discriptionCallback(_description!);
                       },
                     ),
                   ),
@@ -147,7 +147,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                         widget.difficultyCallback(_difficultySlider);
 
                         _difficultySliderLabel = Difficulty
-                            .values[_difficultySlider.toInt()].translation;
+                            .values[_difficultySlider.toInt()].translation!;
                       });
                     },
                     label: '$_difficultySliderLabel',
@@ -234,26 +234,26 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       style: BodyText1,
                       onChanged: (value) {
                         setState(() {
-                          _dropdownValue = value;
-                          widget.locationCallback(value);
+                          _dropdownValue = value.toString();
+                          widget.locationCallback(value.toString());
                         });
                       },
                       items: [
                         DropdownMenuItem(
                           value: 'Location.gym',
-                          child: Text(Location.gym.translation),
+                          child: Text(Location.gym.translation!),
                         ),
                         DropdownMenuItem(
                           value: 'Location.atHome',
-                          child: Text(Location.atHome.translation),
+                          child: Text(Location.atHome.translation!),
                         ),
                         DropdownMenuItem(
                           value: 'Location.outdoor',
-                          child: Text(Location.outdoor.translation),
+                          child: Text(Location.outdoor.translation!),
                         ),
                         DropdownMenuItem(
                           value: 'Location.others',
-                          child: Text(Location.others.translation),
+                          child: Text(Location.others.translation!),
                         ),
                       ],
                     ),

@@ -29,20 +29,23 @@ Logger logger = Logger();
 
 class EditWorkoutScreen extends StatefulWidget {
   const EditWorkoutScreen({
-    Key key,
-    @required this.database,
-    this.workout,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.workout,
+    required this.user,
   }) : super(key: key);
 
   final Database database;
   final Workout workout;
   final User user;
 
-  static Future<void> show(BuildContext context, {Workout workout}) async {
+  static Future<void> show(
+    BuildContext context, {
+    required Workout workout,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(
@@ -73,21 +76,21 @@ class EditWorkoutScreen extends StatefulWidget {
 
 class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
-  FocusNode focusNode1;
-  FocusNode focusNode2;
+  late FocusNode focusNode1;
+  late FocusNode focusNode2;
 
-  var _textController1 = TextEditingController();
-  var _textController2 = TextEditingController();
+  late TextEditingController _textController1;
+  late TextEditingController _textController2;
 
-  bool _isPublic;
-  String _workoutTitle;
-  String _description;
+  late bool _isPublic;
+  late String _workoutTitle;
+  late String _description;
 
-  double _difficultySlider;
-  String _difficultySliderLabel;
+  late double _difficultySlider;
+  late String _difficultySliderLabel;
 
-  double _secondsPerRepSlider;
-  String _secondsPerRepSliderLabel;
+  late double _secondsPerRepSlider;
+  late String _secondsPerRepSliderLabel;
 
   @override
   void initState() {
@@ -105,7 +108,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     _difficultySlider = widget.workout.difficulty.toDouble();
     _difficultySliderLabel =
-        Difficulty.values[_difficultySlider.toInt()].translation;
+        Difficulty.values[_difficultySlider.toInt()].translation!;
 
     _secondsPerRepSlider = widget.workout.secondsPerRep.toDouble();
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
@@ -122,7 +125,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -222,7 +225,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             ),
             body: Builder(
               builder: (BuildContext context) =>
-                  _buildContents(snapshot.data, context),
+                  _buildContents(snapshot.data!, context),
             ),
             // body: CustomStreamBuilderWidget(
             //   initialData: workoutDummyData,
@@ -362,10 +365,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 counterText: '',
               ),
               validator: (value) =>
-                  value.isNotEmpty ? null : S.current.workoutTitleAlertContent,
+                  value!.isNotEmpty ? null : S.current.workoutTitleAlertContent,
               onFieldSubmitted: (value) => _workoutTitle = value,
               onChanged: (value) => _workoutTitle = value,
-              onSaved: (value) => _workoutTitle = value,
+              onSaved: (value) => _workoutTitle = value!,
             ),
           ),
         ),
@@ -405,7 +408,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               ),
               onFieldSubmitted: (value) => _description = value,
               onChanged: (value) => _description = value,
-              onSaved: (value) => _description = value,
+              onSaved: (value) => _description = value!,
             ),
           ),
         ),
@@ -441,7 +444,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               setState(() {
                 _difficultySlider = newRating;
                 _difficultySliderLabel =
-                    Difficulty.values[_difficultySlider.toInt()].translation;
+                    Difficulty.values[_difficultySlider.toInt()].translation!;
               });
             },
             // label: '$_ratingLabel',
@@ -581,7 +584,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
           title: Text(S.current.location, style: ButtonText),
-          subtitle: Text(location, style: BodyText2Grey),
+          subtitle: Text(location!, style: BodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
             color: PrimaryGrey,
@@ -597,9 +600,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     );
   }
 
-  Future<bool> _showModalBottomSheet(BuildContext context) {
+  Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
-      context: context,
+      context,
+      // TODO: Make a translation here
+      title: Text('Delete Workout'),
       message: Text(
         S.current.deleteWorkoutWarningMessage,
         textAlign: TextAlign.center,

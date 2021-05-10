@@ -9,23 +9,23 @@ import '../../../constants.dart';
 class DailySummaryCard extends StatelessWidget {
   DailySummaryCard({
     this.cardColor = CardColor,
-    @required this.date,
-    @required this.workoutTitle,
-    @required this.totalWeights,
-    @required this.caloriesBurnt,
-    @required this.totalDuration,
+    required this.date,
+    required this.workoutTitle,
+    required this.totalWeights,
+    required this.caloriesBurnt,
+    required this.totalDuration,
     this.earnedBadges,
     this.onTap,
-    this.unitOfMass,
+    required this.unitOfMass,
   });
 
   final Color cardColor;
   final Timestamp date;
   final String workoutTitle;
   final num totalWeights;
-  final num caloriesBurnt;
+  final num? caloriesBurnt;
   final int totalDuration;
-  final bool earnedBadges;
+  final bool? earnedBadges;
   final onTap;
   final int unitOfMass;
   @override
@@ -112,14 +112,14 @@ class DailySummaryCard extends StatelessWidget {
 
 class _DailySummaryRowWidget extends StatelessWidget {
   const _DailySummaryRowWidget({
-    Key key,
-    @required this.formattedWeights,
-    @required this.caloriesBurnt,
-    @required this.totalDuration,
+    Key? key,
+    required this.formattedWeights,
+    required this.caloriesBurnt,
+    required this.totalDuration,
   }) : super(key: key);
 
   final String formattedWeights;
-  final num caloriesBurnt;
+  final num? caloriesBurnt;
   final int totalDuration;
 
   @override
@@ -154,7 +154,11 @@ class _DailySummaryRowWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRowChildren({String emojiUrl, String title, subtitle}) {
+  Widget _buildRowChildren({
+    required String emojiUrl,
+    required String title,
+    subtitle,
+  }) {
     return Column(
       children: [
         CachedNetworkImage(

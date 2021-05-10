@@ -23,7 +23,7 @@ class ProteinsEatenChartWidget extends StatefulWidget {
 }
 
 class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
-  late int touchedIndex;
+  int touchedIndex = 0;
   double maxY = 150;
 
   List<DateTime> _dates = [];

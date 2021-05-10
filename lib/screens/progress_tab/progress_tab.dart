@@ -63,7 +63,7 @@ class ProgressTab extends StatelessWidget {
                     //   const SizedBox(width: 8),
                     // ],
                     flexibleSpace: (isMobile)
-                        ? _FlexibleSpaceMobile(user: snapshot.data!)
+                        ? _FlexibleSpaceMobile(user: snapshot.data)
                         : FlexibleSpaceTablet(user: snapshot.data!),
                     backgroundColor: AppBarColor,
                     elevation: 0,
@@ -110,7 +110,7 @@ class ProgressTab extends StatelessWidget {
 }
 
 class _FlexibleSpaceMobile extends StatelessWidget {
-  final User user;
+  final User? user;
 
   const _FlexibleSpaceMobile({Key? key, required this.user}) : super(key: key);
 
@@ -118,8 +118,8 @@ class _FlexibleSpaceMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final weights = Format.weights(user.totalWeights);
-    final unit = Format.unitOfMass(user.unitOfMass);
+    final weights = Format.weights(user!.totalWeights);
+    final unit = Format.unitOfMass(user!.unitOfMass);
 
     return FlexibleSpaceBar(
       background: Column(
@@ -134,7 +134,7 @@ class _FlexibleSpaceMobile extends StatelessWidget {
                 size: 48,
               ),
               const SizedBox(width: 16),
-              Text(user.displayName, style: Subtitle1w900),
+              Text(user!.displayName, style: Subtitle1w900),
             ],
           ),
           const SizedBox(height: 24),

@@ -1,6 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoutineHistory {
+  final String routineHistoryId;
+  final String userId;
+  final String username;
+  final String routineId;
+  final String routineTitle;
+  final bool isPublic;
+  final Timestamp workoutStartTime;
+  final Timestamp workoutEndTime;
+  final num totalWeights;
+  final num? totalCalories; // Nullable
+  final int totalDuration;
+  final bool? earnedBadges; // Nullable
+  final String? notes; // Nullable
+  final List<dynamic> mainMuscleGroup;
+  final List<dynamic>? secondMuscleGroup; // Nullable
+  final bool isBodyWeightWorkout;
+  final DateTime workoutDate;
+  final String imageUrl;
+  final int unitOfMass;
+  final List<dynamic> equipmentRequired;
+  final num? effort; // Nullable
+
   RoutineHistory({
     required this.routineHistoryId,
     required this.userId,
@@ -25,33 +47,7 @@ class RoutineHistory {
     this.effort,
   });
 
-  final String routineHistoryId;
-  final String userId;
-  final String username;
-  final String routineId;
-  final String routineTitle;
-  final bool isPublic;
-  final Timestamp workoutStartTime;
-  final Timestamp workoutEndTime;
-  final num totalWeights;
-  final num? totalCalories;
-  final int totalDuration;
-  final bool? earnedBadges;
-  final String? notes;
-  final List<dynamic> mainMuscleGroup;
-  final List<dynamic>? secondMuscleGroup;
-  final bool isBodyWeightWorkout;
-  final DateTime workoutDate;
-  final String imageUrl;
-  final int unitOfMass;
-  final List<dynamic> equipmentRequired;
-  final num? effort;
-
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
-
     final String userId = data['userId'];
     final String username = data['username'];
     final String routineId = data['routineId'];
@@ -60,18 +56,18 @@ class RoutineHistory {
     final Timestamp workoutStartTime = data['workoutStartTime'];
     final Timestamp workoutEndTime = data['workoutEndTime'];
     final num totalWeights = data['totalWeights'];
-    final num totalCalories = data['totalCalories'];
+    final num? totalCalories = data['totalCalories'];
     final int totalDuration = data['totalDuration'];
-    final bool earnedBadges = data['earnedBadges'];
-    final String notes = data['notes'];
+    final bool? earnedBadges = data['earnedBadges'];
+    final String? notes = data['notes'];
     final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
-    final List<dynamic> secondMuscleGroup = data['secondMuscleGroup'];
+    final List<dynamic>? secondMuscleGroup = data['secondMuscleGroup'];
     final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
     final DateTime workoutDate = data['workoutDate'].toDate();
     final String imageUrl = data['imageUrl'];
     final int unitOfMass = data['unitOfMass'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
-    final num effort = data['effort'];
+    final num? effort = data['effort'];
 
     return RoutineHistory(
       routineHistoryId: documentId,

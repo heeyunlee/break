@@ -35,13 +35,13 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => EditRoutineEquipmentRequiredScreen(
           database: database,
           routine: routine,
-          user: user,
+          user: user!,
         ),
       ),
     );

@@ -26,7 +26,7 @@ class WeightsLiftedChartWidget extends StatefulWidget {
 }
 
 class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
-  late int touchedIndex;
+  int touchedIndex = 0;
   double maxY = 20000;
 
   List<DateTime> _dates = [];

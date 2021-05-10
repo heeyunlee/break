@@ -8,7 +8,8 @@ typedef StringCallback = void Function(List list);
 class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
   final StringCallback mainMuscleGroupCallback;
 
-  const NewWorkoutMainMuscleGroupScreen({Key key, this.mainMuscleGroupCallback})
+  const NewWorkoutMainMuscleGroupScreen(
+      {Key? key, required this.mainMuscleGroupCallback})
       : super(key: key);
 
   @override
@@ -33,9 +34,9 @@ class _NewWorkoutMainMuscleGroupScreenState
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: _mainMuscleGroup.keys.map((String key) {
-              final title = MainMuscleGroup.values
+              final String title = MainMuscleGroup.values
                   .firstWhere((e) => e.toString() == key)
-                  .translation;
+                  .translation!;
 
               return Padding(
                 padding:
@@ -43,17 +44,17 @@ class _NewWorkoutMainMuscleGroupScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_mainMuscleGroup[key]) ? PrimaryColor : Grey700,
+                    color: (_mainMuscleGroup[key]!) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
                       title: Text(title, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroup[key],
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _mainMuscleGroup[key] = value;
+                          _mainMuscleGroup[key] = value!;
                         });
-                        if (_mainMuscleGroup[key]) {
+                        if (_mainMuscleGroup[key]!) {
                           _selectedMainMuscleGroup.add(key);
                         } else {
                           _selectedMainMuscleGroup.remove(key);

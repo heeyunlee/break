@@ -1,6 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Workout {
+  final String workoutId;
+  final String workoutOwnerId;
+  final String workoutOwnerUserName;
+  final String workoutTitle;
+  final List<dynamic> mainMuscleGroup;
+  final List<dynamic>? secondaryMuscleGroup; // Nullable
+  final String description;
+  final List<dynamic> equipmentRequired;
+  final String imageUrl;
+  final bool isBodyWeightWorkout;
+  final Timestamp lastEditedDate;
+  final Timestamp workoutCreatedDate;
+  final int difficulty;
+  final String? instructions; // Nullable
+  final String? tips; // Nullable
+  final int secondsPerRep;
+  final bool isPublic;
+  final String location;
+  final Map<String, dynamic> translated;
+  final String? thumbnailImageUrl; // Nullable
+
   Workout({
     required this.workoutId,
     required this.workoutOwnerId,
@@ -24,36 +45,12 @@ class Workout {
     this.thumbnailImageUrl,
   });
 
-  final String workoutId;
-  final String workoutOwnerId;
-  final String workoutOwnerUserName;
-  final String workoutTitle;
-  final List<dynamic> mainMuscleGroup;
-  final List<dynamic> secondaryMuscleGroup;
-  final String description;
-  final List<dynamic> equipmentRequired;
-  final String imageUrl;
-  final bool isBodyWeightWorkout;
-  final Timestamp lastEditedDate;
-  final Timestamp workoutCreatedDate;
-  final int difficulty;
-  final String? instructions;
-  final String? tips;
-  final int secondsPerRep;
-  final bool isPublic;
-  final String location;
-  final Map<String, dynamic> translated;
-  final String? thumbnailImageUrl;
-
   factory Workout.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
     final String workoutOwnerId = data['workoutOwnerId'];
     final String workoutOwnerUserName = data['workoutOwnerUserName'];
     final String workoutTitle = data['workoutTitle'];
     final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
-    final List<dynamic> secondaryMuscleGroup = data['secondaryMuscleGroup'];
+    final List<dynamic>? secondaryMuscleGroup = data['secondaryMuscleGroup'];
     final String description = data['description'];
     final List<dynamic> equipmentRequired = data['equipmentRequired'];
     final String imageUrl = data['imageUrl'];
@@ -61,13 +58,13 @@ class Workout {
     final Timestamp lastEditedDate = data['lastEditedDate'];
     final Timestamp workoutCreatedDate = data['workoutCreatedDate'];
     final int difficulty = data['difficulty'];
-    final String instructions = data['instructions'];
-    final String tips = data['tips'];
+    final String? instructions = data['instructions'];
+    final String? tips = data['tips'];
     final int secondsPerRep = data['secondsPerRep'];
     final bool isPublic = data['isPublic'];
     final String location = data['location'];
     final Map<String, dynamic> translated = data['translated'];
-    final String thumbnailImageUrl = data['thumbnailImageUrl'];
+    final String? thumbnailImageUrl = data['thumbnailImageUrl'];
 
     return Workout(
       workoutId: documentId,

@@ -55,7 +55,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
   @override
   void initState() {
-    _email = widget.user.userEmail;
+    _email = widget.user.userEmail ?? '';
     _textController1 = TextEditingController(text: _email);
     focusNode1 = FocusNode();
 

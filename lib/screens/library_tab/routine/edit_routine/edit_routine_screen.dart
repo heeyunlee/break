@@ -46,7 +46,7 @@ class EditRoutineScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(
@@ -55,7 +55,7 @@ class EditRoutineScreen extends StatefulWidget {
         builder: (context) => EditRoutineScreen(
           database: database,
           routine: routine,
-          user: user,
+          user: user!,
         ),
       ),
     );
@@ -75,7 +75,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
   late bool _isPublic;
   late String _routineTitle;
-  late String _description;
+  late String? _description;
   late num _totalWeights;
   late int _averageTotalCalories;
   late int _duration;
@@ -94,7 +94,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     _routineTitle = widget.routine.routineTitle;
     _textController1 = TextEditingController(text: _routineTitle);
 
-    _description = widget.routine.description!;
+    _description = widget.routine.description;
     _textController2 = TextEditingController(text: _description);
 
     _totalWeights = widget.routine.totalWeights;

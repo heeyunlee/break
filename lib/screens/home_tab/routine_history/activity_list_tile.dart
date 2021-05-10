@@ -4,8 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../constants.dart';
 
 class ActivityListTile extends StatelessWidget {
-  const ActivityListTile({Key key, this.index, this.title, this.subtitle})
-      : super(key: key);
+  const ActivityListTile({
+    Key? key,
+    required this.index,
+    required this.title,
+    required this.subtitle,
+  }) : super(key: key);
 
   final int index;
   final String title;

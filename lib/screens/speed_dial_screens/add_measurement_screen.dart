@@ -30,7 +30,7 @@ class AddMeasurementScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -39,7 +39,7 @@ class AddMeasurementScreen extends StatefulWidget {
       withNavBar: false,
       screen: AddMeasurementScreen(
         database: database,
-        user: user,
+        user: user!,
         auth: auth,
       ),
     );
@@ -56,23 +56,23 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   late String _loggedTimeInString;
   late DateTime _loggedDate;
 
-  late num _bodyWeight;
+  num get _bodyWeight => num.parse(_textController1.text);
   late TextEditingController _textController1;
   late FocusNode _focusNode1;
 
-  late num _bodyFat;
+  num? get _bodyFat => num.tryParse(_textController2.text);
   late TextEditingController _textController2;
   late FocusNode _focusNode2;
 
-  late num _skeletalMuscleMass;
+  num? get _skeletalMuscleMass => num.tryParse(_textController3.text);
   late TextEditingController _textController3;
   late FocusNode _focusNode3;
 
-  late num _bmi;
+  num? get _bmi => num.tryParse(_textController4.text);
   late TextEditingController _textController4;
   late FocusNode _focusNode4;
 
-  late String _notes;
+  String? get _notes => _textController5.text;
   late TextEditingController _textController5;
   late FocusNode _focusNode5;
 
@@ -328,11 +328,11 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                       return null;
                     },
                     onChanged: (value) => setState(() {
-                      _bodyWeight = num.parse(value);
+                      // _bodyWeight = num.parse(value);
                       _formKey.currentState!.validate();
                     }),
                     onFieldSubmitted: (value) => setState(() {
-                      _bodyWeight = num.parse(value);
+                      // _bodyWeight = num.parse(value);
                       _formKey.currentState!.validate();
                     }),
                   ),
@@ -366,10 +366,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     style: BodyText1,
                     onChanged: (value) => setState(() {
-                      _bodyFat = num.parse(value);
+                      // _bodyFat = num.parse(value);
                     }),
                     onFieldSubmitted: (value) => setState(() {
-                      _bodyFat = num.parse(value);
+                      // _bodyFat = num.parse(value);
                     }),
                   ),
                   const SizedBox(height: 24),
@@ -402,10 +402,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     style: BodyText1,
                     onChanged: (value) => setState(() {
-                      _skeletalMuscleMass = num.parse(value);
+                      // _skeletalMuscleMass = num.parse(value);
                     }),
                     onFieldSubmitted: (value) => setState(() {
-                      _skeletalMuscleMass = num.parse(value);
+                      // _skeletalMuscleMass = num.parse(value);
                     }),
                   ),
                   const SizedBox(height: 24),
@@ -438,10 +438,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     style: BodyText1,
                     onChanged: (value) => setState(() {
-                      _bmi = num.parse(value);
+                      // _bmi = num.parse(value);
                     }),
                     onFieldSubmitted: (value) => setState(() {
-                      _bmi = num.parse(value);
+                      // _bmi = num.parse(value);
                     }),
                   ),
                   const SizedBox(height: 24),
@@ -470,10 +470,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     style: BodyText1,
                     onChanged: (value) => setState(() {
-                      _notes = value;
+                      // _notes = value;
                     }),
                     onFieldSubmitted: (value) => setState(() {
-                      _notes = value;
+                      // _notes = value;
                     }),
                   ),
 

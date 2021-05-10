@@ -17,11 +17,13 @@ class AnnouncementCardPageView extends StatefulWidget {
 
 class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
   int _currentPage = 0;
-  final PageController _pageController = PageController(initialPage: 0);
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: 0);
+
     Timer.periodic(Duration(seconds: 10), (Timer timer) {
       if (_currentPage < 1) {
         _currentPage++;

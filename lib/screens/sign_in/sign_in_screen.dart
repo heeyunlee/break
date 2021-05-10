@@ -60,6 +60,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool _showPreview = true;
+  final locale = Intl.getCurrentLocale();
 
   set setBool(bool value) => setState(() => _showPreview = value);
 
@@ -103,25 +104,23 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInWithGoogle();
 
-      final firebaseUser = widget.signInBloc.auth.currentUser;
+      final firebaseUser = widget.signInBloc.auth.currentUser!;
 
-      // Write User data to Firebase
-      final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser!.uid,
-      );
-
-      final locale = Intl.getCurrentLocale();
+      // Check if the user document exists in Cloud Firestore
+      final User? user =
+          await widget.database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
         final uniqueId = UniqueKey().toString();
         final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
+
         final userData = User(
-          userId: firebaseUser!.uid,
+          userId: firebaseUser.uid,
           displayName: firebaseUser.providerData[0].displayName ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email ?? '',
+          userEmail: firebaseUser.providerData[0].email,
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -141,9 +140,9 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -155,13 +154,11 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInWithFacebook();
 
-      // Write User data to Firebase
-      final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser!.uid,
-      );
-      final firebaseUser = widget.signInBloc.auth.currentUser;
+      final firebaseUser = widget.signInBloc.auth.currentUser!;
 
-      final locale = Intl.getCurrentLocale();
+      // Check if the user document exists in Cloud Firestore
+      final User? user =
+          await widget.database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
@@ -170,10 +167,10 @@ class _SignInScreenState extends State<SignInScreen> {
         final currentTime = Timestamp.now();
 
         final userData = User(
-          userId: firebaseUser!.uid,
+          userId: firebaseUser.uid,
           displayName: firebaseUser.providerData[0].displayName ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email ?? '',
+          userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -193,9 +190,9 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -207,12 +204,11 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInWithApple();
 
-      // Write User data to Firebase
-      final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser!.uid,
-      );
-      final firebaseUser = widget.signInBloc.auth.currentUser;
-      final locale = Intl.getCurrentLocale();
+      final firebaseUser = widget.signInBloc.auth.currentUser!;
+
+      // Check if the user document exists in Cloud Firestore
+      final User? user =
+          await widget.database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
@@ -221,11 +217,14 @@ class _SignInScreenState extends State<SignInScreen> {
         final currentTime = Timestamp.now();
 
         final userData = User(
-          userId: firebaseUser!.uid,
-          displayName: firebaseUser.providerData[0].displayName ?? id,
-          userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail:
-              firebaseUser.providerData[0].email ?? firebaseUser.email ?? '',
+          userId: firebaseUser.uid,
+          displayName: firebaseUser.providerData[0].displayName ??
+              firebaseUser.displayName ??
+              id,
+          userName: firebaseUser.providerData[0].displayName ??
+              firebaseUser.displayName ??
+              id,
+          userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -245,9 +244,9 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       logger.d(e);
       _showSignInError(e, context);
     }
@@ -259,24 +258,23 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInWithKakao();
 
-      // GET User data to Firebase
-      final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser!.uid,
-      );
-      final firebaseUser = widget.signInBloc.auth.currentUser;
+      final firebaseUser = widget.signInBloc.auth.currentUser!;
 
       print(firebaseUser.toString());
+
+      // GET User data to Firebase
+      final User? user =
+          await widget.database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
         final uniqueId = UniqueKey().toString();
         final currentTime = Timestamp.now();
         final userData = User(
-          userId: firebaseUser!.uid,
+          userId: firebaseUser.uid,
           userName: firebaseUser.displayName ?? 'Player $uniqueId',
           displayName: firebaseUser.displayName ?? 'Player $uniqueId',
-          userEmail:
-              firebaseUser.email ?? firebaseUser.providerData[0].email ?? '',
+          userEmail: firebaseUser.email,
           signUpDate: currentTime,
           signUpProvider: 'kakaocorp.com',
           totalWeights: 0,
@@ -298,9 +296,9 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
 
-        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
-    } on Exception catch (e) {
+    } on FirebaseException catch (e) {
       logger.d(e);
       _showSignInError(e, context);
     }

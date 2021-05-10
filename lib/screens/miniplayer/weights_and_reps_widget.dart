@@ -10,10 +10,10 @@ import '../../format.dart';
 
 class WeightsAndRepsWidget extends StatefulWidget {
   const WeightsAndRepsWidget({
-    Key key,
-    this.workoutSet,
-    this.routineWorkout,
-    this.routine,
+    Key? key,
+    required this.workoutSet,
+    required this.routineWorkout,
+    required this.routine,
   }) : super(key: key);
 
   final WorkoutSet workoutSet;
@@ -29,7 +29,7 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final weights = Format.weights(widget.workoutSet.weights);
+    final weights = Format.weights(widget.workoutSet.weights!);
     final unit = UnitOfMass.values[widget.routine.initialUnitOfMass].label;
 
     return Center(

@@ -17,18 +17,21 @@ Logger logger = Logger();
 
 class EditWorkoutLocationScreen extends StatefulWidget {
   const EditWorkoutLocationScreen({
-    Key key,
-    @required this.workout,
-    @required this.database,
-    @required this.user,
+    Key? key,
+    required this.workout,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
   final Workout workout;
   final Database database;
   final User user;
 
-  static Future<void> show(BuildContext context,
-      {User user, Workout workout}) async {
+  static Future<void> show(
+    BuildContext context, {
+    required User user,
+    required Workout workout,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
@@ -47,7 +50,7 @@ class EditWorkoutLocationScreen extends StatefulWidget {
 }
 
 class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
-  String _location;
+  late String _location;
 
   @override
   void initState() {
@@ -104,7 +107,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.atHome.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.atHome.translation, style: BodyText1),
+          title: Text(Location.atHome.translation!, style: BodyText1),
           trailing: (_location == Location.atHome.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -119,7 +122,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.gym.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.gym.translation, style: BodyText1),
+          title: Text(Location.gym.translation!, style: BodyText1),
           trailing: (_location == Location.gym.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -134,7 +137,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.outdoor.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.outdoor.translation, style: BodyText1),
+          title: Text(Location.outdoor.translation!, style: BodyText1),
           trailing: (_location == Location.outdoor.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -149,7 +152,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.others.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.others.translation, style: BodyText1),
+          title: Text(Location.others.translation!, style: BodyText1),
           trailing: (_location == Location.others.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,

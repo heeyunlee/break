@@ -5,15 +5,15 @@ import '../../../constants.dart';
 
 class SummaryRowWidget extends StatelessWidget {
   const SummaryRowWidget({
-    Key key,
-    this.imageUrl,
-    this.title,
+    Key? key,
+    required this.imageUrl,
+    required this.title,
     this.subtitle,
   }) : super(key: key);
 
   final String imageUrl;
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {

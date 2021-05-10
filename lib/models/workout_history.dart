@@ -1,6 +1,22 @@
 import 'workout_set.dart';
 
 class WorkoutHistory {
+  final String workoutHistoryId;
+  final String routineHistoryId;
+  final String workoutId;
+  final String routineId;
+  final String workoutHistoryOwnerId;
+  final int index;
+  final String workoutTitle;
+  final int numberOfSets;
+  final int numberOfReps;
+  final num totalWeights;
+  final List<WorkoutSet>? sets; // Nullable
+  final bool isBodyWeightWorkout;
+  final int duration;
+  final int secondsPerRep;
+  final Map<String, dynamic> translated;
+
   WorkoutHistory({
     required this.workoutHistoryId,
     required this.routineHistoryId,
@@ -19,42 +35,46 @@ class WorkoutHistory {
     required this.translated,
   });
 
-  String workoutHistoryId;
-  String routineHistoryId;
-  String workoutId;
-  String routineId;
-  String workoutHistoryOwnerId;
-  int index;
-  String workoutTitle;
-  int numberOfSets;
-  int numberOfReps;
-  num totalWeights;
-  List<WorkoutSet>? sets;
-  bool isBodyWeightWorkout;
-  int duration;
-  int secondsPerRep;
-  Map<String, dynamic> translated;
-
-  WorkoutHistory.fromJson(Map<String, dynamic> data, String documentId) {
-    workoutHistoryId = documentId;
-    index = data['index'];
-    workoutId = data['workoutId'];
-    routineId = data['routineId'];
-    workoutHistoryOwnerId = data['workoutHistoryOwnerId'];
-    workoutTitle = data['workoutTitle'];
-    numberOfSets = data['numberOfSets'];
-    numberOfReps = data['numberOfReps'];
-    totalWeights = data['totalWeights'];
+  factory WorkoutHistory.fromJson(
+      Map<String, dynamic> data, String documentId) {
+    final String workoutHistoryId = documentId;
+    final String routineHistoryId = data['routineHistoryId'];
+    final String workoutId = data['workoutId'];
+    final String routineId = data['routineId'];
+    final String workoutHistoryOwnerId = data['workoutHistoryOwnerId'];
+    final int index = data['index'];
+    final String workoutTitle = data['workoutTitle'];
+    final int numberOfSets = data['numberOfSets'];
+    final int numberOfReps = data['numberOfReps'];
+    final num totalWeights = data['totalWeights'];
+    List<WorkoutSet>? sets = <WorkoutSet>[];
     if (data['sets'] != null) {
-      sets = <WorkoutSet>[];
-      data['sets'].forEach((set) {
-        sets!.add(WorkoutSet.fromMap(set));
+      data['sets'].forEach((item) {
+        sets.add(WorkoutSet.fromMap(item));
       });
     }
-    isBodyWeightWorkout = data['isBodyWeightWorkout'];
-    duration = data['duration'];
-    secondsPerRep = data['secondsPerRep'];
-    translated = data['translated'];
+    final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
+    final int duration = data['duration'];
+    final int secondsPerRep = data['secondsPerRep'];
+    final Map<String, dynamic> translated = data['translated'];
+
+    return WorkoutHistory(
+      workoutHistoryId: workoutHistoryId,
+      routineHistoryId: routineHistoryId,
+      workoutId: workoutId,
+      routineId: routineId,
+      workoutHistoryOwnerId: workoutHistoryOwnerId,
+      index: index,
+      workoutTitle: workoutTitle,
+      numberOfSets: numberOfSets,
+      numberOfReps: numberOfReps,
+      totalWeights: totalWeights,
+      sets: sets,
+      isBodyWeightWorkout: isBodyWeightWorkout,
+      duration: duration,
+      secondsPerRep: secondsPerRep,
+      translated: translated,
+    );
   }
 
   Map<String, dynamic> toJson() {

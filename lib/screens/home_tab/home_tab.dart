@@ -23,10 +23,10 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
       PaginateRefreshedChangeListener();
 
   // For SliverApp to Work
-  AnimationController _colorAnimationController;
-  AnimationController _textAnimationController;
-  Animation _colorTween;
-  Animation<Offset> _transTween;
+  late AnimationController _colorAnimationController;
+  late AnimationController _textAnimationController;
+  late Animation _colorTween;
+  late Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.axis == Axis.vertical) {
@@ -122,7 +122,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           message: S.current.homeTabEmptyMessage,
         ),
         itemsPerPage: 10,
-        header: SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
+        header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
         footer: const SizedBox(height: 16),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong}: $error',
@@ -130,7 +130,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
           final documentId = documentSnapshot.id;
-          final data = documentSnapshot.data();
+          final data = documentSnapshot.data()!;
           final routineHistory = RoutineHistory.fromMap(data, documentId);
 
           return RoutineHistorySummaryFeedCard(

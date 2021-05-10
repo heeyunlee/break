@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -18,25 +19,28 @@ Logger logger = Logger();
 
 class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
   const EditWorkoutEquipmentRequiredScreen({
-    Key key,
-    this.workout,
-    this.database,
-    this.user,
+    Key? key,
+    required this.workout,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
   final Workout workout;
   final Database database;
   final User user;
 
-  static Future<void> show(BuildContext context, {Workout workout}) async {
+  static Future<void> show(BuildContext context,
+      {required Workout workout}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => EditWorkoutEquipmentRequiredScreen(
           database: database,
           workout: workout,
-          user: auth.currentUser,
+          user: user,
         ),
       ),
     );
@@ -113,7 +117,7 @@ class _EditWorkoutEquipmentRequiredScreenState
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {
-      if (_equipmentRequired[key]) {
+      if (_equipmentRequired[key]!) {
         _selectedEquipmentRequired.add(key);
       } else {
         _selectedEquipmentRequired.remove(key);
@@ -125,7 +129,7 @@ class _EditWorkoutEquipmentRequiredScreenState
     setState(() {
       _equipmentRequired[key] = value;
     });
-    if (_equipmentRequired[key]) {
+    if (_equipmentRequired[key]!) {
       _selectedEquipmentRequired.add(key);
     } else {
       _selectedEquipmentRequired.remove(key);
@@ -191,7 +195,7 @@ class _EditWorkoutEquipmentRequiredScreenState
               children: _equipmentRequired.keys.map((String key) {
                 final title = EquipmentRequired.values
                     .firstWhere((e) => e.toString() == key)
-                    .translation;
+                    .translation!;
 
                 return Padding(
                   padding:
@@ -199,15 +203,16 @@ class _EditWorkoutEquipmentRequiredScreenState
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color: (_equipmentRequired[key]) ? PrimaryColor : Grey700,
+                      color:
+                          (_equipmentRequired[key]!) ? PrimaryColor : Grey700,
                       child: CheckboxListTile(
-                        selected: _equipmentRequired[key],
+                        selected: _equipmentRequired[key]!,
                         activeColor: Primary700Color,
                         title: Text(title, style: ButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _equipmentRequired[key],
-                        onChanged: (bool value) =>
-                            _addOrRemoveEquipmentRequired(key, value),
+                        onChanged: (bool? value) =>
+                            _addOrRemoveEquipmentRequired(key, value!),
                       ),
                     ),
                   ),

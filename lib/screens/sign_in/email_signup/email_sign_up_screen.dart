@@ -64,6 +64,7 @@ class EmailSignUpScreen extends StatefulWidget with EmailAndPasswordValidators {
 
 class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final locale = Intl.getCurrentLocale();
 
   late TextEditingController _textController1;
   late TextEditingController _textController2;
@@ -127,19 +128,19 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
       try {
         await widget.auth.createUserWithEmailAndPassword(_email, _password);
 
-        final firebaseUser = widget.auth.currentUser;
+        final firebaseUser = widget.auth.currentUser!;
+
         final uniqueId = UniqueKey().toString();
         final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
-        final locale = Intl.getCurrentLocale();
 
         final user = User(
-          userId: firebaseUser!.uid,
-          displayName: '$_firstName $_lastName' ?? id,
+          userId: firebaseUser.uid,
+          displayName: '$_firstName $_lastName',
           userName: firebaseUser.providerData[0].displayName ?? id,
           userEmail: firebaseUser.providerData[0].email ?? '',
           signUpDate: currentTime,
-          signUpProvider: firebaseUser.providerData[0].providerId,
+          signUpProvider: 'email',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,

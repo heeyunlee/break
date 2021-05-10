@@ -16,18 +16,15 @@ class UserFeedback {
   final String username;
   final Timestamp createdDate;
   final String feedback;
-  final String? userEmail;
+  final String? userEmail; // Nullable
   final bool isResolved;
 
   factory UserFeedback.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp createdDate = data['createdDate'];
     final String feedback = data['feedback'];
-    final String userEmail = data['userEmail'];
+    final String? userEmail = data['userEmail'];
     final bool isResolved = data['isResolved'];
 
     return UserFeedback(

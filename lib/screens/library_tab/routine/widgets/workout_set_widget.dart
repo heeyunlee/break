@@ -20,13 +20,13 @@ Logger logger = Logger();
 
 class WorkoutSetWidget extends StatefulWidget {
   const WorkoutSetWidget({
-    Key key,
-    this.database,
-    this.routine,
-    this.routineWorkout,
-    this.set,
-    this.index,
-    this.auth,
+    Key? key,
+    required this.database,
+    required this.routine,
+    required this.routineWorkout,
+    required this.set,
+    required this.index,
+    required this.auth,
     // this.user,
   }) : super(key: key);
 
@@ -47,17 +47,17 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  var _textController1 = TextEditingController();
-  var _textController2 = TextEditingController();
-  var _textController3 = TextEditingController();
+  late TextEditingController _textController1;
+  late TextEditingController _textController2;
+  late TextEditingController _textController3;
 
-  FocusNode focusNode1;
-  FocusNode focusNode2;
-  FocusNode focusNode3;
+  late FocusNode focusNode1;
+  late FocusNode focusNode2;
+  late FocusNode focusNode3;
 
-  String _weights;
-  String _reps;
-  String _restTime;
+  late String _weights;
+  late String _reps;
+  late String _restTime;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     focusNode2 = FocusNode();
     focusNode3 = FocusNode();
 
-    _weights = Format.weights(widget.set.weights);
+    _weights = Format.weights(widget.set.weights!);
     _textController1 = TextEditingController(text: _weights);
 
     _reps = widget.set.reps.toString();
@@ -101,14 +101,14 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
       final numberOfReps = (set.isRest)
           ? widget.routineWorkout.numberOfReps
-          : widget.routineWorkout.numberOfReps - set.reps;
+          : widget.routineWorkout.numberOfReps - set.reps!;
 
       final totalWeights =
-          widget.routineWorkout.totalWeights - (set.weights * set.reps);
+          widget.routineWorkout.totalWeights - (set.weights! * set.reps!);
 
       final duration = widget.routineWorkout.duration -
-          set.restTime -
-          (set.reps * widget.routineWorkout.secondsPerRep);
+          set.restTime! -
+          (set.reps! * widget.routineWorkout.secondsPerRep);
 
       final routineWorkout = {
         'numberOfSets': numberOfSets,
@@ -123,11 +123,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           ? widget.routine.totalWeights
           : (set.weights == 0)
               ? widget.routine.totalWeights
-              : widget.routine.totalWeights - (set.weights * set.reps);
+              : widget.routine.totalWeights - (set.weights! * set.reps!);
       final routineDuration = (set.isRest)
-          ? widget.routine.duration - set.restTime
+          ? widget.routine.duration - set.restTime!
           : widget.routine.duration -
-              (set.reps * widget.routineWorkout.secondsPerRep);
+              (set.reps! * widget.routineWorkout.secondsPerRep);
       final now = Timestamp.now();
 
       final routine = {
@@ -137,9 +137,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       };
 
       await widget.database.setWorkoutSet(
-        widget.routine,
-        widget.routineWorkout,
-        routineWorkout,
+        routine: widget.routine,
+        routineWorkout: widget.routineWorkout,
+        data: routineWorkout,
       );
       await widget.database.updateRoutine(widget.routine, routine);
 
@@ -162,7 +162,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   /// UPDATE WORKOUT SET
   Future<void> updateSet() async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       try {
         final workoutSets = widget.routineWorkout.sets;
         print('workoutSets is ${workoutSets.runtimeType}');
@@ -189,7 +189,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           setIndex: set.setIndex,
         );
 
-        workoutSets[widget.index] = newSet;
+        workoutSets![widget.index] = newSet;
 
         /// Update Routine Workout
         // NumberOfReps
@@ -203,7 +203,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         if (!numberOfRepsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
             var reps = workoutSets[i].reps;
-            numberOfReps = numberOfReps + reps;
+            numberOfReps = numberOfReps + reps!;
           }
           numberOfRepsCalculated = true;
         }
@@ -218,22 +218,20 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
         if (!totalWeightsCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
-            // ignore: omit_local_variable_types
-            num weights = workoutSets[i].weights * workoutSets[i].reps;
+            num weights = workoutSets[i].weights! * workoutSets[i].reps!;
             totalWeights = totalWeights + weights;
           }
           totalWeightsCalculated = true;
         }
 
         // Duration
-        // ignore: omit_local_variable_types
         int duration = 0;
         var durationCalculated = false;
 
         if (!durationCalculated) {
           for (var i = 0; i < workoutSets.length; i++) {
-            var t = workoutSets[i].restTime +
-                (workoutSets[i].reps * widget.routineWorkout.secondsPerRep);
+            var t = workoutSets[i].restTime! +
+                (workoutSets[i].reps! * widget.routineWorkout.secondsPerRep);
             duration = duration + t;
           }
           durationCalculated = true;
@@ -260,9 +258,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
         await widget.database
             .updateRoutineWorkout(
-          widget.routine,
-          widget.routineWorkout,
-          routineWorkout,
+          routine: widget.routine,
+          routineWorkout: widget.routineWorkout,
+          data: routineWorkout,
         )
             .then(
           (value) async {
@@ -309,7 +307,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     final title = '${S.current.set} ${set.setIndex}';
     final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
     final weights = widget.set.weights;
-    final formattedWeights = '${Format.weights(weights)} $unit';
+    final formattedWeights = '${Format.weights(weights!)} $unit';
     final reps = '${widget.set.reps} ${S.current.x}';
     final restTime = '${widget.set.restTime} ${S.current.seconds}';
 
@@ -331,7 +329,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (!set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (auth.currentUser.uid == widget.routine.routineOwnerId &&
+                  if (auth.currentUser!.uid == widget.routine.routineOwnerId &&
                       !widget.routineWorkout.isBodyWeightWorkout) {
                     setState(() {
                       weightsTabbed = true;
@@ -382,7 +380,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                               focusNode1.unfocus();
                             },
                             onChanged: (value) => _weights = value,
-                            onSaved: (value) => _weights = value,
+                            onSaved: (value) => _weights = value!,
                           ),
                   ),
                 ),
@@ -393,7 +391,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (!set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (auth.currentUser.uid == widget.routine.routineOwnerId) {
+                  if (auth.currentUser!.uid == widget.routine.routineOwnerId) {
                     setState(() {
                       repsTabbed = true;
                     });
@@ -434,7 +432,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                               focusNode2.unfocus();
                             },
                             onChanged: (value) => _reps = value,
-                            onSaved: (value) => _reps = value,
+                            onSaved: (value) => _reps = value!,
                           ),
                   ),
                 ),
@@ -444,7 +442,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             if (set.isRest)
               GestureDetector(
                 onTap: () {
-                  if (auth.currentUser.uid == widget.routine.routineOwnerId) {
+                  if (auth.currentUser!.uid == widget.routine.routineOwnerId) {
                     setState(() {
                       restTimeTabbed = true;
                     });
@@ -485,7 +483,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                               focusNode3.unfocus();
                             },
                             onChanged: (value) => _restTime = value,
-                            onSaved: (value) => _restTime = value,
+                            onSaved: (value) => _restTime = value!,
                           ),
                   ),
                 ),

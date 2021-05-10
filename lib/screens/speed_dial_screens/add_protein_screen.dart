@@ -32,7 +32,7 @@ class AddProteinScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -41,7 +41,7 @@ class AddProteinScreen extends StatefulWidget {
       withNavBar: false,
       screen: AddProteinScreen(
         database: database,
-        user: user,
+        user: user!,
         auth: auth,
       ),
     );
@@ -52,8 +52,6 @@ class AddProteinScreen extends StatefulWidget {
 }
 
 class _AddProteinScreenState extends State<AddProteinScreen> {
-  var _textController1 = TextEditingController();
-
   late Timestamp _loggedTime;
   late String _loggedTimeInString;
   late DateTime _loggedDate;
@@ -63,11 +61,12 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   late double _proteinAmount;
   final List<String> _meals = Meal.values[0].list;
   final List<String> _mealsTranslated = Meal.values[0].translatedList;
-  late int _selectedIndex;
-  late String _mealType;
-  late String _notes;
+  int? _selectedIndex;
+  String? _mealType;
 
+  String? get _notes => _textController1.text;
   late FocusNode focusNode1;
+  late TextEditingController _textController1;
 
   @override
   void initState() {
@@ -78,8 +77,8 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
     _loggedDate = DateTime.utc(nowInDate.year, nowInDate.month, nowInDate.day);
 
     _proteinAmount = _intValue + _decimalValue * 0.1;
-    _textController1 = TextEditingController(text: _notes);
 
+    _textController1 = TextEditingController();
     focusNode1 = FocusNode();
   }
 
@@ -105,7 +104,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
           loggedTime: _loggedTime,
           loggedDate: _loggedDate,
           proteinAmount: _proteinAmount,
-          type: _mealType,
+          type: _mealType!,
           notes: _notes,
         );
 
@@ -357,11 +356,9 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                       hintStyle: BodyText2Grey,
                       border: InputBorder.none,
                     ),
-                    onFieldSubmitted: (value) {
-                      _notes = value;
-                    },
-                    onChanged: (value) => _notes = value,
-                    onSaved: (value) => _notes = value!,
+                    onFieldSubmitted: (value) => setState(() {}),
+                    onChanged: (value) => setState(() {}),
+                    onSaved: (value) => setState(() {}),
                   ),
                 ),
               ),
@@ -374,7 +371,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   }
 
   Widget _buildType() {
-    // ignore: omit_local_variable_types
     final List<Widget> chips = [];
 
     chips.add(SizedBox(width: 12));

@@ -33,16 +33,16 @@ class CreateNewWorkoutScreen extends StatefulWidget {
   final User user;
 
   const CreateNewWorkoutScreen({
-    Key key,
-    @required this.database,
-    this.auth,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.auth,
+    required this.user,
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -62,7 +62,7 @@ class CreateNewWorkoutScreen extends StatefulWidget {
 }
 
 class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
-  String _workoutTitle;
+  late String _workoutTitle;
   String _description = '';
   List _selectedMainMuscleGroup = [];
   List _selectedEquipmentRequired = [];
@@ -99,7 +99,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         workoutOwnerUserName: userName,
         workoutTitle: _workoutTitle,
         mainMuscleGroup: _selectedMainMuscleGroup,
-        secondaryMuscleGroup: null,
+        secondaryMuscleGroup: [],
         description: _description,
         equipmentRequired: _selectedEquipmentRequired,
         imageUrl: imageUrl,
@@ -119,12 +119,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         },
       );
       await widget.database.setWorkout(workout);
-      // await WorkoutDetailScreen.show(
-      //   context,
-      //   isRootNavigation: false,
-      //   tag: 'newWorkout-${workout.workoutId}',
-      //   workout: workout,
-      // );
+
       await Navigator.of(context, rootNavigator: true).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
@@ -147,7 +142,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   void saveTitle() {
     debugPrint('saveTitle Pressed');
-    if (_workoutTitle != null && _workoutTitle != '') {
+    if (_workoutTitle.isNotEmpty) {
       setState(() {
         _pageIndex = 1;
       });
@@ -281,7 +276,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                 }),
               );
             default:
-              return null;
+              return Container();
           }
         },
       ),

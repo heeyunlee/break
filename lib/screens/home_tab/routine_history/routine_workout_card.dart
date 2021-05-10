@@ -14,15 +14,15 @@ class RoutineWorkoutCard extends StatelessWidget {
   final RoutineHistory routineHistory;
 
   const RoutineWorkoutCard({
-    Key key,
-    this.routineWorkout,
-    this.routineHistory,
+    Key? key,
+    required this.routineWorkout,
+    required this.routineHistory,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // FORMATTING
-    final numberOfSets = routineWorkout?.numberOfSets ?? 0;
+    final numberOfSets = routineWorkout.numberOfSets;
     final formattedNumberOfSets = (numberOfSets > 1)
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
@@ -39,7 +39,7 @@ class RoutineWorkoutCard extends StatelessWidget {
 
     final locale = Intl.getCurrentLocale();
     final translation = routineWorkout.translated;
-    final title = (translation == null || translation.isEmpty)
+    final title = (translation.isEmpty)
         ? routineWorkout.workoutTitle
         : (locale == 'ko' || locale == 'en')
             ? routineWorkout.translated[locale]
@@ -94,9 +94,9 @@ class RoutineWorkoutCard extends StatelessWidget {
           childrenPadding: const EdgeInsets.all(0),
           maintainState: true,
           children: [
-            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
               const Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
               Container(
                 height: 80,
                 child: Center(
@@ -109,13 +109,13 @@ class RoutineWorkoutCard extends StatelessWidget {
                 padding: const EdgeInsets.all(0),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: routineWorkout.sets.length,
+                itemCount: routineWorkout.sets!.length,
                 itemBuilder: (context, index) {
                   return WorkoutSetForHistory(
                     routineHistory: routineHistory,
                     index: index,
                     routineWorkout: routineWorkout,
-                    set: routineWorkout.sets[index],
+                    set: routineWorkout.sets![index],
                   );
                 },
               ),

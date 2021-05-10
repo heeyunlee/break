@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TabItem _currentTab = TabItem.explore;
+  TabItem _currentTab = TabItem.home;
   late GlobalKey<NavigatorState> _miniplayerNavigatorKey;
   MiniplayerController miniplayerController = MiniplayerController();
 
@@ -38,17 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final Map<TabItem, GlobalKey<NavigatorState>> _tabNavigatorKeys = {
-    TabItem.explore: GlobalKey<NavigatorState>(),
+    TabItem.home: GlobalKey<NavigatorState>(),
     TabItem.search: GlobalKey<NavigatorState>(),
+    // TabItem.create: GlobalKey<NavigatorState>(),
     TabItem.library: GlobalKey<NavigatorState>(),
     TabItem.progress: GlobalKey<NavigatorState>(),
     // TabItem.settings: GlobalKey<NavigatorState>(),
   };
 
-  Map<TabItem, WidgetBuilder> get widgetBuilders {
+  Map<TabItem, dynamic> get widgetBuilders {
     return {
-      TabItem.explore: (_) => HomeTab(),
+      TabItem.home: (_) => HomeTab(),
       TabItem.search: (_) => SearchTab(),
+      // TabItem.create: (_) => showDialog(
+      //       context: context,
+      //       builder: (context) => Center(
+      //         child: Text('FAB'),
+      //       ),
+      //     ),
       TabItem.library: (_) => LibraryTab(),
       TabItem.progress: (_) => ProgressTab(),
       // TabItem.settings: (_) => SettingsTab(),
@@ -73,8 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Stack(
                 children: [
-                  _buildOffstageNavigator(TabItem.explore),
+                  _buildOffstageNavigator(TabItem.home),
                   _buildOffstageNavigator(TabItem.search),
+                  // _buildOffstageNavigator(TabItem.create),
                   _buildOffstageNavigator(TabItem.progress),
                   _buildOffstageNavigator(TabItem.library),
                   // _buildOffstageNavigator(TabItem.settings),

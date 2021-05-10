@@ -8,7 +8,7 @@ class Nutrition {
   final DateTime loggedDate;
   final String type;
   final num proteinAmount;
-  final String? notes;
+  final String? notes; // Nullable
 
   Nutrition({
     required this.nutritionId,
@@ -22,16 +22,13 @@ class Nutrition {
   });
 
   factory Nutrition.fromMap(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp loggedTime = data['loggedTime'];
     final DateTime loggedDate = data['loggedDate'].toDate();
     final String type = data['type'];
     final num proteinAmount = data['proteinAmount'];
-    final String notes = data['notes'];
+    final String? notes = data['notes'];
 
     return Nutrition(
       nutritionId: documentId,

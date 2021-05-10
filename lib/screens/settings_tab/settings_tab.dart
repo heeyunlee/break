@@ -35,6 +35,16 @@ void _launchPrivacyServiceURL() async => await canLaunch(_privacyPolicyUrl)
     : throw 'Could not launch $_privacyPolicyUrl';
 
 class SettingsTab extends StatelessWidget {
+  // Routing
+  static void show(BuildContext context) async {
+    await Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => SettingsTab(),
+      ),
+    );
+  }
+
   Future<void> _signOut(BuildContext context, AuthBase auth) async {
     try {
       // FirebaseCrashlytics.instance.crash();
@@ -63,7 +73,7 @@ class SettingsTab extends StatelessWidget {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: '0.2.4',
+      applicationVersion: '0.2.5',
       applicationIcon: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -122,9 +132,7 @@ class SettingsTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(
-                    height: Scaffold.of(context).appBarMaxHeight ?? 0 + 16,
-                  ),
+                  SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(S.current.account, style: BodyText2BoldGrey),
@@ -275,7 +283,7 @@ class SettingsTab extends StatelessWidget {
                   ),
                   const Spacer(),
                   // TODO: Change Version HERE
-                  Center(child: const Text('v.0.2.4', style: Caption1Grey)),
+                  Center(child: const Text('v.0.2.5', style: Caption1Grey)),
                   const SizedBox(height: 38),
                 ],
               ),

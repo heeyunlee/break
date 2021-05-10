@@ -7,23 +7,23 @@ import 'models/enum/unit_of_mass.dart';
 
 class Format {
   static String weights(num weights) {
-    final weightsNotNull = weights ?? 0;
+    final weightsNotNull = weights;
     final formatter = NumberFormat(',###.#');
 
     return formatter.format(weightsNotNull);
   }
 
   static String proteins(num weights) {
-    final weightsNotNull = weights ?? 0;
+    final weightsNotNull = weights;
     final formatter = NumberFormat(',###,###.0');
 
     return formatter.format(weightsNotNull);
   }
 
-  static String? unitOfMass(int? unitOfMass) {
-    final unitOfMassNotNull = unitOfMass ?? 1;
+  static String unitOfMass(int unitOfMass) {
+    final unitOfMassNotNull = unitOfMass;
 
-    return UnitOfMass.values[unitOfMassNotNull].label;
+    return UnitOfMass.values[unitOfMassNotNull].label!;
   }
 
   static String? difficulty(int? difficulty) {
@@ -33,37 +33,25 @@ class Format {
   }
 
   static String date(Timestamp date) {
-    if (date != null) {
-      final dateInDateTime = date.toDate();
+    final dateInDateTime = date.toDate();
 
-      return DateFormat.MMMMEEEEd().format(dateInDateTime);
-    }
-    return 'null...';
+    return DateFormat.MMMMEEEEd().format(dateInDateTime);
   }
 
   static String dateShort(Timestamp date) {
-    if (date != null) {
-      final dateInDateTime = date.toDate();
+    final dateInDateTime = date.toDate();
 
-      return DateFormat.MMMd().format(dateInDateTime);
-    }
-    return 'null...';
+    return DateFormat.MMMd().format(dateInDateTime);
   }
 
   static String yMdjm(Timestamp timestamp) {
-    if (timestamp != null) {
-      final dateInDateTime = timestamp.toDate();
+    final dateInDateTime = timestamp.toDate();
 
-      return DateFormat.yMd().add_jm().format(dateInDateTime);
-    }
-    return 'null...';
+    return DateFormat.yMd().add_jm().format(dateInDateTime);
   }
 
   static String yMdjmInDateTime(DateTime date) {
-    if (date != null) {
-      return DateFormat.yMd().add_jm().format(date);
-    }
-    return 'null...';
+    return DateFormat.yMd().add_jm().format(date);
   }
 
   static int durationInMin(int seconds) {

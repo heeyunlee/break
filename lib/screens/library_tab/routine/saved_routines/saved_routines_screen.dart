@@ -40,14 +40,16 @@ class SavedRoutinesScreen extends StatelessWidget {
 
   final List<Routine> _lists = [];
 
-  final _routinesFuture = <Future<Routine>>[];
+  final _routinesFuture = <Future<Routine?>>[];
 
   void getDocuments() {
     print('1');
-    user.savedRoutines.forEach((routineId) {
+    user.savedRoutines!.forEach((routineId) {
       print('2');
-      var nextDoc = database.getRoutine(routineId);
-      _routinesFuture.add(nextDoc);
+      Future<Routine?> nextDoc = database.getRoutineDoc(routineId);
+      if (nextDoc != null) {
+        _routinesFuture.add(nextDoc);
+      }
     });
     print('3');
     print('${_routinesFuture.length}');
@@ -88,7 +90,7 @@ class SavedRoutinesScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: (user.savedRoutines.isEmpty)
+      body: (user.savedRoutines!.isEmpty)
           ? EmptyContent(message: S.current.noSavedRoutinesYet)
           : SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -98,7 +100,7 @@ class SavedRoutinesScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     children: _routinesFuture.map((element) {
-                      return FutureBuilder<Routine>(
+                      return FutureBuilder<Routine?>(
                         future: element,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -125,7 +127,7 @@ class SavedRoutinesScreen extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return null;
+                              return Container();
                             }
                           } else if (snapshot.hasError) {
                             return const ListTile(

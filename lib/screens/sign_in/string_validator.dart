@@ -19,7 +19,7 @@ class StringValidatorBase implements StringValidator {
   }
 
   @override
-  bool isFirstNameValid(String name) {
+  bool isFirstNameValid(String? name) {
     if (name == null || name.isEmpty) {
       return false;
     } else {
@@ -28,7 +28,7 @@ class StringValidatorBase implements StringValidator {
   }
 
   @override
-  bool isLastNameValid(String name) {
+  bool isLastNameValid(String? name) {
     if (name == null || name.isEmpty) {
       return false;
     } else {
@@ -37,7 +37,7 @@ class StringValidatorBase implements StringValidator {
   }
 
   @override
-  bool isPasswordValid(String password) {
+  bool isPasswordValid(String? password) {
     if (password == null || password.isEmpty) {
       return false;
     } else {

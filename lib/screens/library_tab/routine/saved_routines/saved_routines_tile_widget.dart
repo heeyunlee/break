@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -12,11 +13,11 @@ import '../../../../constants.dart';
 class SavedRoutinesTileWidget extends StatelessWidget {
   String _getSubtitle(User user) {
     if (user.savedRoutines != null) {
-      if (user.savedRoutines.isNotEmpty) {
-        if (user.savedRoutines.length == 1) {
+      if (user.savedRoutines!.isNotEmpty) {
+        if (user.savedRoutines!.length == 1) {
           return '1 ${S.current.routine}';
         }
-        return '${user.savedRoutines.length} ${S.current.routinesLowerCase}';
+        return '${user.savedRoutines!.length} ${S.current.routinesLowerCase}';
       } else {
         return '0 ${S.current.routine}';
       }
@@ -30,7 +31,8 @@ class SavedRoutinesTileWidget extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     return CustomStreamBuilderWidget<User>(
-      stream: database.userStream(auth.currentUser.uid),
+      initialData: userDummyData,
+      stream: database.userStream(auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data;
 

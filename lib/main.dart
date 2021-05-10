@@ -16,7 +16,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
-  // await initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -41,9 +40,6 @@ class MyApp extends StatelessWidget {
         Provider<AuthBase>(
           create: (context) => AuthService(),
         ),
-        // Provider<UserSavedWorkoutModel>(
-        //   create: (context) => UserSavedWorkoutModel(),
-        // ),
       ],
       child: MaterialApp(
         localizationsDelegates: [

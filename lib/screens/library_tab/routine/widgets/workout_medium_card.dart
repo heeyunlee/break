@@ -21,10 +21,10 @@ Logger logger = Logger();
 
 class WorkoutMediumCard extends StatefulWidget {
   WorkoutMediumCard({
-    this.database,
-    this.routine,
-    this.routineWorkout,
-    this.auth,
+    required this.database,
+    required this.routine,
+    required this.routineWorkout,
+    required this.auth,
   });
 
   final Database database;
@@ -55,13 +55,13 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       final routineWorkout = widget.routineWorkout;
       WorkoutSet newSet;
 
-      if (routineWorkout.sets
+      if (routineWorkout.sets!
           .where((element) => element.isRest == false)
           .isNotEmpty) {
         debugPrint('sets exist');
 
         /// Workout Set
-        final sets = widget.routineWorkout.sets
+        final sets = widget.routineWorkout.sets!
             .where((element) => element.isRest == false)
             .toList();
 
@@ -108,11 +108,11 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
       /// Routine Workout
       final numberOfSets = routineWorkout.numberOfSets + 1;
-      final numberOfReps = routineWorkout.numberOfReps + newSet.reps;
+      final numberOfReps = routineWorkout.numberOfReps + newSet.reps!;
       final totalWeights =
-          routineWorkout.totalWeights + (newSet.weights * newSet.reps);
+          routineWorkout.totalWeights + (newSet.weights! * newSet.reps!);
       final duration = routineWorkout.duration +
-          (newSet.reps * routineWorkout.secondsPerRep ?? 2);
+          (newSet.reps! * routineWorkout.secondsPerRep);
 
       final updatedRoutineWorkout = {
         'numberOfSets': numberOfSets,
@@ -125,16 +125,16 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       /// Routine
       final routine = {
         'totalWeights':
-            widget.routine.totalWeights + (newSet.weights * newSet.reps),
+            widget.routine.totalWeights + (newSet.weights! * newSet.reps!),
         'duration': widget.routine.duration +
-            (newSet.reps * widget.routineWorkout.secondsPerRep),
+            (newSet.reps! * widget.routineWorkout.secondsPerRep),
       };
 
       await widget.database
           .setWorkoutSet(
-        widget.routine,
-        widget.routineWorkout,
-        updatedRoutineWorkout,
+        routine: widget.routine,
+        routineWorkout: widget.routineWorkout,
+        data: updatedRoutineWorkout,
       )
           .then((value) async {
         await widget.database.updateRoutine(widget.routine, routine);
@@ -155,13 +155,13 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     debugPrint('_addNewRest Button pressed');
     try {
       final routineWorkout = widget.routineWorkout;
-      if (routineWorkout.sets
+      if (routineWorkout.sets!
           .where((element) => element.isRest == true)
           .isNotEmpty) {
         debugPrint('rest exist');
 
         /// Workout Set
-        final rests = widget.routineWorkout.sets
+        final rests = widget.routineWorkout.sets!
             .where((element) => element.isRest == true)
             .toList();
 
@@ -184,7 +184,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         );
 
         /// Routine Workout
-        final duration = routineWorkout.duration + newSet.restTime;
+        final duration = routineWorkout.duration + newSet.restTime!;
 
         final updatedRoutineWorkout = {
           'duration': duration,
@@ -193,14 +193,14 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
         /// Routine
         final routine = {
-          'duration': widget.routine.duration + newSet.restTime,
+          'duration': widget.routine.duration + newSet.restTime!,
         };
 
         await widget.database
             .setWorkoutSet(
-          widget.routine,
-          widget.routineWorkout,
-          updatedRoutineWorkout,
+          routine: widget.routine,
+          routineWorkout: widget.routineWorkout,
+          data: updatedRoutineWorkout,
         )
             .then((value) async {
           await widget.database.updateRoutine(widget.routine, routine);
@@ -226,7 +226,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         );
 
         /// Routine Workout
-        final duration = routineWorkout.duration + newSet.restTime;
+        final duration = routineWorkout.duration + newSet.restTime!;
 
         final updatedRoutineWorkout = {
           'duration': duration,
@@ -237,15 +237,15 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         final now = Timestamp.now();
 
         final routine = {
-          'duration': widget.routine.duration + newSet.restTime,
+          'duration': widget.routine.duration + newSet.restTime!,
           'lastEditedDate': now,
         };
 
         await widget.database
             .setWorkoutSet(
-          widget.routine,
-          widget.routineWorkout,
-          updatedRoutineWorkout,
+          routine: widget.routine,
+          routineWorkout: widget.routineWorkout,
+          data: updatedRoutineWorkout,
         )
             .then((value) async {
           await widget.database.updateRoutine(widget.routine, routine);
@@ -295,7 +295,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     final routineWorkout = widget.routineWorkout;
 
     // FORMATTING
-    final numberOfSets = routineWorkout?.numberOfSets ?? 0;
+    final numberOfSets = routineWorkout.numberOfSets;
     final formattedNumberOfSets = (numberOfSets > 1)
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
@@ -312,7 +312,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
     final locale = Intl.getCurrentLocale();
     final translation = widget.routineWorkout.translated;
-    final title = (translation == null || translation.isEmpty)
+    final title = (translation.isEmpty)
         ? widget.routineWorkout.workoutTitle
         : (locale == 'ko' || locale == 'en')
             ? widget.routineWorkout.translated[locale]
@@ -367,9 +367,9 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           childrenPadding: const EdgeInsets.all(0),
           maintainState: true,
           children: [
-            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
               const Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (routineWorkout.sets == null || routineWorkout.sets.isEmpty)
+            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
               Container(
                 height: 80,
                 child: Center(
@@ -382,23 +382,23 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                 padding: const EdgeInsets.all(0),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: routineWorkout.sets.length,
+                itemCount: routineWorkout.sets!.length,
                 itemBuilder: (context, index) {
                   return WorkoutSetWidget(
                     database: widget.database,
                     routine: widget.routine,
                     routineWorkout: routineWorkout,
-                    set: routineWorkout.sets[index],
+                    set: routineWorkout.sets![index],
                     index: index,
                     auth: widget.auth,
                     // user: widget.user,
                   );
                 },
               ),
-            if (routineWorkout.sets.isNotEmpty == true &&
-                widget.auth.currentUser.uid == widget.routine.routineOwnerId)
+            if (routineWorkout.sets!.isNotEmpty == true &&
+                widget.auth.currentUser!.uid == widget.routine.routineOwnerId)
               const Divider(endIndent: 8, indent: 8, color: Grey700),
-            if (widget.auth.currentUser.uid == widget.routine.routineOwnerId)
+            if (widget.auth.currentUser!.uid == widget.routine.routineOwnerId)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -459,7 +459,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     );
   }
 
-  Future<bool> _showModalBottomSheet() {
+  Future<bool?> _showModalBottomSheet() {
     return showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoActionSheet(

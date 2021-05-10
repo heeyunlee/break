@@ -44,7 +44,8 @@ class SavedRoutinesTab extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 8),
-          if (query.snapshots() != null) CreateNewRoutineWidget(),
+          // if (query.snapshots() != null) CreateNewRoutineWidget(),
+          CreateNewRoutineWidget(),
           SavedRoutinesTileWidget(),
         ],
       ),
@@ -55,10 +56,10 @@ class SavedRoutinesTab extends StatelessWidget {
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
-        final routine = Routine.fromMap(data, documentId);
+        final routine = Routine.fromMap(data!, documentId);
         final subtitle = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
-            .translation;
+            .translation!;
         return CustomListTile64(
           tag: 'savedRoutines-${routine.routineId}',
           title: routine.routineTitle,

@@ -1,6 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
+  final String userId;
+  final String userName;
+  final String? userEmail; // Nullable
+  final Timestamp signUpDate;
+  final String signUpProvider;
+  final List<dynamic>? savedWorkouts; // Nullable
+  final List<dynamic>? savedRoutines; // Nullable
+  final num totalWeights;
+  final int totalNumberOfWorkouts;
+  final int unitOfMass;
+  final Timestamp lastLoginDate;
+  final List<DailyWorkoutHistory>? dailyWorkoutHistories; // Nullable
+  final List<DailyNutritionHistory>? dailyNutritionHistories; // Nullable
+  final num? dailyWeightsGoal; // Nullable
+  final num? dailyProteinGoal; // Nullable
+  final String displayName;
+
   User({
     required this.userId,
     required this.userName,
@@ -20,39 +37,19 @@ class User {
     required this.displayName,
   });
 
-  String userId;
-  String userName;
-  String userEmail;
-  Timestamp signUpDate;
-  String signUpProvider;
-  List<dynamic> savedWorkouts;
-  List<dynamic> savedRoutines;
-  num totalWeights;
-  int totalNumberOfWorkouts;
-  int unitOfMass;
-  Timestamp lastLoginDate;
-  List<DailyWorkoutHistory>? dailyWorkoutHistories;
-  List<DailyNutritionHistory>? dailyNutritionHistories;
-  num? dailyWeightsGoal;
-  num? dailyProteinGoal;
-  String displayName;
-
   factory User.fromJson(Map<String, dynamic> data, String documentId) {
-    // if (data == null) {
-    //   return null;
-    // }
-    final userName = data['userName'];
-    final userEmail = data['userEmail'];
-    final signUpDate = data['signUpDate'];
-    final signUpProvider = data['signUpProvider'];
-    final savedWorkouts = data['savedWorkouts'];
-    final savedRoutines = data['savedRoutines'];
-    final totalWeights = data['totalWeights'];
-    final totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
-    final unitOfMass = data['unitOfMass'];
-    final lastLoginDate = data['lastLoginDate'];
-    List<DailyWorkoutHistory> dailyWorkoutHistories = <DailyWorkoutHistory>[];
-    List<DailyNutritionHistory> dailyNutritionHistories =
+    final String userName = data['userName'];
+    final String? userEmail = data['userEmail'];
+    final Timestamp signUpDate = data['signUpDate'];
+    final String signUpProvider = data['signUpProvider'];
+    final List<dynamic>? savedWorkouts = data['savedWorkouts'];
+    final List<dynamic>? savedRoutines = data['savedRoutines'];
+    final num totalWeights = data['totalWeights'];
+    final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
+    final int unitOfMass = data['unitOfMass'];
+    final Timestamp lastLoginDate = data['lastLoginDate'];
+    List<DailyWorkoutHistory>? dailyWorkoutHistories = <DailyWorkoutHistory>[];
+    List<DailyNutritionHistory>? dailyNutritionHistories =
         <DailyNutritionHistory>[];
 
     if (data['dailyWorkoutHistories'] != null) {
@@ -66,9 +63,9 @@ class User {
         dailyNutritionHistories.add(DailyNutritionHistory.fromMap(item));
       });
     }
-    final dailyWeightsGoal = data['dailyWeightsGoal'];
-    final dailyProteinGoal = data['dailyWeightsGoal'];
-    final displayName = data['displayName'];
+    final num? dailyWeightsGoal = data['dailyWeightsGoal'];
+    final num? dailyProteinGoal = data['dailyWeightsGoal'];
+    final String displayName = data['displayName'];
 
     return User(
       userId: documentId,

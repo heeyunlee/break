@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -38,18 +37,18 @@ class LogRoutineScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser!.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: LogRoutineScreen(
-        database: database,
-        user: user,
-        auth: auth,
-        routine: routine,
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => LogRoutineScreen(
+          user: user,
+          database: database,
+          auth: auth,
+          routine: routine,
+        ),
       ),
     );
   }
@@ -71,7 +70,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   late TextEditingController _textController2;
   late FocusNode _focusNode2;
 
-  late String _notes;
+  String _notes = '';
   late TextEditingController _textController3;
   late FocusNode _focusNode3;
 

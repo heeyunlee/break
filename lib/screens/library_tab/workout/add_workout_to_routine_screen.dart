@@ -23,11 +23,11 @@ Logger logger = Logger();
 
 class AddWorkoutToRoutineScreen extends StatefulWidget {
   const AddWorkoutToRoutineScreen({
-    Key key,
-    this.database,
-    this.workout,
-    this.auth,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.workout,
+    required this.auth,
+    required this.user,
   }) : super(key: key);
 
   final Database database;
@@ -35,9 +35,13 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
   final AuthBase auth;
   final User user;
 
-  static void show(BuildContext context, {Workout workout}) async {
+  static void show(
+    BuildContext context, {
+    required Workout workout,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
     // await Navigator.of(context, rootNavigator: false).push(
     //   CupertinoPageRoute(
     //     builder: (context) => AddWorkoutToRoutineScreen(
@@ -57,6 +61,7 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
         workout: workout,
         database: database,
         auth: auth,
+        user: user,
       ),
     );
   }
@@ -71,33 +76,32 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
     try {
       final routineWorkouts =
           await widget.database.routineWorkoutsStream(routine).first;
-      if (routineWorkouts != null) {
-        final index = routineWorkouts.length + 1;
+      final index = routineWorkouts.length + 1;
 
-        final routineWorkout = RoutineWorkout(
-          routineWorkoutId: documentIdFromCurrentDate(),
-          workoutId: widget.workout.workoutId,
-          routineId: routine.routineId,
-          routineWorkoutOwnerId: widget.auth.currentUser.uid,
-          workoutTitle: widget.workout.workoutTitle,
-          isBodyWeightWorkout: widget.workout.isBodyWeightWorkout,
-          totalWeights: 0,
-          numberOfSets: 0,
-          numberOfReps: 0,
-          duration: 0,
-          secondsPerRep: widget.workout.secondsPerRep,
-          sets: [],
-          index: index,
-        );
-        await widget.database.setRoutineWorkout(routine, routineWorkout);
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        await RoutineDetailScreen.show(
-          context,
-          routine: routine,
-          isRootNavigation: false,
-          tag: '',
-        );
-      }
+      final routineWorkout = RoutineWorkout(
+        routineWorkoutId: documentIdFromCurrentDate(),
+        workoutId: widget.workout.workoutId,
+        routineId: routine.routineId,
+        routineWorkoutOwnerId: widget.auth.currentUser!.uid,
+        workoutTitle: widget.workout.workoutTitle,
+        isBodyWeightWorkout: widget.workout.isBodyWeightWorkout,
+        totalWeights: 0,
+        numberOfSets: 0,
+        numberOfReps: 0,
+        duration: 0,
+        secondsPerRep: widget.workout.secondsPerRep,
+        sets: [],
+        index: index,
+        translated: widget.workout.translated,
+      );
+      await widget.database.setRoutineWorkout(routine, routineWorkout);
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      await RoutineDetailScreen.show(
+        context,
+        routine: routine,
+        isRootNavigation: false,
+        tag: '',
+      );
     } on Exception catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -140,14 +144,14 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         message: S.current.emptyRoutineMessage,
       ),
       itemsPerPage: 10,
-      header: SizedBox(height: Scaffold.of(context).appBarMaxHeight + 8),
+      header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
       footer: const SizedBox(height: 16),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data();
+        final data = documentSnapshot.data()!;
         final routine = Routine.fromMap(data, documentId);
 
         return CustomListTile64(

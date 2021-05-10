@@ -13,11 +13,11 @@ Logger logger = Logger();
 
 class WorkoutSetForHistory extends StatelessWidget {
   const WorkoutSetForHistory({
-    Key key,
-    this.routineHistory,
-    this.routineWorkout,
-    this.set,
-    this.index,
+    Key? key,
+    required this.routineHistory,
+    required this.routineWorkout,
+    required this.set,
+    required this.index,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
@@ -27,12 +27,12 @@ class WorkoutSetForHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = '${S.current.set} ${set.setIndex}';
-    final unit = Format.unitOfMass(routineHistory.unitOfMass);
-    final weights = set.weights;
-    final formattedWeights = '${Format.weights(weights)} $unit';
-    final reps = '${set.reps} ${S.current.x}';
-    final restTime = '${set.restTime} ${S.current.seconds}';
+    final String title = '${S.current.set} ${set.setIndex}';
+    final String unit = Format.unitOfMass(routineHistory.unitOfMass);
+    final num weights = set.weights!;
+    final String formattedWeights = '${Format.weights(weights)} $unit';
+    final String reps = '${set.reps} ${S.current.x}';
+    final String restTime = '${set.restTime} ${S.current.seconds}';
 
     return Row(
       children: [

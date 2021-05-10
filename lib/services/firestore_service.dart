@@ -104,13 +104,16 @@ class FirestoreService {
   }
 
   // Document Future
-  Future<T> getDocument<T>({
+  Future<T?> getDocument<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshot = await reference.get();
-    return builder(snapshot.data()!, snapshot.id);
+    if (snapshot.exists) {
+      return builder(snapshot.data()!, snapshot.id);
+    }
+    return null;
   }
 
   Stream<List<T>> collectionStream<T>({

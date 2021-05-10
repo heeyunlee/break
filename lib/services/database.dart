@@ -18,7 +18,7 @@ abstract class Database {
   // Future<void> getUser(User user);
   Future<void> setUser(User user);
   Future<void> updateUser(String uid, Map<String, dynamic> data);
-  Future<User> userDocument(String uid);
+  Future<User?> getUserDocument(String uid);
 
   // Stream
   Stream<User> userStream(String uid);
@@ -90,7 +90,7 @@ abstract class Database {
   Future<void> setRoutine(Routine routine);
   Future<void> updateRoutine(Routine routine, Map<String, dynamic> data);
   Future<void> deleteRoutine(Routine routine);
-  Future<Routine> getRoutine(String routineId);
+  Future<Routine?> getRoutineDoc(String routineId);
   Stream<Routine> getRoutine2(String routineId);
 
   // STREAM
@@ -220,7 +220,7 @@ class FirestoreDatabase implements Database {
 
   // Single User Data
   @override
-  Future<User> userDocument(String uid) => _service.getDocument(
+  Future<User?> getUserDocument(String uid) => _service.getDocument(
         path: APIPath.user(uid),
         builder: (data, documentId) => User.fromJson(data, documentId),
       );
@@ -486,8 +486,8 @@ class FirestoreDatabase implements Database {
 
   // Get Routine
   @override
-  Future<Routine> getRoutine(String routineId) async =>
-      _service.getDocument<Routine>(
+  Future<Routine?> getRoutineDoc(String routineId) async =>
+      _service.getDocument<Routine?>(
         path: APIPath.routine(routineId),
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );

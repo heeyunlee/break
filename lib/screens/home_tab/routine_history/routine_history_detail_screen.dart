@@ -27,11 +27,11 @@ Logger logger = Logger();
 
 class RoutineHistoryDetailScreen extends StatefulWidget {
   const RoutineHistoryDetailScreen({
-    Key key,
-    @required this.database,
-    @required this.auth,
-    @required this.user,
-    this.routineHistory,
+    Key? key,
+    required this.database,
+    required this.auth,
+    required this.user,
+    required this.routineHistory,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
@@ -41,11 +41,11 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
 
   static void show(
     context, {
-    RoutineHistory routineHistory,
+    required RoutineHistory routineHistory,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -54,7 +54,7 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
           routineHistory: routineHistory,
           database: database,
           auth: auth,
-          user: user,
+          user: user!,
         ),
       ),
     );
@@ -67,21 +67,21 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
 
 class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     with TickerProviderStateMixin {
-  FocusNode focusNode1;
-  var _textController1 = TextEditingController();
+  late FocusNode focusNode1;
+  late TextEditingController _textController1;
 
-  String _notes;
-  bool _isPublic;
+  late String _notes;
+  late bool _isPublic;
 
   final List<dynamic> _translatedMuscleGroup = [];
   final List<dynamic> _translatedEquipments = [];
-  List<dynamic> _musclesAndEquipment;
+  late List<dynamic> _musclesAndEquipment;
 
   // For SliverApp to Work
-  AnimationController _colorAnimationController;
-  AnimationController _textAnimationController;
-  Animation _colorTween;
-  Animation<Offset> _transTween;
+  late AnimationController _colorAnimationController;
+  late AnimationController _textAnimationController;
+  late Animation _colorTween;
+  late Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.axis == Axis.vertical) {
@@ -127,10 +127,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     try {
       // Update User Data
       final histories = widget.user.dailyWorkoutHistories;
-      final index = widget.user.dailyWorkoutHistories.indexWhere(
+      final index = widget.user.dailyWorkoutHistories!.indexWhere(
         (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
       );
-      final oldHistory = histories[index];
+      final oldHistory = histories![index];
       final newHistory = DailyWorkoutHistory(
         date: oldHistory.date,
         totalWeights: oldHistory.totalWeights - routineHistory.totalWeights,
@@ -145,7 +145,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
       await widget.database.deleteRoutineHistory(routineHistory).then(
         (value) async {
-          await widget.database.updateUser(widget.auth.currentUser.uid, user);
+          await widget.database.updateUser(widget.auth.currentUser!.uid, user);
         },
       );
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -248,9 +248,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     final size = MediaQuery.of(context).size;
 
     // Data Formatting
-    final date =
-        Format.date(widget.routineHistory.workoutStartTime ?? Timestamp.now());
-    final title = widget.routineHistory?.routineTitle ?? 'Title';
+    final date = Format.date(widget.routineHistory.workoutStartTime);
+    final title = widget.routineHistory.routineTitle;
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -414,7 +413,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: (widget.routineHistory.userId ==
-                        widget.auth.currentUser.uid)
+                        widget.auth.currentUser!.uid)
                     ? TextFormField(
                         maxLines: 4,
                         textInputAction: TextInputAction.done,
@@ -431,7 +430,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                           _updateNotes();
                         },
                         onChanged: (value) => _notes = value,
-                        onSaved: (value) => _notes = value,
+                        onSaved: (value) => _notes = value!,
                       )
                     : SizedBox(
                         width: double.infinity,
@@ -443,13 +442,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                       ),
               ),
             ),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 32),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const Divider(color: Grey800),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 16),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -482,13 +481,14 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   ),
                 ],
               ),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            // TODO: Change this
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const Divider(color: Grey800),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
-            if (widget.routineHistory.userId == widget.auth.currentUser.uid)
+            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               MaxWidthRaisedButton(
                 width: double.infinity,
                 color: Colors.red,
@@ -504,9 +504,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     );
   }
 
-  Future<bool> _showModalBottomSheet(BuildContext context) {
+  Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
-      context: context,
+      context,
       title: Text(S.current.deleteBottomSheetTitle),
       message: Text(S.current.deleteBottomSheetMessage),
       firstActionText: S.current.deleteBottomSheetButtonText,

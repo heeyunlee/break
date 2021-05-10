@@ -79,9 +79,9 @@ class RoutineHistoriesScreen extends StatelessWidget {
             date: routineHistory.workoutStartTime,
             workoutTitle: routineHistory.routineTitle,
             totalWeights: routineHistory.totalWeights,
-            caloriesBurnt: routineHistory.totalCalories!,
+            caloriesBurnt: routineHistory.totalCalories,
             totalDuration: routineHistory.totalDuration,
-            earnedBadges: routineHistory.earnedBadges!,
+            earnedBadges: routineHistory.earnedBadges,
             unitOfMass: routineHistory.unitOfMass,
             onTap: () {
               debugPrint('Activity Card was tapped');

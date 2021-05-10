@@ -11,16 +11,19 @@ class NewWorkoutTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;
   final IntCallback indexCallback;
 
-  const NewWorkoutTitleScreen({Key key, this.titleCallback, this.indexCallback})
-      : super(key: key);
+  const NewWorkoutTitleScreen({
+    Key? key,
+    required this.titleCallback,
+    required this.indexCallback,
+  }) : super(key: key);
 
   @override
   _NewWorkoutTitleScreenState createState() => _NewWorkoutTitleScreenState();
 }
 
 class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
-  String _workoutTitle;
-  var _textController1 = TextEditingController();
+  late String? _workoutTitle;
+  late TextEditingController _textController1;
 
   int _pageIndex = 0;
 
@@ -85,15 +88,15 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
           ),
           onChanged: (value) => setState(() {
             _workoutTitle = value;
-            widget.titleCallback(_workoutTitle);
+            widget.titleCallback(_workoutTitle!);
           }),
           onSaved: (value) => setState(() {
             _workoutTitle = value;
-            widget.titleCallback(_workoutTitle);
+            widget.titleCallback(_workoutTitle!);
           }),
           onFieldSubmitted: (value) => setState(() {
             _workoutTitle = value;
-            widget.titleCallback(_workoutTitle);
+            widget.titleCallback(_workoutTitle!);
             saveTitle();
           }),
         ),

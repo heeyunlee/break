@@ -9,7 +9,7 @@ class NewWorkoutEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback equipmentRequiredCallback;
 
   const NewWorkoutEquipmentRequiredScreen(
-      {Key key, this.equipmentRequiredCallback})
+      {Key? key, required this.equipmentRequiredCallback})
       : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
             children: _equipmentRequired.keys.map((String key) {
               final title = EquipmentRequired.values
                   .firstWhere((e) => e.toString() == key)
-                  .translation;
+                  .translation!;
 
               return Padding(
                 padding:
@@ -44,17 +44,17 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_equipmentRequired[key]) ? PrimaryColor : Grey700,
+                    color: (_equipmentRequired[key]!) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
                       title: Text(title, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _equipmentRequired[key],
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _equipmentRequired[key] = value;
+                          _equipmentRequired[key] = value!;
                         });
-                        if (_equipmentRequired[key]) {
+                        if (_equipmentRequired[key]!) {
                           _selectedEquipmentRequired.add(key);
                         } else {
                           _selectedEquipmentRequired.remove(key);
