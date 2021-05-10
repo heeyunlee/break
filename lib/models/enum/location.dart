@@ -8,7 +8,7 @@ enum Location {
 }
 
 extension LocationTranslationExtension on Location {
-  String get translation {
+  String? get translation {
     switch (this) {
       case Location.atHome:
         return S.current.atHome;
@@ -40,7 +40,7 @@ extension LocationTranslatedList on Location {
     final List<String> _locationList = [];
     for (var i = 0; i < Location.values.length; i++) {
       final value = Location.values[i].translation;
-      _locationList.add(value);
+      _locationList.add(value!);
     }
     return _locationList;
   }

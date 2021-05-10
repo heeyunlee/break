@@ -22,13 +22,17 @@ class AddProteinScreen extends StatefulWidget {
   final Database database;
   final AuthBase auth;
 
-  const AddProteinScreen({Key key, this.user, this.database, this.auth})
-      : super(key: key);
+  const AddProteinScreen({
+    Key? key,
+    required this.user,
+    required this.database,
+    required this.auth,
+  }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -50,20 +54,20 @@ class AddProteinScreen extends StatefulWidget {
 class _AddProteinScreenState extends State<AddProteinScreen> {
   var _textController1 = TextEditingController();
 
-  Timestamp _loggedTime;
-  String _loggedTimeInString;
-  DateTime _loggedDate;
+  late Timestamp _loggedTime;
+  late String _loggedTimeInString;
+  late DateTime _loggedDate;
 
   int _intValue = 25;
   int _decimalValue = 0;
-  double _proteinAmount;
+  late double _proteinAmount;
   final List<String> _meals = Meal.values[0].list;
   final List<String> _mealsTranslated = Meal.values[0].translatedList;
-  int _selectedIndex;
-  String _mealType;
-  String _notes;
+  late int _selectedIndex;
+  late String _mealType;
+  late String _notes;
 
-  FocusNode focusNode1;
+  late FocusNode focusNode1;
 
   @override
   void initState() {
@@ -96,7 +100,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
 
         final nutrition = Nutrition(
           nutritionId: id,
-          userId: widget.auth.currentUser.uid,
+          userId: widget.auth.currentUser!.uid,
           username: widget.user.userName,
           loggedTime: _loggedTime,
           loggedDate: _loggedDate,
@@ -108,7 +112,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         // Update User data
         final nutritions = widget.user.dailyNutritionHistories;
 
-        final index = widget.user.dailyNutritionHistories
+        final index = widget.user.dailyNutritionHistories!
             .indexWhere((element) => element.date.toUtc() == _loggedDate);
 
         if (index == -1) {
@@ -117,10 +121,10 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
             date: _loggedDate,
             totalProteins: _proteinAmount,
           );
-          nutritions.add(newNutrition);
+          nutritions!.add(newNutrition);
         } else {
           // Update nutrition data if exists
-          final oldNutrition = nutritions[index];
+          final oldNutrition = nutritions![index];
 
           final newNutrition = DailyNutritionHistory(
             date: oldNutrition.date,
@@ -135,7 +139,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
 
         // Call Firebase
         await widget.database.setNutrition(nutrition);
-        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
         Navigator.of(context).pop();
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -357,7 +361,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                       _notes = value;
                     },
                     onChanged: (value) => _notes = value,
-                    onSaved: (value) => _notes = value,
+                    onSaved: (value) => _notes = value!,
                   ),
                 ),
               ),

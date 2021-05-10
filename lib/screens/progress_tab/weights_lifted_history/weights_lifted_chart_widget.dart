@@ -16,8 +16,8 @@ class WeightsLiftedChartWidget extends StatefulWidget {
   final User user;
 
   const WeightsLiftedChartWidget({
-    Key key,
-    this.user,
+    Key? key,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class WeightsLiftedChartWidget extends StatefulWidget {
 }
 
 class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
-  int touchedIndex;
+  late int touchedIndex;
   double maxY = 20000;
 
   List<DateTime> _dates = [];
@@ -39,13 +39,13 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
 
   void setSevenDaysHistory() {
     // GETTING LAST 7 DAYS OF HISTORY
-    _historiesFromFirebase = widget.user.dailyWorkoutHistories;
+    _historiesFromFirebase = widget.user.dailyWorkoutHistories!;
 
     if (_historiesFromFirebase.isNotEmpty) {
       var sevenDayHistory = List<DailyWorkoutHistory>.generate(7, (index) {
         var matchingHistory = _historiesFromFirebase
             .where((element) => element.date.toUtc() == _dates[index]);
-        double weights =
+        num weights =
             (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalWeights;
 
         return DailyWorkoutHistory(
@@ -59,11 +59,11 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
 
   void setMaxY() {
     //   SET MAX Y
-    if (widget.user.dailyWorkoutHistories.isEmpty) {
+    if (widget.user.dailyWorkoutHistories!.isEmpty) {
       maxY = 20000;
     } else {
       final largest =
-          _sevenDayHistory.map<double>((e) => e.totalWeights).reduce(max);
+          _sevenDayHistory.map<num>((e) => e.totalWeights).reduce(max);
 
       if (largest == 0) {
         maxY = 20000;
@@ -176,7 +176,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                         ],
                       ),
                     ),
-                    if (widget.user.dailyWorkoutHistories.isEmpty)
+                    if (widget.user.dailyWorkoutHistories!.isEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: Text(
@@ -187,7 +187,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                   ],
                 ),
               ),
-              if (widget.user.dailyWorkoutHistories.isEmpty)
+              if (widget.user.dailyWorkoutHistories!.isEmpty)
                 const Divider(color: Grey700),
               const SizedBox(height: 16),
               _buildChart(),
@@ -199,8 +199,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   }
 
   BarChartGroupData _makeBarChartGroupData({
-    int x,
-    double y,
+    required int x,
+    required double y,
     double width = 16,
     bool isTouched = false,
   }) {
@@ -214,7 +214,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           backDrawRodData: BackgroundBarChartRodData(
             show: _sevenDayHistory.isEmpty,
             y: 10,
-            colors: [Colors.grey[800]],
+            colors: [Colors.grey[800]!],
           ),
         ),
       ],
@@ -328,7 +328,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                   if (barTouchResponse.spot != null &&
                       barTouchResponse.touchInput is! PointerUpEvent &&
                       barTouchResponse.touchInput is! PointerExitEvent) {
-                    touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+                    touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
                   } else {
                     touchedIndex = -1;
                   }
@@ -386,7 +386,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               ),
             ),
             borderData: FlBorderData(show: false),
-            barGroups: (widget.user.dailyWorkoutHistories.isNotEmpty)
+            barGroups: (widget.user.dailyWorkoutHistories!.isNotEmpty)
                 ? _barGroupsChild()
                 : randomData(),
           ),

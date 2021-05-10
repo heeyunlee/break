@@ -1,28 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class RoutineHistory {
   RoutineHistory({
-    @required this.routineHistoryId,
-    @required this.userId,
-    @required this.username,
-    @required this.routineId,
-    @required this.routineTitle,
-    @required this.isPublic,
-    this.workoutStartTime,
-    this.workoutEndTime,
-    this.totalWeights,
+    required this.routineHistoryId,
+    required this.userId,
+    required this.username,
+    required this.routineId,
+    required this.routineTitle,
+    required this.isPublic,
+    required this.workoutStartTime,
+    required this.workoutEndTime,
+    required this.totalWeights,
     this.totalCalories,
-    this.totalDuration,
+    required this.totalDuration,
     this.earnedBadges,
     this.notes,
-    this.mainMuscleGroup,
+    required this.mainMuscleGroup,
     this.secondMuscleGroup,
-    this.isBodyWeightWorkout,
-    this.workoutDate,
-    this.imageUrl,
-    this.unitOfMass,
-    this.equipmentRequired,
+    required this.isBodyWeightWorkout,
+    required this.workoutDate,
+    required this.imageUrl,
+    required this.unitOfMass,
+    required this.equipmentRequired,
     this.effort,
   });
 
@@ -35,23 +34,24 @@ class RoutineHistory {
   final Timestamp workoutStartTime;
   final Timestamp workoutEndTime;
   final num totalWeights;
-  final num totalCalories;
+  final num? totalCalories;
   final int totalDuration;
-  final bool earnedBadges;
-  final String notes;
+  final bool? earnedBadges;
+  final String? notes;
   final List<dynamic> mainMuscleGroup;
-  final List<dynamic> secondMuscleGroup;
+  final List<dynamic>? secondMuscleGroup;
   final bool isBodyWeightWorkout;
   final DateTime workoutDate;
   final String imageUrl;
   final int unitOfMass;
   final List<dynamic> equipmentRequired;
-  final num effort;
+  final num? effort;
 
   factory RoutineHistory.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
+
     final String userId = data['userId'];
     final String username = data['username'];
     final String routineId = data['routineId'];

@@ -6,12 +6,12 @@ import '../constants.dart';
 class EmptyContentWidget extends StatelessWidget {
   final String imageUrl;
   final String bodyText;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   const EmptyContentWidget({
-    Key key,
-    this.imageUrl,
-    this.bodyText,
+    Key? key,
+    required this.imageUrl,
+    required this.bodyText,
     this.onPressed,
   }) : super(key: key);
 

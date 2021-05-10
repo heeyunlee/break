@@ -21,7 +21,8 @@ class LogInWithEmailScreen extends StatefulWidget
   final AuthBase auth;
   final Database database;
 
-  LogInWithEmailScreen({Key key, this.auth, this.database}) : super(key: key);
+  LogInWithEmailScreen({Key? key, required this.auth, required this.database})
+      : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -45,11 +46,11 @@ class LogInWithEmailScreen extends StatefulWidget
 class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _textController1;
-  TextEditingController _textController2;
+  late TextEditingController _textController1;
+  late TextEditingController _textController2;
 
-  FocusNode _focusNode1;
-  FocusNode _focusNode2;
+  late FocusNode _focusNode1;
+  late FocusNode _focusNode2;
 
   String get _email => _textController1.text;
   String get _password => _textController2.text;
@@ -76,7 +77,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate() ?? false) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -101,7 +102,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
         };
 
         await widget.database.updateUser(
-          widget.auth.currentUser.uid,
+          widget.auth.currentUser!.uid,
           updatedUserData,
         );
 
@@ -138,12 +139,12 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
   Widget _buildBody() {
     bool _showEmailErrorText =
         submitted && !widget.validator.isEmailValid(_email);
-    String _emailErrorText =
+    String? _emailErrorText =
         _showEmailErrorText ? widget.invalidEmailText : null;
 
     bool _showPaswordErrorText =
         submitted && !widget.validator.isPasswordValid(_password);
-    String _passwordErrorText =
+    String? _passwordErrorText =
         _showPaswordErrorText ? widget.emptyPasswordText : null;
 
     return KeyboardActions(

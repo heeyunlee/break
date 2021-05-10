@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class Nutrition {
   final String nutritionId;
@@ -9,23 +8,23 @@ class Nutrition {
   final DateTime loggedDate;
   final String type;
   final num proteinAmount;
-  final String notes;
+  final String? notes;
 
   Nutrition({
-    @required this.nutritionId,
-    @required this.userId,
-    @required this.username,
-    @required this.loggedTime,
-    @required this.loggedDate,
-    @required this.type,
-    @required this.proteinAmount,
+    required this.nutritionId,
+    required this.userId,
+    required this.username,
+    required this.loggedTime,
+    required this.loggedDate,
+    required this.type,
+    required this.proteinAmount,
     this.notes,
   });
 
   factory Nutrition.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp loggedTime = data['loggedTime'];

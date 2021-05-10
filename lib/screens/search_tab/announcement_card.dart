@@ -6,14 +6,14 @@ import '../../constants.dart';
 class AnnouncementCard extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final String subtitle;
-  final Color color;
-  final Function onTap;
+  final String? subtitle;
+  final Color? color;
+  final void Function()? onTap;
 
   const AnnouncementCard({
-    Key key,
-    @required this.imageUrl,
-    @required this.title,
+    Key? key,
+    required this.imageUrl,
+    required this.title,
     this.subtitle,
     this.color,
     this.onTap,
@@ -56,7 +56,7 @@ class AnnouncementCard extends StatelessWidget {
                   onPressed: onTap,
                   style: ElevatedButton.styleFrom(primary: PrimaryColor),
                   child: Text(
-                    subtitle,
+                    subtitle!,
                     style: Subtitle1,
                   ),
                 ),

@@ -17,17 +17,17 @@ Logger logger = Logger();
 
 class ChangeEmailScreen extends StatefulWidget {
   const ChangeEmailScreen({
-    Key key,
-    @required this.database,
-    @required this.user,
-    @required this.auth,
+    Key? key,
+    required this.database,
+    required this.user,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
   final User user;
   final AuthBase auth;
 
-  static Future<void> show(BuildContext context, {User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
@@ -48,27 +48,29 @@ class ChangeEmailScreen extends StatefulWidget {
 class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String _email;
+  late String _email;
 
-  var _textController1 = TextEditingController();
-  FocusNode focusNode1;
+  late TextEditingController _textController1;
+  late FocusNode focusNode1;
 
   @override
   void initState() {
     _email = widget.user.userEmail;
     _textController1 = TextEditingController(text: _email);
+    focusNode1 = FocusNode();
 
     super.initState();
   }
 
   @override
   void dispose() {
+    focusNode1.dispose();
     super.dispose();
   }
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -82,7 +84,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         final user = {
           'userEmail': _email,
         };
-        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
         debugPrint('Updated userEmail');
 
@@ -166,7 +168,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 _email = value;
               }),
               onSaved: (value) => setState(() {
-                _email = value;
+                _email = value!;
               }),
               onFieldSubmitted: (value) {
                 setState(() {

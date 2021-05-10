@@ -15,16 +15,16 @@ class SetDailyWeightsGoalScreen extends StatefulWidget {
   final User user;
 
   const SetDailyWeightsGoalScreen({
-    Key key,
-    this.database,
-    this.auth,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.auth,
+    required this.user,
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(

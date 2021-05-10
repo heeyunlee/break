@@ -14,7 +14,7 @@ typedef BoolCallback = void Function(bool value);
 class PreviewScreen extends StatefulWidget {
   final BoolCallback callback;
 
-  const PreviewScreen({Key key, this.callback}) : super(key: key);
+  const PreviewScreen({Key? key, required this.callback}) : super(key: key);
 
   @override
   _PreviewScreenState createState() => _PreviewScreenState();

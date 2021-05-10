@@ -9,7 +9,10 @@ class ChoiceChipsAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {
   final StringCallback callback;
 
-  const ChoiceChipsAppBarWidget({Key key, this.callback}) : super(key: key);
+  const ChoiceChipsAppBarWidget({
+    Key? key,
+    required this.callback,
+  }) : super(key: key);
 
   @override
   _ChoiceChipsAppBarWidgetState createState() =>
@@ -28,7 +31,8 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
       ['All'] + MainMuscleGroup.values[0].translatedList;
 
   int _selectedIndex = 0;
-  String _selectedChipLabel;
+  // TODO: Used late here
+  late String _selectedChipLabel;
 
   @override
   void initState() {

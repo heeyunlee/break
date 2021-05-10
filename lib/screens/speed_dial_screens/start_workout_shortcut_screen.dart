@@ -15,7 +15,10 @@ import '../../services/database.dart';
 import '../library_tab/routine/routine_detail_screen.dart';
 
 class StartWorkoutShortcutScreen extends StatefulWidget {
-  const StartWorkoutShortcutScreen({Key key, this.database}) : super(key: key);
+  const StartWorkoutShortcutScreen({
+    Key? key,
+    required this.database,
+  }) : super(key: key);
 
   final Database database;
 

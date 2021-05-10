@@ -11,22 +11,25 @@ class NewRoutineTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;
   final IntCallback indexCallback;
 
-  const NewRoutineTitleScreen({Key key, this.titleCallback, this.indexCallback})
-      : super(key: key);
+  const NewRoutineTitleScreen({
+    Key? key,
+    required this.titleCallback,
+    required this.indexCallback,
+  }) : super(key: key);
 
   @override
   _NewRoutineTitleScreenState createState() => _NewRoutineTitleScreenState();
 }
 
 class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
-  String _routineTitle;
+  late String _routineTitle;
   var _textController1 = TextEditingController();
 
   int _pageIndex = 0;
 
   @override
   void initState() {
-    _routineTitle = null;
+    _routineTitle = '';
     _textController1 = TextEditingController(text: _routineTitle);
     super.initState();
   }
@@ -39,7 +42,7 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
 
   void saveTitle() {
     debugPrint('saveTitle Pressed');
-    if (_routineTitle != null && _routineTitle != '') {
+    if (_routineTitle.isNotEmpty) {
       setState(() {
         _pageIndex = 1;
         widget.indexCallback(_pageIndex);
@@ -84,7 +87,7 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
             widget.titleCallback(_routineTitle);
           }),
           onSaved: (value) => setState(() {
-            _routineTitle = value;
+            _routineTitle = value!;
             widget.titleCallback(_routineTitle);
           }),
           onFieldSubmitted: (value) => setState(() {

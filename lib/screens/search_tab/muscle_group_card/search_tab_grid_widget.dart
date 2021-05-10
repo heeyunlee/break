@@ -4,12 +4,12 @@ import '../../../constants.dart';
 
 class SearchTabGridWidget extends StatelessWidget {
   final String text;
-  final Function onTap;
+  final void Function()? onTap;
   final Color color;
 
   const SearchTabGridWidget({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
     this.onTap,
     this.color = PrimaryColor,
   }) : super(key: key);

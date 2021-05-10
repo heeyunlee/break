@@ -39,7 +39,8 @@ class ProgressTab extends StatelessWidget {
         backgroundColor: BackgroundColor,
         body: StreamBuilder<User>(
           initialData: userDummyData,
-          stream: database.userStream(auth.currentUser.uid).asBroadcastStream(),
+          stream:
+              database.userStream(auth.currentUser!.uid).asBroadcastStream(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               return CustomScrollView(
@@ -62,12 +63,12 @@ class ProgressTab extends StatelessWidget {
                     //   const SizedBox(width: 8),
                     // ],
                     flexibleSpace: (isMobile)
-                        ? _FlexibleSpaceMobile(user: snapshot.data)
-                        : FlexibleSpaceTablet(user: snapshot.data),
+                        ? _FlexibleSpaceMobile(user: snapshot.data!)
+                        : FlexibleSpaceTablet(user: snapshot.data!),
                     backgroundColor: AppBarColor,
                     elevation: 0,
                   ),
-                  _buildSliverToBoxAdaptor(snapshot.data, database),
+                  _buildSliverToBoxAdaptor(snapshot.data!, database),
                 ],
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
@@ -111,7 +112,7 @@ class ProgressTab extends StatelessWidget {
 class _FlexibleSpaceMobile extends StatelessWidget {
   final User user;
 
-  const _FlexibleSpaceMobile({Key key, this.user}) : super(key: key);
+  const _FlexibleSpaceMobile({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

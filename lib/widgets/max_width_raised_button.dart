@@ -4,19 +4,19 @@ import '../constants.dart';
 
 class MaxWidthRaisedButton extends StatelessWidget {
   const MaxWidthRaisedButton({
-    Key key,
-    @required this.buttonText,
+    Key? key,
+    required this.buttonText,
     this.color,
     this.icon,
     this.onPressed,
     this.width,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
   final String buttonText;
-  final Icon icon;
-  final void Function() onPressed;
-  final double width;
+  final Widget? icon;
+  final void Function()? onPressed;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
 
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
               return Colors.grey;
@@ -52,10 +52,11 @@ class MaxWidthRaisedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null) icon,
-          if (icon != null && buttonText != null) const SizedBox(width: 16),
-          if (buttonText != null) Text(buttonText, style: ButtonText),
+        children: <Widget>[
+          // TODO: Check if this works
+          if (icon != null) icon ?? Container(),
+          if (icon != null) const SizedBox(width: 16),
+          Text(buttonText, style: ButtonText),
         ],
       ),
     );

@@ -1,27 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class Workout {
   Workout({
-    @required this.workoutId,
-    @required this.workoutOwnerId,
-    @required this.workoutOwnerUserName,
-    @required this.workoutTitle,
-    @required this.mainMuscleGroup,
-    @required this.secondaryMuscleGroup,
-    @required this.description,
-    @required this.equipmentRequired,
-    this.imageUrl,
-    this.isBodyWeightWorkout,
-    this.lastEditedDate,
-    this.workoutCreatedDate,
-    this.difficulty,
+    required this.workoutId,
+    required this.workoutOwnerId,
+    required this.workoutOwnerUserName,
+    required this.workoutTitle,
+    required this.mainMuscleGroup,
+    required this.secondaryMuscleGroup,
+    required this.description,
+    required this.equipmentRequired,
+    required this.imageUrl,
+    required this.isBodyWeightWorkout,
+    required this.lastEditedDate,
+    required this.workoutCreatedDate,
+    required this.difficulty,
     this.instructions,
     this.tips,
-    this.secondsPerRep,
-    this.isPublic,
-    this.location,
-    this.translated,
+    required this.secondsPerRep,
+    required this.isPublic,
+    required this.location,
+    required this.translated,
     this.thumbnailImageUrl,
   });
 
@@ -38,18 +37,18 @@ class Workout {
   final Timestamp lastEditedDate;
   final Timestamp workoutCreatedDate;
   final int difficulty;
-  final String instructions;
-  final String tips;
+  final String? instructions;
+  final String? tips;
   final int secondsPerRep;
   final bool isPublic;
   final String location;
   final Map<String, dynamic> translated;
-  final String thumbnailImageUrl;
+  final String? thumbnailImageUrl;
 
   factory Workout.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final String workoutOwnerId = data['workoutOwnerId'];
     final String workoutOwnerUserName = data['workoutOwnerUserName'];
     final String workoutTitle = data['workoutTitle'];

@@ -5,13 +5,13 @@ import 'package:workout_player/constants.dart';
 
 class AppbarBlurBG extends StatelessWidget {
   const AppbarBlurBG({
-    Key key,
+    Key? key,
     this.childWidget,
     this.color,
   }) : super(key: key);
 
-  final Widget childWidget;
-  final Color color;
+  final Widget? childWidget;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

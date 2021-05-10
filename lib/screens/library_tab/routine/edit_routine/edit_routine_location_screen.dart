@@ -17,10 +17,10 @@ Logger logger = Logger();
 
 class EditRoutineLocationScreen extends StatefulWidget {
   const EditRoutineLocationScreen({
-    Key key,
-    @required this.routine,
-    @required this.database,
-    @required this.user,
+    Key? key,
+    required this.routine,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
   final Routine routine;
@@ -28,7 +28,10 @@ class EditRoutineLocationScreen extends StatefulWidget {
   final User user;
 
   static Future<void> show(
-      {BuildContext context, User user, Routine routine}) async {
+    BuildContext context, {
+    required User user,
+    required Routine routine,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
@@ -47,7 +50,7 @@ class EditRoutineLocationScreen extends StatefulWidget {
 }
 
 class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
-  String _location;
+  late String _location;
 
   @override
   void initState() {
@@ -104,7 +107,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
           tileColor: (_location == Location.atHome.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.atHome.translation, style: BodyText1),
+          title: Text(Location.atHome.translation!, style: BodyText1),
           trailing: (_location == Location.atHome.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -119,7 +122,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
           tileColor: (_location == Location.gym.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.gym.translation, style: BodyText1),
+          title: Text(Location.gym.translation!, style: BodyText1),
           trailing: (_location == Location.gym.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -134,7 +137,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
           tileColor: (_location == Location.outdoor.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.outdoor.translation, style: BodyText1),
+          title: Text(Location.outdoor.translation!, style: BodyText1),
           trailing: (_location == Location.outdoor.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -149,7 +152,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
           tileColor: (_location == Location.others.toString())
               ? Primary600Color
               : Colors.transparent,
-          title: Text(Location.others.translation, style: BodyText1),
+          title: Text(Location.others.translation!, style: BodyText1),
           trailing: (_location == Location.others.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,

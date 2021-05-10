@@ -23,18 +23,18 @@ class MuscleGroupSearchScreen extends StatelessWidget {
   const MuscleGroupSearchScreen({
     this.isEqualTo,
     this.arrayContains,
-    this.searchCategory,
+    required this.searchCategory,
   });
 
-  final String isEqualTo;
-  final String arrayContains;
+  final String? isEqualTo;
+  final String? arrayContains;
   final String searchCategory;
 
   static void show(
     BuildContext context, {
-    String isEqualTo,
-    String arrayContains,
-    String searchCategory,
+    String? isEqualTo,
+    String? arrayContains,
+    required String searchCategory,
   }) async {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -80,7 +80,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: Text(title, style: Subtitle1),
+                title: Text(title!, style: Subtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
@@ -133,7 +133,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
-        final workout = Workout.fromMap(data, documentId);
+        final workout = Workout.fromMap(data!, documentId);
         final leadingText = EquipmentRequired.values
             .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
             .translation;
@@ -148,7 +148,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
           imageUrl: workout.imageUrl,
           isLeadingDuration: false,
           title: title,
-          leadingText: leadingText,
+          leadingText: leadingText!,
           subtitle: workout.workoutOwnerUserName,
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
@@ -190,9 +190,9 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       itemBuilder: (index, context, documentSnapshot) {
         final documentId = documentSnapshot.id;
         final data = documentSnapshot.data();
-        final routine = Routine.fromMap(data, documentId);
+        final routine = Routine.fromMap(data!, documentId);
 
-        final duration = Duration(seconds: routine?.duration ?? 0).inMinutes;
+        final duration = Duration(seconds: routine.duration).inMinutes;
         return CustomListTile3(
           isLeadingDuration: true,
           imageUrl: routine.imageUrl,

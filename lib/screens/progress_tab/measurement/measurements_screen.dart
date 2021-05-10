@@ -25,15 +25,15 @@ class MeasurementsScreen extends StatelessWidget {
   final User user;
 
   const MeasurementsScreen({
-    Key key,
-    this.database,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -104,7 +104,7 @@ class MeasurementsScreen extends StatelessWidget {
         itemBuilder: (index, context, documentSnapshot) {
           final documentId = documentSnapshot.id;
           final data = documentSnapshot.data();
-          final measurement = Measurement.fromMap(data, documentId);
+          final measurement = Measurement.fromMap(data!, documentId);
           final date = Format.yMdjm(measurement.loggedTime);
 
           final unit = Format.unitOfMass(user.unitOfMass);

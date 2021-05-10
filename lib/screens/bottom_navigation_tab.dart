@@ -2,21 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/screens/tab_item.dart';
 
-class BottomNavigation extends StatelessWidget {
-  BottomNavigation({@required this.currentTab, @required this.onSelectTab});
+class BottomNavigationTab extends StatelessWidget {
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
+
+  BottomNavigationTab({
+    required this.currentTab,
+    required this.onSelectTab,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedLabelStyle: Caption1Primary,
+      unselectedLabelStyle: Caption1,
+      backgroundColor: Color(0xff1C1C1C),
       type: BottomNavigationBarType.fixed,
       items: [
         _buildItem(TabItem.explore),
         _buildItem(TabItem.search),
         _buildItem(TabItem.progress),
         _buildItem(TabItem.library),
-        _buildItem(TabItem.settings),
+        // _buildItem(TabItem.settings),
       ],
       onTap: (index) => onSelectTab(
         TabItem.values[index],
@@ -31,7 +40,7 @@ class BottomNavigation extends StatelessWidget {
     return BottomNavigationBarItem(
       icon: Padding(
         padding: const EdgeInsets.only(top: 8),
-        child: (itemData.isIconPNG)
+        child: (itemData!.isIconPNG)
             ? Image.asset(
                 itemData.selectedIcon,
                 width: 20,

@@ -6,9 +6,9 @@ import '../../../constants.dart';
 
 class AppPreviewWidget extends StatelessWidget {
   const AppPreviewWidget({
-    Key key,
-    this.imageRoot,
-    this.subtitle,
+    Key? key,
+    required this.imageRoot,
+    required this.subtitle,
   }) : super(key: key);
 
   final String imageRoot;

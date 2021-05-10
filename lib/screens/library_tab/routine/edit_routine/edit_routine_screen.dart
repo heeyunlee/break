@@ -30,20 +30,23 @@ Logger logger = Logger();
 
 class EditRoutineScreen extends StatefulWidget {
   const EditRoutineScreen({
-    Key key,
-    @required this.database,
-    this.routine,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.routine,
+    required this.user,
   }) : super(key: key);
 
   final Database database;
   final Routine routine;
   final User user;
 
-  static Future<void> show(BuildContext context, {Routine routine}) async {
+  static Future<void> show(
+    BuildContext context, {
+    required Routine routine,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: false).push(
@@ -56,16 +59,6 @@ class EditRoutineScreen extends StatefulWidget {
         ),
       ),
     );
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
-    //   screen: EditRoutineScreen(
-    //     database: database,
-    //     routine: routine,
-    //     user: auth.currentUser,
-    //   ),
-    // );
   }
 
   @override
@@ -74,21 +67,21 @@ class EditRoutineScreen extends StatefulWidget {
 
 class _EditRoutineScreenState extends State<EditRoutineScreen> {
   final _formKey = GlobalKey<FormState>();
-  FocusNode focusNode1;
-  FocusNode focusNode2;
+  late FocusNode focusNode1;
+  late FocusNode focusNode2;
 
-  var _textController1 = TextEditingController();
-  var _textController2 = TextEditingController();
+  late TextEditingController _textController1;
+  late TextEditingController _textController2;
 
-  bool _isPublic;
-  String _routineTitle;
-  String _description;
-  num _totalWeights;
-  int _averageTotalCalories;
-  int _duration;
+  late bool _isPublic;
+  late String _routineTitle;
+  late String _description;
+  late num _totalWeights;
+  late int _averageTotalCalories;
+  late int _duration;
 
-  double _difficultySlider;
-  String _difficultySliderLabel;
+  late double _difficultySlider;
+  late String _difficultySliderLabel;
 
   @override
   void initState() {
@@ -101,16 +94,16 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     _routineTitle = widget.routine.routineTitle;
     _textController1 = TextEditingController(text: _routineTitle);
 
-    _description = widget.routine.description;
+    _description = widget.routine.description!;
     _textController2 = TextEditingController(text: _description);
 
     _totalWeights = widget.routine.totalWeights;
-    _averageTotalCalories = widget.routine.averageTotalCalories;
+    _averageTotalCalories = widget.routine.averageTotalCalories!;
     _duration = widget.routine.duration;
 
     _difficultySlider = widget.routine.trainingLevel.toDouble();
     _difficultySliderLabel =
-        Difficulty.values[_difficultySlider.toInt()].translation;
+        Difficulty.values[_difficultySlider.toInt()].translation!;
   }
 
   @override
@@ -127,7 +120,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -237,7 +230,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             /// refer to Scaffold using Scaffold.of()
             body: Builder(
               builder: (BuildContext context) {
-                return _buildContents(routine, context);
+                return _buildContents(routine!, context);
               },
             ),
           );
@@ -369,11 +362,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 border: InputBorder.none,
                 counterText: '',
               ),
-              validator: (value) =>
-                  value.isNotEmpty ? null : S.current.routineTitleValidatorText,
+              validator: (value) => value!.isNotEmpty
+                  ? null
+                  : S.current.routineTitleValidatorText,
               onFieldSubmitted: (value) => _routineTitle = value,
               onChanged: (value) => _routineTitle = value,
-              onSaved: (value) => _routineTitle = value,
+              onSaved: (value) => _routineTitle = value!,
             ),
           ),
         ),
@@ -413,7 +407,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               ),
               onFieldSubmitted: (value) => _description = value,
               onChanged: (value) => _description = value,
-              onSaved: (value) => _description = value,
+              onSaved: (value) => _description = value!,
             ),
           ),
         ),
@@ -452,7 +446,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   setState(() {
                     _difficultySlider = newRating;
                     _difficultySliderLabel = Difficulty
-                        .values[_difficultySlider.toInt()].translation;
+                        .values[_difficultySlider.toInt()].translation!;
                   });
                 },
                 min: 0,
@@ -488,7 +482,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
               title: Text(S.current.mainMuscleGroup, style: ButtonText),
-              subtitle: Text(mainMuscleGroup, style: BodyText2Grey),
+              subtitle: Text(mainMuscleGroup!, style: BodyText2Grey),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: PrimaryGrey,
@@ -517,7 +511,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         child: ListTile(
           title: Text(S.current.equipmentRequired, style: ButtonText),
           subtitle: Text(
-            equipmentRequired,
+            equipmentRequired!,
             style: BodyText2Grey,
           ),
           trailing: const Icon(
@@ -542,7 +536,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         child: ListTile(
           title: Text(S.current.unitOfMass, style: ButtonText),
           subtitle: Text(
-            UnitOfMass.values[routine.initialUnitOfMass].label,
+            UnitOfMass.values[routine.initialUnitOfMass].label!,
             style: BodyText2Grey,
           ),
           trailing: const Icon(
@@ -551,7 +545,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           ),
           tileColor: CardColor,
           onTap: () => EditUnitOfMassScreen.show(
-            context: context,
+            context,
             routine: routine,
             user: widget.user,
           ),
@@ -573,14 +567,14 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
           title: Text(S.current.location, style: ButtonText),
-          subtitle: Text(location, style: BodyText2Grey),
+          subtitle: Text(location!, style: BodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
             color: PrimaryGrey,
           ),
           tileColor: CardColor,
           onTap: () => EditRoutineLocationScreen.show(
-            context: context,
+            context,
             routine: routine,
             user: widget.user,
           ),
@@ -589,9 +583,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     );
   }
 
-  Future<bool> _showModalBottomSheet(BuildContext context) {
+  Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
-      context: context,
+      context,
+      title: Text('Delete Routine'),
       message: Text(
         S.current.deleteRoutineWarningMessage,
         textAlign: TextAlign.center,

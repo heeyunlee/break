@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class UserFeedback {
   UserFeedback({
-    @required this.userFeedbackId,
-    @required this.userId,
-    @required this.username,
-    @required this.createdDate,
-    @required this.feedback,
+    required this.userFeedbackId,
+    required this.userId,
+    required this.username,
+    required this.createdDate,
+    required this.feedback,
     this.userEmail,
-    this.isResolved,
+    required this.isResolved,
   });
 
   final String userFeedbackId;
@@ -17,13 +16,13 @@ class UserFeedback {
   final String username;
   final Timestamp createdDate;
   final String feedback;
-  final String userEmail;
+  final String? userEmail;
   final bool isResolved;
 
   factory UserFeedback.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp createdDate = data['createdDate'];

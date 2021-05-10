@@ -8,9 +8,10 @@ typedef ListCallback = void Function(List list);
 class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback selectedEquipmentRequired;
 
-  const NewRoutineEquipmentRequiredScreen(
-      {Key key, this.selectedEquipmentRequired})
-      : super(key: key);
+  const NewRoutineEquipmentRequiredScreen({
+    Key? key,
+    required this.selectedEquipmentRequired,
+  }) : super(key: key);
 
   @override
   _NewRoutineEquipmentRequiredScreenState createState() =>
@@ -42,17 +43,17 @@ class _NewRoutineEquipmentRequiredScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_equipmentRequired[key]) ? PrimaryColor : Grey700,
+                    color: (_equipmentRequired[key]!) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
-                      title: Text(title, style: ButtonText),
+                      title: Text(title!, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _equipmentRequired[key],
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _equipmentRequired[key] = value;
+                          _equipmentRequired[key] = value!;
                         });
-                        if (_equipmentRequired[key]) {
+                        if (_equipmentRequired[key]!) {
                           _selectedEquipmentRequired.add(key);
                         } else {
                           _selectedEquipmentRequired.remove(key);

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 typedef BoolCallback = void Function(bool val);
 
@@ -11,8 +9,8 @@ class FirestoreService {
 
   // Create new Data
   Future<void> setData({
-    @required String path,
-    @required Map<String, dynamic> data,
+    required String path,
+    required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     await reference.set(data);
@@ -20,8 +18,8 @@ class FirestoreService {
 
   // Update Data (Used for creating new element in an array)
   Future<void> updateData({
-    @required String path,
-    @required Map<String, dynamic> data,
+    required String path,
+    required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     await reference.update(data);
@@ -46,8 +44,8 @@ class FirestoreService {
 
   // Write more than one documents at once
   Future<void> batchData({
-    @required List<String> path,
-    @required List<Map<String, dynamic>> data,
+    required List<String> path,
+    required List<Map<String, dynamic>> data,
   }) async {
     print('batch data triggered');
     final batch = FirebaseFirestore.instance.batch();
@@ -62,8 +60,8 @@ class FirestoreService {
 
   // Update one documents at once
   Future<void> batchUpdateData({
-    @required List<String> path,
-    @required List<Map<String, dynamic>> data,
+    required List<String> path,
+    required List<Map<String, dynamic>> data,
   }) async {
     print('batch data triggered');
     final batch = FirebaseFirestore.instance.batch();
@@ -78,7 +76,7 @@ class FirestoreService {
 
   // Delete data from Cloud Firestore
   Future<void> deleteData({
-    @required String path,
+    required String path,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     print('delete: $path');
@@ -97,30 +95,30 @@ class FirestoreService {
 
   // Document Stream
   Stream<T> documentStream<T>({
-    @required String path,
-    T Function(Map<String, dynamic> data, String documentId) builder,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
+    return snapshots.map((snapshot) => builder(snapshot.data()!, snapshot.id));
   }
 
   // Document Future
   Future<T> getDocument<T>({
-    @required String path,
-    T Function(Map<String, dynamic> data, String documentId) builder,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     final snapshot = await reference.get();
-    return builder(snapshot.data(), snapshot.id);
+    return builder(snapshot.data()!, snapshot.id);
   }
 
   Stream<List<T>> collectionStream<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String order,
-    @required bool descending,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String order,
+    required bool descending,
+    int? limit,
   }) {
     final reference = (limit != null)
         ? FirebaseFirestore.instance.collection(path).limit(limit).orderBy(
@@ -141,8 +139,8 @@ class FirestoreService {
   }
 
   Stream<List<T>> collectionStreamOfThisWeek<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
     final lastWeek = DateTime.now().subtract(Duration(days: 7));
 
@@ -165,11 +163,11 @@ class FirestoreService {
 
   // Collection Stream with/without limit and with order
   Stream<List<T>> publicCollectionStream<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String order,
-    @required bool descending,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String order,
+    required bool descending,
+    int? limit,
   }) {
     final reference = (limit != null)
         ? FirebaseFirestore.instance
@@ -198,13 +196,13 @@ class FirestoreService {
 
   // Getting all the streams available
   Stream<List<T>> userCollectionStream<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String searchCategory,
-    @required String searchString,
-    @required String order,
-    @required bool descending,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String searchCategory,
+    String? searchString,
+    required String order,
+    required bool descending,
+    int? limit,
   }) {
     final reference = (limit != null)
         ? FirebaseFirestore.instance
@@ -236,13 +234,13 @@ class FirestoreService {
 
   // Search Collection Stream
   Stream<List<T>> publicSearchCollectionStream<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String order,
-    String searchCategory,
-    String isEqualTo,
-    String arrayContains,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String order,
+    String? searchCategory,
+    String? isEqualTo,
+    String? arrayContains,
+    int? limit,
   }) {
     final reference = (limit != null)
         ? (isEqualTo != null)
@@ -289,14 +287,14 @@ class FirestoreService {
 
   // Search Second Collection Stream
   Stream<List<T>> publicSearchCollectionStream2<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String order,
-    String searchCategory,
-    String arrayContains,
-    String searchCategory2,
-    String arrayContains2,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String order,
+    String? searchCategory,
+    String? arrayContains,
+    String? searchCategory2,
+    String? arrayContains2,
+    int limit = 10,
   }) {
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -317,12 +315,12 @@ class FirestoreService {
 
   // Search Third Collection Stream
   Stream<List<T>> publicSearchCollectionStream3<T>({
-    @required String path,
-    @required T Function(Map<String, dynamic> data, String documentId) builder,
-    @required String order,
-    String searchCategory,
-    String arrayContains,
-    int limit,
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String order,
+    String? searchCategory,
+    String? arrayContains,
+    int limit = 10,
   }) {
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -341,9 +339,9 @@ class FirestoreService {
   }
 
   Query paginatedCollectionQuery<T>({
-    @required String path,
-    @required String order,
-    @required bool descending,
+    required String path,
+    required String order,
+    required bool descending,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
@@ -353,9 +351,9 @@ class FirestoreService {
   }
 
   Query paginatedPublicCollectionQuery<T>({
-    @required String path,
-    @required String order,
-    @required bool descending,
+    required String path,
+    required String order,
+    required bool descending,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
@@ -366,11 +364,11 @@ class FirestoreService {
   }
 
   Query paginatedUserCollectionQuery<T>({
-    @required String path,
-    @required String order,
-    @required bool descending,
-    @required String id,
-    @required String userId,
+    required String path,
+    required String order,
+    required bool descending,
+    required String id,
+    String? userId,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)

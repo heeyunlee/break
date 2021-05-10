@@ -11,7 +11,7 @@ enum Meal {
 }
 
 extension MealLabelExtension on Meal {
-  String get label {
+  String? get label {
     switch (this) {
       case Meal.BeforeWorkout:
         return 'Before Workout';
@@ -38,14 +38,14 @@ extension MealListExtension on Meal {
     final List<String> _mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].label;
-      _mealsList.add(value);
+      _mealsList.add(value!);
     }
     return _mealsList;
   }
 }
 
 extension MealTranslationExtension on Meal {
-  String get translation {
+  String? get translation {
     switch (this) {
       case Meal.BeforeWorkout:
         return S.current.beforeWorkout;
@@ -72,7 +72,7 @@ extension MealTranslatedList on Meal {
     final List<String> _mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].translation;
-      _mealsList.add(value);
+      _mealsList.add(value!);
     }
     return _mealsList;
   }

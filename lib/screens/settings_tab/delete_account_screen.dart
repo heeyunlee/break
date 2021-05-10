@@ -18,12 +18,12 @@ class DeleteAccountScreen extends StatelessWidget {
   final AuthBase auth;
 
   const DeleteAccountScreen({
-    Key key,
-    this.user,
-    this.auth,
+    Key? key,
+    required this.user,
+    required this.auth,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
@@ -37,7 +37,7 @@ class DeleteAccountScreen extends StatelessWidget {
 
   Future<void> deleteAccount(BuildContext context) async {
     try {
-      await auth.currentUser.delete();
+      await auth.currentUser!.delete();
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.d(e);

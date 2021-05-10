@@ -7,7 +7,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
 
 import 'routine_history/daily_summary_card.dart';
-import 'routine_history/daily_summary_detail_screen.dart';
+import 'routine_history/routine_history_detail_screen.dart';
 
 class RoutineHistorySummaryFeedCard extends StatelessWidget {
   RoutineHistorySummaryFeedCard({
@@ -53,7 +53,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             totalWeights: routineHistory.totalWeights,
             caloriesBurnt: routineHistory.totalCalories,
             totalDuration: routineHistory.totalDuration,
-            onTap: () => DailySummaryDetailScreen.show(
+            onTap: () => RoutineHistoryDetailScreen.show(
               context,
               routineHistory: routineHistory,
             ),

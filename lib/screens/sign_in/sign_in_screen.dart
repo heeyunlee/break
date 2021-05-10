@@ -27,10 +27,10 @@ class SignInScreen extends StatefulWidget {
   final bool isLoading;
 
   const SignInScreen({
-    Key key,
-    @required this.signInBloc,
-    @required this.isLoading,
-    @required this.database,
+    Key? key,
+    required this.signInBloc,
+    required this.isLoading,
+    required this.database,
   }) : super(key: key);
 
   static Widget create(BuildContext context) {
@@ -103,11 +103,12 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await widget.signInBloc.signInWithGoogle();
 
+      final firebaseUser = widget.signInBloc.auth.currentUser;
+
       // Write User data to Firebase
       final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser.uid,
+        widget.signInBloc.auth.currentUser!.uid,
       );
-      final firebaseUser = widget.signInBloc.auth.currentUser;
 
       final locale = Intl.getCurrentLocale();
 
@@ -117,10 +118,10 @@ class _SignInScreenState extends State<SignInScreen> {
         final id = 'Player $uniqueId';
         final currentTime = Timestamp.now();
         final userData = User(
-          userId: firebaseUser.uid,
+          userId: firebaseUser!.uid,
           displayName: firebaseUser.providerData[0].displayName ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email,
+          userEmail: firebaseUser.providerData[0].email ?? '',
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -140,7 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
       }
     } on Exception catch (e) {
       logger.d(e);
@@ -156,7 +157,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Write User data to Firebase
       final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser.uid,
+        widget.signInBloc.auth.currentUser!.uid,
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
@@ -169,10 +170,10 @@ class _SignInScreenState extends State<SignInScreen> {
         final currentTime = Timestamp.now();
 
         final userData = User(
-          userId: firebaseUser.uid,
+          userId: firebaseUser!.uid,
           displayName: firebaseUser.providerData[0].displayName ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email,
+          userEmail: firebaseUser.providerData[0].email ?? '',
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -192,7 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
       }
     } on Exception catch (e) {
       logger.d(e);
@@ -208,7 +209,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // Write User data to Firebase
       final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser.uid,
+        widget.signInBloc.auth.currentUser!.uid,
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
       final locale = Intl.getCurrentLocale();
@@ -220,10 +221,11 @@ class _SignInScreenState extends State<SignInScreen> {
         final currentTime = Timestamp.now();
 
         final userData = User(
-          userId: firebaseUser.uid,
+          userId: firebaseUser!.uid,
           displayName: firebaseUser.providerData[0].displayName ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email,
+          userEmail:
+              firebaseUser.providerData[0].email ?? firebaseUser.email ?? '',
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -243,7 +245,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
       }
     } on Exception catch (e) {
       logger.d(e);
@@ -259,7 +261,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       // GET User data to Firebase
       final user = await widget.database.userDocument(
-        widget.signInBloc.auth.currentUser.uid,
+        widget.signInBloc.auth.currentUser!.uid,
       );
       final firebaseUser = widget.signInBloc.auth.currentUser;
 
@@ -270,10 +272,11 @@ class _SignInScreenState extends State<SignInScreen> {
         final uniqueId = UniqueKey().toString();
         final currentTime = Timestamp.now();
         final userData = User(
-          userId: firebaseUser.uid,
+          userId: firebaseUser!.uid,
           userName: firebaseUser.displayName ?? 'Player $uniqueId',
           displayName: firebaseUser.displayName ?? 'Player $uniqueId',
-          userEmail: firebaseUser.email,
+          userEmail:
+              firebaseUser.email ?? firebaseUser.providerData[0].email ?? '',
           signUpDate: currentTime,
           signUpProvider: 'kakaocorp.com',
           totalWeights: 0,
@@ -295,7 +298,7 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
 
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(firebaseUser!.uid, updatedUserData);
       }
     } on Exception catch (e) {
       logger.d(e);

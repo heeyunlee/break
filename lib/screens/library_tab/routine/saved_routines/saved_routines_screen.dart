@@ -19,12 +19,12 @@ class SavedRoutinesScreen extends StatelessWidget {
   final User user;
 
   SavedRoutinesScreen({
-    Key key,
-    this.database,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
@@ -98,12 +98,12 @@ class SavedRoutinesScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     children: _routinesFuture.map((element) {
-                      return FutureBuilder(
+                      return FutureBuilder<Routine>(
                         future: element,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             if (snapshot.data != null) {
-                              Routine routine = snapshot.data;
+                              Routine routine = snapshot.data!;
                               final subtitle = MainMuscleGroup.values
                                   .firstWhere(
                                     (e) =>
@@ -115,7 +115,7 @@ class SavedRoutinesScreen extends StatelessWidget {
                               return CustomListTile64(
                                 tag: 'savedRoutiness-${routine.routineId}',
                                 title: routine.routineTitle,
-                                subtitle: subtitle,
+                                subtitle: subtitle!,
                                 imageUrl: routine.imageUrl,
                                 onTap: () => RoutineDetailScreen.show(
                                   context,

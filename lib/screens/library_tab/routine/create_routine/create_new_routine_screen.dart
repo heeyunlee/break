@@ -28,10 +28,10 @@ Logger logger = Logger();
 
 class CreateNewRoutineScreen extends StatefulWidget {
   const CreateNewRoutineScreen({
-    Key key,
-    @required this.database,
-    this.user,
-    @required this.auth,
+    Key? key,
+    required this.database,
+    required this.user,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
@@ -41,7 +41,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -61,7 +61,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
 }
 
 class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
-  String _routineTitle;
+  late String _routineTitle;
   List _selectedMainMuscleGroup = [];
   List _selectedEquipmentRequired = [];
   double _rating = 0;
@@ -229,42 +229,44 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         elevation: 0,
         flexibleSpace: const AppbarBlurBG(),
       ),
-      body: Builder(builder: (BuildContext context) {
-        switch (_pageIndex) {
-          case 0:
-            return NewRoutineTitleScreen(
-              titleCallback: (value) => setState(() {
-                _routineTitle = value;
-              }),
-              indexCallback: (value) => setState(() {
-                _pageIndex = value;
-              }),
-            );
-          case 1:
-            return NewRoutineMainMuscleGroupScreen(
-              mainMuscleGroupCallback: (value) => setState(() {
-                _selectedMainMuscleGroup = value;
-              }),
-            );
-          case 2:
-            return NewRoutineEquipmentRequiredScreen(
-              selectedEquipmentRequired: (value) => setState(() {
-                _selectedEquipmentRequired = value;
-              }),
-            );
-          case 3:
-            return NewRoutineDifficultyAndMoreScreen(
-              ratingCallback: (value) => setState(() {
-                _rating = value;
-              }),
-              locationCallback: (value) => setState(() {
-                _location = value;
-              }),
-            );
-          default:
-            return null;
-        }
-      }),
+      body: Builder(
+        builder: (BuildContext context) {
+          switch (_pageIndex) {
+            case 0:
+              return NewRoutineTitleScreen(
+                titleCallback: (value) => setState(() {
+                  _routineTitle = value;
+                }),
+                indexCallback: (value) => setState(() {
+                  _pageIndex = value;
+                }),
+              );
+            case 1:
+              return NewRoutineMainMuscleGroupScreen(
+                mainMuscleGroupCallback: (value) => setState(() {
+                  _selectedMainMuscleGroup = value;
+                }),
+              );
+            case 2:
+              return NewRoutineEquipmentRequiredScreen(
+                selectedEquipmentRequired: (value) => setState(() {
+                  _selectedEquipmentRequired = value;
+                }),
+              );
+            case 3:
+              return NewRoutineDifficultyAndMoreScreen(
+                ratingCallback: (value) => setState(() {
+                  _rating = value;
+                }),
+                locationCallback: (value) => setState(() {
+                  _location = value;
+                }),
+              );
+            default:
+              return Container();
+          }
+        },
+      ),
       floatingActionButton: _buildFAB(),
     );
   }

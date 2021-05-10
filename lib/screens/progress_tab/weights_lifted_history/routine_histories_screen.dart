@@ -9,7 +9,7 @@ import 'package:workout_player/widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/home_tab/routine_history/daily_summary_card.dart';
-import 'package:workout_player/screens/home_tab/routine_history/daily_summary_detail_screen.dart';
+import 'package:workout_player/screens/home_tab/routine_history/routine_history_detail_screen.dart';
 import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -18,7 +18,8 @@ import '../../../constants.dart';
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;
 
-  const RoutineHistoriesScreen({Key key, this.database}) : super(key: key);
+  const RoutineHistoriesScreen({Key? key, required this.database})
+      : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -72,20 +73,20 @@ class RoutineHistoriesScreen extends StatelessWidget {
         itemBuilder: (index, context, documentSnapshot) {
           final documentId = documentSnapshot.id;
           final data = documentSnapshot.data();
-          final routineHistory = RoutineHistory.fromMap(data, documentId);
+          final routineHistory = RoutineHistory.fromMap(data!, documentId);
 
           return DailySummaryCard(
             date: routineHistory.workoutStartTime,
             workoutTitle: routineHistory.routineTitle,
             totalWeights: routineHistory.totalWeights,
-            caloriesBurnt: routineHistory.totalCalories,
+            caloriesBurnt: routineHistory.totalCalories!,
             totalDuration: routineHistory.totalDuration,
-            earnedBadges: routineHistory.earnedBadges,
+            earnedBadges: routineHistory.earnedBadges!,
             unitOfMass: routineHistory.unitOfMass,
             onTap: () {
               debugPrint('Activity Card was tapped');
 
-              DailySummaryDetailScreen.show(
+              RoutineHistoryDetailScreen.show(
                 context,
                 routineHistory: routineHistory,
               );

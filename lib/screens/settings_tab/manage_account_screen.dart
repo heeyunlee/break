@@ -18,15 +18,15 @@ Logger logger = Logger();
 
 class ManageAccountScreen extends StatefulWidget {
   const ManageAccountScreen({
-    Key key,
-    this.database,
-    this.auth,
+    Key? key,
+    required this.database,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
   final AuthBase auth;
 
-  static void show(BuildContext context, {User user}) async {
+  static void show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context, rootNavigator: false).push(
@@ -77,12 +77,13 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
 
     return StreamBuilder<User>(
         initialData: userDummyData,
-        stream: widget.database.userStream(widget.auth.currentUser.uid),
+        stream: widget.database.userStream(widget.auth.currentUser!.uid),
         builder: (context, snapshot) {
           final user = snapshot.data;
 
           print(user);
 
+          // var context2 = context;
           return SingleChildScrollView(
             child: SizedBox(
               height: size.height,
@@ -90,7 +91,9 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
+                  SizedBox(
+                    height: Scaffold.of(context).appBarMaxHeight ?? 0 + 16,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
@@ -103,7 +106,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (user.displayName != null)
+                        if (user!.displayName != null)
                           Text(
                             user.displayName,
                             style: BodyText2Grey,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-enum TabItem { explore, search, progress, library, settings }
+// enum TabItem { explore, search, progress, library, settings }
+enum TabItem { explore, search, progress, library }
 
 class TabItemData {
   const TabItemData({
-    @required this.label,
+    required this.label,
     @required this.selectedIcon,
-    this.isIconPNG,
+    this.isIconPNG = false,
     // @required this.unselectedIcon,
   });
 
@@ -38,11 +39,11 @@ class TabItemData {
       isIconPNG: false,
       // unselectedIcon: Icons.bar_chart_outlined,
     ),
-    TabItem.settings: TabItemData(
-      label: 'Settings',
-      selectedIcon: Icons.more_horiz_rounded,
-      isIconPNG: false,
-      // unselectedIcon: Icons.bar_chart_outlined,
-    ),
+    // TabItem.settings: TabItemData(
+    //   label: 'Settings',
+    //   selectedIcon: Icons.more_horiz_rounded,
+    //   isIconPNG: false,
+    //   // unselectedIcon: Icons.bar_chart_outlined,
+    // ),
   };
 }

@@ -17,17 +17,17 @@ Logger logger = Logger();
 
 class ChangeDisplayNameScreen extends StatefulWidget {
   const ChangeDisplayNameScreen({
-    Key key,
-    @required this.database,
-    @required this.user,
-    @required this.auth,
+    Key? key,
+    required this.database,
+    required this.user,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
   final User user;
   final AuthBase auth;
 
-  static Future<void> show(BuildContext context, {User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
@@ -47,10 +47,10 @@ class ChangeDisplayNameScreen extends StatefulWidget {
 }
 
 class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
-  String _displayName;
+  late String _displayName;
 
   var _textController1 = TextEditingController();
-  FocusNode focusNode1;
+  late FocusNode focusNode1;
 
   @override
   void initState() {
@@ -66,13 +66,13 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
   }
 
   // Submit data to Firestore
-  Future<void> _updateDisplayName() async {
+  Future<bool?> _updateDisplayName() async {
     if (_displayName.isNotEmpty) {
       try {
         final user = {
           'displayName': _displayName,
         };
-        await widget.database.updateUser(widget.auth.currentUser.uid, user);
+        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
         // Updating username in Routine History
         List<Map<String, dynamic>> routineHistories = [];
@@ -193,7 +193,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
               _displayName = value;
             }),
             onSaved: (value) => setState(() {
-              _displayName = value;
+              _displayName = value!;
             }),
             onFieldSubmitted: (value) {
               setState(() {

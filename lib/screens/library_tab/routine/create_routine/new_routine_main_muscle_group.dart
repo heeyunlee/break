@@ -8,8 +8,10 @@ typedef StringCallback = void Function(List list);
 class NewRoutineMainMuscleGroupScreen extends StatefulWidget {
   final StringCallback mainMuscleGroupCallback;
 
-  const NewRoutineMainMuscleGroupScreen({Key key, this.mainMuscleGroupCallback})
-      : super(key: key);
+  const NewRoutineMainMuscleGroupScreen({
+    Key? key,
+    required this.mainMuscleGroupCallback,
+  }) : super(key: key);
 
   @override
   _NewRoutineMainMuscleGroupScreenState createState() =>
@@ -41,17 +43,17 @@ class _NewRoutineMainMuscleGroupScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_mainMuscleGroupMap[key]) ? PrimaryColor : Grey700,
+                    color: (_mainMuscleGroupMap[key]!) ? PrimaryColor : Grey700,
                     child: CheckboxListTile(
                       activeColor: Primary700Color,
-                      title: Text(title, style: ButtonText),
+                      title: Text(title!, style: ButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroupMap[key],
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _mainMuscleGroupMap[key] = value;
+                          _mainMuscleGroupMap[key] = value!;
                         });
-                        if (_mainMuscleGroupMap[key]) {
+                        if (_mainMuscleGroupMap[key]!) {
                           _selectedMainMuscleGroup.add(key);
                         } else {
                           _selectedMainMuscleGroup.remove(key);

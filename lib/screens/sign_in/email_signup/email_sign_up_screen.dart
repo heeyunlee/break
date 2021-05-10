@@ -37,7 +37,11 @@ class EmailSignUpScreen extends StatefulWidget with EmailAndPasswordValidators {
   final AuthBase auth;
   final Database database;
 
-  EmailSignUpScreen({Key key, this.auth, this.database}) : super(key: key);
+  EmailSignUpScreen({
+    Key? key,
+    required this.auth,
+    required this.database,
+  }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -61,15 +65,15 @@ class EmailSignUpScreen extends StatefulWidget with EmailAndPasswordValidators {
 class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _textController1;
-  TextEditingController _textController2;
-  TextEditingController _textController3;
-  TextEditingController _textController4;
+  late TextEditingController _textController1;
+  late TextEditingController _textController2;
+  late TextEditingController _textController3;
+  late TextEditingController _textController4;
 
-  FocusNode _focusNode1;
-  FocusNode _focusNode2;
-  FocusNode _focusNode3;
-  FocusNode _focusNode4;
+  late FocusNode _focusNode1;
+  late FocusNode _focusNode2;
+  late FocusNode _focusNode3;
+  late FocusNode _focusNode4;
 
   String get _email => _textController1.text;
   String get _firstName => _textController2.text;
@@ -106,7 +110,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate() ?? false) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -130,10 +134,10 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         final locale = Intl.getCurrentLocale();
 
         final user = User(
-          userId: firebaseUser.uid,
+          userId: firebaseUser!.uid,
           displayName: '$_firstName $_lastName' ?? id,
           userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email,
+          userEmail: firebaseUser.providerData[0].email ?? '',
           signUpDate: currentTime,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
@@ -142,6 +146,8 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
           lastLoginDate: currentTime,
           dailyWorkoutHistories: [],
           dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
         );
 
         await widget.database.setUser(user);
@@ -180,22 +186,22 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
     bool _showEmailErrorText =
         submitted && !widget.validator.isEmailValid(_email);
-    String _emailErrorText =
+    String? _emailErrorText =
         _showEmailErrorText ? widget.invalidEmailText : null;
 
     bool _showFirstNameErrorText =
         submitted && !widget.validator.isFirstNameValid(_firstName);
-    String _firstNameErrorText =
+    String? _firstNameErrorText =
         _showFirstNameErrorText ? S.current.firstNameValidationText : null;
 
     bool _showLastNameErrorText =
         submitted && !widget.validator.isLastNameValid(_firstName);
-    String _lastNameErrorText =
+    String? _lastNameErrorText =
         _showLastNameErrorText ? S.current.lastNameValidationText : null;
 
     bool _showPaswordErrorText =
         submitted && !widget.validator.isPasswordValid(_password);
-    String _passwordErrorText =
+    String? _passwordErrorText =
         _showPaswordErrorText ? widget.emptyPasswordText : null;
 
     return KeyboardActions(

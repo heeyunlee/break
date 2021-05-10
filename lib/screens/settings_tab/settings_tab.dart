@@ -111,7 +111,7 @@ class SettingsTab extends StatelessWidget {
 
     return StreamBuilder<User>(
         initialData: userDummyData,
-        stream: database.userStream(auth.currentUser.uid),
+        stream: database.userStream(auth.currentUser!.uid),
         builder: (context, snapshot) {
           final user = snapshot.data;
 
@@ -122,7 +122,9 @@ class SettingsTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(height: Scaffold.of(context).appBarMaxHeight + 16),
+                  SizedBox(
+                    height: Scaffold.of(context).appBarMaxHeight ?? 0 + 16,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(S.current.account, style: BodyText2BoldGrey),
@@ -138,7 +140,7 @@ class SettingsTab extends StatelessWidget {
                       color: Colors.grey,
                       size: 20,
                     ),
-                    onTap: () => ManageAccountScreen.show(context, user: user),
+                    onTap: () => ManageAccountScreen.show(context, user: user!),
                   ),
                   ListTile(
                     leading: const Icon(
@@ -150,7 +152,7 @@ class SettingsTab extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          UnitOfMass.values[user.unitOfMass].label,
+                          UnitOfMass.values[user!.unitOfMass].label!,
                           style: BodyText2Grey,
                         ),
                         const SizedBox(width: 16),
@@ -162,7 +164,7 @@ class SettingsTab extends StatelessWidget {
                       ],
                     ),
                     onTap: () => UnitOfMassScreen.show(
-                      context: context,
+                      context,
                       user: user,
                     ),
                   ),

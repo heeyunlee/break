@@ -9,7 +9,7 @@ import '../../format.dart';
 class FlexibleSpaceTablet extends StatelessWidget {
   final User user;
 
-  const FlexibleSpaceTablet({Key key, this.user}) : super(key: key);
+  const FlexibleSpaceTablet({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

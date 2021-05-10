@@ -5,8 +5,8 @@ import 'show_alert_dialog.dart';
 
 Future<void> showExceptionAlertDialog(
   BuildContext context, {
-  @required String title,
-  @required String exception,
+  required String title,
+  required String exception,
 }) =>
     showAlertDialog(
       context,

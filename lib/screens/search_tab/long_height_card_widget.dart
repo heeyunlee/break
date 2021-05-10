@@ -7,18 +7,18 @@ class LongHeightCardWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final String thirdLineSubtitle;
-  final Function onTap;
+  final String? thirdLineSubtitle;
+  final void Function()? onTap;
   final String tag;
 
   const LongHeightCardWidget({
-    Key key,
-    this.imageUrl,
-    this.title,
-    this.subtitle,
+    Key? key,
+    required this.imageUrl,
+    required this.title,
+    required this.subtitle,
     this.thirdLineSubtitle,
     this.onTap,
-    this.tag,
+    required this.tag,
   }) : super(key: key);
 
   @override
@@ -77,7 +77,7 @@ class LongHeightCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  thirdLineSubtitle,
+                  thirdLineSubtitle!,
                   style: BodyText2Grey,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

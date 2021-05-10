@@ -7,7 +7,7 @@ enum Difficulty {
 }
 
 extension DifficultyExtension on Difficulty {
-  String get translation {
+  String? get translation {
     switch (this) {
       case Difficulty.Beginner:
         return S.current.beginner;
@@ -37,7 +37,7 @@ extension DifficultyTranslatedList on Difficulty {
     final List<String> _difficultyList = [];
     for (var i = 0; i < Difficulty.values.length; i++) {
       final value = Difficulty.values[i].translation;
-      _difficultyList.add(value);
+      _difficultyList.add(value!);
     }
     return _difficultyList;
   }

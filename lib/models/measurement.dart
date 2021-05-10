@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class Measurement {
   final String measurementId;
@@ -8,18 +7,18 @@ class Measurement {
   final Timestamp loggedTime;
   final DateTime loggedDate;
   final num bodyWeight;
-  final num bodyFat;
-  final num skeletalMuscleMass;
-  final num bmi;
-  final String notes;
+  final num? bodyFat;
+  final num? skeletalMuscleMass;
+  final num? bmi;
+  final String? notes;
 
   Measurement({
-    @required this.measurementId,
-    @required this.userId,
-    @required this.username,
-    @required this.loggedTime,
-    @required this.loggedDate,
-    @required this.bodyWeight,
+    required this.measurementId,
+    required this.userId,
+    required this.username,
+    required this.loggedTime,
+    required this.loggedDate,
+    required this.bodyWeight,
     this.bodyFat,
     this.skeletalMuscleMass,
     this.bmi,
@@ -27,9 +26,9 @@ class Measurement {
   });
 
   factory Measurement.fromMap(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final String userId = data['userId'];
     final String username = data['username'];
     final Timestamp loggedTime = data['loggedTime'];

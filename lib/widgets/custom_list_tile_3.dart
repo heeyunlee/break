@@ -7,17 +7,17 @@ import '../constants.dart';
 
 class CustomListTile3 extends StatelessWidget {
   const CustomListTile3({
-    Key key,
-    this.tag,
-    this.imageUrl,
-    this.title,
-    this.leadingText,
-    this.subtitle,
+    Key? key,
+    required this.tag,
+    required this.imageUrl,
+    required this.title,
+    required this.leadingText,
+    required this.subtitle,
     this.subtitle2,
     this.onTap,
     this.onLongTap,
     this.trailingIconButton,
-    this.isLeadingDuration,
+    this.isLeadingDuration = false,
   }) : super(key: key);
 
   final Object tag;
@@ -25,10 +25,10 @@ class CustomListTile3 extends StatelessWidget {
   final String title;
   final String leadingText;
   final String subtitle;
-  final String subtitle2;
-  final void Function() onTap;
-  final void Function() onLongTap;
-  final Widget trailingIconButton;
+  final String? subtitle2;
+  final void Function()? onTap;
+  final void Function()? onLongTap;
+  final Widget? trailingIconButton;
   final bool isLeadingDuration;
 
   @override
@@ -73,7 +73,7 @@ class CustomListTile3 extends StatelessWidget {
                       const SizedBox(height: 4),
                       if (subtitle2 != null)
                         Text(
-                          subtitle2,
+                          subtitle2 ?? 'Subtitle 2',
                           style: Caption1Grey,
                           maxLines: 1,
                           overflow: TextOverflow.fade,

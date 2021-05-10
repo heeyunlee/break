@@ -11,7 +11,6 @@ import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -21,13 +20,17 @@ class AddMeasurementScreen extends StatefulWidget {
   final Database database;
   final AuthBase auth;
 
-  const AddMeasurementScreen({Key key, this.user, this.database, this.auth})
-      : super(key: key);
+  const AddMeasurementScreen({
+    Key? key,
+    required this.user,
+    required this.database,
+    required this.auth,
+  }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {Routine routine}) async {
+  static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -49,29 +52,29 @@ class AddMeasurementScreen extends StatefulWidget {
 class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  Timestamp _loggedTime;
-  String _loggedTimeInString;
-  DateTime _loggedDate;
+  late Timestamp _loggedTime;
+  late String _loggedTimeInString;
+  late DateTime _loggedDate;
 
-  num _bodyWeight;
-  TextEditingController _textController1;
-  FocusNode _focusNode1;
+  late num _bodyWeight;
+  late TextEditingController _textController1;
+  late FocusNode _focusNode1;
 
-  num _bodyFat;
-  TextEditingController _textController2;
-  FocusNode _focusNode2;
+  late num _bodyFat;
+  late TextEditingController _textController2;
+  late FocusNode _focusNode2;
 
-  num _skeletalMuscleMass;
-  TextEditingController _textController3;
-  FocusNode _focusNode3;
+  late num _skeletalMuscleMass;
+  late TextEditingController _textController3;
+  late FocusNode _focusNode3;
 
-  num _bmi;
-  TextEditingController _textController4;
-  FocusNode _focusNode4;
+  late num _bmi;
+  late TextEditingController _textController4;
+  late FocusNode _focusNode4;
 
-  String _notes;
-  TextEditingController _textController5 = TextEditingController();
-  FocusNode _focusNode5;
+  late String _notes;
+  late TextEditingController _textController5;
+  late FocusNode _focusNode5;
 
   @override
   void initState() {
@@ -116,7 +119,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -319,18 +322,18 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     style: BodyText1,
                     validator: (value) {
                       print(value.runtimeType);
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return S.current.weightsHintText;
                       }
                       return null;
                     },
                     onChanged: (value) => setState(() {
                       _bodyWeight = num.parse(value);
-                      _formKey.currentState.validate();
+                      _formKey.currentState!.validate();
                     }),
                     onFieldSubmitted: (value) => setState(() {
                       _bodyWeight = num.parse(value);
-                      _formKey.currentState.validate();
+                      _formKey.currentState!.validate();
                     }),
                   ),
                   const SizedBox(height: 24),

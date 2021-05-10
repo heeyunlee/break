@@ -10,7 +10,7 @@ import '../../services/database.dart';
 import '../../widgets/empty_content.dart';
 import '../../widgets/speed_dial_fab.dart';
 import '../../models/routine_history.dart';
-import 'routine_history/daily_summary_detail_screen.dart';
+import 'routine_history/routine_history_detail_screen.dart';
 import 'routine_history_summary_card.dart';
 
 class HomeTab extends StatefulWidget {
@@ -135,7 +135,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
 
           return RoutineHistorySummaryFeedCard(
             routineHistory: routineHistory,
-            onTap: () => DailySummaryDetailScreen.show(
+            onTap: () => RoutineHistoryDetailScreen.show(
               context,
               routineHistory: routineHistory,
             ),

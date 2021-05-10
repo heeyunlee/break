@@ -3,28 +3,28 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showAdaptiveModalBottomSheet({
-  BuildContext context,
-  Text title,
-  Text message,
-  bool isFirstActionDefault,
-  Icon firstActionIcon,
-  String firstActionText,
-  void Function() firstActionOnPressed,
-  bool isSecondActionDefault,
-  Icon secondActionIcon,
-  String secondActionText,
-  void Function() secondActionOnPressed,
-  bool isThirdActionDefault,
-  Icon thirdActionIcon,
-  String thirdActionText,
-  void Function() thirdActionOnPressed,
-  bool isCancelDefault,
-  Icon cancelActionIcon,
-  String cancelText,
+Future<bool?> showAdaptiveModalBottomSheet(
+  context, {
+  required Text title,
+  required Text message,
+  bool? isFirstActionDefault,
+  Icon? firstActionIcon,
+  String? firstActionText,
+  void Function()? firstActionOnPressed,
+  bool? isSecondActionDefault,
+  Icon? secondActionIcon,
+  String? secondActionText,
+  void Function()? secondActionOnPressed,
+  bool? isThirdActionDefault,
+  Icon? thirdActionIcon,
+  String? thirdActionText,
+  void Function()? thirdActionOnPressed,
+  bool? isCancelDefault,
+  Icon? cancelActionIcon,
+  String? cancelText,
 }) {
   if (!Platform.isIOS) {
-    return showModalBottomSheet(
+    return showModalBottomSheet<bool>(
       useRootNavigator: false,
       backgroundColor: Colors.white,
       context: context,
@@ -32,11 +32,10 @@ Future<bool> showAdaptiveModalBottomSheet({
         return Wrap(
           children: <Widget>[
             const SizedBox(height: 16),
-            if (title != null || message != null)
-              ListTile(
-                title: title,
-                subtitle: message,
-              ),
+            ListTile(
+              title: title,
+              subtitle: message,
+            ),
             const Divider(indent: 4, endIndent: 4),
             if (firstActionText != null)
               ListTile(
@@ -96,7 +95,7 @@ Future<bool> showAdaptiveModalBottomSheet({
       },
     );
   }
-  return showCupertinoModalPopup(
+  return showCupertinoModalPopup<bool>(
     useRootNavigator: false,
     context: context,
     builder: (context) => CupertinoActionSheet(
@@ -107,21 +106,21 @@ Future<bool> showAdaptiveModalBottomSheet({
           CupertinoActionSheetAction(
             isDefaultAction: (isFirstActionDefault == true) ? true : false,
             isDestructiveAction: (isFirstActionDefault == true) ? false : true,
-            onPressed: firstActionOnPressed,
+            onPressed: firstActionOnPressed ?? () {},
             child: Text(firstActionText),
           ),
         if (secondActionText != null)
           CupertinoActionSheetAction(
             isDefaultAction: (isSecondActionDefault == true) ? true : false,
             isDestructiveAction: (isSecondActionDefault == true) ? false : true,
-            onPressed: secondActionOnPressed,
+            onPressed: secondActionOnPressed ?? () {},
             child: Text(secondActionText),
           ),
         if (thirdActionText != null)
           CupertinoActionSheetAction(
             isDefaultAction: (isThirdActionDefault == true) ? true : false,
             isDestructiveAction: (isThirdActionDefault == true) ? false : true,
-            onPressed: thirdActionOnPressed,
+            onPressed: thirdActionOnPressed ?? () {},
             child: Text(thirdActionText),
           ),
       ],
@@ -129,7 +128,7 @@ Future<bool> showAdaptiveModalBottomSheet({
         isDefaultAction: (isCancelDefault == true) ? true : false,
         isDestructiveAction: (isCancelDefault == true) ? false : true,
         onPressed: () => Navigator.of(context).pop(),
-        child: Text(cancelText),
+        child: Text(cancelText ?? 'CANCEL'),
       ),
     ),
   );

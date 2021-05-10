@@ -20,13 +20,13 @@ class Format {
     return formatter.format(weightsNotNull);
   }
 
-  static String unitOfMass(int unitOfMass) {
+  static String? unitOfMass(int? unitOfMass) {
     final unitOfMassNotNull = unitOfMass ?? 1;
 
     return UnitOfMass.values[unitOfMassNotNull].label;
   }
 
-  static String difficulty(int difficulty) {
+  static String? difficulty(int? difficulty) {
     final difficultyNotNull = difficulty ?? 2;
 
     return Difficulty.values[difficultyNotNull].translation;

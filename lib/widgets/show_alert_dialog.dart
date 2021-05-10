@@ -3,18 +3,18 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showAlertDialog(
+Future<bool?> showAlertDialog(
   BuildContext context, {
-  @required String title,
-  @required String content,
-  @required String defaultActionText,
-  String cancelAcitionText,
-  Function onPressed,
+  required String title,
+  required String content,
+  required String defaultActionText,
+  String? cancelAcitionText,
+  Function? onPressed,
   bool isCancelDefault = false,
   bool isDefaultDefault = true,
 }) {
   if (!Platform.isIOS) {
-    return showDialog(
+    return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),

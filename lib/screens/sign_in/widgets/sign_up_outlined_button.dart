@@ -4,17 +4,17 @@ import 'package:flutter_svg/svg.dart';
 import '../../../constants.dart';
 
 class SignUpOutlinedButton extends StatelessWidget {
-  final void Function() onPressed;
-  final String logo;
+  final String? logo;
   final String buttonText;
-  final Color logoColor;
+  final void Function()? onPressed;
+  final Color? logoColor;
   final double logoSize;
   final bool isLogoSVG;
 
   const SignUpOutlinedButton({
-    Key key,
+    Key? key,
     this.logo,
-    this.buttonText,
+    required this.buttonText,
     this.onPressed,
     this.logoColor,
     this.logoSize = 18,
@@ -43,14 +43,14 @@ class SignUpOutlinedButton extends StatelessWidget {
             children: [
               if (!isLogoSVG)
                 Image.asset(
-                  logo,
+                  logo!,
                   height: logoSize,
                   width: logoSize,
                   color: logoColor,
                 ),
               if (isLogoSVG)
                 SvgPicture.asset(
-                  logo,
+                  logo!,
                   height: logoSize,
                   width: logoSize,
                   color: logoColor,

@@ -29,10 +29,10 @@ Logger logger = Logger();
 
 class DuringWorkoutScreen extends StatefulWidget {
   const DuringWorkoutScreen({
-    Key key,
-    this.database,
-    this.routine,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.routine,
+    required this.user,
   }) : super(key: key);
 
   final Database database;
@@ -41,7 +41,7 @@ class DuringWorkoutScreen extends StatefulWidget {
 
   static Future<void> show(
     BuildContext context, {
-    Routine routine,
+    required Routine routine,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -67,17 +67,20 @@ class DuringWorkoutScreen extends StatefulWidget {
 
 class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+  // TODO: late variable used
+  late AnimationController _animationController;
   final CountDownController _countDownController = CountDownController();
 
-  bool _isPaused;
+  // TODO: late variable used
+  late bool _isPaused;
   Duration _restTime = Duration();
   int routineWorkoutIndex = 0;
   int setIndex = 0;
   int setLength = 0;
   int currentIndex = 1;
   bool setLengthCalculated = false;
-  Timestamp _workoutStartTime;
+  // TODO: late variable used
+  late Timestamp _workoutStartTime;
 
   // List _selectedSets = List();
 
@@ -162,7 +165,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       // GET history data
       final histories = widget.user.dailyWorkoutHistories;
 
-      final index = widget.user.dailyWorkoutHistories
+      final index = widget.user.dailyWorkoutHistories!
           .indexWhere((element) => element.date.toUtc() == workoutDate);
 
       if (index == -1) {
@@ -170,11 +173,11 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
           date: workoutDate,
           totalWeights: totalWeights,
         );
-        histories.add(newHistory);
+        histories!.add(newHistory);
       } else {
         // final index = widget.user.dailyWorkoutHistories
         //     .indexWhere((element) => element.date.toUtc() == workoutDate);
-        final oldHistory = histories[index];
+        final oldHistory = histories![index];
 
         final newHistory = DailyWorkoutHistory(
           date: oldHistory.date,
@@ -223,7 +226,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       _animationController.reverse();
       currentIndex = currentIndex -
           setIndex -
-          routineWorkouts[routineWorkoutIndex - 1].sets.length;
+          routineWorkouts[routineWorkoutIndex - 1].sets!.length;
       setIndex = 0;
       routineWorkoutIndex--;
     });
@@ -245,7 +248,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
       });
     } else {
       setState(() {
-        setIndex = routineWorkouts[routineWorkoutIndex - 1].sets.length - 1;
+        setIndex = routineWorkouts[routineWorkoutIndex - 1].sets!.length - 1;
         routineWorkoutIndex--;
       });
     }
@@ -278,13 +281,15 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     RoutineWorkout routineWorkout,
     WorkoutSet workoutSet,
   ) async {
-    final workoutSetLength = routineWorkout.sets.length - 1;
+    final workoutSetLength = routineWorkout.sets!.length - 1;
     final routineWorkoutLength = routineWorkouts.length - 1;
     setState(() {
       _isPaused = false;
       _animationController.reverse();
       currentIndex++;
-      if (workoutSet.isRest) _restTime = Duration(seconds: workoutSet.restTime);
+      if (workoutSet.isRest) {
+        _restTime = Duration(seconds: workoutSet.restTime ?? 60);
+      }
     });
     if (setIndex < workoutSetLength) {
       setState(() {
@@ -308,12 +313,15 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
     WorkoutSet workoutSet,
     RoutineWorkout routineWorkout,
   ) async {
-    final workoutSetLength = routineWorkout.sets.length - 1;
+    final workoutSetLength = routineWorkout.sets!.length - 1;
 
     setState(() {
       _isPaused = false;
       _animationController.reverse();
-      if (workoutSet.isRest) _restTime = Duration(seconds: workoutSet.restTime);
+      if (workoutSet.isRest) {
+        _restTime = Duration(seconds: workoutSet.restTime ?? 60);
+      }
+      ;
       currentIndex = currentIndex - setIndex + workoutSetLength + 1;
       setIndex = 0;
       routineWorkoutIndex++;
@@ -357,20 +365,20 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
         if (snapshot.hasData) {
           final routineWorkouts = snapshot.data;
 
-          if (routineWorkouts.isNotEmpty) {
+          if (routineWorkouts!.isNotEmpty) {
             final routineWorkout = routineWorkouts[routineWorkoutIndex];
 
-            if (routineWorkout.sets.isNotEmpty) {
-              final workoutSet = routineWorkout.sets[setIndex];
+            if (routineWorkout.sets!.isNotEmpty) {
+              final workoutSet = routineWorkout.sets![setIndex];
 
               if (workoutSet.isRest) {
                 _restTime = Duration(
-                  seconds: workoutSet.restTime,
+                  seconds: workoutSet.restTime ?? 0,
                 );
               }
               if (!setLengthCalculated) {
                 for (var i = 0; i < routineWorkouts.length; i++) {
-                  var length = routineWorkouts[i].sets.length;
+                  var length = routineWorkouts[i].sets!.length;
                   setLength = setLength + length;
                   // debugPrint('$setLength');
                 }
@@ -411,7 +419,7 @@ class _DuringWorkoutScreenState extends State<DuringWorkoutScreen>
 
     final size = MediaQuery.of(context).size;
     final routineWorkoutsLength = routineWorkouts.length - 1;
-    final workoutSetsLength = routineWorkout.sets.length - 1;
+    final workoutSetsLength = routineWorkout.sets!.length - 1;
     final currentProgress = currentIndex / setLength * 100;
     final formattedCurrentProgress = '${f.format(currentProgress)} %';
 

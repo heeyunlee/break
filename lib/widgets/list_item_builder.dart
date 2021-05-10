@@ -9,9 +9,9 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
 class ListItemBuilder<T> extends StatelessWidget {
   const ListItemBuilder({
-    Key key,
-    @required this.snapshot,
-    @required this.itemBuilder,
+    Key? key,
+    required this.snapshot,
+    required this.itemBuilder,
     this.emptyContentTitle = 'No Contents....',
     this.emptyContentButton,
     this.isEmptyContentWidget = false,
@@ -22,16 +22,16 @@ class ListItemBuilder<T> extends StatelessWidget {
   final AsyncSnapshot<List<T>> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;
   final String emptyContentTitle;
-  final Widget emptyContentButton;
+  final Widget? emptyContentButton;
   final bool isEmptyContentWidget;
-  final Widget emptyContentWidget;
-  final ScrollController scrollController;
+  final Widget? emptyContentWidget;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
     if (snapshot.hasData) {
       final items = snapshot.data;
-      if (items.isNotEmpty) {
+      if (items!.isNotEmpty) {
         return _buildList(items);
       } else {
         if (!isEmptyContentWidget) {
@@ -40,7 +40,8 @@ class ListItemBuilder<T> extends StatelessWidget {
             button: emptyContentButton,
           );
         }
-        return emptyContentWidget;
+        // TODO: CHECK IF THIS WORKS
+        return emptyContentWidget ?? Container();
       }
     } else if (snapshot.hasError) {
       logger.d(snapshot.error);

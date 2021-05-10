@@ -421,6 +421,13 @@ const Caption1 = TextStyle(
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
+const Caption1Primary = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  color: PrimaryColor,
+  letterSpacing: 0.4,
+  fontFamily: 'NanumSquareRound',
+);
 const Caption1Grey = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,

@@ -6,11 +6,11 @@ import '../constants.dart';
 
 class CustomListTile64 extends StatelessWidget {
   const CustomListTile64({
-    Key key,
-    this.tag,
-    this.imageUrl,
-    this.title,
-    this.subtitle,
+    Key? key,
+    required this.tag,
+    required this.imageUrl,
+    required this.title,
+    required this.subtitle,
     this.onTap,
     this.onLongTap,
     this.trailingIconButton,
@@ -20,9 +20,9 @@ class CustomListTile64 extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final void Function() onTap;
-  final void Function() onLongTap;
-  final Widget trailingIconButton;
+  final void Function()? onTap;
+  final void Function()? onLongTap;
+  final Widget? trailingIconButton;
 
   @override
   Widget build(BuildContext context) {

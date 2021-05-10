@@ -25,8 +25,8 @@ import 'summary_row_widget.dart';
 
 Logger logger = Logger();
 
-class DailySummaryDetailScreen extends StatefulWidget {
-  const DailySummaryDetailScreen({
+class RoutineHistoryDetailScreen extends StatefulWidget {
+  const RoutineHistoryDetailScreen({
     Key key,
     @required this.database,
     @required this.auth,
@@ -50,7 +50,7 @@ class DailySummaryDetailScreen extends StatefulWidget {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => DailySummaryDetailScreen(
+        builder: (context) => RoutineHistoryDetailScreen(
           routineHistory: routineHistory,
           database: database,
           auth: auth,
@@ -61,11 +61,11 @@ class DailySummaryDetailScreen extends StatefulWidget {
   }
 
   @override
-  _DailySummaryDetailScreenState createState() =>
-      _DailySummaryDetailScreenState();
+  _RoutineHistoryDetailScreenState createState() =>
+      _RoutineHistoryDetailScreenState();
 }
 
-class _DailySummaryDetailScreenState extends State<DailySummaryDetailScreen>
+class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     with TickerProviderStateMixin {
   FocusNode focusNode1;
   var _textController1 = TextEditingController();

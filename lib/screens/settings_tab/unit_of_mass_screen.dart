@@ -16,17 +16,17 @@ Logger logger = Logger();
 
 class UnitOfMassScreen extends StatefulWidget {
   const UnitOfMassScreen({
-    Key key,
-    @required this.database,
-    @required this.user,
-    @required this.auth,
+    Key? key,
+    required this.database,
+    required this.user,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
   final User user;
   final AuthBase auth;
 
-  static Future<void> show({BuildContext context, User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
@@ -45,7 +45,7 @@ class UnitOfMassScreen extends StatefulWidget {
 }
 
 class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
-  int _unitOfMass;
+  late int _unitOfMass;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       final user = {
         'unitOfMass': _unitOfMass,
       };
-      await widget.database.updateUser(widget.auth.currentUser.uid, user);
+      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
       logger.d(e);

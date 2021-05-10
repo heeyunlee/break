@@ -14,7 +14,8 @@ import '../../../constants.dart';
 class ProteinsEatenChartWidget extends StatefulWidget {
   final User user;
 
-  const ProteinsEatenChartWidget({Key key, this.user}) : super(key: key);
+  const ProteinsEatenChartWidget({Key? key, required this.user})
+      : super(key: key);
 
   @override
   _ProteinsEatenChartWidgetState createState() =>
@@ -22,7 +23,7 @@ class ProteinsEatenChartWidget extends StatefulWidget {
 }
 
 class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
-  int touchedIndex;
+  late int touchedIndex;
   double maxY = 150;
 
   List<DateTime> _dates = [];
@@ -34,7 +35,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
   final List<double> _relativeNumber = [];
 
   void setSevenDaysOfHistory() {
-    _historiesFromFirebase = widget.user.dailyNutritionHistories;
+    _historiesFromFirebase = widget.user.dailyNutritionHistories!;
     if (_historiesFromFirebase.isNotEmpty) {
       var sevenDayHistory = List<DailyNutritionHistory>.generate(7, (index) {
         var matchingHistory = _historiesFromFirebase
@@ -53,7 +54,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
 
   //  SET MAX Y
   void setMaxY() {
-    if (widget.user.dailyNutritionHistories.isEmpty) {
+    if (widget.user.dailyNutritionHistories!.isEmpty) {
       maxY = 150;
     } else {
       final largest =
@@ -207,7 +208,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                                 barTouchResponse.touchInput
                                     is! PointerUpEvent) {
                               touchedIndex =
-                                  barTouchResponse.spot.touchedBarGroupIndex;
+                                  barTouchResponse.spot!.touchedBarGroupIndex;
                             } else {
                               touchedIndex = -1;
                             }
@@ -266,7 +267,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                       ),
                       borderData: FlBorderData(show: false),
                       barGroups:
-                          (widget.user.dailyNutritionHistories.isNotEmpty)
+                          (widget.user.dailyNutritionHistories!.isNotEmpty)
                               ? _barGroupsChild(widget.user)
                               : randomData(),
                     ),
@@ -281,8 +282,8 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
   }
 
   BarChartGroupData _makeBarChartGroupData({
-    int x,
-    double y,
+    required int x,
+    required double y,
     double width = 16,
     bool isTouched = false,
   }) {

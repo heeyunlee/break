@@ -1,24 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class User {
   User({
-    @required this.userId,
-    @required this.userName,
-    @required this.userEmail,
-    @required this.signUpDate,
-    @required this.signUpProvider,
-    this.savedWorkouts,
-    this.savedRoutines,
-    this.totalWeights,
-    this.totalNumberOfWorkouts,
-    this.unitOfMass,
-    this.lastLoginDate,
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    required this.signUpDate,
+    required this.signUpProvider,
+    required this.savedWorkouts,
+    required this.savedRoutines,
+    required this.totalWeights,
+    required this.totalNumberOfWorkouts,
+    required this.unitOfMass,
+    required this.lastLoginDate,
     this.dailyWorkoutHistories,
     this.dailyNutritionHistories,
     this.dailyWeightsGoal,
     this.dailyProteinGoal,
-    this.displayName,
+    required this.displayName,
   });
 
   String userId;
@@ -32,16 +31,16 @@ class User {
   int totalNumberOfWorkouts;
   int unitOfMass;
   Timestamp lastLoginDate;
-  List<DailyWorkoutHistory> dailyWorkoutHistories;
-  List<DailyNutritionHistory> dailyNutritionHistories;
-  num dailyWeightsGoal;
-  num dailyProteinGoal;
+  List<DailyWorkoutHistory>? dailyWorkoutHistories;
+  List<DailyNutritionHistory>? dailyNutritionHistories;
+  num? dailyWeightsGoal;
+  num? dailyProteinGoal;
   String displayName;
 
   factory User.fromJson(Map<String, dynamic> data, String documentId) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final userName = data['userName'];
     final userEmail = data['userEmail'];
     final signUpDate = data['signUpDate'];
@@ -105,11 +104,11 @@ class User {
     data['lastLoginDate'] = lastLoginDate;
     if (dailyWorkoutHistories != null) {
       data['dailyWorkoutHistories'] =
-          dailyWorkoutHistories.map((e) => e.toMap()).toList();
+          dailyWorkoutHistories!.map((e) => e.toMap()).toList();
     }
     if (dailyNutritionHistories != null) {
       data['dailyNutritionHistories'] =
-          dailyNutritionHistories.map((e) => e.toMap()).toList();
+          dailyNutritionHistories!.map((e) => e.toMap()).toList();
     }
     data['dailyWeightsGoal'] = dailyWeightsGoal;
     data['dailyProteinGoal'] = dailyProteinGoal;
@@ -120,15 +119,18 @@ class User {
 }
 
 class DailyWorkoutHistory {
-  DailyWorkoutHistory({this.date, this.totalWeights});
+  DailyWorkoutHistory({
+    required this.date,
+    required this.totalWeights,
+  });
 
   final DateTime date;
   final num totalWeights;
 
   factory DailyWorkoutHistory.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final DateTime date = data['date'].toDate();
     final num totalWeights = data['totalWeights'].toDouble();
 
@@ -147,15 +149,18 @@ class DailyWorkoutHistory {
 }
 
 class DailyNutritionHistory {
-  DailyNutritionHistory({this.date, this.totalProteins});
+  DailyNutritionHistory({
+    required this.date,
+    required this.totalProteins,
+  });
 
   final DateTime date;
   final double totalProteins;
 
   factory DailyNutritionHistory.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
+    // if (data == null) {
+    //   return null;
+    // }
     final DateTime date = data['date'].toDate();
     final double totalProteins = data['totalProteins'].toDouble();
 

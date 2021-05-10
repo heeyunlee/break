@@ -28,17 +28,17 @@ var logger = Logger();
 
 class AddWorkoutsToRoutine extends StatefulWidget {
   const AddWorkoutsToRoutine({
-    Key key,
-    this.database,
-    this.routine,
-    this.auth,
+    Key? key,
+    required this.database,
+    required this.routine,
+    required this.auth,
   }) : super(key: key);
 
   final Database database;
   final Routine routine;
   final AuthBase auth;
 
-  static void show(BuildContext context, {Routine routine}) async {
+  static void show(BuildContext context, {required Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
@@ -60,15 +60,15 @@ class AddWorkoutsToRoutine extends StatefulWidget {
 }
 
 class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
-  String _selectedChip;
+  late String _selectedChip;
 
   set string(String value) => setState(() => _selectedChip = value);
 
-  String _selectedWorkoutId;
-  String _selectedWorkoutTitle;
-  bool _isBodyWeightWorkout;
-  int _secondsPerRep;
-  Map<String, dynamic> _translated;
+  late String _selectedWorkoutId;
+  late String _selectedWorkoutTitle;
+  late bool _isBodyWeightWorkout;
+  late int _secondsPerRep;
+  late Map<String, dynamic> _translated;
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         routineWorkoutId: 'RW$id',
         workoutId: _selectedWorkoutId,
         routineId: widget.routine.routineId,
-        routineWorkoutOwnerId: widget.auth.currentUser.uid,
+        routineWorkoutOwnerId: widget.auth.currentUser!.uid,
         workoutTitle: _selectedWorkoutTitle,
         numberOfReps: 0,
         numberOfSets: 0,
@@ -170,7 +170,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: CustomStreamBuilderWidget(
+      child: CustomStreamBuilderWidget<List<Workout>>(
         stream: (_selectedChip == 'All')
             ? database.workoutsStream()
             : database.workoutsSearchStream(
@@ -180,8 +180,8 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         errorWidget: EmptyContent(),
         loadingWidget: ListViewShimmer(),
         hasDataWidget: (context, snapshot) => ListItemBuilder<Workout>(
-          emptyContentTitle: S.current.noWorkoutEmptyContent(chip),
-          snapshot: snapshot,
+          emptyContentTitle: S.current.noWorkoutEmptyContent(chip!),
+          snapshot: snapshot as AsyncSnapshot<List<Workout>>,
           itemBuilder: (context, workout) {
             final locale = Intl.getCurrentLocale();
 
@@ -199,11 +199,12 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                 : workout.workoutTitle;
 
             return CustomListTile3(
+              tag: 'addWorkout-tag${workout.workoutId}',
               imageUrl: workout.imageUrl,
               isLeadingDuration: false,
-              leadingText: leadingText,
+              leadingText: leadingText!,
               title: title,
-              subtitle: '$difficulty,  ${S.current.usingEquipment(equipment)}',
+              subtitle: '$difficulty,  ${S.current.usingEquipment(equipment!)}',
               onTap: () {
                 setState(() {
                   _selectedWorkoutId = workout.workoutId;
@@ -217,6 +218,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
             );
           },
         ),
+        initialData: [],
       ),
     );
   }

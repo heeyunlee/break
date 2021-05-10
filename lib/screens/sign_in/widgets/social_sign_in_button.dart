@@ -4,19 +4,19 @@ import '../../../constants.dart';
 
 class SocialSignInButton extends StatelessWidget {
   final Color color;
-  final String logo;
   final String buttonText;
+  final String? logo;
   final Color textColor;
-  final void Function() onPressed;
-  final IconData iconData;
-  final double width;
-  final Color disabledColor;
+  final void Function()? onPressed;
+  final IconData? iconData;
+  final double? width;
+  final Color? disabledColor;
   final bool isLogoSVG;
 
   const SocialSignInButton({
-    Key key,
-    @required this.color,
-    @required this.buttonText,
+    Key? key,
+    required this.color,
+    required this.buttonText,
     this.logo,
     this.textColor = Colors.black,
     this.onPressed,
@@ -61,7 +61,7 @@ class SocialSignInButton extends StatelessWidget {
             children: [
               (logo != null)
                   ? Image.asset(
-                      logo,
+                      logo!,
                       height: 18,
                       width: 18,
                     )

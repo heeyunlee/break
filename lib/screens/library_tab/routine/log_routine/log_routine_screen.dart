@@ -25,17 +25,20 @@ class LogRoutineScreen extends StatefulWidget {
   final Routine routine;
 
   const LogRoutineScreen({
-    Key key,
-    this.user,
-    this.database,
-    this.auth,
-    this.routine,
+    Key? key,
+    required this.user,
+    required this.database,
+    required this.auth,
+    required this.routine,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {Routine routine}) async {
+  static Future<void> show(
+    BuildContext context, {
+    required Routine routine,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await pushNewScreen(
@@ -58,19 +61,19 @@ class LogRoutineScreen extends StatefulWidget {
 class _LogRoutineScreenState extends State<LogRoutineScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  DateTime _workoutEndDate;
-  String _nowInString;
-  int _durationInMinutes;
-  TextEditingController _textController1;
-  FocusNode _focusNode1;
+  late DateTime _workoutEndDate;
+  late String _nowInString;
+  late int _durationInMinutes;
+  late TextEditingController _textController1;
+  late FocusNode _focusNode1;
 
-  num _totalWeights;
-  TextEditingController _textController2;
-  FocusNode _focusNode2;
+  late num _totalWeights;
+  late TextEditingController _textController2;
+  late FocusNode _focusNode2;
 
-  String _notes;
-  TextEditingController _textController3;
-  FocusNode _focusNode3;
+  late String _notes;
+  late TextEditingController _textController3;
+  late FocusNode _focusNode3;
 
   double _effort = 2.5;
   bool _isPublic = true;
@@ -109,7 +112,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   // Submit data to Firestore
   Future<void> _submit(List<RoutineWorkout> routineWorkouts) async {
     debugPrint('submit Button Pressed!');
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       try {
         final _id = documentIdFromCurrentDate();
         final _isBodyWorkout =
@@ -149,7 +152,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         // GET history data
         final histories = widget.user.dailyWorkoutHistories;
 
-        final index = widget.user.dailyWorkoutHistories
+        final index = widget.user.dailyWorkoutHistories!
             .indexWhere((element) => element.date.toUtc() == _workoutDate);
 
         print(index);
@@ -157,10 +160,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         if (index == -1) {
           final newHistory = DailyWorkoutHistory(
               date: _workoutDate, totalWeights: _totalWeights);
-          histories.add(newHistory);
+          histories!.add(newHistory);
           print(0);
         } else {
-          final oldHistory = histories[index];
+          final oldHistory = histories![index];
 
           final newHistory = DailyWorkoutHistory(
             date: oldHistory.date,
@@ -262,7 +265,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     : 0,
               ),
               child: FloatingActionButton.extended(
-                onPressed: () => _submit(routineWorkouts),
+                onPressed: () => _submit(routineWorkouts!),
                 backgroundColor: PrimaryColor,
                 heroTag: 'logRoutineSubmitButton',
                 label: Text(S.current.submit),
@@ -356,7 +359,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     ),
                     style: BodyText1,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return S.current.durationHintText;
                       }
                       return null;
@@ -396,7 +399,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     ),
                     style: BodyText1,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return S.current.totalVolumeValidatorText;
                       }
                       return null;

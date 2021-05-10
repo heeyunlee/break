@@ -18,7 +18,7 @@ enum EquipmentRequired {
 }
 
 extension EquipmentRequiredTranslatedExtension on EquipmentRequired {
-  String get translation {
+  String? get translation {
     switch (this) {
       case EquipmentRequired.band:
         return S.current.band;
@@ -78,7 +78,7 @@ extension EquipmentRequiredTranslatedListExtension on EquipmentRequired {
     final List<String> equipmentRequiredList = [];
     for (var i = 0; i < EquipmentRequired.values.length; i++) {
       final value = EquipmentRequired.values[i].translation;
-      equipmentRequiredList.add(value);
+      equipmentRequiredList.add(value!);
     }
     return equipmentRequiredList;
   }

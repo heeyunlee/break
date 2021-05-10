@@ -24,12 +24,12 @@ class ProteinEntriesScreen extends StatelessWidget {
   final User user;
 
   const ProteinEntriesScreen({
-    Key key,
-    this.database,
-    this.user,
+    Key? key,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {User user}) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
@@ -47,11 +47,11 @@ class ProteinEntriesScreen extends StatelessWidget {
     try {
       // Update User Data
       final nutritions = user.dailyNutritionHistories;
-      final index = user.dailyNutritionHistories.indexWhere(
+      final index = user.dailyNutritionHistories!.indexWhere(
         (element) => element.date == nutrition.loggedDate,
       );
 
-      final oldNutrition = nutritions[index];
+      final oldNutrition = nutritions![index];
       final newNutrition = DailyNutritionHistory(
         date: oldNutrition.date,
         totalProteins: oldNutrition.totalProteins - nutrition.proteinAmount,
@@ -122,7 +122,7 @@ class ProteinEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, documentSnapshot) {
           final documentId = documentSnapshot.id;
           final data = documentSnapshot.data();
-          final nutrition = Nutrition.fromMap(data, documentId);
+          final nutrition = Nutrition.fromMap(data!, documentId);
           final date = Format.yMdjm(nutrition.loggedTime);
 
           return Slidable(

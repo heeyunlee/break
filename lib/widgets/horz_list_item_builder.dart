@@ -6,17 +6,17 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
 class HoriListItemBuilder<T> extends StatelessWidget {
   const HoriListItemBuilder({
-    Key key,
-    @required this.snapshot,
-    @required this.itemBuilder,
-    @required this.isEmptyContentWidget,
+    Key? key,
+    required this.snapshot,
+    required this.itemBuilder,
+    required this.isEmptyContentWidget,
     this.emptyContentTitle,
-    this.emptyContentWidget,
+    required this.emptyContentWidget,
   }) : super(key: key);
 
   final AsyncSnapshot<List<T>> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;
-  final String emptyContentTitle;
+  final String? emptyContentTitle;
   final bool isEmptyContentWidget;
   final Widget emptyContentWidget;
 
@@ -25,7 +25,7 @@ class HoriListItemBuilder<T> extends StatelessWidget {
     if (snapshot.hasData) {
       print(snapshot.error);
       final items = snapshot.data;
-      if (items.isNotEmpty) {
+      if (items!.isNotEmpty) {
         return _buildList(items);
       } else {
         if (isEmptyContentWidget) {

@@ -18,13 +18,16 @@ class UserFeedbackScreen extends StatefulWidget {
   final User user;
   final Database database;
 
-  const UserFeedbackScreen({Key key, this.user, this.database})
-      : super(key: key);
+  const UserFeedbackScreen({
+    Key? key,
+    required this.user,
+    required this.database,
+  }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.userDocument(auth.currentUser.uid);
+    final user = await database.userDocument(auth.currentUser!.uid);
 
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
@@ -42,13 +45,13 @@ class UserFeedbackScreen extends StatefulWidget {
 }
 
 class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
-  String _userFeedback;
-  var _textController1 = TextEditingController();
+  late String _userFeedback;
+  late TextEditingController _textController1;
 
   @override
   void initState() {
     super.initState();
-    _userFeedback = null;
+    _userFeedback = '';
     _textController1 = TextEditingController(text: _userFeedback);
   }
 

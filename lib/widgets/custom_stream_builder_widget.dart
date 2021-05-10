@@ -9,15 +9,15 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
   final Stream<T> stream;
   final T initialData;
   final HasDataWidget hasDataWidget;
-  final Widget errorWidget;
-  final Widget loadingWidget;
+  final Widget? errorWidget;
+  final Widget? loadingWidget;
 
   const CustomStreamBuilderWidget({
-    Key key,
-    @required this.stream,
-    @required this.hasDataWidget,
+    Key? key,
+    required this.stream,
+    required this.hasDataWidget,
     this.errorWidget,
-    this.initialData,
+    required this.initialData,
     this.loadingWidget,
   }) : super(key: key);
 

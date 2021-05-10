@@ -30,6 +30,8 @@ final workoutDummyData = Workout(
     'fr': 'Nom de l\'entraînement',
     'ko': '운동 이름'
   },
+  location: 'Location.gym',
+  workoutCreatedDate: Timestamp.now(),
 );
 
 final userDummyData = User(
@@ -44,6 +46,9 @@ final userDummyData = User(
   dailyWorkoutHistories: [],
   dailyNutritionHistories: [],
   lastLoginDate: Timestamp.now(),
+  savedRoutines: [],
+  savedWorkouts: [],
+  displayName: 'John Doe',
 );
 
 final routineDummyData = Routine(

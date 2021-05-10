@@ -13,9 +13,9 @@ class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallBack locationCallback;
 
   const NewRoutineDifficultyAndMoreScreen({
-    Key key,
-    this.ratingCallback,
-    this.locationCallback,
+    Key? key,
+    required this.ratingCallback,
+    required this.locationCallback,
   }) : super(key: key);
 
   @override
@@ -26,13 +26,13 @@ class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
 class _NewRoutineDifficultyAndMoreScreenState
     extends State<NewRoutineDifficultyAndMoreScreen> {
   double _rating = 0;
-  String _ratingLabel;
+  late String _ratingLabel;
 
   String _dropdownValue = 'Location.gym';
 
   @override
   void initState() {
-    _ratingLabel = Difficulty.values[_rating.toInt()].translation;
+    _ratingLabel = Difficulty.values[_rating.toInt()].translation!;
     super.initState();
   }
 
@@ -83,26 +83,26 @@ class _NewRoutineDifficultyAndMoreScreenState
                   style: BodyText1,
                   onChanged: (value) {
                     setState(() {
-                      _dropdownValue = value;
-                      widget.locationCallback(value);
+                      _dropdownValue = value.toString();
+                      widget.locationCallback(value.toString());
                     });
                   },
                   items: [
                     DropdownMenuItem(
                       value: 'Location.gym',
-                      child: Text(Location.gym.translation),
+                      child: Text(Location.gym.translation!),
                     ),
                     DropdownMenuItem(
                       value: 'Location.atHome',
-                      child: Text(Location.atHome.translation),
+                      child: Text(Location.atHome.translation!),
                     ),
                     DropdownMenuItem(
                       value: 'Location.outdoor',
-                      child: Text(Location.outdoor.translation),
+                      child: Text(Location.outdoor.translation!),
                     ),
                     DropdownMenuItem(
                       value: 'Location.others',
-                      child: Text(Location.others.translation),
+                      child: Text(Location.others.translation!),
                     ),
                   ],
                 ),
@@ -132,7 +132,7 @@ class _NewRoutineDifficultyAndMoreScreenState
                   setState(() {
                     _rating = newRating;
                     _ratingLabel =
-                        Difficulty.values[_rating.toInt()].translation;
+                        Difficulty.values[_rating.toInt()].translation!;
                     widget.ratingCallback(_rating);
                   });
                 },

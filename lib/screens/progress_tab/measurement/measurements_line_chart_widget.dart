@@ -18,7 +18,8 @@ import 'measurements_screen.dart';
 class MeasurementsLineChartWidget extends StatefulWidget {
   final User user;
 
-  const MeasurementsLineChartWidget({Key key, this.user}) : super(key: key);
+  const MeasurementsLineChartWidget({Key? key, required this.user})
+      : super(key: key);
 
   @override
   _MeasurementsLineChartWidgetState createState() =>
@@ -36,8 +37,8 @@ class _MeasurementsLineChartWidgetState
   double minY = 60;
 
   final DateTime _now = DateTime.now();
-  DateTime _today;
-  List<DateTime> _dates;
+  late DateTime _today;
+  late List<DateTime> _dates;
   List<String> _daysOfTheWeek = [];
   // ignore: prefer_final_fields
   List<Measurement> _thisWeekData = [];
@@ -71,8 +72,7 @@ class _MeasurementsLineChartWidgetState
     }
   }
 
-  // ignore: missing_return
-  double flipNumber(double number) {
+  double? flipNumber(double number) {
     debugPrint('flipNumber func');
 
     switch (number.toInt()) {
@@ -90,7 +90,6 @@ class _MeasurementsLineChartWidgetState
         return 5.toDouble();
       case 0:
         return 6.toDouble();
-        break;
     }
   }
 
@@ -141,7 +140,8 @@ class _MeasurementsLineChartWidgetState
     final auth = Provider.of<AuthBase>(context, listen: false);
 
     return CustomStreamBuilderWidget<List<Measurement>>(
-      stream: database.measurementsStreamThisWeek(auth.currentUser.uid),
+      initialData: [],
+      stream: database.measurementsStreamThisWeek(auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
         setMaxY(snapshot.data);
 
@@ -313,7 +313,7 @@ class _MeasurementsLineChartWidgetState
             .toDouble();
 
         return FlSpot(
-          flipNumber(diff),
+          flipNumber(diff)!,
           _thisWeekData[index].bodyWeight.toDouble(),
         );
       },

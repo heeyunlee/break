@@ -16,10 +16,10 @@ Logger logger = Logger();
 
 class EditUnitOfMassScreen extends StatefulWidget {
   const EditUnitOfMassScreen({
-    Key key,
-    @required this.routine,
-    @required this.database,
-    @required this.user,
+    Key? key,
+    required this.routine,
+    required this.database,
+    required this.user,
   }) : super(key: key);
 
   final Routine routine;
@@ -27,7 +27,10 @@ class EditUnitOfMassScreen extends StatefulWidget {
   final User user;
 
   static Future<void> show(
-      {BuildContext context, User user, Routine routine}) async {
+    BuildContext context, {
+    required User user,
+    required Routine routine,
+  }) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
@@ -45,7 +48,7 @@ class EditUnitOfMassScreen extends StatefulWidget {
 }
 
 class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
-  int _unitOfMass;
+  late int _unitOfMass;
 
   @override
   void initState() {

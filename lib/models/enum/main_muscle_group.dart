@@ -19,7 +19,7 @@ enum MainMuscleGroup {
 }
 
 extension MainMuscleGroupTranslationExtension on MainMuscleGroup {
-  String get translation {
+  String? get translation {
     switch (this) {
       case MainMuscleGroup.abs:
         return S.current.abs;
@@ -58,7 +58,7 @@ extension MainMuscleGroupTranslationExtension on MainMuscleGroup {
 }
 
 extension MainMuscleGroupBroadGroup on MainMuscleGroup {
-  String get broadGroup {
+  String? get broadGroup {
     switch (this) {
       case MainMuscleGroup.abs:
         return S.current.abs;
@@ -112,7 +112,7 @@ extension MainMuscleGroupTranslatedList on MainMuscleGroup {
     final List<String> _mainMuscleGroupList = [];
     for (var i = 0; i < MainMuscleGroup.values.length; i++) {
       final value = MainMuscleGroup.values[i].translation;
-      _mainMuscleGroupList.add(value);
+      _mainMuscleGroupList.add(value!);
     }
     return _mainMuscleGroupList;
   }

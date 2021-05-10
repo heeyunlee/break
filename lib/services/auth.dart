@@ -11,19 +11,19 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 Logger logger = Logger();
 
 abstract class AuthBase {
-  auth.User get currentUser;
-  Stream<auth.User> authStateChanges();
-  Stream<auth.User> idTokenChanges();
-  Future<auth.User> signInAnonymously();
-  Future<auth.User> signInWithEmailWithPassword(String email, String password);
-  Future<auth.User> createUserWithEmailAndPassword(
+  auth.User? get currentUser;
+  Stream<auth.User?> authStateChanges();
+  Stream<auth.User?> idTokenChanges();
+  Future<auth.User?> signInAnonymously();
+  Future<auth.User?> signInWithEmailWithPassword(String email, String password);
+  Future<auth.User?> createUserWithEmailAndPassword(
     String email,
     String password,
   );
-  Future<auth.User> signInWithGoogle();
-  Future<auth.User> signInWithFacebook();
-  Future<auth.User> signInWithApple();
-  Future<auth.User> signInWithKakao();
+  Future<auth.User?> signInWithGoogle();
+  Future<auth.User?> signInWithFacebook();
+  Future<auth.User?> signInWithApple();
+  Future<auth.User?> signInWithKakao();
 
   Future<void> signOut();
 }
@@ -32,18 +32,18 @@ class AuthService implements AuthBase {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
   @override
-  Stream<auth.User> authStateChanges() => _auth.authStateChanges();
+  Stream<auth.User?> authStateChanges() => _auth.authStateChanges();
 
   @override
-  Stream<auth.User> idTokenChanges() => _auth.idTokenChanges();
+  Stream<auth.User?> idTokenChanges() => _auth.idTokenChanges();
 
   @override
-  auth.User get currentUser => _auth.currentUser;
+  auth.User? get currentUser => _auth.currentUser;
 
   // Firebase user
-  auth.User _user;
+  auth.User? _user;
 
-  auth.User getUser() {
+  auth.User? getUser() {
     return _user;
   }
 
@@ -53,21 +53,21 @@ class AuthService implements AuthBase {
 
   ///////// Sign In Anonymously
   @override
-  Future<auth.User> signInAnonymously() async {
+  Future<auth.User?> signInAnonymously() async {
     debugPrint('signInAnonymously triggered in auth');
     var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
     final user = userCredential.user;
 
     final currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-    setUser(user);
+    assert(user!.uid == currentUser!.uid);
+    setUser(user!);
 
     return user;
   }
 
   ///////// Sign In With Email and Password
   @override
-  Future<auth.User> signInWithEmailWithPassword(
+  Future<auth.User?> signInWithEmailWithPassword(
     String email,
     String password,
   ) async {
@@ -81,15 +81,15 @@ class AuthService implements AuthBase {
     final user = userCredential.user;
 
     final currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-    setUser(user);
+    assert(user!.uid == currentUser!.uid);
+    setUser(user!);
 
     return user;
   }
 
   ///////// Create User With Email And Password
   @override
-  Future<auth.User> createUserWithEmailAndPassword(
+  Future<auth.User?> createUserWithEmailAndPassword(
       String email, String password) async {
     debugPrint('createUserWithEmailAndPassword triggered in auth');
 
@@ -101,15 +101,15 @@ class AuthService implements AuthBase {
     final user = userCredential.user;
 
     final currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-    setUser(user);
+    assert(user!.uid == currentUser!.uid);
+    setUser(user!);
 
     return user;
   }
 
   /// SIGN IN WITH GOOGLE
   @override
-  Future<auth.User> signInWithGoogle() async {
+  Future<auth.User?> signInWithGoogle() async {
     debugPrint('signInWithGoogle triggered in auth');
 
     // Trigger Authentication flow
@@ -120,7 +120,7 @@ class AuthService implements AuthBase {
       // Obtain the auth details from the request
       final googleAuth = await googleSignInAccount.authentication;
       if (googleAuth.idToken != null) {
-        final auth.GoogleAuthCredential credential =
+        final auth.OAuthCredential credential =
             auth.GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
@@ -130,8 +130,8 @@ class AuthService implements AuthBase {
         final user = authResult.user;
 
         final currentUser = _auth.currentUser;
-        assert(user.uid == currentUser.uid);
-        setUser(user);
+        assert(user!.uid == currentUser!.uid);
+        setUser(user!);
 
         return user;
       } else {
@@ -150,22 +150,22 @@ class AuthService implements AuthBase {
 
   // Sign In with Facebook
   @override
-  Future<auth.User> signInWithFacebook() async {
+  Future<auth.User?> signInWithFacebook() async {
     // Trigger the authentication flow
     debugPrint('signInWithFacebook auth triggered in auth');
     try {
       final facebookLogin = await FacebookAuth.instance.login();
       if (facebookLogin.status == LoginStatus.success) {
         final credential = auth.FacebookAuthProvider.credential(
-          facebookLogin.accessToken.token,
+          facebookLogin.accessToken!.token,
         );
 
         final authResult = await _auth.signInWithCredential(credential);
         final user = authResult.user;
 
         final currentUser = _auth.currentUser;
-        assert(user.uid == currentUser.uid);
-        setUser(user);
+        assert(user!.uid == currentUser!.uid);
+        setUser(user!);
 
         return user;
       } else if (facebookLogin.status == LoginStatus.cancelled) {
@@ -211,7 +211,7 @@ class AuthService implements AuthBase {
 
   // Sign In With Apple
   @override
-  Future<auth.User> signInWithApple() async {
+  Future<auth.User?> signInWithApple() async {
     debugPrint('signInWithApple triggered in auth');
 
     //Trigger the authentication flow
@@ -241,8 +241,8 @@ class AuthService implements AuthBase {
       final user = authResult.user;
 
       final currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      setUser(user);
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
@@ -255,7 +255,7 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Future<auth.User> signInWithKakao() async {
+  Future<auth.User?> signInWithKakao() async {
     debugPrint('signInwithKakao triggered in auth');
     try {
       final accessToken = await _getToken();
@@ -266,8 +266,8 @@ class AuthService implements AuthBase {
       final user = authResult.user;
 
       final currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      setUser(user);
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
 
       return user;
     } on KakaoAuthException catch (e) {
