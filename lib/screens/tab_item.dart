@@ -11,6 +11,8 @@ class TabItemData {
     this.isIconPNG = false,
     this.size,
     required this.isTabButton,
+    required this.leftPadding,
+    required this.rightPadding,
     // @required this.unselectedIcon,
   });
 
@@ -19,6 +21,8 @@ class TabItemData {
   final bool isIconPNG;
   final double? size;
   final bool isTabButton;
+  final double leftPadding;
+  final double rightPadding;
   // final IconData unselectedIcon;
 
   static Map<TabItem, TabItemData> allTabs = {
@@ -28,6 +32,8 @@ class TabItemData {
       isIconPNG: false,
       size: 24,
       isTabButton: false,
+      leftPadding: 0,
+      rightPadding: 16,
       // unselectedIcon: Icons.home_outlined,
     ),
     TabItem.search: TabItemData(
@@ -36,6 +42,8 @@ class TabItemData {
       isIconPNG: false,
       size: 24,
       isTabButton: false,
+      leftPadding: 0,
+      rightPadding: 40,
       // unselectedIcon: Icons.search_rounded,
     ),
     // TabItem.create: TabItemData(
@@ -46,21 +54,25 @@ class TabItemData {
     //   isTabButton: true,
     //   // unselectedIcon: Icons.bar_chart_outlined,
     // ),
-    TabItem.library: TabItemData(
-      label: 'Library',
-      selectedIcon: 'assets/icons/workout_collection_icon.png',
-      isIconPNG: true,
-      size: 24,
-      isTabButton: false,
-      // unselectedIcon: MyFlutterApp.workout_collection_icon_1,
-    ),
     TabItem.progress: TabItemData(
       label: 'Progress',
       selectedIcon: Icons.bar_chart_rounded,
       isIconPNG: false,
       size: 24,
       isTabButton: false,
+      leftPadding: 40,
+      rightPadding: 0,
       // unselectedIcon: Icons.bar_chart_outlined,
+    ),
+    TabItem.library: TabItemData(
+      label: 'Library',
+      selectedIcon: 'assets/icons/workout_collection_icon.png',
+      isIconPNG: true,
+      size: 24,
+      isTabButton: false,
+      leftPadding: 16,
+      rightPadding: 0,
+      // unselectedIcon: MyFlutterApp.workout_collection_icon_1,
     ),
     // TabItem.settings: TabItemData(
     //   label: 'Settings',

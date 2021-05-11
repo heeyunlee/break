@@ -86,7 +86,7 @@ class ProgressTab extends StatelessWidget {
             );
           },
         ),
-        floatingActionButton: SpeedDialFAB(),
+        // floatingActionButton: SpeedDialFAB(),
       ),
     );
   }

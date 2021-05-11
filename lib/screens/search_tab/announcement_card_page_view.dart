@@ -22,21 +22,21 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: _currentPage);
 
-    Timer.periodic(Duration(seconds: 10), (Timer timer) {
-      if (_currentPage < 1) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
+    // Timer.periodic(Duration(seconds: 10), (Timer timer) {
+    //   if (_currentPage < 1) {
+    //     _currentPage++;
+    //   } else {
+    //     _currentPage = 0;
+    //   }
 
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    });
+    //   // _pageController.animateToPage(
+    //   //   _currentPage,
+    //   //   duration: Duration(milliseconds: 350),
+    //   //   curve: Curves.easeInOut,
+    //   // );
+    // });
   }
 
   @override

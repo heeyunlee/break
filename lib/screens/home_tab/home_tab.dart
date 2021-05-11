@@ -103,7 +103,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         body: Builder(
           builder: (BuildContext context) => _buildMobileBody(context),
         ),
-        floatingActionButton: SpeedDialFAB(),
+        // floatingActionButton: SpeedDialFAB(),
       ),
     );
   }

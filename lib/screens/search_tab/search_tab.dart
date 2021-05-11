@@ -31,7 +31,7 @@ class SearchTab extends StatelessWidget {
         },
         body: SearchTabBodyWidget(),
       ),
-      floatingActionButton: SpeedDialFAB(),
+      // floatingActionButton: SpeedDialFAB(),
     );
   }
 }

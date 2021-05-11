@@ -13,43 +13,61 @@ class BottomNavigationTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      selectedLabelStyle: Caption1Primary,
-      unselectedLabelStyle: Caption1,
-      backgroundColor: Color(0xff1C1C1C),
-      type: BottomNavigationBarType.fixed,
-      items: [
-        _buildItem(TabItem.home),
-        _buildItem(TabItem.search),
-        // _buildItem(TabItem.create),
-        _buildItem(TabItem.progress),
-        _buildItem(TabItem.library),
-        // _buildItem(TabItem.settings),
-      ],
-      onTap: (index) => onSelectTab(
-        TabItem.values[index],
+    return Theme(
+      data: ThemeData(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
+      child: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedLabelStyle: Caption1Primary,
+        unselectedLabelStyle: Caption1,
+        backgroundColor: Color(0xff1C1C1C),
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          _buildItem(TabItem.home),
+          _buildItem(TabItem.search),
+          // _buildItem(TabItem.create),
+          _buildItem(TabItem.progress),
+          _buildItem(TabItem.library),
+          // _buildItem(TabItem.settings),
+        ],
+        onTap: (index) => onSelectTab(
+          TabItem.values[index],
+        ),
       ),
     );
   }
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
-    final itemData = TabItemData.allTabs[tabItem];
+    final itemData = TabItemData.allTabs[tabItem]!;
     final color = currentTab == tabItem ? PrimaryColor : Colors.white;
 
     return BottomNavigationBarItem(
-      icon: (itemData!.isIconPNG)
-          ? Image.asset(
-              itemData.selectedIcon,
-              width: 20,
-              height: 20,
-              color: color,
+      icon: (itemData.isIconPNG)
+          ? Padding(
+              padding: EdgeInsets.only(
+                left: itemData.leftPadding,
+                right: itemData.rightPadding,
+              ),
+              child: Image.asset(
+                itemData.selectedIcon,
+                width: 20,
+                height: 20,
+                color: color,
+              ),
             )
-          : Icon(
-              itemData.selectedIcon,
-              color: color,
-              size: itemData.size,
+          : Padding(
+              padding: EdgeInsets.only(
+                left: itemData.leftPadding,
+                right: itemData.rightPadding,
+              ),
+              child: Icon(
+                itemData.selectedIcon,
+                color: color,
+                size: itemData.size,
+              ),
             ),
       label: itemData.label,
     );

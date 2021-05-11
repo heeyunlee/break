@@ -32,7 +32,7 @@ class LibraryTab extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: SpeedDialFAB(),
+        // floatingActionButton: SpeedDialFAB(),
       ),
     );
   }
