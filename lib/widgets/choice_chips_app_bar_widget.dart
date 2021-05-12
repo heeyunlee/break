@@ -31,7 +31,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
       ['All'] + MainMuscleGroup.values[0].translatedList;
 
   int _selectedIndex = 0;
-  // TODO: Used late here
+  // TODO: Using late here
   late String _selectedChipLabel;
 
   @override

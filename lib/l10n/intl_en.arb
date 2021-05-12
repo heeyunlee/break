@@ -155,7 +155,7 @@
     "proteinEntriesTitle": "Protein Entries",
     "proteinEntriesEmptyMessage": "You haven't recorded any proteins yet!",
     "deleteRoutineHistorySnackbar": "Deleted workout history",
-    "workout": "workout",
+    "workout": "Workout",
     "addProteinEntrySnackbar": "Added a protein entry!",
     "selectMealTypeAlertTitle": "Select Meal Type!",
     "selectMeapTypeAlertContent": "Please select meal type in order to save",
@@ -288,5 +288,8 @@
     "firstNameHintText": "John",
     "lastName": "LAST NAME",
     "lastNameValidationText": "Please Add your last name",
-    "lastNameHintText": "Doe"
+    "lastNameHintText": "Doe",
+    "startWorkout": "Start Workout",
+    "nutritions": "Nutritions",
+    "measurements": "Body"
 }

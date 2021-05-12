@@ -28,10 +28,8 @@ class BottomNavigationTab extends StatelessWidget {
         items: <BottomNavigationBarItem>[
           _buildItem(TabItem.home),
           _buildItem(TabItem.search),
-          // _buildItem(TabItem.create),
           _buildItem(TabItem.progress),
           _buildItem(TabItem.library),
-          // _buildItem(TabItem.settings),
         ],
         onTap: (index) => onSelectTab(
           TabItem.values[index],

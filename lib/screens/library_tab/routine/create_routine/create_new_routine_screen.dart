@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -41,19 +41,30 @@ class CreateNewRoutineScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: CreateNewRoutineScreen(
-        database: database,
-        auth: auth,
-        user: user!,
+
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => CreateNewRoutineScreen(
+          database: database,
+          user: user,
+          auth: auth,
+        ),
       ),
     );
+    // await pushNewScreen(
+    //   context,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   withNavBar: false,
+    //   screen: CreateNewRoutineScreen(
+    //     database: database,
+    //     auth: auth,
+    //     user: user!,
+    //   ),
+    // );
   }
 
   @override

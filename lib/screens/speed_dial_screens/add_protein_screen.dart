@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -32,19 +31,29 @@ class AddProteinScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: AddProteinScreen(
-        database: database,
-        user: user!,
-        auth: auth,
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => AddProteinScreen(
+          user: user,
+          database: database,
+          auth: auth,
+        ),
       ),
     );
+    // await pushNewScreen(
+    //   context,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   withNavBar: false,
+    //   screen: AddProteinScreen(
+    //     database: database,
+    //     user: user!,
+    //     auth: auth,
+    //   ),
+    // );
   }
 
   @override
@@ -141,14 +150,12 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         await widget.database.updateUser(widget.auth.currentUser!.uid, user);
         Navigator.of(context).pop();
 
+        // TODO: Fix Snackbar here
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(S.current.addProteinEntrySnackbar),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
-
-        print(nutrition.toMap());
-        print(nutrition.nutritionId);
       } on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(
@@ -294,7 +301,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                             HapticFeedback.mediumImpact();
                             _intValue = value;
                             _proteinAmount = _intValue + _decimalValue * 0.1;
-                            print(_proteinAmount);
                           },
                         ),
                       ),
@@ -311,7 +317,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                             HapticFeedback.mediumImpact();
                             _decimalValue = value;
                             _proteinAmount = _intValue + _decimalValue * 0.1;
-                            print(_proteinAmount);
                           },
                         ),
                       ),

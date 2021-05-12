@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-// enum TabItem { explore, search, progress, library, settings }
 enum TabItem { home, search, progress, library }
-// enum TabItem { home, search, create, progress, library }
 
 class TabItemData {
   const TabItemData({
@@ -13,7 +11,6 @@ class TabItemData {
     required this.isTabButton,
     required this.leftPadding,
     required this.rightPadding,
-    // @required this.unselectedIcon,
   });
 
   final String label;
@@ -23,7 +20,6 @@ class TabItemData {
   final bool isTabButton;
   final double leftPadding;
   final double rightPadding;
-  // final IconData unselectedIcon;
 
   static Map<TabItem, TabItemData> allTabs = {
     TabItem.home: TabItemData(
@@ -34,7 +30,6 @@ class TabItemData {
       isTabButton: false,
       leftPadding: 0,
       rightPadding: 16,
-      // unselectedIcon: Icons.home_outlined,
     ),
     TabItem.search: TabItemData(
       label: 'Search',
@@ -44,16 +39,7 @@ class TabItemData {
       isTabButton: false,
       leftPadding: 0,
       rightPadding: 40,
-      // unselectedIcon: Icons.search_rounded,
     ),
-    // TabItem.create: TabItemData(
-    //   label: 'Create',
-    //   selectedIcon: Icons.add_circle_outline_rounded,
-    //   isIconPNG: false,
-    //   size: 40,
-    //   isTabButton: true,
-    //   // unselectedIcon: Icons.bar_chart_outlined,
-    // ),
     TabItem.progress: TabItemData(
       label: 'Progress',
       selectedIcon: Icons.bar_chart_rounded,
@@ -62,7 +48,6 @@ class TabItemData {
       isTabButton: false,
       leftPadding: 40,
       rightPadding: 0,
-      // unselectedIcon: Icons.bar_chart_outlined,
     ),
     TabItem.library: TabItemData(
       label: 'Library',
@@ -72,13 +57,6 @@ class TabItemData {
       isTabButton: false,
       leftPadding: 16,
       rightPadding: 0,
-      // unselectedIcon: MyFlutterApp.workout_collection_icon_1,
     ),
-    // TabItem.settings: TabItemData(
-    //   label: 'Settings',
-    //   selectedIcon: Icons.more_horiz_rounded,
-    //   isIconPNG: false,
-    //   // unselectedIcon: Icons.bar_chart_outlined,
-    // ),
   };
 }

@@ -33,7 +33,6 @@ class RoutineWorkout {
     required this.translated,
   });
 
-  // TODO: Using late here
   factory RoutineWorkout.fromJson(
       Map<String, dynamic> data, String documentId) {
     final int index = data['index'];

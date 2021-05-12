@@ -356,114 +356,117 @@ class _SignInScreenState extends State<SignInScreen> {
 
     return Container(
       height: size.height,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: widget.isLoading
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(PrimaryColor),
-                        ),
-                        const SizedBox(height: 24),
-                        Text(S.current.signingIn, style: BodyText2),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('HēraKless', style: Headline3Menlo),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'wokrout. record. and share.',
-                          style: Subtitle2Menlo,
-                        ),
-                      ],
-                    ),
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: widget.isLoading
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(PrimaryColor),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(S.current.signingIn, style: BodyText2),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('HēraKless', style: Headline3Menlo),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'wokrout. record. and share.',
+                            style: Subtitle2Menlo,
+                          ),
+                        ],
+                      ),
+              ),
             ),
-          ),
 
-          /// Sign In With Email
-          SocialSignInButton(
-            buttonText: S.current.signUp,
-            iconData: Icons.email_rounded,
-            color: Primary600Color,
-            disabledColor: Primary600Color.withOpacity(0.85),
-            textColor: Colors.white,
-            onPressed:
-                widget.isLoading ? null : () => EmailSignUpScreen.show(context),
-          ),
-
-          // SIGN IN WITH GOOGLE
-          SocialSignInButton(
-            buttonText: S.current.continueWithGoogle,
-            color: Colors.white,
-            disabledColor: Colors.white.withOpacity(0.85),
-            textColor: Colors.black.withOpacity(0.85),
-            logo: 'assets/logos/google_logo.png',
-            onPressed:
-                widget.isLoading ? null : () => _signInWithGoogle(context),
-          ),
-
-          // SIGN IN WITH FACEBOOK
-          SocialSignInButton(
-            buttonText: S.current.continueWithFacebook,
-            color: Color(0xff1877F2),
-            disabledColor: Color(0xff1877F2).withOpacity(0.85),
-            textColor: Colors.white.withOpacity(0.85),
-            logo: 'assets/logos/facebook_logo.png',
-            onPressed:
-                widget.isLoading ? null : () => _signInWithFacebook(context),
-          ),
-
-          // SIGN IN WITH APPLE
-          if (Platform.isIOS)
+            /// Sign In With Email
             SocialSignInButton(
-              buttonText: S.current.continueWithApple,
+              buttonText: S.current.signUp,
+              iconData: Icons.email_rounded,
+              color: Primary600Color,
+              disabledColor: Primary600Color.withOpacity(0.85),
+              textColor: Colors.white,
+              onPressed: widget.isLoading
+                  ? null
+                  : () => EmailSignUpScreen.show(context),
+            ),
+
+            // SIGN IN WITH GOOGLE
+            SocialSignInButton(
+              buttonText: S.current.continueWithGoogle,
               color: Colors.white,
-              textColor: Colors.black.withOpacity(0.85),
               disabledColor: Colors.white.withOpacity(0.85),
-              logo: 'assets/logos/apple_logo.png',
+              textColor: Colors.black.withOpacity(0.85),
+              logo: 'assets/logos/google_logo.png',
               onPressed:
-                  widget.isLoading ? null : () => _signInWithApple(context),
+                  widget.isLoading ? null : () => _signInWithGoogle(context),
             ),
 
-          // SIGN IN WITH KAKAO
-          SocialSignInButton(
-            buttonText: S.current.continueWithKakao,
-            color: Color(0xffFEE500),
-            disabledColor: Color(0xffFEE500).withOpacity(0.85),
-            logo: 'assets/logos/kakao_logo.png',
-            textColor: Colors.black.withOpacity(0.85),
-            onPressed:
-                widget.isLoading ? null : () => _signInWithKakao(context),
-          ),
-
-          // TextButton(
-          //   onPressed: widget.isLoading
-          //       ? null
-          //       : () async {
-          //           await _signInAnonymously(context);
-          //         },
-          //   child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
-          // ),
-
-          TextButton(
-            onPressed: widget.isLoading
-                ? null
-                : () => LogInWithEmailScreen.show(context),
-            child: Text(
-              S.current.logIn,
-              style: GoogleSignInStyleWhite,
+            // SIGN IN WITH FACEBOOK
+            SocialSignInButton(
+              buttonText: S.current.continueWithFacebook,
+              color: Color(0xff1877F2),
+              disabledColor: Color(0xff1877F2).withOpacity(0.85),
+              textColor: Colors.white.withOpacity(0.85),
+              logo: 'assets/logos/facebook_logo.png',
+              onPressed:
+                  widget.isLoading ? null : () => _signInWithFacebook(context),
             ),
-          ),
 
-          const SizedBox(height: 48),
-        ],
+            // SIGN IN WITH APPLE
+            if (Platform.isIOS)
+              SocialSignInButton(
+                buttonText: S.current.continueWithApple,
+                color: Colors.white,
+                textColor: Colors.black.withOpacity(0.85),
+                disabledColor: Colors.white.withOpacity(0.85),
+                logo: 'assets/logos/apple_logo.png',
+                onPressed:
+                    widget.isLoading ? null : () => _signInWithApple(context),
+              ),
+
+            // SIGN IN WITH KAKAO
+            SocialSignInButton(
+              buttonText: S.current.continueWithKakao,
+              color: Color(0xffFEE500),
+              disabledColor: Color(0xffFEE500).withOpacity(0.85),
+              logo: 'assets/logos/kakao_logo.png',
+              textColor: Colors.black.withOpacity(0.85),
+              onPressed:
+                  widget.isLoading ? null : () => _signInWithKakao(context),
+            ),
+
+            // TextButton(
+            //   onPressed: widget.isLoading
+            //       ? null
+            //       : () async {
+            //           await _signInAnonymously(context);
+            //         },
+            //   child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
+            // ),
+
+            TextButton(
+              onPressed: widget.isLoading
+                  ? null
+                  : () => LogInWithEmailScreen.show(context),
+              child: Text(
+                S.current.logIn,
+                style: GoogleSignInStyleWhite,
+              ),
+            ),
+
+            // const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

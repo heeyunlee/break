@@ -67,20 +67,17 @@ class WorkoutMiniplayer extends StatefulWidget {
 
 class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     with SingleTickerProviderStateMixin {
-  // TODO: late variable used
   late AnimationController _animationController;
-  final CountDownController _countDownController = CountDownController();
-
-  // TODO: late variable used
+  late CountDownController _countDownController;
   late bool _isPaused;
+  late Timestamp _workoutStartTime;
+
   Duration _restTime = Duration();
   int routineWorkoutIndex = 0;
   int setIndex = 0;
   int setLength = 0;
   int currentIndex = 1;
   bool setLengthCalculated = false;
-  // TODO: late variable used
-  late Timestamp _workoutStartTime;
 
   // List _selectedSets = List();
 
@@ -98,6 +95,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
+    _countDownController = CountDownController();
     _isPaused = false;
     _workoutStartTime = Timestamp.now();
   }

@@ -198,10 +198,10 @@
     "gym": "헬스장",
     "outdoor": "야외",
     "location": "장소",
-    "bodyMeasurement": "인바디",
-    "measurementsEmptyMessage": "아직 인바디 기록이 없어요!",
-    "deleteMeasurementSnackbar": "성공적으로 인바디 기록을 삭제했습니다!",
-    "addMasurementDataMessage": "적어도 2개 이상의 인바디 기록을 저장해주세요!",
+    "bodyMeasurement": "신체 정보",
+    "measurementsEmptyMessage": "아직 신체 정보 기록이 없어요!",
+    "deleteMeasurementSnackbar": "성공적으로 신체 정보 기록을 삭제했습니다!",
+    "addMasurementDataMessage": "적어도 2개 이상의 신체 정보 기록을 저장해주세요!",
     "afterWorkoutSnackbar": "운동을 완료 했습니다!! 🎉",
     "addSetsToWorkout": "운동에 세트를 더하세요!",
     "weights": "중량",
@@ -288,5 +288,8 @@
     "firstNameHintText": "길동",
     "lastName": "성",
     "lastNameValidationText": "성을 입력해 주세요",
-    "lastNameHintText": "홍"
+    "lastNameHintText": "홍",
+    "startWorkout": "운동 시작",
+    "nutritions": "영양소",
+    "measurements": "인바디"
 }

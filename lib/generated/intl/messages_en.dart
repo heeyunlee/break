@@ -292,6 +292,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Make it visible to:   "),
         "manageAccount": MessageLookupByLibrary.simpleMessage("Manage Account"),
         "mealType": MessageLookupByLibrary.simpleMessage("Meal Type"),
+        "measurements": MessageLookupByLibrary.simpleMessage("Body"),
         "measurementsEmptyMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t added any body measurements records yet!"),
         "minutes": MessageLookupByLibrary.simpleMessage("minutes"),
@@ -308,6 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noWorkoutEmptyContent": m2,
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
         "notesHintText": MessageLookupByLibrary.simpleMessage("no notes..."),
+        "nutritions": MessageLookupByLibrary.simpleMessage("Nutritions"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "operationFailed":
             MessageLookupByLibrary.simpleMessage("Operation Failed"),
@@ -410,6 +412,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startNow": MessageLookupByLibrary.simpleMessage("Start Now"),
         "startRoutine": MessageLookupByLibrary.simpleMessage("Start Routine"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
+        "startWorkout": MessageLookupByLibrary.simpleMessage("Start Workout"),
         "startWorkoutButtonText":
             MessageLookupByLibrary.simpleMessage("Start Workout"),
         "stats": MessageLookupByLibrary.simpleMessage("Stats"),
@@ -458,7 +461,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("Please add weight data"),
         "workedOutMainMuscleGroup": m8,
-        "workout": MessageLookupByLibrary.simpleMessage("workout"),
+        "workout": MessageLookupByLibrary.simpleMessage("Workout"),
         "workoutDifficultySliderText":
             MessageLookupByLibrary.simpleMessage("Workout Difficulty"),
         "workoutHintText":

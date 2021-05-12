@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/widgets/speed_dial_fab.dart';
 
 import '../../constants.dart';
 import 'announcement_card_page_view.dart';

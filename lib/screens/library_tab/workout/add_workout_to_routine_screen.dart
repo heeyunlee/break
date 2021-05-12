@@ -1,8 +1,10 @@
+// import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
@@ -42,28 +44,30 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
-    // await Navigator.of(context, rootNavigator: false).push(
-    //   CupertinoPageRoute(
-    //     builder: (context) => AddWorkoutToRoutineScreen(
-    //       workout: workout,
-    //       database: database,
-    //       auth: auth,
-    //     ),
-    //     fullscreenDialog: true,
-    //   ),
-    // );
 
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: AddWorkoutToRoutineScreen(
-        workout: workout,
-        database: database,
-        auth: auth,
-        user: user,
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => AddWorkoutToRoutineScreen(
+          workout: workout,
+          database: database,
+          auth: auth,
+          user: user,
+        ),
       ),
     );
+
+    // await pushNewScreen(
+    //   context,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   withNavBar: false,
+    //   screen: AddWorkoutToRoutineScreen(
+    //     workout: workout,
+    //     database: database,
+    //     auth: auth,
+    //     user: user,
+    //   ),
+    // );
   }
 
   @override

@@ -1610,10 +1610,10 @@ class S {
     );
   }
 
-  /// `workout`
+  /// `Workout`
   String get workout {
     return Intl.message(
-      'workout',
+      'Workout',
       name: 'workout',
       desc: '',
       args: [],
@@ -2945,6 +2945,36 @@ class S {
     return Intl.message(
       'Doe',
       name: 'lastNameHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Workout`
+  String get startWorkout {
+    return Intl.message(
+      'Start Workout',
+      name: 'startWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nutritions`
+  String get nutritions {
+    return Intl.message(
+      'Nutritions',
+      name: 'nutritions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Body`
+  String get measurements {
+    return Intl.message(
+      'Body',
+      name: 'measurements',
       desc: '',
       args: [],
     );

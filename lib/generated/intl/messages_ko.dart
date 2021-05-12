@@ -52,8 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("에 동의하는 것입니다."),
         "addASet": MessageLookupByLibrary.simpleMessage("세트를 추가하세요!"),
         "addDescription": MessageLookupByLibrary.simpleMessage("설명을 추가하세요"),
-        "addMasurementDataMessage":
-            MessageLookupByLibrary.simpleMessage("적어도 2개 이상의 인바디 기록을 저장해주세요!"),
+        "addMasurementDataMessage": MessageLookupByLibrary.simpleMessage(
+            "적어도 2개 이상의 신체 정보 기록을 저장해주세요!"),
         "addMeasurement": MessageLookupByLibrary.simpleMessage("신체정보 추가하기"),
         "addNotes": MessageLookupByLibrary.simpleMessage("메모를 추가하세요"),
         "addNotesHintText":
@@ -93,7 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "beginner": MessageLookupByLibrary.simpleMessage("초급"),
         "bench": MessageLookupByLibrary.simpleMessage("벤치"),
         "bodyFat": MessageLookupByLibrary.simpleMessage("체지방률"),
-        "bodyMeasurement": MessageLookupByLibrary.simpleMessage("인바디"),
+        "bodyMeasurement": MessageLookupByLibrary.simpleMessage("신체 정보"),
         "bodyweight": MessageLookupByLibrary.simpleMessage("맨몸"),
         "bodyweightMeasurement": MessageLookupByLibrary.simpleMessage("체중"),
         "breakfast": MessageLookupByLibrary.simpleMessage("아침"),
@@ -141,7 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteBottomSheetTitle":
             MessageLookupByLibrary.simpleMessage("정말로 삭제할까요?"),
         "deleteMeasurementSnackbar":
-            MessageLookupByLibrary.simpleMessage("성공적으로 인바디 기록을 삭제했습니다!"),
+            MessageLookupByLibrary.simpleMessage("성공적으로 신체 정보 기록을 삭제했습니다!"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("기록을 삭제했습니다"),
         "deleteRoutineButtonText":
@@ -272,8 +272,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "makeItVisibleTo": MessageLookupByLibrary.simpleMessage("운동 내역 공개:   "),
         "manageAccount": MessageLookupByLibrary.simpleMessage("계정 관리"),
         "mealType": MessageLookupByLibrary.simpleMessage("분류"),
+        "measurements": MessageLookupByLibrary.simpleMessage("인바디"),
         "measurementsEmptyMessage":
-            MessageLookupByLibrary.simpleMessage("아직 인바디 기록이 없어요!"),
+            MessageLookupByLibrary.simpleMessage("아직 신체 정보 기록이 없어요!"),
         "minutes": MessageLookupByLibrary.simpleMessage("분"),
         "moreAboutThisWorkout": MessageLookupByLibrary.simpleMessage("더 많은 설정"),
         "moreSettings": MessageLookupByLibrary.simpleMessage("더 많은 설정"),
@@ -287,6 +288,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notes": MessageLookupByLibrary.simpleMessage("메모"),
         "notesHintText":
             MessageLookupByLibrary.simpleMessage("아직 아무것도 없습니다..."),
+        "nutritions": MessageLookupByLibrary.simpleMessage("영양소"),
         "ok": MessageLookupByLibrary.simpleMessage("계속"),
         "operationFailed": MessageLookupByLibrary.simpleMessage("실패"),
         "other": MessageLookupByLibrary.simpleMessage("그 외"),
@@ -382,6 +384,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startNow": MessageLookupByLibrary.simpleMessage("시작하기"),
         "startRoutine": MessageLookupByLibrary.simpleMessage("루틴 시작"),
         "startTime": MessageLookupByLibrary.simpleMessage("운동 시작 시간"),
+        "startWorkout": MessageLookupByLibrary.simpleMessage("운동 시작"),
         "startWorkoutButtonText":
             MessageLookupByLibrary.simpleMessage("운동 시작하기"),
         "stats": MessageLookupByLibrary.simpleMessage("스탯"),

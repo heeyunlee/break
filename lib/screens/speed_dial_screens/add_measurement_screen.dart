@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -30,19 +29,31 @@ class AddMeasurementScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: AddMeasurementScreen(
-        database: database,
-        user: user!,
-        auth: auth,
+
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => AddMeasurementScreen(
+          user: user,
+          database: database,
+          auth: auth,
+        ),
       ),
     );
+
+    // await pushNewScreen(
+    //   context,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   withNavBar: false,
+    //   screen: AddMeasurementScreen(
+    //     database: database,
+    //     user: user!,
+    //     auth: auth,
+    //   ),
+    // );
   }
 
   @override
@@ -103,15 +114,18 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   @override
   void dispose() {
     _textController1.dispose();
-    _textController2.dispose();
-    _textController3.dispose();
-    _textController4.dispose();
-    _textController5.dispose();
-
     _focusNode1.dispose();
+
+    _textController2.dispose();
     _focusNode2.dispose();
+
+    _textController3.dispose();
     _focusNode3.dispose();
+
+    _textController4.dispose();
     _focusNode4.dispose();
+
+    _textController5.dispose();
     _focusNode5.dispose();
 
     super.dispose();
@@ -152,6 +166,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
       );
 
       Navigator.of(context).pop();
+
+      // TODO: Add snackbar after pop
 
       try {} on FirebaseException catch (e) {
         logger.d(e);
@@ -321,7 +337,6 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     style: BodyText1,
                     validator: (value) {
-                      print(value.runtimeType);
                       if (value!.isEmpty) {
                         return S.current.weightsHintText;
                       }
@@ -365,12 +380,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                       suffixStyle: BodyText1,
                     ),
                     style: BodyText1,
-                    onChanged: (value) => setState(() {
-                      // _bodyFat = num.parse(value);
-                    }),
-                    onFieldSubmitted: (value) => setState(() {
-                      // _bodyFat = num.parse(value);
-                    }),
+                    onChanged: (value) => setState(() {}),
+                    onFieldSubmitted: (value) => setState(() {}),
                   ),
                   const SizedBox(height: 24),
 
@@ -401,12 +412,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                       suffixStyle: BodyText1,
                     ),
                     style: BodyText1,
-                    onChanged: (value) => setState(() {
-                      // _skeletalMuscleMass = num.parse(value);
-                    }),
-                    onFieldSubmitted: (value) => setState(() {
-                      // _skeletalMuscleMass = num.parse(value);
-                    }),
+                    onChanged: (value) => setState(() {}),
+                    onFieldSubmitted: (value) => setState(() {}),
                   ),
                   const SizedBox(height: 24),
 
@@ -437,12 +444,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                       suffixStyle: BodyText1,
                     ),
                     style: BodyText1,
-                    onChanged: (value) => setState(() {
-                      // _bmi = num.parse(value);
-                    }),
-                    onFieldSubmitted: (value) => setState(() {
-                      // _bmi = num.parse(value);
-                    }),
+                    onChanged: (value) => setState(() {}),
+                    onFieldSubmitted: (value) => setState(() {}),
                   ),
                   const SizedBox(height: 24),
 
@@ -469,12 +472,8 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                       ),
                     ),
                     style: BodyText1,
-                    onChanged: (value) => setState(() {
-                      // _notes = value;
-                    }),
-                    onFieldSubmitted: (value) => setState(() {
-                      // _notes = value;
-                    }),
+                    onChanged: (value) => setState(() {}),
+                    onFieldSubmitted: (value) => setState(() {}),
                   ),
 
                   const SizedBox(height: 64),

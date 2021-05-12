@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -45,16 +45,27 @@ class CreateNewWorkoutScreen extends StatefulWidget {
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await pushNewScreen(
-      context,
-      pageTransitionAnimation: PageTransitionAnimation.slideUp,
-      withNavBar: false,
-      screen: CreateNewWorkoutScreen(
-        database: database,
-        auth: auth,
-        user: user,
+    await Navigator.of(context, rootNavigator: true).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => CreateNewWorkoutScreen(
+          database: database,
+          user: user,
+          auth: auth,
+        ),
       ),
     );
+
+    // await pushNewScreen(
+    //   context,
+    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    //   withNavBar: false,
+    //   screen: CreateNewWorkoutScreen(
+    //     database: database,
+    //     auth: auth,
+    //     user: user,
+    //   ),
+    // );
   }
 
   @override
