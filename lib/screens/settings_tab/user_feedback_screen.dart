@@ -94,7 +94,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
@@ -104,11 +104,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(S.current.yourFeedbackMatters, style: Subtitle2),
+        title: Text(S.current.yourFeedbackMatters, style: kSubtitle2),
         actions: [
           TextButton(
             onPressed: _submit,
-            child: Text(S.current.submit, style: ButtonText),
+            child: Text(S.current.submit, style: kButtonText),
           ),
         ],
       ),
@@ -127,11 +127,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           controller: _textController1,
           maxLines: 20,
           autofocus: true,
-          style: BodyText1Height,
+          style: kBodyText1Height,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: S.current.feedbackHintText,
-            hintStyle: BodyText1Grey,
+            hintStyle: kBodyText1Grey,
           ),
           onChanged: (value) {
             setState(() {

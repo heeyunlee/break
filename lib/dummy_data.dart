@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 
 import 'models/routine.dart';
@@ -70,4 +71,30 @@ final routineDummyData = Routine(
   totalWeights: 0,
   trainingLevel: 0,
   location: 'Location.gym',
+);
+
+final routineWorkoutsDummyData = List.generate(
+  3,
+  (index) => RoutineWorkout(
+    routineWorkoutId: 'routineWorkoutId',
+    routineId: 'routineId',
+    routineWorkoutOwnerId: 'routineWorkoutOwnerId',
+    workoutId: 'workoutId',
+    workoutTitle: 'workoutTitle',
+    index: index,
+    numberOfSets: 0,
+    numberOfReps: 0,
+    totalWeights: 0,
+    isBodyWeightWorkout: true,
+    duration: 0,
+    secondsPerRep: 0,
+    translated: {
+      'de': 'Name des Trainings',
+      'en': 'Workout Title',
+      'es': 'Nombre del entrenamiento',
+      'fr': 'Nom de l\'entraînement',
+      'ko': '운동 이름'
+    },
+    sets: [],
+  ),
 );

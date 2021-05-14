@@ -5,7 +5,7 @@ import '../../../constants.dart';
 
 class SignUpOutlinedButton extends StatelessWidget {
   final String? logo;
-  final String buttonText;
+  final String kButtonText;
   final void Function()? onPressed;
   final Color? logoColor;
   final double logoSize;
@@ -14,7 +14,7 @@ class SignUpOutlinedButton extends StatelessWidget {
   const SignUpOutlinedButton({
     Key? key,
     this.logo,
-    required this.buttonText,
+    required this.kButtonText,
     this.onPressed,
     this.logoColor,
     this.logoSize = 18,
@@ -32,7 +32,7 @@ class SignUpOutlinedButton extends StatelessWidget {
         height: 48,
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Grey700),
+            side: BorderSide(color: kGrey700),
             shape: StadiumBorder(
               side: BorderSide(width: 3),
             ),
@@ -57,8 +57,8 @@ class SignUpOutlinedButton extends StatelessWidget {
                 ),
               Center(
                 child: Text(
-                  buttonText,
-                  style: GoogleSignInStyleWhite,
+                  kButtonText,
+                  style: kGoogleSignInStyleWhite,
                 ),
               ),
             ],

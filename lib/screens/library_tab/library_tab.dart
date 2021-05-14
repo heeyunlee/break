@@ -17,7 +17,7 @@ class LibraryTab extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: BackgroundColor,
+        backgroundColor: kBackgroundColor,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -38,14 +38,14 @@ class LibraryTab extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
-      title: Text(S.current.library, style: Subtitle2),
+      title: Text(S.current.library, style: kSubtitle2),
       floating: true,
       pinned: true,
       snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
       flexibleSpace: const AppbarBlurBG(),
-      backgroundColor: AppBarColor,
+      backgroundColor: kAppBarColor,
       elevation: 0,
       actions: [
         IconButton(
@@ -59,8 +59,8 @@ class LibraryTab extends StatelessWidget {
       ],
       bottom: TabBar(
         unselectedLabelColor: Colors.white,
-        labelColor: PrimaryColor,
-        indicatorColor: PrimaryColor,
+        labelColor: kPrimaryColor,
+        indicatorColor: kPrimaryColor,
         tabs: [
           Tab(text: S.current.routines),
           Tab(text: S.current.workouts),

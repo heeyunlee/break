@@ -6,9 +6,9 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../../../constants.dart';
 
-class DailySummaryCard extends StatelessWidget {
-  DailySummaryCard({
-    this.cardColor = CardColor,
+class RoutineHistorySummaryCard extends StatelessWidget {
+  RoutineHistorySummaryCard({
+    this.cardColor = kCardColorLight,
     required this.date,
     required this.workoutTitle,
     required this.totalWeights,
@@ -61,7 +61,7 @@ class DailySummaryCard extends StatelessWidget {
             child: Container(
               height: 56,
               width: 56,
-              color: Grey700,
+              color: kGrey700,
               child: Center(
                 child: CachedNetworkImage(
                   imageUrl:
@@ -74,17 +74,17 @@ class DailySummaryCard extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(formattedDate, style: Subtitle2),
+          title: Text(formattedDate, style: kSubtitle2),
           subtitle: Text(
             '$workoutTitle',
-            style: Subtitle1w900,
+            style: kSubtitle1w900,
             maxLines: 1,
             softWrap: false,
             overflow: TextOverflow.fade,
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(indent: 8, endIndent: 8, color: Grey800),
+        const Divider(indent: 8, endIndent: 8, color: kGrey800),
         const SizedBox(height: 16),
         _DailySummaryRowWidget(
           formattedWeights: '$weights $unit',
@@ -93,7 +93,7 @@ class DailySummaryCard extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         if (earnedBadges == true)
-          const Divider(indent: 8, endIndent: 8, color: Grey800),
+          const Divider(indent: 8, endIndent: 8, color: kGrey800),
         if (earnedBadges == true)
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -167,9 +167,9 @@ class _DailySummaryRowWidget extends StatelessWidget {
           height: 48,
         ),
         const SizedBox(height: 16),
-        Text(title, style: Subtitle1w900),
+        Text(title, style: kSubtitle1w900),
         const SizedBox(height: 4),
-        Text(subtitle, style: BodyText2Light),
+        Text(subtitle, style: kBodyText2Light),
       ],
     );
   }

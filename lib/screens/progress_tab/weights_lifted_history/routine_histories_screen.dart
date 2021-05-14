@@ -39,12 +39,12 @@ class RoutineHistoriesScreen extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
-        title: Text(S.current.routineHistoryTitle, style: Subtitle2),
+        title: Text(S.current.routineHistoryTitle, style: kSubtitle2),
         centerTitle: true,
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -75,7 +75,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
           final data = documentSnapshot.data();
           final routineHistory = RoutineHistory.fromMap(data!, documentId);
 
-          return DailySummaryCard(
+          return RoutineHistorySummaryCard(
             date: routineHistory.workoutStartTime,
             workoutTitle: routineHistory.routineTitle,
             totalWeights: routineHistory.totalWeights,

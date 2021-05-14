@@ -28,10 +28,10 @@ class SummaryRowWidget extends StatelessWidget {
         const SizedBox(width: 16),
         RichText(
           text: TextSpan(
-            style: Headline3,
+            style: kHeadline3,
             children: <TextSpan>[
               TextSpan(text: title),
-              if (subtitle != null) TextSpan(text: subtitle, style: Subtitle1)
+              if (subtitle != null) TextSpan(text: subtitle, style: kSubtitle1)
             ],
           ),
         ),

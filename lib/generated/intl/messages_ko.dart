@@ -58,19 +58,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("메모를 추가하세요"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("간단한 메모를 감겨주세요!"),
-        "addProteinButtonText":
-            MessageLookupByLibrary.simpleMessage("단백질 추가하기"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록을 저장했습니다!"),
+        "addProteinkButtonText":
+            MessageLookupByLibrary.simpleMessage("단백질 추가하기"),
         "addProteins": MessageLookupByLibrary.simpleMessage("단백직 섭취"),
         "addSetsToWorkout":
             MessageLookupByLibrary.simpleMessage("운동에 세트를 더하세요!"),
-        "addWorkoutButtonText": MessageLookupByLibrary.simpleMessage("운동 추가"),
         "addWorkoutLog": MessageLookupByLibrary.simpleMessage("운동 기록하기"),
         "addWorkoutToRoutine":
             MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가"),
-        "addWorkoutToRoutineButtonText":
+        "addWorkoutToRoutinekButtonText":
             MessageLookupByLibrary.simpleMessage("이 운동을 루틴에 추가"),
+        "addWorkoutkButtonText": MessageLookupByLibrary.simpleMessage("운동 추가"),
         "advanced": MessageLookupByLibrary.simpleMessage("상급"),
         "afterWorkout": MessageLookupByLibrary.simpleMessage("운동 후"),
         "afterWorkoutSnackbar":
@@ -134,18 +134,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("삭제"),
         "deleteAccountTitle": m0,
         "deleteAcocunt": MessageLookupByLibrary.simpleMessage("계정삭제"),
-        "deleteBottomSheetButtonText":
-            MessageLookupByLibrary.simpleMessage("운동 기록 삭제"),
         "deleteBottomSheetMessage": MessageLookupByLibrary.simpleMessage(
             "데이터는 영구적으로 삭제되고 다시 복구할 수 없습니다"),
         "deleteBottomSheetTitle":
             MessageLookupByLibrary.simpleMessage("정말로 삭제할까요?"),
+        "deleteBottomSheetkButtonText":
+            MessageLookupByLibrary.simpleMessage("운동 기록 삭제"),
         "deleteMeasurementSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 신체 정보 기록을 삭제했습니다!"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("기록을 삭제했습니다"),
-        "deleteRoutineButtonText":
-            MessageLookupByLibrary.simpleMessage("루틴 삭제"),
         "deleteRoutineHistorySnackbar":
             MessageLookupByLibrary.simpleMessage("운동 기록을 삭제했습니다"),
         "deleteRoutineSnackbar":
@@ -158,12 +156,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("정말 운동을 삭제할까요?"),
         "deleteRoutineWorkoutSnakbar":
             MessageLookupByLibrary.simpleMessage("운동을 삭제했습니다!"),
-        "deleteWorkoutButtonText":
-            MessageLookupByLibrary.simpleMessage("운동 삭제"),
+        "deleteRoutinekButtonText":
+            MessageLookupByLibrary.simpleMessage("루틴 삭제"),
         "deleteWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("운동을 삭제했습니다!"),
         "deleteWorkoutWarningMessage": MessageLookupByLibrary.simpleMessage(
             "정말로 운동을 삭제할까요? 데이터는 복구할 수 없습니다"),
+        "deleteWorkoutkButtonText":
+            MessageLookupByLibrary.simpleMessage("운동 삭제"),
         "deletedARestMessage":
             MessageLookupByLibrary.simpleMessage("휴식을 삭제했습니다"),
         "deletedASet": MessageLookupByLibrary.simpleMessage("세트를 삭제했습니다"),
@@ -343,7 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴을 저장했습니다"),
         "savedRoutines": MessageLookupByLibrary.simpleMessage("저장된 루틴"),
-        "savedWorkoutEmptyButtonText":
+        "savedWorkoutEmptykButtonText":
             MessageLookupByLibrary.simpleMessage("커스텀 운동 만들기!"),
         "savedWorkoutsEmptyText":
             MessageLookupByLibrary.simpleMessage("운동을 저장하거나 커스텀 운동을 만들어 보세요!"),
@@ -385,7 +385,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startRoutine": MessageLookupByLibrary.simpleMessage("루틴 시작"),
         "startTime": MessageLookupByLibrary.simpleMessage("운동 시작 시간"),
         "startWorkout": MessageLookupByLibrary.simpleMessage("운동 시작"),
-        "startWorkoutButtonText":
+        "startWorkoutkButtonText":
             MessageLookupByLibrary.simpleMessage("운동 시작하기"),
         "stats": MessageLookupByLibrary.simpleMessage("스탯"),
         "stopTheWorkout": MessageLookupByLibrary.simpleMessage("운동 종료"),

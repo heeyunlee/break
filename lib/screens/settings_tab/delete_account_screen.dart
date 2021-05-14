@@ -52,7 +52,7 @@ class DeleteAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -78,16 +78,16 @@ class DeleteAccountScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             S.current.deleteAccountTitle(user.userName),
-            style: Headline6w900,
+            style: kHeadline6w900,
           ),
           const SizedBox(height: 16),
-          Text(S.current.byDeletingAccount, style: BodyText1),
+          Text(S.current.byDeletingAccount, style: kBodyText1),
           const SizedBox(height: 8),
-          Text(S.current.deletingAccountWarning1, style: BodyText1),
+          Text(S.current.deletingAccountWarning1, style: kBodyText1),
           const SizedBox(height: 4),
-          Text(S.current.deletingAccountWarning2, style: BodyText1),
+          Text(S.current.deletingAccountWarning2, style: kBodyText1),
           const SizedBox(height: 4),
-          Text(S.current.deletingAccountWarning3, style: BodyText1),
+          Text(S.current.deletingAccountWarning3, style: kBodyText1),
           const SizedBox(height: 40),
           MaxWidthRaisedButton(
             color: Colors.red,

@@ -188,7 +188,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
       context: context,
       builder: (context) {
         return Container(
-          color: CardColorLight,
+          color: kCardColorLight,
           height: size.height / 3,
           child: CupertinoTheme(
             data: CupertinoThemeData(brightness: Brightness.dark),
@@ -213,7 +213,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
@@ -221,9 +221,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close_rounded, color: Colors.white),
         ),
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addMeasurement, style: Subtitle2),
+        title: Text(S.current.addMeasurement, style: kSubtitle2),
       ),
       body: _buildBody(),
       floatingActionButton: Container(
@@ -239,7 +239,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         ),
         child: FloatingActionButton.extended(
           onPressed: () => _submit(),
-          backgroundColor: PrimaryColor,
+          backgroundColor: kPrimaryColor,
           heroTag: 'addMeasurementSubmitButton',
           label: Text(S.current.submit),
         ),
@@ -252,7 +252,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: kPrimaryColor,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -288,7 +288,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Text(
                                 _loggedTimeInString,
-                                style: BodyText1,
+                                style: kBodyText1,
                               ),
                             ),
                           ),
@@ -298,10 +298,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         left: 12,
                         top: -6,
                         child: Container(
-                          color: BackgroundColor,
+                          color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.time, style: Caption1),
+                            child: Text(S.current.time, style: kCaption1),
                           ),
                         ),
                       ),
@@ -318,10 +318,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.bodyweightMeasurement,
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -333,9 +333,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: unitOfMass,
-                      suffixStyle: BodyText1,
+                      suffixStyle: kBodyText1,
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.weightsHintText;
@@ -362,10 +362,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.bodyFat,
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -377,9 +377,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: '%',
-                      suffixStyle: BodyText1,
+                      suffixStyle: kBodyText1,
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -394,10 +394,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.skeletalMuscleMass,
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -409,9 +409,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: unitOfMass,
-                      suffixStyle: BodyText1,
+                      suffixStyle: kBodyText1,
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -426,10 +426,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: 'BMI',
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -441,9 +441,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       // suffixText: '$unitOfMass/m^2',
-                      suffixStyle: BodyText1,
+                      suffixStyle: kBodyText1,
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -456,10 +456,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     maxLines: 5,
                     decoration: InputDecoration(
                       labelText: S.current.notes,
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -471,7 +471,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -488,7 +488,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -502,7 +502,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -517,7 +517,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -532,7 +532,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -547,7 +547,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -562,7 +562,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

@@ -49,7 +49,7 @@ class SavedRoutinesTileWidget extends StatelessWidget {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: Grey800,
+                      color: kGrey800,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: const Icon(
@@ -61,11 +61,11 @@ class SavedRoutinesTileWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(S.current.savedRoutines, style: BodyText1Bold),
+                      Text(S.current.savedRoutines, style: kBodyText1Bold),
                       const SizedBox(height: 4),
                       Text(
                         _getSubtitle(user),
-                        style: BodyText2Grey,
+                        style: kBodyText2Grey,
                       ),
                     ],
                   ),

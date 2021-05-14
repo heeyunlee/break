@@ -45,12 +45,12 @@ class CustomListTile64 extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
                       placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: CardColor,
+                        baseColor: kCardColor,
                         highlightColor: Colors.white,
                         child: Container(
                           width: 64,
                           height: 64,
-                          color: CardColor,
+                          color: kCardColor,
                         ),
                       ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
@@ -67,7 +67,7 @@ class CustomListTile64 extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: BodyText1Bold,
+                        style: kBodyText1Bold,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -75,7 +75,7 @@ class CustomListTile64 extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: BodyText2Grey,
+                        style: kBodyText2Grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,

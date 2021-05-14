@@ -43,14 +43,14 @@ class AddWorkoutsToRoutine extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
+    await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
+        fullscreenDialog: true,
         builder: (context) => AddWorkoutsToRoutine(
           routine: routine,
           database: database,
           auth: auth,
         ),
-        fullscreenDialog: true,
       ),
     );
   }
@@ -122,7 +122,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -132,7 +132,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               snap: false,
               centerTitle: true,
               brightness: Brightness.dark,
-              title: Text(S.current.addWorkoutButtonText, style: Subtitle1),
+              title: Text(S.current.addWorkoutkButtonText, style: kSubtitle1),
               flexibleSpace: AppbarBlurBG(),
               backgroundColor: Colors.transparent,
               leading: IconButton(

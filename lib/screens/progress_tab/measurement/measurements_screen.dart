@@ -72,12 +72,12 @@ class MeasurementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.bodyMeasurement, style: Subtitle2),
+        title: Text(S.current.bodyMeasurement, style: kSubtitle2),
         centerTitle: true,
         brightness: Brightness.dark,
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -122,9 +122,9 @@ class MeasurementsScreen extends StatelessWidget {
             child: ListTile(
               leading: Text(
                 '${measurement.bodyWeight}$unit',
-                style: BodyText1,
+                style: kBodyText1,
               ),
-              trailing: Text(date, style: BodyText1Grey),
+              trailing: Text(date, style: kBodyText1Grey),
             ),
           );
         },

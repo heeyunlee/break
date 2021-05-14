@@ -71,19 +71,19 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
         child: TextFormField(
           maxLength: 35,
           maxLines: 1,
-          style: Headline5,
+          style: kHeadline5,
           autofocus: true,
           textAlign: TextAlign.center,
           controller: _textController1,
           decoration: InputDecoration(
-            counterStyle: Caption1,
-            hintStyle: SearchBarHintStyle,
+            counterStyle: kCaption1,
+            hintStyle: kSearchBarHintStyle,
             hintText: S.current.workoutHintText,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: PrimaryColor),
+              borderSide: BorderSide(color: kPrimaryColor),
             ),
           ),
           onChanged: (value) => setState(() {

@@ -180,7 +180,7 @@ class _EditWorkoutMainMuscleGroupScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.dark,
@@ -205,7 +205,7 @@ class _EditWorkoutMainMuscleGroupScreenState
             }
           },
         ),
-        title: Text(S.current.mainMuscleGroup, style: Subtitle1),
+        title: Text(S.current.mainMuscleGroup, style: kSubtitle1),
         flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
@@ -225,11 +225,12 @@ class _EditWorkoutMainMuscleGroupScreenState
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color: (_mainMuscleGroup[key]!) ? PrimaryColor : Grey700,
+                      color:
+                          (_mainMuscleGroup[key]!) ? kPrimaryColor : kGrey700,
                       child: CheckboxListTile(
                         selected: _mainMuscleGroup[key]!,
-                        activeColor: Primary700Color,
-                        title: Text(title, style: ButtonText),
+                        activeColor: kPrimary700Color,
+                        title: Text(title, style: kButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],
                         onChanged: (bool? value) => _addOrRemoveMainMuscleGroup(

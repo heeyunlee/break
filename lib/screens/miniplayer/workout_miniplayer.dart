@@ -4,12 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
+import 'package:miniplayer/miniplayer.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/screens/home_screen.dart';
+import 'package:workout_player/screens/miniplayer/widgets/save_and_exit_button.dart';
 import 'package:workout_player/widgets/empty_content.dart';
-import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -31,33 +34,20 @@ class WorkoutMiniplayer extends StatefulWidget {
   const WorkoutMiniplayer({
     Key? key,
     required this.database,
-    required this.routine,
     required this.user,
   }) : super(key: key);
 
   final Database database;
-  final Routine routine;
-  final User user;
+  final Future<User?> user;
 
-  static Future<void> show(
-    BuildContext context, {
-    required Routine routine,
-  }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+  static Widget create(BuildContext context) {
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final user = database.getUserDocument(auth.currentUser!.uid);
 
-    await HapticFeedback.mediumImpact();
-
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => WorkoutMiniplayer(
-          database: database,
-          routine: routine,
-          user: user!,
-        ),
-      ),
+    return WorkoutMiniplayer(
+      database: database,
+      user: user,
     );
   }
 
@@ -69,8 +59,8 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late CountDownController _countDownController;
-  late bool _isPaused;
-  late Timestamp _workoutStartTime;
+  // late bool _isPaused;
+  // late Timestamp _workoutStartTime;
 
   Duration _restTime = Duration();
   int routineWorkoutIndex = 0;
@@ -90,137 +80,146 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
   @override
   void initState() {
     super.initState();
-    debugPrint('init');
+    debugPrint('miniplayer init');
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
     _countDownController = CountDownController();
-    _isPaused = false;
-    _workoutStartTime = Timestamp.now();
+    // _isPaused = false;
+    // _workoutStartTime = Timestamp.now();
   }
 
   @override
   void dispose() {
-    debugPrint('dispose');
+    debugPrint('miniplayer dispose');
 
     _animationController.dispose();
     super.dispose();
   }
 
-  Future<void> _submit(List<RoutineWorkout> routineWorkouts) async {
-    try {
-      debugPrint('submit button pressed');
+  // Future<void> _submit(
+  //     Routine routine, List<RoutineWorkout> routineWorkouts) async {
+  //   try {
+  //     debugPrint('submit button pressed');
+  //     final userData = (await widget.user)!;
 
-      final routineHistoryId = documentIdFromCurrentDate();
-      final workoutEndTime = Timestamp.now();
-      final workoutStartDate = _workoutStartTime.toDate();
-      final workoutEndDate = workoutEndTime.toDate();
-      final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
-      final isBodyWeightWorkout = routineWorkouts.any(
-        (element) => element.isBodyWeightWorkout == true,
-      );
-      final workoutDate = DateTime.utc(
-        workoutStartDate.year,
-        workoutStartDate.month,
-        workoutStartDate.day,
-      );
+  //     final routineHistoryId = documentIdFromCurrentDate();
+  //     final workoutEndTime = Timestamp.now();
+  //     final workoutStartDate = _workoutStartTime.toDate();
+  //     final workoutEndDate = workoutEndTime.toDate();
+  //     final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
+  //     final isBodyWeightWorkout = routineWorkouts.any(
+  //       (element) => element.isBodyWeightWorkout == true,
+  //     );
+  //     final workoutDate = DateTime.utc(
+  //       workoutStartDate.year,
+  //       workoutStartDate.month,
+  //       workoutStartDate.day,
+  //     );
 
-      // For Calculating Total Weights
-      var totalWeights = 0.00;
-      var weightsCalculated = false;
-      if (!weightsCalculated) {
-        for (var i = 0; i < routineWorkouts.length; i++) {
-          var weights = routineWorkouts[i].totalWeights;
-          totalWeights = totalWeights + weights;
-        }
-        weightsCalculated = true;
-      }
+  //     // For Calculating Total Weights
+  //     var totalWeights = 0.00;
+  //     var weightsCalculated = false;
+  //     if (!weightsCalculated) {
+  //       for (var i = 0; i < routineWorkouts.length; i++) {
+  //         var weights = routineWorkouts[i].totalWeights;
+  //         totalWeights = totalWeights + weights;
+  //       }
+  //       weightsCalculated = true;
+  //     }
 
-      final routineHistory = RoutineHistory(
-        routineHistoryId: routineHistoryId,
-        userId: widget.user.userId,
-        username: widget.user.displayName,
-        routineId: widget.routine.routineId,
-        routineTitle: widget.routine.routineTitle,
-        isPublic: true,
-        mainMuscleGroup: widget.routine.mainMuscleGroup,
-        secondMuscleGroup: widget.routine.secondMuscleGroup,
-        workoutStartTime: _workoutStartTime,
-        workoutEndTime: workoutEndTime,
-        notes: '',
-        totalCalories: 0,
-        totalDuration: duration,
-        totalWeights: totalWeights,
-        isBodyWeightWorkout: isBodyWeightWorkout,
-        workoutDate: workoutDate,
-        imageUrl: widget.routine.imageUrl,
-        unitOfMass: widget.routine.initialUnitOfMass,
-        equipmentRequired: widget.routine.equipmentRequired,
-      );
+  //     final routineHistory = RoutineHistory(
+  //       routineHistoryId: routineHistoryId,
+  //       userId: userData.userId,
+  //       username: userData.displayName,
+  //       routineId: routine.routineId,
+  //       routineTitle: routine.routineTitle,
+  //       isPublic: true,
+  //       mainMuscleGroup: routine.mainMuscleGroup,
+  //       secondMuscleGroup: routine.secondMuscleGroup,
+  //       workoutStartTime: _workoutStartTime,
+  //       workoutEndTime: workoutEndTime,
+  //       notes: '',
+  //       totalCalories: 0,
+  //       totalDuration: duration,
+  //       totalWeights: totalWeights,
+  //       isBodyWeightWorkout: isBodyWeightWorkout,
+  //       workoutDate: workoutDate,
+  //       imageUrl: routine.imageUrl,
+  //       unitOfMass: routine.initialUnitOfMass,
+  //       equipmentRequired: routine.equipmentRequired,
+  //     );
 
-      /// Update User Data
-      // GET history data
-      final histories = widget.user.dailyWorkoutHistories;
+  //     /// Update User Data
+  //     // GET history data
+  //     final histories = userData.dailyWorkoutHistories;
 
-      final index = widget.user.dailyWorkoutHistories!
-          .indexWhere((element) => element.date.toUtc() == workoutDate);
+  //     final index = userData.dailyWorkoutHistories!
+  //         .indexWhere((element) => element.date.toUtc() == workoutDate);
 
-      if (index == -1) {
-        final newHistory = DailyWorkoutHistory(
-          date: workoutDate,
-          totalWeights: totalWeights,
-        );
-        histories!.add(newHistory);
-      } else {
-        // final index = widget.user.dailyWorkoutHistories
-        //     .indexWhere((element) => element.date.toUtc() == workoutDate);
-        final oldHistory = histories![index];
+  //     if (index == -1) {
+  //       final newHistory = DailyWorkoutHistory(
+  //         date: workoutDate,
+  //         totalWeights: totalWeights,
+  //       );
+  //       histories!.add(newHistory);
+  //     } else {
+  //       // final index = widget.user.dailyWorkoutHistories
+  //       //     .indexWhere((element) => element.date.toUtc() == workoutDate);
+  //       final oldHistory = histories![index];
 
-        final newHistory = DailyWorkoutHistory(
-          date: oldHistory.date,
-          totalWeights: oldHistory.totalWeights + totalWeights,
-        );
-        histories[index] = newHistory;
-      }
+  //       final newHistory = DailyWorkoutHistory(
+  //         date: oldHistory.date,
+  //         totalWeights: oldHistory.totalWeights + totalWeights,
+  //       );
+  //       histories[index] = newHistory;
+  //     }
 
-      // User
-      final user = {
-        'totalWeights': widget.user.totalWeights + totalWeights,
-        'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
-        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      };
+  //     // User
+  //     final user = {
+  //       'totalWeights': userData.totalWeights + totalWeights,
+  //       'totalNumberOfWorkouts': userData.totalNumberOfWorkouts + 1,
+  //       'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
+  //     };
 
-      await widget.database
-          .setRoutineHistory(routineHistory)
-          .then((value) async {
-        await widget.database.batchRoutineWorkouts(
-          routineHistory,
-          routineWorkouts,
-        );
-      });
-      await widget.database.updateUser(widget.user.userId, user);
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      RoutineHistorySummaryScreen.show(
-        context,
-        routineHistory: routineHistory,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.afterWorkoutSnackbar),
-      ));
-    } on FirebaseException catch (e) {
-      logger.d(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-  }
+  //     await widget.database
+  //         .setRoutineHistory(routineHistory)
+  //         .then((value) async {
+  //       await widget.database.batchRoutineWorkouts(
+  //         routineHistory,
+  //         routineWorkouts,
+  //       );
+  //     });
+  //     await widget.database.updateUser(userData.userId, user);
+  //     Navigator.of(context).popUntil((route) => route.isFirst);
+  //     RoutineHistorySummaryScreen.show(
+  //       context,
+  //       routineHistory: routineHistory,
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text(S.current.afterWorkoutSnackbar),
+  //     ));
+  //   } on FirebaseException catch (e) {
+  //     logger.d(e);
+  //     await showExceptionAlertDialog(
+  //       context,
+  //       title: S.current.operationFailed,
+  //       exception: e.toString(),
+  //     );
+  //   }
+  // }
 
-  Future<void> _previousWorkout(List<RoutineWorkout> routineWorkouts) async {
+  Future<void> _previousWorkout(
+    List<RoutineWorkout> routineWorkouts,
+    BoolNotifier isWorkoutPaused,
+  ) async {
     setState(() {
-      _isPaused = false;
+      isWorkoutPaused.setBoolean(false);
+      // boolChangeNotifier.setBoolean(false);
+      // _isPaused = false;
+      // context.read(isWorkoutPausedProvider).state = false;
+      // isWorkoutPausedProvider.
       _animationController.reverse();
       currentIndex = currentIndex -
           setIndex -
@@ -234,9 +233,15 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     // debugPrint('rW index is $routineWorkoutIndex');
   }
 
-  Future<void> _skipPrevious(List<RoutineWorkout> routineWorkouts) async {
+  Future<void> _skipPrevious(
+    List<RoutineWorkout> routineWorkouts,
+    BoolNotifier isWorkoutPaused,
+  ) async {
     setState(() {
-      _isPaused = false;
+      isWorkoutPaused.setBoolean(false);
+      // boolChangeNotifier.setBoolean(false);
+      // _isPaused = false;
+      // context.read(isWorkoutPausedProvider).state = false;
       _animationController.reverse();
       currentIndex--;
     });
@@ -256,21 +261,31 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     //   debugPrint('rW index is $routineWorkoutIndex');
   }
 
-  Future<void> _pausePlay(WorkoutSet workoutSet) async {
-    if (!_isPaused) {
+  Future<void> _pausePlay(
+    WorkoutSet workoutSet,
+    BoolNotifier isWorkoutPaused,
+  ) async {
+    if (!isWorkoutPaused.isWorkoutPaused) {
+      isWorkoutPaused.toggleBoolValue();
+      // boolChangeNotifier.toggleBoolValue();
       await _animationController.forward();
       if (workoutSet.isRest) _countDownController.pause();
-      setState(() {
-        _isPaused = !_isPaused;
-        // debugPrint('_isPaused is $_isPaused');
-      });
+      // setState(() {
+      //   _isPaused = !_isPaused;
+
+      //   context.read(isWorkoutPausedProvider).state =
+      //       !context.read(isWorkoutPausedProvider).state;
+      //   // debugPrint('_isPaused is $_isPaused');
+      // });
     } else {
+      isWorkoutPaused.toggleBoolValue();
+      // boolChangeNotifier.toggleBoolValue();
       await _animationController.reverse();
       if (workoutSet.isRest) _countDownController.resume();
-      setState(() {
-        _isPaused = !_isPaused;
-        // debugPrint('_isPaused is $_isPaused');
-      });
+      // setState(() {
+      //   _isPaused = !_isPaused;
+      //   // debugPrint('_isPaused is $_isPaused');
+      // });
     }
   }
 
@@ -278,11 +293,15 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     List<RoutineWorkout> routineWorkouts,
     RoutineWorkout routineWorkout,
     WorkoutSet workoutSet,
+    BoolNotifier isWorkoutPaused,
   ) async {
     final workoutSetLength = routineWorkout.sets!.length - 1;
     final routineWorkoutLength = routineWorkouts.length - 1;
     setState(() {
-      _isPaused = false;
+      isWorkoutPaused.setBoolean(false);
+      // boolChangeNotifier.setBoolean(false);
+      // _isPaused = false;
+      // context.read(isWorkoutPausedProvider).state = false;
       _animationController.reverse();
       currentIndex++;
       if (workoutSet.isRest) {
@@ -310,11 +329,15 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
   Future<void> _skipWorkout(
     WorkoutSet workoutSet,
     RoutineWorkout routineWorkout,
+    BoolNotifier isWorkoutPaused,
   ) async {
     final workoutSetLength = routineWorkout.sets!.length - 1;
 
     setState(() {
-      _isPaused = false;
+      // _isPaused = false;
+      // context.read(isWorkoutPausedProvider).state = false;
+      isWorkoutPaused.setBoolean(false);
+      // boolChangeNotifier.setBoolean(false);
       _animationController.reverse();
       if (workoutSet.isRest) {
         _restTime = Duration(seconds: workoutSet.restTime ?? 60);
@@ -332,33 +355,65 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('during workout screen sccaffold building');
+    final size = MediaQuery.of(context).size;
 
+    return Consumer(
+      builder: (context, watch, child) {
+        final controller = watch(miniplayerControllerProvider).state;
+        final selectedRoutine = watch(selectedRoutineProvider).state;
+        final isWorkoutPaused = watch(isWorkoutPausedProvider);
+        // isWorkoutPaused.isWorkoutPaused
+
+        return Miniplayer(
+          minHeight: miniplayerMinHeight,
+          maxHeight: size.height,
+          controller: controller,
+
+          elevation: 4,
+          // onDismissed: () => selectedRoutine == null,
+          // onDismissed: () {
+          //   context.read(selectedRoutineProvider).state = null;
+          // },
+          builder: (height, percentage) {
+            debugPrint('height $height, and percentage is $percentage');
+
+            if (selectedRoutine == null) {
+              return const SizedBox.shrink();
+            }
+
+            if (percentage == 0) {
+              return _collapsedPlayer(selectedRoutine, isWorkoutPaused);
+            }
+
+            return _expandedPlayer(selectedRoutine, isWorkoutPaused);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _expandedPlayer(Routine routine, BoolNotifier isWorkoutPaused) {
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        title: Text('${widget.routine.routineTitle}', style: BodyText2w900),
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () async {
-            await _closeModalBottomSheet();
-          },
+        title: Text('${routine.routineTitle}', style: kBodyText2w900),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Icon(Icons.expand_more_rounded, size: 32),
         ),
       ),
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
-      body: _buildBody(),
+      backgroundColor: kBackgroundColor,
+      body: _buildBody(routine, isWorkoutPaused),
     );
   }
 
-  Widget _buildBody() {
-    final database = Provider.of<Database>(context, listen: false);
-
+  Widget _buildBody(Routine routine, BoolNotifier isWorkoutPaused) {
     return StreamBuilder<List<RoutineWorkout>>(
-      stream: database.routineWorkoutsStream(widget.routine),
+      stream: widget.database.routineWorkoutsStream(routine),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final routineWorkouts = snapshot.data;
@@ -384,9 +439,11 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
               }
 
               return _buildStreamBody(
+                routine,
                 routineWorkouts,
                 routineWorkout,
                 workoutSet,
+                isWorkoutPaused,
               );
             } else {
               return EmptyContent(
@@ -408,10 +465,19 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
     );
   }
 
+  Widget _collapsedPlayer(Routine routine, BoolNotifier isWorkoutPaused) {
+    return Container(
+      color: kBackgroundColor,
+      child: Text('Collapsed', style: kBodyText1),
+    );
+  }
+
   Widget _buildStreamBody(
+    Routine routine,
     List<RoutineWorkout> routineWorkouts,
     RoutineWorkout routineWorkout,
     WorkoutSet workoutSet,
+    BoolNotifier isWorkoutPaused,
   ) {
     final f = NumberFormat('#,###');
 
@@ -444,7 +510,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                   ? WeightsAndRepsWidget(
                       workoutSet: workoutSet,
                       routineWorkout: routineWorkout,
-                      routine: widget.routine,
+                      routine: routine,
                     )
                   : _buildRestTimerWidget(
                       routineWorkouts,
@@ -458,7 +524,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                   vertical: 4,
                 ),
                 child: Text(setTitle,
-                    style: Headline5.copyWith(fontSize: size.height * 0.03)),
+                    style: kHeadline5.copyWith(fontSize: size.height * 0.03)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -467,11 +533,11 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                   children: [
                     Text(
                       '${routineWorkout.index}.  ',
-                      style: Headline6Grey.copyWith(
+                      style: kHeadline6Grey.copyWith(
                         fontSize: size.height * 0.02,
                       ),
                     ),
-                    Text(title, style: Headline6Grey),
+                    Text(title, style: kHeadline6Grey),
                   ],
                 ),
               ),
@@ -491,7 +557,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                     ClipRRect(
                       borderRadius: BorderRadius.circular(2),
                       child: Container(
-                        color: PrimaryColor,
+                        color: kPrimaryColor,
                         height: 4,
                         width: (size.width - 48) * currentIndex / setLength,
                       ),
@@ -506,12 +572,12 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                   children: [
                     Text(
                       formattedCurrentProgress,
-                      style: BodyText2.copyWith(fontSize: size.height * 0.017),
+                      style: kBodyText2.copyWith(fontSize: size.height * 0.017),
                     ),
                     Spacer(),
                     Text(
                       '100 %',
-                      style: BodyText2.copyWith(fontSize: size.height * 0.017),
+                      style: kBodyText2.copyWith(fontSize: size.height * 0.017),
                     ),
                   ],
                 ),
@@ -538,7 +604,10 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                         ),
                         onPressed: (routineWorkoutIndex == 0)
                             ? null
-                            : () => _previousWorkout(routineWorkouts),
+                            : () => _previousWorkout(
+                                  routineWorkouts,
+                                  isWorkoutPaused,
+                                ),
                       ),
                     ),
 
@@ -556,7 +625,10 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                           size: size.height * 0.06,
                         ),
                         onPressed: (currentIndex > 1)
-                            ? () => _skipPrevious(routineWorkouts)
+                            ? () => _skipPrevious(
+                                  routineWorkouts,
+                                  isWorkoutPaused,
+                                )
                             : null,
                       ),
                     ),
@@ -564,11 +636,12 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                     /// Pause Play
                     Tooltip(
                       verticalOffset: -56,
-                      message: (_isPaused)
+                      message: (isWorkoutPaused.isWorkoutPaused)
                           ? S.current.pauseWorkout
                           : S.current.resumeWorkout,
                       child: IconButton(
-                        onPressed: () => _pausePlay(workoutSet),
+                        onPressed: () =>
+                            _pausePlay(workoutSet, isWorkoutPaused),
                         iconSize: size.height * 0.06,
                         icon: Container(
                           child: AnimatedIcon(
@@ -600,6 +673,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                                   routineWorkouts,
                                   routineWorkout,
                                   workoutSet,
+                                  isWorkoutPaused,
                                 ),
                       ),
                     ),
@@ -623,6 +697,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                                 : () => _skipWorkout(
                                       workoutSet,
                                       routineWorkout,
+                                      isWorkoutPaused,
                                     ),
                       ),
                     ),
@@ -630,32 +705,32 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                 ),
               ),
               Spacer(),
-              SizedBox(
-                height: size.height * 0.1,
-                child: (_isPaused)
-                    ? Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: MaxWidthRaisedButton(
-                          width: double.infinity,
-                          buttonText: S.current.saveAndEndWorkout,
-                          color: Colors.grey[700],
-                          onPressed: () => _submit(routineWorkouts),
-                        ),
-                      )
-                    : Container(),
-                // : (routineWorkoutIndex == routineWorkoutsLength &&
-                //         setIndex == workoutSetsLength)
-                //     ? Padding(
-                //         padding: const EdgeInsets.all(16.0),
-                //         child: MaxWidthRaisedButton(
-                //           width: double.infinity,
-                //           onPressed: () {},
-                //           color: PrimaryColor,
-                //           buttonText: 'ADD NEW WORKOUT',
-                //         ),
-                //       )
-                //     : Container(),
+              SaveAndExitButton(
+                // callback: (value) {
+                //   setState(() {
+                //     context.read(provider) = value;
+                //   });
+                // },
+                routine: routine,
+                routineWorkouts: routineWorkouts,
+                boolNotifier: isWorkoutPaused,
+                database: widget.database,
+                user: widget.user,
               ),
+              // SizedBox(
+              //   height: size.height * 0.1,
+              //   child: (isWorkoutPaused.isWorkoutPaused)
+              //       ? Padding(
+              //           padding: const EdgeInsets.all(16),
+              //           child: MaxWidthRaisedButton(
+              //             width: double.infinity,
+              //             buttonText: S.current.saveAndEndWorkout,
+              //             color: Colors.grey[700],
+              //             onPressed: () => _submit(routine, routineWorkouts),
+              //           ),
+              //         )
+              //       : Container(),
+              // ),
             ],
           ),
         ),
@@ -683,7 +758,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: CircularCountDownTimer(
-              textStyle: Headline2,
+              textStyle: kHeadline2,
               controller: _countDownController,
               width: 280,
               height: 280,
@@ -697,7 +772,7 @@ class _WorkoutMiniplayerState extends State<WorkoutMiniplayer>
                   ? null
                   : () {
                       setState(() {
-                        _isPaused = false;
+                        // _isPaused = false;
                         currentIndex++;
                       });
                       if (setIndex < workoutSetLength) {

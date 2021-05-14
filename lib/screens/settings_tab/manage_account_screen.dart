@@ -49,7 +49,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
@@ -64,7 +64,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(S.current.manageAccount, style: Subtitle1),
+        title: Text(S.current.manageAccount, style: kSubtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),
@@ -96,18 +96,18 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       S.current.personalInformation,
-                      style: BodyText2BoldGrey,
+                      style: kBodyText2BoldGrey,
                     ),
                   ),
                   ListTile(
-                    title: Text(S.current.displayName, style: BodyText2),
+                    title: Text(S.current.displayName, style: kBodyText2),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // if (user!.displayName != null)
                         Text(
                           user!.displayName,
-                          style: BodyText2Grey,
+                          style: kBodyText2Grey,
                         ),
                         const SizedBox(width: 16),
                         const Icon(
@@ -123,14 +123,14 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                     ),
                   ),
                   // ListTile(
-                  //   title: Text(S.current.email, style: BodyText2),
+                  //   title: Text(S.current.email, style: kBodyText2),
                   //   trailing: Row(
                   //     mainAxisSize: MainAxisSize.min,
                   //     children: [
                   //       if (user.userEmail != null)
                   //         Text(
                   //           user.userEmail,
-                  //           style: BodyText2Grey,
+                  //           style: kBodyText2Grey,
                   //         ),
                   //       const SizedBox(width: 16),
                   //       const Icon(
@@ -145,10 +145,10 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                   //     user: user,
                   //   ),
                   // ),
-                  const Divider(color: Grey700, indent: 16, endIndent: 16),
+                  const Divider(color: kGrey700, indent: 16, endIndent: 16),
                   ListTile(
                     onTap: () => DeleteAccountScreen.show(context, user: user),
-                    title: Text(S.current.deleteAcocunt, style: BodyText2),
+                    title: Text(S.current.deleteAcocunt, style: kBodyText2),
                     trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,

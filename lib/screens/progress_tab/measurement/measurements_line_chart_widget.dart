@@ -29,8 +29,8 @@ class MeasurementsLineChartWidget extends StatefulWidget {
 class _MeasurementsLineChartWidgetState
     extends State<MeasurementsLineChartWidget> {
   List<Color> gradientColors = [
-    SecondaryColor,
-    SecondaryColor.withOpacity(0.95),
+    kSecondaryColor,
+    kSecondaryColor.withOpacity(0.95),
   ];
 
   double maxY = 80;
@@ -126,7 +126,7 @@ class _MeasurementsLineChartWidgetState
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        color: CardColor,
+        color: kCardColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: _buildChartWidget(),
@@ -160,13 +160,13 @@ class _MeasurementsLineChartWidgetState
                     children: [
                       const Icon(
                         Icons.line_weight_rounded,
-                        color: SecondaryColor,
+                        color: kSecondaryColor,
                         size: 16,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         S.current.bodyMeasurement,
-                        style: Subtitle1w900Secondary,
+                        style: kSubtitle1w900Secondary,
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(
@@ -174,7 +174,7 @@ class _MeasurementsLineChartWidgetState
                         ),
                         child: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: SecondaryColor,
+                          color: kSecondaryColor,
                           size: 16,
                         ),
                       ),
@@ -186,7 +186,7 @@ class _MeasurementsLineChartWidgetState
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
                         S.current.addMasurementDataMessage,
-                        style: BodyText2,
+                        style: kBodyText2,
                       ),
                     ),
                   if (snapshot.data.length >= 2) const SizedBox(height: 16),
@@ -223,7 +223,7 @@ class _MeasurementsLineChartWidgetState
                           showTitles: true,
                           reservedSize: 22,
                           margin: 24,
-                          getTextStyles: (value) => BodyText2,
+                          getTextStyles: (value) => kBodyText2,
                           getTitles: (value) {
                             switch (value.toInt()) {
                               case 0:
@@ -250,7 +250,7 @@ class _MeasurementsLineChartWidgetState
                           showTitles: true,
                           margin: 24,
                           // reservedSize: 20,
-                          getTextStyles: (value) => Caption1Grey,
+                          getTextStyles: (value) => kCaption1Grey,
                           getTitles: (value) {
                             final unit = Format.unitOfMass(
                               widget.user.unitOfMass,

@@ -75,12 +75,12 @@ class SavedRoutinesScreen extends StatelessWidget {
     print('length is ${_lists.length}');
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.savedRoutines, style: Subtitle2),
+        title: Text(S.current.savedRoutines, style: kSubtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),

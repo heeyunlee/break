@@ -20,7 +20,7 @@ class AppbarBlurBG extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
         child: Container(
           decoration: BoxDecoration(
-            color: color ?? AppBarColor.withOpacity(0.5),
+            color: color ?? kAppBarColor.withOpacity(0.5),
           ),
           child: childWidget,
         ),

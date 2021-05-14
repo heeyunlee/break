@@ -91,7 +91,7 @@ class SettingsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
@@ -106,7 +106,7 @@ class SettingsTab extends StatelessWidget {
         //     Navigator.of(context).pop();
         //   },
         // ),
-        title: Text(S.current.settingsScreenTitle, style: Subtitle1),
+        title: Text(S.current.settingsScreenTitle, style: kSubtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),
@@ -115,7 +115,6 @@ class SettingsTab extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
 
@@ -126,167 +125,165 @@ class SettingsTab extends StatelessWidget {
           final user = snapshot.data;
 
           return SingleChildScrollView(
-            child: SizedBox(
-              height: size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(S.current.account, style: BodyText2BoldGrey),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.account, style: kBodyText2BoldGrey),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.person, color: Colors.white),
+                  title: Text(
+                    S.current.manageAccount,
+                    style: kBodyText2,
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.person, color: Colors.white),
-                    title: Text(
-                      S.current.manageAccount,
-                      style: BodyText2,
-                    ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey,
-                      size: 20,
-                    ),
-                    onTap: () => ManageAccountScreen.show(context, user: user!),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.grey,
+                    size: 20,
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.straighten_rounded,
-                      color: Colors.white,
-                    ),
-                    title: Text(S.current.unitOfMass, style: BodyText2),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          UnitOfMass.values[user!.unitOfMass].label!,
-                          style: BodyText2Grey,
-                        ),
-                        const SizedBox(width: 16),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                    onTap: () => UnitOfMassScreen.show(
-                      context,
-                      user: user,
-                    ),
+                  onTap: () => ManageAccountScreen.show(context, user: user!),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.straighten_rounded,
+                    color: Colors.white,
                   ),
+                  title: Text(S.current.unitOfMass, style: kBodyText2),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        UnitOfMass.values[user!.unitOfMass].label!,
+                        style: kBodyText2Grey,
+                      ),
+                      const SizedBox(width: 16),
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  onTap: () => UnitOfMassScreen.show(
+                    context,
+                    user: user,
+                  ),
+                ),
 
-                  ListTile(
-                    leading: const Icon(
-                      Icons.language_rounded,
-                      color: Colors.white,
-                    ),
-                    title: Text(S.current.launguage, style: BodyText2),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          Intl.getCurrentLocale(),
-                          style: BodyText2Grey,
-                        ),
-                        const SizedBox(width: 16),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                    onTap: () => ChangeLanguageScreen.show(context),
+                ListTile(
+                  leading: const Icon(
+                    Icons.language_rounded,
+                    color: Colors.white,
                   ),
+                  title: Text(S.current.launguage, style: kBodyText2),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        Intl.getCurrentLocale(),
+                        style: kBodyText2Grey,
+                      ),
+                      const SizedBox(width: 16),
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  onTap: () => ChangeLanguageScreen.show(context),
+                ),
 
-                  // SUPPORT
-                  CustomDivider,
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(S.current.support, style: BodyText2BoldGrey),
+                // SUPPORT
+                kCustomDivider,
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.support, style: kBodyText2BoldGrey),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.feedback, color: Colors.white),
+                  title: Text(
+                    S.current.FeedbackAndFeatureRequests,
+                    style: kBodyText2,
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.feedback, color: Colors.white),
-                    title: Text(
-                      S.current.FeedbackAndFeatureRequests,
-                      style: BodyText2,
-                    ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey,
-                      size: 20,
-                    ),
-                    onTap: () => UserFeedbackScreen.show(context),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.grey,
+                    size: 20,
                   ),
+                  onTap: () => UserFeedbackScreen.show(context),
+                ),
 
-                  // ABOUT
-                  CustomDivider,
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(S.current.about, style: BodyText2BoldGrey),
+                // ABOUT
+                kCustomDivider,
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.about, style: kBodyText2BoldGrey),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.info_outline_rounded,
+                    color: Colors.white,
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.info_outline_rounded,
-                      color: Colors.white,
-                    ),
-                    title: Text(S.current.about, style: BodyText2),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey,
-                      size: 20,
-                    ),
-                    onTap: () => _showAboutDialog(context),
+                  title: Text(S.current.about, style: kBodyText2),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.grey,
+                    size: 20,
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.policy_outlined,
-                      color: Colors.white,
-                    ),
-                    title: Text(S.current.privacyPolicy, style: BodyText2),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey,
-                      size: 20,
-                    ),
-                    onTap: _launchPrivacyServiceURL,
+                  onTap: () => _showAboutDialog(context),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.policy_outlined,
+                    color: Colors.white,
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.description_rounded,
-                      color: Colors.white,
-                    ),
-                    title: Text(S.current.terms, style: BodyText2),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: Colors.grey,
-                      size: 20,
-                    ),
-                    onTap: _launchTermsURL,
+                  title: Text(S.current.privacyPolicy, style: kBodyText2),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.grey,
+                    size: 20,
                   ),
+                  onTap: _launchPrivacyServiceURL,
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.description_rounded,
+                    color: Colors.white,
+                  ),
+                  title: Text(S.current.terms, style: kBodyText2),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                  onTap: _launchTermsURL,
+                ),
 
-                  // LOG IN
-                  CustomDivider,
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(S.current.logIn, style: BodyText2BoldGrey),
-                  ),
-                  ListTile(
-                    onTap: () => _confirmSignOut(context, auth),
-                    leading: const Icon(Icons.logout, color: Colors.white),
-                    title: Text(S.current.logout, style: BodyText2),
-                  ),
-                  const Spacer(),
-                  // TODO: Change Version HERE
-                  Center(child: const Text('v.0.2.5', style: Caption1Grey)),
-                  const SizedBox(height: 38),
-                ],
-              ),
+                // LOG IN
+                kCustomDivider,
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(S.current.logIn, style: kBodyText2BoldGrey),
+                ),
+                ListTile(
+                  onTap: () => _confirmSignOut(context, auth),
+                  leading: const Icon(Icons.logout, color: Colors.white),
+                  title: Text(S.current.logout, style: kBodyText2),
+                ),
+                const SizedBox(height: 32),
+                // const Spacer(),
+                // TODO: Change Version HERE
+                Center(child: const Text('v.0.2.5', style: kCaption1Grey)),
+                const SizedBox(height: 38),
+              ],
             ),
           );
         });

@@ -33,7 +33,7 @@ class AppPreviewWidget extends StatelessWidget {
         ),
         Positioned(
           bottom: 16,
-          child: Text(subtitle, style: BodyText1),
+          child: Text(subtitle, style: kBodyText1),
         ),
       ],
     );

@@ -220,7 +220,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
@@ -241,7 +241,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                   : (_pageIndex == 2)
                       ? S.current.equipmentRequired
                       : S.current.moreAboutThisWorkout,
-          style: Subtitle2,
+          style: kSubtitle2,
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -299,13 +299,13 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     if (_pageIndex == 3) {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
-        backgroundColor: PrimaryColor,
-        label: Text(S.current.finish, style: ButtonText),
+        backgroundColor: kPrimaryColor,
+        label: Text(S.current.finish, style: kButtonText),
         onPressed: saveDifficulty,
       );
     } else {
       return FloatingActionButton(
-        backgroundColor: PrimaryColor,
+        backgroundColor: kPrimaryColor,
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)

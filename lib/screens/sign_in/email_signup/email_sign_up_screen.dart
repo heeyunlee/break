@@ -168,7 +168,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(S.current.signUp, style: Subtitle2),
+        title: Text(S.current.signUp, style: kSubtitle2),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
@@ -177,7 +177,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
           ),
         ),
       ),
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: _buildBody(),
     );
   }
@@ -218,7 +218,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.emailAddress, style: Subtitle2),
+                  child: Text(S.current.emailAddress, style: kSubtitle2),
                 ),
                 TextFormField(
                   autofocus: true,
@@ -230,7 +230,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -243,7 +243,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: _emailErrorText,
                     hintText: 'JohnDoe@abc.com',
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode1.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -258,7 +258,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -266,7 +266,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // FIRST NAME
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.firstName, style: Subtitle2),
+                  child: Text(S.current.firstName, style: kSubtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -278,7 +278,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -291,7 +291,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: _firstNameErrorText,
                     hintText: S.current.firstNameHintText,
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode2.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -306,7 +306,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -314,7 +314,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // LAST NAME
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.lastName, style: Subtitle2),
+                  child: Text(S.current.lastName, style: kSubtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -326,7 +326,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -339,7 +339,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: _lastNameErrorText,
                     hintText: S.current.lastNameHintText,
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode3.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -354,7 +354,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -362,7 +362,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // PASSWORD
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.passwordAllCap, style: Subtitle2),
+                  child: Text(S.current.passwordAllCap, style: kSubtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -375,7 +375,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -388,7 +388,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: _passwordErrorText,
                     hintText: S.current.passwordHintText,
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode4.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -403,7 +403,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
 
@@ -413,7 +413,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
                 // Text(
                 //   estimatePasswordStrength(_password).toString(),
-                //   style: BodyText1,
+                //   style: kBodyText1,
                 // ),
 
                 // SUBMIT BUTTON
@@ -426,7 +426,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           widget.validator.isLastNameValid(_lastName)
                       ? _submitLogIn
                       : null,
-                  color: Primary600Color,
+                  color: kPrimary600Color,
                 ),
 
                 Padding(
@@ -436,25 +436,25 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: S.current.acceptingTermsEmail,
-                      style: OverlineGrey,
+                      style: kOverlineGrey,
                       children: <TextSpan>[
                         TextSpan(
                           text: S.current.terms,
-                          style: OverlineGreyUnderlined,
+                          style: kOverlineGreyUnderlined,
                           recognizer: TapGestureRecognizer()
                             ..onTap = _launchTermsURL,
                         ),
-                        TextSpan(text: S.current.and, style: OverlineGrey),
+                        TextSpan(text: S.current.and, style: kOverlineGrey),
                         TextSpan(
                           text: S.current.privacyPolicy,
-                          style: OverlineGreyUnderlined,
+                          style: kOverlineGreyUnderlined,
                           recognizer: TapGestureRecognizer()
                             ..onTap = _launchPrivacyServiceURL,
                         ),
                         if (locale == 'ko')
                           TextSpan(
                             text: S.current.acepptingTermsKorean,
-                            style: OverlineGrey,
+                            style: kOverlineGrey,
                           ),
                       ],
                     ),
@@ -470,7 +470,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -484,7 +484,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -499,7 +499,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -514,7 +514,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -529,7 +529,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

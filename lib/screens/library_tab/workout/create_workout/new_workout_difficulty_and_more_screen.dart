@@ -86,10 +86,10 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 // Description
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.description, style: BodyText1w800),
+                  child: Text(S.current.description, style: kBodyText1w800),
                 ),
                 Card(
-                  color: CardColor,
+                  color: kCardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -99,11 +99,11 @@ class _NewWorkoutDifficultyAndMoreScreenState
                     child: TextFormField(
                       textInputAction: TextInputAction.done,
                       controller: _textController,
-                      style: BodyText2,
+                      style: kBodyText2,
                       maxLines: 3,
                       decoration: InputDecoration(
                         hintText: S.current.descriptionHintText,
-                        hintStyle: BodyText2LightGrey,
+                        hintStyle: kBodyText2LightGrey,
                         border: InputBorder.none,
                       ),
                       onFieldSubmitted: (value) {
@@ -128,18 +128,18 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.workoutDifficultySliderText}: $_difficultySliderLabel',
-                    style: BodyText1w800,
+                    style: kBodyText1w800,
                   ),
                 ),
                 Card(
-                  color: CardColor,
+                  color: kCardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Slider(
-                    activeColor: PrimaryColor,
-                    inactiveColor: PrimaryColor.withOpacity(0.2),
+                    activeColor: kPrimaryColor,
+                    inactiveColor: kPrimaryColor.withOpacity(0.2),
                     value: _difficultySlider,
                     onChanged: (newRating) {
                       setState(() {
@@ -163,18 +163,18 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-                    style: BodyText1w800,
+                    style: kBodyText1w800,
                   ),
                 ),
                 Card(
-                  color: CardColor,
+                  color: kCardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Slider(
-                    activeColor: PrimaryColor,
-                    inactiveColor: PrimaryColor.withOpacity(0.2),
+                    activeColor: kPrimaryColor,
+                    inactiveColor: kPrimaryColor.withOpacity(0.2),
                     value: _secondsPerRepSlider,
                     onChanged: (newRating) {
                       setState(() {
@@ -195,7 +195,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     S.current.secondsPerRepHelperText,
-                    style: Caption1Grey,
+                    style: kCaption1Grey,
                   ),
                 ),
                 const SizedBox(height: 36),
@@ -212,13 +212,13 @@ class _NewWorkoutDifficultyAndMoreScreenState
                         size: 20,
                       ),
                       const SizedBox(width: 8),
-                      Text(S.current.location, style: Headline6Bold),
+                      Text(S.current.location, style: kHeadline6Bold),
                     ],
                   ),
                 ),
                 Card(
                   margin: EdgeInsets.zero,
-                  color: CardColor,
+                  color: kCardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -227,11 +227,11 @@ class _NewWorkoutDifficultyAndMoreScreenState
                     child: DropdownButtonFormField(
                       isExpanded: true,
                       value: _dropdownValue,
-                      dropdownColor: CardColor,
+                      dropdownColor: kCardColor,
                       decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                       ),
-                      style: BodyText1,
+                      style: kBodyText1,
                       onChanged: (value) {
                         setState(() {
                           _dropdownValue = value.toString();

@@ -12,7 +12,7 @@ class SearchTab extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -20,7 +20,7 @@ class SearchTab extends StatelessWidget {
               floating: false,
               pinned: true,
               brightness: Brightness.dark,
-              backgroundColor: AppBarColor,
+              backgroundColor: kAppBarColor,
               expandedHeight: size.height * 3.5 / 7,
               flexibleSpace: FlexibleSpaceBar(
                 background: AnnouncementCardPageView(),

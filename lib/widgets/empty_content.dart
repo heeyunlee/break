@@ -25,7 +25,8 @@ class EmptyContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 36),
-          if (message != null) Text(message ?? 'Message', style: Subtitle1Bold),
+          if (message != null)
+            Text(message ?? 'Message', style: kSubtitle1Bold),
           Image.asset(
             'assets/images/treadmill.png',
             height: size.height / sizeFactor,

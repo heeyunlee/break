@@ -28,12 +28,12 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: const Text('Language Preference', style: Subtitle1),
+        title: const Text('Language Preference', style: kSubtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -48,8 +48,9 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor: (_currentLang == 'ko') ? PrimaryColor : Colors.transparent,
-          title: const Text('한국어', style: BodyText1),
+          tileColor:
+              (_currentLang == 'ko') ? kPrimaryColor : Colors.transparent,
+          title: const Text('한국어', style: kBodyText1),
           trailing: (_currentLang == 'ko')
               ? const Icon(Icons.check, color: Colors.white)
               : null,
@@ -62,8 +63,9 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
           },
         ),
         ListTile(
-          tileColor: (_currentLang == 'en') ? PrimaryColor : Colors.transparent,
-          title: const Text('English', style: BodyText1),
+          tileColor:
+              (_currentLang == 'en') ? kPrimaryColor : Colors.transparent,
+          title: const Text('English', style: kBodyText1),
           trailing: (_currentLang == 'en')
               ? const Icon(Icons.check, color: Colors.white)
               : null,

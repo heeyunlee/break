@@ -106,7 +106,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         AnimationController(vsync: this, duration: Duration(seconds: 0));
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _colorTween = ColorTween(begin: Colors.transparent, end: AppBarColor)
+    _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
         .animate(_colorAnimationController);
     _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
         .animate(_textAnimationController);
@@ -226,7 +226,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     dataFormat(widget.routineHistory);
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: NotificationListener<ScrollNotification>(
         onNotification: _scrollListener,
         child: Stack(
@@ -263,7 +263,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         centerTitle: true,
         title: Transform.translate(
           offset: _transTween.value,
-          child: Text(title, style: Subtitle1),
+          child: Text(title, style: kSubtitle1),
         ),
         brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
@@ -288,7 +288,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      BackgroundColor,
+                      kBackgroundColor,
                     ],
                   ),
                 ),
@@ -299,11 +299,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(date, style: Subtitle1Bold),
+                    Text(date, style: kSubtitle1Bold),
                     Text(
                       widget.routineHistory.routineTitle,
                       maxLines: 1,
-                      style: Headline4Bold,
+                      style: kHeadline4Bold,
                       softWrap: false,
                       overflow: TextOverflow.fade,
                     ),
@@ -314,14 +314,14 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     //     Chip(
                     //       label: Text(
                     //         '$mainMuscleGroup ${S.current.workout}',
-                    //         style: ButtonText,
+                    //         style: kButtonText,
                     //       ),
-                    //       backgroundColor: PrimaryColor,
+                    //       kBackgroundColor: kPrimaryColor,
                     //     ),
                     //     const SizedBox(width: 16),
                     //     Chip(
-                    //       label: Text(equipmentRequired, style: ButtonText),
-                    //       backgroundColor: PrimaryColor,
+                    //       label: Text(equipmentRequired, style: kButtonText),
+                    //       kBackgroundColor: kPrimaryColor,
                     //     ),
                     //   ],
                     // ),
@@ -353,7 +353,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 16),
-            Text(S.current.quickSummary, style: Headline6w900),
+            Text(S.current.quickSummary, style: kHeadline6w900),
             const SizedBox(height: 8),
             SummaryRowWidget(
               title: '$weights $unit',
@@ -374,11 +374,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
             // ),
             const SizedBox(height: 32),
-            const Divider(color: Grey800),
+            const Divider(color: kGrey800),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.routines, style: Headline6w900),
+              child: Text(S.current.routines, style: kHeadline6w900),
             ),
 
             StreamBuilder<List<RoutineWorkout>>(
@@ -398,15 +398,15 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               },
             ),
             const SizedBox(height: 32),
-            const Divider(color: Grey800),
+            const Divider(color: kGrey800),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.notes, style: Headline6w900),
+              child: Text(S.current.notes, style: kHeadline6w900),
             ),
             const SizedBox(height: 8),
             Card(
-              color: CardColor,
+              color: kCardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -418,11 +418,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         maxLines: 4,
                         textInputAction: TextInputAction.done,
                         controller: _textController1,
-                        style: BodyText2,
+                        style: kBodyText2,
                         focusNode: focusNode1,
                         decoration: InputDecoration(
                           hintText: S.current.notesHintText,
-                          hintStyle: BodyText2Grey,
+                          hintStyle: kBodyText2Grey,
                           border: InputBorder.none,
                         ),
                         onFieldSubmitted: (value) {
@@ -437,7 +437,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         height: 100,
                         child: Text(
                           notes,
-                          style: BodyText2,
+                          style: kBodyText2,
                         ),
                       ),
               ),
@@ -445,19 +445,19 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 32),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: Grey800),
+              const Divider(color: kGrey800),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 16),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(S.current.makeItVisibleTo, style: BodyText2Light),
+                  Text(S.current.makeItVisibleTo, style: kBodyText2Light),
                   SizedBox(
                     width: 72,
                     child: Text(
                       (_isPublic) ? S.current.everyone : S.current.justMe,
-                      style: BodyText2w900,
+                      style: kBodyText2w900,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -470,7 +470,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   const SizedBox(width: 8),
                   Switch(
                     value: _isPublic,
-                    activeColor: PrimaryColor,
+                    activeColor: kPrimaryColor,
                     onChanged: (bool value) {
                       HapticFeedback.mediumImpact();
                       setState(() {
@@ -485,7 +485,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: Grey800),
+              const Divider(color: kGrey800),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
@@ -509,7 +509,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       context,
       title: Text(S.current.deleteBottomSheetTitle),
       message: Text(S.current.deleteBottomSheetMessage),
-      firstActionText: S.current.deleteBottomSheetButtonText,
+      firstActionText: S.current.deleteBottomSheetkButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.routineHistory),
       cancelText: S.current.cancel,
@@ -529,9 +529,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             child: Chip(
               label: Text(
                 _musclesAndEquipment[index],
-                style: ButtonText,
+                style: kButtonText,
               ),
-              backgroundColor: PrimaryColor,
+              backgroundColor: kPrimaryColor,
             ),
           ),
         ),

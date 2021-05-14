@@ -214,7 +214,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         leading: IconButton(
@@ -234,7 +234,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                   : (_pageIndex == 2)
                       ? S.current.equipmentRequired
                       : S.current.others,
-          style: Subtitle2,
+          style: kSubtitle2,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -287,13 +287,13 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     if (_pageIndex == 3) {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
-        backgroundColor: PrimaryColor,
-        label: Text(S.current.finish, style: ButtonText),
+        backgroundColor: kPrimaryColor,
+        label: Text(S.current.finish, style: kButtonText),
         onPressed: saveDifficultyAndMore,
       );
     } else {
       return FloatingActionButton(
-        backgroundColor: PrimaryColor,
+        backgroundColor: kPrimaryColor,
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)

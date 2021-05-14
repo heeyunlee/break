@@ -581,10 +581,10 @@ class S {
   }
 
   /// `Delete History`
-  String get deleteBottomSheetButtonText {
+  String get deleteBottomSheetkButtonText {
     return Intl.message(
       'Delete History',
-      name: 'deleteBottomSheetButtonText',
+      name: 'deleteBottomSheetkButtonText',
       desc: '',
       args: [],
     );
@@ -971,10 +971,10 @@ class S {
   }
 
   /// `Delete Routine`
-  String get deleteRoutineButtonText {
+  String get deleteRoutinekButtonText {
     return Intl.message(
       'Delete Routine',
-      name: 'deleteRoutineButtonText',
+      name: 'deleteRoutinekButtonText',
       desc: '',
       args: [],
     );
@@ -1211,10 +1211,10 @@ class S {
   }
 
   /// `Add workout`
-  String get addWorkoutButtonText {
+  String get addWorkoutkButtonText {
     return Intl.message(
       'Add workout',
-      name: 'addWorkoutButtonText',
+      name: 'addWorkoutkButtonText',
       desc: '',
       args: [],
     );
@@ -1251,10 +1251,10 @@ class S {
   }
 
   /// `Create your own Workout now!`
-  String get savedWorkoutEmptyButtonText {
+  String get savedWorkoutEmptykButtonText {
     return Intl.message(
       'Create your own Workout now!',
-      name: 'savedWorkoutEmptyButtonText',
+      name: 'savedWorkoutEmptykButtonText',
       desc: '',
       args: [],
     );
@@ -1371,10 +1371,10 @@ class S {
   }
 
   /// `Add workout to the routine`
-  String get addWorkoutToRoutineButtonText {
+  String get addWorkoutToRoutinekButtonText {
     return Intl.message(
       'Add workout to the routine',
-      name: 'addWorkoutToRoutineButtonText',
+      name: 'addWorkoutToRoutinekButtonText',
       desc: '',
       args: [],
     );
@@ -1441,10 +1441,10 @@ class S {
   }
 
   /// `Delete Workout`
-  String get deleteWorkoutButtonText {
+  String get deleteWorkoutkButtonText {
     return Intl.message(
       'Delete Workout',
-      name: 'deleteWorkoutButtonText',
+      name: 'deleteWorkoutkButtonText',
       desc: '',
       args: [],
     );
@@ -1511,20 +1511,20 @@ class S {
   }
 
   /// `Add Protein`
-  String get addProteinButtonText {
+  String get addProteinkButtonText {
     return Intl.message(
       'Add Protein',
-      name: 'addProteinButtonText',
+      name: 'addProteinkButtonText',
       desc: '',
       args: [],
     );
   }
 
   /// `Start Workout`
-  String get startWorkoutButtonText {
+  String get startWorkoutkButtonText {
     return Intl.message(
       'Start Workout',
-      name: 'startWorkoutButtonText',
+      name: 'startWorkoutkButtonText',
       desc: '',
       args: [],
     );

@@ -35,7 +35,7 @@ class LongHeightCardWidget extends StatelessWidget {
           children: [
             Card(
               clipBehavior: Clip.antiAlias,
-              color: BackgroundColor,
+              color: kBackgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -55,7 +55,7 @@ class LongHeightCardWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 title,
-                style: BodyText2w900,
+                style: kBodyText2w900,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,
@@ -66,7 +66,7 @@ class LongHeightCardWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 subtitle,
-                style: BodyText2,
+                style: kBodyText2,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,
@@ -78,7 +78,7 @@ class LongHeightCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   thirdLineSubtitle!,
-                  style: BodyText2Grey,
+                  style: kBodyText2Grey,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,

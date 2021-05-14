@@ -85,7 +85,7 @@ class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
                   dotHeight: 8,
                   dotWidth: 8,
                   dotColor: Colors.white30,
-                  activeDotColor: PrimaryColor,
+                  activeDotColor: kPrimaryColor,
                 ),
               ),
             ),

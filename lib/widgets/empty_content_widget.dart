@@ -38,7 +38,7 @@ class EmptyContentWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(bodyText, style: BodyText1Height),
+                  Text(bodyText, style: kBodyText1Height),
                   const SizedBox(height: 36),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -46,10 +46,10 @@ class EmptyContentWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 32),
-                      primary: PrimaryColor,
+                      primary: kPrimaryColor,
                     ),
                     onPressed: onPressed,
-                    child: Text(S.current.startNow, style: ButtonText),
+                    child: Text(S.current.startNow, style: kButtonText),
                   ),
                 ],
               ),

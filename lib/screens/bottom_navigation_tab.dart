@@ -21,8 +21,8 @@ class BottomNavigationTab extends StatelessWidget {
       child: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedLabelStyle: Caption1Primary,
-        unselectedLabelStyle: Caption1,
+        selectedLabelStyle: kCaption1Primary,
+        unselectedLabelStyle: kCaption1,
         backgroundColor: Color(0xff1C1C1C),
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
@@ -40,7 +40,7 @@ class BottomNavigationTab extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem]!;
-    final color = currentTab == tabItem ? PrimaryColor : Colors.white;
+    final color = currentTab == tabItem ? kPrimaryColor : Colors.white;
 
     return BottomNavigationBarItem(
       icon: (itemData.isIconPNG)

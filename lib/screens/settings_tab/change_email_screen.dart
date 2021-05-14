@@ -110,12 +110,12 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.editEmail, style: Subtitle1),
+        title: Text(S.current.editEmail, style: kSubtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -137,7 +137,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             padding: const EdgeInsets.all(8),
             child: TextFormField(
-              style: Headline5,
+              style: kHeadline5,
               autofocus: true,
               textAlign: TextAlign.center,
               controller: _textController1,
@@ -151,18 +151,18 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 return null;
               },
               decoration: InputDecoration(
-                hintStyle: SearchBarHintStyle,
+                hintStyle: kSearchBarHintStyle,
                 hintText: 'JohnDoe@abc.com',
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: SecondaryColor),
+                  borderSide: BorderSide(color: kSecondaryColor),
                 ),
                 errorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),
                 ),
-                counterStyle: Caption1Grey,
+                counterStyle: kCaption1Grey,
               ),
               onChanged: (value) => setState(() {
                 _email = value;

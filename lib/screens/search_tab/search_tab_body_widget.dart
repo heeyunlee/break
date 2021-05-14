@@ -34,7 +34,7 @@ class SearchTabBodyWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.mainMuscleGroup,
-              style: Headline6,
+              style: kHeadline6,
             ),
           ),
           _MainMuscleGroupGridWidget(),
@@ -51,7 +51,7 @@ class SearchTabBodyWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   S.current.equipmentRequired,
-                  style: Headline6,
+                  style: kHeadline6,
                 ),
               ],
             ),
@@ -66,7 +66,7 @@ class SearchTabBodyWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   S.current.location,
-                  style: Headline6,
+                  style: kHeadline6,
                 ),
               ],
             ),
@@ -76,7 +76,7 @@ class SearchTabBodyWidget extends StatelessWidget {
 
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-          //   child: Text('New Chest Routines', style: Headline6w900),
+          //   child: Text('New Chest Routines', style: kHeadline6w900),
           // ),
           // StreamBuilder<List<Routine>>(
           //   stream: database.routinesSearchStream3(
@@ -121,7 +121,7 @@ class SearchTabBodyWidget extends StatelessWidget {
           //   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           //   child: Text(
           //     'Lower Back Workouts for you',
-          //     style: Headline6w900,
+          //     style: kHeadline6w900,
           //   ),
           // ),
           // StreamBuilder<List<Workout>>(
@@ -165,7 +165,7 @@ class SearchTabBodyWidget extends StatelessWidget {
           // const SizedBox(height: 48),
           // const Padding(
           //   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-          //   child: Text('Routines for your QUAD', style: Headline6w900),
+          //   child: Text('Routines for your QUAD', style: kHeadline6w900),
           // ),
           // StreamBuilder<List<Routine>>(
           //   stream: database.routinesSearchStream(
@@ -209,7 +209,7 @@ class SearchTabBodyWidget extends StatelessWidget {
           //   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           //   child: Text(
           //     'Get Shoulders like Captain America',
-          //     style: Headline6w900,
+          //     style: kHeadline6w900,
           //   ),
           // ),
           // StreamBuilder<List<Routine>>(
@@ -255,7 +255,7 @@ class SearchTabBodyWidget extends StatelessWidget {
           //   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           //   child: Text(
           //     'More Chest Workouts',
-          //     style: Headline6w900,
+          //     style: kHeadline6w900,
           //   ),
           // ),
           // StreamBuilder<List<Workout>>(
@@ -313,7 +313,7 @@ class _MainMuscleGroupGridWidget extends StatelessWidget {
 
     for (var i = 0; i < _mainMuscleGroup.length; i++) {
       Widget card = SearchTabGridWidget(
-        color: PrimaryColor,
+        color: kPrimaryColor,
         text: _mainMuscleGroupTranslated[i],
         onTap: () => MuscleGroupSearchScreen.show(
           context,
@@ -355,7 +355,7 @@ class _EquipmentRequiredGridWidget extends StatelessWidget {
 
     for (var i = 0; i < _equipmentRequired.length; i++) {
       Widget card = SearchTabGridWidget(
-        color: SecondaryColor,
+        color: kSecondaryColor,
         text: _equipmentRequiredTranslated[i],
         onTap: () => MuscleGroupSearchScreen.show(
           context,

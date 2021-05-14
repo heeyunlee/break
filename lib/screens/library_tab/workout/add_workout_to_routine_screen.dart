@@ -120,13 +120,13 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text(S.current.addWorkoutToRoutine, style: Subtitle1),
+        title: Text(S.current.addWorkoutToRoutine, style: kSubtitle1),
         leading: IconButton(
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () {

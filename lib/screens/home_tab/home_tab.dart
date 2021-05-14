@@ -49,9 +49,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 0),
     );
-    _colorTween = ColorTween(begin: Colors.transparent, end: AppBarColor)
+    _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
         .animate(_colorAnimationController);
-    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+    _transTween = Tween(begin: Offset(0, 40), end: Offset(0, 0))
         .animate(_textAnimationController);
   }
 
@@ -81,28 +81,15 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
               backgroundColor: _colorTween.value,
               title: Transform.translate(
                 offset: _transTween.value,
-                child: const Text('HēraKless', style: Subtitle2MenloBold),
+                child: const Text('HēraKless', style: kSubtitle2MenloBold),
               ),
-              // actions: [
-              //   IconButton(
-              //     icon: const Icon(
-              //       Icons.settings_rounded,
-              //       color: Colors.white,
-              //     ),
-              //     onPressed: () => SettingsScreen.show(
-              //       context,
-              //     ),
-              //   ),
-              //   const SizedBox(width: 8),
-              // ],
             ),
           ),
         ),
-        backgroundColor: BackgroundColor,
+        backgroundColor: kBackgroundColor,
         body: Builder(
           builder: (BuildContext context) => _buildMobileBody(context),
         ),
-        // floatingActionButton: SpeedDialFAB(),
       ),
     );
   }

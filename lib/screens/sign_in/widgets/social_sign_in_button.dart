@@ -4,25 +4,25 @@ import '../../../constants.dart';
 
 class SocialSignInButton extends StatelessWidget {
   final Color color;
-  final String buttonText;
+  final String kButtonText;
   final String? logo;
   final Color textColor;
   final void Function()? onPressed;
   final IconData? iconData;
   final double? width;
-  final Color? disabledColor;
+  final Color? kDisabledColor;
   final bool isLogoSVG;
 
   const SocialSignInButton({
     Key? key,
     required this.color,
-    required this.buttonText,
+    required this.kButtonText,
     this.logo,
     this.textColor = Colors.black,
     this.onPressed,
     this.iconData,
     this.width,
-    this.disabledColor,
+    this.kDisabledColor,
     this.isLogoSVG = false,
   }) : super(key: key);
 
@@ -41,7 +41,7 @@ class SocialSignInButton extends StatelessWidget {
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.disabled)) {
-                  return disabledColor ?? color.withOpacity(0.5);
+                  return kDisabledColor ?? color.withOpacity(0.5);
                 } else {
                   return color;
                 }
@@ -72,8 +72,8 @@ class SocialSignInButton extends StatelessWidget {
                     ),
               Center(
                 child: Text(
-                  buttonText,
-                  style: GoogleSignInStyle.copyWith(color: textColor),
+                  kButtonText,
+                  style: kGoogleSignInStyle.copyWith(color: textColor),
                 ),
               ),
             ],

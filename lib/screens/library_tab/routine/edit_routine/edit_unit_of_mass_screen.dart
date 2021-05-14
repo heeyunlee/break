@@ -82,11 +82,11 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.unitOfMass, style: Subtitle1),
+        title: Text(S.current.unitOfMass, style: kSubtitle1),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -101,8 +101,8 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor: (_unitOfMass == 0) ? Primary600Color : Colors.transparent,
-          title: Text('kg', style: BodyText1),
+          tileColor: (_unitOfMass == 0) ? kPrimary600Color : Colors.transparent,
+          title: Text('kg', style: kBodyText1),
           trailing: (_unitOfMass == 0)
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -114,8 +114,8 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
           },
         ),
         ListTile(
-          tileColor: (_unitOfMass == 1) ? Primary600Color : Colors.transparent,
-          title: Text('lbs', style: BodyText1),
+          tileColor: (_unitOfMass == 1) ? kPrimary600Color : Colors.transparent,
+          title: Text('lbs', style: kBodyText1),
           trailing: (_unitOfMass == 1)
               ? Icon(Icons.check, color: Colors.white)
               : null,

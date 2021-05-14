@@ -7,7 +7,7 @@ typedef HasDataWidget<T> = Widget Function(
 
 class CustomStreamBuilderWidget<T> extends StatelessWidget {
   final Stream<T> stream;
-  final T initialData;
+  final T? initialData;
   final HasDataWidget hasDataWidget;
   final Widget? errorWidget;
   final Widget? loadingWidget;
@@ -17,7 +17,7 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
     required this.stream,
     required this.hasDataWidget,
     this.errorWidget,
-    required this.initialData,
+    this.initialData,
     this.loadingWidget,
   }) : super(key: key);
 

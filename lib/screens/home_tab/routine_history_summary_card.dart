@@ -35,7 +35,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
         .broadGroup!;
 
     return Container(
-      color: CardColor,
+      color: kCardColor,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +46,8 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
             subtitle: timeAgo,
           ),
           _buildNotes(notes),
-          DailySummaryCard(
-            cardColor: CardColorLight,
+          RoutineHistorySummaryCard(
+            cardColor: kCardColorLight,
             date: routineHistory.workoutEndTime,
             workoutTitle: routineHistory.routineTitle,
             totalWeights: routineHistory.totalWeights,
@@ -71,7 +71,7 @@ class RoutineHistorySummaryFeedCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Text(
             notes,
-            style: BodyText1,
+            style: kBodyText1,
           ),
         );
       }
@@ -130,16 +130,16 @@ class _CustomListTile4 extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         text: username,
-                        style: Subtitle1Bold,
+                        style: kSubtitle1Bold,
                         children: <TextSpan>[
-                          TextSpan(text: muscleGroup, style: BodyText2Light)
+                          TextSpan(text: muscleGroup, style: kBodyText2Light)
                         ],
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: Caption1Grey,
+                      style: kCaption1Grey,
                     ),
                     const SizedBox(height: 4),
                   ],

@@ -33,10 +33,11 @@ class SavedWorkoutsTab extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            primary: PrimaryColor,
+            primary: kPrimaryColor,
           ),
           onPressed: () => CreateNewWorkoutScreen.show(context),
-          child: Text(S.current.savedWorkoutEmptyButtonText, style: ButtonText),
+          child:
+              Text(S.current.savedWorkoutEmptykButtonText, style: kButtonText),
         ),
       ),
       itemsPerPage: 10,

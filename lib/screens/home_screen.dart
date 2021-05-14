@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/home_tab/home_tab.dart';
+import 'package:workout_player/screens/miniplayer/workout_miniplayer.dart';
 import 'package:workout_player/screens/progress_tab/progress_tab.dart';
 import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/screens/tab_item.dart';
@@ -11,18 +14,47 @@ import 'package:workout_player/widgets/speed_dial/expandable_fab.dart';
 import 'bottom_navigation_tab.dart';
 import 'library_tab/library_tab.dart';
 
-ValueNotifier<Routine?> currentRoutine = ValueNotifier(null);
-typedef BoolCallback = void Function(bool value);
+// For Miniplayer
+final GlobalKey<NavigatorState> miniplayerNavigatorKey =
+    GlobalKey<NavigatorState>();
+final selectedRoutineProvider =
+    StateProvider.autoDispose<Routine?>((ref) => null);
+final selectedRoutineWorkoutsProvider =
+    StateProvider.autoDispose<List<RoutineWorkout>?>((ref) => null);
+final miniplayerControllerProvider =
+    StateProvider.autoDispose<MiniplayerController>(
+  (ref) => MiniplayerController(),
+);
+
+class BoolNotifier extends ChangeNotifier {
+  bool _isWorkoutPaused = false;
+  bool get isWorkoutPaused => _isWorkoutPaused;
+
+  void toggleBoolValue() {
+    _isWorkoutPaused = !_isWorkoutPaused;
+    notifyListeners();
+  }
+
+  void setBoolean(bool value) {
+    _isWorkoutPaused = value;
+    notifyListeners();
+  }
+}
+
+final isWorkoutPausedProvider =
+    ChangeNotifierProvider.autoDispose((ref) => BoolNotifier());
+
+final double miniplayerMinHeight = 144.0;
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   TabItem _currentTab = TabItem.home;
 
-  late GlobalKey<NavigatorState> _miniplayerNavigatorKey;
   MiniplayerController miniplayerController = MiniplayerController();
 
   void _selectTab(TabItem tabItem) {
@@ -58,17 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MiniplayerWillPopScope(
       onWillPop: () async {
-        final NavigatorState navigator = _miniplayerNavigatorKey.currentState!;
+        final NavigatorState navigator = miniplayerNavigatorKey.currentState!;
         if (!navigator.canPop()) return true;
         navigator.pop();
 
         return false;
       },
-      // Preventing from closing the app on Android
       child: WillPopScope(
-        onWillPop: () async =>
-            !await _tabNavigatorKeys[_currentTab]!.currentState!.maybePop(),
+        onWillPop: () async => !await _tabNavigatorKeys[_currentTab]!
+            .currentState!
+            .maybePop(), // Preventing from closing the app on Android
         child: Scaffold(
+          extendBody: true,
           body: Stack(
             children: [
               Stack(
@@ -78,6 +111,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildOffstageNavigator(TabItem.progress),
                   _buildOffstageNavigator(TabItem.library),
                 ],
+              ),
+              Consumer(
+                builder: (context, watch, child) {
+                  final selectedRoutine = watch(selectedRoutineProvider).state;
+
+                  return Offstage(
+                    offstage: selectedRoutine == null,
+                    child: WorkoutMiniplayer.create(context),
+                  );
+                },
               ),
             ],
           ),

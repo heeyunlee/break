@@ -60,21 +60,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("Add notes"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("How do you feel? Add Notes"),
-        "addProteinButtonText":
-            MessageLookupByLibrary.simpleMessage("Add Protein"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("Added a protein entry!"),
+        "addProteinkButtonText":
+            MessageLookupByLibrary.simpleMessage("Add Protein"),
         "addProteins": MessageLookupByLibrary.simpleMessage("Add Proteins"),
         "addSetsToWorkout": MessageLookupByLibrary.simpleMessage(
             "Add few sets to your workout"),
-        "addWorkoutButtonText":
-            MessageLookupByLibrary.simpleMessage("Add workout"),
         "addWorkoutLog":
             MessageLookupByLibrary.simpleMessage("Add Log Workout"),
         "addWorkoutToRoutine":
             MessageLookupByLibrary.simpleMessage("Add workout to your routine"),
-        "addWorkoutToRoutineButtonText":
+        "addWorkoutToRoutinekButtonText":
             MessageLookupByLibrary.simpleMessage("Add workout to the routine"),
+        "addWorkoutkButtonText":
+            MessageLookupByLibrary.simpleMessage("Add workout"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
         "afterWorkout": MessageLookupByLibrary.simpleMessage("After Workout"),
         "afterWorkoutSnackbar": MessageLookupByLibrary.simpleMessage(
@@ -145,18 +145,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("DELETE"),
         "deleteAccountTitle": m0,
         "deleteAcocunt": MessageLookupByLibrary.simpleMessage("Delete Account"),
-        "deleteBottomSheetButtonText":
-            MessageLookupByLibrary.simpleMessage("Delete History"),
         "deleteBottomSheetMessage": MessageLookupByLibrary.simpleMessage(
             "It will delete your data permanently. You can\'t undo this process"),
         "deleteBottomSheetTitle":
             MessageLookupByLibrary.simpleMessage("Are You Sure"),
+        "deleteBottomSheetkButtonText":
+            MessageLookupByLibrary.simpleMessage("Delete History"),
         "deleteMeasurementSnackbar": MessageLookupByLibrary.simpleMessage(
             "Successfully delete Measurement!"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a protein entry"),
-        "deleteRoutineButtonText":
-            MessageLookupByLibrary.simpleMessage("Delete Routine"),
         "deleteRoutineHistorySnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted workout history"),
         "deleteRoutineSnackbar":
@@ -169,12 +167,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete the workout?"),
         "deleteRoutineWorkoutSnakbar":
             MessageLookupByLibrary.simpleMessage("Deleted a Workout!"),
-        "deleteWorkoutButtonText":
-            MessageLookupByLibrary.simpleMessage("Delete Workout"),
+        "deleteRoutinekButtonText":
+            MessageLookupByLibrary.simpleMessage("Delete Routine"),
         "deleteWorkoutSnackbar": MessageLookupByLibrary.simpleMessage(
             "Succfessfully Deleted a Workout!"),
         "deleteWorkoutWarningMessage": MessageLookupByLibrary.simpleMessage(
             "Are you sure? You cannot undo this process"),
+        "deleteWorkoutkButtonText":
+            MessageLookupByLibrary.simpleMessage("Delete Workout"),
         "deletedARestMessage":
             MessageLookupByLibrary.simpleMessage("Deleted a Rest!"),
         "deletedASet": MessageLookupByLibrary.simpleMessage("Deleted a Set!"),
@@ -368,7 +368,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
             "Added to your Saved Routines"),
         "savedRoutines": MessageLookupByLibrary.simpleMessage("Saved Routines"),
-        "savedWorkoutEmptyButtonText": MessageLookupByLibrary.simpleMessage(
+        "savedWorkoutEmptykButtonText": MessageLookupByLibrary.simpleMessage(
             "Create your own Workout now!"),
         "savedWorkoutsEmptyText": MessageLookupByLibrary.simpleMessage(
             "Save workouts, or create your own!"),
@@ -413,7 +413,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "startRoutine": MessageLookupByLibrary.simpleMessage("Start Routine"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
         "startWorkout": MessageLookupByLibrary.simpleMessage("Start Workout"),
-        "startWorkoutButtonText":
+        "startWorkoutkButtonText":
             MessageLookupByLibrary.simpleMessage("Start Workout"),
         "stats": MessageLookupByLibrary.simpleMessage("Stats"),
         "stopTheWorkout":

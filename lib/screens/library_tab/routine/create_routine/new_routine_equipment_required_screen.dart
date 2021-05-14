@@ -3,7 +3,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 
 import '../../../../constants.dart';
 
-typedef ListCallback = void Function(List list);
+// typedef ListCallback = void Function(List list);
 
 class NewRoutineEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback selectedEquipmentRequired;
@@ -43,10 +43,11 @@ class _NewRoutineEquipmentRequiredScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_equipmentRequired[key]!) ? PrimaryColor : Grey700,
+                    color:
+                        (_equipmentRequired[key]!) ? kPrimaryColor : kGrey700,
                     child: CheckboxListTile(
-                      activeColor: Primary700Color,
-                      title: Text(title!, style: ButtonText),
+                      activeColor: kPrimary700Color,
+                      title: Text(title!, style: kButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _equipmentRequired[key],
                       onChanged: (bool? value) {

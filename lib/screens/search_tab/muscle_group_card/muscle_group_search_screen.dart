@@ -66,7 +66,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: BackgroundColor,
+        backgroundColor: kBackgroundColor,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -80,13 +80,13 @@ class MuscleGroupSearchScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: Text(title!, style: Subtitle1),
+                title: Text(title!, style: kSubtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
                   labelColor: Colors.white,
-                  unselectedLabelColor: Grey400,
-                  indicatorColor: PrimaryColor,
+                  unselectedLabelColor: kGrey400,
+                  indicatorColor: kPrimaryColor,
                   tabs: [
                     Tab(text: S.current.workouts),
                     Tab(text: S.current.routines),

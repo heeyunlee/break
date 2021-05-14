@@ -164,7 +164,7 @@ class _EditRoutineEquipmentRequiredScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -189,7 +189,7 @@ class _EditRoutineEquipmentRequiredScreenState
             }
           },
         ),
-        title: Text(S.current.equipmentRequired, style: Subtitle1),
+        title: Text(S.current.equipmentRequired, style: kSubtitle1),
         flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
@@ -210,11 +210,11 @@ class _EditRoutineEquipmentRequiredScreenState
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       color:
-                          (_equipmentRequired[key]!) ? PrimaryColor : Grey700,
+                          (_equipmentRequired[key]!) ? kPrimaryColor : kGrey700,
                       child: CheckboxListTile(
                         selected: _equipmentRequired[key]!,
-                        activeColor: Primary700Color,
-                        title: Text(title!, style: ButtonText),
+                        activeColor: kPrimary700Color,
+                        title: Text(title!, style: kButtonText),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _equipmentRequired[key],
                         onChanged: (bool? value) =>

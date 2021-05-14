@@ -62,15 +62,15 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                           //   ),
                           RichText(
                             text: TextSpan(
-                              style: BodyText2,
+                              style: kBodyText2,
                               children: <TextSpan>[
                                 if (widget.routineWorkout.isBodyWeightWorkout)
                                   TextSpan(
                                     text: S.current.bodyweight,
-                                    style: Headline5,
+                                    style: kHeadline5,
                                   ),
                                 if (!widget.routineWorkout.isBodyWeightWorkout)
-                                  TextSpan(text: weights, style: Headline3),
+                                  TextSpan(text: weights, style: kHeadline3),
                                 if (!widget.routineWorkout.isBodyWeightWorkout)
                                   TextSpan(text: unit),
                               ],
@@ -91,15 +91,15 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(S.current.weights, style: BodyText2Grey),
+                          child: Text(S.current.weights, style: kBodyText2Grey),
                         ),
-                        const Divider(color: BackgroundColor, height: 0),
+                        const Divider(color: kBackgroundColor, height: 0),
                       ],
                     ),
                   ],
                 ),
               ),
-              Container(width: 1, color: BackgroundColor),
+              Container(width: 1, color: kBackgroundColor),
               SizedBox(
                 height: size.width - 56,
                 width: (size.width - 56) / 2 - 0.5,
@@ -118,10 +118,10 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                           // ),
                           RichText(
                             text: TextSpan(
-                              style: Headline3,
+                              style: kHeadline3,
                               children: <TextSpan>[
                                 TextSpan(text: '${widget.workoutSet.reps}'),
-                                const TextSpan(text: ' x', style: BodyText2),
+                                const TextSpan(text: ' x', style: kBodyText2),
                               ],
                             ),
                           ),
@@ -139,9 +139,9 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(S.current.reps, style: BodyText2Grey),
+                          child: Text(S.current.reps, style: kBodyText2Grey),
                         ),
-                        const Divider(color: BackgroundColor, height: 0),
+                        const Divider(color: kBackgroundColor, height: 0),
                       ],
                     ),
                   ],

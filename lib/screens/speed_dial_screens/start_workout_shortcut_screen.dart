@@ -61,7 +61,7 @@ class _StartWorkoutShortcutScreenState
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -71,7 +71,7 @@ class _StartWorkoutShortcutScreenState
               snap: false,
               centerTitle: true,
               brightness: Brightness.dark,
-              title: Text(S.current.chooseRoutineToStart, style: Subtitle1),
+              title: Text(S.current.chooseRoutineToStart, style: kSubtitle1),
               flexibleSpace: const AppbarBlurBG(),
               backgroundColor: Colors.transparent,
               leading: IconButton(
@@ -127,14 +127,20 @@ class _StartWorkoutShortcutScreenState
                 title: routine.routineTitle,
                 leadingText: '$duration',
                 subtitle: '$trainingLevel, $weights $unit',
-                subtitle2: routine.routineOwnerUserName,
+                kSubtitle2: routine.routineOwnerUserName,
                 imageUrl: routine.imageUrl,
-                onTap: () => RoutineDetailScreen.show(
-                  context,
-                  routine: routine,
-                  isRootNavigation: false,
-                  tag: 'startShortcut-${routine.routineId}',
-                ),
+                onTap: () {
+                  while (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
+
+                  RoutineDetailScreen.show(
+                    context,
+                    routine: routine,
+                    isRootNavigation: false,
+                    tag: 'startShortcut-${routine.routineId}',
+                  );
+                },
               );
             },
           );

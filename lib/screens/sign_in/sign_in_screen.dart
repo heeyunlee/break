@@ -333,7 +333,7 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
 
       // For smooth transition between PreviewScreen and SignUpScreen
       body: AnimatedCrossFade(
@@ -367,21 +367,21 @@ class _SignInScreenState extends State<SignInScreen> {
                         children: [
                           const CircularProgressIndicator(
                             valueColor:
-                                AlwaysStoppedAnimation<Color>(PrimaryColor),
+                                AlwaysStoppedAnimation<Color>(kPrimaryColor),
                           ),
                           const SizedBox(height: 24),
-                          Text(S.current.signingIn, style: BodyText2),
+                          Text(S.current.signingIn, style: kBodyText2),
                         ],
                       )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('HēraKless', style: Headline3Menlo),
+                          const Text('HēraKless', style: kHeadline3Menlo),
                           const SizedBox(height: 8),
                           const Text(
                             'wokrout. record. and share.',
-                            style: Subtitle2Menlo,
+                            style: kSubtitle2Menlo,
                           ),
                         ],
                       ),
@@ -390,10 +390,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
             /// Sign In With Email
             SocialSignInButton(
-              buttonText: S.current.signUp,
+              kButtonText: S.current.signUp,
               iconData: Icons.email_rounded,
-              color: Primary600Color,
-              disabledColor: Primary600Color.withOpacity(0.85),
+              color: kPrimary600Color,
+              kDisabledColor: kPrimary600Color.withOpacity(0.85),
               textColor: Colors.white,
               onPressed: widget.isLoading
                   ? null
@@ -402,9 +402,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
             // SIGN IN WITH GOOGLE
             SocialSignInButton(
-              buttonText: S.current.continueWithGoogle,
+              kButtonText: S.current.continueWithGoogle,
               color: Colors.white,
-              disabledColor: Colors.white.withOpacity(0.85),
+              kDisabledColor: Colors.white.withOpacity(0.85),
               textColor: Colors.black.withOpacity(0.85),
               logo: 'assets/logos/google_logo.png',
               onPressed:
@@ -413,9 +413,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
             // SIGN IN WITH FACEBOOK
             SocialSignInButton(
-              buttonText: S.current.continueWithFacebook,
+              kButtonText: S.current.continueWithFacebook,
               color: Color(0xff1877F2),
-              disabledColor: Color(0xff1877F2).withOpacity(0.85),
+              kDisabledColor: Color(0xff1877F2).withOpacity(0.85),
               textColor: Colors.white.withOpacity(0.85),
               logo: 'assets/logos/facebook_logo.png',
               onPressed:
@@ -425,10 +425,10 @@ class _SignInScreenState extends State<SignInScreen> {
             // SIGN IN WITH APPLE
             if (Platform.isIOS)
               SocialSignInButton(
-                buttonText: S.current.continueWithApple,
+                kButtonText: S.current.continueWithApple,
                 color: Colors.white,
                 textColor: Colors.black.withOpacity(0.85),
-                disabledColor: Colors.white.withOpacity(0.85),
+                kDisabledColor: Colors.white.withOpacity(0.85),
                 logo: 'assets/logos/apple_logo.png',
                 onPressed:
                     widget.isLoading ? null : () => _signInWithApple(context),
@@ -436,9 +436,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
             // SIGN IN WITH KAKAO
             SocialSignInButton(
-              buttonText: S.current.continueWithKakao,
+              kButtonText: S.current.continueWithKakao,
               color: Color(0xffFEE500),
-              disabledColor: Color(0xffFEE500).withOpacity(0.85),
+              kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
               logo: 'assets/logos/kakao_logo.png',
               textColor: Colors.black.withOpacity(0.85),
               onPressed:
@@ -451,7 +451,7 @@ class _SignInScreenState extends State<SignInScreen> {
             //       : () async {
             //           await _signInAnonymously(context);
             //         },
-            //   child: Text(S.current.continueAnonymously, style: ButtonTextGrey),
+            //   child: Text(S.current.continueAnonymously, style: kButtonTextGrey),
             // ),
 
             TextButton(
@@ -460,7 +460,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   : () => LogInWithEmailScreen.show(context),
               child: Text(
                 S.current.logIn,
-                style: GoogleSignInStyleWhite,
+                style: kGoogleSignInStyleWhite,
               ),
             ),
 

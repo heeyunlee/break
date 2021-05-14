@@ -148,12 +148,12 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.editDisplayNameTitle, style: Subtitle1),
+        title: Text(S.current.editDisplayNameTitle, style: kSubtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -173,21 +173,21 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
           padding: const EdgeInsets.all(8),
           child: TextFormField(
-            style: Headline5,
+            style: kHeadline5,
             autofocus: true,
             textAlign: TextAlign.center,
             controller: _textController1,
             maxLength: 25,
             decoration: InputDecoration(
-              hintStyle: SearchBarHintStyle,
+              hintStyle: kSearchBarHintStyle,
               hintText: S.current.displayNameHintText,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
               ),
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: PrimaryColor),
+                borderSide: BorderSide(color: kPrimaryColor),
               ),
-              counterStyle: Caption1Grey,
+              counterStyle: kCaption1Grey,
             ),
             onChanged: (value) => setState(() {
               _displayName = value;
@@ -203,7 +203,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
             },
           ),
         ),
-        Text(S.current.yourDisplayName, style: BodyText1Grey),
+        Text(S.current.yourDisplayName, style: kBodyText1Grey),
       ],
     );
   }

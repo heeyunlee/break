@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/speed_dial_screens/add_measurement_screen.dart';
@@ -55,6 +55,7 @@ class _ExpandableFABState extends State<ExpandableFAB>
   }
 
   void _toggleAnimation() {
+    HapticFeedback.mediumImpact();
     _isOpen = !_isOpen;
     setState(() {
       if (_isOpen) {
@@ -65,31 +66,30 @@ class _ExpandableFABState extends State<ExpandableFAB>
     });
   }
 
-  Future<void> _deviceInfo() async {
-    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    final deviceInfo = await deviceInfoPlugin.iosInfo;
-    print(deviceInfo.model);
+  double getY() {
+    if (Platform.isAndroid) {
+      return 1.00;
+    } else if (Platform.isIOS) {
+      return 0.93;
+    } else {
+      return 0;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    _deviceInfo();
-
     return SizedBox.expand(
       child: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment(0, 0.93),
-              children: [
-                _renderOverlay(),
-                _buildTapToCloseFab(),
-                ..._buildExpandingActionButtons(),
-                _buildTapToOpenFab(),
-              ],
-            );
-          },
+        bottom: true,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment(0, getY()),
+          children: [
+            _renderOverlay(),
+            _buildTapToCloseFab(),
+            ..._buildExpandingActionButtons(),
+            _buildTapToOpenFab(),
+          ],
         ),
       ),
     );
@@ -97,8 +97,8 @@ class _ExpandableFABState extends State<ExpandableFAB>
 
   Widget _renderOverlay() {
     return PositionedDirectional(
-      end: -16,
-      bottom: -16,
+      end: 0,
+      bottom: 0,
       top: _isOpen ? 0.0 : null,
       start: _isOpen ? 0.0 : null,
       child: GestureDetector(
@@ -113,9 +113,11 @@ class _ExpandableFABState extends State<ExpandableFAB>
   }
 
   Widget _buildTapToCloseFab() {
+    final width = MediaQuery.of(context).size.width;
+
     return SizedBox(
-      width: 56.0,
-      height: 56.0,
+      width: width / 8,
+      height: width / 8,
       child: Center(
         child: Material(
           shape: const CircleBorder(),
@@ -124,12 +126,9 @@ class _ExpandableFABState extends State<ExpandableFAB>
           color: Colors.transparent,
           child: InkWell(
             onTap: _toggleAnimation,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Colors.transparent,
-              ),
+            child: Icon(
+              Icons.close,
+              color: Colors.transparent,
             ),
           ),
         ),
@@ -142,6 +141,7 @@ class _ExpandableFABState extends State<ExpandableFAB>
       SpeedDialChildren(
         label: S.current.measurements,
         onPressed: () {
+          // WorkoutMiniplayer.miniplayerMinHeight(context);
           _toggleAnimation();
           AddMeasurementScreen.show(context);
         },
@@ -179,11 +179,10 @@ class _ExpandableFABState extends State<ExpandableFAB>
   }
 
   List<Widget> _buildExpandingActionButtons() {
-    // final children = <Widget>[];
     final modifiedChildren = <Widget>[];
     final count = _expandingChildren().length;
-    final step = 120.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 60.0;
+    final step = 90 / (count - 1);
+    for (var i = 0, angleInDegrees = 45.0;
         i < count;
         i++, angleInDegrees += step) {
       modifiedChildren.add(
@@ -199,6 +198,8 @@ class _ExpandableFABState extends State<ExpandableFAB>
   }
 
   Widget _buildTapToOpenFab() {
+    final width = MediaQuery.of(context).size.width;
+
     return IgnorePointer(
       ignoring: _isOpen,
       child: AnimatedContainer(
@@ -211,7 +212,7 @@ class _ExpandableFABState extends State<ExpandableFAB>
           elevation: 0,
           child: Icon(
             Icons.add_circle_rounded,
-            size: 56,
+            size: width / 8,
           ),
         ),
       ),
@@ -235,16 +236,19 @@ class _SpeedDialChildrenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final center = size.width / 2 - 40;
+
     return AnimatedBuilder(
       animation: progress,
       builder: (context, child) {
         final Offset offset = Offset.fromDirection(
-          degree * (math.pi / 240),
+          degree * (math.pi / 180),
           progress.value * distance,
         );
         return Positioned(
-          right: 174 + offset.dx,
-          bottom: 32 + offset.dy,
+          right: center + offset.dx,
+          bottom: 8 + offset.dy,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 2,
             child: child!,

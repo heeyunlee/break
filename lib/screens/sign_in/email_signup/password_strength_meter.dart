@@ -11,14 +11,14 @@ class PasswordStrengthMeter extends StatelessWidget {
       children: [
         Row(
           children: [
-            _passwordStrengthMeter(context, PrimaryColor),
+            _passwordStrengthMeter(context, kPrimaryColor),
             _passwordStrengthMeter(context, Colors.grey),
             _passwordStrengthMeter(context, Colors.grey),
             _passwordStrengthMeter(context, Colors.grey),
           ],
         ),
         const SizedBox(height: 8),
-        Text('Weak', style: BodyText1),
+        Text('Weak', style: kBodyText1),
       ],
     );
   }

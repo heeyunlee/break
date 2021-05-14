@@ -199,7 +199,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         builder: (context, snapshot) {
           return Scaffold(
             extendBodyBehindAppBar: true,
-            backgroundColor: BackgroundColor,
+            backgroundColor: kBackgroundColor,
             appBar: AppBar(
               centerTitle: true,
               brightness: Brightness.dark,
@@ -214,12 +214,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              title: Text(S.current.editWorkoutTitle, style: Subtitle1),
+              title: Text(S.current.editWorkoutTitle, style: kSubtitle1),
               flexibleSpace: AppbarBlurBG(),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
-                  child: Text(S.current.save, style: ButtonText),
+                  child: Text(S.current.save, style: kButtonText),
                 ),
               ],
             ),
@@ -251,7 +251,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: kPrimaryColor,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -312,11 +312,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: ListTile(
-            tileColor: CardColor,
-            title: Text(S.current.publicWorkout, style: ButtonText),
+            tileColor: kCardColor,
+            title: Text(S.current.publicWorkout, style: kButtonText),
             trailing: Switch(
               value: _isPublic,
-              activeColor: PrimaryColor,
+              activeColor: kPrimaryColor,
               onChanged: (bool value) {
                 setState(() {
                   _isPublic = value;
@@ -328,7 +328,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.publicWorkoutDescription, style: Caption1Grey),
+          child: Text(S.current.publicWorkoutDescription, style: kCaption1Grey),
         ),
       ],
     );
@@ -341,12 +341,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.workoutName, style: BodyText1w800),
+          child: Text(S.current.workoutName, style: kBodyText1w800),
         ),
 
         /// Workout Title
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -358,7 +358,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               maxLines: 1,
               textInputAction: TextInputAction.done,
               controller: _textController1,
-              style: BodyText2,
+              style: kBodyText2,
               focusNode: focusNode1,
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -383,12 +383,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.description, style: BodyText1w800),
+          child: Text(S.current.description, style: kBodyText1w800),
         ),
 
         /// Description
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -398,12 +398,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               controller: _textController2,
-              style: BodyText2,
+              style: kBodyText2,
               focusNode: focusNode2,
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: S.current.descriptionHintText,
-                hintStyle: BodyText2LightGrey,
+                hintStyle: kBodyText2LightGrey,
                 border: InputBorder.none,
               ),
               onFieldSubmitted: (value) => _description = value,
@@ -425,20 +425,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.difficulty}: $_difficultySliderLabel',
-            style: BodyText1.copyWith(fontWeight: FontWeight.w800),
+            style: kBodyText1.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
 
         /// Difficulty
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: PrimaryColor,
-            inactiveColor: PrimaryColor.withOpacity(0.2),
+            activeColor: kPrimaryColor,
+            inactiveColor: kPrimaryColor.withOpacity(0.2),
             value: _difficultySlider,
             onChanged: (newRating) {
               setState(() {
@@ -469,18 +469,18 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-            style: BodyText1.copyWith(fontWeight: FontWeight.w800),
+            style: kBodyText1.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: PrimaryColor,
-            inactiveColor: PrimaryColor.withOpacity(0.2),
+            activeColor: kPrimaryColor,
+            inactiveColor: kPrimaryColor.withOpacity(0.2),
             value: _secondsPerRepSlider,
             onChanged: (newRating) {
               setState(() {
@@ -498,7 +498,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             S.current.secondsPerRepHelperText,
-            style: Caption1Grey,
+            style: kCaption1Grey,
           ),
         ),
       ],
@@ -517,7 +517,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.moreSettings, style: BodyText1w800),
+          child: Text(S.current.moreSettings, style: kBodyText1w800),
         ),
 
         /// Main Muscle Group
@@ -526,13 +526,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
-              title: Text(S.current.mainMuscleGroup, style: ButtonText),
-              subtitle: Text(mainMuscleGroup, style: BodyText2Grey),
+              title: Text(S.current.mainMuscleGroup, style: kButtonText),
+              subtitle: Text(mainMuscleGroup, style: kBodyText2Grey),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: PrimaryGrey,
+                color: kPrimaryGrey,
               ),
-              tileColor: CardColor,
+              tileColor: kCardColor,
               onTap: () => EditWorkoutMainMuscleGroupScreen.show(
                 context,
                 workout: workout,
@@ -555,13 +555,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: Text(S.current.equipmentRequired, style: ButtonText),
-          subtitle: Text(equipmentRequired, style: BodyText2Grey),
+          title: Text(S.current.equipmentRequired, style: kButtonText),
+          subtitle: Text(equipmentRequired, style: kBodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: PrimaryGrey,
+            color: kPrimaryGrey,
           ),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           onTap: () => EditWorkoutEquipmentRequiredScreen.show(
             context,
             workout: workout,
@@ -583,13 +583,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: Text(S.current.location, style: ButtonText),
-          subtitle: Text(location!, style: BodyText2Grey),
+          title: Text(S.current.location, style: kButtonText),
+          subtitle: Text(location!, style: kBodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: PrimaryGrey,
+            color: kPrimaryGrey,
           ),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           onTap: () => EditWorkoutLocationScreen.show(
             context,
             user: widget.user,
@@ -609,7 +609,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         S.current.deleteWorkoutWarningMessage,
         textAlign: TextAlign.center,
       ),
-      firstActionText: S.current.deleteWorkoutButtonText,
+      firstActionText: S.current.deleteWorkoutkButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.workout),
       cancelText: S.current.cancel,
@@ -619,7 +619,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -633,7 +633,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -648,7 +648,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

@@ -43,10 +43,11 @@ class _NewRoutineMainMuscleGroupScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_mainMuscleGroupMap[key]!) ? PrimaryColor : Grey700,
+                    color:
+                        (_mainMuscleGroupMap[key]!) ? kPrimaryColor : kGrey700,
                     child: CheckboxListTile(
-                      activeColor: Primary700Color,
-                      title: Text(title!, style: ButtonText),
+                      activeColor: kPrimary700Color,
+                      title: Text(title!, style: kButtonText),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroupMap[key],
                       onChanged: (bool? value) {

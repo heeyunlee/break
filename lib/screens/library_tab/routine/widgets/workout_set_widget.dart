@@ -320,7 +320,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         child: Row(
           children: [
             const SizedBox(width: 16, height: 56),
-            if (!set.isRest) Text(title, style: BodyText1Bold),
+            if (!set.isRest) Text(title, style: kBodyText1Bold),
             if (set.isRest)
               const Icon(Icons.timer_rounded, color: Colors.grey, size: 20),
             const Spacer(),
@@ -343,14 +343,14 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     height: 36,
                     width: 128,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    color: CardColorLight,
+                    color: kCardColorLight,
                     child: (!weightsTabbed)
                         ? Center(
                             child: Text(
                               (widget.routineWorkout.isBodyWeightWorkout)
                                   ? S.current.bodyweight
                                   : formattedWeights,
-                              style: BodyText1,
+                              style: kBodyText1,
                             ),
                           )
                         : TextFormField(
@@ -358,7 +358,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             textAlign: TextAlign.center,
                             textAlignVertical: TextAlignVertical.center,
                             controller: _textController1,
-                            style: BodyText1,
+                            style: kBodyText1,
                             focusNode: focusNode1,
                             keyboardAppearance: Brightness.dark,
                             keyboardType: const TextInputType.numberWithOptions(
@@ -369,7 +369,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                               border: InputBorder.none,
                               counterText: '',
                               suffixText: unit,
-                              suffixStyle: BodyText1,
+                              suffixStyle: kBodyText1,
                             ),
                             onFieldSubmitted: (value) {
                               _weights = value;
@@ -405,21 +405,21 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     alignment: Alignment.center,
-                    color: PrimaryColor,
+                    color: kPrimaryColor,
                     child: (!repsTabbed)
-                        ? Center(child: Text(reps, style: BodyText1))
+                        ? Center(child: Text(reps, style: kBodyText1))
                         : TextFormField(
                             autofocus: true,
                             textAlign: TextAlign.center,
                             controller: _textController2,
-                            style: BodyText1,
+                            style: kBodyText1,
                             focusNode: focusNode2,
                             keyboardType: TextInputType.number,
                             maxLength: 2,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               suffixText: S.current.x,
-                              suffixStyle: BodyText1,
+                              suffixStyle: kBodyText1,
                               counterText: '',
                             ),
                             onFieldSubmitted: (value) {
@@ -456,21 +456,21 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     alignment: Alignment.center,
-                    color: PrimaryColor,
+                    color: kPrimaryColor,
                     child: (!restTimeTabbed)
-                        ? Center(child: Text(restTime, style: BodyText1))
+                        ? Center(child: Text(restTime, style: kBodyText1))
                         : TextFormField(
                             autofocus: true,
                             textAlign: TextAlign.center,
                             controller: _textController3,
-                            style: BodyText1,
+                            style: kBodyText1,
                             focusNode: focusNode3,
                             keyboardType: TextInputType.number,
                             maxLength: 3,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               suffixText: S.current.seconds,
-                              suffixStyle: BodyText1,
+                              suffixStyle: kBodyText1,
                               counterText: '',
                             ),
                             onFieldSubmitted: (value) {
@@ -497,7 +497,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: false,
@@ -518,7 +518,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -540,7 +540,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -562,7 +562,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

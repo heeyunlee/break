@@ -61,13 +61,13 @@ class _NewRoutineDifficultyAndMoreScreenState
                     size: 20,
                   ),
                   const SizedBox(width: 8),
-                  Text(S.current.location, style: Headline6Bold),
+                  Text(S.current.location, style: kHeadline6Bold),
                 ],
               ),
             ),
             Card(
               margin: EdgeInsets.zero,
-              color: CardColor,
+              color: kCardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -76,11 +76,11 @@ class _NewRoutineDifficultyAndMoreScreenState
                 child: DropdownButtonFormField(
                   isExpanded: true,
                   value: _dropdownValue,
-                  dropdownColor: CardColor,
+                  dropdownColor: kCardColor,
                   decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                   ),
-                  style: BodyText1,
+                  style: kBodyText1,
                   onChanged: (value) {
                     setState(() {
                       _dropdownValue = value.toString();
@@ -115,18 +115,18 @@ class _NewRoutineDifficultyAndMoreScreenState
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 '${S.current.difficulty}: $_ratingLabel',
-                style: Headline6Bold,
+                style: kHeadline6Bold,
               ),
             ),
             Card(
-              color: CardColor,
+              color: kCardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
               margin: const EdgeInsets.symmetric(vertical: 8),
               child: Slider(
-                activeColor: PrimaryColor,
-                inactiveColor: PrimaryColor.withOpacity(0.2),
+                activeColor: kPrimaryColor,
+                inactiveColor: kPrimaryColor.withOpacity(0.2),
                 value: _rating,
                 onChanged: (newRating) {
                   setState(() {

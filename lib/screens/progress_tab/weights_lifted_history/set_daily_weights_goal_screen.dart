@@ -62,7 +62,7 @@ class _SetDailyWeightsGoalScreenState extends State<SetDailyWeightsGoalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         leading: IconButton(
@@ -76,7 +76,7 @@ class _SetDailyWeightsGoalScreenState extends State<SetDailyWeightsGoalScreen> {
         ),
         title: Text(
           'Set',
-          style: Subtitle2,
+          style: kSubtitle2,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

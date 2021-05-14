@@ -6,7 +6,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
   const MaxWidthRaisedButton({
     Key? key,
     required this.buttonText,
-    this.color,
+    this.color = Colors.grey,
     this.icon,
     this.onPressed,
     this.width,
@@ -24,12 +24,12 @@ class MaxWidthRaisedButton extends StatelessWidget {
 
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
               return Colors.grey;
             } else {
-              return color;
+              return color!;
             }
           },
         ),
@@ -56,7 +56,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
           // TODO: Check if this works
           if (icon != null) icon ?? Container(),
           if (icon != null) const SizedBox(width: 16),
-          Text(buttonText, style: ButtonText),
+          Text(buttonText, style: kButtonText),
         ],
       ),
     );

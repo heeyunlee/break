@@ -95,7 +95,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: CustomStreamBuilderWidget<Workout>(
         initialData: widget.workout,
         stream: widget.database.workoutStream(
@@ -153,18 +153,18 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
           Navigator.of(context).pop();
         },
       ),
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       floating: false,
       pinned: true,
       snap: false,
       stretch: true,
       expandedHeight: size.height * 4 / 5,
       centerTitle: true,
-      // title: isShrink ? Text(workout.workoutTitle, style: Subtitle1) : null,
+      // title: isShrink ? Text(workout.workoutTitle, style: kSubtitle1) : null,
       // bottom: TabBar(
       //   labelColor: Colors.white,
-      //   unselectedLabelColor: Grey400,
-      //   indicatorColor: PrimaryColor,
+      //   unselectedLabelColor: kGrey400,
+      //   indicatorColor: kPrimaryColor,
       //   tabs: [
       //     Tab(text: 'Instructions'),
       //     Tab(text: 'Histories'),
@@ -186,7 +186,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         //         ? Icons.favorite_rounded
         //         : Icons.favorite_border_rounded,
         //     color: (widget.userSavedWorkout.isSavedWorkout)
-        //         ? PrimaryColor
+        //         ? kPrimaryColor
         //         : Colors.white,
         //   ),
         //   onPressed: () => _toggleFavorites(context),
@@ -232,9 +232,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 begin: Alignment(0.0, -0.5),
                 end: Alignment.bottomCenter,
                 colors: [
-                  BackgroundColor.withOpacity(0.5),
+                  kBackgroundColor.withOpacity(0.5),
                   Colors.transparent,
-                  BackgroundColor,
+                  kBackgroundColor,
                 ],
               ),
             ),
@@ -270,11 +270,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(S.current.mainMuscleGroup, style: Caption1Grey),
+                          Text(S.current.mainMuscleGroup, style: kCaption1Grey),
                           const SizedBox(height: 8),
                           Text(
                             mainMuscleGroup,
-                            style: Subtitle2,
+                            style: kSubtitle2,
                           ),
                         ],
                       ),
@@ -295,10 +295,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                         children: <Widget>[
                           Text(
                             S.current.equipmentRequired,
-                            style: Caption1Grey,
+                            style: kCaption1Grey,
                           ),
                           const SizedBox(height: 8),
-                          Text(equipmentRequired, style: Subtitle2),
+                          Text(equipmentRequired, style: kSubtitle2),
                         ],
                       ),
                     ),
@@ -316,9 +316,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(S.current.difficulty, style: Caption1Grey),
+                          Text(S.current.difficulty, style: kCaption1Grey),
                           const SizedBox(height: 8),
-                          Text(difficulty, style: Subtitle2),
+                          Text(difficulty, style: kSubtitle2),
                         ],
                       ),
                     ),
@@ -327,7 +327,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 const SizedBox(height: 24),
                 Text(
                   description,
-                  style: BodyText2LightGrey,
+                  style: kBodyText2LightGrey,
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
@@ -335,13 +335,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 const SizedBox(height: 24),
                 MaxWidthRaisedButton(
                   width: double.infinity,
-                  color: Grey800,
+                  color: kGrey800,
                   icon: const Icon(
                     Icons.add_rounded,
                     color: Colors.white,
                     size: 20,
                   ),
-                  buttonText: S.current.addWorkoutToRoutineButtonText,
+                  buttonText: S.current.addWorkoutToRoutinekButtonText,
                   onPressed: () => AddWorkoutToRoutineScreen.show(
                     context,
                     workout: workout,
@@ -376,7 +376,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   //   return Column(
   //     crossAxisAlignment: CrossAxisAlignment.start,
   //     children: [
-  //       const Text('Instructions', style: Headline6),
+  //       const Text('Instructions', style: kHeadline6),
   //       const SizedBox(height: 8),
   //       Container(
   //         height: 500,
@@ -388,7 +388,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   //               children: [
   //                 const Text(
   //                   '1. Vestibulum non suscipit lacus',
-  //                   style: Subtitle1,
+  //                   style: kSubtitle1,
   //                 ),
   //                 const SizedBox(height: 4),
   //                 const Padding(
@@ -402,7 +402,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   //               children: [
   //                 const Text(
   //                   '2. eget maximus lacus. Vestibulum',
-  //                   style: Subtitle1,
+  //                   style: kSubtitle1,
   //                 ),
   //                 const SizedBox(height: 4),
   //                 const Padding(
@@ -426,7 +426,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   //             dotHeight: 8,
   //             dotWidth: 8,
   //             dotColor: Colors.white.withOpacity(0.3),
-  //             activeDotColor: PrimaryColor,
+  //             activeDotColor: kPrimaryColor,
   //           ),
   //         ),
   //       ),
@@ -439,11 +439,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   //   return Column(
   //     crossAxisAlignment: CrossAxisAlignment.start,
   //     children: <Widget>[
-  //       const Text('History', style: Headline6),
+  //       const Text('History', style: kHeadline6),
   //       const SizedBox(height: 8),
   //       Container(
   //         child: Card(
-  //           color: CardColor,
+  //           color: kCardColor,
   //           shape: RoundedRectangleBorder(
   //             borderRadius: BorderRadius.circular(10),
   //           ),
@@ -503,9 +503,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                 begin: Alignment(0.0, -0.5),
 //                 end: Alignment.bottomCenter,
 //                 colors: [
-//                   BackgroundColor.withOpacity(0.5),
+//                   kBackgroundColor.withOpacity(0.5),
 //                   Colors.transparent,
-//                   BackgroundColor,
+//                   kBackgroundColor,
 //                 ],
 //               ),
 //             ),
@@ -541,11 +541,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                       child: Column(
 //                         crossAxisAlignment: CrossAxisAlignment.start,
 //                         children: <Widget>[
-//                           Text(S.current.mainMuscleGroup, style: Caption1Grey),
+//                           Text(S.current.mainMuscleGroup, style: kCaption1Grey),
 //                           const SizedBox(height: 8),
 //                           Text(
 //                             mainMuscleGroup,
-//                             style: Subtitle2,
+//                             style: kSubtitle2,
 //                           ),
 //                         ],
 //                       ),
@@ -566,10 +566,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                         children: <Widget>[
 //                           Text(
 //                             S.current.equipmentRequired,
-//                             style: Caption1Grey,
+//                             style: kCaption1Grey,
 //                           ),
 //                           const SizedBox(height: 8),
-//                           Text(equipmentRequired, style: Subtitle2),
+//                           Text(equipmentRequired, style: kSubtitle2),
 //                         ],
 //                       ),
 //                     ),
@@ -587,9 +587,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                       child: Column(
 //                         crossAxisAlignment: CrossAxisAlignment.start,
 //                         children: <Widget>[
-//                           Text(S.current.difficulty, style: Caption1Grey),
+//                           Text(S.current.difficulty, style: kCaption1Grey),
 //                           const SizedBox(height: 8),
-//                           Text(difficulty, style: Subtitle2),
+//                           Text(difficulty, style: kSubtitle2),
 //                         ],
 //                       ),
 //                     ),
@@ -598,7 +598,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                 const SizedBox(height: 24),
 //                 Text(
 //                   description,
-//                   style: BodyText2LightGrey,
+//                   style: kBodyText2LightGrey,
 //                   maxLines: 5,
 //                   overflow: TextOverflow.ellipsis,
 //                   softWrap: false,
@@ -606,13 +606,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
 //                 const SizedBox(height: 24),
 //                 MaxWidthRaisedButton(
 //                   width: double.infinity,
-//                   color: Grey800,
+//                   color: kGrey800,
 //                   icon: const Icon(
 //                     Icons.add_rounded,
 //                     color: Colors.white,
 //                     size: 20,
 //                   ),
-//                   buttonText: S.current.addWorkoutToRoutineButtonText,
+//                   kButtonText: S.current.addWorkoutToRoutinekButtonText,
 //                   onPressed: () => AddWorkoutToRoutineScreen.show(
 //                     context,
 //                     workout: workout,

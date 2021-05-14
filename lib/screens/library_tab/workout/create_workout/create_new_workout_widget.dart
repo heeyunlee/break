@@ -21,11 +21,11 @@ class CreateNewWorkoutWidget extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                color: Grey800,
+                color: kGrey800,
                 child: const Icon(Icons.add_rounded, color: Colors.white),
               ),
               const SizedBox(width: 16),
-              Text(S.current.createNewWorkout, style: BodyText1Bold),
+              Text(S.current.createNewWorkout, style: kBodyText1Bold),
             ],
           ),
         ),

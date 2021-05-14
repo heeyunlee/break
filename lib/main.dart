@@ -2,9 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/services/auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -20,7 +21,7 @@ Future<void> main() async {
     optOutTrackingDefault: false,
   );
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,12 +38,12 @@ class MyApp extends StatelessWidget {
     );
     KakaoContext.clientId = 'c17f0f1bc6e039d488fb5264fdf93a10';
 
-    return MultiProvider(
+    return provider.MultiProvider(
       providers: [
-        Provider<Database>(
+        provider.Provider<Database>(
           create: (_) => FirestoreDatabase(),
         ),
-        Provider<AuthBase>(
+        provider.Provider<AuthBase>(
           create: (context) => AuthService(),
         ),
       ],

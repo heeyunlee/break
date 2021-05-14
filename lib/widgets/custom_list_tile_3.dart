@@ -13,7 +13,7 @@ class CustomListTile3 extends StatelessWidget {
     required this.title,
     required this.leadingText,
     required this.subtitle,
-    this.subtitle2,
+    this.kSubtitle2,
     this.onTap,
     this.onLongTap,
     this.trailingIconButton,
@@ -25,7 +25,7 @@ class CustomListTile3 extends StatelessWidget {
   final String title;
   final String leadingText;
   final String subtitle;
-  final String? subtitle2;
+  final String? kSubtitle2;
   final void Function()? onTap;
   final void Function()? onLongTap;
   final Widget? trailingIconButton;
@@ -43,7 +43,7 @@ class CustomListTile3 extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Card(
-                color: BackgroundColor,
+                color: kBackgroundColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 clipBehavior: Clip.antiAlias,
@@ -57,7 +57,7 @@ class CustomListTile3 extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: BodyText1Bold,
+                        style: kBodyText1Bold,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -65,16 +65,16 @@ class CustomListTile3 extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: Caption1Grey,
+                        style: kCaption1Grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
                       ),
                       const SizedBox(height: 4),
-                      if (subtitle2 != null)
+                      if (kSubtitle2 != null)
                         Text(
-                          subtitle2 ?? 'Subtitle 2',
-                          style: Caption1Grey,
+                          kSubtitle2 ?? 'Subtitle 2',
+                          style: kCaption1Grey,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
@@ -132,7 +132,7 @@ class CustomListTile3 extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isLeadingDuration) const Text('min', style: Headline6),
+                if (isLeadingDuration) const Text('min', style: kHeadline6),
               ],
             ),
           ),

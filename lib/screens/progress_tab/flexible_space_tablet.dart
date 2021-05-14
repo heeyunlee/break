@@ -31,7 +31,7 @@ class FlexibleSpaceTablet extends StatelessWidget {
                 size: 48,
               ),
               const SizedBox(width: 16),
-              Text(user.displayName, style: Subtitle1w900),
+              Text(user.displayName, style: kSubtitle1w900),
             ],
           ),
           const SizedBox(height: 24),
@@ -39,7 +39,7 @@ class FlexibleSpaceTablet extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            color: PrimaryColor,
+            color: kPrimaryColor,
             child: Container(
               height: size.height / 9,
               width: size.width - 48,
@@ -58,11 +58,11 @@ class FlexibleSpaceTablet extends StatelessWidget {
                             fontSize: 40,
                           ),
                           children: <TextSpan>[
-                            TextSpan(text: '  $unit', style: BodyText1),
+                            TextSpan(text: '  $unit', style: kBodyText1),
                           ],
                         ),
                       ),
-                      Text(S.current.lifted, style: BodyText1),
+                      Text(S.current.lifted, style: kBodyText1),
                     ],
                   ),
                 ],

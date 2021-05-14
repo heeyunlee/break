@@ -54,10 +54,10 @@ class AnnouncementCard extends StatelessWidget {
                 width: size.width / 2.2,
                 child: ElevatedButton(
                   onPressed: onTap,
-                  style: ElevatedButton.styleFrom(primary: PrimaryColor),
+                  style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                   child: Text(
                     subtitle!,
-                    style: Subtitle1,
+                    style: kSubtitle1,
                   ),
                 ),
               ),

@@ -84,12 +84,12 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.location, style: Subtitle1),
+        title: Text(S.current.location, style: kSubtitle1),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -105,9 +105,9 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
       children: <Widget>[
         ListTile(
           tileColor: (_location == Location.atHome.toString())
-              ? Primary600Color
+              ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.atHome.translation!, style: BodyText1),
+          title: Text(Location.atHome.translation!, style: kBodyText1),
           trailing: (_location == Location.atHome.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -120,9 +120,9 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.gym.toString())
-              ? Primary600Color
+              ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.gym.translation!, style: BodyText1),
+          title: Text(Location.gym.translation!, style: kBodyText1),
           trailing: (_location == Location.gym.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -135,9 +135,9 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.outdoor.toString())
-              ? Primary600Color
+              ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.outdoor.translation!, style: BodyText1),
+          title: Text(Location.outdoor.translation!, style: kBodyText1),
           trailing: (_location == Location.outdoor.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -150,9 +150,9 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.others.toString())
-              ? Primary600Color
+              ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.others.translation!, style: BodyText1),
+          title: Text(Location.others.translation!, style: kBodyText1),
           trailing: (_location == Location.others.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,

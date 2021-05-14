@@ -159,7 +159,7 @@ class _RoutineHistorySummaryScreenState
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
@@ -200,7 +200,7 @@ class _RoutineHistorySummaryScreenState
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              BackgroundColor,
+                              kBackgroundColor,
                             ],
                           ),
                         ),
@@ -222,7 +222,7 @@ class _RoutineHistorySummaryScreenState
                           child: Text(
                             S.current.stats,
                             maxLines: 1,
-                            style: Headline6w900.copyWith(
+                            style: kHeadline6w900.copyWith(
                               fontSize: size.height * 0.02,
                             ),
                           ),
@@ -248,13 +248,13 @@ class _RoutineHistorySummaryScreenState
                           ),
                           child: Text(
                             S.current.notes,
-                            style: Headline6w900.copyWith(
+                            style: kHeadline6w900.copyWith(
                               fontSize: size.height * 0.02,
                             ),
                           ),
                         ),
                         Card(
-                          color: CardColor,
+                          color: kCardColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -263,11 +263,11 @@ class _RoutineHistorySummaryScreenState
                             child: TextFormField(
                               textInputAction: TextInputAction.done,
                               controller: _textController1,
-                              style: BodyText2,
+                              style: kBodyText2,
                               focusNode: focusNode1,
                               decoration: InputDecoration(
                                 hintText: S.current.addNotesHintText,
-                                hintStyle: BodyText2Grey,
+                                hintStyle: kBodyText2Grey,
                                 border: InputBorder.none,
                               ),
                               onFieldSubmitted: (value) => setState(() {}),
@@ -284,13 +284,13 @@ class _RoutineHistorySummaryScreenState
                           ),
                           child: Text(
                             S.current.setEffortsTitle,
-                            style: Headline6w900.copyWith(
+                            style: kHeadline6w900.copyWith(
                               fontSize: size.height * 0.02,
                             ),
                           ),
                         ),
                         Card(
-                          color: CardColor,
+                          color: kCardColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -334,7 +334,7 @@ class _RoutineHistorySummaryScreenState
                           children: [
                             Text(
                               S.current.makeItVisibleTo,
-                              style: BodyText2Light,
+                              style: kBodyText2Light,
                             ),
                             SizedBox(
                               width: 72,
@@ -342,7 +342,7 @@ class _RoutineHistorySummaryScreenState
                                 (_isPublic)
                                     ? S.current.everyone
                                     : S.current.justMe,
-                                style: BodyText2w900,
+                                style: kBodyText2w900,
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -355,7 +355,7 @@ class _RoutineHistorySummaryScreenState
                             const SizedBox(width: 8),
                             Switch(
                               value: _isPublic,
-                              activeColor: PrimaryColor,
+                              activeColor: kPrimaryColor,
                               onChanged: (bool value) {
                                 HapticFeedback.mediumImpact();
                                 setState(() {
@@ -384,7 +384,7 @@ class _RoutineHistorySummaryScreenState
                 numberOfParticles: 30,
                 blastDirection: -pi / 2,
                 colors: [
-                  PrimaryColor,
+                  kPrimaryColor,
                   Colors.green,
                   Colors.cyanAccent,
                   Colors.purpleAccent,
@@ -408,12 +408,12 @@ class _RoutineHistorySummaryScreenState
         children: <Widget>[
           Text(
             S.current.todaysWorkoutSummary,
-            style: Subtitle1Grey,
+            style: kSubtitle1Grey,
           ),
           Text(
             _title,
             maxLines: 1,
-            style: Headline5Bold.copyWith(
+            style: kHeadline5Bold.copyWith(
               fontSize: size.height * 0.03,
             ),
           ),
@@ -428,9 +428,9 @@ class _RoutineHistorySummaryScreenState
                   child: Chip(
                     label: Text(
                       _musclesAndEquipment[index],
-                      style: ButtonText,
+                      style: kButtonText,
                     ),
-                    backgroundColor: PrimaryColor,
+                    backgroundColor: kPrimaryColor,
                   ),
                 ),
               ),
@@ -469,10 +469,10 @@ class _SummaryRowWidget extends StatelessWidget {
         const SizedBox(width: 16),
         RichText(
           text: TextSpan(
-            style: Headline5.copyWith(fontSize: size.height * 0.03),
+            style: kHeadline5.copyWith(fontSize: size.height * 0.03),
             children: <TextSpan>[
               TextSpan(text: title),
-              if (subtitle != null) TextSpan(text: subtitle, style: Subtitle1)
+              if (subtitle != null) TextSpan(text: subtitle, style: kSubtitle1)
             ],
           ),
         ),

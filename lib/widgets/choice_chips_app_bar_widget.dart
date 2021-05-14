@@ -55,13 +55,13 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
         labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         shape: StadiumBorder(
           side: BorderSide(
-              color: (_selectedIndex == i) ? Primary300Color : Colors.grey,
+              color: (_selectedIndex == i) ? kPrimary300Color : Colors.grey,
               width: 1),
         ),
-        label: Text(_mainMuscleGroupTranslated[i], style: ButtonText),
+        label: Text(_mainMuscleGroupTranslated[i], style: kButtonText),
         selected: _selectedIndex == i,
-        backgroundColor: AppBarColor,
-        selectedColor: PrimaryColor,
+        backgroundColor: kAppBarColor,
+        selectedColor: kPrimaryColor,
         onSelected: (bool selected) {
           // setState(() {
           if (selected) {

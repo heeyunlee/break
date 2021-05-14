@@ -90,12 +90,12 @@ class ProteinEntriesScreen extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.proteinEntriesTitle, style: Subtitle2),
+        title: Text(S.current.proteinEntriesTitle, style: kSubtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -136,8 +136,8 @@ class ProteinEntriesScreen extends StatelessWidget {
               ),
             ],
             child: ListTile(
-              leading: Text('${nutrition.proteinAmount}g', style: BodyText1),
-              trailing: Text(date, style: BodyText1Grey),
+              leading: Text('${nutrition.proteinAmount}g', style: kBodyText1),
+              trailing: Text(date, style: kBodyText1Grey),
             ),
           );
         },

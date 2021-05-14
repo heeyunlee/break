@@ -214,7 +214,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       context: context,
       builder: (context) {
         return Container(
-          color: CardColorLight,
+          color: kCardColorLight,
           height: size.height / 3,
           child: CupertinoTheme(
             data: CupertinoThemeData(brightness: Brightness.dark),
@@ -241,16 +241,16 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           final routineWorkouts = snapshot.data;
 
           return Scaffold(
-            backgroundColor: BackgroundColor,
+            backgroundColor: kBackgroundColor,
             appBar: AppBar(
               brightness: Brightness.dark,
               leading: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close_rounded, color: Colors.white),
               ),
-              backgroundColor: AppBarColor,
+              backgroundColor: kAppBarColor,
               flexibleSpace: const AppbarBlurBG(),
-              title: Text(S.current.addWorkoutLog, style: Subtitle2),
+              title: Text(S.current.addWorkoutLog, style: kSubtitle2),
               centerTitle: true,
             ),
             body: _buildBody(),
@@ -265,7 +265,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               ),
               child: FloatingActionButton.extended(
                 onPressed: () => _submit(routineWorkouts!),
-                backgroundColor: PrimaryColor,
+                backgroundColor: kPrimaryColor,
                 heroTag: 'logRoutineSubmitButton',
                 label: Text(S.current.submit),
               ),
@@ -279,7 +279,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: kPrimaryColor,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -295,7 +295,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.routine.routineTitle, style: Headline6w900),
+                  Text(widget.routine.routineTitle, style: kHeadline6w900),
                   const SizedBox(height: 16),
                   // Start Time
                   Stack(
@@ -314,7 +314,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: const EdgeInsets.all(16),
-                              child: Text(_nowInString, style: BodyText1),
+                              child: Text(_nowInString, style: kBodyText1),
                             ),
                           ),
                         ),
@@ -323,10 +323,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         left: 12,
                         top: -6,
                         child: Container(
-                          color: BackgroundColor,
+                          color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.startTime, style: Caption1),
+                            child: Text(S.current.startTime, style: kCaption1),
                           ),
                         ),
                       ),
@@ -341,10 +341,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: S.current.durationHintText,
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -356,7 +356,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.durationHintText;
@@ -381,10 +381,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: '${S.current.totalVolumeHintText} $unit',
-                      labelStyle: BodyText1,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -396,7 +396,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.totalVolumeValidatorText;
@@ -420,11 +420,11 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     decoration: InputDecoration(
                       labelText: S.current.notes,
                       hintText: S.current.addNotes,
-                      hintStyle: BodyText1Grey,
-                      labelStyle: BodyText1,
+                      hintStyle: kBodyText1Grey,
+                      labelStyle: kBodyText1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: SecondaryColor),
+                        borderSide: BorderSide(color: kSecondaryColor),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.red),
@@ -436,7 +436,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: BodyText1,
+                    style: kBodyText1,
                     onChanged: (value) => setState(() {
                       _notes = value;
                     }),
@@ -489,10 +489,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         left: 12,
                         top: -6,
                         child: Container(
-                          color: BackgroundColor,
+                          color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.effort, style: Caption1),
+                            child: Text(S.current.effort, style: kCaption1),
                           ),
                         ),
                       ),
@@ -505,13 +505,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     children: [
                       Text(
                         S.current.makeItVisibleTo,
-                        style: BodyText2Light,
+                        style: kBodyText2Light,
                       ),
                       SizedBox(
                         width: 72,
                         child: Text(
                           (_isPublic) ? S.current.everyone : S.current.justMe,
-                          style: BodyText2w900,
+                          style: kBodyText2w900,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -524,7 +524,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                       const SizedBox(width: 8),
                       Switch(
                         value: _isPublic,
-                        activeColor: PrimaryColor,
+                        activeColor: kPrimaryColor,
                         onChanged: (bool value) {
                           HapticFeedback.mediumImpact();
                           setState(() {
@@ -546,7 +546,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -560,7 +560,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -575,7 +575,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -590,7 +590,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

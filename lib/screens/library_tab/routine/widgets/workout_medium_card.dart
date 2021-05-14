@@ -320,7 +320,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      color: CardColor,
+      color: kCardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -348,35 +348,35 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           title: (title.length > 24)
               ? FittedBox(
                   fit: BoxFit.cover,
-                  child: Text(title, style: Headline6),
+                  child: Text(title, style: kHeadline6),
                 )
               : Text(
                   title,
-                  style: Headline6,
+                  style: kHeadline6,
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   maxLines: 1,
                 ),
           subtitle: Row(
             children: <Widget>[
-              Text(formattedNumberOfSets, style: Subtitle2),
-              const Text('   |   ', style: Subtitle2),
-              Text(formattedTotalWeights, style: Subtitle2),
+              Text(formattedNumberOfSets, style: kSubtitle2),
+              const Text('   |   ', style: kSubtitle2),
+              Text(formattedTotalWeights, style: kSubtitle2),
             ],
           ),
           childrenPadding: const EdgeInsets.all(0),
           maintainState: true,
           children: [
             if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
-              const Divider(endIndent: 8, indent: 8, color: Grey700),
+              const Divider(endIndent: 8, indent: 8, color: kGrey700),
             if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
               Container(
                 height: 80,
                 child: Center(
-                  child: Text(S.current.addASet, style: BodyText2),
+                  child: Text(S.current.addASet, style: kBodyText2),
                 ),
               ),
-            const Divider(endIndent: 8, indent: 8, color: Grey700),
+            const Divider(endIndent: 8, indent: 8, color: kGrey700),
             if (routineWorkout.sets != null)
               ListView.builder(
                 padding: const EdgeInsets.all(0),
@@ -397,7 +397,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
               ),
             if (routineWorkout.sets!.isNotEmpty == true &&
                 widget.auth.currentUser!.uid == widget.routine.routineOwnerId)
-              const Divider(endIndent: 8, indent: 8, color: Grey700),
+              const Divider(endIndent: 8, indent: 8, color: kGrey700),
             if (widget.auth.currentUser!.uid == widget.routine.routineOwnerId)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -418,7 +418,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                   Container(
                     height: 36,
                     width: 1,
-                    color: Grey800,
+                    color: kGrey800,
                   ),
                   Container(
                     width: 100,
@@ -436,7 +436,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
                   Container(
                     height: 36,
                     width: 1,
-                    color: Grey800,
+                    color: kGrey800,
                   ),
                   Container(
                     width: 100,

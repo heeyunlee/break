@@ -181,7 +181,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       context: context,
       builder: (context) {
         return Container(
-          color: CardColorLight,
+          color: kCardColorLight,
           height: size.height / 3,
           child: CupertinoTheme(
             data: CupertinoThemeData(brightness: Brightness.dark),
@@ -206,7 +206,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
@@ -214,16 +214,16 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close_rounded, color: Colors.white),
         ),
-        backgroundColor: AppBarColor,
+        backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addProteins, style: Subtitle2),
+        title: Text(S.current.addProteins, style: kSubtitle2),
       ),
       body: _buildBody(),
       floatingActionButton: Container(
         width: size.width - 32,
         child: FloatingActionButton.extended(
           onPressed: _submit,
-          backgroundColor: PrimaryColor,
+          backgroundColor: kPrimaryColor,
           heroTag: 'addProteinButton',
           label: Text(S.current.submit),
         ),
@@ -234,7 +234,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   Widget _buildBody() {
     return Theme(
       data: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: kPrimaryColor,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -249,12 +249,12 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(S.current.time, style: BodyText1w800),
+                child: Text(S.current.time, style: kBodyText1w800),
               ),
               GestureDetector(
                 onTap: () => _showDatePicker(context),
                 child: Card(
-                  color: CardColor,
+                  color: kCardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -264,7 +264,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           _loggedTimeInString,
-                          style: BodyText1,
+                          style: kBodyText1,
                         ),
                       ),
                     ],
@@ -277,10 +277,10 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.amount, style: BodyText1w800),
+                child: Text(S.current.amount, style: kBodyText1w800),
               ),
               Card(
-                color: CardColor,
+                color: kCardColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -293,8 +293,8 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         minValue: 1,
                         maxValue: 100,
                         itemHeight: 36,
-                        textStyle: BodyText1,
-                        selectedTextStyle: Headline5w900Primary,
+                        textStyle: kBodyText1,
+                        selectedTextStyle: kHeadline5w900Primary,
                         value: _intValue,
                         onChanged: (value) => setState(
                           () {
@@ -304,13 +304,13 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                           },
                         ),
                       ),
-                      const Text('.', style: Headline5w900Primary),
+                      const Text('.', style: kHeadline5w900Primary),
                       NumberPicker(
                         minValue: 0,
                         maxValue: 9,
                         itemHeight: 36,
-                        textStyle: BodyText1,
-                        selectedTextStyle: Headline5w900Primary,
+                        textStyle: kBodyText1,
+                        selectedTextStyle: kHeadline5w900Primary,
                         value: _decimalValue,
                         onChanged: (value) => setState(
                           () {
@@ -320,7 +320,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                           },
                         ),
                       ),
-                      const Text('g', style: BodyText1),
+                      const Text('g', style: kBodyText1),
                     ],
                   ),
                 ),
@@ -331,7 +331,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.mealType, style: BodyText1w800),
+                child: Text(S.current.mealType, style: kBodyText1w800),
               ),
               _buildType(),
               const SizedBox(height: 16),
@@ -340,10 +340,10 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.notes, style: BodyText1w800),
+                child: Text(S.current.notes, style: kBodyText1w800),
               ),
               Card(
-                color: CardColor,
+                color: kCardColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -354,11 +354,11 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                     maxLines: 5,
                     textInputAction: TextInputAction.done,
                     controller: _textController1,
-                    style: BodyText2,
+                    style: kBodyText2,
                     focusNode: focusNode1,
                     decoration: InputDecoration(
                       hintText: S.current.addNotes,
-                      hintStyle: BodyText2Grey,
+                      hintStyle: kBodyText2Grey,
                       border: InputBorder.none,
                     ),
                     onFieldSubmitted: (value) => setState(() {}),
@@ -383,15 +383,15 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       var choiceChip = ChoiceChip(
         shape: StadiumBorder(
           side: BorderSide(
-              color: (_selectedIndex == i) ? Primary300Color : Colors.grey,
+              color: (_selectedIndex == i) ? kPrimary300Color : Colors.grey,
               width: 1),
         ),
         padding: EdgeInsets.symmetric(horizontal: 8),
-        label: Text(_mealsTranslated[i], style: ButtonText),
+        label: Text(_mealsTranslated[i], style: kButtonText),
         selected: _selectedIndex == i,
-        selectedShadowColor: PrimaryColor,
-        backgroundColor: BackgroundColor,
-        selectedColor: PrimaryColor,
+        selectedShadowColor: kPrimaryColor,
+        backgroundColor: kBackgroundColor,
+        selectedColor: kPrimaryColor,
         onSelected: (bool selected) {
           setState(() {
             if (selected) {

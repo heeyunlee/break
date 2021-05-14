@@ -201,7 +201,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
           return Scaffold(
             extendBodyBehindAppBar: true,
-            backgroundColor: BackgroundColor,
+            backgroundColor: kBackgroundColor,
             appBar: AppBar(
               centerTitle: true,
               brightness: Brightness.dark,
@@ -216,11 +216,11 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              title: Text(S.current.editRoutineTitle, style: Subtitle1),
+              title: Text(S.current.editRoutineTitle, style: kSubtitle1),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
-                  child: Text(S.current.save, style: ButtonText),
+                  child: Text(S.current.save, style: kButtonText),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),
@@ -242,7 +242,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: PrimaryColor,
+        primaryColor: kPrimaryColor,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -306,11 +306,11 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: ListTile(
-              tileColor: CardColor,
-              title: Text(S.current.publicRoutine, style: ButtonText),
+              tileColor: kCardColor,
+              title: Text(S.current.publicRoutine, style: kButtonText),
               trailing: Switch(
                 value: _isPublic,
-                activeColor: PrimaryColor,
+                activeColor: kPrimaryColor,
                 onChanged: (bool value) {
                   HapticFeedback.mediumImpact();
                   setState(() {
@@ -325,7 +325,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             S.current.publicRoutineDescription,
-            style: Caption1Grey,
+            style: kCaption1Grey,
           ),
         ),
         const SizedBox(height: 16),
@@ -340,12 +340,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.routineTitleTitle, style: BodyText1w800),
+          child: Text(S.current.routineTitleTitle, style: kBodyText1w800),
         ),
 
         /// Routine Title
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -355,7 +355,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               controller: _textController1,
-              style: BodyText2,
+              style: kBodyText2,
               focusNode: focusNode1,
               maxLength: 45,
               decoration: const InputDecoration(
@@ -382,12 +382,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.description, style: BodyText1w800),
+          child: Text(S.current.description, style: kBodyText1w800),
         ),
 
         /// Description
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -397,12 +397,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               controller: _textController2,
-              style: BodyText2,
+              style: kBodyText2,
               focusNode: focusNode2,
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: S.current.descriptionHintText,
-                hintStyle: BodyText2LightGrey,
+                hintStyle: kBodyText2LightGrey,
                 border: InputBorder.none,
               ),
               onFieldSubmitted: (value) => _description = value,
@@ -422,12 +422,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.trainingLevel, style: BodyText1w800),
+          child: Text(S.current.trainingLevel, style: kBodyText1w800),
         ),
 
         /// Training Level
         Card(
-          color: CardColor,
+          color: kCardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -436,11 +436,11 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              Text(_difficultySliderLabel, style: BodyText1),
+              Text(_difficultySliderLabel, style: kBodyText1),
               const SizedBox(height: 8),
               Slider(
-                activeColor: PrimaryColor,
-                inactiveColor: PrimaryColor.withOpacity(0.2),
+                activeColor: kPrimaryColor,
+                inactiveColor: kPrimaryColor.withOpacity(0.2),
                 value: _difficultySlider,
                 onChanged: (newRating) {
                   setState(() {
@@ -472,7 +472,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.moreSettings, style: BodyText1w800),
+          child: Text(S.current.moreSettings, style: kBodyText1w800),
         ),
 
         /// Main Muscle Group
@@ -481,13 +481,13 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
-              title: Text(S.current.mainMuscleGroup, style: ButtonText),
-              subtitle: Text(mainMuscleGroup!, style: BodyText2Grey),
+              title: Text(S.current.mainMuscleGroup, style: kButtonText),
+              subtitle: Text(mainMuscleGroup!, style: kBodyText2Grey),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: PrimaryGrey,
+                color: kPrimaryGrey,
               ),
-              tileColor: CardColor,
+              tileColor: kCardColor,
               onTap: () => EditRoutineMainMuscleGroupScreen.show(
                 context,
                 routine: routine,
@@ -509,16 +509,16 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: Text(S.current.equipmentRequired, style: ButtonText),
+          title: Text(S.current.equipmentRequired, style: kButtonText),
           subtitle: Text(
             equipmentRequired!,
-            style: BodyText2Grey,
+            style: kBodyText2Grey,
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: PrimaryGrey,
+            color: kPrimaryGrey,
           ),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           onTap: () => EditRoutineEquipmentRequiredScreen.show(
             context,
             routine: routine,
@@ -534,16 +534,16 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: Text(S.current.unitOfMass, style: ButtonText),
+          title: Text(S.current.unitOfMass, style: kButtonText),
           subtitle: Text(
             UnitOfMass.values[routine.initialUnitOfMass].label!,
-            style: BodyText2Grey,
+            style: kBodyText2Grey,
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: PrimaryGrey,
+            color: kPrimaryGrey,
           ),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           onTap: () => EditUnitOfMassScreen.show(
             context,
             routine: routine,
@@ -566,13 +566,13 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          title: Text(S.current.location, style: ButtonText),
-          subtitle: Text(location!, style: BodyText2Grey),
+          title: Text(S.current.location, style: kButtonText),
+          subtitle: Text(location!, style: kBodyText2Grey),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            color: PrimaryGrey,
+            color: kPrimaryGrey,
           ),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           onTap: () => EditRoutineLocationScreen.show(
             context,
             routine: routine,
@@ -591,7 +591,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         S.current.deleteRoutineWarningMessage,
         textAlign: TextAlign.center,
       ),
-      firstActionText: S.current.deleteRoutineButtonText,
+      firstActionText: S.current.deleteRoutinekButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.routine),
       cancelText: S.current.cancel,
@@ -601,7 +601,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -615,7 +615,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -630,7 +630,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }

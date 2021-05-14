@@ -195,7 +195,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                       widget.callback(_showPreview);
                     });
                   },
-                  child: Text(S.current.skip, style: ButtonText),
+                  child: Text(S.current.skip, style: kButtonText),
                 ),
               ),
               Expanded(
@@ -204,7 +204,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     controller: _pageController,
                     count: 4,
                     effect: const WormEffect(
-                      activeDotColor: PrimaryColor,
+                      activeDotColor: kPrimaryColor,
                       dotHeight: 9,
                       dotWidth: 9,
                       spacing: 10,
@@ -234,7 +234,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   },
                   child: Text(
                     (_currentPage == 3) ? S.current.start : S.current.next,
-                    style: ButtonText,
+                    style: kButtonText,
                   ),
                 ),
               ),

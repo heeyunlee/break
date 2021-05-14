@@ -79,12 +79,12 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.unitOfMass, style: Subtitle1),
+        title: Text(S.current.unitOfMass, style: kSubtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -99,8 +99,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor: (_unitOfMass == 0) ? Primary600Color : Colors.transparent,
-          title: const Text('kg', style: BodyText1),
+          tileColor: (_unitOfMass == 0) ? kPrimary600Color : Colors.transparent,
+          title: const Text('kg', style: kBodyText1),
           trailing: (_unitOfMass == 0)
               ? const Icon(Icons.check, color: Colors.white)
               : null,
@@ -112,8 +112,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
           },
         ),
         ListTile(
-          tileColor: (_unitOfMass == 1) ? Primary600Color : Colors.transparent,
-          title: const Text('lbs', style: BodyText1),
+          tileColor: (_unitOfMass == 1) ? kPrimary600Color : Colors.transparent,
+          title: const Text('lbs', style: kBodyText1),
           trailing: (_unitOfMass == 1)
               ? const Icon(Icons.check, color: Colors.white)
               : null,

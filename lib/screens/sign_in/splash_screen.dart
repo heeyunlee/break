@@ -10,17 +10,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('HēraKless', style: Headline3Menlo),
+            const Text('HēraKless', style: kHeadline3Menlo),
             const SizedBox(height: 8),
             const Text(
               'wokrout. share. and gain.',
-              style: Subtitle2Menlo,
+              style: kSubtitle2Menlo,
             ),
             const SizedBox(height: 104),
           ],

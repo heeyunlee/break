@@ -35,7 +35,7 @@ class ProgressTab extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: BackgroundColor,
+        backgroundColor: kBackgroundColor,
         body: StreamBuilder<User>(
           initialData: userDummyData,
           stream:
@@ -64,7 +64,7 @@ class ProgressTab extends StatelessWidget {
                     flexibleSpace: (isMobile)
                         ? _FlexibleSpaceMobile(user: snapshot.data)
                         : FlexibleSpaceTablet(user: snapshot.data!),
-                    backgroundColor: AppBarColor,
+                    backgroundColor: kAppBarColor,
                     elevation: 0,
                   ),
                   _buildSliverToBoxAdaptor(snapshot.data!, database),
@@ -133,7 +133,7 @@ class _FlexibleSpaceMobile extends StatelessWidget {
                 size: 48,
               ),
               const SizedBox(width: 16),
-              Text(user!.displayName, style: Subtitle1w900),
+              Text(user!.displayName, style: kSubtitle1w900),
             ],
           ),
           const SizedBox(height: 24),
@@ -141,7 +141,7 @@ class _FlexibleSpaceMobile extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            color: PrimaryColor,
+            color: kPrimaryColor,
             child: Container(
               height: size.height / 9,
               width: size.width - 48,
@@ -160,11 +160,11 @@ class _FlexibleSpaceMobile extends StatelessWidget {
                             fontSize: 40,
                           ),
                           children: <TextSpan>[
-                            TextSpan(text: '  $unit', style: BodyText1),
+                            TextSpan(text: '  $unit', style: kBodyText1),
                           ],
                         ),
                       ),
-                      Text(S.current.lifted, style: BodyText1),
+                      Text(S.current.lifted, style: kBodyText1),
                     ],
                   ),
                 ],

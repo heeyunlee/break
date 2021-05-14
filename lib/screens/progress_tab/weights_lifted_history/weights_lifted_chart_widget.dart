@@ -114,7 +114,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        color: CardColor,
+        color: kCardColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
@@ -132,13 +132,13 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                         children: [
                           const Icon(
                             Icons.fitness_center_rounded,
-                            color: PrimaryColor,
+                            color: kPrimaryColor,
                             size: 16,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             S.current.liftedWeights,
-                            style: Subtitle1w900Primary,
+                            style: kSubtitle1w900Primary,
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(
@@ -146,7 +146,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                             ),
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
-                              color: PrimaryColor,
+                              color: kPrimaryColor,
                               size: 16,
                             ),
                           ),
@@ -162,7 +162,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                           //       children: [
                           //         Text(
                           //           S.current.setWeightsDailyGoal,
-                          //           style: ButtonText2,
+                          //           style: kButtonText2,
                           //         ),
                           //         const SizedBox(width: 4),
                           //         const Icon(
@@ -181,14 +181,14 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: Text(
                           S.current.weightsChartMessage,
-                          style: BodyText2,
+                          style: kBodyText2,
                         ),
                       ),
                   ],
                 ),
               ),
               if (widget.user.dailyWorkoutHistories!.isEmpty)
-                const Divider(color: Grey700),
+                const Divider(color: kGrey700),
               const SizedBox(height: 16),
               _buildChart(),
             ],
@@ -209,7 +209,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y * 1.05 : y,
-          colors: isTouched ? [Primary700Color] : [PrimaryColor],
+          colors: isTouched ? [kPrimary700Color] : [kPrimaryColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: _sevenDayHistory.isEmpty,
@@ -319,7 +319,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
 
                   return BarTooltipItem(
                     '$formattedWeights $unit',
-                    BodyText1Black,
+                    kBodyText1Black,
                   );
                 },
               ),
@@ -339,7 +339,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               show: true,
               bottomTitles: SideTitles(
                 showTitles: true,
-                getTextStyles: (value) => BodyText2,
+                getTextStyles: (value) => kBodyText2,
                 margin: 16,
                 getTitles: (double value) {
                   switch (value.toInt()) {
@@ -365,7 +365,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               leftTitles: SideTitles(
                 showTitles: true,
                 margin: 28,
-                getTextStyles: (valie) => Caption1Grey,
+                getTextStyles: (valie) => kCaption1Grey,
                 getTitles: (double value) {
                   final toOriginalNumber = (value / 10 * maxY).round();
                   final formatted =

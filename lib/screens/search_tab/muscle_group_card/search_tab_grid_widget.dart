@@ -11,7 +11,7 @@ class SearchTabGridWidget extends StatelessWidget {
     Key? key,
     required this.text,
     this.onTap,
-    this.color = PrimaryColor,
+    this.color = kPrimaryColor,
   }) : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class SearchTabGridWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        color: CardColor,
+        color: kCardColor,
         child: ClipPath(
           child: Container(
             decoration: BoxDecoration(
@@ -38,7 +38,7 @@ class SearchTabGridWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: Subtitle1w900,
+                style: kSubtitle1w900,
               ),
             ),
           ),

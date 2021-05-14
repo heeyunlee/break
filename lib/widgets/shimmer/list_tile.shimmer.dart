@@ -7,7 +7,7 @@ class ListTileShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: CardColor,
+      baseColor: kCardColor,
       highlightColor: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.symmetric(

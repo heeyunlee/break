@@ -23,7 +23,7 @@ class ActivityListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-          tileColor: CardColor,
+          tileColor: kCardColor,
           leading: Container(
             width: 40,
             height: 56,
@@ -37,8 +37,8 @@ class ActivityListTile extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(title, style: BodyText1),
-          subtitle: Text(subtitle, style: BodyText1Grey),
+          title: Text(title, style: kBodyText1),
+          subtitle: Text(subtitle, style: kBodyText1Grey),
         ),
       ),
     );

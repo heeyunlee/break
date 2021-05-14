@@ -107,7 +107,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        color: CardColor,
+        color: kCardColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
@@ -134,7 +134,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                           const SizedBox(width: 8),
                           Text(
                             S.current.addProteins,
-                            style: Subtitle1w900GreenAc,
+                            style: kSubtitle1w900GreenAc,
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(
@@ -157,7 +157,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                           //       children: [
                           //         Text(
                           //           S.current.setWeightsDailyGoal,
-                          //           style: ButtonText2,
+                          //           style: kButtonText2,
                           //         ),
                           //         const SizedBox(width: 4),
                           //         const Icon(
@@ -175,7 +175,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                       padding: const EdgeInsets.only(top: 8, bottom: 32),
                       child: Text(
                         S.current.proteinChartContentText,
-                        style: BodyText2,
+                        style: kBodyText2,
                       ),
                     ),
                   ],
@@ -196,7 +196,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
 
                             return BarTooltipItem(
                               '$formattedAmount g',
-                              BodyText1Black,
+                              kBodyText1Black,
                             );
                           },
                         ),
@@ -219,7 +219,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                         show: true,
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          getTextStyles: (value) => BodyText2,
+                          getTextStyles: (value) => kBodyText2,
                           margin: 16,
                           getTitles: (double value) {
                             switch (value.toInt()) {
@@ -246,7 +246,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                           showTitles: true,
                           margin: 24,
                           reservedSize: 24,
-                          getTextStyles: (value) => Caption1Grey,
+                          getTextStyles: (value) => kCaption1Grey,
                           getTitles: (double value) {
                             final toOriginalNumber =
                                 (value / 10 * maxY).round();
@@ -297,7 +297,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
           backDrawRodData: BackgroundBarChartRodData(
             show: _sevenDayHistory.isEmpty,
             y: 10,
-            colors: [CardColorLight],
+            colors: [kCardColorLight],
           ),
         ),
       ],

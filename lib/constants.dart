@@ -2,306 +2,307 @@ import 'package:flutter/material.dart';
 
 // COLOR //
 // Primary
-const Primary900Color = Color(0xff6c1f12);
-const Primary800Color = Color(0xff852616);
-const Primary700Color = Color(0xffa6301b);
-const Primary600Color = Color(0xffc73a20);
-const PrimaryColor = Color(0xffdd4124);
-const Primary400Color = Color(0xffe77966);
-const Primary300Color = Color(0xfff1b3a7);
-const Primary200Color = Color(0xfff7cfc8);
-const Primary100Color = Color(0xfffcece9);
+
+const kPrimary900Color = Color(0xff6c1f12);
+const kPrimary800Color = Color(0xff852616);
+const kPrimary700Color = Color(0xffa6301b);
+const kPrimary600Color = Color(0xffc73a20);
+const kPrimaryColor = Color(0xffdd4124);
+const kPrimary400Color = Color(0xffe77966);
+const kPrimary300Color = Color(0xfff1b3a7);
+const kPrimary200Color = Color(0xfff7cfc8);
+const kPrimary100Color = Color(0xfffcece9);
 
 // Secondary
-const SecondaryColor = Color(0xff24c0dd);
+const kSecondaryColor = Color(0xff24c0dd);
 
 // Grey
-const Grey900 = Color(0xff121212);
-const Grey800 = Color(0xff303030);
-const Grey700 = Color(0xff4d4d4d);
-const Grey600 = Color(0xff6b6b6b);
-const PrimaryGrey = Color(0xff898989);
-const Grey400 = Color(0xffa6a6a6);
-const Grey300 = Color(0xffc4c4c4);
-const Grey200 = Color(0xffe1e1e1);
-const Grey100 = Color(0xffffffff);
+const kGrey900 = Color(0xff121212);
+const kGrey800 = Color(0xff303030);
+const kGrey700 = Color(0xff4d4d4d);
+const kGrey600 = Color(0xff6b6b6b);
+const kPrimaryGrey = Color(0xff898989);
+const kGrey400 = Color(0xffa6a6a6);
+const kGrey300 = Color(0xffc4c4c4);
+const kGrey200 = Color(0xffe1e1e1);
+const kGrey100 = Color(0xffffffff);
 
-const BackgroundColor = Color(0xff121212);
-const AppBarColor = Color(0xff1C1C1C);
-const CardColor = Color(0xff242526);
-const CardColorLight = Color(0xff3C3C3C);
-const ButtonEnabledColor = Color(0xff4E4F50);
-const DisabledColor = Color(0xff9A9EA6);
-const FocusedColor = Color(0xff605350);
+const kBackgroundColor = Color(0xff121212);
+const kAppBarColor = Color(0xff1C1C1C);
+const kCardColor = Color(0xff242526);
+const kCardColorLight = Color(0xff3C3C3C);
+const kButtonEnabledColor = Color(0xff4E4F50);
+const kDisabledColor = Color(0xff9A9EA6);
+const kFocusedColor = Color(0xff605350);
 
 // TEXT STYLE //
-const Headline1 = TextStyle(
+const kHeadline1 = TextStyle(
   fontSize: 96,
   fontWeight: FontWeight.w300,
   color: Colors.white,
   letterSpacing: -1.5,
   fontFamily: 'NanumSquareRound',
 );
-const Headline2 = TextStyle(
+const kHeadline2 = TextStyle(
   fontSize: 60,
   fontWeight: FontWeight.w300,
   color: Colors.white,
   letterSpacing: -0.5,
   fontFamily: 'NanumSquareRound',
 );
-const Headline3 = TextStyle(
+const kHeadline3 = TextStyle(
   fontSize: 48,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const Headline3Menlo = TextStyle(
+const kHeadline3Menlo = TextStyle(
   fontSize: 48,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0,
   fontFamily: 'menlo',
 );
-const Headline4 = TextStyle(
+const kHeadline4 = TextStyle(
   fontSize: 34,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const Headline4Bold = TextStyle(
+const kHeadline4Bold = TextStyle(
   fontSize: 34,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const Headline5 = TextStyle(
+const kHeadline5 = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const Headline5Bold = TextStyle(
+const kHeadline5Bold = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const Headline5w900 = TextStyle(
+const kHeadline5w900 = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w900,
   color: Colors.white,
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const Headline5w900Primary = TextStyle(
+const kHeadline5w900Primary = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w900,
-  color: PrimaryColor,
+  color: kPrimaryColor,
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6 = TextStyle(
+const kHeadline6 = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6Grey = TextStyle(
+const kHeadline6Grey = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6Bold = TextStyle(
+const kHeadline6Bold = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6w900 = TextStyle(
+const kHeadline6w900 = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6w900Grey = TextStyle(
+const kHeadline6w900Grey = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6w900Green = TextStyle(
+const kHeadline6w900Green = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: Colors.green,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Headline6w900Red = TextStyle(
+const kHeadline6w900Red = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: Colors.red,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1 = TextStyle(
+const kSubtitle1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1Grey = TextStyle(
+const kSubtitle1Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1Light = TextStyle(
+const kSubtitle1Light = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w300,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1LightGrey = TextStyle(
+const kSubtitle1LightGrey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w300,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1Bold = TextStyle(
+const kSubtitle1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900 = TextStyle(
+const kSubtitle1w900 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900Primary = TextStyle(
+const kSubtitle1w900Primary = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
-  color: PrimaryColor,
+  color: kPrimaryColor,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900Brown = TextStyle(
+const kSubtitle1w900Brown = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: Colors.brown,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900Green = TextStyle(
+const kSubtitle1w900Green = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: Colors.green,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900Secondary = TextStyle(
+const kSubtitle1w900Secondary = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
-  color: SecondaryColor,
+  color: kSecondaryColor,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900GreenAc = TextStyle(
+const kSubtitle1w900GreenAc = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: Colors.greenAccent,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1w900Grey = TextStyle(
+const kSubtitle1w900Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle1BoldGrey = TextStyle(
+const kSubtitle1BoldGrey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.grey,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle2 = TextStyle(
+const kSubtitle2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle2Menlo = TextStyle(
+const kSubtitle2Menlo = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'menlo',
 );
-const Subtitle2MenloBold = TextStyle(
+const kSubtitle2MenloBold = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'menlo',
 );
-const Subtitle2Bold = TextStyle(
+const kSubtitle2Bold = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle2BoldGrey = TextStyle(
+const kSubtitle2BoldGrey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.bold,
   color: Colors.grey,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-const Subtitle2w900 = TextStyle(
+const kSubtitle2w900 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w900,
   color: Colors.white,
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1 = TextStyle(
+const kBodyText1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1Black = TextStyle(
+const kBodyText1Black = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.black,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1Height = TextStyle(
+const kBodyText1Height = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.white,
@@ -309,147 +310,147 @@ const BodyText1Height = TextStyle(
   height: 1.5,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1Bold = TextStyle(
+const kBodyText1Bold = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1w800 = TextStyle(
+const kBodyText1w800 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w800,
   color: Colors.white,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1Grey = TextStyle(
+const kBodyText1Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: Colors.grey,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText1BoldGrey = TextStyle(
+const kBodyText1BoldGrey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.grey,
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2 = TextStyle(
+const kBodyText2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2Grey = TextStyle(
+const kBodyText2Grey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.normal,
   color: Colors.grey,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2LightGrey = TextStyle(
+const kBodyText2LightGrey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w300,
   color: Colors.grey,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2Black = TextStyle(
+const kBodyText2Black = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   color: Colors.black,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2Light = TextStyle(
+const kBodyText2Light = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w300,
   color: Colors.white,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2w900 = TextStyle(
+const kBodyText2w900 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w900,
   color: Colors.white,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const BodyText2BoldGrey = TextStyle(
+const kBodyText2BoldGrey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.bold,
   color: Colors.grey,
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-const ButtonText = TextStyle(
+const kButtonText = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.white,
   letterSpacing: 1.25,
   fontFamily: 'NanumSquareRound',
 );
-const ButtonTextBlack = TextStyle(
+const kButtonTextBlack = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.black,
   letterSpacing: 1.25,
   fontFamily: 'NanumSquareRound',
 );
-const ButtonTextGrey = TextStyle(
+const kButtonTextGrey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
   color: Colors.grey,
   letterSpacing: 1.25,
   fontFamily: 'NanumSquareRound',
 );
-const ButtonText2 = TextStyle(
+const kButtonText2 = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.w500,
   color: Colors.white,
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
-const Caption1 = TextStyle(
+const kCaption1 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
   color: Colors.white,
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
-const Caption1Primary = TextStyle(
+const kCaption1Primary = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
-  color: PrimaryColor,
+  color: kPrimaryColor,
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
-const Caption1Grey = TextStyle(
+const kCaption1Grey = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
   color: Colors.grey,
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
-const Overline = TextStyle(
+const kOverline = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.normal,
   color: Colors.white,
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
-const OverlineGrey = TextStyle(
+const kOverlineGrey = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.normal,
   color: Colors.grey,
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
-const OverlineGreyUnderlined = TextStyle(
+const kOverlineGreyUnderlined = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.normal,
   color: Colors.grey,
@@ -458,19 +459,19 @@ const OverlineGreyUnderlined = TextStyle(
   decoration: TextDecoration.underline,
 );
 
-const SearchBarHintStyle = TextStyle(
+const kSearchBarHintStyle = TextStyle(
   color: Colors.grey,
   fontSize: 20,
   fontWeight: FontWeight.normal,
   fontFamily: 'NanumSquareRound',
 );
-const GoogleSignInStyle = TextStyle(
+const kGoogleSignInStyle = TextStyle(
   fontFamily: 'Roboto',
   fontSize: 15,
   color: Colors.black,
   fontWeight: FontWeight.normal,
 );
-const GoogleSignInStyleWhite = TextStyle(
+const kGoogleSignInStyleWhite = TextStyle(
   fontFamily: 'Roboto',
   fontSize: 15,
   color: Colors.white,
@@ -478,8 +479,13 @@ const GoogleSignInStyleWhite = TextStyle(
 );
 
 // OTHERS //
-const CustomDivider = Divider(
-  color: Grey700,
+const kCustomDivider = Divider(
+  color: kGrey700,
   indent: 16,
   endIndent: 16,
 );
+const kBicepEmojiUrl =
+    'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
+
+// Type Def
+typedef ListCallback<E> = void Function(List<E> list);

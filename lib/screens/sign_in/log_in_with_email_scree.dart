@@ -122,7 +122,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(S.current.signInWithEmail, style: Subtitle2),
+        title: Text(S.current.signInWithEmail, style: kSubtitle2),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
@@ -131,7 +131,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
           ),
         ),
       ),
-      backgroundColor: BackgroundColor,
+      backgroundColor: kBackgroundColor,
       body: _buildBody(),
     );
   }
@@ -160,7 +160,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.email, style: Subtitle2),
+                  child: Text(S.current.email, style: kSubtitle2),
                 ),
                 TextFormField(
                   autofocus: true,
@@ -172,7 +172,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -185,7 +185,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                     ),
                     errorText: _emailErrorText,
                     hintText: 'JohnDoe@abc.com',
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode1.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -200,7 +200,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -208,7 +208,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 // PASSWORD
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.password, style: Subtitle2),
+                  child: Text(S.current.password, style: kSubtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -221,7 +221,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(16),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: SecondaryColor),
+                      borderSide: BorderSide(color: kSecondaryColor),
                     ),
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
@@ -234,7 +234,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                     ),
                     errorText: _passwordErrorText,
                     hintText: S.current.passwordHintText,
-                    hintStyle: BodyText1Grey,
+                    hintStyle: kBodyText1Grey,
                     suffixIcon: _focusNode2.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -249,7 +249,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                           )
                         : null,
                   ),
-                  style: BodyText1Bold,
+                  style: kBodyText1Bold,
                   onChanged: (value) => setState(() {}),
                 ),
 
@@ -261,7 +261,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                           widget.validator.isPasswordValid(_password)
                       ? _submitLogIn
                       : null,
-                  color: Primary600Color,
+                  color: kPrimary600Color,
                 ),
               ],
             ),
@@ -273,7 +273,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: Grey700,
+      keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
@@ -287,7 +287,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
@@ -302,7 +302,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: ButtonText),
+                  child: Text(S.current.done, style: kButtonText),
                 ),
               );
             }
