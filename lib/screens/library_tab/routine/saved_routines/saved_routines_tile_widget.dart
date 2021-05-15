@@ -34,7 +34,7 @@ class SavedRoutinesTileWidget extends StatelessWidget {
       initialData: userDummyData,
       stream: database.userStream(auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
-        final User user = snapshot.data;
+        final User user = snapshot.data!;
 
         return GestureDetector(
           onTap: () => SavedRoutinesScreen.show(context, user: user),

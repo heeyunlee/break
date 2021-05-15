@@ -19,7 +19,7 @@ class ListItemBuilder<T> extends StatelessWidget {
     this.scrollController,
   }) : super(key: key);
 
-  final AsyncSnapshot<List<T>> snapshot;
+  final AsyncSnapshot<List<T>?> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;
   final String emptyContentTitle;
   final Widget? emptyContentButton;

@@ -291,5 +291,6 @@
     "lastNameHintText": "Doe",
     "startWorkout": "Start Workout",
     "nutritions": "Nutritions",
-    "measurements": "Body"
+    "measurements": "Body",
+    "emptyRoutineAlertTitle": "Routine is empty!"
 }

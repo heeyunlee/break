@@ -211,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("이메일을 입력해주세요!"),
         "emptyPasswordValidationText":
             MessageLookupByLibrary.simpleMessage("비밀번호를 입력해주세요!"),
+        "emptyRoutineAlertTitle":
+            MessageLookupByLibrary.simpleMessage("루틴이 비었습니다!"),
         "emptyRoutineMessage":
             MessageLookupByLibrary.simpleMessage("아직 커스텀 루틴을 만드시지 않았어요"),
         "emptyroutinesContentTitle": m1,

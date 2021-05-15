@@ -181,7 +181,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         loadingWidget: ListViewShimmer(),
         hasDataWidget: (context, snapshot) => ListItemBuilder<Workout>(
           emptyContentTitle: S.current.noWorkoutEmptyContent(chip!),
-          snapshot: snapshot as AsyncSnapshot<List<Workout>>,
+          snapshot: snapshot,
           itemBuilder: (context, workout) {
             final locale = Intl.getCurrentLocale();
 

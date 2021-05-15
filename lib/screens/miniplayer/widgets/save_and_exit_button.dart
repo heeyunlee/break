@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -10,46 +9,23 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../home_screen.dart';
 import '../routine_history_summary_screen.dart';
+import '../workout_miniplayer_provider.dart';
 
 // typedef BoolCallback = void Function(bool value);
 Logger logger = Logger();
 
-class SaveAndExitButton extends StatelessWidget {
-  // final BoolCallback callback;
-  final Routine routine;
-  final List<RoutineWorkout> routineWorkouts;
-  final BoolNotifier boolNotifier;
+class SaveAndExitButton extends ConsumerWidget {
   final Future<User?> user;
   final Database database;
 
   const SaveAndExitButton({
     Key? key,
-    // required this.callback,
-    required this.routine,
-    required this.routineWorkouts,
-    required this.boolNotifier,
     required this.user,
     required this.database,
   }) : super(key: key);
-
-  // bool _isPaused = false;
-  // static Widget create(BuildContext context {}) {
-  //   final database = Provider.of<Database>(context, listen: false);
-  //   final auth = Provider.of<AuthBase>(context, listen: false);
-  //   final user = database.getUserDocument(auth.currentUser!.uid);
-
-  //   return SaveAndExitButton(
-  //     database: database,
-  //     user: user,
-  //     routine: routine,
-  //     routineWorkouts: routineWorkouts,
-  //     boolNotifier: boolNotifier,
-
-  //   );
-  // }
 
   Future<void> _submit(
     BuildContext context, {
@@ -147,7 +123,7 @@ class SaveAndExitButton extends StatelessWidget {
         );
       });
       await database.updateUser(userData.userId, updatedUserData);
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      // Navigator.of(context).popUntil((route) => route.isFirst);
       RoutineHistorySummaryScreen.show(
         context,
         routineHistory: routineHistory,
@@ -155,6 +131,9 @@ class SaveAndExitButton extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.current.afterWorkoutSnackbar),
       ));
+      context.read(selectedRoutineProvider).state = null;
+      context.read(selectedRoutineWorkoutsProvider).state = null;
+      context.read(miniplayerIndexProvider).setEveryIndexToDefault();
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -166,12 +145,15 @@ class SaveAndExitButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
+    final routine = watch(selectedRoutineProvider).state;
+    final isWorkoutPaused = watch(isWorkoutPausedProvider);
+    final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state;
 
     return SizedBox(
       height: size.height * 0.1,
-      child: (boolNotifier.isWorkoutPaused)
+      child: (isWorkoutPaused.isWorkoutPaused)
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: MaxWidthRaisedButton(
@@ -180,8 +162,8 @@ class SaveAndExitButton extends StatelessWidget {
                 color: Colors.grey[700],
                 onPressed: () => _submit(
                   context,
-                  routine: routine,
-                  routineWorkouts: routineWorkouts,
+                  routine: routine!,
+                  routineWorkouts: routineWorkouts!,
                 ),
               ),
             )

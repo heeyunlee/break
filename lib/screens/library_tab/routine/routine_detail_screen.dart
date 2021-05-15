@@ -6,30 +6,23 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/screens/library_tab/routine/routine_workouts_list_widget.dart';
+import 'package:workout_player/screens/library_tab/routine/widgets/routine_workouts_list_widget.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
-import 'package:workout_player/widgets/shimmer/routine_workout_shimmer.dart';
 
-import '../../../widgets/list_item_builder.dart';
 import '../../../widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
 import '../../../format.dart';
 import '../../../models/routine.dart';
-import '../../../models/routine_workout.dart';
 import '../../../services/database.dart';
 import 'add_workout/add_workouts_to_routine.dart';
 import 'edit_routine/edit_routine_screen.dart';
 import 'widgets/routine_flexible_spacebar_widget.dart';
-import 'widgets/routine_start_button.dart';
-import 'widgets/workout_medium_card.dart';
 
 Logger logger = Logger();
 
@@ -96,10 +89,6 @@ class RoutineDetailScreen extends StatefulWidget {
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with TickerProviderStateMixin {
-  late List<RoutineWorkout> routineWorkouts = [];
-  set list(List<RoutineWorkout> value) =>
-      setState(() => routineWorkouts = value);
-
   // For SliverApp to Work
   late AnimationController _colorAnimationController;
   late AnimationController _textAnimationController;
@@ -156,8 +145,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    _buildSliverAppBar(snapshot.data),
-                    _buildSliverToBoxAdaptor(snapshot.data),
+                    _buildSliverAppBar(snapshot.data!),
+                    _buildSliverToBoxAdaptor(snapshot.data!),
                   ],
                 ),
               ],
@@ -368,90 +357,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               softWrap: false,
             ),
             const SizedBox(height: 24),
-            Row(
-              children: [
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size((size.width - 48) / 2, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    side: BorderSide(width: 2, color: kPrimaryColor),
-                  ),
-                  onPressed: () => LogRoutineScreen.show(
-                    context,
-                    routine: routine,
-                  ),
-                  child: Text(S.current.logRoutine, style: kButtonText),
-                ),
-                const SizedBox(width: 16),
-                RoutineStartButton(
-                  routine: routine,
-                  routineWorkouts: routineWorkouts,
-                ),
-              ],
-            ),
-            if (widget.auth.currentUser!.uid != routine.routineOwnerId)
-              const SizedBox(height: 16),
-            const SizedBox(height: 16),
-            const Divider(endIndent: 8, indent: 8, color: kGrey800),
-            const SizedBox(height: 8),
             RoutineWorkoutsListWidget(
               routine: routine,
-              listCallback: (list) {
-                setState(() {
-                  routineWorkouts = list;
-                });
-              },
               database: widget.database,
               auth: widget.auth,
             ),
-            // ListViewShimmer(),
-            // TODO: ADD WIDGET HERE
-            // StreamBuilder<List<RoutineWorkout>>(
-            //   stream: widget.database.routineWorkoutsStream(routine),
-            //   builder: (context, snapshot) {
-            //     sd = snapshot.data!;
-
-            //     return Column(
-            //       children: [
-            //         ListItemBuilder<RoutineWorkout>(
-            //           emptyContentTitle: S.current.routineWorkoutEmptyText,
-            //           snapshot: snapshot,
-            //           itemBuilder: (context, routineWorkout) =>
-            //               WorkoutMediumCard(
-            //             database: widget.database,
-            //             routine: routine,
-            //             routineWorkout: routineWorkout,
-            //             auth: widget.auth,
-            //           ),
-            //         ),
-            //         const SizedBox(height: 8),
-            //         if (widget.auth.currentUser!.uid == routine.routineOwnerId)
-            //           const Divider(
-            //             endIndent: 8,
-            //             indent: 8,
-            //             color: Colors.white12,
-            //           ),
-            //         const SizedBox(height: 16),
-            //         if (widget.auth.currentUser!.uid == routine.routineOwnerId)
-            //           MaxWidthRaisedButton(
-            //             icon: const Icon(
-            //               Icons.add_rounded,
-            //               color: Colors.white,
-            //             ),
-            //             buttonText: S.current.addWorkoutkButtonText,
-            //             color: kCardColor,
-            //             onPressed: () => AddWorkoutsToRoutine.show(
-            //               context,
-            //               routine: routine,
-            //             ),
-            //           ),
-            //         SizedBox(height: size.height / 6),
-            //       ],
-            //     );
-            //   },
-            // ),
             const SizedBox(height: 8),
             if (widget.auth.currentUser!.uid == routine.routineOwnerId)
               const Divider(
@@ -468,13 +378,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 ),
                 buttonText: S.current.addWorkoutkButtonText,
                 color: kCardColor,
-                onPressed: () {
-                  print(routineWorkouts.length);
-                },
-                // onPressed: () => AddWorkoutsToRoutine.show(
-                //   context,
-                //   routine: routine,
-                // ),
+                onPressed: () => AddWorkoutsToRoutine.show(
+                  context,
+                  routine: routine,
+                ),
               ),
             SizedBox(height: size.height / 6),
           ],
@@ -540,7 +447,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       initialData: widget.user,
       stream: widget.database.userStream(widget.auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
-        final User user = snapshot.data;
+        final User user = snapshot.data!;
 
         if (user.savedRoutines != null) {
           if (user.savedRoutines!.isNotEmpty) {

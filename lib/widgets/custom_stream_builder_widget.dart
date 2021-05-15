@@ -8,7 +8,7 @@ typedef HasDataWidget<T> = Widget Function(
 class CustomStreamBuilderWidget<T> extends StatelessWidget {
   final Stream<T> stream;
   final T? initialData;
-  final HasDataWidget hasDataWidget;
+  final HasDataWidget<T> hasDataWidget;
   final Widget? errorWidget;
   final Widget? loadingWidget;
 
@@ -26,7 +26,7 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
     return StreamBuilder<T>(
       initialData: initialData,
       stream: stream,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasData) {
           return hasDataWidget(context, snapshot);
         } else if (snapshot.hasError) {

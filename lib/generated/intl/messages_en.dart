@@ -228,6 +228,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter email"),
         "emptyPasswordValidationText":
             MessageLookupByLibrary.simpleMessage("Please enter a password"),
+        "emptyRoutineAlertTitle":
+            MessageLookupByLibrary.simpleMessage("Routine is empty!"),
         "emptyRoutineMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t created routines yet"),
         "emptyroutinesContentTitle": m1,

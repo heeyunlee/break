@@ -143,7 +143,7 @@ class _MeasurementsLineChartWidgetState
       initialData: [],
       stream: database.measurementsStreamThisWeek(auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
-        setMaxY(snapshot.data);
+        setMaxY(snapshot.data!);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +181,7 @@ class _MeasurementsLineChartWidgetState
                       const Spacer(),
                     ],
                   ),
-                  if (snapshot.data.length < 2)
+                  if (snapshot.data!.length < 2)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
@@ -189,7 +189,7 @@ class _MeasurementsLineChartWidgetState
                         style: kBodyText2,
                       ),
                     ),
-                  if (snapshot.data.length >= 2) const SizedBox(height: 16),
+                  if (snapshot.data!.length >= 2) const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -284,7 +284,7 @@ class _MeasurementsLineChartWidgetState
                       maxY: maxY,
                       lineBarsData: [
                         LineChartBarData(
-                          spots: (snapshot.data.length > 1)
+                          spots: (snapshot.data!.length > 1)
                               ? actualSpots()
                               : _randomSpots(),
                           isCurved: true,

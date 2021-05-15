@@ -2,49 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/home_tab/home_tab.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer.dart';
 import 'package:workout_player/screens/progress_tab/progress_tab.dart';
 import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/screens/tab_item.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/speed_dial/expandable_fab.dart';
+import 'package:provider/provider.dart' as provider;
 
 import 'bottom_navigation_tab.dart';
 import 'library_tab/library_tab.dart';
+import 'miniplayer/workout_miniplayer.dart';
+import 'miniplayer/workout_miniplayer_provider.dart';
 
 // For Miniplayer
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =
     GlobalKey<NavigatorState>();
-final selectedRoutineProvider =
-    StateProvider.autoDispose<Routine?>((ref) => null);
-final selectedRoutineWorkoutsProvider =
-    StateProvider.autoDispose<List<RoutineWorkout>?>((ref) => null);
-final miniplayerControllerProvider =
-    StateProvider.autoDispose<MiniplayerController>(
-  (ref) => MiniplayerController(),
-);
-
-class BoolNotifier extends ChangeNotifier {
-  bool _isWorkoutPaused = false;
-  bool get isWorkoutPaused => _isWorkoutPaused;
-
-  void toggleBoolValue() {
-    _isWorkoutPaused = !_isWorkoutPaused;
-    notifyListeners();
-  }
-
-  void setBoolean(bool value) {
-    _isWorkoutPaused = value;
-    notifyListeners();
-  }
-}
-
-final isWorkoutPausedProvider =
-    ChangeNotifierProvider.autoDispose((ref) => BoolNotifier());
-
-final double miniplayerMinHeight = 144.0;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -88,6 +62,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final user = database.getUserDocument(auth.currentUser!.uid);
+
     return MiniplayerWillPopScope(
       onWillPop: () async {
         final NavigatorState navigator = miniplayerNavigatorKey.currentState!;
@@ -118,7 +96,11 @@ class _HomeScreenState extends State<HomeScreen>
 
                   return Offstage(
                     offstage: selectedRoutine == null,
-                    child: WorkoutMiniplayer.create(context),
+                    child: WorkoutMiniplayer(
+                      database: database,
+                      user: user,
+                    ),
+                    // child: WorkoutMiniplayer.create(context),
                   );
                 },
               ),

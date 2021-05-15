@@ -1,36 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout_set.dart';
 
-import '../../constants.dart';
-import '../../format.dart';
+import '../../../constants.dart';
+import '../../../format.dart';
+import '../workout_miniplayer_provider.dart';
 
-class WeightsAndRepsWidget extends StatefulWidget {
-  const WeightsAndRepsWidget({
-    Key? key,
-    required this.workoutSet,
-    required this.routineWorkout,
-    required this.routine,
-  }) : super(key: key);
-
-  final WorkoutSet workoutSet;
-  final RoutineWorkout routineWorkout;
-  final Routine routine;
-
+class WeightsAndRepsWidget extends ConsumerWidget {
   @override
-  _WeightsAndRepsWidgetState createState() => _WeightsAndRepsWidgetState();
-}
-
-class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
+    final routine = watch(selectedRoutineProvider).state!;
+    final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    final workoutSet = watch(currentWorkoutSetProvider).state!;
 
-    final weights = Format.weights(widget.workoutSet.weights!);
-    final unit = UnitOfMass.values[widget.routine.initialUnitOfMass].label;
+    final weights = Format.weights(workoutSet.weights!);
+    final unit = UnitOfMass.values[routine.initialUnitOfMass].label;
 
     return Center(
       child: Card(
@@ -64,14 +50,14 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                             text: TextSpan(
                               style: kBodyText2,
                               children: <TextSpan>[
-                                if (widget.routineWorkout.isBodyWeightWorkout)
+                                if (routineWorkout.isBodyWeightWorkout)
                                   TextSpan(
                                     text: S.current.bodyweight,
                                     style: kHeadline5,
                                   ),
-                                if (!widget.routineWorkout.isBodyWeightWorkout)
+                                if (!routineWorkout.isBodyWeightWorkout)
                                   TextSpan(text: weights, style: kHeadline3),
-                                if (!widget.routineWorkout.isBodyWeightWorkout)
+                                if (!routineWorkout.isBodyWeightWorkout)
                                   TextSpan(text: unit),
                               ],
                             ),
@@ -120,7 +106,7 @@ class _WeightsAndRepsWidgetState extends State<WeightsAndRepsWidget> {
                             text: TextSpan(
                               style: kHeadline3,
                               children: <TextSpan>[
-                                TextSpan(text: '${widget.workoutSet.reps}'),
+                                TextSpan(text: '${workoutSet.reps}'),
                                 const TextSpan(text: ' x', style: kBodyText2),
                               ],
                             ),

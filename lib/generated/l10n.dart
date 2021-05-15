@@ -2979,6 +2979,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Routine is empty!`
+  String get emptyRoutineAlertTitle {
+    return Intl.message(
+      'Routine is empty!',
+      name: 'emptyRoutineAlertTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

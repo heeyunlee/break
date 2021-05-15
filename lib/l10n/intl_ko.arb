@@ -291,5 +291,6 @@
     "lastNameHintText": "홍",
     "startWorkout": "운동 시작",
     "nutritions": "영양소",
-    "measurements": "인바디"
+    "measurements": "인바디",
+    "emptyRoutineAlertTitle": "루틴이 비었습니다!"
 }

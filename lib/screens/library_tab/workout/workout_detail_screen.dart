@@ -107,7 +107,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  _buildSliverAppBar(context, snapshot.data),
+                  _buildSliverAppBar(context, snapshot.data!),
                   // _buildSliverToBoxAdapter(workout),
                 ],
               ),
