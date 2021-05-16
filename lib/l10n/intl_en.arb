@@ -292,5 +292,8 @@
     "startWorkout": "Start Workout",
     "nutritions": "Nutritions",
     "measurements": "Body",
-    "emptyRoutineAlertTitle": "Routine is empty!"
+    "emptyRoutineAlertTitle": "Routine is empty!",
+    "endMiniplayerButtonText": "END",
+    "noWorkoutSetTitle": "Add sets to your workout",
+    "errorOccuredMessage": "An error has occured"
 }

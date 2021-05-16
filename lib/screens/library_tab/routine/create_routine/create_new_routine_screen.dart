@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/screens/home_screen.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -121,20 +122,31 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
         location: _location,
       );
 
-      // print(imageUrl);
-
       await widget.database.setRoutine(routine);
-      await Navigator.of(context, rootNavigator: false).pushReplacement(
-        CupertinoPageRoute(
-          builder: (context) => RoutineDetailScreen(
-            routine: routine,
-            auth: widget.auth,
-            database: widget.database,
-            user: widget.user,
-            tag: 'newRoutine-${routine.routineId}',
-          ),
-        ),
-      );
+      Navigator.of(context).pop();
+      await tabNavigatorKeys[currentTab]!.currentState!.push(
+            CupertinoPageRoute(
+              fullscreenDialog: false,
+              builder: (context) => RoutineDetailScreen(
+                routine: routine,
+                auth: widget.auth,
+                database: widget.database,
+                user: widget.user,
+                tag: 'newRoutine-${routine.routineId}',
+              ),
+            ),
+          );
+      // await Navigator.of(context, rootNavigator: false).pushReplacement(
+      //   CupertinoPageRoute(
+      //     builder: (context) => RoutineDetailScreen(
+      //       routine: routine,
+      //       auth: widget.auth,
+      //       database: widget.database,
+      //       user: widget.user,
+      //       tag: 'newRoutine-${routine.routineId}',
+      //     ),
+      //   ),
+      // );
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

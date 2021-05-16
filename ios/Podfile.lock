@@ -173,7 +173,7 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
-  - kakao_flutter_sdk (0.6.1):
+  - kakao_flutter_sdk (0.6.3):
     - Flutter
   - KakaoSDKAuth (2.5.2):
     - KakaoSDKCommon (= 2.5.2)
@@ -346,7 +346,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 284cddc7fffc14ae1907efb6f78ab95c1fccaedc
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  kakao_flutter_sdk: 4084c8ebd615866755f881efb34846b3bb5fb919
+  kakao_flutter_sdk: ef3deb25e3ec2fd5a236847fdb1904016b3db2a3
   KakaoSDKAuth: 81715662c03e4c8c1a140f293e9fd6fd68b2e9dd
   KakaoSDKCommon: 887e22f7aa4647bd0a7d1397512fc5f6211b83d6
   KakaoSDKUser: b79c1a18da69681de7c9d3fa59e83c37b711ce7e

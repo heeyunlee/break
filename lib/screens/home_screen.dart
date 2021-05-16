@@ -14,11 +14,24 @@ import 'package:provider/provider.dart' as provider;
 import 'bottom_navigation_tab.dart';
 import 'library_tab/library_tab.dart';
 import 'miniplayer/workout_miniplayer.dart';
-import 'miniplayer/workout_miniplayer_provider.dart';
+import 'miniplayer/provider/workout_miniplayer_provider.dart';
+
+double percentageFromValueInRange({required final double min, max, value}) {
+  return (value - min) / (max - min);
+}
+
+final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
+  TabItem.home: GlobalKey<NavigatorState>(),
+  TabItem.search: GlobalKey<NavigatorState>(),
+  TabItem.library: GlobalKey<NavigatorState>(),
+  TabItem.progress: GlobalKey<NavigatorState>(),
+};
+TabItem currentTab = TabItem.home;
 
 // For Miniplayer
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =
     GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -27,29 +40,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  TabItem _currentTab = TabItem.home;
-
   MiniplayerController miniplayerController = MiniplayerController();
 
   void _selectTab(TabItem tabItem) {
     // Navigating to original Tab Screen when you press Nav Tab
-    if (tabItem == _currentTab) {
-      _tabNavigatorKeys[tabItem]!
+    if (tabItem == currentTab) {
+      tabNavigatorKeys[tabItem]!
           .currentState!
           .popUntil((route) => route.isFirst);
     } else {
       setState(() {
-        _currentTab = tabItem;
+        currentTab = tabItem;
       });
     }
   }
-
-  final Map<TabItem, GlobalKey<NavigatorState>> _tabNavigatorKeys = {
-    TabItem.home: GlobalKey<NavigatorState>(),
-    TabItem.search: GlobalKey<NavigatorState>(),
-    TabItem.library: GlobalKey<NavigatorState>(),
-    TabItem.progress: GlobalKey<NavigatorState>(),
-  };
 
   Map<TabItem, dynamic> get widgetBuilders {
     return {
@@ -75,11 +79,12 @@ class _HomeScreenState extends State<HomeScreen>
         return false;
       },
       child: WillPopScope(
-        onWillPop: () async => !await _tabNavigatorKeys[_currentTab]!
+        onWillPop: () async => !await tabNavigatorKeys[currentTab]!
             .currentState!
             .maybePop(), // Preventing from closing the app on Android
         child: Scaffold(
           extendBody: true,
+          resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
               Stack(
@@ -100,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen>
                       database: database,
                       user: user,
                     ),
-                    // child: WorkoutMiniplayer.create(context),
                   );
                 },
               ),
@@ -108,12 +112,69 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: ExpandableFAB(
-            distance: 136,
+          floatingActionButton: Consumer(
+            builder: (context, watch, child) {
+              final selectedRoutine = watch(selectedRoutineProvider).state;
+
+              if (selectedRoutine == null) {
+                return ExpandableFAB(distance: 136);
+              } else {
+                return ValueListenableBuilder(
+                  valueListenable: miniplayerExpandProgress,
+                  builder:
+                      (BuildContext context, double height, Widget? child) {
+                    final size = MediaQuery.of(context).size;
+
+                    final value = percentageFromValueInRange(
+                      min: miniplayerMinHeight,
+                      max: size.height,
+                      value: height,
+                    );
+
+                    return Transform.translate(
+                      offset:
+                          Offset(0.0, kBottomNavigationBarHeight * value * 2),
+                      child: ExpandableFAB(distance: 136),
+                    );
+                  },
+                );
+              }
+            },
           ),
-          bottomNavigationBar: BottomNavigationTab(
-            currentTab: _currentTab,
-            onSelectTab: _selectTab,
+          bottomNavigationBar: Consumer(
+            builder: (context, watch, child) {
+              final selectedRoutine = watch(selectedRoutineProvider).state;
+
+              if (selectedRoutine == null) {
+                return BottomNavigationTab(
+                  currentTab: currentTab,
+                  onSelectTab: _selectTab,
+                );
+              } else {
+                return ValueListenableBuilder(
+                  valueListenable: miniplayerExpandProgress,
+                  builder:
+                      (BuildContext context, double height, Widget? child) {
+                    final size = MediaQuery.of(context).size;
+
+                    final value = percentageFromValueInRange(
+                      min: miniplayerMinHeight,
+                      max: size.height,
+                      value: height,
+                    );
+
+                    return Transform.translate(
+                      offset:
+                          Offset(0.0, kBottomNavigationBarHeight * value * 2),
+                      child: BottomNavigationTab(
+                        currentTab: currentTab,
+                        onSelectTab: _selectTab,
+                      ),
+                    );
+                  },
+                );
+              }
+            },
           ),
         ),
       ),
@@ -122,9 +183,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildOffstageNavigator(TabItem tabItem) {
     return Offstage(
-      offstage: _currentTab != tabItem,
+      offstage: currentTab != tabItem,
       child: CupertinoTabView(
-        navigatorKey: _tabNavigatorKeys[tabItem],
+        navigatorKey: tabNavigatorKeys[tabItem],
         builder: (context) => widgetBuilders[tabItem](context),
       ),
     );

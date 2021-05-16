@@ -72,7 +72,7 @@ class SearchTabBodyWidget extends StatelessWidget {
             ),
           ),
           _LocationGridWidget(),
-          const SizedBox(height: 48),
+          const SizedBox(height: 160),
 
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),

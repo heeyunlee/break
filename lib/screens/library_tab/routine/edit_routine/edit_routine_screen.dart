@@ -13,6 +13,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/edit_routine/edit_routine_location_screen.dart';
+import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
@@ -22,6 +23,7 @@ import '../../../../widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/database.dart';
+import '../../../home_screen.dart';
 import 'edit_routine_equipment_required_screen.dart';
 import 'edit_routine_main_muscle_group_screen.dart';
 import 'edit_unit_of_mass_screen.dart';
@@ -49,7 +51,7 @@ class EditRoutineScreen extends StatefulWidget {
     final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: false).push(
+    await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => EditRoutineScreen(
@@ -133,7 +135,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       await widget.database.deleteRoutine(routine);
 
       // Navigation
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      while (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      tabNavigatorKeys[TabItem.library]!.currentState!.pop();
 
       // SnackBar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

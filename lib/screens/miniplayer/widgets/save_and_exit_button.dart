@@ -12,7 +12,7 @@ import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../routine_history_summary_screen.dart';
-import '../workout_miniplayer_provider.dart';
+import '../provider/workout_miniplayer_provider.dart';
 
 // typedef BoolCallback = void Function(bool value);
 Logger logger = Logger();
@@ -133,7 +133,7 @@ class SaveAndExitButton extends ConsumerWidget {
       ));
       context.read(selectedRoutineProvider).state = null;
       context.read(selectedRoutineWorkoutsProvider).state = null;
-      context.read(miniplayerIndexProvider).setEveryIndexToDefault();
+      context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

@@ -497,7 +497,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   await _showModalBottomSheet(context);
                 },
               ),
-            const SizedBox(height: 120),
+            const SizedBox(height: 160),
           ],
         ),
       ),

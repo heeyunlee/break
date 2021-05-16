@@ -4,9 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/workout_set.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../provider/workout_miniplayer_provider.dart';
 
 class PauseOrPlayButton extends ConsumerWidget {
+  final double iconSize;
+
+  const PauseOrPlayButton({
+    this.iconSize = 56,
+  });
+
   Future<void> _pausePlay({
     required WorkoutSet workoutSet,
     required IsWorkoutPausedNotifier isWorkoutPaused,
@@ -15,26 +21,9 @@ class PauseOrPlayButton extends ConsumerWidget {
     if (!isWorkoutPaused.isWorkoutPaused) {
       isWorkoutPaused.toggleBoolValue();
       if (workoutSet.isRest) countDownController.pause();
-      // boolChangeNotifier.toggleBoolValue();
-      // await _animationController.forward();
-      // if (workoutSet.isRest) _countDownController.pause();
-      // setState(() {
-      //   _isPaused = !_isPaused;
-
-      //   context.read(isWorkoutPausedProvider).state =
-      //       !context.read(isWorkoutPausedProvider).state;
-      //   // debugPrint('_isPaused is $_isPaused');
-      // });
     } else {
       isWorkoutPaused.toggleBoolValue();
       if (workoutSet.isRest) countDownController.resume();
-      // boolChangeNotifier.toggleBoolValue();
-      // await _animationController.reverse();
-      // if (workoutSet.isRest) _countDownController.resume();
-      // setState(() {
-      //   _isPaused = !_isPaused;
-      //   // debugPrint('_isPaused is $_isPaused');
-      // });
     }
   }
 
@@ -56,19 +45,10 @@ class PauseOrPlayButton extends ConsumerWidget {
           isWorkoutPaused: isWorkoutPaused,
           countDownController: countdownController,
         ),
-        iconSize: 56,
+        iconSize: iconSize,
         icon: (!isWorkoutPaused.isWorkoutPaused)
             ? Icon(Icons.pause_rounded)
             : Icon(Icons.play_arrow_rounded),
-
-        // icon: Container(
-        //   child: AnimatedIcon(
-        //     size: size.height * 0.06,
-        //     color: Colors.white,
-        //     icon: AnimatedIcons.pause_play,
-        //     progress: _animationController,
-        //   ),
-        // ),
       ),
     );
   }

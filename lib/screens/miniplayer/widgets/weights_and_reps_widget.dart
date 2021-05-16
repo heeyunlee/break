@@ -5,9 +5,17 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import '../../../constants.dart';
 import '../../../format.dart';
-import '../workout_miniplayer_provider.dart';
+import '../provider/workout_miniplayer_provider.dart';
 
 class WeightsAndRepsWidget extends ConsumerWidget {
+  final double width;
+  final double height;
+
+  const WeightsAndRepsWidget({
+    required this.width,
+    required this.height,
+  });
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
@@ -24,14 +32,14 @@ class WeightsAndRepsWidget extends ConsumerWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 6,
         child: SizedBox(
-          width: size.width - 56,
-          height: size.width - 56,
+          width: width,
+          height: height,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: (size.width - 56) / 2 - 0.5,
-                height: size.width - 56,
+                width: width / 2 - 0.5,
+                height: height,
                 child: Stack(
                   children: [
                     Center(
@@ -87,8 +95,8 @@ class WeightsAndRepsWidget extends ConsumerWidget {
               ),
               Container(width: 1, color: kBackgroundColor),
               SizedBox(
-                height: size.width - 56,
-                width: (size.width - 56) / 2 - 0.5,
+                width: width / 2 - 0.5,
+                height: height,
                 child: Stack(
                   children: [
                     Center(

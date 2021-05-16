@@ -34,6 +34,7 @@ const kCardColorLight = Color(0xff3C3C3C);
 const kButtonEnabledColor = Color(0xff4E4F50);
 const kDisabledColor = Color(0xff9A9EA6);
 const kFocusedColor = Color(0xff605350);
+const kBottomNavBarColor = Color(0xff1C1C1C);
 
 // TEXT STYLE //
 const kHeadline1 = TextStyle(

@@ -69,12 +69,12 @@ class ProteinEntriesScreen extends StatelessWidget {
       await database.deleteNutrition(nutrition);
       await database.updateUser(user.userId, newUserData);
 
-      // Snackbar
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.deleteProteinSnackbar),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      // // Snackbar
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(S.current.deleteProteinSnackbar),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -126,15 +126,18 @@ class ProteinEntriesScreen extends StatelessWidget {
           final date = Format.yMdjm(nutrition.loggedTime);
 
           return Slidable(
-            actionPane: const SlidableDrawerActionPane(),
-            secondaryActions: [
-              IconSlideAction(
-                caption: S.current.delete,
-                color: Colors.red,
-                icon: Icons.delete_rounded,
-                onTap: () => _delete(context, nutrition),
-              ),
-            ],
+            // startActionPane: const SlidableDrawerActionPane(),
+            endActionPane: ActionPane(
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  label: S.current.delete,
+                  backgroundColor: Colors.red,
+                  icon: Icons.delete_rounded,
+                  onPressed: (context) => _delete(context, nutrition),
+                ),
+              ],
+            ),
             child: ListTile(
               leading: Text('${nutrition.proteinAmount}g', style: kBodyText1),
               trailing: Text(date, style: kBodyText1Grey),

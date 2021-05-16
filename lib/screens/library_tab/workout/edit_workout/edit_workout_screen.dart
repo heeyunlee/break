@@ -15,6 +15,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/edit_workout/edit_workout_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
@@ -22,6 +23,7 @@ import '../../../../widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
 import '../../../../services/database.dart';
+import '../../../home_screen.dart';
 import 'edit_workout_equipment_required_screen.dart';
 import 'edit_workout_main_muscle_group_screen.dart';
 
@@ -48,7 +50,7 @@ class EditWorkoutScreen extends StatefulWidget {
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: false).push(
+    await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => EditWorkoutScreen(
@@ -58,16 +60,6 @@ class EditWorkoutScreen extends StatefulWidget {
         ),
       ),
     );
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: true,
-    //   screen: EditWorkoutScreen(
-    //     database: database,
-    //     workout: workout,
-    //     user: user,
-    //   ),
-    // );
   }
 
   @override
@@ -137,10 +129,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       await widget.database.deleteWorkout(workout);
 
-      didChangeDependencies();
-
       // Navigation
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      while (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      tabNavigatorKeys[currentTab]!.currentState!.pop();
 
       // Snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -192,62 +185,50 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Workout>(
-        initialData: widget.workout,
-        stream: widget.database.workoutStream(
-          workoutId: widget.workout.workoutId,
-        ),
-        builder: (context, snapshot) {
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: kBackgroundColor,
-            appBar: AppBar(
-              centerTitle: true,
-              brightness: Brightness.dark,
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  HapticFeedback.mediumImpact();
-                  Navigator.of(context).pop();
-                },
+      initialData: widget.workout,
+      stream: widget.database.workoutStream(
+        workoutId: widget.workout.workoutId,
+      ),
+      builder: (context, snapshot) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: kBackgroundColor,
+          appBar: AppBar(
+            centerTitle: true,
+            brightness: Brightness.dark,
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.close_rounded,
+                color: Colors.white,
               ),
-              title: Text(S.current.editWorkoutTitle, style: kSubtitle1),
-              flexibleSpace: AppbarBlurBG(),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: _submit,
-                  child: Text(S.current.save, style: kButtonText),
-                ),
-              ],
+              onPressed: () {
+                HapticFeedback.mediumImpact();
+                Navigator.of(context).pop();
+              },
             ),
-            body: Builder(
-              builder: (BuildContext context) =>
-                  _buildContents(snapshot.data!, context),
+            title: Text(S.current.editWorkoutTitle, style: kSubtitle1),
+            flexibleSpace: AppbarBlurBG(
+              blurSigma: 10,
             ),
-            // body: CustomStreamBuilderWidget(
-            //   initialData: workoutDummyData,
-            //   stream: widget.database.workoutStream(
-            //     workoutId: widget.workout.workoutId,
-            //   ),
-            //   errorWidget: EmptyContent(
-            //     message: S.current.somethingWentWrong,
-            //   ),
-            //   hasDataWidget: (context, snapshot) {
-            //     return Builder(
-            //       builder: (BuildContext context) =>
-            //           _buildContents(snapshot.data, context),
-            //     );
-            //   },
-            // ),
-          );
-        });
+            actions: <Widget>[
+              TextButton(
+                onPressed: _submit,
+                child: Text(S.current.save, style: kButtonText),
+              ),
+            ],
+          ),
+          body: Builder(
+            builder: (BuildContext context) =>
+                _buildContents(snapshot.data!, context),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildContents(Workout workout, BuildContext context) {
-    final size = Scaffold.of(context).appBarMaxHeight;
+    final appBarHeight = Scaffold.of(context).appBarMaxHeight;
 
     return Theme(
       data: ThemeData(
@@ -262,7 +243,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                SizedBox(height: size),
+                SizedBox(height: appBarHeight),
                 _buildForm(workout),
                 const SizedBox(height: 32),
                 MaxWidthRaisedButton(

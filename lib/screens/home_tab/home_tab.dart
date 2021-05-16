@@ -109,7 +109,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         ),
         itemsPerPage: 10,
         header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
-        footer: const SizedBox(height: 16),
+        footer: const SizedBox(height: 120),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong}: $error',
         ),

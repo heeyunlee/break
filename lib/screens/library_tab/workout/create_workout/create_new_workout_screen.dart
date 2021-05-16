@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -23,6 +22,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
+import '../../../home_screen.dart';
 import 'new_workout_title_screen.dart';
 
 Logger logger = Logger();
@@ -131,16 +131,29 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       );
       await widget.database.setWorkout(workout);
 
-      await Navigator.of(context, rootNavigator: true).pushReplacement(
-        CupertinoPageRoute(
-          builder: (context) => WorkoutDetailScreen(
-            workout: workout,
-            database: widget.database,
-            tag: 'newWorkout-${workout.workoutId}',
-            user: widget.user,
-          ),
-        ),
-      );
+      Navigator.of(context).pop();
+      await tabNavigatorKeys[currentTab]!.currentState!.push(
+            CupertinoPageRoute(
+              fullscreenDialog: false,
+              builder: (context) => WorkoutDetailScreen(
+                workout: workout,
+                database: widget.database,
+                tag: 'newWorkout-${workout.workoutId}',
+                user: widget.user,
+              ),
+            ),
+          );
+
+      // await Navigator.of(context, rootNavigator: true).pushReplacement(
+      //   CupertinoPageRoute(
+      //     builder: (context) => WorkoutDetailScreen(
+      //       workout: workout,
+      //       database: widget.database,
+      //       tag: 'newWorkout-${workout.workoutId}',
+      //       user: widget.user,
+      //     ),
+      //   ),
+      // );
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

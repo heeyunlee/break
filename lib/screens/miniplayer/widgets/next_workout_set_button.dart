@@ -4,7 +4,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
 // import 'package:workout_player/models/workout_set.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../provider/workout_miniplayer_provider.dart';
 
 class NextWorkoutSetButton extends ConsumerWidget {
   void _skipNext(

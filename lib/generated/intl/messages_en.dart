@@ -233,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "emptyRoutineMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t created routines yet"),
         "emptyroutinesContentTitle": m1,
+        "endMiniplayerButtonText": MessageLookupByLibrary.simpleMessage("END"),
         "endWorkoutWarningMessage": MessageLookupByLibrary.simpleMessage(
             "Stop your workout? Data won\'t be saved"),
         "equipmentRequired":
@@ -241,6 +242,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please Select at least one equipment required"),
         "equipmentRequiredAlertTitle": MessageLookupByLibrary.simpleMessage(
             "No Equipment Required Selected"),
+        "errorOccuredMessage":
+            MessageLookupByLibrary.simpleMessage("An error has occured"),
         "etc": MessageLookupByLibrary.simpleMessage("etc."),
         "everyone": MessageLookupByLibrary.simpleMessage("Everyone"),
         "feedbackHintText": MessageLookupByLibrary.simpleMessage(
@@ -309,6 +312,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noSavedRoutinesYet":
             MessageLookupByLibrary.simpleMessage("No saved routines yet..."),
         "noWorkoutEmptyContent": m2,
+        "noWorkoutSetTitle":
+            MessageLookupByLibrary.simpleMessage("Add sets to your workout"),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
         "notesHintText": MessageLookupByLibrary.simpleMessage("no notes..."),
         "nutritions": MessageLookupByLibrary.simpleMessage("Nutritions"),

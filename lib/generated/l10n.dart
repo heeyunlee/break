@@ -2989,6 +2989,36 @@ class S {
       args: [],
     );
   }
+
+  /// `END`
+  String get endMiniplayerButtonText {
+    return Intl.message(
+      'END',
+      name: 'endMiniplayerButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add sets to your workout`
+  String get noWorkoutSetTitle {
+    return Intl.message(
+      'Add sets to your workout',
+      name: 'noWorkoutSetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error has occured`
+  String get errorOccuredMessage {
+    return Intl.message(
+      'An error has occured',
+      name: 'errorOccuredMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

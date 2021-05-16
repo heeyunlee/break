@@ -43,7 +43,7 @@ class WorkoutSetWidget extends StatefulWidget {
 }
 
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
-  final SlidableController _slidableController = SlidableController();
+  // final SlidableController _slidableController = SlidableController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -285,16 +285,19 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     final set = widget.set;
 
     return Slidable(
-      actionPane: const SlidableDrawerActionPane(),
-      controller: _slidableController,
-      secondaryActions: [
-        IconSlideAction(
-          caption: S.current.delete,
-          color: Colors.red,
-          icon: Icons.delete_rounded,
-          onTap: () => _deleteSet(context),
-        ),
-      ],
+      // startActionPane: const SlidableDrawerActionPane(),
+      // controller: _slidableController,
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            label: S.current.delete,
+            backgroundColor: Colors.red,
+            icon: Icons.delete_rounded,
+            onPressed: (context) => _deleteSet(context),
+          ),
+        ],
+      ),
       child: _buildRow(set, auth),
     );
   }

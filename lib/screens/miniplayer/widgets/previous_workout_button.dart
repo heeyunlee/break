@@ -4,13 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
 
-import '../workout_miniplayer_provider.dart';
-
-/// selected Routine /
-/// selected List of Routine Workouts
-/// current RoutineWorkout
-/// current Workout Set
-/// Rest Duration
+import '../provider/workout_miniplayer_provider.dart';
 
 class PreviousWorkoutButton extends StatelessWidget {
   Future<void> _previousWorkout(

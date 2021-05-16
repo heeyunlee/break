@@ -216,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "emptyRoutineMessage":
             MessageLookupByLibrary.simpleMessage("아직 커스텀 루틴을 만드시지 않았어요"),
         "emptyroutinesContentTitle": m1,
+        "endMiniplayerButtonText": MessageLookupByLibrary.simpleMessage("종료"),
         "endWorkoutWarningMessage":
             MessageLookupByLibrary.simpleMessage("운동을 정말 종료할까요?"),
         "equipmentRequired": MessageLookupByLibrary.simpleMessage("필요 운동기구"),
@@ -223,6 +224,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("적어도 1개 이상의 필요 운동기구를 정해주세요!"),
         "equipmentRequiredAlertTitle":
             MessageLookupByLibrary.simpleMessage("필요 운동기구가 선택되지 않았습니다"),
+        "errorOccuredMessage":
+            MessageLookupByLibrary.simpleMessage("오류가 났어요.."),
         "etc": MessageLookupByLibrary.simpleMessage("등등"),
         "everyone": MessageLookupByLibrary.simpleMessage("모두에게"),
         "feedbackHintText": MessageLookupByLibrary.simpleMessage(
@@ -287,6 +290,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noSavedRoutinesYet":
             MessageLookupByLibrary.simpleMessage("아직 저장된 루틴이 없습니다..."),
         "noWorkoutEmptyContent": m2,
+        "noWorkoutSetTitle":
+            MessageLookupByLibrary.simpleMessage("운동에 세트를 추가해주세요"),
         "notes": MessageLookupByLibrary.simpleMessage("메모"),
         "notesHintText":
             MessageLookupByLibrary.simpleMessage("아직 아무것도 없습니다..."),

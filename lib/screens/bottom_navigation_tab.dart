@@ -18,21 +18,31 @@ class BottomNavigationTab extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
       ),
-      child: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedLabelStyle: kCaption1Primary,
-        unselectedLabelStyle: kCaption1,
-        backgroundColor: Color(0xff1C1C1C),
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          _buildItem(TabItem.home),
-          _buildItem(TabItem.search),
-          _buildItem(TabItem.progress),
-          _buildItem(TabItem.library),
-        ],
-        onTap: (index) => onSelectTab(
-          TabItem.values[index],
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey[800]!,
+              width: 0.5,
+            ),
+          ),
+        ),
+        child: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedLabelStyle: kCaption1Primary,
+          unselectedLabelStyle: kCaption1,
+          backgroundColor: kBottomNavBarColor,
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            _buildItem(TabItem.home),
+            _buildItem(TabItem.search),
+            _buildItem(TabItem.progress),
+            _buildItem(TabItem.library),
+          ],
+          onTap: (index) => onSelectTab(
+            TabItem.values[index],
+          ),
         ),
       ),
     );

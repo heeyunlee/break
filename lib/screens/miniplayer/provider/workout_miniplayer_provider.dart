@@ -6,6 +6,9 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 
+final ValueNotifier<double> miniplayerExpandProgress =
+    ValueNotifier(miniplayerMinHeight);
+
 final double miniplayerMinHeight = 144.0;
 
 final selectedRoutineProvider = StateProvider<Routine?>((ref) => null);
@@ -22,10 +25,6 @@ final miniplayerControllerProvider = StateProvider<MiniplayerController>(
 final miniplayerTimerControllerProvider =
     StateProvider<CountDownController>((_) => CountDownController());
 final restTimerDurationProvider = StateProvider<Duration?>((_) => Duration());
-// final miniplayerAnimationControllerProvider =
-//     StateProvider.family<TickerProvider, AnimationController>(
-//   (vsync, animationController) => AnimationController(vsync: vsync),
-// );
 
 class IsWorkoutPausedNotifier extends ChangeNotifier {
   bool _isWorkoutPaused = false;
@@ -42,29 +41,15 @@ class IsWorkoutPausedNotifier extends ChangeNotifier {
   }
 }
 
-// class BooleanNotifier<bool> extends StateNotifier {
-//   BooleanNotifier(state) : super(state);
-//   bool get isWorkoutPaused => state;
-
-//   void toggleBoolValue() {
-//     state = !state;
-//   }
-
-//   void setBoolean(bool value) {
-//     state = value;
-//   }
-// }
-
 final isWorkoutPausedProvider =
     ChangeNotifierProvider((ref) => IsWorkoutPausedNotifier());
-// final workoutPausedProvider =
-//     StateNotifierProvider((_) => BooleanNotifier(false));
 
 class MiniplayerIndexNotifier extends ChangeNotifier {
   int _currentIndex = 1;
   int _routineWorkoutIndex = 0;
   int _workoutSetIndex = 0;
   int _routineLength = 0;
+
   int get currentIndex => _currentIndex;
   int get routineWorkoutIndex => _routineWorkoutIndex;
   int get workoutSetIndex => _workoutSetIndex;
@@ -72,51 +57,63 @@ class MiniplayerIndexNotifier extends ChangeNotifier {
 
   void incrementCurrentIndex() {
     _currentIndex++;
+    notifyListeners();
   }
 
   void incrementRWIndex() {
     _routineWorkoutIndex++;
+    notifyListeners();
   }
 
   void incrementWorkoutSetIndex() {
     _workoutSetIndex++;
+    notifyListeners();
   }
 
   void decrementCurrentIndex() {
     _currentIndex--;
+    notifyListeners();
   }
 
   void decrementRWIndex() {
     _routineWorkoutIndex--;
+    notifyListeners();
   }
 
   void decrementWorkoutSetIndex() {
     _workoutSetIndex--;
+    notifyListeners();
   }
 
   void setCurrentIndex(int index) {
     _currentIndex = index;
+    notifyListeners();
   }
 
   void setRWIndex(int index) {
     _routineWorkoutIndex = index;
+    notifyListeners();
   }
 
   void setWorkoutSetIndex(int index) {
     _workoutSetIndex = index;
+    notifyListeners();
   }
 
-  void setEveryIndexToDefault() {
+  void setEveryIndexToDefault(int length) {
     _currentIndex = 1;
     _routineWorkoutIndex = 0;
     _workoutSetIndex = 0;
+    _routineLength = length;
+    notifyListeners();
   }
 
   void setRoutineLength(int value) {
     _routineLength = value;
+    notifyListeners();
   }
 }
 
-final miniplayerIndexProvider = ChangeNotifierProvider.autoDispose(
+final miniplayerIndexProvider = ChangeNotifierProvider(
   (ref) => MiniplayerIndexNotifier(),
 );

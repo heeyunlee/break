@@ -53,12 +53,12 @@ class MeasurementsScreen extends StatelessWidget {
         measurement: measurement,
       );
 
-      // Snackbar
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.deleteMeasurementSnackbar),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      // // Snackbar
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(S.current.deleteMeasurementSnackbar),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(
@@ -110,15 +110,18 @@ class MeasurementsScreen extends StatelessWidget {
           final unit = Format.unitOfMass(user.unitOfMass);
 
           return Slidable(
-            actionPane: const SlidableDrawerActionPane(),
-            secondaryActions: [
-              IconSlideAction(
-                caption: S.current.delete,
-                color: Colors.red,
-                icon: Icons.delete_rounded,
-                onTap: () => _delete(context, measurement),
-              ),
-            ],
+            // startActionPane: const SlidableDrawerActionPane(),
+            endActionPane: ActionPane(
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  label: S.current.delete,
+                  backgroundColor: Colors.red,
+                  icon: Icons.delete_rounded,
+                  onPressed: (context) => _delete(context, measurement),
+                ),
+              ],
+            ),
             child: ListTile(
               leading: Text(
                 '${measurement.bodyWeight}$unit',

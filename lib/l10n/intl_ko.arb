@@ -292,5 +292,8 @@
     "startWorkout": "운동 시작",
     "nutritions": "영양소",
     "measurements": "인바디",
-    "emptyRoutineAlertTitle": "루틴이 비었습니다!"
+    "emptyRoutineAlertTitle": "루틴이 비었습니다!",
+    "endMiniplayerButtonText": "종료",
+    "noWorkoutSetTitle": "운동에 세트를 추가해주세요",
+    "errorOccuredMessage": "오류가 났어요.."
 }

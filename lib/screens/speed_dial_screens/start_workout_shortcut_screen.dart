@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/home_screen.dart';
+import 'package:workout_player/services/auth.dart';
 
 import '../../widgets/appbar_blur_bg.dart';
 import '../../widgets/choice_chips_app_bar_widget.dart';
@@ -15,22 +18,28 @@ import '../../services/database.dart';
 import '../library_tab/routine/routine_detail_screen.dart';
 
 class StartWorkoutShortcutScreen extends StatefulWidget {
+  final Database database;
+  final AuthBase auth;
+  final User user;
+
   const StartWorkoutShortcutScreen({
     Key? key,
     required this.database,
+    required this.auth,
+    required this.user,
   }) : super(key: key);
 
-  final Database database;
-
-  static void show(BuildContext context) async {
+  static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-
-    await HapticFeedback.mediumImpact();
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => StartWorkoutShortcutScreen(
           database: database,
+          auth: auth,
+          user: user,
         ),
       ),
     );
@@ -130,16 +139,18 @@ class _StartWorkoutShortcutScreenState
                 kSubtitle2: routine.routineOwnerUserName,
                 imageUrl: routine.imageUrl,
                 onTap: () {
-                  while (Navigator.of(context).canPop()) {
-                    Navigator.of(context).pop();
-                  }
-
-                  RoutineDetailScreen.show(
-                    context,
-                    routine: routine,
-                    isRootNavigation: false,
-                    tag: 'startShortcut-${routine.routineId}',
-                  );
+                  Navigator.of(context).pop();
+                  tabNavigatorKeys[currentTab]!.currentState!.push(
+                        CupertinoPageRoute(
+                          builder: (context) => RoutineDetailScreen(
+                            database: widget.database,
+                            routine: routine,
+                            tag: 'startShortcut-${routine.routineId}',
+                            auth: widget.auth,
+                            user: widget.user,
+                          ),
+                        ),
+                      );
                 },
               );
             },

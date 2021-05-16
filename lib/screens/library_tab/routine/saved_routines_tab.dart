@@ -49,7 +49,7 @@ class SavedRoutinesTab extends StatelessWidget {
           SavedRoutinesTileWidget(),
         ],
       ),
-      footer: const SizedBox(height: 16),
+      footer: const SizedBox(height: 120),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),

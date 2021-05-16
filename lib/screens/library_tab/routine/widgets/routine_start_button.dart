@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 
 import '../../../../constants.dart';
@@ -23,29 +23,51 @@ class RoutineStartButton extends StatelessWidget {
     if (snapshot.hasData) {
       final items = snapshot.data!;
       if (items.isNotEmpty) {
+        // Setting Routine
         context.read(selectedRoutineProvider).state = routine;
-        context
-            .read(miniplayerControllerProvider)
-            .state
-            .animateToHeight(state: PanelState.MAX);
-        context.read(isWorkoutPausedProvider).setBoolean(false);
-        context.read(selectedRoutineWorkoutsProvider).state = items;
-        context.read(miniplayerIndexProvider).setEveryIndexToDefault();
-        context.read(currentRoutineWorkoutProvider).state = items[0];
-        context.read(currentWorkoutSetProvider).state = items[0].sets?[0];
 
-        // Setting Routine Length HERE
+        // Setting List of Routine Workouts
+        context.read(selectedRoutineWorkoutsProvider).state = items;
+
+        // Setting current routine Workout
+        context.read(currentRoutineWorkoutProvider).state = items[0];
+
+        if (items[0].sets!.isNotEmpty) {
+          // Setting current Workout Set
+          context.read(currentWorkoutSetProvider).state = items[0].sets![0];
+        } else {
+          context.read(currentWorkoutSetProvider).state = null;
+        }
+
+        // setting isWorkoutPaused to false
+        context.read(isWorkoutPausedProvider).setBoolean(false);
+
+        // Setting Routine Length
         int routineLength = 0;
         for (int i = 0; i < items.length; i++) {
           int length = 0;
 
           if (items[i].sets != null) {
             length = items[i].sets!.length;
+            print('set length $length');
           }
 
           routineLength = routineLength + length;
+          print('routine length is $routineLength');
         }
+
+        // Setting indexes
+        context
+            .read(miniplayerIndexProvider)
+            .setEveryIndexToDefault(routineLength);
+
         context.read(miniplayerIndexProvider).setRoutineLength(routineLength);
+
+        // Expanding miniplayer
+        context
+            .read(miniplayerControllerProvider)
+            .state
+            .animateToHeight(state: PanelState.MAX);
       } else {
         showAlertDialog(
           context,

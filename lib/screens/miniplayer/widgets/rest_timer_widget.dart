@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/routine_workout.dart';
 
 import '../../../constants.dart';
-import '../workout_miniplayer_provider.dart';
+import '../provider/workout_miniplayer_provider.dart';
 
 class RestTimerWidget extends ConsumerWidget {
   void _timerOnComplete(
