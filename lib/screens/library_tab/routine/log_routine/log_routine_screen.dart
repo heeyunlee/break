@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:provider/provider.dart';
+import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
@@ -16,6 +19,9 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'log_routine_provider.dart';
 
 class LogRoutineScreen extends StatefulWidget {
   final User user;
@@ -34,10 +40,13 @@ class LogRoutineScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required Routine routine,
+    required Database database,
+    required AuthBase auth,
+    required User user,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+    // final database = Provider.of<Database>(context, listen: false);
+    // final auth = Provider.of<AuthBase>(context, listen: false);
+    // final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
@@ -109,101 +118,144 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   }
 
   // Submit data to Firestore
-  Future<void> _submit(List<RoutineWorkout> routineWorkouts) async {
-    debugPrint('submit Button Pressed!');
-    if (_formKey.currentState!.validate()) {
-      try {
-        final _id = documentIdFromCurrentDate();
-        final _isBodyWorkout =
-            widget.routine.mainMuscleGroup.contains('Bodyweight');
-        final _workoutStartTime = _workoutEndDate.subtract(
-          Duration(minutes: _durationInMinutes),
-        );
-        final _workoutDate = DateTime.utc(
-          _workoutEndDate.year,
-          _workoutEndDate.month,
-          _workoutEndDate.day,
-        );
+  Future<void> _submit(
+    BuildContext context, {
+    required Routine routine,
+    required List<RoutineWorkout> routineWorkouts,
+  }) async {
+    try {
+      debugPrint('submit button pressed');
+      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
-        final routineHistory = RoutineHistory(
-          routineHistoryId: 'RH$_id',
-          userId: widget.user.userId,
-          username: widget.user.displayName,
-          routineId: widget.routine.routineId,
-          routineTitle: widget.routine.routineTitle,
-          equipmentRequired: widget.routine.equipmentRequired,
-          mainMuscleGroup: widget.routine.mainMuscleGroup,
-          imageUrl: widget.routine.imageUrl,
-          unitOfMass: widget.routine.initialUnitOfMass,
-          totalDuration: _durationInMinutes * 60,
-          totalWeights: _totalWeights,
-          workoutStartTime: Timestamp.fromDate(_workoutStartTime),
-          workoutEndTime: Timestamp.fromDate(_workoutEndDate),
-          isPublic: _isPublic,
-          effort: _effort,
-          isBodyWeightWorkout: _isBodyWorkout,
-          secondMuscleGroup: widget.routine.secondMuscleGroup,
-          workoutDate: _workoutDate,
-          notes: _notes,
-        );
+      /// For Routine History
+      // final userData = (await user)!;
+      final _workoutStartTime = Timestamp.now();
+      final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
+      final workoutEndTime = Timestamp.now();
+      final workoutStartDate = _workoutStartTime.toDate();
+      final workoutEndDate = workoutEndTime.toDate();
+      final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
+      final isBodyWeightWorkout = routineWorkouts.any(
+        (element) => element.isBodyWeightWorkout == true,
+      );
+      final workoutDate = DateTime.utc(
+        workoutStartDate.year,
+        workoutStartDate.month,
+        workoutStartDate.day,
+      );
 
-        /// Update User Data
-        // GET history data
-        final histories = widget.user.dailyWorkoutHistories;
-
-        final index = widget.user.dailyWorkoutHistories!
-            .indexWhere((element) => element.date.toUtc() == _workoutDate);
-
-        print(index);
-
-        if (index == -1) {
-          final newHistory = DailyWorkoutHistory(
-              date: _workoutDate, totalWeights: _totalWeights);
-          histories!.add(newHistory);
-          print(0);
-        } else {
-          final oldHistory = histories![index];
-
-          final newHistory = DailyWorkoutHistory(
-            date: oldHistory.date,
-            totalWeights: oldHistory.totalWeights + _totalWeights,
-          );
-          histories[index] = newHistory;
-          print(1);
+      // For Calculating Total Weights
+      var totalWeights = 0.00;
+      var weightsCalculated = false;
+      if (!weightsCalculated) {
+        for (var i = 0; i < routineWorkouts.length; i++) {
+          var weights = routineWorkouts[i].totalWeights;
+          totalWeights = totalWeights + weights;
         }
-
-        // User
-        final user = {
-          'totalWeights': widget.user.totalWeights + _totalWeights,
-          'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
-          'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-        };
-
-        await widget.database.setRoutineHistory(routineHistory).then(
-          (value) async {
-            await widget.database.batchRoutineWorkouts(
-              routineHistory,
-              routineWorkouts,
-            );
-          },
-        );
-        await widget.database.updateUser(widget.user.userId, user);
-        Navigator.of(context).pop();
-
-        // SnackBar
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(S.current.loggedRoutineHistorySnackbar),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ));
-      } on FirebaseException catch (e) {
-        logger.d(e);
-        await showExceptionAlertDialog(
-          context,
-          title: S.current.operationFailed,
-          exception: e.toString(),
-        );
+        weightsCalculated = true;
       }
+
+      final routineHistory = RoutineHistory(
+        routineHistoryId: routineHistoryId,
+        userId: widget.user.userId,
+        username: widget.user.displayName,
+        routineId: routine.routineId,
+        routineTitle: routine.routineTitle,
+        isPublic: true,
+        mainMuscleGroup: routine.mainMuscleGroup,
+        secondMuscleGroup: routine.secondMuscleGroup,
+        workoutStartTime: _workoutStartTime,
+        workoutEndTime: workoutEndTime,
+        notes: '',
+        totalCalories: 0,
+        totalDuration: duration,
+        totalWeights: totalWeights,
+        isBodyWeightWorkout: isBodyWeightWorkout,
+        workoutDate: workoutDate,
+        imageUrl: routine.imageUrl,
+        unitOfMass: routine.initialUnitOfMass,
+        equipmentRequired: routine.equipmentRequired,
+      );
+
+      /// For Workout Histories
+      List<WorkoutHistory> workoutHistories = [];
+      routineWorkouts.forEach(
+        (rw) {
+          final workoutHistoryId = documentIdFromCurrentDate();
+          final uniqueId = UniqueKey().toString();
+          // print('unique id is $uniqueId');
+
+          final workoutHistory = WorkoutHistory(
+            workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
+            routineHistoryId: routineHistoryId,
+            workoutId: rw.workoutId,
+            routineId: rw.routineId,
+            uid: rw.routineWorkoutOwnerId,
+            index: rw.index,
+            workoutTitle: rw.workoutTitle,
+            numberOfSets: rw.numberOfSets,
+            numberOfReps: rw.numberOfReps,
+            totalWeights: rw.totalWeights,
+            isBodyWeightWorkout: rw.isBodyWeightWorkout,
+            duration: rw.duration,
+            secondsPerRep: rw.secondsPerRep,
+            translated: rw.translated,
+            sets: rw.sets,
+          );
+          workoutHistories.add(workoutHistory);
+        },
+      );
+
+      /// Update User Data
+      // GET history data
+      final histories = widget.user.dailyWorkoutHistories;
+
+      final index = widget.user.dailyWorkoutHistories!
+          .indexWhere((element) => element.date.toUtc() == workoutDate);
+
+      if (index == -1) {
+        final newHistory = DailyWorkoutHistory(
+          date: workoutDate,
+          totalWeights: totalWeights,
+        );
+        histories!.add(newHistory);
+      } else {
+        final oldHistory = histories![index];
+
+        final newHistory = DailyWorkoutHistory(
+          date: oldHistory.date,
+          totalWeights: oldHistory.totalWeights + totalWeights,
+        );
+        histories[index] = newHistory;
+      }
+
+      // User
+      final updatedUserData = {
+        'totalWeights': widget.user.totalWeights + totalWeights,
+        'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
+        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
+      };
+
+      await widget.database.setRoutineHistory(routineHistory);
+      await widget.database.batchWriteWorkoutHistories(workoutHistories);
+      await widget.database.updateUser(widget.user.userId, updatedUserData);
+
+      Navigator.of(context).pop();
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.current.afterWorkoutSnackbar),
+      ));
+      context.read(selectedRoutineProvider).state = null;
+      context.read(selectedRoutineWorkoutsProvider).state = null;
+      context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
+      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
     }
   }
 
@@ -235,11 +287,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return StreamBuilder<List<RoutineWorkout>>(
+    return CustomStreamBuilderWidget<List<RoutineWorkout>>(
         stream: widget.database.routineWorkoutsStream(widget.routine),
-        builder: (context, snapshot) {
-          final routineWorkouts = snapshot.data;
-
+        hasDataWidget: (context, snapshot) {
           return Scaffold(
             backgroundColor: kBackgroundColor,
             appBar: AppBar(
@@ -263,11 +313,26 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     ? 48
                     : 0,
               ),
-              child: FloatingActionButton.extended(
-                onPressed: () => _submit(routineWorkouts!),
-                backgroundColor: kPrimaryColor,
-                heroTag: 'logRoutineSubmitButton',
-                label: Text(S.current.submit),
+              child: Consumer(
+                builder: (context, watch, child) {
+                  final isPressed =
+                      watch(isLogRoutineButtonPressedProvider).isButtonPressed;
+
+                  return FloatingActionButton.extended(
+                    onPressed: isPressed
+                        ? null
+                        : () => _submit(
+                              context,
+                              routine: widget.routine,
+                              routineWorkouts: snapshot.data!,
+                            ),
+                    backgroundColor: isPressed
+                        ? kPrimaryColor.withOpacity(0.8)
+                        : kPrimaryColor,
+                    heroTag: 'logRoutineSubmitButton',
+                    label: Text(S.current.submit),
+                  );
+                },
               ),
             ),
           );
@@ -336,6 +401,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
                   // Duration
                   TextFormField(
+                    keyboardAppearance: Brightness.dark,
                     focusNode: _focusNode1,
                     controller: _textController1,
                     keyboardType: TextInputType.number,
@@ -374,6 +440,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
                   // Total Weights
                   TextFormField(
+                    keyboardAppearance: Brightness.dark,
                     focusNode: _focusNode2,
                     controller: _textController2,
                     keyboardType: TextInputType.numberWithOptions(
@@ -414,6 +481,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
                   // Notes
                   TextFormField(
+                    keyboardAppearance: Brightness.dark,
                     focusNode: _focusNode3,
                     controller: _textController3,
                     maxLines: 4,

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -11,8 +11,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
-
-Logger logger = Logger();
 
 class UnitOfMassScreen extends StatefulWidget {
   const UnitOfMassScreen({
@@ -67,7 +65,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       await widget.database.updateUser(widget.auth.currentUser!.uid, user);
       debugPrint('Updated Unit Of Mass');
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

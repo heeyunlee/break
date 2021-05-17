@@ -25,23 +25,6 @@ class FirestoreService {
     await reference.update(data);
   }
 
-  // // Create new Data if NOT exist, and Update data if data already exists
-  // Future<void> getData({
-  //   @required String path,
-  //   @required Map<String, dynamic> data,
-  // }) async {
-  //   final reference = FirebaseFirestore.instance.doc(path);
-  //   await reference.get().then(
-  //     (value) {
-  //       if (value.exists) {
-  //         return reference.update(data);
-  //       } else {
-  //         reference.set(data);
-  //       }
-  //     },
-  //   );
-  // }
-
   // Write more than one documents at once
   Future<void> batchData({
     required List<String> path,
@@ -51,8 +34,23 @@ class FirestoreService {
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {
-      final reference = FirebaseFirestore.instance.doc(path[i]);
-      batch.set(reference, data[i]);
+      final doc = FirebaseFirestore.instance.doc(path[i]);
+      batch.set(doc, data[i]);
+    }
+
+    await batch.commit();
+  }
+
+  // Write more than one documents at once
+  Future<void> batchDelete({
+    required List<String> path,
+  }) async {
+    print('batch data triggered');
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (var i = 0; i < path.length; i++) {
+      final doc = FirebaseFirestore.instance.doc(path[i]);
+      batch.delete(doc);
     }
 
     await batch.commit();
@@ -82,16 +80,6 @@ class FirestoreService {
     print('delete: $path');
     await reference.delete();
   }
-
-  // // Read Single Document Stream
-  // Future<T> documentRead<T>({
-  //   @required String path,
-  //   T Function(Map<String, dynamic> data, String documentID) builder,
-  // }) {
-  //   final reference = FirebaseFirestore.instance.doc(path);
-  //   final snapshots = reference.get();
-  //   return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
-  // }
 
   // Document Stream
   Stream<T> documentStream<T>({
@@ -340,6 +328,26 @@ class FirestoreService {
           .toList(),
     );
   }
+
+  Stream<List<T>> workoutHistoriesForRoutineHistoryStream<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required String routineHistoryId,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where('routineHistoryId', isEqualTo: routineHistoryId)
+        .orderBy('index', descending: false);
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      // converting snapshots of data to list of Data
+      (snapshot) => snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList(),
+    );
+  }
+
+  //////// `Query` ////////////
 
   Query paginatedCollectionQuery<T>({
     required String path,

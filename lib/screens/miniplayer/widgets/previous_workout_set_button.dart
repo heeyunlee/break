@@ -26,6 +26,7 @@ class PreviousWorkoutSetButton extends ConsumerWidget {
     context.read(restTimerDurationProvider).state = Duration(
       seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
     );
+
     // }
 
     debugPrint('current Index is ${miniplayerIndex.currentIndex}');

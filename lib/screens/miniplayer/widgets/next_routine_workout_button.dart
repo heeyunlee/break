@@ -15,11 +15,13 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
     required IsWorkoutPausedNotifier isWorkoutPaused,
   }) {
     // new Index = current index - workout set index + set.length
-    final workoutSetLength = routineWorkout.sets!.length - 1;
-    miniplayerIndex.setCurrentIndex(miniplayerIndex.currentIndex -
-        miniplayerIndex.workoutSetIndex +
-        workoutSetLength +
-        1);
+    if (miniplayerIndex.currentIndex < miniplayerIndex.routineLength) {
+      final workoutSetLength = routineWorkout.sets!.length - 1;
+      miniplayerIndex.setCurrentIndex(miniplayerIndex.currentIndex -
+          miniplayerIndex.workoutSetIndex +
+          workoutSetLength +
+          1);
+    }
 
     // set workout index to 0
     miniplayerIndex.setWorkoutSetIndex(0);
@@ -35,16 +37,18 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
     // sets from new Routine Workout
     final sets = context.read(currentRoutineWorkoutProvider).state!.sets!;
     if (sets.isNotEmpty) {
-      print('workout set exists');
       context.read(currentWorkoutSetProvider).state = sets[0];
       final currentWorkoutSet = context.read(currentWorkoutSetProvider).state!;
       if (currentWorkoutSet.isRest) {
         context.read(restTimerDurationProvider).state = Duration(
           seconds: currentWorkoutSet.restTime ?? 90,
         );
+      } else {
+        context.read(restTimerDurationProvider).state = Duration();
       }
     } else {
       context.read(currentWorkoutSetProvider).state = null;
+      context.read(restTimerDurationProvider).state = Duration();
     }
 
     debugPrint('current Index is ${miniplayerIndex.currentIndex}');

@@ -36,9 +36,9 @@ class APIPath {
       'routine_histories/$routineHistoryId/routine_workouts';
 
   /// Workout Histories
-  static String workoutHistories() => 'workout-histories';
+  static String workoutHistories() => 'workout_histories';
   static String workoutHistory(String workoutHistoryId) =>
-      'workout-histories$workoutHistoryId';
+      'workout_histories/$workoutHistoryId';
 
   /// Routine Workout
   static String routineWorkout(String routineId, String routineWorkoutId) =>

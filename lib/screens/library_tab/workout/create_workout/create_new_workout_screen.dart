@@ -5,8 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -24,8 +24,6 @@ import 'package:workout_player/services/database.dart';
 import '../../../../constants.dart';
 import '../../../home_screen.dart';
 import 'new_workout_title_screen.dart';
-
-Logger logger = Logger();
 
 class CreateNewWorkoutScreen extends StatefulWidget {
   final Database database;
@@ -155,7 +153,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       //   ),
       // );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

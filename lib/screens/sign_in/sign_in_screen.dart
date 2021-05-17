@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -13,13 +12,12 @@ import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
 import 'package:workout_player/screens/sign_in/widgets/social_sign_in_button.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import '../../widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
 import 'log_in_with_email_scree.dart';
 import 'email_signup/email_sign_up_screen.dart';
-
-Logger logger = Logger();
 
 class SignInScreen extends StatefulWidget {
   final SignInBloc signInBloc;

@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
-// import 'package:workout_player/models/workout_set.dart';
 
 import '../provider/workout_miniplayer_provider.dart';
 
 class NextWorkoutSetButton extends ConsumerWidget {
+  final double? iconSize;
+
+  const NextWorkoutSetButton({
+    this.iconSize = 48,
+  });
   void _skipNext(
     BuildContext context, {
     required MiniplayerIndexNotifier miniplayerIndex,
-    // required List<RoutineWorkout> routineWorkouts,
     required RoutineWorkout routineWorkout,
     required IsWorkoutPausedNotifier isWorkoutPaused,
   }) {
     // set isWorkoutPaused false
     isWorkoutPaused.setBoolean(false);
+
     // increase current index by 1
     miniplayerIndex.incrementCurrentIndex();
+
     // workout set Index by 1
     miniplayerIndex.incrementWorkoutSetIndex();
 
@@ -36,18 +41,19 @@ class NextWorkoutSetButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final miniplayerIndex = watch(miniplayerIndexProvider);
-    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
     final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
+    final workoutSet = watch(currentWorkoutSetProvider).state;
 
-    final isLastSet =
-        miniplayerIndex.workoutSetIndex == routineWorkout.sets!.length - 1;
+    final isLastSet = (workoutSet != null)
+        ? miniplayerIndex.workoutSetIndex == routineWorkout.sets!.length - 1
+        : true;
 
     return Tooltip(
       verticalOffset: -56,
       message: S.current.toNextSet,
       child: IconButton(
-        iconSize: 48,
+        iconSize: iconSize!,
         disabledColor: Colors.grey[700],
         color: Colors.white,
         icon: Icon(Icons.skip_next_rounded),
@@ -56,7 +62,6 @@ class NextWorkoutSetButton extends ConsumerWidget {
             : () => _skipNext(
                   context,
                   miniplayerIndex: miniplayerIndex,
-                  // routineWorkouts: routineWorkouts,
                   routineWorkout: routineWorkout,
                   isWorkoutPaused: isWorkoutPaused,
                 ),

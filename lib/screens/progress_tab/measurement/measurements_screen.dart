@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:logger/logger.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -17,8 +17,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
-
-Logger logger = Logger();
 
 class MeasurementsScreen extends StatelessWidget {
   final Database database;
@@ -53,6 +51,7 @@ class MeasurementsScreen extends StatelessWidget {
         measurement: measurement,
       );
 
+      // TODO: ADD SNACKBAR
       // // Snackbar
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       //   content: Text(S.current.deleteMeasurementSnackbar),

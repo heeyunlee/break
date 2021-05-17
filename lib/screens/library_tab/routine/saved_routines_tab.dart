@@ -49,7 +49,7 @@ class SavedRoutinesTab extends StatelessWidget {
           SavedRoutinesTileWidget(),
         ],
       ),
-      footer: const SizedBox(height: 120),
+      footer: const SizedBox(height: 160),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),
@@ -68,7 +68,6 @@ class SavedRoutinesTab extends StatelessWidget {
           onTap: () => RoutineDetailScreen.show(
             context,
             routine: routine,
-            isRootNavigation: false,
             tag: 'savedRoutines-${routine.routineId}',
           ),
         );

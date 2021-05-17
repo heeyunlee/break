@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../routine_history_summary_screen.dart';
 import '../provider/workout_miniplayer_provider.dart';
-
-// typedef BoolCallback = void Function(bool value);
-Logger logger = Logger();
 
 class SaveAndExitButton extends ConsumerWidget {
   final Future<User?> user;
@@ -34,10 +32,11 @@ class SaveAndExitButton extends ConsumerWidget {
   }) async {
     try {
       debugPrint('submit button pressed');
+
+      /// For Routine History
       final userData = (await user)!;
       final _workoutStartTime = Timestamp.now();
-
-      final routineHistoryId = documentIdFromCurrentDate();
+      final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
       final workoutEndTime = Timestamp.now();
       final workoutStartDate = _workoutStartTime.toDate();
       final workoutEndDate = workoutEndTime.toDate();
@@ -84,6 +83,35 @@ class SaveAndExitButton extends ConsumerWidget {
         equipmentRequired: routine.equipmentRequired,
       );
 
+      /// For Workout Histories
+      List<WorkoutHistory> workoutHistories = [];
+      routineWorkouts.forEach(
+        (rw) {
+          final workoutHistoryId = documentIdFromCurrentDate();
+          final uniqueId = UniqueKey().toString();
+          // print('unique id is $uniqueId');
+
+          final workoutHistory = WorkoutHistory(
+            workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
+            routineHistoryId: routineHistoryId,
+            workoutId: rw.workoutId,
+            routineId: rw.routineId,
+            uid: rw.routineWorkoutOwnerId,
+            index: rw.index,
+            workoutTitle: rw.workoutTitle,
+            numberOfSets: rw.numberOfSets,
+            numberOfReps: rw.numberOfReps,
+            totalWeights: rw.totalWeights,
+            isBodyWeightWorkout: rw.isBodyWeightWorkout,
+            duration: rw.duration,
+            secondsPerRep: rw.secondsPerRep,
+            translated: rw.translated,
+            sets: rw.sets,
+          );
+          workoutHistories.add(workoutHistory);
+        },
+      );
+
       /// Update User Data
       // GET history data
       final histories = userData.dailyWorkoutHistories;
@@ -98,8 +126,6 @@ class SaveAndExitButton extends ConsumerWidget {
         );
         histories!.add(newHistory);
       } else {
-        // final index = widget.user.dailyWorkoutHistories
-        //     .indexWhere((element) => element.date.toUtc() == workoutDate);
         final oldHistory = histories![index];
 
         final newHistory = DailyWorkoutHistory(
@@ -116,14 +142,10 @@ class SaveAndExitButton extends ConsumerWidget {
         'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
       };
 
-      await database.setRoutineHistory(routineHistory).then((value) async {
-        await database.batchRoutineWorkouts(
-          routineHistory,
-          routineWorkouts,
-        );
-      });
+      await database.setRoutineHistory(routineHistory);
+      await database.batchWriteWorkoutHistories(workoutHistories);
       await database.updateUser(userData.userId, updatedUserData);
-      // Navigator.of(context).popUntil((route) => route.isFirst);
+
       RoutineHistorySummaryScreen.show(
         context,
         routineHistory: routineHistory,
@@ -135,7 +157,7 @@ class SaveAndExitButton extends ConsumerWidget {
       context.read(selectedRoutineWorkoutsProvider).state = null;
       context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

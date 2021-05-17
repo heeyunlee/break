@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -16,8 +16,6 @@ import 'package:workout_player/services/database.dart';
 import '../../../../constants.dart';
 import '../../../../format.dart';
 import 'workout_set_widget.dart';
-
-Logger logger = Logger();
 
 class WorkoutMediumCard extends StatefulWidget {
   WorkoutMediumCard({
@@ -141,7 +139,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
       });
       debugPrint('Added a new Set');
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -253,7 +251,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         debugPrint('Added a new Rest');
       }
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -280,7 +278,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         },
       );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

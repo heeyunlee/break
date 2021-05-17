@@ -5,10 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
-// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/screens/home_screen.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -24,8 +23,6 @@ import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
 import '../routine_detail_screen.dart';
-
-Logger logger = Logger();
 
 class CreateNewRoutineScreen extends StatefulWidget {
   const CreateNewRoutineScreen({
@@ -86,7 +83,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     debugPrint('_submit button pressed!');
     final routineId = documentIdFromCurrentDate();
     final userId = widget.user.userId;
-    final userName = widget.user.userName;
+    final userName = widget.user.displayName;
     final initialUnitOfMass = widget.user.unitOfMass;
     final lastEditedDate = Timestamp.now();
     final routineCreatedDate = Timestamp.now();
@@ -148,7 +145,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       //   ),
       // );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

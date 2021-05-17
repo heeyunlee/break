@@ -9,7 +9,6 @@ import '../../constants.dart';
 import '../../services/database.dart';
 import '../../widgets/empty_content.dart';
 import '../../models/routine_history.dart';
-import 'routine_history/routine_history_detail_screen.dart';
 import 'routine_history_summary_card.dart';
 
 class HomeTab extends StatefulWidget {
@@ -119,13 +118,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           final data = documentSnapshot.data()!;
           final routineHistory = RoutineHistory.fromMap(data, documentId);
 
-          return RoutineHistorySummaryFeedCard(
-            routineHistory: routineHistory,
-            onTap: () => RoutineHistoryDetailScreen.show(
-              context,
-              routineHistory: routineHistory,
-            ),
-          );
+          return RoutineHistorySummaryFeedCard(routineHistory: routineHistory);
         },
         isLive: true,
       ),

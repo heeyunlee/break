@@ -203,7 +203,6 @@ class MuscleGroupSearchScreen extends StatelessWidget {
           onTap: () => RoutineDetailScreen.show(
             context,
             routine: routine,
-            isRootNavigation: false,
             tag: 'MoreScreen-${routine.routineId}',
           ),
         );

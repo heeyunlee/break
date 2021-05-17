@@ -2,36 +2,40 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/workout_set.dart';
 
 import '../provider/workout_miniplayer_provider.dart';
 
 class PauseOrPlayButton extends ConsumerWidget {
-  final double iconSize;
+  final double? iconSize;
 
   const PauseOrPlayButton({
     this.iconSize = 56,
   });
 
-  Future<void> _pausePlay({
-    required WorkoutSet workoutSet,
+  Future<void> _pausePlay(
+    BuildContext context,
+    ScopedReader watch, {
     required IsWorkoutPausedNotifier isWorkoutPaused,
-    required CountDownController countDownController,
+    required CountDownController circularCountDownController,
   }) async {
-    if (!isWorkoutPaused.isWorkoutPaused) {
-      isWorkoutPaused.toggleBoolValue();
-      if (workoutSet.isRest) countDownController.pause();
-    } else {
-      isWorkoutPaused.toggleBoolValue();
-      if (workoutSet.isRest) countDownController.resume();
+    final workoutSet = watch(currentWorkoutSetProvider).state;
+
+    if (workoutSet != null) {
+      if (!isWorkoutPaused.isWorkoutPaused) {
+        isWorkoutPaused.toggleBoolValue();
+        if (workoutSet.isRest) circularCountDownController.pause();
+      } else {
+        isWorkoutPaused.toggleBoolValue();
+        if (workoutSet.isRest) circularCountDownController.resume();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final countdownController = watch(miniplayerTimerControllerProvider).state;
-    final workoutSet = watch(currentWorkoutSetProvider).state!;
+    final circularCountdownController =
+        watch(miniplayerTimerControllerProvider).state;
 
     return Tooltip(
       verticalOffset: -56,
@@ -41,11 +45,12 @@ class PauseOrPlayButton extends ConsumerWidget {
       child: IconButton(
         color: Colors.white,
         onPressed: () => _pausePlay(
-          workoutSet: workoutSet,
+          context,
+          watch,
           isWorkoutPaused: isWorkoutPaused,
-          countDownController: countdownController,
+          circularCountDownController: circularCountdownController,
         ),
-        iconSize: iconSize,
+        iconSize: iconSize!,
         icon: (!isWorkoutPaused.isWorkoutPaused)
             ? Icon(Icons.pause_rounded)
             : Icon(Icons.play_arrow_rounded),

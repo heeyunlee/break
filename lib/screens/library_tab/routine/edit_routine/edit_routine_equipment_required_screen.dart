@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -14,8 +14,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
-
-Logger logger = Logger();
 
 class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
   const EditRoutineEquipmentRequiredScreen({
@@ -152,7 +150,7 @@ class _EditRoutineEquipmentRequiredScreenState
       await widget.database.updateRoutine(widget.routine, routine);
       debugPrint('$_selectedEquipmentRequired');
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

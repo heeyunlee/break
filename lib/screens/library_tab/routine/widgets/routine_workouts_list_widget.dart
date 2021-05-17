@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/workout_medium_card.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -17,12 +19,14 @@ class RoutineWorkoutsListWidget extends StatelessWidget {
   final Routine routine;
   final Database database;
   final AuthBase auth;
+  final User user;
 
   const RoutineWorkoutsListWidget({
     Key? key,
     required this.routine,
     required this.database,
     required this.auth,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -49,7 +53,24 @@ class RoutineWorkoutsListWidget extends StatelessWidget {
                   onPressed: () => LogRoutineScreen.show(
                     context,
                     routine: routine,
+                    database: database,
+                    auth: auth,
+                    user: user,
                   ),
+                  // onPressed: () {
+                  //   HapticFeedback.mediumImpact();
+                  //   Navigator.of(context, rootNavigator: true).push(
+                  //     CupertinoPageRoute(
+                  //       fullscreenDialog: true,
+                  //       builder: (context) => LogRoutineScreen(
+                  //         user: user,
+                  //         database: database,
+                  //         auth: auth,
+                  //         routine: routine,
+                  //       ),
+                  //     ),
+                  //   );
+                  // },
                   child: Text(S.current.logRoutine, style: kButtonText),
                 ),
                 const SizedBox(width: 16),

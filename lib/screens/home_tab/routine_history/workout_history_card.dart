@@ -3,47 +3,47 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/screens/home_tab/routine_history/workout_set_for_history.dart';
+import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/screens/home_tab/routine_history/workout_set_widget_for_history.dart';
 
 import '../../../constants.dart';
 import '../../../format.dart';
 
-class RoutineWorkoutCard extends StatelessWidget {
-  final RoutineWorkout routineWorkout;
+class WorkoutHistoryCard extends StatelessWidget {
   final RoutineHistory routineHistory;
+  final WorkoutHistory workoutHistory;
 
-  const RoutineWorkoutCard({
+  const WorkoutHistoryCard({
     Key? key,
-    required this.routineWorkout,
     required this.routineHistory,
+    required this.workoutHistory,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // FORMATTING
-    final numberOfSets = routineWorkout.numberOfSets;
+    final numberOfSets = workoutHistory.numberOfSets;
     final formattedNumberOfSets = (numberOfSets > 1)
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Format.weights(routineWorkout.totalWeights);
+    final weights = Format.weights(workoutHistory.totalWeights);
     final unit = Format.unitOfMass(routineHistory.unitOfMass);
 
     final formattedTotalWeights =
-        (routineWorkout.isBodyWeightWorkout && routineWorkout.totalWeights == 0)
+        (workoutHistory.isBodyWeightWorkout && workoutHistory.totalWeights == 0)
             ? S.current.bodyweight
-            : (routineWorkout.isBodyWeightWorkout)
+            : (workoutHistory.isBodyWeightWorkout)
                 ? '${S.current.bodyweight} + $weights $unit'
                 : '$weights $unit';
 
     final locale = Intl.getCurrentLocale();
-    final translation = routineWorkout.translated;
+    final translation = workoutHistory.translated;
     final title = (translation.isEmpty)
-        ? routineWorkout.workoutTitle
+        ? workoutHistory.workoutTitle
         : (locale == 'ko' || locale == 'en')
-            ? routineWorkout.translated[locale]
-            : routineWorkout.workoutTitle;
+            ? workoutHistory.translated[locale]
+            : workoutHistory.workoutTitle;
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -60,7 +60,7 @@ class RoutineWorkoutCard extends StatelessWidget {
             width: 24,
             child: Center(
               child: Text(
-                routineWorkout.index.toString(),
+                workoutHistory.index.toString(),
                 style: GoogleFonts.blackHanSans(
                   color: Colors.white,
                   fontSize: 24,
@@ -94,9 +94,9 @@ class RoutineWorkoutCard extends StatelessWidget {
           childrenPadding: const EdgeInsets.all(0),
           maintainState: true,
           children: [
-            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
+            if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
               const Divider(endIndent: 8, indent: 8, color: kGrey700),
-            if (routineWorkout.sets == null || routineWorkout.sets!.isEmpty)
+            if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
               Container(
                 height: 80,
                 child: Center(
@@ -104,18 +104,18 @@ class RoutineWorkoutCard extends StatelessWidget {
                 ),
               ),
             const Divider(endIndent: 8, indent: 8, color: kGrey700),
-            if (routineWorkout.sets != null)
+            if (workoutHistory.sets != null)
               ListView.builder(
                 padding: const EdgeInsets.all(0),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: routineWorkout.sets!.length,
+                itemCount: workoutHistory.sets!.length,
                 itemBuilder: (context, index) {
-                  return WorkoutSetForHistory(
+                  return WorkoutSetWidgetForHistory(
                     routineHistory: routineHistory,
+                    workoutHistory: workoutHistory,
+                    workoutSet: workoutHistory.sets![index],
                     index: index,
-                    routineWorkout: routineWorkout,
-                    set: routineWorkout.sets![index],
                   );
                 },
               ),

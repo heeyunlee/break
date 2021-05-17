@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -13,8 +13,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import 'string_validator.dart';
-
-Logger logger = Logger();
 
 class LogInWithEmailScreen extends StatefulWidget
     with EmailAndPasswordValidators {
@@ -108,7 +106,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
 
         Navigator.of(context).pop();
       } on FirebaseException catch (e) {
-        logger.d(e);
+        logger.e(e);
         _showSignInError(e, context);
       }
     }

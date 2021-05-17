@@ -18,7 +18,6 @@ class WeightsAndRepsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final size = MediaQuery.of(context).size;
     final routine = watch(selectedRoutineProvider).state!;
     final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
     final workoutSet = watch(currentWorkoutSetProvider).state!;

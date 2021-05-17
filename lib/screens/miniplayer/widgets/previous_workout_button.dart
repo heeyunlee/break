@@ -36,16 +36,21 @@ class PreviousWorkoutButton extends StatelessWidget {
         routineWorkouts[miniplayerIndex.routineWorkoutIndex];
 
     // set Workout Set
-    context.read(currentWorkoutSetProvider).state = context
-        .read(currentRoutineWorkoutProvider)
-        .state!
-        .sets![miniplayerIndex.workoutSetIndex];
+    if (context.read(currentRoutineWorkoutProvider).state!.sets!.isNotEmpty) {
+      context.read(currentWorkoutSetProvider).state = context
+          .read(currentRoutineWorkoutProvider)
+          .state!
+          .sets![miniplayerIndex.workoutSetIndex];
 
-    // set Duration
-    if (context.read(currentWorkoutSetProvider).state!.isRest) {
-      context.read(restTimerDurationProvider).state = Duration(
-        seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 0,
-      );
+      // set Duration
+      if (context.read(currentWorkoutSetProvider).state!.isRest) {
+        context.read(restTimerDurationProvider).state = Duration(
+          seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 0,
+        );
+      }
+    } else {
+      context.read(currentWorkoutSetProvider).state = null;
+      context.read(restTimerDurationProvider).state = null;
     }
 
     print('current Index is ${miniplayerIndex.currentIndex}');

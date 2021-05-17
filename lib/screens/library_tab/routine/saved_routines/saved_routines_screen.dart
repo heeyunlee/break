@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -26,6 +27,8 @@ class SavedRoutinesScreen extends StatelessWidget {
 
   static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
+    // final auth = Provider.of<AuthBase>(context, listen: false);
+    // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -38,41 +41,23 @@ class SavedRoutinesScreen extends StatelessWidget {
     );
   }
 
-  final List<Routine> _lists = [];
+  List<Future<Routine?>> routinesFuture = [];
 
-  final _routinesFuture = <Future<Routine?>>[];
-
-  void getDocuments() {
-    print('1');
-    user.savedRoutines!.forEach((routineId) {
-      print('2');
-      Future<Routine?> nextDoc = database.getRoutineDoc(routineId);
-      if (nextDoc != null) {
-        _routinesFuture.add(nextDoc);
-      }
+  void _getDocuments() {
+    user.savedRoutines!.forEach((id) {
+      Future<Routine?> nextDoc = database.getRoutine(id);
+      print(nextDoc);
+      routinesFuture.add(nextDoc);
+      // routinesFuture.add(nextDoc);
     });
-    print('3');
-    print('${_routinesFuture.length}');
   }
-
-  // Future<void> makeSync() {
-  //   _routinesFuture.forEach((element) async {
-  //     var i = await element;
-  //     _lists.add(i);
-  //     print('4');
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    getDocuments();
-    // makeSync();
-
-    print('5');
-
-    print('length is ${_lists.length}');
+    _getDocuments();
+    // print('doc length is ${routinesFuture[0]}');
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -98,38 +83,62 @@ class SavedRoutinesScreen extends StatelessWidget {
                 height: size.height,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
+                  // child: Column(
+                  //   children: routinesFuture.map(
+                  //     (routine) {
+                  //       if (routine != null) {
+                  //         final subtitle = MainMuscleGroup.values
+                  //             .firstWhere(
+                  //               (e) =>
+                  //                   e.toString() == routine.mainMuscleGroup[0],
+                  //             )
+                  //             .translation;
+
+                  //         return CustomListTile64(
+                  //           tag: 'savedRoutiness-${routine.routineId}',
+                  //           title: routine.routineTitle,
+                  //           subtitle: subtitle!,
+                  //           imageUrl: routine.imageUrl,
+                  //           onTap: () => RoutineDetailScreen.show(
+                  //             context,
+                  //             routine: routine,
+                  //             tag: 'savedRoutiness-${routine.routineId}',
+                  //           ),
+                  //         );
+                  //       } else {
+                  //         return SizedBox.shrink();
+                  //       }
+                  //     },
+                  //   ).toList(),
+                  // ),
                   child: Column(
-                    children: _routinesFuture.map((element) {
+                    children: routinesFuture.map((element) {
                       return FutureBuilder<Routine?>(
                         future: element,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            if (snapshot.data != null) {
-                              Routine routine = snapshot.data!;
-                              final subtitle = MainMuscleGroup.values
-                                  .firstWhere(
-                                    (e) =>
-                                        e.toString() ==
-                                        routine.mainMuscleGroup[0],
-                                  )
-                                  .translation;
+                            Routine routine = snapshot.data!;
+                            final subtitle = MainMuscleGroup.values
+                                .firstWhere(
+                                  (e) =>
+                                      e.toString() ==
+                                      routine.mainMuscleGroup[0],
+                                )
+                                .translation;
 
-                              return CustomListTile64(
+                            return CustomListTile64(
+                              tag: 'savedRoutiness-${routine.routineId}',
+                              title: routine.routineTitle,
+                              subtitle: subtitle!,
+                              imageUrl: routine.imageUrl,
+                              onTap: () => RoutineDetailScreen.show(
+                                context,
+                                routine: routine,
                                 tag: 'savedRoutiness-${routine.routineId}',
-                                title: routine.routineTitle,
-                                subtitle: subtitle!,
-                                imageUrl: routine.imageUrl,
-                                onTap: () => RoutineDetailScreen.show(
-                                  context,
-                                  routine: routine,
-                                  isRootNavigation: false,
-                                  tag: 'savedRoutiness-${routine.routineId}',
-                                ),
-                              );
-                            } else {
-                              return Container();
-                            }
+                              ),
+                            );
                           } else if (snapshot.hasError) {
+                            logger.e(snapshot.error);
                             return const ListTile(
                               leading: Icon(
                                 Icons.error_outline_outlined,
@@ -138,7 +147,8 @@ class SavedRoutinesScreen extends StatelessWidget {
                             );
                           } else {
                             return Center(
-                                child: const CircularProgressIndicator());
+                              child: const CircularProgressIndicator(),
+                            );
                           }
                         },
                       );

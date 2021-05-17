@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -11,8 +11,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-
-Logger logger = Logger();
 
 class UserFeedbackScreen extends StatefulWidget {
   final User user;
@@ -82,7 +80,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         behavior: SnackBarBehavior.floating,
       ));
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

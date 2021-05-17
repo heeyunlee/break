@@ -77,11 +77,6 @@ class RestTimerWidget extends ConsumerWidget {
     final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
     final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
 
-    // final routineWorkoutLength = routineWorkouts.length - 1;
-    // final workoutSetLength = routineWorkout.sets!.length - 1;
-    // final isLast =
-    //     miniplayerIndex.currentIndex == miniplayerIndex.routineLength;
-
     return Center(
       child: Card(
         color: Colors.grey[800],

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
@@ -11,10 +10,7 @@ import 'package:workout_player/services/database.dart';
 
 import '../../constants.dart';
 import 'change_display_name_screen.dart';
-// import 'change_email_screen.dart';
 import 'delete_account_screen.dart';
-
-Logger logger = Logger();
 
 class ManageAccountScreen extends StatefulWidget {
   const ManageAccountScreen({

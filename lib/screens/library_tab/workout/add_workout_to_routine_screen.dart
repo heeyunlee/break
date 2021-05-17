@@ -1,11 +1,8 @@
-// import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-// import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -20,8 +17,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
-
-Logger logger = Logger();
 
 class AddWorkoutToRoutineScreen extends StatefulWidget {
   const AddWorkoutToRoutineScreen({
@@ -103,11 +98,10 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       await RoutineDetailScreen.show(
         context,
         routine: routine,
-        isRootNavigation: false,
         tag: '',
       );
     } on Exception catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
@@ -15,7 +14,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/edit_workout/edit_workout_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
@@ -26,8 +25,6 @@ import '../../../../services/database.dart';
 import '../../../home_screen.dart';
 import 'edit_workout_equipment_required_screen.dart';
 import 'edit_workout_main_muscle_group_screen.dart';
-
-Logger logger = Logger();
 
 class EditWorkoutScreen extends StatefulWidget {
   const EditWorkoutScreen({
@@ -142,7 +139,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         behavior: SnackBarBehavior.floating,
       ));
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -172,7 +169,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           behavior: SnackBarBehavior.floating,
         ));
       } on FirebaseException catch (e) {
-        logger.d(e);
+        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

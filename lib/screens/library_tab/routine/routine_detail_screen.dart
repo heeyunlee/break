@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/routine_workouts_list_widget.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
@@ -14,6 +14,7 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 import '../../../widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
@@ -23,8 +24,6 @@ import '../../../services/database.dart';
 import 'add_workout/add_workouts_to_routine.dart';
 import 'edit_routine/edit_routine_screen.dart';
 import 'widgets/routine_flexible_spacebar_widget.dart';
-
-Logger logger = Logger();
 
 class RoutineDetailScreen extends StatefulWidget {
   final Database database;
@@ -45,7 +44,6 @@ class RoutineDetailScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required Routine routine,
-    bool isRootNavigation = false,
     required String tag,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
@@ -54,33 +52,18 @@ class RoutineDetailScreen extends StatefulWidget {
 
     await HapticFeedback.mediumImpact();
 
-    if (!isRootNavigation) {
-      await Navigator.of(context, rootNavigator: false).push(
-        CupertinoPageRoute(
-          fullscreenDialog: false,
-          builder: (context) => RoutineDetailScreen(
-            database: database,
-            routine: routine,
-            auth: auth,
-            tag: tag,
-            user: user,
-          ),
+    await Navigator.of(context, rootNavigator: false).push(
+      CupertinoPageRoute(
+        fullscreenDialog: false,
+        builder: (context) => RoutineDetailScreen(
+          database: database,
+          routine: routine,
+          auth: auth,
+          tag: tag,
+          user: user,
         ),
-      );
-    } else {
-      await Navigator.of(context, rootNavigator: true).pushReplacement(
-        CupertinoPageRoute(
-          fullscreenDialog: true,
-          builder: (context) => RoutineDetailScreen(
-            database: database,
-            routine: routine,
-            auth: auth,
-            user: user,
-            tag: tag,
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   @override
@@ -361,6 +344,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               routine: routine,
               database: widget.database,
               auth: widget.auth,
+              user: widget.user,
             ),
             const SizedBox(height: 8),
             if (widget.auth.currentUser!.uid == routine.routineOwnerId)
@@ -397,21 +381,30 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         color: Colors.white,
       ),
       onPressed: () async {
-        final user = {
-          'savedRoutines': FieldValue.arrayUnion([widget.routine.routineId]),
-        };
+        try {
+          final user = {
+            'savedRoutines': FieldValue.arrayUnion([widget.routine.routineId]),
+          };
 
-        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+          await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.current.savedRoutineSnackbar),
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.current.savedRoutineSnackbar),
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
 
-        debugPrint('added routine to saved routine');
+          debugPrint('added routine to saved routine');
+        } on FirebaseException catch (e) {
+          logger.e(e);
+          await showExceptionAlertDialog(
+            context,
+            title: S.current.operationFailed,
+            exception: e.toString(),
+          );
+        }
       },
     );
   }

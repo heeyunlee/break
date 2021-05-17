@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -18,8 +17,6 @@ import '../../widgets/show_alert_dialog.dart';
 import '../../constants.dart';
 import 'change_language_screen.dart';
 import 'manage_account_screen.dart';
-
-Logger logger = Logger();
 
 const _termsUrl =
     'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';

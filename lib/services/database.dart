@@ -5,10 +5,10 @@ import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
-// import 'package:workout_player/models/saved_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
@@ -90,7 +90,7 @@ abstract class Database {
   Future<void> setRoutine(Routine routine);
   Future<void> updateRoutine(Routine routine, Map<String, dynamic> data);
   Future<void> deleteRoutine(Routine routine);
-  Future<Routine?> getRoutineDoc(String routineId);
+  Future<Routine?> getRoutine(String routineId);
   Stream<Routine> getRoutine2(String routineId);
 
   // STREAM
@@ -182,6 +182,21 @@ abstract class Database {
   Future<void> batchUpdateRoutineHistories(
     List<Map<String, dynamic>> routineHistories,
   );
+
+  ///////////// `Workout History` /////////////////
+  Future<void> setWorkoutHistory(WorkoutHistory workoutHistory);
+  Future<void> updateWorkoutHistory(
+    WorkoutHistory workoutHistory,
+    Map<String, dynamic> data,
+  );
+  Future<void> deleteWorkoutHistory(WorkoutHistory workoutHistory);
+  Future<void> batchWriteWorkoutHistories(
+    List<WorkoutHistory> workoutHistories,
+  );
+  Future<void> batchDeleteWorkoutHistories(
+    List<WorkoutHistory> workoutHistories,
+  );
+  Stream<List<WorkoutHistory>> workoutHistoriesStream(String routineHistoryId);
 }
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -345,7 +360,7 @@ class FirestoreDatabase implements Database {
         userId: userId,
       );
 
-  /// User Feedback
+  /////////////////////// `User Feedback` /////////////////////
   // Add or edit User Data
   @override
   Future<void> setUserFeedback(UserFeedback userFeedback) => _service.setData(
@@ -353,7 +368,7 @@ class FirestoreDatabase implements Database {
         data: userFeedback.toMap(),
       );
 
-  /// Workouts
+  //////////////////////// `Workouts` /////////////////////
   // Add or edit workout data
   @override
   Future<void> setWorkout(Workout workout) => _service.setData(
@@ -361,7 +376,7 @@ class FirestoreDatabase implements Database {
         data: workout.toMap(),
       );
 
-  // Edit Routine
+  // Edit Workout
   @override
   Future<void> updateWorkout(Workout workout, Map<String, dynamic> data) =>
       _service.updateData(
@@ -462,7 +477,7 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  /////////////// Routine /////////////////////
+  /////////////// `Routine` /////////////////////
   // Add Routine
   @override
   Future<void> setRoutine(Routine routine) => _service.setData(
@@ -486,8 +501,8 @@ class FirestoreDatabase implements Database {
 
   // Get Routine
   @override
-  Future<Routine?> getRoutineDoc(String routineId) async =>
-      _service.getDocument<Routine?>(
+  Future<Routine?> getRoutine(String routineId) async =>
+      _service.getDocument<Routine>(
         path: APIPath.routine(routineId),
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
@@ -604,7 +619,7 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  /////////////////// Routine Workouts ///////////////////
+  /////////////////// `Routine Workouts` ///////////////////
   // Add or edit Routine Workout
   @override
   Future<void> setRoutineWorkout(
@@ -685,7 +700,7 @@ class FirestoreDatabase implements Database {
         descending: false,
       );
 
-//////////////// Workout Sets ///////////////////
+//////////////// `Workout Sets` ///////////////////
   // Create or delete Workout Set
   @override
   Future<void> setWorkoutSet({
@@ -699,7 +714,7 @@ class FirestoreDatabase implements Database {
         data: data,
       );
 
-  /////////////////////////// Routine History //////////////////////////
+  /////////////////////////// `Routine History` //////////////////////////
   // Add or edit workout data
   @override
   Future<void> setRoutineHistory(RoutineHistory routineHistory) =>
@@ -856,5 +871,82 @@ class FirestoreDatabase implements Database {
             APIPath.routineWorkoutsForHistory(routineHistory.routineHistoryId),
         builder: (data, documentId) =>
             RoutineWorkout.fromJson(data, documentId),
+      );
+
+  ////////////////// `Workout Histories` ////////////////
+  /// Add or edit workout data
+  @override
+  Future<void> setWorkoutHistory(WorkoutHistory workoutHistory) =>
+      _service.setData(
+        path: APIPath.workoutHistory(workoutHistory.workoutHistoryId),
+        data: workoutHistory.toJson(),
+      );
+
+  // Update Workout History
+  @override
+  Future<void> updateWorkoutHistory(
+    WorkoutHistory workoutHistory,
+    Map<String, dynamic> data,
+  ) =>
+      _service.updateData(
+        path: APIPath.workoutHistory(workoutHistory.workoutHistoryId),
+        data: data,
+      );
+
+  // Delete workout data
+  @override
+  Future<void> deleteWorkoutHistory(WorkoutHistory workoutHistory) async =>
+      _service.deleteData(
+        path: APIPath.workoutHistory(workoutHistory.workoutHistoryId),
+      );
+
+  // Batch Add Workout Histories
+  @override
+  Future<void> batchWriteWorkoutHistories(
+    List<WorkoutHistory> workoutHistories,
+  ) async {
+    List<String> workoutHistoryPaths = <String>[];
+    List<Map<String, dynamic>> workoutHistoriesAsMap = [];
+
+    workoutHistories.forEach((workoutHistory) {
+      Map<String, dynamic> workoutHistoryAsJson = workoutHistory.toJson();
+      String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
+      workoutHistoriesAsMap.add(workoutHistoryAsJson);
+      workoutHistoryPaths.add(path);
+    });
+
+    await _service.batchData(
+      path: workoutHistoryPaths,
+      data: workoutHistoriesAsMap,
+    );
+  }
+
+  // Batch Add Workout Histories
+  @override
+  Future<void> batchDeleteWorkoutHistories(
+    List<WorkoutHistory> workoutHistories,
+  ) async {
+    List<String> workoutHistoryPaths = <String>[];
+
+    workoutHistories.forEach((workoutHistory) {
+      String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
+      workoutHistoryPaths.add(path);
+    });
+
+    await _service.batchDelete(
+      path: workoutHistoryPaths,
+    );
+  }
+
+  // Workout Histories Stream
+  @override
+  Stream<List<WorkoutHistory>> workoutHistoriesStream(
+    String routineHistoryId,
+  ) =>
+      _service.workoutHistoriesForRoutineHistoryStream(
+        routineHistoryId: routineHistoryId,
+        path: APIPath.workoutHistories(),
+        builder: (data, documentId) =>
+            WorkoutHistory.fromJson(data, documentId),
       );
 }

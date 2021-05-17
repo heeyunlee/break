@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
-
-Logger logger = Logger();
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 

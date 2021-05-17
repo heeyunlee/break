@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -17,8 +17,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../string_validator.dart';
-
-Logger logger = Logger();
 
 const _termsUrl =
     'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
@@ -154,7 +152,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         await widget.database.setUser(user);
         Navigator.of(context).pop();
       } on FirebaseException catch (e) {
-        logger.d(e);
+        logger.e(e);
         _showSignInError(e, context);
       }
     }

@@ -1,8 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -10,8 +10,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../constants.dart';
-
-Logger logger = Logger();
 
 class DeleteAccountScreen extends StatelessWidget {
   final User user;
@@ -40,7 +38,7 @@ class DeleteAccountScreen extends StatelessWidget {
       await auth.currentUser!.delete();
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

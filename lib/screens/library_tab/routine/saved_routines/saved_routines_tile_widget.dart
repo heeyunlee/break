@@ -33,6 +33,10 @@ class SavedRoutinesTileWidget extends StatelessWidget {
     return CustomStreamBuilderWidget<User>(
       initialData: userDummyData,
       stream: database.userStream(auth.currentUser!.uid),
+      errorWidget: ListTile(
+        leading: Icon(Icons.error, color: Colors.white),
+        title: Text(S.current.errorOccuredMessage, style: kBodyText1Bold),
+      ),
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data!;
 

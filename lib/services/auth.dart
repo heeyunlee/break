@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
-import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-Logger logger = Logger();
+import 'main_provider.dart';
 
 abstract class AuthBase {
   auth.User? get currentUser;

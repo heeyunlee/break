@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
@@ -15,6 +14,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/edit_routine/edit_routine_location_screen.dart';
 import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
@@ -27,8 +27,6 @@ import '../../../home_screen.dart';
 import 'edit_routine_equipment_required_screen.dart';
 import 'edit_routine_main_muscle_group_screen.dart';
 import 'edit_unit_of_mass_screen.dart';
-
-Logger logger = Logger();
 
 class EditRoutineScreen extends StatefulWidget {
   const EditRoutineScreen({
@@ -147,7 +145,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         behavior: SnackBarBehavior.floating,
       ));
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

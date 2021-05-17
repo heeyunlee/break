@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
@@ -37,6 +38,8 @@ class RoutineHistoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = database.getUserDocument(auth.currentUser!.uid);
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -89,6 +92,9 @@ class RoutineHistoriesScreen extends StatelessWidget {
               RoutineHistoryDetailScreen.show(
                 context,
                 routineHistory: routineHistory,
+                database: database,
+                auth: auth,
+                user: user,
               );
             },
           );

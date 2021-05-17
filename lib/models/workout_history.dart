@@ -5,7 +5,7 @@ class WorkoutHistory {
   final String routineHistoryId;
   final String workoutId;
   final String routineId;
-  final String workoutHistoryOwnerId;
+  final String uid;
   final int index;
   final String workoutTitle;
   final int numberOfSets;
@@ -22,7 +22,7 @@ class WorkoutHistory {
     required this.routineHistoryId,
     required this.workoutId,
     required this.routineId,
-    required this.workoutHistoryOwnerId,
+    required this.uid,
     required this.index,
     required this.workoutTitle,
     required this.numberOfSets,
@@ -41,7 +41,7 @@ class WorkoutHistory {
     final String routineHistoryId = data['routineHistoryId'];
     final String workoutId = data['workoutId'];
     final String routineId = data['routineId'];
-    final String workoutHistoryOwnerId = data['workoutHistoryOwnerId'];
+    final String uid = data['uid'];
     final int index = data['index'];
     final String workoutTitle = data['workoutTitle'];
     final int numberOfSets = data['numberOfSets'];
@@ -63,7 +63,7 @@ class WorkoutHistory {
       routineHistoryId: routineHistoryId,
       workoutId: workoutId,
       routineId: routineId,
-      workoutHistoryOwnerId: workoutHistoryOwnerId,
+      uid: uid,
       index: index,
       workoutTitle: workoutTitle,
       numberOfSets: numberOfSets,
@@ -79,10 +79,11 @@ class WorkoutHistory {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['index'] = index;
+    data['routineHistoryId'] = routineHistoryId;
     data['workoutId'] = workoutId;
     data['routineId'] = routineId;
-    data['workoutHistoryOwnerId'] = workoutHistoryOwnerId;
+    data['uid'] = uid;
+    data['index'] = index;
     data['workoutTitle'] = workoutTitle;
     data['numberOfSets'] = numberOfSets;
     data['numberOfReps'] = numberOfReps;

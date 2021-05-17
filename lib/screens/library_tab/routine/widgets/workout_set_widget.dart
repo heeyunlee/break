@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -15,8 +15,6 @@ import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
 import '../../../../format.dart';
-
-Logger logger = Logger();
 
 class WorkoutSetWidget extends StatefulWidget {
   const WorkoutSetWidget({
@@ -151,7 +149,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         behavior: SnackBarBehavior.floating,
       ));
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -269,7 +267,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         );
         print('routineWorkout Updated');
       } on FirebaseException catch (e) {
-        logger.d(e);
+        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

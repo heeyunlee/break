@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
+import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/screens/home_tab/routine_history/workout_history_card.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
@@ -15,15 +16,13 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import 'routine_workout_card.dart';
 import 'summary_row_widget.dart';
 
-Logger logger = Logger();
+List<WorkoutHistory> workoutHistories = [];
 
 class RoutineHistoryDetailScreen extends StatefulWidget {
   const RoutineHistoryDetailScreen({
@@ -37,15 +36,18 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
   final RoutineHistory routineHistory;
   final Database database;
   final AuthBase auth;
-  final User user;
+  final Future<User?> user;
 
   static void show(
     context, {
     required RoutineHistory routineHistory,
+    required Database database,
+    required AuthBase auth,
+    required Future<User?> user,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    // final database = provider.Provider.of<Database>(context, listen: false);
+    // final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    // final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -54,7 +56,7 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
           routineHistory: routineHistory,
           database: database,
           auth: auth,
-          user: user!,
+          user: user,
         ),
       ),
     );
@@ -123,11 +125,15 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
   // Delete Routine Method
   Future<void> _delete(
-      BuildContext context, RoutineHistory routineHistory) async {
+    BuildContext context,
+    RoutineHistory routineHistory,
+  ) async {
+    final userData = await widget.user;
+
     try {
       // Update User Data
-      final histories = widget.user.dailyWorkoutHistories;
-      final index = widget.user.dailyWorkoutHistories!.indexWhere(
+      final histories = userData!.dailyWorkoutHistories;
+      final index = userData.dailyWorkoutHistories!.indexWhere(
         (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
       );
       final oldHistory = histories![index];
@@ -138,21 +144,20 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       histories[index] = newHistory;
 
       final user = {
-        'totalWeights': widget.user.totalWeights - routineHistory.totalWeights,
-        'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts - 1,
+        'totalWeights': userData.totalWeights - routineHistory.totalWeights,
+        'totalNumberOfWorkouts': userData.totalNumberOfWorkouts - 1,
         'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
       };
 
-      await widget.database.deleteRoutineHistory(routineHistory).then(
-        (value) async {
-          await widget.database.updateUser(widget.auth.currentUser!.uid, user);
-        },
-      );
+      await widget.database.deleteRoutineHistory(routineHistory);
+      await widget.database.batchDeleteWorkoutHistories(workoutHistories);
+      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+
       Navigator.of(context).popUntil((route) => route.isFirst);
 
       // TODO: ADD SNACKBAR HERE
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -309,22 +314,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     ),
                     // TODO: FIX HERE
                     _buildChips(),
-                    // Row(
-                    //   children: [
-                    //     Chip(
-                    //       label: Text(
-                    //         '$mainMuscleGroup ${S.current.workout}',
-                    //         style: kButtonText,
-                    //       ),
-                    //       kBackgroundColor: kPrimaryColor,
-                    //     ),
-                    //     const SizedBox(width: 16),
-                    //     Chip(
-                    //       label: Text(equipmentRequired, style: kButtonText),
-                    //       kBackgroundColor: kPrimaryColor,
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -336,7 +325,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   }
 
   Widget _buildSliverBody() {
-    final database = Provider.of<Database>(context);
+    // final database = Provider.of<Database>(context);
     final routineHistory = widget.routineHistory;
 
     final notes = widget.routineHistory.notes ?? S.current.notesHintText;
@@ -380,18 +369,19 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(S.current.routines, style: kHeadline6w900),
             ),
-
-            StreamBuilder<List<RoutineWorkout>>(
-              stream: database.routineWorkoutsStreamForHistory(
-                widget.routineHistory,
+            StreamBuilder<List<WorkoutHistory>>(
+              stream: widget.database.workoutHistoriesStream(
+                widget.routineHistory.routineHistoryId,
               ),
               builder: (context, snapshot) {
-                return ListItemBuilder<RoutineWorkout>(
+                return ListItemBuilder<WorkoutHistory>(
                   snapshot: snapshot,
-                  itemBuilder: (context, routineWorkout) {
-                    return RoutineWorkoutCard(
-                      routineWorkout: routineWorkout,
+                  itemBuilder: (context, workoutHistory) {
+                    workoutHistories = snapshot.data!;
+
+                    return WorkoutHistoryCard(
                       routineHistory: routineHistory,
+                      workoutHistory: workoutHistory,
                     );
                   },
                 );

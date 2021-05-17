@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
@@ -23,8 +23,6 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
-
-var logger = Logger();
 
 class AddWorkoutsToRoutine extends StatefulWidget {
   const AddWorkoutsToRoutine({
@@ -109,7 +107,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       // TODO: ADD SNACKBAR
 
     } on Exception catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: 'Operation Failed',

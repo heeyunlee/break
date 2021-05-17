@@ -24,6 +24,7 @@ final miniplayerControllerProvider = StateProvider<MiniplayerController>(
 
 final miniplayerTimerControllerProvider =
     StateProvider<CountDownController>((_) => CountDownController());
+
 final restTimerDurationProvider = StateProvider<Duration?>((_) => Duration());
 
 class IsWorkoutPausedNotifier extends ChangeNotifier {
