@@ -20,13 +20,13 @@ double percentageFromValueInRange({required final double min, max, value}) {
   return (value - min) / (max - min);
 }
 
-final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-  TabItem.home: GlobalKey<NavigatorState>(),
-  TabItem.search: GlobalKey<NavigatorState>(),
-  TabItem.library: GlobalKey<NavigatorState>(),
-  TabItem.progress: GlobalKey<NavigatorState>(),
+final Map<CustomTabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
+  CustomTabItem.home: GlobalKey<NavigatorState>(),
+  CustomTabItem.search: GlobalKey<NavigatorState>(),
+  CustomTabItem.library: GlobalKey<NavigatorState>(),
+  CustomTabItem.progress: GlobalKey<NavigatorState>(),
 };
-TabItem currentTab = TabItem.home;
+CustomTabItem currentTab = CustomTabItem.home;
 
 // For Miniplayer
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   MiniplayerController miniplayerController = MiniplayerController();
 
-  void _selectTab(TabItem tabItem) {
+  void _selectTab(CustomTabItem tabItem) {
     // Navigating to original Tab Screen when you press Nav Tab
     if (tabItem == currentTab) {
       tabNavigatorKeys[tabItem]!
@@ -55,12 +55,12 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  Map<TabItem, dynamic> get widgetBuilders {
+  Map<CustomTabItem, dynamic> get widgetBuilders {
     return {
-      TabItem.home: (_) => HomeTab(),
-      TabItem.search: (_) => SearchTab(),
-      TabItem.library: (_) => LibraryTab(),
-      TabItem.progress: (_) => ProgressTab(),
+      CustomTabItem.home: (_) => HomeTab(),
+      CustomTabItem.search: (_) => SearchTab(),
+      CustomTabItem.library: (_) => LibraryTab(),
+      CustomTabItem.progress: (_) => ProgressTab(),
     };
   }
 
@@ -82,106 +82,94 @@ class _HomeScreenState extends State<HomeScreen>
         onWillPop: () async => !await tabNavigatorKeys[currentTab]!
             .currentState!
             .maybePop(), // Preventing from closing the app on Android
-        child: Scaffold(
-          extendBody: true,
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              Stack(
-                children: [
-                  _buildOffstageNavigator(TabItem.home),
-                  _buildOffstageNavigator(TabItem.search),
-                  _buildOffstageNavigator(TabItem.progress),
-                  _buildOffstageNavigator(TabItem.library),
-                ],
-              ),
-              Consumer(
-                builder: (context, watch, child) {
-                  final selectedRoutine = watch(selectedRoutineProvider).state;
+        child: Consumer(
+          builder: (context, watch, child) {
+            final selectedRoutine = watch(selectedRoutineProvider).state;
 
-                  return Offstage(
+            return Scaffold(
+              extendBody: true,
+              resizeToAvoidBottomInset: false,
+              body: Stack(
+                children: [
+                  Stack(
+                    children: [
+                      _buildOffstageNavigator(CustomTabItem.home),
+                      _buildOffstageNavigator(CustomTabItem.search),
+                      _buildOffstageNavigator(CustomTabItem.progress),
+                      _buildOffstageNavigator(CustomTabItem.library),
+                    ],
+                  ),
+                  Offstage(
                     offstage: selectedRoutine == null,
                     child: WorkoutMiniplayer(
                       database: database,
                       user: user,
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: Consumer(
-            builder: (context, watch, child) {
-              final selectedRoutine = watch(selectedRoutineProvider).state;
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: (selectedRoutine == null)
+                  ? ExpandableFAB(distance: 136)
+                  : ValueListenableBuilder(
+                      valueListenable: miniplayerExpandProgress,
+                      builder:
+                          (BuildContext context, double height, Widget? child) {
+                        final size = MediaQuery.of(context).size;
 
-              if (selectedRoutine == null) {
-                return ExpandableFAB(distance: 136);
-              } else {
-                return ValueListenableBuilder(
-                  valueListenable: miniplayerExpandProgress,
-                  builder:
-                      (BuildContext context, double height, Widget? child) {
-                    final size = MediaQuery.of(context).size;
+                        final value = percentageFromValueInRange(
+                          min: miniplayerMinHeight,
+                          max: size.height,
+                          value: height,
+                        );
 
-                    final value = percentageFromValueInRange(
-                      min: miniplayerMinHeight,
-                      max: size.height,
-                      value: height,
-                    );
+                        return Transform.translate(
+                          offset: Offset(
+                            24,
+                            kBottomNavigationBarHeight * value * 10,
+                          ),
+                          child: ExpandableFAB(distance: 136),
+                        );
+                      },
+                    ),
+              bottomNavigationBar: (selectedRoutine == null)
+                  ? BottomNavigationTab(
+                      currentTab: currentTab,
+                      onSelectTab: _selectTab,
+                    )
+                  : ValueListenableBuilder(
+                      valueListenable: miniplayerExpandProgress,
+                      builder:
+                          (BuildContext context, double height, Widget? child) {
+                        final size = MediaQuery.of(context).size;
 
-                    return Transform.translate(
-                      offset:
-                          Offset(0.0, kBottomNavigationBarHeight * value * 2),
-                      child: ExpandableFAB(distance: 136),
-                    );
-                  },
-                );
-              }
-            },
-          ),
-          bottomNavigationBar: Consumer(
-            builder: (context, watch, child) {
-              final selectedRoutine = watch(selectedRoutineProvider).state;
+                        final value = percentageFromValueInRange(
+                          min: miniplayerMinHeight,
+                          max: size.height,
+                          value: height,
+                        );
 
-              if (selectedRoutine == null) {
-                return BottomNavigationTab(
-                  currentTab: currentTab,
-                  onSelectTab: _selectTab,
-                );
-              } else {
-                return ValueListenableBuilder(
-                  valueListenable: miniplayerExpandProgress,
-                  builder:
-                      (BuildContext context, double height, Widget? child) {
-                    final size = MediaQuery.of(context).size;
-
-                    final value = percentageFromValueInRange(
-                      min: miniplayerMinHeight,
-                      max: size.height,
-                      value: height,
-                    );
-
-                    return Transform.translate(
-                      offset:
-                          Offset(0.0, kBottomNavigationBarHeight * value * 2),
-                      child: BottomNavigationTab(
-                        currentTab: currentTab,
-                        onSelectTab: _selectTab,
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-          ),
+                        return Transform.translate(
+                          offset: Offset(
+                            0.0,
+                            kBottomNavigationBarHeight * value * 1.65,
+                          ),
+                          child: BottomNavigationTab(
+                            currentTab: currentTab,
+                            onSelectTab: _selectTab,
+                          ),
+                        );
+                      },
+                    ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildOffstageNavigator(TabItem tabItem) {
+  Widget _buildOffstageNavigator(CustomTabItem tabItem) {
     return Offstage(
       offstage: currentTab != tabItem,
       child: CupertinoTabView(

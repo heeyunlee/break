@@ -4,22 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
-import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/services/auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:workout_player/services/mixpanel_manager.dart';
 
-import 'screens/sign_in/landing_screen.dart';
+import 'screens/landing_screen.dart';
 import 'services/database.dart';
 import 'generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await Mixpanel.init(
-    'de3edf0f7f37fd6ccf2e07dbb7291b5d',
-    optOutTrackingDefault: false,
-  );
+  await MixpanelManager.init();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(ProviderScope(child: MyApp()));
 }

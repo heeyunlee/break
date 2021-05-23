@@ -23,7 +23,7 @@ import '../../../models/routine.dart';
 import '../../../services/database.dart';
 import 'add_workout/add_workouts_to_routine.dart';
 import 'edit_routine/edit_routine_screen.dart';
-import 'widgets/routine_flexible_spacebar_widget.dart';
+import 'widgets/routine_detail_flexible_spacebar_widget.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
   final Database database;
@@ -165,10 +165,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         pinned: true,
         snap: false,
         stretch: true,
-        expandedHeight: size.height * 1 / 5,
-        flexibleSpace: RoutineFlexibleSpaceBarWidget(
+        expandedHeight: size.height / 5,
+        flexibleSpace: RoutineDetailFlexibleSpaceWidget(
           routine: widget.routine,
           tag: widget.tag,
+          database: widget.database,
         ),
         actions: [
           if (widget.auth.currentUser!.uid != routine.routineOwnerId)

@@ -89,33 +89,38 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
           await widget.database.batchUpdateRoutineHistories(routineHistories);
         }
 
-        // Updating username in Routine
-        List<Map<String, dynamic>> routines = [];
-        final routinesDoc = await widget.database.userRoutinesStream().first;
-        if (routinesDoc.isNotEmpty) {
-          routinesDoc.forEach((element) {
-            final routine = {
-              'routineId': element.routineId,
-              'routineOwnerUserName': _displayName,
-            };
-            routines.add(routine);
-          });
-          await widget.database.batchUpdateRoutines(routines);
-        }
+        // TODO: Create Cloud Function that update routineOwner's name
+        // // Updating username in Routine
+        // List<Map<String, dynamic>> routines = [];
+        // final routinesDoc = await widget.database.userRoutinesStream().first;
+        // print('length is ${routinesDoc.length}');
+        // if (routinesDoc.isNotEmpty) {
+        //   print('routines is not empty and length is ${routinesDoc.length}');
 
-        // Updating username in Workout
-        List<Map<String, dynamic>> workouts = [];
-        final workoutsDoc = await widget.database.userWorkoutsStream().first;
-        if (workoutsDoc.isNotEmpty) {
-          workoutsDoc.forEach((element) {
-            final workout = {
-              'workoutId': element.workoutId,
-              'workoutOwnerUserName': _displayName,
-            };
-            workouts.add(workout);
-          });
-          await widget.database.batchUpdateWorkouts(workouts);
-        }
+        //   routinesDoc.forEach((element) {
+        //     final routine = {
+        //       'routineId': element.routineId,
+        //       'routineOwnerUserName': _displayName,
+        //     };
+        //     routines.add(routine);
+        //   });
+        //   await widget.database.batchUpdateRoutines(routines);
+        // }
+
+        // TODO: Create Cloud Function that update workoutOwner's name
+        // // Updating username in Workout
+        // List<Map<String, dynamic>> workouts = [];
+        // final workoutsDoc = await widget.database.userWorkoutsStream().first;
+        // if (workoutsDoc.isNotEmpty) {
+        //   workoutsDoc.forEach((element) {
+        //     final workout = {
+        //       'workoutId': element.workoutId,
+        //       'workoutOwnerUserName': _displayName,
+        //     };
+        //     workouts.add(workout);
+        //   });
+        //   await widget.database.batchUpdateWorkouts(workouts);
+        // }
 
         debugPrint('Updated Display Name');
 

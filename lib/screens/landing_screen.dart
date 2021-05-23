@@ -5,14 +5,27 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../home_screen.dart';
-import 'sign_in_screen.dart';
+import 'home_screen.dart';
+import 'sign_in/sign_in_screen.dart';
 import 'splash_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+    // final auth = watch(authStateChangeProvider);
+
+    // return auth.when(
+    //   data: (data) {
+    //     if (data != null) {
+    //       return HomeScreen();
+    //     } else {
+    //       return SignInScreen.create(context);
+    //     }
+    //   },
+    //   loading: () => SplashScreen(),
+    //   error: (e, stackTrace) => SplashScreen(),
+    // );
 
     // Return either HomeScreen or AuthScreen or SplashScreen when loading
     return StreamBuilder<fire_auth.User?>(

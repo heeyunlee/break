@@ -15,15 +15,15 @@ import 'create_routine/create_new_routine_widget.dart';
 import 'routine_detail_screen.dart';
 import 'saved_routines/saved_routines_tile_widget.dart';
 
-class SavedRoutinesTab extends StatelessWidget {
+class RoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    var query = database.routinesPaginatedUserQuery();
+    // var query = database.routinesPaginatedUserQuery();
 
     return PaginateFirestore(
       shrinkWrap: true,
-      query: query,
+      query: database.routinesPaginatedUserQuery(),
       physics: const BouncingScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: SingleChildScrollView(

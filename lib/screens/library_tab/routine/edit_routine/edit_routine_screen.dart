@@ -136,7 +136,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       while (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
-      tabNavigatorKeys[TabItem.library]!.currentState!.pop();
+      tabNavigatorKeys[CustomTabItem.library]!.currentState!.pop();
 
       // SnackBar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

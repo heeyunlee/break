@@ -57,20 +57,6 @@ class RoutineWorkoutsListWidget extends StatelessWidget {
                     auth: auth,
                     user: user,
                   ),
-                  // onPressed: () {
-                  //   HapticFeedback.mediumImpact();
-                  //   Navigator.of(context, rootNavigator: true).push(
-                  //     CupertinoPageRoute(
-                  //       fullscreenDialog: true,
-                  //       builder: (context) => LogRoutineScreen(
-                  //         user: user,
-                  //         database: database,
-                  //         auth: auth,
-                  //         routine: routine,
-                  //       ),
-                  //     ),
-                  //   );
-                  // },
                   child: Text(S.current.logRoutine, style: kButtonText),
                 ),
                 const SizedBox(width: 16),

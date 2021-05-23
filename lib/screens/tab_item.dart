@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum TabItem { home, search, progress, library }
+enum CustomTabItem { home, search, progress, library }
 
 class TabItemData {
   const TabItemData({
@@ -21,8 +21,8 @@ class TabItemData {
   final double leftPadding;
   final double rightPadding;
 
-  static Map<TabItem, TabItemData> allTabs = {
-    TabItem.home: TabItemData(
+  static Map<CustomTabItem, TabItemData> allTabs = {
+    CustomTabItem.home: TabItemData(
       label: 'Home',
       selectedIcon: Icons.home_rounded,
       isIconPNG: false,
@@ -31,7 +31,7 @@ class TabItemData {
       leftPadding: 0,
       rightPadding: 16,
     ),
-    TabItem.search: TabItemData(
+    CustomTabItem.search: TabItemData(
       label: 'Search',
       selectedIcon: Icons.search_rounded,
       isIconPNG: false,
@@ -40,7 +40,7 @@ class TabItemData {
       leftPadding: 0,
       rightPadding: 40,
     ),
-    TabItem.progress: TabItemData(
+    CustomTabItem.progress: TabItemData(
       label: 'Progress',
       selectedIcon: Icons.bar_chart_rounded,
       isIconPNG: false,
@@ -49,7 +49,7 @@ class TabItemData {
       leftPadding: 40,
       rightPadding: 0,
     ),
-    TabItem.library: TabItemData(
+    CustomTabItem.library: TabItemData(
       label: 'Library',
       selectedIcon: 'assets/icons/workout_collection_icon.png',
       isIconPNG: true,

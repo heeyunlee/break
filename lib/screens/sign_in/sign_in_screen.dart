@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -13,6 +14,7 @@ import 'package:workout_player/screens/sign_in/widgets/social_sign_in_button.dar
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/services/mixpanel_manager.dart';
 
 import '../../widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
@@ -57,48 +59,18 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  late Mixpanel mixpanel;
+
   bool _showPreview = true;
   final locale = Intl.getCurrentLocale();
 
   set setBool(bool value) => setState(() => _showPreview = value);
 
-  // /// SIGN IN ANONYMOUSLY
-  // Future<void> _signInAnonymously(BuildContext context) async {
-  //   try {
-  //     await widget.signInBloc.signInAnonymously();
-
-  //     final firebaseUser = widget.signInBloc.auth.currentUser;
-  //     final uniqueId = UniqueKey().toString();
-  //     final id = 'Player $uniqueId';
-  //     final currentTime = Timestamp.now();
-  //     final locale = Intl.getCurrentLocale();
-
-  //     final userData = User(
-  //       userId: firebaseUser.uid,
-  //       displayName: firebaseUser.providerData[0].displayName ?? id,
-  //       userName: firebaseUser.providerData[0].displayName ?? id,
-  //       userEmail: firebaseUser.providerData[0].email,
-  //       signUpDate: currentTime,
-  //       signUpProvider: firebaseUser.providerData[0].providerId,
-  //       totalWeights: 0,
-  //       totalNumberOfWorkouts: 0,
-  //       unitOfMass: (locale == 'ko') ? 0 : 1,
-  //       lastLoginDate: currentTime,
-  //       dailyWorkoutHistories: [],
-  //       dailyNutritionHistories: [],
-  //       savedRoutines: [],
-  //       savedWorkouts: [],
-  //     );
-  //     await widget.database.setUser(userData);
-  //   } on Exception catch (e) {
-  //     logger.d(e);
-  //     _showSignInError(e, context);
-  //   }
-  // }
-
   /// SIGN IN WITH GOOGLE
   Future<void> _signInWithGoogle(BuildContext context) async {
     debugPrint('sign in with google pressed');
+    mixpanel.track('sign up with Google pressed');
+
     try {
       await widget.signInBloc.signInWithGoogle();
 
@@ -108,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
       final User? user =
           await widget.database.getUserDocument(firebaseUser.uid);
 
-      // Create new data do NOT exist
+      // Create new data if it does NOT exist
       if (user == null) {
         final uniqueId = UniqueKey().toString();
         final id = 'Player $uniqueId';
@@ -149,6 +121,8 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH FACEBOOK
   void _signInWithFacebook(BuildContext context) async {
     debugPrint('sign in with facebook pressed');
+    mixpanel.track('sign up with Facebook pressed');
+
     try {
       await widget.signInBloc.signInWithFacebook();
 
@@ -199,6 +173,8 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH APPLE
   void _signInWithApple(BuildContext context) async {
     debugPrint('sign in with apple pressed');
+    mixpanel.track('sign up with Apple pressed');
+
     try {
       await widget.signInBloc.signInWithApple();
 
@@ -253,6 +229,8 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH Kakao
   void _signInWithKakao(BuildContext context) async {
     debugPrint('sign in with Kakao triggered');
+    mixpanel.track('sign up with Kakao pressed');
+
     try {
       await widget.signInBloc.signInWithKakao();
 
@@ -310,9 +288,14 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Future<void> initMixPanel() async {
+    mixpanel = await MixpanelManager.init();
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint('sign in screen scaffold building...');
+    initMixPanel();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -443,15 +426,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   widget.isLoading ? null : () => _signInWithKakao(context),
             ),
 
-            // TextButton(
-            //   onPressed: widget.isLoading
-            //       ? null
-            //       : () async {
-            //           await _signInAnonymously(context);
-            //         },
-            //   child: Text(S.current.continueAnonymously, style: kButtonTextGrey),
-            // ),
-
             TextButton(
               onPressed: widget.isLoading
                   ? null
@@ -461,8 +435,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 style: kGoogleSignInStyleWhite,
               ),
             ),
-
-            // const SizedBox(height: 16),
           ],
         ),
       ),

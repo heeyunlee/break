@@ -1,14 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/progress_tab/flexible_space_tablet.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../constants.dart';
 import '../../dummy_data.dart';
@@ -17,80 +20,44 @@ import 'measurement/measurements_line_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 
-final StreamController<User> _currentUserStreamCtrl =
-    StreamController<User>.broadcast();
-Stream<User> get onCurrentUserChanged => _currentUserStreamCtrl.stream;
+// final StreamController<User> _currentUserStreamCtrl =
+//     StreamController<User>.broadcast();
+// Stream<User> get onCurrentUserChanged => _currentUserStreamCtrl.stream;
 
-class ProgressTab extends StatelessWidget {
+class ProgressTab extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final uid = watch(authServiceProvider).currentUser!.uid;
+    final stream = watch(userStreamProvider(uid));
+
     debugPrint('Progress Tab scaffold building...');
 
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-
-    final size = MediaQuery.of(context).size;
-    final bool isMobile = size.shortestSide < 600;
-
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        body: StreamBuilder<User>(
-          initialData: userDummyData,
-          stream:
-              database.userStream(auth.currentUser!.uid).asBroadcastStream(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              return CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    expandedHeight: isMobile ? 200 : 300,
-                    floating: true,
-                    pinned: true,
-                    snap: false,
-                    centerTitle: true,
-                    brightness: Brightness.dark,
-                    // actions: [
-                    //   IconButton(
-                    //     icon: const Icon(
-                    //       Icons.settings_rounded,
-                    //       color: Colors.white,
-                    //     ),
-                    //     onPressed: () => SettingsScreen.show(context),
-                    //   ),
-                    //   const SizedBox(width: 8),
-                    // ],
-                    flexibleSpace: (isMobile)
-                        ? _FlexibleSpaceMobile(user: snapshot.data)
-                        : FlexibleSpaceTablet(user: snapshot.data!),
-                    backgroundColor: kAppBarColor,
-                    elevation: 0,
-                  ),
-                  _buildSliverToBoxAdaptor(snapshot.data!, database),
-                ],
-              );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.grey,
-              child: SizedBox(
-                height: 200,
-                width: 20,
-              ),
-            );
-          },
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      body: stream.when(
+        data: (user) => CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 200,
+              floating: true,
+              pinned: true,
+              snap: false,
+              centerTitle: true,
+              brightness: Brightness.dark,
+              flexibleSpace: _FlexibleSpaceMobile(user: user),
+              backgroundColor: kAppBarColor,
+              elevation: 0,
+            ),
+            _buildSliverToBoxAdaptor(user!),
+          ],
         ),
-        // floatingActionButton: SpeedDialFAB(),
+        loading: () => ProgressTabShimmer(),
+        error: (e, stack) => EmptyContent(),
       ),
     );
   }
 
-  Widget _buildSliverToBoxAdaptor(User user, Database database) {
+  Widget _buildSliverToBoxAdaptor(User user) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),

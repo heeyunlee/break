@@ -1,8 +1,10 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -26,6 +28,15 @@ abstract class AuthBase {
 
   Future<void> signOut();
 }
+
+final authServiceProvider = Provider<AuthBase>((ref) {
+  return AuthService();
+});
+
+final authStateChangeProvider = StreamProvider<User?>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.idTokenChanges();
+});
 
 class AuthService implements AuthBase {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;

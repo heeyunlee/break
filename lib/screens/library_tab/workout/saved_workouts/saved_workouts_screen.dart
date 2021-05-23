@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
@@ -13,13 +15,12 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
-import '../routine_detail_screen.dart';
 
-class SavedRoutinesScreen extends StatelessWidget {
+class SavedWorkoutsScreen extends StatelessWidget {
   final Database database;
   final User user;
 
-  SavedRoutinesScreen({
+  SavedWorkoutsScreen({
     Key? key,
     required this.database,
     required this.user,
@@ -33,7 +34,7 @@ class SavedRoutinesScreen extends StatelessWidget {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => SavedRoutinesScreen(
+        builder: (context) => SavedWorkoutsScreen(
           database: database,
           user: user,
         ),
@@ -41,14 +42,13 @@ class SavedRoutinesScreen extends StatelessWidget {
     );
   }
 
-  List<Future<Routine?>> routinesFuture = [];
+  List<Future<Workout?>> workoutsFuture = [];
 
   void _getDocuments() {
-    user.savedRoutines!.forEach((id) {
-      Future<Routine?> nextDoc = database.getRoutine(id);
+    user.savedWorkouts!.forEach((id) {
+      Future<Workout?> nextDoc = database.getWorkout(id);
       print(nextDoc);
-      routinesFuture.add(nextDoc);
-      // routinesFuture.add(nextDoc);
+      workoutsFuture.add(nextDoc);
     });
   }
 
@@ -57,7 +57,6 @@ class SavedRoutinesScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     _getDocuments();
-    // print('doc length is ${routinesFuture[0]}');
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -84,29 +83,29 @@ class SavedRoutinesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
-                    children: routinesFuture.map((element) {
-                      return FutureBuilder<Routine?>(
+                    children: workoutsFuture.map((element) {
+                      return FutureBuilder<Workout?>(
                         future: element,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            Routine routine = snapshot.data!;
+                            Workout workout = snapshot.data!;
                             final subtitle = MainMuscleGroup.values
                                 .firstWhere(
                                   (e) =>
                                       e.toString() ==
-                                      routine.mainMuscleGroup[0],
+                                      workout.mainMuscleGroup[0],
                                 )
                                 .translation;
 
                             return CustomListTile64(
-                              tag: 'savedRoutiness-${routine.routineId}',
-                              title: routine.routineTitle,
+                              tag: 'savedWorkout-${workout.workoutId}',
+                              title: workout.workoutTitle,
                               subtitle: subtitle!,
-                              imageUrl: routine.imageUrl,
-                              onTap: () => RoutineDetailScreen.show(
+                              imageUrl: workout.imageUrl,
+                              onTap: () => WorkoutDetailScreen.show(
                                 context,
-                                routine: routine,
-                                tag: 'savedRoutiness-${routine.routineId}',
+                                workout: workout,
+                                tag: 'savedWorkout-${workout.workoutId}',
                               ),
                             );
                           } else if (snapshot.hasError) {

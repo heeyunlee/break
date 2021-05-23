@@ -3,8 +3,8 @@ import 'package:workout_player/constants.dart';
 import 'package:workout_player/screens/tab_item.dart';
 
 class BottomNavigationTab extends StatelessWidget {
-  final TabItem currentTab;
-  final ValueChanged<TabItem> onSelectTab;
+  final CustomTabItem currentTab;
+  final ValueChanged<CustomTabItem> onSelectTab;
 
   BottomNavigationTab({
     required this.currentTab,
@@ -35,20 +35,20 @@ class BottomNavigationTab extends StatelessWidget {
           backgroundColor: kBottomNavBarColor,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
-            _buildItem(TabItem.home),
-            _buildItem(TabItem.search),
-            _buildItem(TabItem.progress),
-            _buildItem(TabItem.library),
+            _buildItem(CustomTabItem.home),
+            _buildItem(CustomTabItem.search),
+            _buildItem(CustomTabItem.progress),
+            _buildItem(CustomTabItem.library),
           ],
           onTap: (index) => onSelectTab(
-            TabItem.values[index],
+            CustomTabItem.values[index],
           ),
         ),
       ),
     );
   }
 
-  BottomNavigationBarItem _buildItem(TabItem tabItem) {
+  BottomNavigationBarItem _buildItem(CustomTabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem]!;
     final color = currentTab == tabItem ? kPrimaryColor : Colors.white;
 

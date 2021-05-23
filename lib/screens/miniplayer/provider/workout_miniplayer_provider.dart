@@ -2,14 +2,54 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
+
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 
+class newClass {
+  late final Routine? selectedRoutine;
+  late final List<RoutineWorkout>? selectedRoutineWorkouts;
+
+  newClass({
+    this.selectedRoutine,
+    this.selectedRoutineWorkouts,
+  });
+
+  newClass.initial() {
+    selectedRoutine = null;
+    selectedRoutineWorkouts = null;
+  }
+
+  newClass copyWith({
+    Routine? selectedRoutine,
+    List<RoutineWorkout>? selectedRoutineWorkouts,
+  }) {
+    return newClass(
+      selectedRoutine: selectedRoutine ?? this.selectedRoutine,
+      selectedRoutineWorkouts:
+          selectedRoutineWorkouts ?? this.selectedRoutineWorkouts,
+    );
+  }
+}
+
+final newClassNotifierProvider =
+    StateNotifierProvider<newClassNotifier, newClass>((ref) {
+  return newClassNotifier(newClass.initial());
+});
+
+class newClassNotifier extends StateNotifier<newClass> {
+  newClassNotifier(newClass state) : super(state);
+
+  void makeSelectedRoutineNull() {
+    state = state.copyWith(selectedRoutine: null);
+  }
+}
+
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);
 
-final double miniplayerMinHeight = 144.0;
+final double miniplayerMinHeight = 152;
 
 final selectedRoutineProvider = StateProvider<Routine?>((ref) => null);
 final selectedRoutineWorkoutsProvider =
@@ -39,6 +79,22 @@ class IsWorkoutPausedNotifier extends ChangeNotifier {
   void setBoolean(bool value) {
     _isWorkoutPaused = value;
     notifyListeners();
+  }
+}
+
+class IsWorkoutPausedNotifier2 extends StateNotifier<bool> {
+  IsWorkoutPausedNotifier2({bool state = false}) : super(state);
+
+  // bool _isWorkoutPaused = false;
+
+  // bool get isWorkoutPaused => _isWorkoutPaused;
+
+  void toggleBoolValue() {
+    state = !state;
+  }
+
+  void setBoolean(bool value) {
+    state = value;
   }
 }
 

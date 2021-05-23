@@ -4,12 +4,10 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../../constants.dart';
-import 'routine/saved_routines_tab.dart';
-import 'workout/saved_workouts_tab.dart';
+import 'routine/routines_tab.dart';
+import 'workout/workouts_tab.dart';
 
 class LibraryTab extends StatelessWidget {
-  // static const routeName = 'library';
-
   @override
   Widget build(BuildContext context) {
     debugPrint('LibraryTab scaffold building...');
@@ -26,12 +24,11 @@ class LibraryTab extends StatelessWidget {
           },
           body: TabBarView(
             children: [
-              SavedRoutinesTab(),
-              SavedWorkoutsTab(),
+              RoutinesTab(),
+              WorkoutsTab(),
             ],
           ),
         ),
-        // floatingActionButton: SpeedDialFAB(),
       ),
     );
   }

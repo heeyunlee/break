@@ -3019,6 +3019,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Saved Workouts`
+  String get savedWorkouts {
+    return Intl.message(
+      'Saved Workouts',
+      name: 'savedWorkouts',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

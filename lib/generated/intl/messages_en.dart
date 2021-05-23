@@ -377,6 +377,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutines": MessageLookupByLibrary.simpleMessage("Saved Routines"),
         "savedWorkoutEmptykButtonText": MessageLookupByLibrary.simpleMessage(
             "Create your own Workout now!"),
+        "savedWorkouts": MessageLookupByLibrary.simpleMessage("Saved Workouts"),
         "savedWorkoutsEmptyText": MessageLookupByLibrary.simpleMessage(
             "Save workouts, or create your own!"),
         "seconds": MessageLookupByLibrary.simpleMessage("s"),

@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/services/mixpanel_manager.dart';
 
 import '../../constants.dart';
 import 'widgets/app_preview_widget.dart';
@@ -21,6 +23,7 @@ class PreviewScreen extends StatefulWidget {
 }
 
 class _PreviewScreenState extends State<PreviewScreen> {
+  late Mixpanel mixpanel;
   bool _showPreview = true;
 
   final List<String> _iOSEnglish = [
@@ -53,14 +56,50 @@ class _PreviewScreenState extends State<PreviewScreen> {
     initialPage: 0,
   );
 
+  Future<void> initMixPanel() async {
+    mixpanel = await MixpanelManager.init();
+  }
+
   @override
   Widget build(BuildContext context) {
+    initMixPanel();
+
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
       height: size.height,
       child: Column(
         children: [
+          // Container(
+          //   height: size.height * 5 / 6,
+          //   child: PageView(
+          //     controller: _pageController,
+          //     onPageChanged: (page) {
+          //       setState(() {
+          //         _currentPage = page;
+          //       });
+          //     },
+          //     children: <Widget>[
+          //       AppPreviewWidget(
+          //         imageRoot: _iOSEnglish[0],
+          //         subtitle: S.current.createYourOwnWorkout,
+          //       ),
+          //       AppPreviewWidget(
+          //         imageRoot: _iOSEnglish[1],
+          //         subtitle: S.current.logYourWorkout,
+          //       ),
+          //       AppPreviewWidget(
+          //         imageRoot: _iOSEnglish[2],
+          //         subtitle: S.current.seeYourProgress,
+          //       ),
+          //       AppPreviewWidget(
+          //         imageRoot: _iOSEnglish[3],
+          //         subtitle: S.current.shareWithOthers,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // TODO: MAKE THIS BETTER
           if (Platform.isIOS && Intl.getCurrentLocale() == 'en')
             Container(
               height: size.height * 5 / 6,
@@ -226,6 +265,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                           curve: Curves.easeInOut,
                         );
                       } else {
+                        //
                         HapticFeedback.mediumImpact();
                         _showPreview = false;
                         widget.callback(_showPreview);

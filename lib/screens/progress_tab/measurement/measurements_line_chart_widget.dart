@@ -35,6 +35,7 @@ class _MeasurementsLineChartWidgetState
 
   double maxY = 80;
   double minY = 60;
+  double horizontalInterval = 5;
 
   final DateTime _now = DateTime.now();
   late DateTime _today;
@@ -49,6 +50,7 @@ class _MeasurementsLineChartWidgetState
     if (measurements.isEmpty || measurements.length < 2) {
       maxY = 80;
       minY = 70;
+      horizontalInterval = 5;
     } else {
       _dates.forEach(
         (date) {
@@ -69,6 +71,14 @@ class _MeasurementsLineChartWidgetState
       final roundedLowest = lowest ~/ 10 * 10;
       maxY = roundedLargest.toDouble();
       minY = roundedLowest.toDouble();
+
+      if (maxY == minY) {
+        maxY = minY + 10;
+        minY = minY - 10;
+        horizontalInterval = 5;
+      } else {
+        horizontalInterval = (maxY - minY) / 4;
+      }
     }
   }
 
@@ -201,7 +211,7 @@ class _MeasurementsLineChartWidgetState
                   child: LineChart(
                     LineChartData(
                       gridData: FlGridData(
-                        horizontalInterval: (maxY - minY) / 4,
+                        horizontalInterval: horizontalInterval,
                         drawVerticalLine: false,
                         show: true,
                         getDrawingHorizontalLine: (value) {

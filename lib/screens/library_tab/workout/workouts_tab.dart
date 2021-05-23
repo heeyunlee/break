@@ -13,9 +13,10 @@ import '../../../models/workout.dart';
 import '../../../services/database.dart';
 import 'create_workout/create_new_workout_screen.dart';
 import 'create_workout/create_new_workout_widget.dart';
+import 'saved_workouts/saved_workouts_tile_widget.dart';
 import 'workout_detail_screen.dart';
 
-class SavedWorkoutsTab extends StatelessWidget {
+class WorkoutsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
@@ -26,18 +27,26 @@ class SavedWorkoutsTab extends StatelessWidget {
       query: query,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: EmptyContent(
-        message: S.current.savedWorkoutsEmptyText,
-        button: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+      emptyDisplay: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            SavedWorkoutsTileWidget(),
+            EmptyContent(
+              message: S.current.savedWorkoutsEmptyText,
+              button: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  primary: kPrimaryColor,
+                ),
+                onPressed: () => CreateNewWorkoutScreen.show(context),
+                child: Text(S.current.savedWorkoutEmptykButtonText,
+                    style: kButtonText),
+              ),
             ),
-            primary: kPrimaryColor,
-          ),
-          onPressed: () => CreateNewWorkoutScreen.show(context),
-          child:
-              Text(S.current.savedWorkoutEmptykButtonText, style: kButtonText),
+          ],
         ),
       ),
       itemsPerPage: 10,
@@ -47,6 +56,7 @@ class SavedWorkoutsTab extends StatelessWidget {
           const SizedBox(height: 8),
           // if (query.snapshots() != null) CreateNewWorkoutWidget(),
           CreateNewWorkoutWidget(),
+          SavedWorkoutsTileWidget(),
         ],
       ),
       footer: const SizedBox(height: 120),

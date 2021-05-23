@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/routine.dart';
@@ -12,6 +13,33 @@ import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
+///
+///
+///
+/// `riverpod`
+///
+final databaseProvider = Provider.family<FirestoreDatabase, String>(
+  (ref, id) => FirestoreDatabase(userId: id),
+);
+
+final userStreamProvider = StreamProvider.family<User?, String>((ref, id) {
+  final database = ref.watch(databaseProvider(id));
+  return database.userStream(id);
+});
+
+final workoutStreamProvider = StreamProvider.family<Workout?, String>(
+  (ref, id) {
+    final database = ref.watch(databaseProvider(id));
+    return database.workoutStream(workoutId: id);
+  },
+);
+
+///
+///
+///
+///
+/// `Abstract class Database`
+///
 abstract class Database {
   /////////////// `User` ////////////////
   // FUTURE
@@ -66,6 +94,7 @@ abstract class Database {
   Future<void> setWorkout(Workout workout);
   Future<void> updateWorkout(Workout workout, Map<String, dynamic> data);
   Future<void> deleteWorkout(Workout workout);
+  Future<Workout?> getWorkout(String workoutId);
 
   // STREAM
   Stream<Workout> workoutStream({required String workoutId});
@@ -91,7 +120,7 @@ abstract class Database {
   Future<void> updateRoutine(Routine routine, Map<String, dynamic> data);
   Future<void> deleteRoutine(Routine routine);
   Future<Routine?> getRoutine(String routineId);
-  Stream<Routine> getRoutine2(String routineId);
+  // Stream<Routine> getRoutine2(String routineId);
 
   // STREAM
   Stream<Routine> routineStream({required String routineId});
@@ -199,7 +228,12 @@ abstract class Database {
   Stream<List<WorkoutHistory>> workoutHistoriesStream(String routineHistoryId);
 }
 
-String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
+///
+///
+///
+/// `FirestoreDatabase`
+///
+///
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({
@@ -390,6 +424,14 @@ class FirestoreDatabase implements Database {
         path: APIPath.workout(workout.workoutId),
       );
 
+  // Get Workojut
+  @override
+  Future<Workout?> getWorkout(String workoutId) async =>
+      _service.getDocument<Workout>(
+        path: APIPath.workout(workoutId),
+        builder: (data, documentId) => Workout.fromMap(data, documentId),
+      );
+
   // Stream of Single Workout Stream
   @override
   Stream<Workout> workoutStream({required String workoutId}) =>
@@ -507,13 +549,13 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
-  // Get Routine
-  @override
-  Stream<Routine> getRoutine2(String routineId) =>
-      _service.documentStream<Routine>(
-        path: APIPath.routine(routineId),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
-      );
+  // // Get Routine
+  // @override
+  // Stream<Routine> getRoutine2(String routineId) =>
+  //     _service.documentStream<Routine>(
+  //       path: APIPath.routine(routineId),
+  //       builder: (data, documentId) => Routine.fromMap(data, documentId),
+  //     );
 
   // All Public Routines Stream
   @override
@@ -806,13 +848,6 @@ class FirestoreDatabase implements Database {
       data: routineHistories,
     );
   }
-
-  // // Single User Data
-  // @override
-  // Future<List<RoutineHistory>> getRoutineHistories(String uid) => _service.getDocument(
-  //       path: APIPath.routineHistories(),
-  //       builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
-  //     );
 
   /// Routine Workouts for Routine History
   // Add or edit Routine Workout

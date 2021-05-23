@@ -20,6 +20,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import 'log_routine_provider.dart';
 

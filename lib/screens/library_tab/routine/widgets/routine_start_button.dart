@@ -26,6 +26,10 @@ class RoutineStartButton extends StatelessWidget {
         // Setting Routine
         context.read(selectedRoutineProvider).state = routine;
 
+        context
+            .read(newClassNotifierProvider.notifier)
+            .makeSelectedRoutineNull();
+
         // Setting List of Routine Workouts
         context.read(selectedRoutineWorkoutsProvider).state = items;
 

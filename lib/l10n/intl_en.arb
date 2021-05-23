@@ -295,5 +295,6 @@
     "emptyRoutineAlertTitle": "Routine is empty!",
     "endMiniplayerButtonText": "END",
     "noWorkoutSetTitle": "Add sets to your workout",
-    "errorOccuredMessage": "An error has occured"
+    "errorOccuredMessage": "An error has occured",
+    "savedWorkouts": "Saved Workouts"
 }

@@ -352,6 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutines": MessageLookupByLibrary.simpleMessage("저장된 루틴"),
         "savedWorkoutEmptykButtonText":
             MessageLookupByLibrary.simpleMessage("커스텀 운동 만들기!"),
+        "savedWorkouts": MessageLookupByLibrary.simpleMessage("저장한 운동"),
         "savedWorkoutsEmptyText":
             MessageLookupByLibrary.simpleMessage("운동을 저장하거나 커스텀 운동을 만들어 보세요!"),
         "seconds": MessageLookupByLibrary.simpleMessage("초"),
