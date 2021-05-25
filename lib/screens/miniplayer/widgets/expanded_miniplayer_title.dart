@@ -18,7 +18,9 @@ class ExpandedMiniplayerTitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     // final routine = watch(selectedRoutineProvider).state!;
-    final workoutSet = watch(currentWorkoutSetProvider).state;
+    // final workoutSet = watch(currentWorkoutSetProvider).state;
+    final workoutSet =
+        watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
 
     if (workoutSet != null) {
       // final timerController = watch(miniplayerTimerControllerProvider).state;

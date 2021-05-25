@@ -153,8 +153,11 @@ class SaveAndExitButton extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.current.afterWorkoutSnackbar),
       ));
-      context.read(selectedRoutineProvider).state = null;
-      context.read(selectedRoutineWorkoutsProvider).state = null;
+      // context.read(selectedRoutineProvider).state = null;
+      // context.read(selectedRoutineWorkoutsProvider).state = null;
+      context
+          .read(miniplayerProviderNotifierProvider.notifier)
+          .makeValuesNull();
       context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -169,9 +172,12 @@ class SaveAndExitButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
-    final routine = watch(selectedRoutineProvider).state;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    // final routine = watch(selectedRoutineProvider).state;
+    final routine = miniplayerProvider.selectedRoutine;
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state;
+    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state;
+    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts;
 
     return SizedBox(
       height: size.height * 0.1,

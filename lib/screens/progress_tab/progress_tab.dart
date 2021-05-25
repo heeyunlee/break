@@ -1,73 +1,111 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart' as provider;
-import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/progress_tab/flexible_space_tablet.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../constants.dart';
-import '../../dummy_data.dart';
 import '../../format.dart';
+import 'daily_summary_circle/daily_summary_circle_widget.dart';
 import 'measurement/measurements_line_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 
-// final StreamController<User> _currentUserStreamCtrl =
-//     StreamController<User>.broadcast();
-// Stream<User> get onCurrentUserChanged => _currentUserStreamCtrl.stream;
-
-class ProgressTab extends ConsumerWidget {
+class ProgressTab extends StatefulWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final uid = watch(authServiceProvider).currentUser!.uid;
-    final stream = watch(userStreamProvider(uid));
+  _ProgressTabState createState() => _ProgressTabState();
+}
 
+class _ProgressTabState extends State<ProgressTab>
+    with SingleTickerProviderStateMixin {
+  late Animation _colorTween;
+  late AnimationController _colorAnimationController;
+
+  bool _scrollListener(ScrollNotification scrollInfo) {
+    if (scrollInfo.metrics.axis == Axis.vertical) {
+      debugPrint('${scrollInfo.metrics.pixels}');
+      _colorAnimationController
+          .animateTo((scrollInfo.metrics.pixels - 16) / 50);
+
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _colorAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
+        .animate(_colorAnimationController);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _colorAnimationController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     debugPrint('Progress Tab scaffold building...');
 
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: stream.when(
-        data: (user) => CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 200,
-              floating: true,
-              pinned: true,
-              snap: false,
-              centerTitle: true,
+    return NotificationListener<ScrollNotification>(
+      onNotification: _scrollListener,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AnimatedBuilder(
+            animation: _colorAnimationController,
+            builder: (context, child) => AppBar(
               brightness: Brightness.dark,
-              flexibleSpace: _FlexibleSpaceMobile(user: user),
-              backgroundColor: kAppBarColor,
               elevation: 0,
+              backgroundColor: _colorTween.value,
             ),
-            _buildSliverToBoxAdaptor(user!),
-          ],
+          ),
         ),
-        loading: () => ProgressTabShimmer(),
-        error: (e, stack) => EmptyContent(),
+        backgroundColor: kBackgroundColor,
+        body: Consumer(
+          builder: (context, watch, child) {
+            final uid = watch(authServiceProvider).currentUser!.uid;
+            final stream = watch(userStreamProvider(uid));
+
+            return stream.when(
+              data: (user) => _buildChildWidget(user!),
+              loading: () => ProgressTabShimmer(),
+              error: (e, stack) => EmptyContent(),
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildSliverToBoxAdaptor(User user) {
-    return SliverToBoxAdapter(
+  Widget _buildChildWidget(User user) {
+    final String today = DateFormat.MMMEd().format(DateTime.now());
+
+    return SingleChildScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 36),
+            Text(today, style: kHeadline6),
+            const SizedBox(height: 24),
+            DailySummaryCircleWidget(),
+            const SizedBox(height: 24),
             WeightsLiftedChartWidget(user: user),
             ProteinsEatenChartWidget(user: user),
             MeasurementsLineChartWidget(user: user),
-            const SizedBox(height: 36),
+            const SizedBox(height: 64),
           ],
         ),
       ),

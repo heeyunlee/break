@@ -60,6 +60,7 @@ dependencies:
   timer_count_down: ^2.0.1
   convex_bottom_bar: ^3.0.0
   youtube_player_flutter: ^8.0.0
+  table_calendar: ^3.0.0
 
   # Others
   flutter_cache_manager: ^3.0.2 # no web

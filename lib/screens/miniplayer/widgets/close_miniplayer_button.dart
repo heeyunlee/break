@@ -18,10 +18,19 @@ class CloseMiniplayerButton extends StatelessWidget {
       isFirstActionDefault: false,
       firstActionOnPressed: () {
         Navigator.of(context).pop();
-        context.read(selectedRoutineProvider).state = null;
-        context.read(selectedRoutineWorkoutsProvider).state = null;
-        context.read(currentRoutineWorkoutProvider).state = null;
-        context.read(currentWorkoutSetProvider).state = null;
+
+        context.read(miniplayerIndexProvider).setEveryIndexToDefault(1);
+        context
+            .read(miniplayerProviderNotifierProvider.notifier)
+            .setRoutine(null);
+
+        context
+            .read(miniplayerProviderNotifierProvider.notifier)
+            .makeValuesNull();
+        // context.read(selectedRoutineProvider).state = null;
+        // context.read(selectedRoutineWorkoutsProvider).state = null;
+        // context.read(currentRoutineWorkoutProvider).state = null;
+        // context.read(currentWorkoutSetProvider).state = null;
         context.read(restTimerDurationProvider).state = null;
       },
       cancelText: S.current.cancel,

@@ -6,13 +6,14 @@ import 'package:workout_player/models/routine_workout.dart';
 
 import '../provider/workout_miniplayer_provider.dart';
 
-class PreviousWorkoutButton extends StatelessWidget {
+class PreviousWorkoutButton extends ConsumerWidget {
   Future<void> _previousWorkout(
     BuildContext context, {
     required List<RoutineWorkout> routineWorkouts,
     required RoutineWorkout routineWorkout,
     required IsWorkoutPausedNotifier isWorkoutPaused,
     required MiniplayerIndexNotifier miniplayerIndex,
+    required MiniplayerProviderNotifier miniplayerNotifier,
   }) async {
     // set isWorkoutPaused to false
     isWorkoutPaused.setBoolean(false);
@@ -32,24 +33,45 @@ class PreviousWorkoutButton extends StatelessWidget {
     miniplayerIndex.decrementRWIndex();
 
     // set Routine Workout
-    context.read(currentRoutineWorkoutProvider).state =
-        routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+    // context.read(currentRoutineWorkoutProvider).state =
+    //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+    // context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout =
+    //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+    miniplayerNotifier.setRoutineWorkout(
+      routineWorkouts[miniplayerIndex.routineWorkoutIndex],
+    );
 
     // set Workout Set
-    if (context.read(currentRoutineWorkoutProvider).state!.sets!.isNotEmpty) {
-      context.read(currentWorkoutSetProvider).state = context
-          .read(currentRoutineWorkoutProvider)
-          .state!
-          .sets![miniplayerIndex.workoutSetIndex];
+    final routineWorkout =
+        context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout!;
+
+    if (routineWorkout.sets!.isNotEmpty) {
+      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
+      //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+      miniplayerNotifier.setWorkoutSet(
+        routineWorkout.sets![miniplayerIndex.workoutSetIndex],
+      );
+
+      // context.read(currentWorkoutSetProvider).state = context
+      //     .read(currentRoutineWorkoutProvider)
+      //     .state!
+      //     .sets![miniplayerIndex.workoutSetIndex];
+
+      final workoutSet =
+          context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
 
       // set Duration
-      if (context.read(currentWorkoutSetProvider).state!.isRest) {
+      if (workoutSet.isRest) {
         context.read(restTimerDurationProvider).state = Duration(
-          seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 0,
+          // seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 0,
+          seconds: workoutSet.restTime ?? 0,
         );
       }
     } else {
-      context.read(currentWorkoutSetProvider).state = null;
+      // context.read(currentWorkoutSetProvider).state = null;
+      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet = null;
+      // context.read(restTimerDurationProvider).state = null;
+      miniplayerNotifier.initiate(workoutSet: null);
       context.read(restTimerDurationProvider).state = null;
     }
 
@@ -59,11 +81,20 @@ class PreviousWorkoutButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final routineWorkouts = context.read(selectedRoutineWorkoutsProvider).state;
-    final routineWorkout = context.read(currentRoutineWorkoutProvider).state;
+  Widget build(BuildContext context, ScopedReader watch) {
+    final routineWorkouts = context
+        .read(miniplayerProviderNotifierProvider)
+        .selectedRoutineWorkouts;
+
+    final routineWorkout =
+        context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout;
+    // final routineWorkouts = context.read(selectedRoutineWorkoutsProvider).state;
+    // final routineWorkout = context.read(currentRoutineWorkoutProvider).state;
     final isWorkoutPaused = context.read(isWorkoutPausedProvider);
     final miniplayerIndex = context.read(miniplayerIndexProvider);
+
+    final miniplayerNotifier =
+        watch(miniplayerProviderNotifierProvider.notifier);
 
     return Tooltip(
       verticalOffset: -56,
@@ -80,6 +111,7 @@ class PreviousWorkoutButton extends StatelessWidget {
                   routineWorkout: routineWorkout!,
                   isWorkoutPaused: isWorkoutPaused,
                   miniplayerIndex: miniplayerIndex,
+                  miniplayerNotifier: miniplayerNotifier,
                 ),
       ),
     );

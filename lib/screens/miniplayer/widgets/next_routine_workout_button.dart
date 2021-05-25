@@ -13,6 +13,7 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
     required RoutineWorkout routineWorkout,
     required MiniplayerIndexNotifier miniplayerIndex,
     required IsWorkoutPausedNotifier isWorkoutPaused,
+    required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
     // new Index = current index - workout set index + set.length
     if (miniplayerIndex.currentIndex < miniplayerIndex.routineLength) {
@@ -31,14 +32,27 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
     isWorkoutPaused.setBoolean(false);
 
     // change current rw to next one
-    context.read(currentRoutineWorkoutProvider).state =
-        routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+    // context.read(currentRoutineWorkoutProvider).state =
+    //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+    miniplayerNotifier.setRoutineWorkout(
+        routineWorkouts[miniplayerIndex.routineWorkoutIndex]);
 
     // sets from new Routine Workout
-    final sets = context.read(currentRoutineWorkoutProvider).state!.sets!;
+    // final sets = context.read(currentRoutineWorkoutProvider).state!.sets!;
+    final sets = context
+        .read(miniplayerProviderNotifierProvider)
+        .currentRoutineWorkout!
+        .sets!;
+
     if (sets.isNotEmpty) {
-      context.read(currentWorkoutSetProvider).state = sets[0];
-      final currentWorkoutSet = context.read(currentWorkoutSetProvider).state!;
+      // context.read(currentWorkoutSetProvider).state = sets[0];
+      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
+      //     sets[0];
+      miniplayerNotifier.setWorkoutSet(sets[0]);
+
+      // final currentWorkoutSet = context.read(currentWorkoutSetProvider).state!;
+      final currentWorkoutSet =
+          context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
       if (currentWorkoutSet.isRest) {
         context.read(restTimerDurationProvider).state = Duration(
           seconds: currentWorkoutSet.restTime ?? 90,
@@ -47,7 +61,9 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
         context.read(restTimerDurationProvider).state = Duration();
       }
     } else {
-      context.read(currentWorkoutSetProvider).state = null;
+      // context.read(currentWorkoutSetProvider).state = null;
+      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet = null;
+      miniplayerNotifier.setWorkoutSet(null);
       context.read(restTimerDurationProvider).state = Duration();
     }
 
@@ -59,10 +75,17 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
-    final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
+    final routineWorkouts =
+        watch(miniplayerProviderNotifierProvider).selectedRoutineWorkouts!;
+    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    final routineWorkout =
+        watch(miniplayerProviderNotifierProvider).currentRoutineWorkout!;
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
     final miniplayerIndex = watch(miniplayerIndexProvider);
+
+    final miniplayerNotifier =
+        watch(miniplayerProviderNotifierProvider.notifier);
 
     final isLastRoutineWorkout =
         miniplayerIndex.routineWorkoutIndex == routineWorkouts.length - 1;
@@ -82,6 +105,7 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
                   routineWorkout: routineWorkout,
                   isWorkoutPaused: isWorkoutPaused,
                   miniplayerIndex: miniplayerIndex,
+                  miniplayerNotifier: miniplayerNotifier,
                 ),
       ),
     );

@@ -18,9 +18,13 @@ class WeightsAndRepsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final routine = watch(selectedRoutineProvider).state!;
-    final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
-    final workoutSet = watch(currentWorkoutSetProvider).state!;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final routine = miniplayerProvider.selectedRoutine!;
+    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+    final workoutSet = miniplayerProvider.currentWorkoutSet!;
+    // final routine = watch(selectedRoutineProvider).state!;
+    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    // final workoutSet = watch(currentWorkoutSetProvider).state!;
 
     final weights = Format.weights(workoutSet.weights!);
     final unit = UnitOfMass.values[routine.initialUnitOfMass].label;

@@ -7,56 +7,103 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 
-class newClass {
+class MiniplayerProvider {
   late final Routine? selectedRoutine;
   late final List<RoutineWorkout>? selectedRoutineWorkouts;
+  late final RoutineWorkout? currentRoutineWorkout;
+  late final WorkoutSet? currentWorkoutSet;
 
-  newClass({
+  MiniplayerProvider({
     this.selectedRoutine,
     this.selectedRoutineWorkouts,
+    this.currentRoutineWorkout,
+    this.currentWorkoutSet,
   });
 
-  newClass.initial() {
+  MiniplayerProvider.initial() {
     selectedRoutine = null;
     selectedRoutineWorkouts = null;
+    currentRoutineWorkout = null;
+    currentWorkoutSet = null;
   }
 
-  newClass copyWith({
+  MiniplayerProvider copyWith({
     Routine? selectedRoutine,
     List<RoutineWorkout>? selectedRoutineWorkouts,
+    RoutineWorkout? currentRoutineWorkout,
+    WorkoutSet? currentWorkoutSet,
   }) {
-    return newClass(
+    return MiniplayerProvider(
       selectedRoutine: selectedRoutine ?? this.selectedRoutine,
       selectedRoutineWorkouts:
           selectedRoutineWorkouts ?? this.selectedRoutineWorkouts,
+      currentRoutineWorkout:
+          currentRoutineWorkout ?? this.currentRoutineWorkout,
+      currentWorkoutSet: currentWorkoutSet ?? this.currentWorkoutSet,
     );
   }
 }
 
-final newClassNotifierProvider =
-    StateNotifierProvider<newClassNotifier, newClass>((ref) {
-  return newClassNotifier(newClass.initial());
-});
+class MiniplayerProviderNotifier extends StateNotifier<MiniplayerProvider> {
+  MiniplayerProviderNotifier(MiniplayerProvider state) : super(state);
 
-class newClassNotifier extends StateNotifier<newClass> {
-  newClassNotifier(newClass state) : super(state);
+  void makeValuesNull() {
+    state = state.copyWith(
+      selectedRoutine: null,
+      selectedRoutineWorkouts: null,
+      currentRoutineWorkout: null,
+      currentWorkoutSet: null,
+    );
+  }
 
-  void makeSelectedRoutineNull() {
-    state = state.copyWith(selectedRoutine: null);
+  void setRoutine(Routine? routine) {
+    state = state.copyWith(selectedRoutine: routine);
+  }
+
+  void setRoutineWorkouts(List<RoutineWorkout>? routineWorkouts) {
+    state = state.copyWith(selectedRoutineWorkouts: routineWorkouts);
+  }
+
+  void setRoutineWorkout(RoutineWorkout? routineWorkout) {
+    state = state.copyWith(currentRoutineWorkout: routineWorkout);
+  }
+
+  void setWorkoutSet(WorkoutSet? workoutSet) {
+    state = state.copyWith(currentWorkoutSet: workoutSet);
+  }
+
+  void initiate({
+    Routine? routine,
+    List<RoutineWorkout>? routineWorkouts,
+    RoutineWorkout? routineWorkout,
+    WorkoutSet? workoutSet,
+  }) {
+    state = state.copyWith(
+      selectedRoutine: routine,
+      selectedRoutineWorkouts: routineWorkouts,
+      currentRoutineWorkout: routineWorkout,
+      currentWorkoutSet: workoutSet,
+    );
   }
 }
+
+final miniplayerProviderNotifierProvider =
+    StateNotifierProvider<MiniplayerProviderNotifier, MiniplayerProvider>(
+        (ref) {
+  return MiniplayerProviderNotifier(MiniplayerProvider.initial());
+});
 
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);
 
 final double miniplayerMinHeight = 152;
 
-final selectedRoutineProvider = StateProvider<Routine?>((ref) => null);
-final selectedRoutineWorkoutsProvider =
-    StateProvider<List<RoutineWorkout>?>((ref) => null);
-final currentRoutineWorkoutProvider =
-    StateProvider<RoutineWorkout?>((ref) => null);
-final currentWorkoutSetProvider = StateProvider<WorkoutSet?>((ref) => null);
+// final selectedRoutineProvider = StateProvider<Routine?>((ref) => null);
+// final selectedRoutineWorkoutsProvider =
+//     StateProvider<List<RoutineWorkout>?>((ref) => null);
+// final currentRoutineWorkoutProvider =
+//     StateProvider<RoutineWorkout?>((ref) => null);
+// final currentWorkoutSetProvider = StateProvider<WorkoutSet?>((ref) => null);
 
 final miniplayerControllerProvider = StateProvider<MiniplayerController>(
   (ref) => MiniplayerController(),

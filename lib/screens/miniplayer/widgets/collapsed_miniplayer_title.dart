@@ -18,8 +18,11 @@ class CollapsedMiniplayerTitle extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final routine = watch(selectedRoutineProvider).state!;
-    final workoutSet = watch(currentWorkoutSetProvider).state;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final routine = miniplayerProvider.selectedRoutine!;
+    final workoutSet = miniplayerProvider.currentWorkoutSet;
+    // final routine = watch(selectedRoutineProvider).state!;
+    // final workoutSet = watch(currentWorkoutSetProvider).state;
 
     if (workoutSet != null) {
       if (workoutSet.isRest) {

@@ -16,6 +16,7 @@ class NextWorkoutSetButton extends ConsumerWidget {
     required MiniplayerIndexNotifier miniplayerIndex,
     required RoutineWorkout routineWorkout,
     required IsWorkoutPausedNotifier isWorkoutPaused,
+    required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
     // set isWorkoutPaused false
     isWorkoutPaused.setBoolean(false);
@@ -26,10 +27,22 @@ class NextWorkoutSetButton extends ConsumerWidget {
     // workout set Index by 1
     miniplayerIndex.incrementWorkoutSetIndex();
 
-    context.read(currentWorkoutSetProvider).state =
-        routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+    // set Workout Set
+    // context.read(currentWorkoutSetProvider).state =
+    //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+    // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
+    //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+    miniplayerNotifier.setWorkoutSet(
+      routineWorkout.sets![miniplayerIndex.workoutSetIndex],
+    );
+
     context.read(restTimerDurationProvider).state = Duration(
-      seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
+      // seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
+      seconds: context
+              .read(miniplayerProviderNotifierProvider)
+              .currentWorkoutSet!
+              .restTime ??
+          60,
     );
 
     debugPrint('current Index is ${miniplayerIndex.currentIndex}');
@@ -41,9 +54,15 @@ class NextWorkoutSetButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final miniplayerIndex = watch(miniplayerIndexProvider);
-    final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final workoutSet = watch(currentWorkoutSetProvider).state;
+    final workoutSet = miniplayerProvider.currentWorkoutSet;
+    // final workoutSet = watch(currentWorkoutSetProvider).state;
+
+    final miniplayerNotifier =
+        watch(miniplayerProviderNotifierProvider.notifier);
 
     final isLastSet = (workoutSet != null)
         ? miniplayerIndex.workoutSetIndex == routineWorkout.sets!.length - 1
@@ -64,6 +83,7 @@ class NextWorkoutSetButton extends ConsumerWidget {
                   miniplayerIndex: miniplayerIndex,
                   routineWorkout: routineWorkout,
                   isWorkoutPaused: isWorkoutPaused,
+                  miniplayerNotifier: miniplayerNotifier,
                 ),
       ),
     );

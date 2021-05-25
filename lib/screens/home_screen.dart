@@ -8,7 +8,7 @@ import 'package:workout_player/screens/search_tab/search_tab.dart';
 import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/widgets/speed_dial/expandable_fab.dart';
+import 'package:workout_player/widgets/speed_dial/speed_dial_widget.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'bottom_navigation_tab.dart';
@@ -84,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen>
             .maybePop(), // Preventing from closing the app on Android
         child: Consumer(
           builder: (context, watch, child) {
-            final selectedRoutine = watch(selectedRoutineProvider).state;
+            // final selectedRoutine = watch(selectedRoutineProvider).state;
+            final routine =
+                watch(miniplayerProviderNotifierProvider).selectedRoutine;
 
             return Scaffold(
               extendBody: true,
@@ -100,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ],
                   ),
                   Offstage(
-                    offstage: selectedRoutine == null,
+                    offstage: routine == null,
                     child: WorkoutMiniplayer(
                       database: database,
                       user: user,
@@ -110,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: (selectedRoutine == null)
-                  ? ExpandableFAB(distance: 136)
+              floatingActionButton: (routine == null)
+                  ? SpeedDialWidget(distance: 136)
                   : ValueListenableBuilder(
                       valueListenable: miniplayerExpandProgress,
                       builder:
@@ -126,14 +128,14 @@ class _HomeScreenState extends State<HomeScreen>
 
                         return Transform.translate(
                           offset: Offset(
-                            24,
-                            kBottomNavigationBarHeight * value * 10,
+                            0,
+                            kBottomNavigationBarHeight * value * 2,
                           ),
-                          child: ExpandableFAB(distance: 136),
+                          child: SpeedDialWidget(distance: 136),
                         );
                       },
                     ),
-              bottomNavigationBar: (selectedRoutine == null)
+              bottomNavigationBar: (routine == null)
                   ? BottomNavigationTab(
                       currentTab: currentTab,
                       onSelectTab: _selectTab,
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen>
                         return Transform.translate(
                           offset: Offset(
                             0.0,
-                            kBottomNavigationBarHeight * value * 1.65,
+                            kBottomNavigationBarHeight * value * 2,
                           ),
                           child: BottomNavigationTab(
                             currentTab: currentTab,

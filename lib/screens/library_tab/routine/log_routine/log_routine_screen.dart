@@ -70,7 +70,7 @@ class LogRoutineScreen extends StatefulWidget {
 class _LogRoutineScreenState extends State<LogRoutineScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late DateTime _workoutEndDate;
+  late DateTime _workoutStartTime;
   late String _nowInString;
   late int _durationInMinutes;
   late TextEditingController _textController1;
@@ -90,8 +90,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   @override
   void initState() {
     super.initState();
-    _workoutEndDate = DateTime.now();
-    _nowInString = Format.yMdjmInDateTime(_workoutEndDate);
+    _workoutStartTime = DateTime.now();
+    _nowInString = Format.yMdjmInDateTime(_workoutStartTime);
 
     _durationInMinutes = Format.durationInMin(widget.routine.duration);
     _textController1 =
@@ -130,19 +130,18 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
       /// For Routine History
       // final userData = (await user)!;
-      final _workoutStartTime = Timestamp.now();
       final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
-      final workoutEndTime = Timestamp.now();
-      final workoutStartDate = _workoutStartTime.toDate();
-      final workoutEndDate = workoutEndTime.toDate();
-      final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
+      final workoutEndTime = _workoutStartTime.add(Duration(
+        minutes: _durationInMinutes,
+      ));
+
       final isBodyWeightWorkout = routineWorkouts.any(
         (element) => element.isBodyWeightWorkout == true,
       );
       final workoutDate = DateTime.utc(
-        workoutStartDate.year,
-        workoutStartDate.month,
-        workoutStartDate.day,
+        _workoutStartTime.year,
+        _workoutStartTime.month,
+        _workoutStartTime.day,
       );
 
       // For Calculating Total Weights
@@ -165,11 +164,11 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         isPublic: true,
         mainMuscleGroup: routine.mainMuscleGroup,
         secondMuscleGroup: routine.secondMuscleGroup,
-        workoutStartTime: _workoutStartTime,
-        workoutEndTime: workoutEndTime,
+        workoutStartTime: Timestamp.fromDate(_workoutStartTime),
+        workoutEndTime: Timestamp.fromDate(workoutEndTime),
         notes: '',
         totalCalories: 0,
-        totalDuration: duration,
+        totalDuration: _durationInMinutes * 60,
         totalWeights: totalWeights,
         isBodyWeightWorkout: isBodyWeightWorkout,
         workoutDate: workoutDate,
@@ -246,8 +245,11 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.current.afterWorkoutSnackbar),
       ));
-      context.read(selectedRoutineProvider).state = null;
-      context.read(selectedRoutineWorkoutsProvider).state = null;
+      // context.read(selectedRoutineProvider).state = null;
+      // context.read(selectedRoutineWorkoutsProvider).state = null;
+      context
+          .read(miniplayerProviderNotifierProvider.notifier)
+          .makeValuesNull();
       context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
       context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
     } on FirebaseException catch (e) {
@@ -272,10 +274,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           child: CupertinoTheme(
             data: CupertinoThemeData(brightness: Brightness.dark),
             child: CupertinoDatePicker(
-              initialDateTime: _workoutEndDate,
+              initialDateTime: _workoutStartTime,
               onDateTimeChanged: (value) => setState(() {
-                _workoutEndDate = value;
-                _nowInString = Format.yMdjmInDateTime(_workoutEndDate);
+                _workoutStartTime = value;
+                _nowInString = Format.yMdjmInDateTime(_workoutStartTime);
               }),
             ),
           ),

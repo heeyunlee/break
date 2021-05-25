@@ -14,6 +14,7 @@ class RestTimerWidget extends ConsumerWidget {
     required IsWorkoutPausedNotifier isWorkoutPaused,
     required List<RoutineWorkout> routineWorkouts,
     required RoutineWorkout routineWorkout,
+    required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
     debugPrint('timer completed');
     if (miniplayerIndex.currentIndex <= miniplayerIndex.routineLength) {
@@ -30,38 +31,69 @@ class RestTimerWidget extends ConsumerWidget {
       // });
       if (miniplayerIndex.workoutSetIndex < workoutSetLength) {
         miniplayerIndex.incrementWorkoutSetIndex();
-        context.read(currentWorkoutSetProvider).state =
-            routineWorkout.sets![miniplayerIndex.workoutSetIndex];
-        if (context.read(currentWorkoutSetProvider).state!.isRest) {
+
+        // set Workout Set
+        // context.read(currentWorkoutSetProvider).state =
+        //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+        // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
+        //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
+        miniplayerNotifier.setWorkoutSet(
+          routineWorkout.sets![miniplayerIndex.workoutSetIndex],
+        );
+
+        final workoutSet =
+            context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
+        // if (context.read(currentWorkoutSetProvider).state!.isRest) {
+        //   context.read(restTimerDurationProvider).state = Duration(
+        //     seconds:
+        //         context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
+        //   );
+        // }
+        if (workoutSet.isRest) {
           context.read(restTimerDurationProvider).state = Duration(
-            seconds:
-                context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
+            seconds: workoutSet.restTime ?? 60,
           );
         }
-
-        // setState(() {
-        //   setIndex++;
-        // });
       } else {
         if (miniplayerIndex.routineWorkoutIndex < routineWorkoutLength) {
           miniplayerIndex.setWorkoutSetIndex(0);
           miniplayerIndex.incrementRWIndex();
-          context.read(currentRoutineWorkoutProvider).state =
-              routineWorkouts[miniplayerIndex.routineWorkoutIndex];
-          final newRoutineWorkout =
-              context.read(currentRoutineWorkoutProvider).state!;
-          context.read(currentWorkoutSetProvider).state =
-              newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex];
-          if (context.read(currentWorkoutSetProvider).state!.isRest) {
+
+          // set RW
+          // context.read(currentRoutineWorkoutProvider).state =
+          //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
+          // context
+          //         .read(miniplayerProviderNotifierProvider)
+          //         .currentRoutineWorkout =
+          //     routineWorkouts[miniplayerIndex.workoutSetIndex];
+          miniplayerNotifier.setRoutineWorkout(
+            routineWorkouts[miniplayerIndex.workoutSetIndex],
+          );
+
+          // final newRoutineWorkout =
+          //     context.read(currentRoutineWorkoutProvider).state!;
+          final newRoutineWorkout = context
+              .read(miniplayerProviderNotifierProvider)
+              .currentRoutineWorkout!;
+
+          // set Workout Set
+          // context.read(currentWorkoutSetProvider).state =
+          //     newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex];
+          // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
+          //     newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex];
+          miniplayerNotifier.setWorkoutSet(
+            newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex],
+          );
+
+          final workoutSet = context
+              .read(miniplayerProviderNotifierProvider)
+              .currentWorkoutSet!;
+
+          if (workoutSet.isRest) {
             context.read(restTimerDurationProvider).state = Duration(
-              seconds:
-                  context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
+              seconds: workoutSet.restTime ?? 60,
             );
           }
-          // setState(() {
-          //   setIndex = 0;
-          //   routineWorkoutIndex++;
-          // });
         }
       }
     }
@@ -74,8 +106,14 @@ class RestTimerWidget extends ConsumerWidget {
     final timer = watch(restTimerDurationProvider).state;
     final miniplayerIndex = watch(miniplayerIndexProvider);
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
-    final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
+    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
+    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
+
+    final miniplayerNotifier =
+        watch(miniplayerProviderNotifierProvider.notifier);
 
     return Center(
       child: Card(
@@ -104,6 +142,7 @@ class RestTimerWidget extends ConsumerWidget {
                 isWorkoutPaused: isWorkoutPaused,
                 routineWorkouts: routineWorkouts,
                 routineWorkout: routineWorkout,
+                miniplayerNotifier: miniplayerNotifier,
               ),
             ),
           ),

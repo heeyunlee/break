@@ -23,25 +23,41 @@ class RoutineStartButton extends StatelessWidget {
     if (snapshot.hasData) {
       final items = snapshot.data!;
       if (items.isNotEmpty) {
-        // Setting Routine
-        context.read(selectedRoutineProvider).state = routine;
+        // // Setting Routine
+        // context.read(selectedRoutineProvider).state = routine;
 
-        context
-            .read(newClassNotifierProvider.notifier)
-            .makeSelectedRoutineNull();
-
-        // Setting List of Routine Workouts
-        context.read(selectedRoutineWorkoutsProvider).state = items;
-
-        // Setting current routine Workout
-        context.read(currentRoutineWorkoutProvider).state = items[0];
+        // context
+        //     .read(miniplayerProviderNotifierProvider.notifier)
+        //     .makeValuesNull();
 
         if (items[0].sets!.isNotEmpty) {
-          // Setting current Workout Set
-          context.read(currentWorkoutSetProvider).state = items[0].sets![0];
+          context.read(miniplayerProviderNotifierProvider.notifier).initiate(
+                routine: routine,
+                routineWorkouts: items,
+                routineWorkout: items[0],
+                workoutSet: items[0].sets![0],
+              );
         } else {
-          context.read(currentWorkoutSetProvider).state = null;
+          context.read(miniplayerProviderNotifierProvider.notifier).initiate(
+                routine: routine,
+                routineWorkouts: items,
+                routineWorkout: items[0],
+                workoutSet: null,
+              );
         }
+
+        // // Setting List of Routine Workouts
+        // context.read(selectedRoutineWorkoutsProvider).state = items;
+
+        // // Setting current routine Workout
+        // context.read(currentRoutineWorkoutProvider).state = items[0];
+
+        // if (items[0].sets!.isNotEmpty) {
+        //   // Setting current Workout Set
+        //   context.read(currentWorkoutSetProvider).state = items[0].sets![0];
+        // } else {
+        //   context.read(currentWorkoutSetProvider).state = null;
+        // }
 
         // setting isWorkoutPaused to false
         context.read(isWorkoutPausedProvider).setBoolean(false);

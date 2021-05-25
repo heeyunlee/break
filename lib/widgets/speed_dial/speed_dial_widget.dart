@@ -12,19 +12,19 @@ import 'package:workout_player/widgets/speed_dial/speed_dial_children.dart';
 
 import 'background_overlay.dart';
 
-class ExpandableFAB extends StatefulWidget {
+class SpeedDialWidget extends StatefulWidget {
   final double distance;
 
-  const ExpandableFAB({
+  const SpeedDialWidget({
     Key? key,
     required this.distance,
   }) : super(key: key);
 
   @override
-  _ExpandableFABState createState() => _ExpandableFABState();
+  _SpeedDialWidgetState createState() => _SpeedDialWidgetState();
 }
 
-class _ExpandableFABState extends State<ExpandableFAB>
+class _SpeedDialWidgetState extends State<SpeedDialWidget>
     with SingleTickerProviderStateMixin {
   late bool _isOpen;
   late AnimationController _controller;
