@@ -3029,6 +3029,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Hello,\n{displayName}`
+  String progressTabIntroduction(Object displayName) {
+    return Intl.message(
+      'Hello,\n$displayName',
+      name: 'progressTabIntroduction',
+      desc: '',
+      args: [displayName],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

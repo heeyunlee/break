@@ -296,5 +296,6 @@
     "endMiniplayerButtonText": "종료",
     "noWorkoutSetTitle": "운동에 세트를 추가해주세요",
     "errorOccuredMessage": "오류가 났어요..",
-    "savedWorkouts": "저장한 운동"
+    "savedWorkouts": "저장한 운동",
+    "progressTabIntroduction": "안녕하세요,\n{displayName}님"
 }

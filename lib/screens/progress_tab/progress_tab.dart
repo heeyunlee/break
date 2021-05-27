@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -10,8 +7,7 @@ import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../constants.dart';
-import '../../format.dart';
-import 'daily_summary_circle/daily_summary_circle_widget.dart';
+import 'daily_progress_summary/daily_progress_summary_widget.dart';
 import 'measurement/measurements_line_chart_widget.dart';
 import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
@@ -22,15 +18,17 @@ class ProgressTab extends StatefulWidget {
 }
 
 class _ProgressTabState extends State<ProgressTab>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late Animation _colorTween;
   late AnimationController _colorAnimationController;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
+    final size = MediaQuery.of(context).size;
+
     if (scrollInfo.metrics.axis == Axis.vertical) {
       debugPrint('${scrollInfo.metrics.pixels}');
       _colorAnimationController
-          .animateTo((scrollInfo.metrics.pixels - 16) / 50);
+          .animateTo((scrollInfo.metrics.pixels - size.height + 160) / 50);
 
       return true;
     }
@@ -59,6 +57,8 @@ class _ProgressTabState extends State<ProgressTab>
     return NotificationListener<ScrollNotification>(
       onNotification: _scrollListener,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Color(0xffa7a6ba),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AnimatedBuilder(
@@ -70,13 +70,12 @@ class _ProgressTabState extends State<ProgressTab>
             ),
           ),
         ),
-        backgroundColor: kBackgroundColor,
         body: Consumer(
           builder: (context, watch, child) {
             final uid = watch(authServiceProvider).currentUser!.uid;
-            final stream = watch(userStreamProvider(uid));
+            final userStream = watch(userStreamProvider(uid));
 
-            return stream.when(
+            return userStream.when(
               data: (user) => _buildChildWidget(user!),
               loading: () => ProgressTabShimmer(),
               error: (e, stack) => EmptyContent(),
@@ -88,96 +87,44 @@ class _ProgressTabState extends State<ProgressTab>
   }
 
   Widget _buildChildWidget(User user) {
-    final String today = DateFormat.MMMEd().format(DateTime.now());
-
-    return SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 36),
-            Text(today, style: kHeadline6),
-            const SizedBox(height: 24),
-            DailySummaryCircleWidget(),
-            const SizedBox(height: 24),
-            WeightsLiftedChartWidget(user: user),
-            ProteinsEatenChartWidget(user: user),
-            MeasurementsLineChartWidget(user: user),
-            const SizedBox(height: 64),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _FlexibleSpaceMobile extends StatelessWidget {
-  final User? user;
-
-  const _FlexibleSpaceMobile({Key? key, required this.user}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final weights = Format.weights(user!.totalWeights);
-    final unit = Format.unitOfMass(user!.unitOfMass);
-
-    return FlexibleSpaceBar(
-      background: Column(
-        children: <Widget>[
-          const SizedBox(height: 64),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      children: [
+        DailyProgressSummaryWidget(user: user),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.account_circle_rounded,
-                color: Colors.white,
-                size: 48,
+              SizedBox(
+                height: size.height - 184,
+                width: size.width,
               ),
-              const SizedBox(width: 16),
-              Text(user!.displayName, style: kSubtitle1w900),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            color: kPrimaryColor,
-            child: Container(
-              height: size.height / 9,
-              width: size.width - 48,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          text: weights,
-                          style: GoogleFonts.blackHanSans(
-                            color: Colors.white,
-                            fontSize: 40,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(text: '  $unit', style: kBodyText1),
-                          ],
-                        ),
-                      ),
-                      Text(S.current.lifted, style: kBodyText1),
+              Container(
+                decoration: BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32),
+                    topRight: Radius.circular(32),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 56),
+                      WeightsLiftedChartWidget(user: user),
+                      ProteinsEatenChartWidget(user: user),
+                      MeasurementsLineChartWidget(user: user),
+                      const SizedBox(height: 56),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

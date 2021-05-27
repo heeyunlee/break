@@ -8,10 +8,10 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 
 class MiniplayerProvider {
-  late final Routine? selectedRoutine;
-  late final List<RoutineWorkout>? selectedRoutineWorkouts;
-  late final RoutineWorkout? currentRoutineWorkout;
-  late final WorkoutSet? currentWorkoutSet;
+  Routine? selectedRoutine;
+  List<RoutineWorkout>? selectedRoutineWorkouts;
+  RoutineWorkout? currentRoutineWorkout;
+  WorkoutSet? currentWorkoutSet;
 
   MiniplayerProvider({
     this.selectedRoutine,
@@ -48,11 +48,11 @@ class MiniplayerProviderNotifier extends StateNotifier<MiniplayerProvider> {
   MiniplayerProviderNotifier(MiniplayerProvider state) : super(state);
 
   void makeValuesNull() {
-    state = state.copyWith(
-      selectedRoutine: null,
-      selectedRoutineWorkouts: null,
+    state = MiniplayerProvider(
       currentRoutineWorkout: null,
       currentWorkoutSet: null,
+      selectedRoutine: null,
+      selectedRoutineWorkouts: null,
     );
   }
 
@@ -89,21 +89,12 @@ class MiniplayerProviderNotifier extends StateNotifier<MiniplayerProvider> {
 
 final miniplayerProviderNotifierProvider =
     StateNotifierProvider<MiniplayerProviderNotifier, MiniplayerProvider>(
-        (ref) {
-  return MiniplayerProviderNotifier(MiniplayerProvider.initial());
-});
+        (ref) => MiniplayerProviderNotifier(MiniplayerProvider()));
 
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);
 
 final double miniplayerMinHeight = 152;
-
-// final selectedRoutineProvider = StateProvider<Routine?>((ref) => null);
-// final selectedRoutineWorkoutsProvider =
-//     StateProvider<List<RoutineWorkout>?>((ref) => null);
-// final currentRoutineWorkoutProvider =
-//     StateProvider<RoutineWorkout?>((ref) => null);
-// final currentWorkoutSetProvider = StateProvider<WorkoutSet?>((ref) => null);
 
 final miniplayerControllerProvider = StateProvider<MiniplayerController>(
   (ref) => MiniplayerController(),

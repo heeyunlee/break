@@ -17,7 +17,7 @@ class LinearProgressIndicatorWidget extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final miniplayerIndex = watch(miniplayerIndexProvider);
 
-    final double progress =
+    final progress =
         miniplayerIndex.currentIndex / miniplayerIndex.routineLength;
 
     return Stack(

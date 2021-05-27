@@ -17,6 +17,7 @@ class LibraryTab extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         body: NestedScrollView(
+          clipBehavior: Clip.antiAlias,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               _buildSliverAppBar(context),

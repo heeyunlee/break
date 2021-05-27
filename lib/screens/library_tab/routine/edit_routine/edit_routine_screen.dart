@@ -23,7 +23,7 @@ import '../../../../widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/database.dart';
-import '../../../home_screen.dart';
+import '../../../home_screen_provider.dart';
 import 'edit_routine_equipment_required_screen.dart';
 import 'edit_routine_main_muscle_group_screen.dart';
 import 'edit_unit_of_mass_screen.dart';

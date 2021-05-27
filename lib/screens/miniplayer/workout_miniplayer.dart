@@ -39,7 +39,6 @@ class WorkoutMiniplayer extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
 
     final miniplayerController = watch(miniplayerControllerProvider).state;
-    // final routine = watch(selectedRoutineProvider).state;
     final routine = watch(miniplayerProviderNotifierProvider).selectedRoutine;
 
     return Miniplayer(
@@ -103,13 +102,9 @@ class WorkoutMiniplayer extends ConsumerWidget {
                   ),
                 ],
               ),
-              Spacer(),
-              PauseOrPlayButton(
-                iconSize: 36,
-              ),
-              NextWorkoutSetButton(
-                iconSize: 36,
-              ),
+              const Spacer(),
+              PauseOrPlayButton(iconSize: 36),
+              NextWorkoutSetButton(iconSize: 36),
               const SizedBox(width: 8),
             ],
           ),
@@ -211,12 +206,11 @@ class WorkoutMiniplayer extends ConsumerWidget {
   }
 
   Widget _timerCoverOrEmptyContainer(BuildContext context, ScopedReader watch) {
-    // final workoutSet = watch(currentWorkoutSetProvider).state;
+    final size = MediaQuery.of(context).size;
+    final double ratio = size.height / size.width;
+
     final workoutSet =
         watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
-    final size = MediaQuery.of(context).size;
-
-    final double ratio = size.height / size.width;
 
     if (workoutSet != null) {
       if (workoutSet.isRest) {

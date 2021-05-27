@@ -153,8 +153,6 @@ class SaveAndExitButton extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.current.afterWorkoutSnackbar),
       ));
-      // context.read(selectedRoutineProvider).state = null;
-      // context.read(selectedRoutineWorkoutsProvider).state = null;
       context
           .read(miniplayerProviderNotifierProvider.notifier)
           .makeValuesNull();

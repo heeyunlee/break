@@ -109,8 +109,6 @@ class RestTimerWidget extends ConsumerWidget {
     final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
     final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
     final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
-    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state!;
-    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
 
     final miniplayerNotifier =
         watch(miniplayerProviderNotifierProvider.notifier);

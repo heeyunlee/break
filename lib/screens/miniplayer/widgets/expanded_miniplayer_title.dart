@@ -17,19 +17,10 @@ class ExpandedMiniplayerTitle extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    // final routine = watch(selectedRoutineProvider).state!;
-    // final workoutSet = watch(currentWorkoutSetProvider).state;
-    final workoutSet =
-        watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final workoutSet = miniplayerProvider.currentWorkoutSet;
 
     if (workoutSet != null) {
-      // final timerController = watch(miniplayerTimerControllerProvider).state;
-      // final secondsLeft = timerController.getTime();
-      // final restTime = '${workoutSet.restTime} ${S.current.seconds}';
-      // final unit = Format.unitOfMass(routine.initialUnitOfMass);
-      // final formattedWeights = '${Format.weights(workoutSet.weights!)} $unit';
-      // final reps = '${workoutSet.reps} ${S.current.x}';
-
       final setTitle = (workoutSet.isRest)
           ? S.current.rest
           : '${S.current.set} ${workoutSet.setIndex}';

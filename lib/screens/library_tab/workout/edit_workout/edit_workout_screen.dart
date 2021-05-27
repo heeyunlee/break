@@ -22,7 +22,7 @@ import '../../../../widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../widgets/show_exception_alert_dialog.dart';
 import '../../../../constants.dart';
 import '../../../../services/database.dart';
-import '../../../home_screen.dart';
+import '../../../home_screen_provider.dart';
 import 'edit_workout_equipment_required_screen.dart';
 import 'edit_workout_main_muscle_group_screen.dart';
 

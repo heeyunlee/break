@@ -339,6 +339,20 @@ const kBodyText1BoldGrey = TextStyle(
   letterSpacing: 0.50,
   fontFamily: 'NanumSquareRound',
 );
+const kBodyText1Menlo = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Colors.white,
+  letterSpacing: 0,
+  fontFamily: 'menlo',
+);
+const kBodyText1MenloBlack = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Colors.black,
+  letterSpacing: 0,
+  fontFamily: 'menlo',
+);
 const kBodyText2 = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,

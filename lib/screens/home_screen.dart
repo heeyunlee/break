@@ -12,26 +12,10 @@ import 'package:workout_player/widgets/speed_dial/speed_dial_widget.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'bottom_navigation_tab.dart';
+import 'home_screen_provider.dart';
 import 'library_tab/library_tab.dart';
 import 'miniplayer/workout_miniplayer.dart';
 import 'miniplayer/provider/workout_miniplayer_provider.dart';
-
-double percentageFromValueInRange({required final double min, max, value}) {
-  return (value - min) / (max - min);
-}
-
-final Map<CustomTabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-  CustomTabItem.home: GlobalKey<NavigatorState>(),
-  CustomTabItem.search: GlobalKey<NavigatorState>(),
-  CustomTabItem.library: GlobalKey<NavigatorState>(),
-  CustomTabItem.progress: GlobalKey<NavigatorState>(),
-};
-CustomTabItem currentTab = CustomTabItem.home;
-
-// For Miniplayer
-final GlobalKey<NavigatorState> miniplayerNavigatorKey =
-    GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -40,8 +24,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  MiniplayerController miniplayerController = MiniplayerController();
-
   void _selectTab(CustomTabItem tabItem) {
     // Navigating to original Tab Screen when you press Nav Tab
     if (tabItem == currentTab) {
@@ -85,10 +67,13 @@ class _HomeScreenState extends State<HomeScreen>
         child: Consumer(
           builder: (context, watch, child) {
             // final selectedRoutine = watch(selectedRoutineProvider).state;
-            final routine =
-                watch(miniplayerProviderNotifierProvider).selectedRoutine;
+            final miniplayerProvider =
+                watch(miniplayerProviderNotifierProvider);
+
+            print('routine is ${miniplayerProvider.selectedRoutine}');
 
             return Scaffold(
+              key: homeScreenNavigatorKey,
               extendBody: true,
               resizeToAvoidBottomInset: false,
               body: Stack(
@@ -102,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ],
                   ),
                   Offstage(
-                    offstage: routine == null,
+                    offstage: miniplayerProvider.selectedRoutine == null,
                     child: WorkoutMiniplayer(
                       database: database,
                       user: user,
@@ -112,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: (routine == null)
+              floatingActionButton: (miniplayerProvider.selectedRoutine == null)
                   ? SpeedDialWidget(distance: 136)
                   : ValueListenableBuilder(
                       valueListenable: miniplayerExpandProgress,
@@ -135,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen>
                         );
                       },
                     ),
-              bottomNavigationBar: (routine == null)
+              bottomNavigationBar: (miniplayerProvider.selectedRoutine == null)
                   ? BottomNavigationTab(
                       currentTab: currentTab,
                       onSelectTab: _selectTab,

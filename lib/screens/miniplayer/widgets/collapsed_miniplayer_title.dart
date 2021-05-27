@@ -21,12 +21,9 @@ class CollapsedMiniplayerTitle extends ConsumerWidget {
     final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
     final routine = miniplayerProvider.selectedRoutine!;
     final workoutSet = miniplayerProvider.currentWorkoutSet;
-    // final routine = watch(selectedRoutineProvider).state!;
-    // final workoutSet = watch(currentWorkoutSetProvider).state;
 
     if (workoutSet != null) {
       if (workoutSet.isRest) {
-        // final timer = watch(miniplayerTimerControllerProvider).state.getTime();
         final restTime = workoutSet.restTime;
         final title = '${S.current.rest}: $restTime ${S.current.seconds}';
 

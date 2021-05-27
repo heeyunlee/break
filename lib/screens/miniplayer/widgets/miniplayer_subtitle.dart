@@ -14,12 +14,12 @@ class MiniplayerSubtitle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final locale = Intl.getCurrentLocale();
-    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
-    final routineWorkout =
-        watch(miniplayerProviderNotifierProvider).currentRoutineWorkout!;
 
-    final translation = routineWorkout.translated;
-    final title = (translation.isEmpty)
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+
+    final translatedTitle = routineWorkout.translated;
+    final title = (translatedTitle.isEmpty)
         ? routineWorkout.workoutTitle
         : (locale == 'ko' || locale == 'en')
             ? routineWorkout.translated[locale]

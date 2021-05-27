@@ -296,5 +296,6 @@
     "endMiniplayerButtonText": "END",
     "noWorkoutSetTitle": "Add sets to your workout",
     "errorOccuredMessage": "An error has occured",
-    "savedWorkouts": "Saved Workouts"
+    "savedWorkouts": "Saved Workouts",
+    "progressTabIntroduction": "Hello,\n{displayName}"
 }

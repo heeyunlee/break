@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/home_screen.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../widgets/appbar_blur_bg.dart';
@@ -15,6 +14,7 @@ import '../../widgets/list_item_builder.dart';
 import '../../constants.dart';
 import '../../models/routine.dart';
 import '../../services/database.dart';
+import '../home_screen_provider.dart';
 import '../library_tab/routine/routine_detail_screen.dart';
 
 class StartWorkoutShortcutScreen extends StatefulWidget {

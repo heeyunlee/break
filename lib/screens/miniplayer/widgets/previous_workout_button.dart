@@ -2,19 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine_workout.dart';
 
 import '../provider/workout_miniplayer_provider.dart';
 
 class PreviousWorkoutButton extends ConsumerWidget {
   Future<void> _previousWorkout(
-    BuildContext context, {
-    required List<RoutineWorkout> routineWorkouts,
-    required RoutineWorkout routineWorkout,
-    required IsWorkoutPausedNotifier isWorkoutPaused,
+    BuildContext context,
+    ScopedReader watch, {
     required MiniplayerIndexNotifier miniplayerIndex,
-    required MiniplayerProviderNotifier miniplayerNotifier,
   }) async {
+    final isWorkoutPaused = watch(isWorkoutPausedProvider);
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+
+    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
+
+    final miniplayerNotifier =
+        watch(miniplayerProviderNotifierProvider.notifier);
+
     // set isWorkoutPaused to false
     isWorkoutPaused.setBoolean(false);
 
@@ -33,10 +37,6 @@ class PreviousWorkoutButton extends ConsumerWidget {
     miniplayerIndex.decrementRWIndex();
 
     // set Routine Workout
-    // context.read(currentRoutineWorkoutProvider).state =
-    //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
-    // context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout =
-    //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
     miniplayerNotifier.setRoutineWorkout(
       routineWorkouts[miniplayerIndex.routineWorkoutIndex],
     );
@@ -46,16 +46,9 @@ class PreviousWorkoutButton extends ConsumerWidget {
         context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout!;
 
     if (routineWorkout.sets!.isNotEmpty) {
-      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
-      //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
       miniplayerNotifier.setWorkoutSet(
         routineWorkout.sets![miniplayerIndex.workoutSetIndex],
       );
-
-      // context.read(currentWorkoutSetProvider).state = context
-      //     .read(currentRoutineWorkoutProvider)
-      //     .state!
-      //     .sets![miniplayerIndex.workoutSetIndex];
 
       final workoutSet =
           context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
@@ -63,14 +56,10 @@ class PreviousWorkoutButton extends ConsumerWidget {
       // set Duration
       if (workoutSet.isRest) {
         context.read(restTimerDurationProvider).state = Duration(
-          // seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 0,
           seconds: workoutSet.restTime ?? 0,
         );
       }
     } else {
-      // context.read(currentWorkoutSetProvider).state = null;
-      // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet = null;
-      // context.read(restTimerDurationProvider).state = null;
       miniplayerNotifier.initiate(workoutSet: null);
       context.read(restTimerDurationProvider).state = null;
     }
@@ -82,19 +71,7 @@ class PreviousWorkoutButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final routineWorkouts = context
-        .read(miniplayerProviderNotifierProvider)
-        .selectedRoutineWorkouts;
-
-    final routineWorkout =
-        context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout;
-    // final routineWorkouts = context.read(selectedRoutineWorkoutsProvider).state;
-    // final routineWorkout = context.read(currentRoutineWorkoutProvider).state;
-    final isWorkoutPaused = context.read(isWorkoutPausedProvider);
-    final miniplayerIndex = context.read(miniplayerIndexProvider);
-
-    final miniplayerNotifier =
-        watch(miniplayerProviderNotifierProvider.notifier);
+    final miniplayerIndex = watch(miniplayerIndexProvider);
 
     return Tooltip(
       verticalOffset: -56,
@@ -107,11 +84,8 @@ class PreviousWorkoutButton extends ConsumerWidget {
             ? null
             : () => _previousWorkout(
                   context,
-                  routineWorkouts: routineWorkouts!,
-                  routineWorkout: routineWorkout!,
-                  isWorkoutPaused: isWorkoutPaused,
+                  watch,
                   miniplayerIndex: miniplayerIndex,
-                  miniplayerNotifier: miniplayerNotifier,
                 ),
       ),
     );

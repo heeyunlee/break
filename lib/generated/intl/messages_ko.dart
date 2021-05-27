@@ -25,17 +25,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(workout) => "${workout} 운동이 없어요...";
 
-  static String m3(days) => "${days}일 전";
+  static String m3(displayName) => "안녕하세요,\n${displayName}님";
 
-  static String m4(hours) => "${hours}시간 전";
+  static String m4(days) => "${days}일 전";
 
-  static String m5(minutes) => "${minutes}분 전";
+  static String m5(hours) => "${hours}시간 전";
 
-  static String m6(seconds) => "${seconds}초 전";
+  static String m6(minutes) => "${minutes}분 전";
 
-  static String m7(equipment) => "${equipment} 이용";
+  static String m7(seconds) => "${seconds}초 전";
 
-  static String m8(mainMuscleGroup) => "님이 ${mainMuscleGroup} 운동을 했습니다";
+  static String m8(equipment) => "${equipment} 이용";
+
+  static String m9(mainMuscleGroup) => "님이 ${mainMuscleGroup} 운동을 했습니다";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -311,6 +313,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("개인정보처리방침"),
+        "progressTabIntroduction": m3,
         "proteinChartContentText":
             MessageLookupByLibrary.simpleMessage("먹는것도 운동이야! 단백질을 섭취하고 기록하세요!"),
         "proteinEntriesEmptyMessage":
@@ -402,10 +405,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("서포트"),
         "terms": MessageLookupByLibrary.simpleMessage("서비스 약관"),
         "time": MessageLookupByLibrary.simpleMessage("시간"),
-        "timeDifferenceInDays": m3,
-        "timeDifferenceInHours": m4,
-        "timeDifferenceInMinutes": m5,
-        "timeDifferenceInSeconds": m6,
+        "timeDifferenceInDays": m4,
+        "timeDifferenceInHours": m5,
+        "timeDifferenceInMinutes": m6,
+        "timeDifferenceInSeconds": m7,
         "toNextSet": MessageLookupByLibrary.simpleMessage("다음 세트로"),
         "toNextWorkout": MessageLookupByLibrary.simpleMessage("다음 운동으로"),
         "toPreviousSet": MessageLookupByLibrary.simpleMessage("이전 세트로"),
@@ -430,13 +433,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFound": MessageLookupByLibrary.simpleMessage("유저를 찾을 수 없습니다"),
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "유저를 찾을 수 없습니다. 이메일을 다시한번 확인해 주세요"),
-        "usingEquipment": m7,
+        "usingEquipment": m8,
         "weights": MessageLookupByLibrary.simpleMessage("중량"),
         "weightsChartMessage":
             MessageLookupByLibrary.simpleMessage("지금 운동을 시작하고 발전하는 모습을 보세요!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("몸무게 정보를 입력해주세요"),
-        "workedOutMainMuscleGroup": m8,
+        "workedOutMainMuscleGroup": m9,
         "workout": MessageLookupByLibrary.simpleMessage("운동"),
         "workoutDifficultySliderText":
             MessageLookupByLibrary.simpleMessage("운동 강도"),

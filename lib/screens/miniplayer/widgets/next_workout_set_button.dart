@@ -28,16 +28,11 @@ class NextWorkoutSetButton extends ConsumerWidget {
     miniplayerIndex.incrementWorkoutSetIndex();
 
     // set Workout Set
-    // context.read(currentWorkoutSetProvider).state =
-    //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
-    // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
-    //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
     miniplayerNotifier.setWorkoutSet(
       routineWorkout.sets![miniplayerIndex.workoutSetIndex],
     );
 
     context.read(restTimerDurationProvider).state = Duration(
-      // seconds: context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
       seconds: context
               .read(miniplayerProviderNotifierProvider)
               .currentWorkoutSet!
@@ -56,11 +51,8 @@ class NextWorkoutSetButton extends ConsumerWidget {
     final miniplayerIndex = watch(miniplayerIndexProvider);
     final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
     final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
-    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
     final isWorkoutPaused = watch(isWorkoutPausedProvider);
     final workoutSet = miniplayerProvider.currentWorkoutSet;
-    // final workoutSet = watch(currentWorkoutSetProvider).state;
-
     final miniplayerNotifier =
         watch(miniplayerProviderNotifierProvider.notifier);
 

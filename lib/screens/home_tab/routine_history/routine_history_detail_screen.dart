@@ -20,6 +20,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
+import '../../home_screen_provider.dart';
 import 'summary_row_widget.dart';
 
 List<WorkoutHistory> workoutHistories = [];
@@ -484,7 +485,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 color: Colors.red,
                 buttonText: S.current.delete,
                 onPressed: () async {
-                  await _showModalBottomSheet(context);
+                  await _showModalBottomSheet(
+                      homeScreenNavigatorKey.currentContext!);
                 },
               ),
             const SizedBox(height: 160),

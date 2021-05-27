@@ -18,7 +18,6 @@ class PauseOrPlayButton extends ConsumerWidget {
     required IsWorkoutPausedNotifier isWorkoutPaused,
     required CountDownController circularCountDownController,
   }) async {
-    // final workoutSet = watch(currentWorkoutSetProvider).state;
     final workoutSet =
         watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
 
