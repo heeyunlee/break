@@ -16,7 +16,7 @@ final Map<CustomTabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
   CustomTabItem.library: GlobalKey<NavigatorState>(),
   CustomTabItem.progress: GlobalKey<NavigatorState>(),
 };
-CustomTabItem currentTab = CustomTabItem.home;
+CustomTabItem currentTab = CustomTabItem.progress;
 
 // Miniplayer Navigator Keey
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =

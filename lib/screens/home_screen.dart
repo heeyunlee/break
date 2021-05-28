@@ -66,11 +66,8 @@ class _HomeScreenState extends State<HomeScreen>
             .maybePop(), // Preventing from closing the app on Android
         child: Consumer(
           builder: (context, watch, child) {
-            // final selectedRoutine = watch(selectedRoutineProvider).state;
             final miniplayerProvider =
                 watch(miniplayerProviderNotifierProvider);
-
-            print('routine is ${miniplayerProvider.selectedRoutine}');
 
             return Scaffold(
               key: homeScreenNavigatorKey,

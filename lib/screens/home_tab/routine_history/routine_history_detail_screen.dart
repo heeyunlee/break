@@ -154,7 +154,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       await widget.database.batchDeleteWorkoutHistories(workoutHistories);
       await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pop();
+      // Navigator.of(context).popUntil((route) => route.isFirst);
+      tabNavigatorKeys[currentTab]!
+          .currentState!
+          .popUntil((route) => route.isFirst);
 
       // TODO: ADD SNACKBAR HERE
     } on FirebaseException catch (e) {

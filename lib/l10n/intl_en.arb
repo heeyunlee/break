@@ -297,5 +297,6 @@
     "noWorkoutSetTitle": "Add sets to your workout",
     "errorOccuredMessage": "An error has occured",
     "savedWorkouts": "Saved Workouts",
-    "progressTabIntroduction": "Hello,\n{displayName}"
+    "progressTabIntroduction": "Hello,\n{displayName}",
+    "proteins": "Proteins"
 }

@@ -58,7 +58,8 @@ class _ProgressTabState extends State<ProgressTab>
       onNotification: _scrollListener,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Color(0xffa7a6ba),
+        // backgroundColor: Color(0xffa7a6ba),
+        backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
           child: AnimatedBuilder(

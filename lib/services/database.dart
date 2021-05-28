@@ -19,12 +19,24 @@ import 'package:workout_player/services/firestore_service.dart';
 /// `riverpod`
 ///
 final databaseProvider = Provider.family<FirestoreDatabase, String>(
-  (ref, id) => FirestoreDatabase(userId: id),
+  (ref, uid) => FirestoreDatabase(userId: uid),
 );
 
 final userStreamProvider = StreamProvider.family<User?, String>((ref, id) {
   final database = ref.watch(databaseProvider(id));
   return database.userStream(id);
+});
+
+final todaysNutritionStreamProvider =
+    StreamProvider.family<List<Nutrition>?, String>((ref, uid) {
+  final database = ref.watch(databaseProvider(uid));
+  return database.todaysNutritionStream(uid);
+});
+
+final todaysRHStreamProvider =
+    StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
+  final database = ref.watch(databaseProvider(uid));
+  return database.routineHistoryTodayStream(uid);
 });
 
 final workoutStreamProvider = StreamProvider.family<Workout?, String>(
@@ -82,6 +94,7 @@ abstract class Database {
 
   // Stream
   Stream<List<Nutrition>> userNutritionStream({int limit});
+  Stream<List<Nutrition>?> todaysNutritionStream(String uid);
 
   // Query
   Query nutritionsPaginatedUserQuery();
@@ -200,6 +213,7 @@ abstract class Database {
   Stream<RoutineHistory> routineHistoryStream(
       {required String routineHistoryId});
   Stream<List<RoutineHistory>> routineHistoriesStream();
+  Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid);
   Stream<List<RoutineHistory>> routineHistoriesPublicStream();
   Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
     RoutineHistory routineHistory,
@@ -245,13 +259,6 @@ class FirestoreDatabase implements Database {
   final _service = FirestoreService.instance;
 
   ////////////////////////// `Users` /////////////////////////////
-  // // Get User Data
-  // @override
-  // Future<void> getUser(User user) => _service.getData(
-  //       path: APIPath.user(user.userId),
-  //       data: user.toJson(),
-  //     );
-
   // Add or edit User Data
   @override
   Future<void> setUser(User user) => _service.setData(
@@ -380,6 +387,16 @@ class FirestoreDatabase implements Database {
         order: 'loggedTime',
         descending: true,
         limit: limit,
+        path: APIPath.nutritions(),
+        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+      );
+
+  // Stream of Today's Nutrition Entries
+  @override
+  Stream<List<Nutrition>?> todaysNutritionStream(String uid) =>
+      _service.collectionStreamOfToday(
+        uid: uid,
+        dateVariableName: 'loggedDate',
         path: APIPath.nutritions(),
         builder: (data, documentId) => Nutrition.fromMap(data, documentId),
       );
@@ -800,6 +817,16 @@ class FirestoreDatabase implements Database {
         searchString: userId,
         order: 'workoutEndTime',
         descending: true,
+        path: APIPath.routineHistories(),
+        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+      );
+
+  // Stream of Today's Routine History
+  @override
+  Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid) =>
+      _service.collectionStreamOfToday(
+        uid: uid,
+        dateVariableName: 'workoutDate',
         path: APIPath.routineHistories(),
         builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
       );

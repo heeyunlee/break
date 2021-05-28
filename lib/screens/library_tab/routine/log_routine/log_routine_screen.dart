@@ -22,6 +22,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/services/main_provider.dart';
 
+import '../../../home_screen_provider.dart';
 import 'log_routine_provider.dart';
 
 class LogRoutineScreen extends StatefulWidget {
@@ -242,9 +243,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
       Navigator.of(context).pop();
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.afterWorkoutSnackbar),
-      ));
+      ScaffoldMessenger.of(tabNavigatorKeys[currentTab]!.currentContext!)
+          .showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(S.current.afterWorkoutSnackbar),
+        ),
+      );
       // context.read(selectedRoutineProvider).state = null;
       // context.read(selectedRoutineWorkoutsProvider).state = null;
       context

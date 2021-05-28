@@ -320,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록이 아직 없어요!"),
         "proteinEntriesTitle":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록"),
+        "proteins": MessageLookupByLibrary.simpleMessage("단백질"),
         "publicRoutine": MessageLookupByLibrary.simpleMessage("루틴 공개"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "루틴을 공개하시면 다른 유저들과 공유할 수 있습니다"),

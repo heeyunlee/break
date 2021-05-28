@@ -3039,6 +3039,16 @@ class S {
       args: [displayName],
     );
   }
+
+  /// `Proteins`
+  String get proteins {
+    return Intl.message(
+      'Proteins',
+      name: 'proteins',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

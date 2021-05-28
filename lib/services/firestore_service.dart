@@ -81,16 +81,6 @@ class FirestoreService {
     await reference.delete();
   }
 
-  // Document Stream
-  Stream<T> documentStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) {
-    final reference = FirebaseFirestore.instance.doc(path);
-    final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => builder(snapshot.data()!, snapshot.id));
-  }
-
   // Document Future
   Future<T?> getDocument<T>({
     required String path,
@@ -102,6 +92,16 @@ class FirestoreService {
       return builder(snapshot.data()!, snapshot.id);
     }
     return null;
+  }
+
+  // Document Stream
+  Stream<T> documentStream<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+  }) {
+    final reference = FirebaseFirestore.instance.doc(path);
+    final snapshots = reference.snapshots();
+    return snapshots.map((snapshot) => builder(snapshot.data()!, snapshot.id));
   }
 
   Stream<List<T>> collectionStream<T>({
@@ -138,10 +138,30 @@ class FirestoreService {
     final reference = FirebaseFirestore.instance
         .collection(path)
         .where('loggedTime', isGreaterThanOrEqualTo: lastWeek)
-        .orderBy(
-          'loggedTime',
-          descending: true,
-        );
+        .orderBy('loggedTime', descending: true);
+
+    final snapshots = reference.snapshots();
+    return snapshots.map(
+      // converting snapshots of data to list of Data
+      (snapshot) => snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList(),
+    );
+  }
+
+  Stream<List<T>> collectionStreamOfToday<T>({
+    required String path,
+    required String uid,
+    required String dateVariableName,
+    required T Function(Map<String, dynamic> data, String documentId) builder,
+  }) {
+    final now = DateTime.now();
+    final today = DateTime.utc(now.year, now.month, now.day);
+
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where('userId', isEqualTo: uid)
+        .where(dateVariableName, isEqualTo: today);
 
     final snapshots = reference.snapshots();
     return snapshots.map(

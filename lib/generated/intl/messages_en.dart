@@ -343,6 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You haven\'t recorded any proteins yet!"),
         "proteinEntriesTitle":
             MessageLookupByLibrary.simpleMessage("Protein Entries"),
+        "proteins": MessageLookupByLibrary.simpleMessage("Proteins"),
         "publicRoutine": MessageLookupByLibrary.simpleMessage("Public Routine"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "Make your routine either just for yourself or sharable with other users"),
