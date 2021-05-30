@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:workout_player/generated/l10n.dart';
+// import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/location.dart';
+// import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import '../../../../constants.dart';
-import '../../../../format.dart';
+// import '../../../../format.dart';
 
 class RoutineDetailFlexibleSpaceWidget extends StatelessWidget {
   final String tag;
@@ -31,17 +31,17 @@ class RoutineDetailFlexibleSpaceWidget extends StatelessWidget {
     final routineTitle = routine.routineTitle;
     final routineOwnerUserName = routine.routineOwnerUserName;
 
-    // FORMATTING
-    final trainingLevel = Format.difficulty(routine.trainingLevel)!;
-    final duration = Format.durationInMin(routine.duration);
-    final weights = Format.weights(routine.totalWeights);
-    final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
+    // // FORMATTING
+    // final trainingLevel = Format.difficulty(routine.trainingLevel)!;
+    // final duration = Format.durationInMin(routine.duration);
+    // final weights = Format.weights(routine.totalWeights);
+    // final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
 
-    final String description = routine.description == null
-        ? S.current.addDescription
-        : routine.description!.isEmpty
-            ? S.current.addDescription
-            : routine.description!;
+    // final String description = routine.description == null
+    //     ? S.current.addDescription
+    //     : routine.description!.isEmpty
+    //         ? S.current.addDescription
+    //         : routine.description!;
 
     String _mainMuscleGroups = '';
     for (var i = 0; i < routine.mainMuscleGroup.length; i++) {
@@ -73,9 +73,9 @@ class RoutineDetailFlexibleSpaceWidget extends StatelessWidget {
       }
     }
 
-    String location = Location.values
-        .firstWhere((e) => e.toString() == routine.location)
-        .translation!;
+    // String location = Location.values
+    //     .firstWhere((e) => e.toString() == routine.location)
+    //     .translation!;
 
     Widget _getTitleWidget() {
       if (routineTitle.length < 21) {

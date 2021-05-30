@@ -23,13 +23,6 @@ class RoutineStartButton extends StatelessWidget {
     if (snapshot.hasData) {
       final items = snapshot.data!;
       if (items.isNotEmpty) {
-        // // Setting Routine
-        // context.read(selectedRoutineProvider).state = routine;
-
-        // context
-        //     .read(miniplayerProviderNotifierProvider.notifier)
-        //     .makeValuesNull();
-
         if (items[0].sets!.isNotEmpty) {
           context.read(miniplayerProviderNotifierProvider.notifier).initiate(
                 routine: routine,
@@ -45,19 +38,6 @@ class RoutineStartButton extends StatelessWidget {
                 workoutSet: null,
               );
         }
-
-        // // Setting List of Routine Workouts
-        // context.read(selectedRoutineWorkoutsProvider).state = items;
-
-        // // Setting current routine Workout
-        // context.read(currentRoutineWorkoutProvider).state = items[0];
-
-        // if (items[0].sets!.isNotEmpty) {
-        //   // Setting current Workout Set
-        //   context.read(currentWorkoutSetProvider).state = items[0].sets![0];
-        // } else {
-        //   context.read(currentWorkoutSetProvider).state = null;
-        // }
 
         // setting isWorkoutPaused to false
         context.read(isWorkoutPausedProvider).setBoolean(false);

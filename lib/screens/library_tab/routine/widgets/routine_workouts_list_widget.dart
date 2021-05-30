@@ -36,52 +36,49 @@ class RoutineWorkoutsListWidget extends StatelessWidget {
     return CustomStreamBuilderWidget<List<RoutineWorkout>>(
       loadingWidget: RoutineWorkoutShimmer(),
       stream: database.routineWorkoutsStream(routine),
-      hasDataWidget:
-          (BuildContext context, AsyncSnapshot<List<RoutineWorkout>> snapshot) {
-        return Column(
-          children: [
-            Row(
-              children: [
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size((size.width - 48) / 2, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    side: BorderSide(width: 2, color: kPrimaryColor),
+      hasDataWidget: (context, snapshot) => Column(
+        children: [
+          Row(
+            children: [
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  minimumSize: Size((size.width - 48) / 2, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () => LogRoutineScreen.show(
-                    context,
-                    routine: routine,
-                    database: database,
-                    auth: auth,
-                    user: user,
-                  ),
-                  child: Text(S.current.logRoutine, style: kButtonText),
+                  side: BorderSide(width: 2, color: kPrimaryColor),
                 ),
-                const SizedBox(width: 16),
-                RoutineStartButton(
+                onPressed: () => LogRoutineScreen.show(
+                  context,
                   routine: routine,
-                  snapshot: snapshot,
+                  database: database,
+                  auth: auth,
+                  user: user,
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Divider(endIndent: 8, indent: 8, color: kGrey800),
-            const SizedBox(height: 8),
-            ListItemBuilder<RoutineWorkout>(
-              emptyContentTitle: S.current.routineWorkoutEmptyText,
-              snapshot: snapshot,
-              itemBuilder: (context, routineWorkout) => WorkoutMediumCard(
-                database: database,
-                routine: routine,
-                routineWorkout: routineWorkout,
-                auth: auth,
+                child: Text(S.current.logRoutine, style: kButtonText),
               ),
+              const SizedBox(width: 16),
+              RoutineStartButton(
+                routine: routine,
+                snapshot: snapshot,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const Divider(endIndent: 8, indent: 8, color: kGrey800),
+          const SizedBox(height: 8),
+          ListItemBuilder<RoutineWorkout>(
+            emptyContentTitle: S.current.routineWorkoutEmptyText,
+            snapshot: snapshot,
+            itemBuilder: (context, routineWorkout) => WorkoutMediumCard(
+              database: database,
+              routine: routine,
+              routineWorkout: routineWorkout,
+              auth: auth,
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }

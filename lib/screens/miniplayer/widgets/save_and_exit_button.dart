@@ -89,14 +89,13 @@ class SaveAndExitButton extends ConsumerWidget {
         (rw) {
           final workoutHistoryId = documentIdFromCurrentDate();
           final uniqueId = UniqueKey().toString();
-          // print('unique id is $uniqueId');
 
           final workoutHistory = WorkoutHistory(
             workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
             routineHistoryId: routineHistoryId,
             workoutId: rw.workoutId,
             routineId: rw.routineId,
-            uid: rw.routineWorkoutOwnerId,
+            uid: userData.userId,
             index: rw.index,
             workoutTitle: rw.workoutTitle,
             numberOfSets: rw.numberOfSets,

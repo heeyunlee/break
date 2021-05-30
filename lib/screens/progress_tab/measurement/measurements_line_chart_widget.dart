@@ -41,12 +41,11 @@ class _MeasurementsLineChartWidgetState
   late DateTime _today;
   late List<DateTime> _dates;
   List<String> _daysOfTheWeek = [];
-  // ignore: prefer_final_fields
   List<Measurement> _thisWeekData = [];
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
-    debugPrint('setMaxY func');
+    // debugPrint('setMaxY func');
     if (measurements.isEmpty || measurements.length < 2) {
       maxY = 80;
       minY = 70;
@@ -83,7 +82,7 @@ class _MeasurementsLineChartWidgetState
   }
 
   double? flipNumber(double number) {
-    debugPrint('flipNumber func');
+    // debugPrint('flipNumber func');
 
     switch (number.toInt()) {
       case 6:

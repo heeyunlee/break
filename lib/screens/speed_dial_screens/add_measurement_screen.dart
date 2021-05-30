@@ -44,17 +44,6 @@ class AddMeasurementScreen extends StatefulWidget {
         ),
       ),
     );
-
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
-    //   screen: AddMeasurementScreen(
-    //     database: database,
-    //     user: user!,
-    //     auth: auth,
-    //   ),
-    // );
   }
 
   @override

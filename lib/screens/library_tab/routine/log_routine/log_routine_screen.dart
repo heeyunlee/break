@@ -20,7 +20,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/services/main_provider.dart';
 
 import '../../../home_screen_provider.dart';
 import 'log_routine_provider.dart';
@@ -71,7 +70,7 @@ class LogRoutineScreen extends StatefulWidget {
 class _LogRoutineScreenState extends State<LogRoutineScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late DateTime _workoutStartTime;
+  late DateTime _workoutEndTime;
   late String _nowInString;
   late int _durationInMinutes;
   late TextEditingController _textController1;
@@ -91,8 +90,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   @override
   void initState() {
     super.initState();
-    _workoutStartTime = DateTime.now();
-    _nowInString = Format.yMdjmInDateTime(_workoutStartTime);
+    _workoutEndTime = DateTime.now();
+    _nowInString = Format.yMdjmInDateTime(_workoutEndTime);
 
     _durationInMinutes = Format.durationInMin(widget.routine.duration);
     _textController1 =
@@ -130,31 +129,30 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
       /// For Routine History
-      // final userData = (await user)!;
       final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
-      final workoutEndTime = _workoutStartTime.add(Duration(
-        minutes: _durationInMinutes,
-      ));
+      final _workoutStartTime = _workoutEndTime.subtract(
+        Duration(minutes: _durationInMinutes),
+      );
 
       final isBodyWeightWorkout = routineWorkouts.any(
         (element) => element.isBodyWeightWorkout == true,
       );
       final workoutDate = DateTime.utc(
-        _workoutStartTime.year,
-        _workoutStartTime.month,
-        _workoutStartTime.day,
+        _workoutEndTime.year,
+        _workoutEndTime.month,
+        _workoutEndTime.day,
       );
 
-      // For Calculating Total Weights
-      var totalWeights = 0.00;
-      var weightsCalculated = false;
-      if (!weightsCalculated) {
-        for (var i = 0; i < routineWorkouts.length; i++) {
-          var weights = routineWorkouts[i].totalWeights;
-          totalWeights = totalWeights + weights;
-        }
-        weightsCalculated = true;
-      }
+      // // For Calculating Total Weights
+      // var totalWeights = 0.00;
+      // var weightsCalculated = false;
+      // if (!weightsCalculated) {
+      //   for (var i = 0; i < routineWorkouts.length; i++) {
+      //     var weights = routineWorkouts[i].totalWeights;
+      //     totalWeights = totalWeights + weights;
+      //   }
+      //   weightsCalculated = true;
+      // }
 
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
@@ -165,12 +163,12 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         isPublic: true,
         mainMuscleGroup: routine.mainMuscleGroup,
         secondMuscleGroup: routine.secondMuscleGroup,
+        workoutEndTime: Timestamp.fromDate(_workoutEndTime),
         workoutStartTime: Timestamp.fromDate(_workoutStartTime),
-        workoutEndTime: Timestamp.fromDate(workoutEndTime),
         notes: '',
         totalCalories: 0,
         totalDuration: _durationInMinutes * 60,
-        totalWeights: totalWeights,
+        totalWeights: _totalWeights,
         isBodyWeightWorkout: isBodyWeightWorkout,
         workoutDate: workoutDate,
         imageUrl: routine.imageUrl,
@@ -191,7 +189,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
             routineHistoryId: routineHistoryId,
             workoutId: rw.workoutId,
             routineId: rw.routineId,
-            uid: rw.routineWorkoutOwnerId,
+            uid: widget.user.userId,
             index: rw.index,
             workoutTitle: rw.workoutTitle,
             numberOfSets: rw.numberOfSets,
@@ -217,7 +215,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       if (index == -1) {
         final newHistory = DailyWorkoutHistory(
           date: workoutDate,
-          totalWeights: totalWeights,
+          totalWeights: _totalWeights,
         );
         histories!.add(newHistory);
       } else {
@@ -225,14 +223,14 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
         final newHistory = DailyWorkoutHistory(
           date: oldHistory.date,
-          totalWeights: oldHistory.totalWeights + totalWeights,
+          totalWeights: oldHistory.totalWeights + _totalWeights,
         );
         histories[index] = newHistory;
       }
 
       // User
       final updatedUserData = {
-        'totalWeights': widget.user.totalWeights + totalWeights,
+        'totalWeights': widget.user.totalWeights + _totalWeights,
         'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
         'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
       };
@@ -250,8 +248,6 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           content: Text(S.current.afterWorkoutSnackbar),
         ),
       );
-      // context.read(selectedRoutineProvider).state = null;
-      // context.read(selectedRoutineWorkoutsProvider).state = null;
       context
           .read(miniplayerProviderNotifierProvider.notifier)
           .makeValuesNull();
@@ -279,10 +275,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           child: CupertinoTheme(
             data: CupertinoThemeData(brightness: Brightness.dark),
             child: CupertinoDatePicker(
-              initialDateTime: _workoutStartTime,
+              initialDateTime: _workoutEndTime,
               onDateTimeChanged: (value) => setState(() {
-                _workoutStartTime = value;
-                _nowInString = Format.yMdjmInDateTime(_workoutStartTime);
+                _workoutEndTime = value;
+                _nowInString = Format.yMdjmInDateTime(_workoutEndTime);
               }),
             ),
           ),

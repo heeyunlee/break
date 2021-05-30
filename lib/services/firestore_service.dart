@@ -129,16 +129,45 @@ class FirestoreService {
     );
   }
 
+  // Stream<List<T>> collectionStreamOfThisWeek<T>({
+  //   required String path,
+  //   required T Function(Map<String, dynamic> data, String documentId) builder,
+  // }) {
+  //   final lastWeek = DateTime.now().subtract(Duration(days: 7));
+
+  //   final reference = FirebaseFirestore.instance
+  //       .collection(path)
+  //       .where('loggedTime', isGreaterThanOrEqualTo: lastWeek)
+  //       .orderBy('loggedTime', descending: true);
+
+  //   final snapshots = reference.snapshots();
+  //   return snapshots.map(
+  //     // converting snapshots of data to list of Data
+  //     (snapshot) => snapshot.docs
+  //         .map((snapshot) => builder(snapshot.data(), snapshot.id))
+  //         .toList(),
+  //   );
+  // }
+
   Stream<List<T>> collectionStreamOfThisWeek<T>({
     required String path,
+    String? uid,
+    String? uidVariableName,
+    required String dateVariableName,
     required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
     final lastWeek = DateTime.now().subtract(Duration(days: 7));
 
-    final reference = FirebaseFirestore.instance
-        .collection(path)
-        .where('loggedTime', isGreaterThanOrEqualTo: lastWeek)
-        .orderBy('loggedTime', descending: true);
+    final reference = (uid != null && uidVariableName != null)
+        ? FirebaseFirestore.instance
+            .collection(path)
+            .where(uidVariableName, isEqualTo: uid)
+            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
+            .orderBy(dateVariableName, descending: false)
+        : FirebaseFirestore.instance
+            .collection(path)
+            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
+            .orderBy(dateVariableName, descending: false);
 
     final snapshots = reference.snapshots();
     return snapshots.map(
@@ -151,8 +180,10 @@ class FirestoreService {
 
   Stream<List<T>> collectionStreamOfToday<T>({
     required String path,
+    required String uidVariableName,
     required String uid,
     required String dateVariableName,
+    required String orderVariableName,
     required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
     final now = DateTime.now();
@@ -160,8 +191,9 @@ class FirestoreService {
 
     final reference = FirebaseFirestore.instance
         .collection(path)
-        .where('userId', isEqualTo: uid)
-        .where(dateVariableName, isEqualTo: today);
+        .where(uidVariableName, isEqualTo: uid)
+        .where(dateVariableName, isEqualTo: today)
+        .orderBy(orderVariableName, descending: false);
 
     final snapshots = reference.snapshots();
     return snapshots.map(

@@ -10,12 +10,13 @@ import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
+// import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../../constants.dart';
 
+// ignore: must_be_immutable
 class SavedWorkoutsScreen extends StatelessWidget {
   final Database database;
   final User user;

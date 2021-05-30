@@ -33,6 +33,12 @@ final todaysNutritionStreamProvider =
   return database.todaysNutritionStream(uid);
 });
 
+final thisWeeksNutritionsStreamProvider =
+    StreamProvider.family<List<Nutrition>?, String>((ref, uid) {
+  final database = ref.watch(databaseProvider(uid));
+  return database.thisWeeksNutritionsStream(uid);
+});
+
 final todaysRHStreamProvider =
     StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
   final database = ref.watch(databaseProvider(uid));
@@ -43,6 +49,14 @@ final workoutStreamProvider = StreamProvider.family<Workout?, String>(
   (ref, id) {
     final database = ref.watch(databaseProvider(id));
     return database.workoutStream(workoutId: id);
+  },
+);
+
+final rhOfThisWeekStreamProvider =
+    StreamProvider.autoDispose.family<List<RoutineHistory>?, String>(
+  (ref, uid) {
+    final database = ref.watch(databaseProvider(uid));
+    return database.routineHistoriesThisWeekStream(uid);
   },
 );
 
@@ -95,6 +109,7 @@ abstract class Database {
   // Stream
   Stream<List<Nutrition>> userNutritionStream({int limit});
   Stream<List<Nutrition>?> todaysNutritionStream(String uid);
+  Stream<List<Nutrition>?> thisWeeksNutritionsStream(String uid);
 
   // Query
   Query nutritionsPaginatedUserQuery();
@@ -214,6 +229,7 @@ abstract class Database {
       {required String routineHistoryId});
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid);
+  Stream<List<RoutineHistory>?> routineHistoriesThisWeekStream(String uid);
   Stream<List<RoutineHistory>> routineHistoriesPublicStream();
   Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
     RoutineHistory routineHistory,
@@ -340,6 +356,7 @@ class FirestoreDatabase implements Database {
   Stream<List<Measurement>> measurementsStreamThisWeek(String uid) =>
       _service.collectionStreamOfThisWeek(
         path: APIPath.measurements(uid),
+        dateVariableName: 'loggedDate',
         builder: (data, documentId) => Measurement.fromMap(data, documentId),
       );
 
@@ -396,7 +413,20 @@ class FirestoreDatabase implements Database {
   Stream<List<Nutrition>?> todaysNutritionStream(String uid) =>
       _service.collectionStreamOfToday(
         uid: uid,
+        uidVariableName: 'userId',
         dateVariableName: 'loggedDate',
+        orderVariableName: 'loggedTime',
+        path: APIPath.nutritions(),
+        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+      );
+
+  // Stream of This Week's Nutrition Entries
+  @override
+  Stream<List<Nutrition>?> thisWeeksNutritionsStream(String uid) =>
+      _service.collectionStreamOfThisWeek(
+        uid: uid,
+        uidVariableName: 'userId',
+        dateVariableName: 'loggedTime',
         path: APIPath.nutritions(),
         builder: (data, documentId) => Nutrition.fromMap(data, documentId),
       );
@@ -826,7 +856,20 @@ class FirestoreDatabase implements Database {
   Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid) =>
       _service.collectionStreamOfToday(
         uid: uid,
+        uidVariableName: 'userId',
         dateVariableName: 'workoutDate',
+        orderVariableName: 'workoutStartTime',
+        path: APIPath.routineHistories(),
+        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+      );
+
+  // Stream of This Week's Routine History
+  @override
+  Stream<List<RoutineHistory>?> routineHistoriesThisWeekStream(String uid) =>
+      _service.collectionStreamOfThisWeek(
+        uid: uid,
+        uidVariableName: 'userId',
+        dateVariableName: 'workoutEndTime',
         path: APIPath.routineHistories(),
         builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
       );

@@ -53,17 +53,6 @@ class CreateNewWorkoutScreen extends StatefulWidget {
         ),
       ),
     );
-
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
-    //   screen: CreateNewWorkoutScreen(
-    //     database: database,
-    //     auth: auth,
-    //     user: user,
-    //   ),
-    // );
   }
 
   @override

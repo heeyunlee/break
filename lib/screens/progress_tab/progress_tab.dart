@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../constants.dart';
@@ -26,9 +26,9 @@ class _ProgressTabState extends State<ProgressTab>
     final size = MediaQuery.of(context).size;
 
     if (scrollInfo.metrics.axis == Axis.vertical) {
-      debugPrint('${scrollInfo.metrics.pixels}');
+      // debugPrint('${scrollInfo.metrics.pixels}');
       _colorAnimationController
-          .animateTo((scrollInfo.metrics.pixels - size.height + 160) / 50);
+          .animateTo((scrollInfo.metrics.pixels - size.height * 4 / 5) / 50);
 
       return true;
     }
@@ -54,11 +54,13 @@ class _ProgressTabState extends State<ProgressTab>
   Widget build(BuildContext context) {
     debugPrint('Progress Tab scaffold building...');
 
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
+
     return NotificationListener<ScrollNotification>(
       onNotification: _scrollListener,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        // backgroundColor: Color(0xffa7a6ba),
         backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(0),
@@ -71,23 +73,20 @@ class _ProgressTabState extends State<ProgressTab>
             ),
           ),
         ),
-        body: Consumer(
-          builder: (context, watch, child) {
-            final uid = watch(authServiceProvider).currentUser!.uid;
-            final userStream = watch(userStreamProvider(uid));
-
-            return userStream.when(
-              data: (user) => _buildChildWidget(user!),
-              loading: () => ProgressTabShimmer(),
-              error: (e, stack) => EmptyContent(),
-            );
-          },
+        body: CustomStreamBuilderWidget<User>(
+          stream: database.userStream(auth.currentUser!.uid),
+          loadingWidget: ProgressTabShimmer(),
+          hasDataWidget: (context, snapshot) => _buildChildWidget(
+            snapshot.data!,
+            database,
+            auth,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildChildWidget(User user) {
+  Widget _buildChildWidget(User user, Database database, AuthBase auth) {
     final size = MediaQuery.of(context).size;
 
     return Stack(
@@ -98,15 +97,15 @@ class _ProgressTabState extends State<ProgressTab>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: size.height - 184,
+                height: size.height - size.height / 5,
                 width: size.width,
               ),
               Container(
                 decoration: BoxDecoration(
                   color: kBackgroundColor,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32),
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
                 ),
                 child: Padding(
@@ -114,8 +113,8 @@ class _ProgressTabState extends State<ProgressTab>
                   child: Column(
                     children: [
                       const SizedBox(height: 56),
-                      WeightsLiftedChartWidget(user: user),
-                      ProteinsEatenChartWidget(user: user),
+                      WeightsLiftedChartWidget(user: user, auth: auth),
+                      ProteinsEatenChartWidget(user: user, auth: auth),
                       MeasurementsLineChartWidget(user: user),
                       const SizedBox(height: 56),
                     ],

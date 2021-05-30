@@ -53,16 +53,6 @@ class CreateNewRoutineScreen extends StatefulWidget {
         ),
       ),
     );
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
-    //   screen: CreateNewRoutineScreen(
-    //     database: database,
-    //     auth: auth,
-    //     user: user!,
-    //   ),
-    // );
   }
 
   @override
@@ -133,17 +123,6 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
               ),
             ),
           );
-      // await Navigator.of(context, rootNavigator: false).pushReplacement(
-      //   CupertinoPageRoute(
-      //     builder: (context) => RoutineDetailScreen(
-      //       routine: routine,
-      //       auth: widget.auth,
-      //       database: widget.database,
-      //       user: widget.user,
-      //       tag: 'newRoutine-${routine.routineId}',
-      //     ),
-      //   ),
-      // );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

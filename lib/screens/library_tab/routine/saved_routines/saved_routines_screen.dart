@@ -15,6 +15,7 @@ import 'package:workout_player/services/database.dart';
 import '../../../../constants.dart';
 import '../routine_detail_screen.dart';
 
+// ignore: must_be_immutable
 class SavedRoutinesScreen extends StatelessWidget {
   final Database database;
   final User user;
