@@ -40,27 +40,27 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
 
-  void _setData(List<RoutineHistory>? streamData, List<double> relativeYs) {
-    Map<DateTime, List<RoutineHistory>> _mapData;
+  void _setData(List<RoutineHistory?> streamData, List<double> relativeYs) {
+    Map<DateTime, List<RoutineHistory?>> _mapData;
     List<num> listOfYs = [];
 
-    if (streamData != null) {
+    if (streamData.isNotEmpty) {
       _mapData = {
         for (var item in _dates)
-          item: streamData.where((e) => e.workoutDate.toUtc() == item).toList()
+          item: streamData.where((e) => e!.workoutDate.toUtc() == item).toList()
       };
-
       _mapData.values.forEach((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
           list.forEach((history) {
-            sum += history.totalWeights;
+            sum += history!.totalWeights;
           });
         }
 
         listOfYs.add(sum);
       });
+
       final largest = listOfYs.reduce(max);
 
       if (largest == 0) {
@@ -75,7 +75,12 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           relativeYs.add(element / _maxY * 10);
         });
       }
-    } else {}
+    } else {
+      _mapData = {for (var item in _dates) item: []};
+      for (var _ in _dates) {
+        relativeYs.add(0);
+      }
+    }
   }
 
   @override
@@ -192,7 +197,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                                 ],
                               ),
                             ),
-                            if (streamData!.isEmpty)
+                            if (streamData.isEmpty)
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),
@@ -206,7 +211,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                       ),
                       if (streamData.isEmpty) const Divider(color: kGrey700),
                       const SizedBox(height: 16),
-                      _buildChart(_maxY, relativeYs),
+                      _buildChart(_maxY, relativeYs, streamData),
                     ],
                   ),
                 ),
@@ -218,7 +223,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
     );
   }
 
-  Widget _buildChart(double _maxY, List<double> relativeYs) {
+  Widget _buildChart(
+      double _maxY, List<double> relativeYs, List<RoutineHistory?> data) {
     return AspectRatio(
       aspectRatio: 1.5,
       child: Padding(
@@ -302,9 +308,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               ),
             ),
             borderData: FlBorderData(show: false),
-            barGroups: (widget.user.dailyWorkoutHistories!.isNotEmpty)
-                ? _barGroupsChild(relativeYs)
-                : randomData(),
+            barGroups:
+                (data.isNotEmpty) ? _barGroupsChild(relativeYs) : randomData(),
           ),
         ),
       ),

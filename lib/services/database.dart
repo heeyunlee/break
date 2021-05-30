@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/nutrition.dart';
@@ -10,10 +9,10 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/user_feedback.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/api_path.dart';
 import 'package:workout_player/services/firestore_service.dart';
 
-///
 ///
 ///
 /// `riverpod`
@@ -48,12 +47,12 @@ final todaysRHStreamProvider =
 final workoutStreamProvider = StreamProvider.family<Workout?, String>(
   (ref, id) {
     final database = ref.watch(databaseProvider(id));
-    return database.workoutStream(workoutId: id);
+    return database.workoutStream(id);
   },
 );
 
 final rhOfThisWeekStreamProvider =
-    StreamProvider.autoDispose.family<List<RoutineHistory>?, String>(
+    StreamProvider.autoDispose.family<List<RoutineHistory?>, String>(
   (ref, uid) {
     final database = ref.watch(databaseProvider(uid));
     return database.routineHistoriesThisWeekStream(uid);
@@ -69,13 +68,12 @@ final rhOfThisWeekStreamProvider =
 abstract class Database {
   /////////////// `User` ////////////////
   // FUTURE
-  // Future<void> getUser(User user);
   Future<void> setUser(User user);
   Future<void> updateUser(String uid, Map<String, dynamic> data);
   Future<User?> getUserDocument(String uid);
 
   // Stream
-  Stream<User> userStream(String uid);
+  Stream<User?> userStream(String uid);
 
   //////////////////// `Body Measurement` //////////////////////
   Future<void> setMeasurement({
@@ -95,7 +93,7 @@ abstract class Database {
   Stream<List<Measurement>> measurementsStreamThisWeek(String uid);
 
   // Query
-  Query measurementsQuery(String uid);
+  Query<Measurement> measurementsQuery(String uid);
 
   //////////////////// `Nutrition` /////////////////////
   //Future
@@ -112,7 +110,7 @@ abstract class Database {
   Stream<List<Nutrition>?> thisWeeksNutritionsStream(String uid);
 
   // Query
-  Query nutritionsPaginatedUserQuery();
+  Query<Nutrition> nutritionsPaginatedUserQuery();
 
   /////////////////// `User Feedback` /////////////////////
   Future<void> setUserFeedback(UserFeedback userFeedback);
@@ -125,19 +123,18 @@ abstract class Database {
   Future<Workout?> getWorkout(String workoutId);
 
   // STREAM
-  Stream<Workout> workoutStream({required String workoutId});
+  Stream<Workout?> workoutStream(String workoutId);
   Stream<List<Workout>> workoutsStream({int limit});
   Stream<List<Workout>> userWorkoutsStream({int limit});
   Stream<List<Workout>> workoutsSearchStream({
-    String? isEqualTo,
-    String? arrayContains,
-    String? searchCategory,
+    required String arrayContainsVariableName,
+    required String arrayContainsValue,
     int? limit,
   });
 
   // QUERY
-  Query workoutsPaginatedUserQuery();
-  Query workoutsSearchQuery();
+  Query<Workout> workoutsPaginatedUserQuery();
+  Query<Workout> workoutsSearchQuery();
 
   // BATCH
   Future<void> batchUpdateWorkouts(List<Map<String, dynamic>> workouts);
@@ -148,35 +145,21 @@ abstract class Database {
   Future<void> updateRoutine(Routine routine, Map<String, dynamic> data);
   Future<void> deleteRoutine(Routine routine);
   Future<Routine?> getRoutine(String routineId);
-  // Stream<Routine> getRoutine2(String routineId);
 
   // STREAM
-  Stream<Routine> routineStream({required String routineId});
+  Stream<Routine?> routineStream(String routineId);
   Stream<List<Routine>> routinesStream({int limit});
   Stream<List<Routine>> userRoutinesStream({int limit});
   Stream<List<Routine>> routinesSearchStream({
-    String? isEqualTo,
-    String? arrayContains,
-    String? searchCategory,
-    int? limit,
-  });
-  Stream<List<Routine>> routinesSearchStream2({
-    String? searchCategory,
-    String? arrayContains,
-    String? searchCategory2,
-    String? arrayContains2,
-    int? limit,
-  });
-  Stream<List<Routine>> routinesSearchStream3({
-    String? searchCategory,
-    String? arrayContains,
+    required String arrayContainsVariableName,
+    required String arrayContainsValue,
     int? limit,
   });
 
   // QUERY
-  Query routinesPaginatedPublicQuery();
-  Query routinesPaginatedUserQuery();
-  Query routinesSearchQuery();
+  Query<Routine> routinesPaginatedPublicQuery();
+  Query<Routine> routinesPaginatedUserQuery();
+  Query<Routine> routinesSearchQuery();
 
   // Batch
   Future<void> batchUpdateRoutines(List<Map<String, dynamic>> routines);
@@ -191,10 +174,10 @@ abstract class Database {
     required RoutineWorkout routineWorkout,
     required Map<String, dynamic> data,
   });
-  Stream<RoutineWorkout> routineWorkoutStream(
-    Routine routine,
-    RoutineWorkout routineWorkout,
-  );
+  Stream<RoutineWorkout?> routineWorkoutStream({
+    required Routine routine,
+    required RoutineWorkout routineWorkout,
+  });
   Stream<List<RoutineWorkout>> routineWorkoutsStream(Routine routine);
 
   Future<void> setWorkoutSet({
@@ -211,33 +194,17 @@ abstract class Database {
     Map<String, dynamic> data,
   );
   Future<void> deleteRoutineHistory(RoutineHistory routineHistory);
-  Future<void> setRoutineWorkoutForHistory(
-    RoutineHistory routineHistory,
-    RoutineWorkout routineWorkout,
-  );
-  Future<void> deleteRoutineWorkoutForHistory(
-    RoutineHistory routineHistory,
-    RoutineWorkout routineWorkout,
-  );
-  Future<void> batchRoutineWorkouts(
-    RoutineHistory routineHistory,
-    List<RoutineWorkout> routineWorkout,
-  );
 
   // STREAM
-  Stream<RoutineHistory> routineHistoryStream(
-      {required String routineHistoryId});
+  Stream<RoutineHistory?> routineHistoryStream(String routineHistoryId);
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid);
-  Stream<List<RoutineHistory>?> routineHistoriesThisWeekStream(String uid);
+  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream(String uid);
   Stream<List<RoutineHistory>> routineHistoriesPublicStream();
-  Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
-    RoutineHistory routineHistory,
-  );
 
   // QUERY
-  Query routineHistoriesPaginatedPublicQuery();
-  Query routineHistoriesPaginatedUserQuery();
+  Query<RoutineHistory> routineHistoriesPaginatedPublicQuery();
+  Query<RoutineHistory> routineHistoriesPaginatedUserQuery();
   Future<void> batchUpdateRoutineHistories(
     List<Map<String, dynamic>> routineHistories,
   );
@@ -260,7 +227,6 @@ abstract class Database {
 
 ///
 ///
-///
 /// `FirestoreDatabase`
 ///
 ///
@@ -277,31 +243,41 @@ class FirestoreDatabase implements Database {
   ////////////////////////// `Users` /////////////////////////////
   // Add or edit User Data
   @override
-  Future<void> setUser(User user) => _service.setData(
+  Future<void> setUser(User user) => _service.setData<User>(
         path: APIPath.user(user.userId),
-        data: user.toJson(),
+        data: user,
+        fromBuilder: (data, id) => User.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+        // data: user.toJson(),
       );
 
   // Update User Data
   @override
   Future<void> updateUser(String uid, Map<String, dynamic> data) =>
-      _service.updateData(
+      _service.updateData<User>(
         path: APIPath.user(uid),
         data: data,
+        fromBuilder: (data, id) => User.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Single User Data
   @override
-  Future<User?> getUserDocument(String uid) => _service.getDocument(
+  Future<User?> getUserDocument(String uid) => _service.getDocument<User>(
         path: APIPath.user(uid),
-        builder: (data, documentId) => User.fromJson(data, documentId),
+        // builder: (data) => data,
+        // builder: (data, documentId) => User.fromJson(data, documentId),
+        fromBuilder: (data, id) => User.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Single User Stream
   @override
-  Stream<User> userStream(String uid) => _service.documentStream(
+  Stream<User?> userStream(String uid) => _service.documentStream<User?>(
         path: APIPath.user(uid),
-        builder: (data, documentId) => User.fromJson(data, documentId),
+        // builder: (data, documentId) => User.fromJson(data, documentId),
+        fromBuilder: (data, id) => User.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   //////////////////////// `Body Measurement` ///////////////////////////
@@ -311,12 +287,11 @@ class FirestoreDatabase implements Database {
     required String uid,
     required Measurement measurement,
   }) =>
-      _service.setData(
-        path: APIPath.measurement(
-          uid,
-          measurement.measurementId,
-        ),
-        data: measurement.toMap(),
+      _service.setData<Measurement>(
+        path: APIPath.measurement(uid, measurement.measurementId),
+        data: measurement,
+        fromBuilder: (data, id) => Measurement.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Update Body Measurement Data
@@ -326,9 +301,11 @@ class FirestoreDatabase implements Database {
     required String measurementId,
     required Map<String, dynamic> data,
   }) =>
-      _service.updateData(
+      _service.updateData<Measurement>(
         path: APIPath.measurement(uid, measurementId),
         data: data,
+        fromBuilder: (data, id) => Measurement.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete Body Measurement Data
@@ -344,37 +321,44 @@ class FirestoreDatabase implements Database {
   // Body Measurements Stream for User
   @override
   Stream<List<Measurement>> measurementsStream(String uid) =>
-      _service.collectionStream(
+      _service.collectionStream<Measurement>(
         order: 'loggedTime',
         descending: true,
         path: APIPath.measurements(uid),
-        builder: (data, documentId) => Measurement.fromMap(data, documentId),
+        fromBuilder: (data, id) => Measurement.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Body Measurements Stream for User
   @override
   Stream<List<Measurement>> measurementsStreamThisWeek(String uid) =>
-      _service.collectionStreamOfThisWeek(
+      _service.collectionStreamOfThisWeek<Measurement>(
         path: APIPath.measurements(uid),
         dateVariableName: 'loggedDate',
-        builder: (data, documentId) => Measurement.fromMap(data, documentId),
+        fromBuilder: (data, id) => Measurement.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Measurements Query
   // Nutrition Query for specfic User
   @override
-  Query measurementsQuery(String uid) => _service.paginatedCollectionQuery(
+  Query<Measurement> measurementsQuery(String uid) =>
+      _service.paginatedCollectionQuery<Measurement>(
         path: APIPath.measurements(uid),
-        order: 'loggedTime',
+        orderBy: 'loggedTime',
         descending: true,
+        fromBuilder: (data, id) => Measurement.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   ////////////////////////// `Nutrition` ///////////////////////////////
   // Set
   @override
-  Future<void> setNutrition(Nutrition nutrition) => _service.setData(
+  Future<void> setNutrition(Nutrition nutrition) => _service.setData<Nutrition>(
         path: APIPath.nutrition(nutrition.nutritionId),
-        data: nutrition.toMap(),
+        data: nutrition,
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Edit Routine
@@ -383,9 +367,11 @@ class FirestoreDatabase implements Database {
     required Nutrition nutrition,
     required Map<String, dynamic> data,
   }) =>
-      _service.updateData(
+      _service.updateData<Nutrition>(
         path: APIPath.nutrition(nutrition.nutritionId),
         data: data,
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete workout data
@@ -398,71 +384,84 @@ class FirestoreDatabase implements Database {
   // Nutrition Stream for specific User
   @override
   Stream<List<Nutrition>> userNutritionStream({int limit = 10}) =>
-      _service.userCollectionStream(
-        searchCategory: 'userId',
-        searchString: userId,
-        order: 'loggedTime',
-        descending: true,
-        limit: limit,
+      _service.isEqualToOrderByCollectionStream<Nutrition>(
         path: APIPath.nutritions(),
-        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+        whereVariableName: 'userId',
+        isEqualToValue: userId!,
+        orderByVariable: 'loggedTime',
+        isDescending: true,
+        limit: limit,
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Stream of Today's Nutrition Entries
   @override
-  Stream<List<Nutrition>?> todaysNutritionStream(String uid) =>
-      _service.collectionStreamOfToday(
+  Stream<List<Nutrition>> todaysNutritionStream(String uid) =>
+      _service.collectionStreamOfToday<Nutrition>(
         uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'loggedDate',
         orderVariableName: 'loggedTime',
         path: APIPath.nutritions(),
-        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Stream of This Week's Nutrition Entries
   @override
   Stream<List<Nutrition>?> thisWeeksNutritionsStream(String uid) =>
-      _service.collectionStreamOfThisWeek(
+      _service.collectionStreamOfThisWeek<Nutrition>(
         uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'loggedTime',
         path: APIPath.nutritions(),
-        builder: (data, documentId) => Nutrition.fromMap(data, documentId),
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Nutrition Query for specfic User
   @override
-  Query nutritionsPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+  Query<Nutrition> nutritionsPaginatedUserQuery() =>
+      _service.whereAndOrderByQuert<Nutrition>(
         path: APIPath.nutritions(),
-        order: 'loggedTime',
+        where: 'userId',
+        isEqualTo: userId,
+        orderBy: 'loggedTime',
         descending: true,
-        id: 'userId',
-        userId: userId,
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   /////////////////////// `User Feedback` /////////////////////
   // Add or edit User Data
   @override
-  Future<void> setUserFeedback(UserFeedback userFeedback) => _service.setData(
+  Future<void> setUserFeedback(UserFeedback userFeedback) =>
+      _service.setData<UserFeedback>(
         path: APIPath.userFeedback(userFeedback.userFeedbackId),
-        data: userFeedback.toMap(),
+        data: userFeedback,
+        fromBuilder: (data, id) => UserFeedback.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   //////////////////////// `Workouts` /////////////////////
   // Add or edit workout data
   @override
-  Future<void> setWorkout(Workout workout) => _service.setData(
+  Future<void> setWorkout(Workout workout) => _service.setData<Workout>(
         path: APIPath.workout(workout.workoutId),
-        data: workout.toMap(),
+        data: workout,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Edit Workout
   @override
   Future<void> updateWorkout(Workout workout, Map<String, dynamic> data) =>
-      _service.updateData(
+      _service.updateData<Workout>(
         path: APIPath.workout(workout.workoutId),
         data: data,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete workout data
@@ -476,75 +475,86 @@ class FirestoreDatabase implements Database {
   Future<Workout?> getWorkout(String workoutId) async =>
       _service.getDocument<Workout>(
         path: APIPath.workout(workoutId),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Stream of Single Workout Stream
   @override
-  Stream<Workout> workoutStream({required String workoutId}) =>
-      _service.documentStream(
+  Stream<Workout?> workoutStream(String workoutId) =>
+      _service.documentStream<Workout?>(
         path: APIPath.workout(workoutId),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   // Stream for all available Workouts
   @override
   Stream<List<Workout>> workoutsStream({int? limit}) =>
-      _service.publicCollectionStream(
-        order: 'workoutTitle',
-        descending: false,
+      _service.isEqualToOrderByCollectionStream<Workout>(
         path: APIPath.workouts(),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
-        limit: limit,
+        whereVariableName: 'isPublic',
+        isEqualToValue: true,
+        orderByVariable: 'workoutTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Workout Stream for specific User
   @override
   Stream<List<Workout>> userWorkoutsStream({int? limit}) =>
-      _service.userCollectionStream(
-        searchCategory: 'workoutOwnerId',
-        searchString: userId,
-        order: 'workoutTitle',
-        descending: false,
-        limit: limit,
+      _service.isEqualToOrderByCollectionStream<Workout>(
         path: APIPath.workouts(),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
+        whereVariableName: 'workoutOwnerId',
+        isEqualToValue: userId,
+        orderByVariable: 'workoutTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Workout Search Stream
   @override
   Stream<List<Workout>> workoutsSearchStream({
-    String? isEqualTo,
-    String? arrayContains,
-    String? searchCategory,
+    required String arrayContainsVariableName,
+    required String arrayContainsValue,
     int? limit,
   }) =>
-      _service.publicSearchCollectionStream(
-        order: 'workoutTitle',
-        isEqualTo: isEqualTo,
-        arrayContains: arrayContains,
-        searchCategory: searchCategory,
-        limit: limit,
+      _service.isEqualToArrayContainsCollectionStream<Workout>(
         path: APIPath.workouts(),
-        builder: (data, documentId) => Workout.fromMap(data, documentId),
+        whereVariableName: 'isPublic',
+        isEqualToValue: true,
+        arrayContainsVariableName: arrayContainsVariableName,
+        arrayContainsValue: arrayContainsValue,
+        orderByVariable: 'workoutTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+        limit: limit,
       );
 
   // Paginated Workouts Query for specific user
   @override
-  Query workoutsPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+  Query<Workout> workoutsPaginatedUserQuery() =>
+      _service.whereAndOrderByQuert<Workout>(
         path: APIPath.workouts(),
-        order: 'workoutTitle',
+        where: 'workoutOwnerId',
+        isEqualTo: userId,
+        orderBy: 'workoutTitle',
         descending: false,
-        id: 'workoutOwnerId',
-        userId: userId,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Paginated Routines Query for specific user
   @override
-  Query workoutsSearchQuery() => _service.paginatedPublicCollectionQuery(
+  Query<Workout> workoutsSearchQuery() => _service.paginatedCollectionQuery(
         path: APIPath.workouts(),
-        order: 'workoutTitle',
+        orderBy: 'workoutTitle',
         descending: false,
+        fromBuilder: (data, id) => Workout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   /// BATCH
@@ -569,17 +579,21 @@ class FirestoreDatabase implements Database {
   /////////////// `Routine` /////////////////////
   // Add Routine
   @override
-  Future<void> setRoutine(Routine routine) => _service.setData(
+  Future<void> setRoutine(Routine routine) => _service.setData<Routine>(
         path: APIPath.routine(routine.routineId),
-        data: routine.toMap(),
+        data: routine,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Edit Routine
   @override
   Future<void> updateRoutine(Routine routine, Map<String, dynamic> data) =>
-      _service.updateData(
+      _service.updateData<Routine>(
         path: APIPath.routine(routine.routineId),
         data: data,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete Routine data
@@ -593,101 +607,63 @@ class FirestoreDatabase implements Database {
   Future<Routine?> getRoutine(String routineId) async =>
       _service.getDocument<Routine>(
         path: APIPath.routine(routineId),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
-
-  // // Get Routine
-  // @override
-  // Stream<Routine> getRoutine2(String routineId) =>
-  //     _service.documentStream<Routine>(
-  //       path: APIPath.routine(routineId),
-  //       builder: (data, documentId) => Routine.fromMap(data, documentId),
-  //     );
 
   // All Public Routines Stream
   @override
   Stream<List<Routine>> routinesStream({int? limit}) =>
-      _service.publicCollectionStream(
+      _service.isEqualToOrderByCollectionStream<Routine>(
         path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
-        order: 'routineTitle',
-        descending: false,
-        limit: limit,
+        whereVariableName: 'isPublic',
+        isEqualToValue: true,
+        orderByVariable: 'routineTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Single Routine Stream
   @override
-  Stream<Routine> routineStream({required String routineId}) =>
-      _service.documentStream(
+  Stream<Routine?> routineStream(String routineId) =>
+      _service.documentStream<Routine?>(
         path: APIPath.routine(routineId),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   // Routine Stream for specific User
   @override
   Stream<List<Routine>> userRoutinesStream({int? limit}) =>
-      _service.userCollectionStream(
-        searchCategory: 'routineOwnerId',
-        searchString: userId,
-        order: 'routineTitle',
-        descending: false,
-        limit: limit,
+      _service.isEqualToOrderByCollectionStream<Routine>(
         path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
+        whereVariableName: 'routineOwnerId',
+        isEqualToValue: userId,
+        orderByVariable: 'routineTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Routine for Initial Search Screen
   @override
   Stream<List<Routine>> routinesSearchStream({
-    String? isEqualTo,
-    String? arrayContains,
-    String? searchCategory,
+    required String arrayContainsVariableName,
+    required String arrayContainsValue,
     int? limit,
   }) =>
-      _service.publicSearchCollectionStream(
-        order: 'routineTitle',
-        isEqualTo: isEqualTo,
-        arrayContains: arrayContains,
-        searchCategory: searchCategory,
+      _service.isEqualToArrayContainsCollectionStream<Routine>(
+        path: APIPath.routines(),
+        whereVariableName: 'isPublic',
+        isEqualToValue: true,
+        arrayContainsVariableName: arrayContainsVariableName,
+        arrayContainsValue: arrayContainsValue,
+        orderByVariable: 'routineTitle',
+        isDescending: false,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
         limit: limit,
-        path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
-      );
-
-  // Routine for Initial Search Screen
-  @override
-  Stream<List<Routine>> routinesSearchStream2({
-    String? searchCategory,
-    String? arrayContains,
-    String? searchCategory2,
-    String? arrayContains2,
-    int? limit,
-  }) =>
-      _service.publicSearchCollectionStream2(
-        order: 'routineTitle',
-        searchCategory: searchCategory,
-        arrayContains: arrayContains,
-        searchCategory2: searchCategory2,
-        arrayContains2: arrayContains2,
-        limit: limit ?? 10,
-        path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
-      );
-
-  // Routine for Initial Search Screen
-  @override
-  Stream<List<Routine>> routinesSearchStream3({
-    String? searchCategory,
-    String? arrayContains,
-    int? limit,
-  }) =>
-      _service.publicSearchCollectionStream3(
-        order: 'routineTitle',
-        searchCategory: searchCategory,
-        arrayContains: arrayContains,
-        limit: limit ?? 10,
-        path: APIPath.routines(),
-        builder: (data, documentId) => Routine.fromMap(data, documentId),
       );
 
   // Batch Update of Routine
@@ -713,10 +689,12 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> setRoutineWorkout(
           Routine routine, RoutineWorkout routineWorkout) =>
-      _service.setData(
+      _service.setData<RoutineWorkout>(
         path: APIPath.routineWorkout(
             routine.routineId, routineWorkout.routineWorkoutId),
-        data: routineWorkout.toJson(),
+        data: routineWorkout,
+        fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete Routine data
@@ -728,65 +706,78 @@ class FirestoreDatabase implements Database {
             routine.routineId, routineWorkout.routineWorkoutId),
       );
 
-  // Edit Routine
+  // Edit Routine Workout
   @override
   Future<void> updateRoutineWorkout({
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required Map<String, dynamic> data,
   }) =>
-      _service.updateData(
-        path: APIPath.routineWorkout(
-            routine.routineId, routineWorkout.routineWorkoutId),
-        data: data,
-      );
+      _service.updateData<RoutineWorkout>(
+          path: APIPath.routineWorkout(
+              routine.routineId, routineWorkout.routineWorkoutId),
+          data: data,
+          fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
+          toBuilder: (model) => model.toJson());
 
   // Single Routine Workout Stream
   @override
-  Stream<RoutineWorkout> routineWorkoutStream(
-          Routine routine, RoutineWorkout routineWorkout) =>
-      _service.documentStream(
+  Stream<RoutineWorkout?> routineWorkoutStream({
+    required Routine routine,
+    required RoutineWorkout routineWorkout,
+  }) =>
+      _service.documentStream<RoutineWorkout?>(
         path: APIPath.routineWorkout(
-            routine.routineId, routineWorkout.routineWorkoutId),
-        builder: (data, documentId) =>
-            RoutineWorkout.fromJson(data, documentId),
+          routine.routineId,
+          routineWorkout.routineWorkoutId,
+        ),
+        fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   // Routine Workout Stream
   @override
   Stream<List<RoutineWorkout>> routineWorkoutsStream(Routine routine) =>
-      _service.collectionStream(
+      _service.collectionStream<RoutineWorkout>(
+        path: APIPath.routineWorkouts(routine.routineId),
         order: 'index',
         descending: false,
-        path: APIPath.routineWorkouts(routine.routineId),
-        builder: (data, documentId) =>
-            RoutineWorkout.fromJson(data, documentId),
+        fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Paginated Routines Query for specific user
   @override
-  Query routinesPaginatedPublicQuery() =>
-      _service.paginatedPublicCollectionQuery(
+  Query<Routine> routinesPaginatedPublicQuery() =>
+      _service.paginatedCollectionQuery<Routine>(
         path: APIPath.routines(),
-        order: 'routineTitle',
+        orderBy: 'routineTitle',
         descending: false,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   @override
-  Query routinesPaginatedUserQuery() => _service.paginatedUserCollectionQuery(
+  Query<Routine> routinesPaginatedUserQuery() =>
+      _service.whereAndOrderByQuert<Routine>(
         path: APIPath.routines(),
-        order: 'routineTitle',
+        orderBy: 'routineTitle',
         descending: false,
-        id: 'routineOwnerId',
-        userId: userId,
+        where: 'routineOwnerId',
+        isEqualTo: userId,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Paginated Routines Query for specific user
   @override
-  Query routinesSearchQuery() => _service.paginatedPublicCollectionQuery(
+  Query<Routine> routinesSearchQuery() =>
+      _service.paginatedCollectionQuery<Routine>(
         path: APIPath.routines(),
-        order: 'routineTitle',
+        orderBy: 'routineTitle',
         descending: false,
+        fromBuilder: (data, id) => Routine.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
 //////////////// `Workout Sets` ///////////////////
@@ -797,19 +788,23 @@ class FirestoreDatabase implements Database {
     required RoutineWorkout routineWorkout,
     required Map<String, dynamic> data,
   }) =>
-      _service.updateData(
+      _service.updateData<WorkoutSet>(
         path: APIPath.routineWorkout(
             routine.routineId, routineWorkout.routineWorkoutId),
         data: data,
+        fromBuilder: (data, id) => WorkoutSet.fromJson(data),
+        toBuilder: (model) => model.toJson(),
       );
 
   /////////////////////////// `Routine History` //////////////////////////
   // Add or edit workout data
   @override
   Future<void> setRoutineHistory(RoutineHistory routineHistory) =>
-      _service.setData(
+      _service.setData<RoutineHistory>(
         path: APIPath.routineHistory(routineHistory.routineHistoryId),
-        data: routineHistory.toMap(),
+        data: routineHistory,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Add or edit workout data
@@ -818,9 +813,11 @@ class FirestoreDatabase implements Database {
     RoutineHistory routineHistory,
     Map<String, dynamic> data,
   ) =>
-      _service.updateData(
+      _service.updateData<RoutineHistory>(
         path: APIPath.routineHistory(routineHistory.routineHistoryId),
         data: data,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete workout data
@@ -832,73 +829,83 @@ class FirestoreDatabase implements Database {
 
   // Stream of Single Workout Stream
   @override
-  Stream<RoutineHistory> routineHistoryStream(
-          {required String routineHistoryId}) =>
-      _service.documentStream(
+  Stream<RoutineHistory?> routineHistoryStream(String routineHistoryId) =>
+      _service.documentStream<RoutineHistory?>(
         path: APIPath.routineHistory(routineHistoryId),
-        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   // Workout History Stream for each User
   @override
   Stream<List<RoutineHistory>> routineHistoriesStream() =>
-      _service.userCollectionStream(
-        searchCategory: 'userId',
-        searchString: userId,
-        order: 'workoutEndTime',
-        descending: true,
+      _service.isEqualToOrderByCollectionStream<RoutineHistory>(
         path: APIPath.routineHistories(),
-        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+        whereVariableName: 'userId',
+        isEqualToValue: userId,
+        orderByVariable: 'workoutEndTime',
+        isDescending: true,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Stream of Today's Routine History
   @override
   Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid) =>
-      _service.collectionStreamOfToday(
+      _service.collectionStreamOfToday<RoutineHistory>(
+        path: APIPath.routineHistories(),
         uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'workoutDate',
         orderVariableName: 'workoutStartTime',
-        path: APIPath.routineHistories(),
-        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Stream of This Week's Routine History
   @override
-  Stream<List<RoutineHistory>?> routineHistoriesThisWeekStream(String uid) =>
-      _service.collectionStreamOfThisWeek(
+  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream(String uid) =>
+      _service.collectionStreamOfThisWeek<RoutineHistory>(
+        path: APIPath.routineHistories(),
         uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'workoutEndTime',
-        path: APIPath.routineHistories(),
-        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   @override
   Stream<List<RoutineHistory>> routineHistoriesPublicStream() =>
-      _service.publicCollectionStream(
-        order: 'workoutEndTime',
-        descending: true,
+      _service.isEqualToOrderByCollectionStream<RoutineHistory>(
         path: APIPath.routineHistories(),
-        builder: (data, documentId) => RoutineHistory.fromMap(data, documentId),
+        whereVariableName: 'isPublic',
+        isEqualToValue: true,
+        orderByVariable: 'workoutEndTime',
+        isDescending: true,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   @override
-  Query routineHistoriesPaginatedPublicQuery() =>
-      _service.paginatedPublicCollectionQuery(
+  Query<RoutineHistory> routineHistoriesPaginatedPublicQuery() =>
+      _service.paginatedCollectionQuery<RoutineHistory>(
         path: APIPath.routineHistories(),
-        order: 'workoutEndTime',
+        orderBy: 'workoutEndTime',
         descending: true,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   @override
-  Query routineHistoriesPaginatedUserQuery() =>
-      _service.paginatedUserCollectionQuery(
+  Query<RoutineHistory> routineHistoriesPaginatedUserQuery() =>
+      _service.whereAndOrderByQuert<RoutineHistory>(
         path: APIPath.routineHistories(),
-        order: 'workoutEndTime',
+        orderBy: 'workoutEndTime',
         descending: true,
-        id: 'userId',
-        userId: userId,
+        where: 'userId',
+        isEqualTo: userId,
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Batch Update of Routine History
@@ -919,72 +926,15 @@ class FirestoreDatabase implements Database {
     );
   }
 
-  /// Routine Workouts for Routine History
-  // Add or edit Routine Workout
-  @override
-  Future<void> setRoutineWorkoutForHistory(
-          RoutineHistory routineHistory, RoutineWorkout routineWorkout) =>
-      _service.setData(
-        path: APIPath.routineWorkoutForHistory(
-            routineHistory.routineHistoryId, routineWorkout.routineWorkoutId),
-        data: routineWorkout.toJson(),
-      );
-
-  // Add or edit Routine Workout
-  @override
-  Future<void> batchRoutineWorkouts(
-    RoutineHistory routineHistory,
-    List<RoutineWorkout> routineWorkout,
-  ) async {
-    debugPrint('batchRoutineWorkouts pressed');
-
-    final routineWorkoutIds = <String>[];
-    final List<Map<String, dynamic>> routineWorkoutsAsMap = [];
-
-    routineWorkout.forEach((routineWorkout) {
-      var routineWorkoutToJson = routineWorkout.toJson();
-      var id = APIPath.routineWorkoutForHistory(
-          routineHistory.routineHistoryId, routineWorkout.routineWorkoutId);
-      routineWorkoutsAsMap.add(routineWorkoutToJson);
-      routineWorkoutIds.add(id);
-    });
-
-    await _service.batchData(
-      path: routineWorkoutIds,
-      data: routineWorkoutsAsMap,
-    );
-  }
-
-  // Delete Routine data
-  @override
-  Future<void> deleteRoutineWorkoutForHistory(
-          RoutineHistory routineHistory, RoutineWorkout routineWorkout) async =>
-      _service.deleteData(
-        path: APIPath.routineWorkoutForHistory(
-            routineHistory.routineHistoryId, routineWorkout.routineWorkoutId),
-      );
-
-  // Routine Workout Stream
-  @override
-  Stream<List<RoutineWorkout>> routineWorkoutsStreamForHistory(
-    RoutineHistory routineHistory,
-  ) =>
-      _service.collectionStream(
-        order: 'index',
-        descending: false,
-        path:
-            APIPath.routineWorkoutsForHistory(routineHistory.routineHistoryId),
-        builder: (data, documentId) =>
-            RoutineWorkout.fromJson(data, documentId),
-      );
-
   ////////////////// `Workout Histories` ////////////////
   /// Add or edit workout data
   @override
   Future<void> setWorkoutHistory(WorkoutHistory workoutHistory) =>
-      _service.setData(
+      _service.setData<WorkoutHistory>(
         path: APIPath.workoutHistory(workoutHistory.workoutHistoryId),
-        data: workoutHistory.toJson(),
+        data: workoutHistory,
+        fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Update Workout History
@@ -993,9 +943,11 @@ class FirestoreDatabase implements Database {
     WorkoutHistory workoutHistory,
     Map<String, dynamic> data,
   ) =>
-      _service.updateData(
+      _service.updateData<WorkoutHistory>(
         path: APIPath.workoutHistory(workoutHistory.workoutHistoryId),
         data: data,
+        fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 
   // Delete workout data
@@ -1048,10 +1000,13 @@ class FirestoreDatabase implements Database {
   Stream<List<WorkoutHistory>> workoutHistoriesStream(
     String routineHistoryId,
   ) =>
-      _service.workoutHistoriesForRoutineHistoryStream(
-        routineHistoryId: routineHistoryId,
+      _service.isEqualToOrderByCollectionStream<WorkoutHistory>(
         path: APIPath.workoutHistories(),
-        builder: (data, documentId) =>
-            WorkoutHistory.fromJson(data, documentId),
+        whereVariableName: 'routineHistoryId',
+        isEqualToValue: routineHistoryId,
+        orderByVariable: 'index',
+        isDescending: false,
+        fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
       );
 }

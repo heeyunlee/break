@@ -114,9 +114,12 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
         ),
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
-          final documentId = documentSnapshot.id;
-          final data = documentSnapshot.data()!;
-          final routineHistory = RoutineHistory.fromMap(data, documentId);
+          final routineHistory = documentSnapshot.data() as RoutineHistory;
+          // final snapshot = documentSnapshot as DocumentSnapshot<RoutineHistory>;
+          // final routineHistory = snapshot.data()!;
+          // final documentId = documentSnapshot.id;
+          // final data = documentSnapshot.data()!;
+          // final routineHistory = RoutineHistory.fromJson(data, documentId);
 
           return RoutineHistorySummaryFeedCard(routineHistory: routineHistory);
         },

@@ -71,7 +71,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
   Widget _buildBody(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return StreamBuilder<User>(
+    return StreamBuilder<User?>(
         initialData: userDummyData,
         stream: widget.database.userStream(widget.auth.currentUser!.uid),
         builder: (context, snapshot) {

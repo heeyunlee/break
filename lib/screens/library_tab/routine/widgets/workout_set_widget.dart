@@ -113,7 +113,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         'numberOfReps': numberOfReps,
         'totalWeights': totalWeights,
         'duration': duration,
-        'sets': FieldValue.arrayRemove([set.toMap()]),
+        'sets': FieldValue.arrayRemove([set.toJson()]),
       };
 
       // Update Routine Data
@@ -239,7 +239,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           'numberOfReps': numberOfReps,
           'totalWeights': totalWeights,
           'duration': duration,
-          'sets': workoutSets.map((e) => e.toMap()).toList(),
+          'sets': workoutSets.map((e) => e.toJson()).toList(),
         };
 
         /// Update Routine Data

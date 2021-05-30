@@ -172,8 +172,8 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
         stream: (_selectedChip == 'All')
             ? database.workoutsStream()
             : database.workoutsSearchStream(
-                searchCategory: 'mainMuscleGroup',
-                arrayContains: _selectedChip,
+                arrayContainsVariableName: 'mainMuscleGroup',
+                arrayContainsValue: _selectedChip,
               ),
         errorWidget: EmptyContent(),
         loadingWidget: ListViewShimmer(),

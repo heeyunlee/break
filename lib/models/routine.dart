@@ -21,7 +21,7 @@ class Routine {
   final String location;
   final String? thumbnailImageUrl; // Nullable
 
-  Routine({
+  const Routine({
     required this.routineId,
     required this.routineOwnerId,
     required this.routineOwnerUserName,
@@ -43,50 +43,54 @@ class Routine {
     this.thumbnailImageUrl,
   });
 
-  factory Routine.fromMap(Map<String, dynamic> data, String documentId) {
-    final String routineOwnerId = data['routineOwnerId'];
-    final String routineOwnerUserName = data['routineOwnerUserName'];
-    final String routineTitle = data['routineTitle'];
-    final Timestamp lastEditedDate = data['lastEditedDate'];
-    final Timestamp routineCreatedDate = data['routineCreatedDate'];
-    final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
-    final List<dynamic>? secondMuscleGroup = data['secondMuscleGroup'];
-    final String? description = data['description'];
-    final String imageUrl = data['imageUrl'];
-    final num totalWeights = data['totalWeights'];
-    final int? averageTotalCalories = data['averageTotalCalories'];
-    final int duration = data['duration'];
-    final List<dynamic> equipmentRequired = data['equipmentRequired'];
-    final int trainingLevel = data['trainingLevel'];
-    final bool isPublic = data['isPublic'];
-    final int initialUnitOfMass = data['initialUnitOfMass'];
-    final String location = data['location'];
-    final String? thumbnailImageUrl = data['thumbnailImageUrl'];
+  factory Routine.fromJson(Map<String, dynamic>? data, String documentId) {
+    if (data != null) {
+      final String routineOwnerId = data['routineOwnerId'];
+      final String routineOwnerUserName = data['routineOwnerUserName'];
+      final String routineTitle = data['routineTitle'];
+      final Timestamp lastEditedDate = data['lastEditedDate'];
+      final Timestamp routineCreatedDate = data['routineCreatedDate'];
+      final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
+      final List<dynamic>? secondMuscleGroup = data['secondMuscleGroup'];
+      final String? description = data['description'];
+      final String imageUrl = data['imageUrl'];
+      final num totalWeights = data['totalWeights'];
+      final int? averageTotalCalories = data['averageTotalCalories'];
+      final int duration = data['duration'];
+      final List<dynamic> equipmentRequired = data['equipmentRequired'];
+      final int trainingLevel = data['trainingLevel'];
+      final bool isPublic = data['isPublic'];
+      final int initialUnitOfMass = data['initialUnitOfMass'];
+      final String location = data['location'];
+      final String? thumbnailImageUrl = data['thumbnailImageUrl'];
 
-    return Routine(
-      routineId: documentId,
-      routineOwnerId: routineOwnerId,
-      routineOwnerUserName: routineOwnerUserName,
-      routineTitle: routineTitle,
-      lastEditedDate: lastEditedDate,
-      routineCreatedDate: routineCreatedDate,
-      mainMuscleGroup: mainMuscleGroup,
-      secondMuscleGroup: secondMuscleGroup,
-      description: description,
-      imageUrl: imageUrl,
-      totalWeights: totalWeights,
-      averageTotalCalories: averageTotalCalories,
-      duration: duration,
-      equipmentRequired: equipmentRequired,
-      trainingLevel: trainingLevel,
-      isPublic: isPublic,
-      initialUnitOfMass: initialUnitOfMass,
-      location: location,
-      thumbnailImageUrl: thumbnailImageUrl,
-    );
+      return Routine(
+        routineId: documentId,
+        routineOwnerId: routineOwnerId,
+        routineOwnerUserName: routineOwnerUserName,
+        routineTitle: routineTitle,
+        lastEditedDate: lastEditedDate,
+        routineCreatedDate: routineCreatedDate,
+        mainMuscleGroup: mainMuscleGroup,
+        secondMuscleGroup: secondMuscleGroup,
+        description: description,
+        imageUrl: imageUrl,
+        totalWeights: totalWeights,
+        averageTotalCalories: averageTotalCalories,
+        duration: duration,
+        equipmentRequired: equipmentRequired,
+        trainingLevel: trainingLevel,
+        isPublic: isPublic,
+        initialUnitOfMass: initialUnitOfMass,
+        location: location,
+        thumbnailImageUrl: thumbnailImageUrl,
+      );
+    } else {
+      throw 'null';
+    }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'routineOwnerId': routineOwnerId,
       'routineTitle': routineTitle,

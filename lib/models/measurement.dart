@@ -12,7 +12,7 @@ class Measurement {
   final num? bmi; // Nullable
   final String? notes; // Nullables
 
-  Measurement({
+  const Measurement({
     required this.measurementId,
     required this.userId,
     required this.username,
@@ -25,32 +25,36 @@ class Measurement {
     this.notes,
   });
 
-  factory Measurement.fromMap(Map<String, dynamic> data, String documentId) {
-    final String userId = data['userId'];
-    final String username = data['username'];
-    final Timestamp loggedTime = data['loggedTime'];
-    final DateTime loggedDate = data['loggedDate'].toDate();
-    final num bodyWeight = data['bodyWeight'];
-    final num? bodyFat = data['bodyFat'];
-    final num? skeletalMuscleMass = data['skeletalMuscleMass'];
-    final num? bmi = data['bmi'];
-    final String? notes = data['notes'];
+  factory Measurement.fromJson(Map<String, dynamic>? data, String documentId) {
+    if (data != null) {
+      final String userId = data['userId'];
+      final String username = data['username'];
+      final Timestamp loggedTime = data['loggedTime'];
+      final DateTime loggedDate = data['loggedDate'].toDate();
+      final num bodyWeight = data['bodyWeight'];
+      final num? bodyFat = data['bodyFat'];
+      final num? skeletalMuscleMass = data['skeletalMuscleMass'];
+      final num? bmi = data['bmi'];
+      final String? notes = data['notes'];
 
-    return Measurement(
-      measurementId: documentId,
-      userId: userId,
-      username: username,
-      loggedTime: loggedTime,
-      loggedDate: loggedDate,
-      bodyWeight: bodyWeight,
-      bodyFat: bodyFat,
-      skeletalMuscleMass: skeletalMuscleMass,
-      bmi: bmi,
-      notes: notes,
-    );
+      return Measurement(
+        measurementId: documentId,
+        userId: userId,
+        username: username,
+        loggedTime: loggedTime,
+        loggedDate: loggedDate,
+        bodyWeight: bodyWeight,
+        bodyFat: bodyFat,
+        skeletalMuscleMass: skeletalMuscleMass,
+        bmi: bmi,
+        notes: notes,
+      );
+    } else {
+      throw 'null';
+    }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'userId': userId,
       'username': username,

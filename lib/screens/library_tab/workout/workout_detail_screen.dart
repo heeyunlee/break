@@ -928,11 +928,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: CustomStreamBuilderWidget<Workout>(
+      body: CustomStreamBuilderWidget<Workout?>(
         initialData: widget.workout,
-        stream: widget.database.workoutStream(
-          workoutId: widget.workout.workoutId,
-        ),
+        stream: widget.database.workoutStream(widget.workout.workoutId),
         hasDataWidget: (context, snapshot) {
           return Stack(
             children: [

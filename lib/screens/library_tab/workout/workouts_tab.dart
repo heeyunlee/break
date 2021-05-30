@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -64,9 +65,11 @@ class WorkoutsTab extends StatelessWidget {
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data()!;
-        final workout = Workout.fromMap(data, documentId);
+        // final documentId = documentSnapshot.id;
+        // final data = documentSnapshot.data()!;
+        // final workout = Workout.fromJson(data, documentId);
+        final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
+        final workout = snapshot.data()!;
 
         final locale = Intl.getCurrentLocale();
 

@@ -194,11 +194,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Widget build(BuildContext context) {
     debugPrint('scaffold building...');
 
-    return StreamBuilder<Routine>(
+    return StreamBuilder<Routine?>(
         initialData: widget.routine,
-        stream: widget.database.routineStream(
-          routineId: widget.routine.routineId,
-        ),
+        stream: widget.database.routineStream(widget.routine.routineId),
         builder: (context, snapshot) {
           final routine = snapshot.data;
 

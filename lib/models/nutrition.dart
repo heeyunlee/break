@@ -10,7 +10,7 @@ class Nutrition {
   final num proteinAmount;
   final String? notes; // Nullable
 
-  Nutrition({
+  const Nutrition({
     required this.nutritionId,
     required this.userId,
     required this.username,
@@ -21,28 +21,32 @@ class Nutrition {
     this.notes,
   });
 
-  factory Nutrition.fromMap(Map<String, dynamic> data, String documentId) {
-    final String userId = data['userId'];
-    final String username = data['username'];
-    final Timestamp loggedTime = data['loggedTime'];
-    final DateTime loggedDate = data['loggedDate'].toDate();
-    final String type = data['type'];
-    final num proteinAmount = data['proteinAmount'];
-    final String? notes = data['notes'];
+  factory Nutrition.fromJson(Map<String, dynamic>? data, String documentId) {
+    if (data != null) {
+      final String userId = data['userId'];
+      final String username = data['username'];
+      final Timestamp loggedTime = data['loggedTime'];
+      final DateTime loggedDate = data['loggedDate'].toDate();
+      final String type = data['type'];
+      final num proteinAmount = data['proteinAmount'];
+      final String? notes = data['notes'];
 
-    return Nutrition(
-      nutritionId: documentId,
-      userId: userId,
-      username: username,
-      loggedTime: loggedTime,
-      type: type,
-      notes: notes,
-      proteinAmount: proteinAmount,
-      loggedDate: loggedDate,
-    );
+      return Nutrition(
+        nutritionId: documentId,
+        userId: userId,
+        username: username,
+        loggedTime: loggedTime,
+        type: type,
+        notes: notes,
+        proteinAmount: proteinAmount,
+        loggedDate: loggedDate,
+      );
+    } else {
+      throw 'null';
+    }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'loggedTime': loggedTime,
       'userId': userId,

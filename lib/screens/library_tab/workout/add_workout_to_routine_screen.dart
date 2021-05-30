@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
@@ -148,9 +149,11 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data()!;
-        final routine = Routine.fromMap(data, documentId);
+        // final documentId = documentSnapshot.id;
+        // final data = documentSnapshot.data()!;
+        // final routine = Routine.fromJson(data, documentId);
+        final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
+        final routine = snapshot.data()!;
 
         return CustomListTile64(
           tag: 'routine${routine.routineId}',

@@ -54,9 +54,14 @@ class RoutinesTab extends StatelessWidget {
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data();
-        final routine = Routine.fromMap(data!, documentId);
+        // final documentId = documentSnapshot.id;
+        // final data = documentSnapshot.data();
+        // final routine = Routine.fromJson(data!, documentId);
+
+        // final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
+        // final routine = snapshot.data()!;
+        final routine = documentSnapshot.data() as Routine;
+
         final subtitle = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
             .translation!;

@@ -117,11 +117,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       backgroundColor: kBackgroundColor,
       body: NotificationListener<ScrollNotification>(
         onNotification: _scrollListener,
-        child: CustomStreamBuilderWidget<Routine>(
+        child: CustomStreamBuilderWidget<Routine?>(
           initialData: widget.routine,
-          stream: widget.database.routineStream(
-            routineId: widget.routine.routineId,
-          ),
+          stream: widget.database.routineStream(widget.routine.routineId),
           hasDataWidget: (context, snapshot) {
             return Stack(
               children: [
@@ -437,7 +435,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   }
 
   Widget _getSaveButton() {
-    return CustomStreamBuilderWidget<User>(
+    return CustomStreamBuilderWidget<User?>(
       initialData: widget.user,
       stream: widget.database.userStream(widget.auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {

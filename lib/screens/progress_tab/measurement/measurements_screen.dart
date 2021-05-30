@@ -101,9 +101,11 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
-          final documentId = documentSnapshot.id;
-          final data = documentSnapshot.data();
-          final measurement = Measurement.fromMap(data!, documentId);
+          // final documentId = documentSnapshot.id;
+          // final data = documentSnapshot.data();
+          // final measurement = Measurement.fromMap(data!, documentId);
+          final snapshot = documentSnapshot as DocumentSnapshot<Measurement?>;
+          final measurement = snapshot.data()!;
           final date = Format.yMdjm(measurement.loggedTime);
 
           final unit = Format.unitOfMass(user.unitOfMass);

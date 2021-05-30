@@ -1,7 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserFeedback {
-  UserFeedback({
+  final String userFeedbackId;
+  final String userId;
+  final String username;
+  final Timestamp createdDate;
+  final String feedback;
+  final String? userEmail; // Nullable
+  final bool isResolved;
+
+  const UserFeedback({
     required this.userFeedbackId,
     required this.userId,
     required this.username,
@@ -11,34 +19,30 @@ class UserFeedback {
     required this.isResolved,
   });
 
-  final String userFeedbackId;
-  final String userId;
-  final String username;
-  final Timestamp createdDate;
-  final String feedback;
-  final String? userEmail; // Nullable
-  final bool isResolved;
+  factory UserFeedback.fromJson(Map<String, dynamic>? data, String documentId) {
+    if (data != null) {
+      final String userId = data['userId'];
+      final String username = data['username'];
+      final Timestamp createdDate = data['createdDate'];
+      final String feedback = data['feedback'];
+      final String? userEmail = data['userEmail'];
+      final bool isResolved = data['isResolved'];
 
-  factory UserFeedback.fromMap(Map<String, dynamic> data, String documentId) {
-    final String userId = data['userId'];
-    final String username = data['username'];
-    final Timestamp createdDate = data['createdDate'];
-    final String feedback = data['feedback'];
-    final String? userEmail = data['userEmail'];
-    final bool isResolved = data['isResolved'];
-
-    return UserFeedback(
-      userFeedbackId: documentId,
-      userId: userId,
-      username: username,
-      createdDate: createdDate,
-      feedback: feedback,
-      userEmail: userEmail,
-      isResolved: isResolved,
-    );
+      return UserFeedback(
+        userFeedbackId: documentId,
+        userId: userId,
+        username: username,
+        createdDate: createdDate,
+        feedback: feedback,
+        userEmail: userEmail,
+        isResolved: isResolved,
+      );
+    } else {
+      throw 'null';
+    }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'userId': userId,
       'username': username,

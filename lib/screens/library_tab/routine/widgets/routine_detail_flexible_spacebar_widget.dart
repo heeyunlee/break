@@ -114,11 +114,9 @@ class RoutineDetailFlexibleSpaceWidget extends StatelessWidget {
     }
 
     return FlexibleSpaceBar(
-      background: CustomStreamBuilderWidget<Routine>(
+      background: CustomStreamBuilderWidget<Routine?>(
           initialData: routine,
-          stream: database.routineStream(
-            routineId: routine.routineId,
-          ),
+          stream: database.routineStream(routine.routineId),
           hasDataWidget: (context, snapshot) {
             // return SizedBox(
             //   height: size.height * 2 / 5,

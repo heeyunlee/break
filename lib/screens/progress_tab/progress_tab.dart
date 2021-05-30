@@ -73,7 +73,7 @@ class _ProgressTabState extends State<ProgressTab>
             ),
           ),
         ),
-        body: CustomStreamBuilderWidget<User>(
+        body: CustomStreamBuilderWidget<User?>(
           stream: database.userStream(auth.currentUser!.uid),
           loadingWidget: ProgressTabShimmer(),
           hasDataWidget: (context, snapshot) => _buildChildWidget(

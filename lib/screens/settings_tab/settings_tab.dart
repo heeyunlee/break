@@ -70,7 +70,7 @@ class SettingsTab extends StatelessWidget {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: '0.2.6',
+      applicationVersion: '0.2.7',
       applicationIcon: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -115,7 +115,7 @@ class SettingsTab extends StatelessWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
 
-    return StreamBuilder<User>(
+    return StreamBuilder<User?>(
         initialData: userDummyData,
         stream: database.userStream(auth.currentUser!.uid),
         builder: (context, snapshot) {
@@ -278,7 +278,7 @@ class SettingsTab extends StatelessWidget {
                 const SizedBox(height: 32),
                 // const Spacer(),
                 // TODO: Change Version HERE
-                Center(child: const Text('v.0.2.6', style: kCaption1Grey)),
+                Center(child: const Text('v.0.2.7', style: kCaption1Grey)),
                 const SizedBox(height: 38),
               ],
             ),

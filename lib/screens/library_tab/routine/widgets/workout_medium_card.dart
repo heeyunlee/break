@@ -28,7 +28,6 @@ class WorkoutMediumCard extends StatefulWidget {
   final Database database;
   final Routine routine;
   final RoutineWorkout routineWorkout;
-  // final User user;
   final AuthBase auth;
 
   @override
@@ -117,7 +116,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         'numberOfReps': numberOfReps,
         'totalWeights': totalWeights,
         'duration': duration,
-        'sets': FieldValue.arrayUnion([newSet.toMap()]),
+        'sets': FieldValue.arrayUnion([newSet.toJson()]),
       };
 
       /// Routine
@@ -186,7 +185,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
         final updatedRoutineWorkout = {
           'duration': duration,
-          'sets': FieldValue.arrayUnion([newSet.toMap()]),
+          'sets': FieldValue.arrayUnion([newSet.toJson()]),
         };
 
         /// Routine
@@ -228,7 +227,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
 
         final updatedRoutineWorkout = {
           'duration': duration,
-          'sets': FieldValue.arrayUnion([newSet.toMap()]),
+          'sets': FieldValue.arrayUnion([newSet.toJson()]),
         };
 
         /// Routine
@@ -324,6 +323,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         data: Theme.of(context).copyWith(
           accentColor: Colors.white,
           unselectedWidgetColor: Colors.white,
+          hintColor: Colors.white,
         ),
         child: ExpansionTile(
           leading: Container(

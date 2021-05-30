@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -74,9 +75,11 @@ class RoutineHistoriesScreen extends StatelessWidget {
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
-          final documentId = documentSnapshot.id;
-          final data = documentSnapshot.data();
-          final routineHistory = RoutineHistory.fromMap(data!, documentId);
+          // final documentId = documentSnapshot.id;
+          // final data = documentSnapshot.data();
+          // final routineHistory = RoutineHistory.fromJson(data!, documentId);
+          final snapshot = documentSnapshot as DocumentSnapshot<RoutineHistory>;
+          final routineHistory = snapshot.data()!;
 
           return RoutineHistorySummaryCard(
             date: routineHistory.workoutStartTime,

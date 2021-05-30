@@ -8,22 +8,237 @@ class FirestoreService {
   static final instance = FirestoreService._();
 
   // Create new Data
-  Future<void> setData({
+  Future<void> setData<T>({
     required String path,
-    required Map<String, dynamic> data,
+    required T data,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
+    final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
     await reference.set(data);
   }
 
   // Update Data (Used for creating new element in an array)
-  Future<void> updateData({
+  Future<void> updateData<T>({
     required String path,
     required Map<String, dynamic> data,
+    // required T data,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
+    final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
     await reference.update(data);
   }
+
+  // Delete data from Cloud Firestore
+  Future<void> deleteData({
+    required String path,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    await reference.delete();
+  }
+
+  // Document Future
+  Future<T?> getDocument<T>({
+    required String path,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) async {
+    final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+    final snapshot = await reference.get();
+    if (snapshot.exists) {
+      return snapshot.data()!;
+    }
+    return null;
+  }
+
+  // Document Stream
+  Stream<T?> documentStream<T>({
+    required String path,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+
+    return snapshots.map((event) => event.data());
+  }
+
+  Stream<List<T>> collectionStream<T>({
+    required String path,
+    required String order,
+    required bool descending,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+    int? limit,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(order, descending: descending)
+        .limit(limit ?? 50)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  Stream<List<T>> collectionStreamOfThisWeek<T>({
+    required String path,
+    String? uid,
+    String? uidVariableName,
+    required String dateVariableName,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final lastWeek = DateTime.now().subtract(Duration(days: 7));
+
+    final reference = (uid != null && uidVariableName != null)
+        ? FirebaseFirestore.instance
+            .collection(path)
+            .where(uidVariableName, isEqualTo: uid)
+            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
+            .orderBy(dateVariableName, descending: false)
+            .withConverter<T>(
+              fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+              toFirestore: (model, _) => toBuilder(model),
+            )
+        : FirebaseFirestore.instance
+            .collection(path)
+            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
+            .orderBy(dateVariableName, descending: false)
+            .withConverter<T>(
+              fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+              toFirestore: (model, _) => toBuilder(model),
+            );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  Stream<List<T>> collectionStreamOfToday<T>({
+    required String path,
+    required String uidVariableName,
+    required String uid,
+    required String dateVariableName,
+    required String orderVariableName,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final now = DateTime.now();
+    final today = DateTime.utc(now.year, now.month, now.day);
+
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(uidVariableName, isEqualTo: uid)
+        .where(dateVariableName, isEqualTo: today)
+        .orderBy(orderVariableName, descending: false)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  // isEqualTo And OrderBy Stream
+  Stream<List<T>> isEqualToOrderByCollectionStream<T>({
+    required String path,
+    required String whereVariableName,
+    required dynamic isEqualToValue,
+    required String orderByVariable,
+    required bool isDescending,
+    int? limit,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(whereVariableName, isEqualTo: isEqualToValue)
+        .orderBy(orderByVariable, descending: isDescending)
+        .limit(limit ?? 50)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  // Two Is Equal To Collection Stream
+  Stream<List<T>> twoIsEqualToCollectionStream<T>({
+    required String path,
+    required String whereVariableName1,
+    required dynamic isEqualToValue1,
+    required String whereVariableName2,
+    required dynamic isEqualToValue2,
+    required String orderByVariable,
+    required bool isDescending,
+    int? limit,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(whereVariableName1, isEqualTo: isEqualToValue1)
+        .where(whereVariableName2, isEqualTo: isEqualToValue2)
+        .orderBy(orderByVariable, descending: isDescending)
+        .limit(limit ?? 50)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  // Is Equal To And Array Contains Collection Stream
+  Stream<List<T>> isEqualToArrayContainsCollectionStream<T>({
+    required String path,
+    required String whereVariableName,
+    required dynamic isEqualToValue,
+    required String arrayContainsVariableName,
+    required dynamic arrayContainsValue,
+    required String orderByVariable,
+    required bool isDescending,
+    int? limit,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(whereVariableName, isEqualTo: isEqualToValue)
+        .where(arrayContainsVariableName, isEqualTo: arrayContainsValue)
+        .orderBy(orderByVariable, descending: isDescending)
+        .limit(limit ?? 50)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
+  ///////// `BATCH` ////////////
 
   // Write more than one documents at once
   Future<void> batchData({
@@ -72,371 +287,43 @@ class FirestoreService {
     await batch.commit();
   }
 
-  // Delete data from Cloud Firestore
-  Future<void> deleteData({
-    required String path,
-  }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    print('delete: $path');
-    await reference.delete();
-  }
-
-  // Document Future
-  Future<T?> getDocument<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    final snapshot = await reference.get();
-    if (snapshot.exists) {
-      return builder(snapshot.data()!, snapshot.id);
-    }
-    return null;
-  }
-
-  // Document Stream
-  Stream<T> documentStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) {
-    final reference = FirebaseFirestore.instance.doc(path);
-    final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => builder(snapshot.data()!, snapshot.id));
-  }
-
-  Stream<List<T>> collectionStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String order,
-    required bool descending,
-    int? limit,
-  }) {
-    final reference = (limit != null)
-        ? FirebaseFirestore.instance.collection(path).limit(limit).orderBy(
-              order,
-              descending: descending,
-            )
-        : FirebaseFirestore.instance.collection(path).orderBy(
-              order,
-              descending: descending,
-            );
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Stream<List<T>> collectionStreamOfThisWeek<T>({
-  //   required String path,
-  //   required T Function(Map<String, dynamic> data, String documentId) builder,
-  // }) {
-  //   final lastWeek = DateTime.now().subtract(Duration(days: 7));
-
-  //   final reference = FirebaseFirestore.instance
-  //       .collection(path)
-  //       .where('loggedTime', isGreaterThanOrEqualTo: lastWeek)
-  //       .orderBy('loggedTime', descending: true);
-
-  //   final snapshots = reference.snapshots();
-  //   return snapshots.map(
-  //     // converting snapshots of data to list of Data
-  //     (snapshot) => snapshot.docs
-  //         .map((snapshot) => builder(snapshot.data(), snapshot.id))
-  //         .toList(),
-  //   );
-  // }
-
-  Stream<List<T>> collectionStreamOfThisWeek<T>({
-    required String path,
-    String? uid,
-    String? uidVariableName,
-    required String dateVariableName,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) {
-    final lastWeek = DateTime.now().subtract(Duration(days: 7));
-
-    final reference = (uid != null && uidVariableName != null)
-        ? FirebaseFirestore.instance
-            .collection(path)
-            .where(uidVariableName, isEqualTo: uid)
-            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
-            .orderBy(dateVariableName, descending: false)
-        : FirebaseFirestore.instance
-            .collection(path)
-            .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
-            .orderBy(dateVariableName, descending: false);
-
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  Stream<List<T>> collectionStreamOfToday<T>({
-    required String path,
-    required String uidVariableName,
-    required String uid,
-    required String dateVariableName,
-    required String orderVariableName,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-  }) {
-    final now = DateTime.now();
-    final today = DateTime.utc(now.year, now.month, now.day);
-
-    final reference = FirebaseFirestore.instance
-        .collection(path)
-        .where(uidVariableName, isEqualTo: uid)
-        .where(dateVariableName, isEqualTo: today)
-        .orderBy(orderVariableName, descending: false);
-
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Collection Stream with/without limit and with order
-  Stream<List<T>> publicCollectionStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String order,
-    required bool descending,
-    int? limit,
-  }) {
-    final reference = (limit != null)
-        ? FirebaseFirestore.instance
-            .collection(path)
-            .where('isPublic', isEqualTo: true)
-            .limit(limit)
-            .orderBy(
-              order,
-              descending: descending,
-            )
-        : FirebaseFirestore.instance
-            .collection(path)
-            .where('isPublic', isEqualTo: true)
-            .orderBy(
-              order,
-              descending: descending,
-            );
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Getting all the streams available
-  Stream<List<T>> userCollectionStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String searchCategory,
-    String? searchString,
-    required String order,
-    required bool descending,
-    int? limit,
-  }) {
-    final reference = (limit != null)
-        ? FirebaseFirestore.instance
-            .collection(path)
-            .limit(limit)
-            .where(searchCategory, isEqualTo: searchString)
-            .orderBy(
-              order,
-              descending: descending,
-            )
-        : FirebaseFirestore.instance
-            .collection(path)
-            .where(
-              '$searchCategory',
-              isEqualTo: '$searchString',
-            )
-            .orderBy(
-              order,
-              descending: descending,
-            );
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Search Collection Stream
-  Stream<List<T>> publicSearchCollectionStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String order,
-    String? searchCategory,
-    String? isEqualTo,
-    String? arrayContains,
-    int? limit,
-  }) {
-    final reference = (limit != null)
-        ? (isEqualTo != null)
-            ? FirebaseFirestore.instance
-                .collection(path)
-                .orderBy(order, descending: false)
-                .where('isPublic', isEqualTo: true)
-                .where('$searchCategory', isEqualTo: '$isEqualTo')
-                .limit(limit)
-            : FirebaseFirestore.instance
-                .collection(path)
-                .orderBy(
-                  order,
-                  descending: false,
-                )
-                .where('isPublic', isEqualTo: true)
-                .where('$searchCategory', arrayContains: '$arrayContains')
-                .limit(limit)
-        : (isEqualTo != null)
-            ? FirebaseFirestore.instance
-                .collection(path)
-                .orderBy(
-                  order,
-                  descending: false,
-                )
-                .where('isPublic', isEqualTo: true)
-                .where('$searchCategory', isEqualTo: '$isEqualTo')
-            : FirebaseFirestore.instance
-                .collection(path)
-                .orderBy(
-                  order,
-                  descending: false,
-                )
-                .where('isPublic', isEqualTo: true)
-                .where('$searchCategory', arrayContains: '$arrayContains');
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Search Second Collection Stream
-  Stream<List<T>> publicSearchCollectionStream2<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String order,
-    String? searchCategory,
-    String? arrayContains,
-    String? searchCategory2,
-    String? arrayContains2,
-    int limit = 10,
-  }) {
-    final reference = FirebaseFirestore.instance
-        .collection(path)
-        .orderBy(order, descending: false)
-        .where('isPublic', isEqualTo: true)
-        .where('$searchCategory', arrayContains: '$arrayContains')
-        .where('$searchCategory2', arrayContains: '$arrayContains2')
-        .limit(limit);
-
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  // Search Third Collection Stream
-  Stream<List<T>> publicSearchCollectionStream3<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String order,
-    String? searchCategory,
-    String? arrayContains,
-    int limit = 10,
-  }) {
-    final reference = FirebaseFirestore.instance
-        .collection(path)
-        .orderBy(order, descending: false)
-        .where('isPublic', isEqualTo: true)
-        .where('$searchCategory', arrayContains: '$arrayContains')
-        .limit(limit);
-
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
-  Stream<List<T>> workoutHistoriesForRoutineHistoryStream<T>({
-    required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
-    required String routineHistoryId,
-  }) {
-    final reference = FirebaseFirestore.instance
-        .collection(path)
-        .where('routineHistoryId', isEqualTo: routineHistoryId)
-        .orderBy('index', descending: false);
-    final snapshots = reference.snapshots();
-    return snapshots.map(
-      // converting snapshots of data to list of Data
-      (snapshot) => snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .toList(),
-    );
-  }
-
   //////// `Query` ////////////
 
-  Query paginatedCollectionQuery<T>({
+  Query<T> paginatedCollectionQuery<T>({
     required String path,
-    required String order,
+    required String orderBy,
     required bool descending,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
-        .orderBy(order, descending: descending);
+        .orderBy(orderBy, descending: descending)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
 
     return query;
   }
 
-  Query paginatedPublicCollectionQuery<T>({
+  Query<T> whereAndOrderByQuert<T>({
     required String path,
-    required String order,
+    required String where,
+    required dynamic isEqualTo,
+    required String orderBy,
     required bool descending,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
-        .orderBy(order, descending: descending)
-        .where('isPublic', isEqualTo: true);
-
-    return query;
-  }
-
-  Query paginatedUserCollectionQuery<T>({
-    required String path,
-    required String order,
-    required bool descending,
-    required String id,
-    String? userId,
-  }) {
-    final query = FirebaseFirestore.instance
-        .collection(path)
-        .orderBy(order, descending: descending)
-        .where(id, isEqualTo: userId);
+        .where(where, isEqualTo: isEqualTo)
+        .orderBy(orderBy, descending: descending)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
 
     return query;
   }

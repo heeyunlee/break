@@ -118,10 +118,13 @@ class SavedRoutinesScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             );
-                          } else {
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(
                               child: const CircularProgressIndicator(),
                             );
+                          } else {
+                            return Container();
                           }
                         },
                       );

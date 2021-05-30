@@ -181,11 +181,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Workout>(
+    return StreamBuilder<Workout?>(
       initialData: widget.workout,
-      stream: widget.database.workoutStream(
-        workoutId: widget.workout.workoutId,
-      ),
+      stream: widget.database.workoutStream(widget.workout.workoutId),
       builder: (context, snapshot) {
         return Scaffold(
           extendBodyBehindAppBar: true,

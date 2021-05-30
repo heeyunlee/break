@@ -31,7 +31,7 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
-    return CustomStreamBuilderWidget<User>(
+    return CustomStreamBuilderWidget<User?>(
       initialData: userDummyData,
       stream: database.userStream(auth.currentUser!.uid),
       errorWidget: ListTile(

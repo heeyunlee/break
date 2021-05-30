@@ -9,7 +9,7 @@ class WorkoutSet {
   final int? setIndex; // Nullable
   final int? restIndex; // Nullable
 
-  WorkoutSet({
+  const WorkoutSet({
     required this.workoutSetId,
     required this.isRest,
     required this.index,
@@ -21,31 +21,35 @@ class WorkoutSet {
     this.restIndex,
   });
 
-  factory WorkoutSet.fromMap(Map<String, dynamic> data) {
-    final String workoutSetId = data['workoutSetId'];
-    final bool isRest = data['isRest'];
-    final int index = data['index'];
-    final String setTitle = data['setTitle'];
-    final num? weights = data['weights'];
-    final int? reps = data['reps'];
-    final int? restTime = data['restTime'];
-    final int? setIndex = data['setIndex'];
-    final int? restIndex = data['restIndex'];
+  factory WorkoutSet.fromJson(Map<String, dynamic>? data) {
+    if (data != null) {
+      final String workoutSetId = data['workoutSetId'];
+      final bool isRest = data['isRest'];
+      final int index = data['index'];
+      final String setTitle = data['setTitle'];
+      final num? weights = data['weights'];
+      final int? reps = data['reps'];
+      final int? restTime = data['restTime'];
+      final int? setIndex = data['setIndex'];
+      final int? restIndex = data['restIndex'];
 
-    return WorkoutSet(
-      workoutSetId: workoutSetId,
-      isRest: isRest,
-      index: index,
-      setTitle: setTitle,
-      weights: weights,
-      reps: reps,
-      restTime: restTime,
-      setIndex: setIndex,
-      restIndex: restIndex,
-    );
+      return WorkoutSet(
+        workoutSetId: workoutSetId,
+        isRest: isRest,
+        index: index,
+        setTitle: setTitle,
+        weights: weights,
+        reps: reps,
+        restTime: restTime,
+        setIndex: setIndex,
+        restIndex: restIndex,
+      );
+    } else {
+      throw 'null';
+    }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'workoutSetId': workoutSetId,
       'isRest': isRest,

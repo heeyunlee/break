@@ -118,9 +118,11 @@ class ProteinEntriesScreen extends StatelessWidget {
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
-          final documentId = documentSnapshot.id;
-          final data = documentSnapshot.data();
-          final nutrition = Nutrition.fromMap(data!, documentId);
+          // final documentId = documentSnapshot.id;
+          // final data = documentSnapshot.data();
+          // final nutrition = Nutrition.fromJson(data!, documentId);
+          final snapshot = documentSnapshot as DocumentSnapshot<Nutrition?>;
+          final nutrition = snapshot.data()!;
           final date = Format.yMdjm(nutrition.loggedTime);
 
           return Slidable(

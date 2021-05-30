@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -131,9 +132,10 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data();
-        final workout = Workout.fromMap(data!, documentId);
+        final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
+        // final documentId = snapshot.id;
+        final workout = snapshot.data()!;
+        // final workout = Workout.fromJson(data!, documentId);
         final leadingText = EquipmentRequired.values
             .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
             .translation;
@@ -188,9 +190,12 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final documentId = documentSnapshot.id;
-        final data = documentSnapshot.data();
-        final routine = Routine.fromMap(data!, documentId);
+        final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
+        final routine = snapshot.data()!;
+
+        // final documentId = documentSnapshot.id;
+        // final data = documentSnapshot.data();
+        // final routine = Routine.fromJson(data!, documentId);
 
         final duration = Duration(seconds: routine.duration).inMinutes;
         return CustomListTile3(

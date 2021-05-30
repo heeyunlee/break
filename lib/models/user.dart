@@ -18,7 +18,7 @@ class User {
   final num? dailyProteinGoal; // Nullable
   final String displayName;
 
-  User({
+  const User({
     required this.userId,
     required this.userName,
     required this.userEmail,
@@ -37,54 +37,59 @@ class User {
     required this.displayName,
   });
 
-  factory User.fromJson(Map<String, dynamic> data, String documentId) {
-    final String userName = data['userName'];
-    final String? userEmail = data['userEmail'];
-    final Timestamp signUpDate = data['signUpDate'];
-    final String signUpProvider = data['signUpProvider'];
-    final List<dynamic>? savedWorkouts = data['savedWorkouts'];
-    final List<dynamic>? savedRoutines = data['savedRoutines'];
-    final num totalWeights = data['totalWeights'];
-    final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
-    final int unitOfMass = data['unitOfMass'];
-    final Timestamp lastLoginDate = data['lastLoginDate'];
-    List<DailyWorkoutHistory>? dailyWorkoutHistories = <DailyWorkoutHistory>[];
-    List<DailyNutritionHistory>? dailyNutritionHistories =
-        <DailyNutritionHistory>[];
+  factory User.fromJson(Map<String, dynamic>? data, String documentId) {
+    if (data != null) {
+      final String userName = data['userName'];
+      final String? userEmail = data['userEmail'];
+      final Timestamp signUpDate = data['signUpDate'];
+      final String signUpProvider = data['signUpProvider'];
+      final List<dynamic>? savedWorkouts = data['savedWorkouts'];
+      final List<dynamic>? savedRoutines = data['savedRoutines'];
+      final num totalWeights = data['totalWeights'];
+      final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
+      final int unitOfMass = data['unitOfMass'];
+      final Timestamp lastLoginDate = data['lastLoginDate'];
+      List<DailyWorkoutHistory>? dailyWorkoutHistories =
+          <DailyWorkoutHistory>[];
+      List<DailyNutritionHistory>? dailyNutritionHistories =
+          <DailyNutritionHistory>[];
 
-    if (data['dailyWorkoutHistories'] != null) {
-      data['dailyWorkoutHistories'].forEach((item) {
-        dailyWorkoutHistories.add(DailyWorkoutHistory.fromMap(item));
-      });
+      if (data['dailyWorkoutHistories'] != null) {
+        data['dailyWorkoutHistories'].forEach((item) {
+          dailyWorkoutHistories.add(DailyWorkoutHistory.fromMap(item));
+        });
+      }
+
+      if (data['dailyNutritionHistories'] != null) {
+        data['dailyNutritionHistories'].forEach((item) {
+          dailyNutritionHistories.add(DailyNutritionHistory.fromMap(item));
+        });
+      }
+      final num? dailyWeightsGoal = data['dailyWeightsGoal'];
+      final num? dailyProteinGoal = data['dailyWeightsGoal'];
+      final String displayName = data['displayName'];
+
+      return User(
+        userId: documentId,
+        userName: userName,
+        userEmail: userEmail,
+        signUpDate: signUpDate,
+        signUpProvider: signUpProvider,
+        savedWorkouts: savedWorkouts,
+        savedRoutines: savedRoutines,
+        totalWeights: totalWeights,
+        totalNumberOfWorkouts: totalNumberOfWorkouts,
+        unitOfMass: unitOfMass,
+        lastLoginDate: lastLoginDate,
+        dailyWorkoutHistories: dailyWorkoutHistories,
+        dailyNutritionHistories: dailyNutritionHistories,
+        dailyWeightsGoal: dailyWeightsGoal,
+        dailyProteinGoal: dailyProteinGoal,
+        displayName: displayName,
+      );
+    } else {
+      throw 'null';
     }
-
-    if (data['dailyNutritionHistories'] != null) {
-      data['dailyNutritionHistories'].forEach((item) {
-        dailyNutritionHistories.add(DailyNutritionHistory.fromMap(item));
-      });
-    }
-    final num? dailyWeightsGoal = data['dailyWeightsGoal'];
-    final num? dailyProteinGoal = data['dailyWeightsGoal'];
-    final String displayName = data['displayName'];
-
-    return User(
-      userId: documentId,
-      userName: userName,
-      userEmail: userEmail,
-      signUpDate: signUpDate,
-      signUpProvider: signUpProvider,
-      savedWorkouts: savedWorkouts,
-      savedRoutines: savedRoutines,
-      totalWeights: totalWeights,
-      totalNumberOfWorkouts: totalNumberOfWorkouts,
-      unitOfMass: unitOfMass,
-      lastLoginDate: lastLoginDate,
-      dailyWorkoutHistories: dailyWorkoutHistories,
-      dailyNutritionHistories: dailyNutritionHistories,
-      dailyWeightsGoal: dailyWeightsGoal,
-      dailyProteinGoal: dailyProteinGoal,
-      displayName: displayName,
-    );
   }
 
   Map<String, dynamic> toJson() {
