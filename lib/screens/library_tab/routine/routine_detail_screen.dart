@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/routine_workouts_list_widget.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
@@ -14,7 +16,9 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/widgets/sliver_app_bar_delegate.dart';
 
 import '../../../widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
@@ -46,8 +50,8 @@ class RoutineDetailScreen extends StatefulWidget {
     required Routine routine,
     required String tag,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -113,24 +117,132 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget build(BuildContext context) {
     debugPrint('routine detail screen scaffold building...');
 
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: NotificationListener<ScrollNotification>(
-        onNotification: _scrollListener,
-        child: CustomStreamBuilderWidget<Routine?>(
-          initialData: widget.routine,
-          stream: widget.database.routineStream(widget.routine.routineId),
-          hasDataWidget: (context, snapshot) {
-            return Stack(
-              children: [
-                CustomScrollView(
+    final size = MediaQuery.of(context).size;
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: _scrollListener,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: kBackgroundColor,
+        body: Consumer(
+          builder: (context, watch, child) {
+            final routineId = widget.routine.routineId;
+            final routineStream = watch(routineStreamProvider(routineId));
+
+            return routineStream.when(
+              loading: () => Center(child: CircularProgressIndicator()),
+              error: (e, stack) => EmptyContent(),
+              data: (routine) => DefaultTabController(
+                length: 2,
+                child: NestedScrollView(
                   physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    _buildSliverAppBar(snapshot.data!),
-                    _buildSliverToBoxAdaptor(snapshot.data!),
-                  ],
+                  headerSliverBuilder: (context, _) {
+                    return [
+                      _buildSliverAppBar(routine!),
+                      // SliverList(
+                      //   delegate: SliverChildListDelegate([
+                      //     // _buildSliverAppBar(routine),
+                      //     AppBar(
+                      //       brightness: Brightness.dark,
+                      //       flexibleSpace: Container(height: size.height / 2),
+                      //     ),
+                      //   ]),
+                      // ),
+                      // SliverPersistentHeader(
+                      //   pinned: true,
+                      //   delegate: SliverAppBarDelegate(
+                      //     minHeight: 24,
+                      //     maxHeight: size.height / 2,
+                      //     child: Column(
+                      //       children: [
+                      //         Hero(
+                      //           tag: 'tag',
+                      //           child: CachedNetworkImage(
+                      //             imageUrl: routine!.imageUrl,
+                      //             errorWidget: (context, url, error) =>
+                      //                 const Icon(Icons.error),
+                      //             fit: BoxFit.cover,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: SliverAppBarDelegate(
+                          minHeight: 48,
+                          maxHeight: 48,
+                          child: Container(
+                            color: kAppBarColor,
+                            child: TabBar(
+                              tabs: [
+                                Tab(text: 'A'),
+                                Tab(text: 'B'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: TabBarView(
+                    children: [
+                      _buildSliverToBoxAdaptor(routine!),
+                      Placeholder(),
+                    ],
+                  ),
                 ),
-              ],
+                // child: CustomScrollView(
+                //   slivers: [
+                //     SliverPersistentHeader(
+                //       pinned: true,
+                //       delegate: SliverAppBarDelegate(
+                //         minHeight: 48,
+                //         maxHeight: 120,
+                //         child: Placeholder(),
+                //       ),
+                //     ),
+                //     Column(
+                //       children: [
+                //         // const SizedBox(height: 48),
+                //         TabBar(
+                //           tabs: [
+                //             Tab(text: 'A'),
+                //             Tab(text: 'B'),
+                //           ],
+                //         ),
+                //         Expanded(
+                //           child: TabBarView(
+                //             children: [
+                //               Placeholder(),
+                //               Placeholder(),
+                //             ],
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
+
+                // child: CustomStreamBuilderWidget<Routine?>(
+                //   initialData: widget.routine,
+                //   stream: widget.database.routineStream(widget.routine.routineId),
+                //   hasDataWidget: (context, snapshot) {
+                //     return Stack(
+                //       children: [
+                //         CustomScrollView(
+                //           physics: const BouncingScrollPhysics(),
+                //           slivers: [
+                //             _buildSliverAppBar(snapshot.data!),
+                //             _buildSliverToBoxAdaptor(snapshot.data!),
+                //           ],
+                //         ),
+                //       ],
+                //     );
+                //   },
+                // ),
+              ),
             );
           },
         ),
@@ -163,7 +275,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         pinned: true,
         snap: false,
         stretch: true,
-        expandedHeight: size.height / 5,
+        elevation: 0,
+        expandedHeight: size.height / 2,
         flexibleSpace: RoutineDetailFlexibleSpaceWidget(
           routine: widget.routine,
           tag: widget.tag,
@@ -238,7 +351,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         .firstWhere((e) => e.toString() == routine.location)
         .translation!;
 
-    return SliverToBoxAdapter(
+    // return SliverToBoxAdapter(
+    return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -369,6 +483,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             SizedBox(height: size.height / 6),
           ],
         ),
+        // ),
       ),
     );
   }

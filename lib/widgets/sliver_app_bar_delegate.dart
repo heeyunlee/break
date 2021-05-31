@@ -1,28 +1,32 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  SliverAppBarDelegate(this._tabBar);
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
 
-  final _tabBar;
+  const SliverAppBarDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
 
   @override
-  double get minExtent => _tabBar.preferredSize.height;
+  double get minExtent => minHeight;
   @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
+  double get maxExtent => math.max(maxHeight, minHeight);
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: kAppBarColor,
-      child: _tabBar,
-    );
+    return SizedBox.expand(child: child);
   }
 
   @override
   bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return false;
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

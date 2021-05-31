@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -66,31 +65,22 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
     });
   }
 
-  double getY() {
-    if (Platform.isAndroid) {
-      return 1.00;
-    } else if (Platform.isIOS) {
-      return 0.93;
-    } else {
-      return 0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: SafeArea(
-        bottom: true,
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment(0, getY()),
-          children: [
-            _renderOverlay(),
-            _buildTapToCloseFab(),
-            ..._buildExpandingActionButtons(),
-            _buildTapToOpenFab(),
-          ],
-        ),
+    final size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment(0, 1),
+        children: [
+          _renderOverlay(),
+          _buildTapToCloseFab(),
+          ..._buildExpandingActionButtons(),
+          _buildTapToOpenFab(),
+        ],
       ),
     );
   }

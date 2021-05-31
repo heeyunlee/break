@@ -38,18 +38,25 @@ final thisWeeksNutritionsStreamProvider =
   return database.thisWeeksNutritionsStream(uid);
 });
 
-final todaysRHStreamProvider =
-    StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
-  final database = ref.watch(databaseProvider(uid));
-  return database.routineHistoryTodayStream(uid);
-});
-
 final workoutStreamProvider = StreamProvider.family<Workout?, String>(
   (ref, id) {
     final database = ref.watch(databaseProvider(id));
     return database.workoutStream(id);
   },
 );
+
+final routineStreamProvider = StreamProvider.family<Routine?, String>(
+  (ref, id) {
+    final database = ref.watch(databaseProvider(id));
+    return database.routineStream(id);
+  },
+);
+
+final todaysRHStreamProvider =
+    StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
+  final database = ref.watch(databaseProvider(uid));
+  return database.routineHistoryTodayStream(uid);
+});
 
 final rhOfThisWeekStreamProvider =
     StreamProvider.autoDispose.family<List<RoutineHistory?>, String>(

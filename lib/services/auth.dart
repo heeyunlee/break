@@ -1,6 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -33,7 +32,7 @@ final authServiceProvider = Provider<AuthBase>((ref) {
   return AuthService();
 });
 
-final authStateChangeProvider = StreamProvider<User?>((ref) {
+final authStateChangeProvider = StreamProvider<auth.User?>((ref) {
   final authService = ref.watch(authServiceProvider);
   return authService.idTokenChanges();
 });
@@ -192,30 +191,31 @@ class AuthService implements AuthBase {
         return null;
       }
     } on auth.FirebaseAuthException catch (e) {
-      switch (e.message) {
-        case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
-          logger.d(e.message);
-          throw auth.FirebaseAuthException(
-            code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-            message: 'You have a previous login operation in progress',
-          );
-        case FacebookAuthErrorCode.CANCELLED:
-          logger.d(e.message);
+      logger.e(e);
+      // switch (e.message) {
+      //   case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
+      //     logger.d(e.message);
+      //     throw auth.FirebaseAuthException(
+      //       code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+      //       message: 'You have a previous login operation in progress',
+      //     );
+      //   case FacebookAuthErrorCode.CANCELLED:
+      //     logger.d(e.message);
 
-          throw auth.FirebaseAuthException(
-            code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-            message: 'Login Cancelled',
-          );
-        case FacebookAuthErrorCode.FAILED:
-          logger.d(e.message);
+      //     throw auth.FirebaseAuthException(
+      //       code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+      //       message: 'Login Cancelled',
+      //     );
+      //   case FacebookAuthErrorCode.FAILED:
+      //     logger.d(e.message);
 
-          throw auth.FirebaseAuthException(
-            code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-            message: 'Login Failed',
-          );
-        default:
-          throw UnimplementedError();
-      }
+      //     throw auth.FirebaseAuthException(
+      //       code: 'ERROR_FACEBOOK_LOGIN_FAILED',
+      //       message: 'Login Failed',
+      //     );
+      //   default:
+      //     throw UnimplementedError();
+      // }
     }
   }
 

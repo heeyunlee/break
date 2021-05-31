@@ -162,7 +162,7 @@ class RoutineDetailFlexibleSpaceWidget extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        kBackgroundColor,
+                        kAppBarColor,
                       ],
                     ),
                   ),

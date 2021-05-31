@@ -26,17 +26,17 @@ dependencies:
   firebase_storage: ^8.1.0
   firebase_core: ^1.2.0
   cloud_firestore: ^2.2.0
-  cloud_functions: ^1.0.7
-  firebase_auth: ^1.1.4
-  firebase_crashlytics: ^2.0.3 # no web
-  firebase_analytics: ^8.0.4
+  cloud_functions: ^1.1.0
+  firebase_auth: ^1.2.0
+  firebase_crashlytics: ^2.0.4 # no web
+  firebase_analytics: ^8.1.0
   google_fonts: ^2.1.0
   pedantic: ^1.11.0
   paginate_firestore: ^1.0.0-nullsafety.1
 
   # Authentication
-  google_sign_in: ^5.0.3
-  flutter_facebook_auth: ^3.3.3+1
+  google_sign_in: ^5.0.4
+  flutter_facebook_auth: ^3.4.0
   sign_in_with_apple: ^3.0.0 # no web
   kakao_flutter_sdk: ^0.6.3
 
