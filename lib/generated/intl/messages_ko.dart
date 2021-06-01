@@ -334,6 +334,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rest": MessageLookupByLibrary.simpleMessage("휴식"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("운동 계속하기"),
         "routine": MessageLookupByLibrary.simpleMessage("루틴"),
+        "routineHistory": MessageLookupByLibrary.simpleMessage("기록"),
         "routineHistoryTitle": MessageLookupByLibrary.simpleMessage("운동 기록"),
         "routineHistoyEmptyMessage":
             MessageLookupByLibrary.simpleMessage("커스텀 루틴을 이용하여 운동하고 기록해보세요!"),
@@ -451,6 +452,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("운동에 이름이 없습니다"),
         "workouts": MessageLookupByLibrary.simpleMessage("운동"),
+        "workoutsUpperCase": MessageLookupByLibrary.simpleMessage("운동"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("비밀번호 오류"),
         "wrongPasswordMessage": MessageLookupByLibrary.simpleMessage(
             "비밀번호가 틀렸습니다. 비밀번호를 다시한번 확인해 주세요"),

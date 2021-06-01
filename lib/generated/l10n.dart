@@ -3049,6 +3049,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Workouts`
+  String get workoutsUpperCase {
+    return Intl.message(
+      'Workouts',
+      name: 'workoutsUpperCase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History`
+  String get routineHistory {
+    return Intl.message(
+      'History',
+      name: 'routineHistory',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

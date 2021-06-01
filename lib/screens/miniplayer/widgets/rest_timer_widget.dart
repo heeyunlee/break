@@ -12,7 +12,7 @@ class RestTimerWidget extends ConsumerWidget {
     required CountDownController countdownController,
     required MiniplayerIndexNotifier miniplayerIndex,
     required IsWorkoutPausedNotifier isWorkoutPaused,
-    required List<RoutineWorkout> routineWorkouts,
+    required List<RoutineWorkout?> routineWorkouts,
     required RoutineWorkout routineWorkout,
     required MiniplayerProviderNotifier miniplayerNotifier,
   }) {

@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/dummy_data.dart';
-import 'package:workout_player/screens/library_tab/routine/widgets/routine_workouts_list_widget.dart';
+import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/screens/library_tab/routine/widgets/routine_title_widget.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -21,14 +20,15 @@ import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/widgets/sliver_app_bar_delegate.dart';
 
-import '../../../widgets/max_width_raised_button.dart';
 import '../../../constants.dart';
 import '../../../format.dart';
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
-import 'add_workout/add_workouts_to_routine.dart';
 import 'edit_routine/edit_routine_screen.dart';
-import 'widgets/routine_detail_flexible_spacebar_widget.dart';
+import 'log_routine/log_routine_screen.dart';
+import 'widgets/routine_description_widget.dart';
+import 'widgets/routine_start_button.dart';
+import 'widgets/routine_workouts_tab.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
   final Database database;
@@ -85,8 +85,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   bool _scrollListener(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.axis == Axis.vertical) {
-      _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
+      print('scroll info is ${scrollInfo.metrics.pixels}');
 
+      _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
       _textAnimationController.animateTo((scrollInfo.metrics.pixels - 60) / 50);
       return true;
     }
@@ -118,8 +119,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   Widget build(BuildContext context) {
     debugPrint('routine detail screen scaffold building...');
 
-    final size = MediaQuery.of(context).size;
-
     return NotificationListener<ScrollNotification>(
       onNotification: _scrollListener,
       child: Scaffold(
@@ -129,6 +128,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           builder: (context, watch, child) {
             final routineId = widget.routine.routineId;
             final routineStream = watch(routineStreamProvider(routineId));
+            final routineWorkoutStream = watch(
+              routineWorkoutsStreamProvider(routineId),
+            );
 
             return routineStream.when(
               loading: () => Center(child: CircularProgressIndicator()),
@@ -139,36 +141,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   physics: const BouncingScrollPhysics(),
                   headerSliverBuilder: (context, _) {
                     return [
-                      _buildSliverAppBar(routine!),
-                      // SliverList(
-                      //   delegate: SliverChildListDelegate([
-                      //     // _buildSliverAppBar(routine),
-                      //     AppBar(
-                      //       brightness: Brightness.dark,
-                      //       flexibleSpace: Container(height: size.height / 2),
-                      //     ),
-                      //   ]),
-                      // ),
-                      // SliverPersistentHeader(
-                      //   pinned: true,
-                      //   delegate: SliverAppBarDelegate(
-                      //     minHeight: 24,
-                      //     maxHeight: size.height / 2,
-                      //     child: Column(
-                      //       children: [
-                      //         Hero(
-                      //           tag: 'tag',
-                      //           child: CachedNetworkImage(
-                      //             imageUrl: routine!.imageUrl,
-                      //             errorWidget: (context, url, error) =>
-                      //                 const Icon(Icons.error),
-                      //             fit: BoxFit.cover,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      _buildSliverAppBar(routine!, routineWorkoutStream),
                       SliverPersistentHeader(
                         pinned: true,
                         delegate: SliverAppBarDelegate(
@@ -177,9 +150,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                           child: Container(
                             color: kAppBarColor,
                             child: TabBar(
+                              indicatorColor: kPrimaryColor,
                               tabs: [
-                                Tab(text: 'A'),
-                                Tab(text: 'B'),
+                                Tab(text: S.current.workoutsUpperCase),
+                                Tab(text: S.current.routineHistory),
                               ],
                             ),
                           ),
@@ -189,60 +163,15 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                   },
                   body: TabBarView(
                     children: [
-                      _buildSliverToBoxAdaptor(routine!),
+                      RoutineWorkoutsTab(
+                        auth: widget.auth,
+                        database: widget.database,
+                        routine: routine!,
+                      ),
                       Placeholder(),
                     ],
                   ),
                 ),
-                // child: CustomScrollView(
-                //   slivers: [
-                //     SliverPersistentHeader(
-                //       pinned: true,
-                //       delegate: SliverAppBarDelegate(
-                //         minHeight: 48,
-                //         maxHeight: 120,
-                //         child: Placeholder(),
-                //       ),
-                //     ),
-                //     Column(
-                //       children: [
-                //         // const SizedBox(height: 48),
-                //         TabBar(
-                //           tabs: [
-                //             Tab(text: 'A'),
-                //             Tab(text: 'B'),
-                //           ],
-                //         ),
-                //         Expanded(
-                //           child: TabBarView(
-                //             children: [
-                //               Placeholder(),
-                //               Placeholder(),
-                //             ],
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // ),
-
-                // child: CustomStreamBuilderWidget<Routine?>(
-                //   initialData: widget.routine,
-                //   stream: widget.database.routineStream(widget.routine.routineId),
-                //   hasDataWidget: (context, snapshot) {
-                //     return Stack(
-                //       children: [
-                //         CustomScrollView(
-                //           physics: const BouncingScrollPhysics(),
-                //           slivers: [
-                //             _buildSliverAppBar(snapshot.data!),
-                //             _buildSliverToBoxAdaptor(snapshot.data!),
-                //           ],
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // ),
               ),
             );
           },
@@ -251,44 +180,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     );
   }
 
-  Widget _getTitleWidget(String routineTitle) {
-    if (routineTitle.length < 21) {
-      return Text(
-        routineTitle,
-        style: GoogleFonts.blackHanSans(
-          color: Colors.white,
-          fontSize: 28,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.fade,
-        softWrap: false,
-      );
-    } else if (routineTitle.length >= 21 && routineTitle.length < 35) {
-      return FittedBox(
-        child: Text(
-          routineTitle,
-          style: GoogleFonts.blackHanSans(
-            color: Colors.white,
-            fontSize: 28,
-          ),
-        ),
-      );
-    } else {
-      return Text(
-        routineTitle,
-        style: GoogleFonts.blackHanSans(
-          color: Colors.white,
-          fontSize: 20,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.fade,
-        softWrap: false,
-      );
-    }
-  }
+  Widget _buildSliverAppBar(
+    Routine routine,
+    AsyncValue<List<RoutineWorkout?>> asyncValue,
+  ) {
+    debugPrint('building sliver app bar...');
 
-  Widget _buildSliverAppBar(Routine routine) {
-    debugPrint('_buildSliverAppBar');
     final Size size = MediaQuery.of(context).size;
 
     // FORMATTING
@@ -296,307 +193,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final duration = Format.durationInMin(routine.duration);
     final weights = Format.weights(routine.totalWeights);
     final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
-
-    return AnimatedBuilder(
-      animation: _colorAnimationController,
-      builder: (context, child) => SliverAppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        centerTitle: true,
-        brightness: Brightness.dark,
-        title: Transform.translate(
-          offset: _transTween.value,
-          child: Text(routine.routineTitle, style: kSubtitle1),
-        ),
-        backgroundColor: _colorTween.value,
-        floating: false,
-        pinned: true,
-        snap: false,
-        stretch: true,
-        elevation: 0,
-        expandedHeight: size.height / 2,
-        flexibleSpace: FlexibleSpaceBar(
-          background: Column(
-            children: [
-              SizedBox(
-                height: size.height / 3,
-                width: size.width,
-                child: Stack(
-                  alignment: Alignment.center,
-                  fit: StackFit.passthrough,
-                  children: [
-                    Hero(
-                      tag: widget.tag,
-                      child: CachedNetworkImage(
-                        imageUrl: routine.imageUrl,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment(0.0, 0.0),
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            kAppBarColor,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  color: kAppBarColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _getTitleWidget(routine.routineTitle),
-                        const SizedBox(height: 4),
-                        Text(
-                          routine.routineOwnerUserName,
-                          style: kSubtitle2BoldGrey,
-                        ),
-                        const SizedBox(height: 4),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(
-                            children: [
-                              Text(
-                                weights + ' ' + unitOfMass,
-                                style: kBodyText2Light,
-                              ),
-                              const Text('  \u2022  ', style: kCaption1),
-                              Text(
-                                '$duration ${S.current.minutes}',
-                                style: kBodyText2Light,
-                              ),
-                              const Text('  \u2022  ', style: kCaption1),
-                              Text(trainingLevel, style: kBodyText2Light)
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              // Stack(
-              //   // alignment: Alignment.center,
-              //   // fit: StackFit.passthrough,
-              //   children: [
-              //     // SizedBox(
-              //     //   height: size.height / 3,
-              //     //   width: size.width,
-              //     //   child: Hero(
-              //     //     tag: widget.tag,
-              //     //     child: CachedNetworkImage(
-              //     //       imageUrl: routine.imageUrl,
-              //     //       errorWidget: (context, url, error) =>
-              //     //           const Icon(Icons.error),
-              //     //       fit: BoxFit.cover,
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //     // Container(
-              //     //   decoration: const BoxDecoration(
-              //     //     gradient: LinearGradient(
-              //     //       begin: Alignment(0.0, -0.3),
-              //     //       end: Alignment.bottomCenter,
-              //     //       colors: [
-              //     //         Colors.transparent,
-              //     //         kAppBarColor,
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //     Positioned(
-              //       bottom: 8,
-              //       child: SizedBox(
-              //         width: size.width,
-              //         child: Padding(
-              //           padding: const EdgeInsets.symmetric(horizontal: 16),
-              //           child: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //               _getTitleWidget(routine.routineTitle),
-              //               const SizedBox(height: 4),
-              //               Text(
-              //                 routine.routineOwnerUserName,
-              //                 style: kSubtitle2BoldGrey,
-              //               ),
-              //               const SizedBox(height: 4),
-              //               // Padding(
-              //               //   padding: const EdgeInsets.symmetric(vertical: 4),
-              //               //   child: Row(
-              //               //     children: [
-              //               //       Text(
-              //               //         weights + ' ' + unitOfMass,
-              //               //         style: kBodyText2Light,
-              //               //       ),
-              //               //       const Text('  \u2022  ', style: kCaption1),
-              //               //       Text(
-              //               //         '$duration ${S.current.minutes}',
-              //               //         style: kBodyText2Light,
-              //               //       ),
-              //               //       const Text('  \u2022  ', style: kCaption1),
-              //               //       Text(trainingLevel, style: kBodyText2Light)
-              //               //     ],
-              //               //   ),
-              //               // ),
-
-              //               // // Main Muscle Group
-              //               // Padding(
-              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
-              //               //   child: Row(
-              //               //     children: [
-              //               //       CachedNetworkImage(
-              //               //         imageUrl: kBicepEmojiUrl,
-              //               //         color: Colors.white,
-              //               //         width: 20,
-              //               //         height: 20,
-              //               //       ),
-              //               //       const SizedBox(width: 16),
-              //               //       SizedBox(
-              //               //         width: size.width - 68,
-              //               //         child: Text(
-              //               //           _mainMuscleGroups,
-              //               //           style: kBodyText1,
-              //               //           maxLines: 1,
-              //               //           softWrap: false,
-              //               //           overflow: TextOverflow.fade,
-              //               //         ),
-              //               //       ),
-              //               //     ],
-              //               //   ),
-              //               // ),
-
-              //               // // Equipment Required
-              //               // Padding(
-              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
-              //               //   child: Row(
-              //               //     children: [
-              //               //       const Icon(
-              //               //         Icons.fitness_center_rounded,
-              //               //         size: 20,
-              //               //         color: Colors.white,
-              //               //       ),
-              //               //       const SizedBox(width: 16),
-              //               //       SizedBox(
-              //               //         width: size.width - 68,
-              //               //         child: Text(
-              //               //           _equipments,
-              //               //           style: kBodyText1,
-              //               //           maxLines: 1,
-              //               //           softWrap: false,
-              //               //           overflow: TextOverflow.fade,
-              //               //         ),
-              //               //       ),
-              //               //     ],
-              //               //   ),
-              //               // ),
-
-              //               // // Location
-              //               // Padding(
-              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
-              //               //   child: Row(
-              //               //     children: [
-              //               //       const Icon(
-              //               //         Icons.location_on_rounded,
-              //               //         size: 20,
-              //               //         color: Colors.white,
-              //               //       ),
-              //               //       const SizedBox(width: 16),
-              //               //       Text(location, style: kBodyText1),
-              //               //     ],
-              //               //   ),
-              //               // ),
-              //               // const SizedBox(height: 16),
-              //               // Text(
-              //               //   description,
-              //               //   style: kBodyText2LightGrey,
-              //               //   maxLines: 3,
-              //               //   overflow: TextOverflow.ellipsis,
-              //               //   softWrap: false,
-              //               // ),
-              //               // const SizedBox(height: 24),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //     // Positioned(
-              //     //   bottom: 8,
-              //     //   child: SizedBox(
-              //     //     width: size.width,
-              //     //     child: Padding(
-              //     //       padding: const EdgeInsets.symmetric(horizontal: 16),
-              //     //       child: Column(
-              //     //         crossAxisAlignment: CrossAxisAlignment.start,
-              //     //         children: [
-              //     //           _getTitleWidget(),
-              //     //           const SizedBox(height: 4),
-              //     //           Text(
-              //     //             routineOwnerUserName,
-              //     //             style: kSubtitle2BoldGrey,
-              //     //           ),
-              //     //         ],
-              //     //       ),
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
-            ],
-          ),
-        ),
-        actions: [
-          if (widget.auth.currentUser!.uid != routine.routineOwnerId)
-            _getSaveButton(),
-          if (widget.auth.currentUser!.uid == routine.routineOwnerId)
-            IconButton(
-              icon: const Icon(
-                Icons.edit_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () => EditRoutineScreen.show(
-                context,
-                routine: routine,
-              ),
-            ),
-          const SizedBox(width: 8),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSliverToBoxAdaptor(Routine routine) {
-    final size = MediaQuery.of(context).size;
-
-    // FORMATTING
-    final trainingLevel = Format.difficulty(routine.trainingLevel)!;
-    final duration = Format.durationInMin(routine.duration);
-    final weights = Format.weights(routine.totalWeights);
-    final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
-
-    final String description = routine.description == null
-        ? S.current.addDescription
-        : routine.description!.isEmpty
-            ? S.current.addDescription
-            : routine.description!;
 
     String _mainMuscleGroups = '';
     for (var i = 0; i < routine.mainMuscleGroup.length; i++) {
@@ -628,143 +224,236 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       }
     }
 
-    String location = Location.values
+    String _location = Location.values
         .firstWhere((e) => e.toString() == routine.location)
         .translation!;
 
-    // return SliverToBoxAdapter(
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  Text(
-                    weights + ' ' + unitOfMass,
-                    style: kBodyText2Light,
-                  ),
-                  const Text('  \u2022  ', style: kCaption1),
-                  Text(
-                    '$duration ${S.current.minutes}',
-                    style: kBodyText2Light,
-                  ),
-                  const Text('  \u2022  ', style: kCaption1),
-                  Text(trainingLevel, style: kBodyText2Light)
-                ],
-              ),
-            ),
-
-            // Main Muscle Group
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: kBicepEmojiUrl,
-                    color: Colors.white,
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 16),
-                  SizedBox(
-                    width: size.width - 68,
-                    child: Text(
-                      _mainMuscleGroups,
-                      style: kBodyText1,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Equipment Required
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.fitness_center_rounded,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 16),
-                  SizedBox(
-                    width: size.width - 68,
-                    child: Text(
-                      _equipments,
-                      style: kBodyText1,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Location
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_rounded,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(location, style: kBodyText1),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              description,
-              style: kBodyText2LightGrey,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-            ),
-            const SizedBox(height: 24),
-            RoutineWorkoutsListWidget(
-              routine: routine,
-              database: widget.database,
-              auth: widget.auth,
-              user: widget.user,
-            ),
-            const SizedBox(height: 8),
-            if (widget.auth.currentUser!.uid == routine.routineOwnerId)
-              const Divider(
-                endIndent: 8,
-                indent: 8,
-                color: Colors.white12,
-              ),
-            const SizedBox(height: 16),
-            if (widget.auth.currentUser!.uid == routine.routineOwnerId)
-              MaxWidthRaisedButton(
-                icon: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.white,
-                ),
-                buttonText: S.current.addWorkoutkButtonText,
-                color: kCardColor,
-                onPressed: () => AddWorkoutsToRoutine.show(
-                  context,
-                  routine: routine,
-                ),
-              ),
-            SizedBox(height: size.height / 6),
-          ],
+    return AnimatedBuilder(
+      animation: _colorAnimationController,
+      builder: (context, child) => SliverAppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        // ),
+        centerTitle: true,
+        brightness: Brightness.dark,
+        title: Transform.translate(
+          offset: _transTween.value,
+          child: Text(routine.routineTitle, style: kSubtitle1),
+        ),
+        backgroundColor: _colorTween.value,
+        floating: false,
+        pinned: true,
+        snap: false,
+        stretch: true,
+        elevation: 0,
+        expandedHeight: size.height / 2 + 24,
+        flexibleSpace: FlexibleSpaceBar(
+          background: Column(
+            children: [
+              SizedBox(
+                height: size.height / 4,
+                width: size.width,
+                child: Stack(
+                  alignment: Alignment.center,
+                  fit: StackFit.passthrough,
+                  children: [
+                    Hero(
+                      tag: widget.tag,
+                      child: CachedNetworkImage(
+                        imageUrl: routine.imageUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment(0.0, 0.0),
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            kAppBarColor,
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      left: 16,
+                      child: RoutineTitleWidget(title: routine.routineTitle),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 16,
+                      child: Text(
+                        routine.routineOwnerUserName,
+                        style: kSubtitle2BoldGrey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.maxFinite,
+                  color: kAppBarColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            children: [
+                              Text(
+                                weights + ' ' + unitOfMass,
+                                style: kBodyText2Light,
+                              ),
+                              const Text('  \u2022  ', style: kCaption1),
+                              Text(
+                                '$duration ${S.current.minutes}',
+                                style: kBodyText2Light,
+                              ),
+                              const Text('  \u2022  ', style: kCaption1),
+                              Text(trainingLevel, style: kBodyText2Light)
+                            ],
+                          ),
+                        ),
+
+                        // Main Muscle Group
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: kBicepEmojiUrl,
+                                color: Colors.white,
+                                width: 20,
+                                height: 20,
+                              ),
+                              const SizedBox(width: 16),
+                              SizedBox(
+                                width: size.width - 68,
+                                child: Text(
+                                  _mainMuscleGroups,
+                                  style: kBodyText1,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Equipment Required
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.fitness_center_rounded,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 16),
+                              SizedBox(
+                                width: size.width - 68,
+                                child: Text(
+                                  _equipments,
+                                  style: kBodyText1,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Location
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on_rounded,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 16),
+                              Text(_location, style: kBodyText1),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Description
+                        RoutineDescriptionWidget(
+                          description: routine.description,
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Log and Start Button
+                        Row(
+                          children: [
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: Size((size.width - 48) / 2, 48),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                side:
+                                    BorderSide(width: 2, color: kPrimaryColor),
+                              ),
+                              onPressed: () => LogRoutineScreen.show(
+                                context,
+                                routine: routine,
+                                database: widget.database,
+                                auth: widget.auth,
+                                user: widget.user,
+                              ),
+                              child: Text(S.current.logRoutine,
+                                  style: kButtonText),
+                            ),
+                            const SizedBox(width: 16),
+                            RoutineStartButton(
+                              routine: routine,
+                              asyncValue: asyncValue,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          if (widget.auth.currentUser!.uid != routine.routineOwnerId)
+            _getSaveButton(),
+          if (widget.auth.currentUser!.uid == routine.routineOwnerId)
+            IconButton(
+              icon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => EditRoutineScreen.show(
+                context,
+                routine: routine,
+              ),
+            ),
+          const SizedBox(width: 8),
+        ],
       ),
     );
   }

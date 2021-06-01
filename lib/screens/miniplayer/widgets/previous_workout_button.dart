@@ -25,7 +25,7 @@ class PreviousWorkoutButton extends ConsumerWidget {
     // new index = currentIndex - workoutIndex - workoutSetLength
     final workoutSetLength = miniplayerIndex.currentIndex -
         miniplayerIndex.workoutSetIndex -
-        routineWorkouts[miniplayerIndex.routineWorkoutIndex - 1].sets!.length;
+        routineWorkouts[miniplayerIndex.routineWorkoutIndex - 1]!.sets!.length;
 
     // set current index
     miniplayerIndex.setCurrentIndex(workoutSetLength);

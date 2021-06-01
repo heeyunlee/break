@@ -75,7 +75,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
   Future<void> _submit(Routine routine) async {
     try {
       final routineWorkouts =
-          await widget.database.routineWorkoutsStream(routine).first;
+          await widget.database.routineWorkoutsStream(routine.routineId).first;
       final index = routineWorkouts.length + 1;
 
       final routineWorkout = RoutineWorkout(

@@ -28,7 +28,7 @@ class SaveAndExitButton extends ConsumerWidget {
   Future<void> _submit(
     BuildContext context, {
     required Routine routine,
-    required List<RoutineWorkout> routineWorkouts,
+    required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
       debugPrint('submit button pressed');
@@ -42,7 +42,7 @@ class SaveAndExitButton extends ConsumerWidget {
       final workoutEndDate = workoutEndTime.toDate();
       final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
       final isBodyWeightWorkout = routineWorkouts.any(
-        (element) => element.isBodyWeightWorkout == true,
+        (element) => element!.isBodyWeightWorkout == true,
       );
       final workoutDate = DateTime.utc(
         workoutStartDate.year,
@@ -55,7 +55,7 @@ class SaveAndExitButton extends ConsumerWidget {
       var weightsCalculated = false;
       if (!weightsCalculated) {
         for (var i = 0; i < routineWorkouts.length; i++) {
-          var weights = routineWorkouts[i].totalWeights;
+          var weights = routineWorkouts[i]!.totalWeights;
           totalWeights = totalWeights + weights;
         }
         weightsCalculated = true;
@@ -93,7 +93,7 @@ class SaveAndExitButton extends ConsumerWidget {
           final workoutHistory = WorkoutHistory(
             workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
             routineHistoryId: routineHistoryId,
-            workoutId: rw.workoutId,
+            workoutId: rw!.workoutId,
             routineId: rw.routineId,
             uid: userData.userId,
             index: rw.index,

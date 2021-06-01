@@ -10,7 +10,7 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
   void _skipRoutineWorkout(
     BuildContext context,
     ScopedReader watch, {
-    required List<RoutineWorkout> routineWorkouts,
+    required List<RoutineWorkout?> routineWorkouts,
     // required RoutineWorkout routineWorkout,
     required MiniplayerIndexNotifier miniplayerIndex,
     // required IsWorkoutPausedNotifier isWorkoutPaused,

@@ -122,7 +122,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Future<void> _submit(
     BuildContext context, {
     required Routine routine,
-    required List<RoutineWorkout> routineWorkouts,
+    required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
       debugPrint('submit button pressed');
@@ -135,7 +135,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       );
 
       final isBodyWeightWorkout = routineWorkouts.any(
-        (element) => element.isBodyWeightWorkout == true,
+        (element) => element!.isBodyWeightWorkout == true,
       );
       final workoutDate = DateTime.utc(
         _workoutEndTime.year,
@@ -187,7 +187,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
           final workoutHistory = WorkoutHistory(
             workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
             routineHistoryId: routineHistoryId,
-            workoutId: rw.workoutId,
+            workoutId: rw!.workoutId,
             routineId: rw.routineId,
             uid: widget.user.userId,
             index: rw.index,
@@ -291,8 +291,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return CustomStreamBuilderWidget<List<RoutineWorkout>>(
-        stream: widget.database.routineWorkoutsStream(widget.routine),
+    return CustomStreamBuilderWidget<List<RoutineWorkout?>>(
+        stream: widget.database.routineWorkoutsStream(widget.routine.routineId),
         hasDataWidget: (context, snapshot) {
           return Scaffold(
             backgroundColor: kBackgroundColor,

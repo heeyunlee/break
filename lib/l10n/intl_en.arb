@@ -298,5 +298,7 @@
     "errorOccuredMessage": "An error has occured",
     "savedWorkouts": "Saved Workouts",
     "progressTabIntroduction": "Hello,\n{displayName}",
-    "proteins": "Proteins"
+    "proteins": "Proteins",
+    "workoutsUpperCase": "Workouts",
+    "routineHistory": "History"
 }

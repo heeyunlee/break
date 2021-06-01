@@ -52,6 +52,12 @@ final routineStreamProvider = StreamProvider.family<Routine?, String>(
   },
 );
 
+final routineWorkoutsStreamProvider =
+    StreamProvider.family<List<RoutineWorkout?>, String>((ref, id) {
+  final database = ref.watch(databaseProvider(id));
+  return database.routineWorkoutsStream(id);
+});
+
 final todaysRHStreamProvider =
     StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
   final database = ref.watch(databaseProvider(uid));
@@ -185,7 +191,7 @@ abstract class Database {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   });
-  Stream<List<RoutineWorkout>> routineWorkoutsStream(Routine routine);
+  Stream<List<RoutineWorkout?>> routineWorkoutsStream(String routineId);
 
   Future<void> setWorkoutSet({
     required Routine routine,
@@ -744,9 +750,9 @@ class FirestoreDatabase implements Database {
 
   // Routine Workout Stream
   @override
-  Stream<List<RoutineWorkout>> routineWorkoutsStream(Routine routine) =>
+  Stream<List<RoutineWorkout?>> routineWorkoutsStream(String routineId) =>
       _service.collectionStream<RoutineWorkout>(
-        path: APIPath.routineWorkouts(routine.routineId),
+        path: APIPath.routineWorkouts(routineId),
         order: 'index',
         descending: false,
         fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),

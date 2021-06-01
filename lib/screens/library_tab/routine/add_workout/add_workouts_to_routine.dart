@@ -81,8 +81,9 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
 
   Future<void> _submit() async {
     try {
-      final routineWorkouts =
-          await widget.database.routineWorkoutsStream(widget.routine).first;
+      final routineWorkouts = await widget.database
+          .routineWorkoutsStream(widget.routine.routineId)
+          .first;
       final index = routineWorkouts.length + 1;
       final id = documentIdFromCurrentDate();
 

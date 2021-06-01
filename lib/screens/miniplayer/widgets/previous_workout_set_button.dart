@@ -8,7 +8,7 @@ import '../provider/workout_miniplayer_provider.dart';
 class PreviousWorkoutSetButton extends ConsumerWidget {
   Future<void> _skipPrevious(
     BuildContext context, {
-    required List<RoutineWorkout> routineWorkouts,
+    required List<RoutineWorkout?> routineWorkouts,
     required RoutineWorkout routineWorkout,
     required MiniplayerIndexNotifier miniplayerIndex,
     required IsWorkoutPausedNotifier isWorkoutPaused,

@@ -357,6 +357,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rest": MessageLookupByLibrary.simpleMessage("Rest"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("Resume Workout"),
         "routine": MessageLookupByLibrary.simpleMessage("routine"),
+        "routineHistory": MessageLookupByLibrary.simpleMessage("History"),
         "routineHistoryTitle":
             MessageLookupByLibrary.simpleMessage("Histories"),
         "routineHistoyEmptyMessage": MessageLookupByLibrary.simpleMessage(
@@ -484,6 +485,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("No workout name"),
         "workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
+        "workoutsUpperCase": MessageLookupByLibrary.simpleMessage("Workouts"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong Password"),
         "wrongPasswordMessage": MessageLookupByLibrary.simpleMessage(
             "Please check your password again"),

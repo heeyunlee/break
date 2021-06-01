@@ -9,7 +9,7 @@ import 'package:workout_player/models/workout_set.dart';
 
 class MiniplayerProvider {
   Routine? selectedRoutine;
-  List<RoutineWorkout>? selectedRoutineWorkouts;
+  List<RoutineWorkout?>? selectedRoutineWorkouts;
   RoutineWorkout? currentRoutineWorkout;
   WorkoutSet? currentWorkoutSet;
 
@@ -29,7 +29,7 @@ class MiniplayerProvider {
 
   MiniplayerProvider copyWith({
     Routine? selectedRoutine,
-    List<RoutineWorkout>? selectedRoutineWorkouts,
+    List<RoutineWorkout?>? selectedRoutineWorkouts,
     RoutineWorkout? currentRoutineWorkout,
     WorkoutSet? currentWorkoutSet,
   }) {
@@ -74,7 +74,7 @@ class MiniplayerProviderNotifier extends StateNotifier<MiniplayerProvider> {
 
   void initiate({
     Routine? routine,
-    List<RoutineWorkout>? routineWorkouts,
+    List<RoutineWorkout?>? routineWorkouts,
     RoutineWorkout? routineWorkout,
     WorkoutSet? workoutSet,
   }) {
