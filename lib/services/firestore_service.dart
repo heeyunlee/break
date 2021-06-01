@@ -226,7 +226,7 @@ class FirestoreService {
     final reference = FirebaseFirestore.instance
         .collection(path)
         .where(whereVariableName, isEqualTo: isEqualToValue)
-        .where(arrayContainsVariableName, isEqualTo: arrayContainsValue)
+        .where(arrayContainsVariableName, arrayContains: arrayContainsValue)
         .orderBy(orderByVariable, descending: isDescending)
         .limit(limit ?? 50)
         .withConverter<T>(

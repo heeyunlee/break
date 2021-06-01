@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/routine_workouts_list_widget.dart';
@@ -250,9 +251,51 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     );
   }
 
+  Widget _getTitleWidget(String routineTitle) {
+    if (routineTitle.length < 21) {
+      return Text(
+        routineTitle,
+        style: GoogleFonts.blackHanSans(
+          color: Colors.white,
+          fontSize: 28,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      );
+    } else if (routineTitle.length >= 21 && routineTitle.length < 35) {
+      return FittedBox(
+        child: Text(
+          routineTitle,
+          style: GoogleFonts.blackHanSans(
+            color: Colors.white,
+            fontSize: 28,
+          ),
+        ),
+      );
+    } else {
+      return Text(
+        routineTitle,
+        style: GoogleFonts.blackHanSans(
+          color: Colors.white,
+          fontSize: 20,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      );
+    }
+  }
+
   Widget _buildSliverAppBar(Routine routine) {
     debugPrint('_buildSliverAppBar');
     final Size size = MediaQuery.of(context).size;
+
+    // FORMATTING
+    final trainingLevel = Format.difficulty(routine.trainingLevel)!;
+    final duration = Format.durationInMin(routine.duration);
+    final weights = Format.weights(routine.totalWeights);
+    final unitOfMass = Format.unitOfMass(routine.initialUnitOfMass);
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -277,10 +320,248 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         stretch: true,
         elevation: 0,
         expandedHeight: size.height / 2,
-        flexibleSpace: RoutineDetailFlexibleSpaceWidget(
-          routine: widget.routine,
-          tag: widget.tag,
-          database: widget.database,
+        flexibleSpace: FlexibleSpaceBar(
+          background: Column(
+            children: [
+              SizedBox(
+                height: size.height / 3,
+                width: size.width,
+                child: Stack(
+                  alignment: Alignment.center,
+                  fit: StackFit.passthrough,
+                  children: [
+                    Hero(
+                      tag: widget.tag,
+                      child: CachedNetworkImage(
+                        imageUrl: routine.imageUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment(0.0, 0.0),
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            kAppBarColor,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.maxFinite,
+                  color: kAppBarColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _getTitleWidget(routine.routineTitle),
+                        const SizedBox(height: 4),
+                        Text(
+                          routine.routineOwnerUserName,
+                          style: kSubtitle2BoldGrey,
+                        ),
+                        const SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            children: [
+                              Text(
+                                weights + ' ' + unitOfMass,
+                                style: kBodyText2Light,
+                              ),
+                              const Text('  \u2022  ', style: kCaption1),
+                              Text(
+                                '$duration ${S.current.minutes}',
+                                style: kBodyText2Light,
+                              ),
+                              const Text('  \u2022  ', style: kCaption1),
+                              Text(trainingLevel, style: kBodyText2Light)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Stack(
+              //   // alignment: Alignment.center,
+              //   // fit: StackFit.passthrough,
+              //   children: [
+              //     // SizedBox(
+              //     //   height: size.height / 3,
+              //     //   width: size.width,
+              //     //   child: Hero(
+              //     //     tag: widget.tag,
+              //     //     child: CachedNetworkImage(
+              //     //       imageUrl: routine.imageUrl,
+              //     //       errorWidget: (context, url, error) =>
+              //     //           const Icon(Icons.error),
+              //     //       fit: BoxFit.cover,
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //     // Container(
+              //     //   decoration: const BoxDecoration(
+              //     //     gradient: LinearGradient(
+              //     //       begin: Alignment(0.0, -0.3),
+              //     //       end: Alignment.bottomCenter,
+              //     //       colors: [
+              //     //         Colors.transparent,
+              //     //         kAppBarColor,
+              //     //       ],
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //     Positioned(
+              //       bottom: 8,
+              //       child: SizedBox(
+              //         width: size.width,
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 16),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               _getTitleWidget(routine.routineTitle),
+              //               const SizedBox(height: 4),
+              //               Text(
+              //                 routine.routineOwnerUserName,
+              //                 style: kSubtitle2BoldGrey,
+              //               ),
+              //               const SizedBox(height: 4),
+              //               // Padding(
+              //               //   padding: const EdgeInsets.symmetric(vertical: 4),
+              //               //   child: Row(
+              //               //     children: [
+              //               //       Text(
+              //               //         weights + ' ' + unitOfMass,
+              //               //         style: kBodyText2Light,
+              //               //       ),
+              //               //       const Text('  \u2022  ', style: kCaption1),
+              //               //       Text(
+              //               //         '$duration ${S.current.minutes}',
+              //               //         style: kBodyText2Light,
+              //               //       ),
+              //               //       const Text('  \u2022  ', style: kCaption1),
+              //               //       Text(trainingLevel, style: kBodyText2Light)
+              //               //     ],
+              //               //   ),
+              //               // ),
+
+              //               // // Main Muscle Group
+              //               // Padding(
+              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
+              //               //   child: Row(
+              //               //     children: [
+              //               //       CachedNetworkImage(
+              //               //         imageUrl: kBicepEmojiUrl,
+              //               //         color: Colors.white,
+              //               //         width: 20,
+              //               //         height: 20,
+              //               //       ),
+              //               //       const SizedBox(width: 16),
+              //               //       SizedBox(
+              //               //         width: size.width - 68,
+              //               //         child: Text(
+              //               //           _mainMuscleGroups,
+              //               //           style: kBodyText1,
+              //               //           maxLines: 1,
+              //               //           softWrap: false,
+              //               //           overflow: TextOverflow.fade,
+              //               //         ),
+              //               //       ),
+              //               //     ],
+              //               //   ),
+              //               // ),
+
+              //               // // Equipment Required
+              //               // Padding(
+              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
+              //               //   child: Row(
+              //               //     children: [
+              //               //       const Icon(
+              //               //         Icons.fitness_center_rounded,
+              //               //         size: 20,
+              //               //         color: Colors.white,
+              //               //       ),
+              //               //       const SizedBox(width: 16),
+              //               //       SizedBox(
+              //               //         width: size.width - 68,
+              //               //         child: Text(
+              //               //           _equipments,
+              //               //           style: kBodyText1,
+              //               //           maxLines: 1,
+              //               //           softWrap: false,
+              //               //           overflow: TextOverflow.fade,
+              //               //         ),
+              //               //       ),
+              //               //     ],
+              //               //   ),
+              //               // ),
+
+              //               // // Location
+              //               // Padding(
+              //               //   padding: const EdgeInsets.symmetric(vertical: 8),
+              //               //   child: Row(
+              //               //     children: [
+              //               //       const Icon(
+              //               //         Icons.location_on_rounded,
+              //               //         size: 20,
+              //               //         color: Colors.white,
+              //               //       ),
+              //               //       const SizedBox(width: 16),
+              //               //       Text(location, style: kBodyText1),
+              //               //     ],
+              //               //   ),
+              //               // ),
+              //               // const SizedBox(height: 16),
+              //               // Text(
+              //               //   description,
+              //               //   style: kBodyText2LightGrey,
+              //               //   maxLines: 3,
+              //               //   overflow: TextOverflow.ellipsis,
+              //               //   softWrap: false,
+              //               // ),
+              //               // const SizedBox(height: 24),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     // Positioned(
+              //     //   bottom: 8,
+              //     //   child: SizedBox(
+              //     //     width: size.width,
+              //     //     child: Padding(
+              //     //       padding: const EdgeInsets.symmetric(horizontal: 16),
+              //     //       child: Column(
+              //     //         crossAxisAlignment: CrossAxisAlignment.start,
+              //     //         children: [
+              //     //           _getTitleWidget(),
+              //     //           const SizedBox(height: 4),
+              //     //           Text(
+              //     //             routineOwnerUserName,
+              //     //             style: kSubtitle2BoldGrey,
+              //     //           ),
+              //     //         ],
+              //     //       ),
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
+            ],
+          ),
         ),
         actions: [
           if (widget.auth.currentUser!.uid != routine.routineOwnerId)
