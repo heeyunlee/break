@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -86,6 +87,8 @@ class SettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('Settings Tab scaffold building...');
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,

@@ -346,6 +346,13 @@ const kBodyText1Menlo = TextStyle(
   letterSpacing: 0,
   fontFamily: 'menlo',
 );
+const kBodyText1Menlow900 = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+  letterSpacing: 0,
+  fontFamily: 'menlo',
+);
 const kBodyText1MenloBlack = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.normal,
@@ -455,6 +462,13 @@ const kOverline = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.normal,
   color: Colors.white,
+  letterSpacing: 1.5,
+  fontFamily: 'NanumSquareRound',
+);
+const kOverlinePrimary = TextStyle(
+  fontSize: 10,
+  fontWeight: FontWeight.normal,
+  color: kPrimaryColor,
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );

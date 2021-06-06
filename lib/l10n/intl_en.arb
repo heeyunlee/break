@@ -300,5 +300,13 @@
     "progressTabIntroduction": "Hello,\n{displayName}",
     "proteins": "Proteins",
     "workoutsUpperCase": "Workouts",
-    "routineHistory": "History"
+    "routineHistory": "History",
+    "progress": "Progress",
+    "search": "Search",
+    "searchBarHintText": "Search Workouts",
+    "byMuscleGroup": "By Muscle Group",
+    "byEquipment": "By Equipment",
+    "byLocation": "By Location",
+    "searchResultsEmptyText": "Search workouts!",
+    "searchResultSubtitle": "{muscle} using {equipment}"
 }

@@ -300,5 +300,13 @@
     "progressTabIntroduction": "안녕하세요,\n{displayName}님",
     "proteins": "단백질",
     "workoutsUpperCase": "운동",
-    "routineHistory": "기록"
+    "routineHistory": "기록",
+    "progress": "기록",
+    "search": "검색",
+    "searchBarHintText": "운동을 검색하세요",
+    "byMuscleGroup": "운동 부위",
+    "byEquipment": "운동 기구",
+    "byLocation": "운동 장소",
+    "searchResultsEmptyText": "운동을 검색해 보세요!!",
+    "searchResultSubtitle": "{equipment}을 이용한 {muscle} 운동"
 }

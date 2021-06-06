@@ -34,7 +34,7 @@ class _DailyProgressSummaryWidgetState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 56),
+          const SizedBox(height: 48),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,7 +46,7 @@ class _DailyProgressSummaryWidgetState
               Text(today, style: kBodyText1),
             ],
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 24),
           SizedBox(
             width: size.width,
             height: size.height / 3,

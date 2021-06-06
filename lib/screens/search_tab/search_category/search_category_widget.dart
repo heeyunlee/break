@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 
-class SearchTabGridWidget extends StatelessWidget {
+class SearchCategoryWidget extends StatelessWidget {
   final String text;
   final void Function()? onTap;
   final Color color;
 
-  const SearchTabGridWidget({
+  const SearchCategoryWidget({
     Key? key,
     required this.text,
     this.onTap,
@@ -24,7 +24,7 @@ class SearchTabGridWidget extends StatelessWidget {
         elevation: 6,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(4),
         ),
         color: kCardColor,
         child: ClipPath(
@@ -38,7 +38,7 @@ class SearchTabGridWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: kSubtitle1w900,
+                style: kSubtitle2w900,
               ),
             ),
           ),

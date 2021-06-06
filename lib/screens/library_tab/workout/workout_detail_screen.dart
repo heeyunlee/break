@@ -860,20 +860,22 @@ import 'add_workout_to_routine_screen.dart';
 import 'edit_workout/edit_workout_screen.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
-  WorkoutDetailScreen({
-    required this.workout,
+  final String workoutId;
+  final Database database;
+  final User user;
+  final String tag;
+
+  const WorkoutDetailScreen({
+    required this.workoutId,
     required this.database,
     required this.user,
     required this.tag,
   });
-  final Workout workout;
-  final Database database;
-  final User user;
-  final String tag;
+
   // For Navigation
   static Future<void> show(
     BuildContext context, {
-    required Workout workout,
+    required String workoutId,
     bool isRootNavigation = false,
     required String tag,
   }) async {
@@ -885,7 +887,7 @@ class WorkoutDetailScreen extends StatefulWidget {
       await Navigator.of(context, rootNavigator: false).push(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
-            workout: workout,
+            workoutId: workoutId,
             database: database,
             user: user,
             tag: tag,
@@ -896,7 +898,7 @@ class WorkoutDetailScreen extends StatefulWidget {
       await Navigator.of(context, rootNavigator: true).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
-            workout: workout,
+            workoutId: workoutId,
             database: database,
             user: user,
             tag: tag,
@@ -929,8 +931,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: CustomStreamBuilderWidget<Workout?>(
-        initialData: widget.workout,
-        stream: widget.database.workoutStream(widget.workout.workoutId),
+        stream: widget.database.workoutStream(widget.workoutId),
         hasDataWidget: (context, snapshot) {
           return Stack(
             children: [

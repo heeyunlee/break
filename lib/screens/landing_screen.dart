@@ -29,7 +29,8 @@ class LandingScreen extends StatelessWidget {
 
     // Return either HomeScreen or AuthScreen or SplashScreen when loading
     return StreamBuilder<fire_auth.User?>(
-      stream: auth.idTokenChanges(),
+      // stream: auth.idTokenChanges(),
+      stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final user = snapshot.data;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/screens/settings_tab/settings_tab.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -10,7 +10,7 @@ import 'workout/workouts_tab.dart';
 class LibraryTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrint('LibraryTab scaffold building...');
+    logger.d('Library Tab scaffold building...');
 
     return DefaultTabController(
       length: 2,
@@ -47,16 +47,6 @@ class LibraryTab extends StatelessWidget {
       ),
       backgroundColor: kAppBarColor,
       elevation: 0,
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.settings_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => SettingsTab.show(context),
-        ),
-        const SizedBox(width: 8),
-      ],
       bottom: TabBar(
         unselectedLabelColor: Colors.white,
         labelColor: kPrimaryColor,

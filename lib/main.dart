@@ -12,11 +12,13 @@ import 'package:workout_player/services/mixpanel_manager.dart';
 import 'screens/landing_screen.dart';
 import 'services/database.dart';
 import 'generated/l10n.dart';
+import 'services/main_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await MixpanelManager.init();
+  algolia;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(ProviderScope(child: MyApp()));
 }
@@ -56,6 +58,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'NanumSquareRound',
           primaryColorBrightness: Brightness.dark,
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
         ),
         home: LandingScreen(),
       ),

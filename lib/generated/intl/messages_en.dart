@@ -27,17 +27,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(displayName) => "Hello,\n${displayName}";
 
-  static String m4(days) => "${days} days ago";
+  static String m4(muscle, equipment) => "${muscle} using ${equipment}";
 
-  static String m5(hours) => "${hours} hours ago";
+  static String m5(days) => "${days} days ago";
 
-  static String m6(minutes) => "${minutes} minutes ago";
+  static String m6(hours) => "${hours} hours ago";
 
-  static String m7(seconds) => "${seconds} seconds ago";
+  static String m7(minutes) => "${minutes} minutes ago";
 
-  static String m8(equipment) => "using ${equipment}";
+  static String m8(seconds) => "${seconds} seconds ago";
 
-  static String m9(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
+  static String m9(equipment) => "using ${equipment}";
+
+  static String m10(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -107,6 +109,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "byDeletingAccount":
             MessageLookupByLibrary.simpleMessage("By deleting the account:"),
+        "byEquipment": MessageLookupByLibrary.simpleMessage("By Equipment"),
+        "byLocation": MessageLookupByLibrary.simpleMessage("By Location"),
+        "byMuscleGroup":
+            MessageLookupByLibrary.simpleMessage("By Muscle Group"),
         "cable": MessageLookupByLibrary.simpleMessage("Cable"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cardio": MessageLookupByLibrary.simpleMessage("Cardio"),
@@ -336,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+        "progress": MessageLookupByLibrary.simpleMessage("Progress"),
         "progressTabIntroduction": m3,
         "proteinChartContentText": MessageLookupByLibrary.simpleMessage(
             "Getting your protein is as important as working out!"),
@@ -385,6 +392,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedWorkouts": MessageLookupByLibrary.simpleMessage("Saved Workouts"),
         "savedWorkoutsEmptyText": MessageLookupByLibrary.simpleMessage(
             "Save workouts, or create your own!"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "searchBarHintText":
+            MessageLookupByLibrary.simpleMessage("Search Workouts"),
+        "searchResultSubtitle": m4,
+        "searchResultsEmptyText":
+            MessageLookupByLibrary.simpleMessage("Search workouts!"),
         "seconds": MessageLookupByLibrary.simpleMessage("s"),
         "secondsPerRep":
             MessageLookupByLibrary.simpleMessage("Seconds per rep"),
@@ -436,10 +449,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "terms": MessageLookupByLibrary.simpleMessage("Terms"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
-        "timeDifferenceInDays": m4,
-        "timeDifferenceInHours": m5,
-        "timeDifferenceInMinutes": m6,
-        "timeDifferenceInSeconds": m7,
+        "timeDifferenceInDays": m5,
+        "timeDifferenceInHours": m6,
+        "timeDifferenceInMinutes": m7,
+        "timeDifferenceInSeconds": m8,
         "toNextSet": MessageLookupByLibrary.simpleMessage("To Next Set"),
         "toNextWorkout":
             MessageLookupByLibrary.simpleMessage("To Next Workout"),
@@ -467,13 +480,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFound": MessageLookupByLibrary.simpleMessage("User Not Found"),
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "User was not found. Please check your email again."),
-        "usingEquipment": m8,
+        "usingEquipment": m9,
         "weights": MessageLookupByLibrary.simpleMessage("Weights"),
         "weightsChartMessage": MessageLookupByLibrary.simpleMessage(
             "Start working out now and see your progress!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("Please add weight data"),
-        "workedOutMainMuscleGroup": m9,
+        "workedOutMainMuscleGroup": m10,
         "workout": MessageLookupByLibrary.simpleMessage("Workout"),
         "workoutDifficultySliderText":
             MessageLookupByLibrary.simpleMessage("Workout Difficulty"),

@@ -27,7 +27,8 @@ class DailyNutritionWidget extends ConsumerWidget {
     late double _proteinsProgress = 0;
 
     return nutritionsStream.when(
-      loading: () => Center(child: CircularProgressIndicator()),
+      // loading: () => Center(child: CircularProgressIndicator()),
+      loading: () => Container(),
       error: (e, stack) => EmptyContent(message: e.toString()),
       data: (nutritions) {
         if (nutritions != null) {

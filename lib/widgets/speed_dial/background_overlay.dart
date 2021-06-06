@@ -15,12 +15,13 @@ class BackgroundOverlay extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable as Animation<double>;
+    // final Animation<double> animation = listenable as Animation<double>;
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: Container(
-          color: color?.withOpacity(animation.value * opacity),
+          color: Colors.transparent,
+          // color: color?.withOpacity(animation.value * opacity),
         ),
       ),
     );

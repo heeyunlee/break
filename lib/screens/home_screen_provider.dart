@@ -11,12 +11,14 @@ final GlobalKey<NavigatorState> homeScreenNavigatorKey =
 
 // Tab Navigator Keys
 final Map<CustomTabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-  CustomTabItem.home: GlobalKey<NavigatorState>(),
-  CustomTabItem.search: GlobalKey<NavigatorState>(),
+  // CustomTabItem.home: GlobalKey<NavigatorState>(),
   CustomTabItem.library: GlobalKey<NavigatorState>(),
+  CustomTabItem.search: GlobalKey<NavigatorState>(),
   CustomTabItem.progress: GlobalKey<NavigatorState>(),
+  CustomTabItem.settings: GlobalKey<NavigatorState>(),
 };
 CustomTabItem currentTab = CustomTabItem.progress;
+int currentTabIndex = 0;
 
 // Miniplayer Navigator Keey
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =

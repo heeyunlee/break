@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/constants.dart';
+import 'package:workout_player/screens/home_screen_provider.dart';
 import 'package:workout_player/screens/tab_item.dart';
 
 class BottomNavigationTab extends StatelessWidget {
   final CustomTabItem currentTab;
   final ValueChanged<CustomTabItem> onSelectTab;
+  final ValueChanged<int> onSelectTabIndex;
 
   BottomNavigationTab({
     required this.currentTab,
     required this.onSelectTab,
+    required this.onSelectTabIndex,
   });
 
   @override
@@ -28,56 +31,55 @@ class BottomNavigationTab extends StatelessWidget {
           ),
         ),
         child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedLabelStyle: kCaption1Primary,
-          unselectedLabelStyle: kCaption1,
-          backgroundColor: kBottomNavBarColor,
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            _buildItem(CustomTabItem.home),
-            _buildItem(CustomTabItem.search),
-            _buildItem(CustomTabItem.progress),
-            _buildItem(CustomTabItem.library),
-          ],
-          onTap: (index) => onSelectTab(
-            CustomTabItem.values[index],
-          ),
-        ),
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            unselectedItemColor: Colors.white,
+            currentIndex: currentTabIndex,
+            selectedLabelStyle: kOverlinePrimary,
+            unselectedLabelStyle: kOverline,
+            backgroundColor: kBottomNavBarColor,
+            selectedItemColor: kPrimaryColor,
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              // _buildItem(CustomTabItem.home),
+              _buildItem(CustomTabItem.progress),
+              _buildItem(CustomTabItem.search),
+              _buildItem(CustomTabItem.library),
+              _buildItem(CustomTabItem.settings),
+            ],
+            onTap: (index) {
+              onSelectTabIndex(index);
+              onSelectTab(CustomTabItem.values[index]);
+            }),
       ),
     );
   }
 
   BottomNavigationBarItem _buildItem(CustomTabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem]!;
-    final color = currentTab == tabItem ? kPrimaryColor : Colors.white;
+    // final color = currentTab == tabItem ? kPrimaryColor : Colors.white;
 
     return BottomNavigationBarItem(
-      icon: (itemData.isIconPNG)
-          ? Padding(
-              padding: EdgeInsets.only(
-                left: itemData.leftPadding,
-                right: itemData.rightPadding,
-              ),
-              child: Image.asset(
-                itemData.selectedIcon,
-                width: 20,
-                height: 20,
-                color: color,
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.only(
-                left: itemData.leftPadding,
-                right: itemData.rightPadding,
-              ),
-              child: Icon(
-                itemData.selectedIcon,
-                color: color,
-                size: itemData.size,
-              ),
-            ),
-      label: itemData.label,
+      // ignore: deprecated_member_use
+      title: Padding(
+        padding: EdgeInsets.only(
+          left: itemData.leftPadding,
+          right: itemData.rightPadding,
+        ),
+        child: Text(itemData.label),
+      ),
+      icon: Padding(
+        padding: EdgeInsets.only(
+          left: itemData.leftPadding,
+          right: itemData.rightPadding,
+        ),
+        child: Icon(
+          itemData.selectedIcon,
+          // color: color,
+          size: itemData.size,
+        ),
+      ),
+      // label: itemData.label,
     );
   }
 }

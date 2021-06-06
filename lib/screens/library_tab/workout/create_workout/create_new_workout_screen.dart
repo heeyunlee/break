@@ -123,7 +123,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
             CupertinoPageRoute(
               fullscreenDialog: false,
               builder: (context) => WorkoutDetailScreen(
-                workout: workout,
+                workoutId: workout.workoutId,
                 database: widget.database,
                 tag: 'newWorkout-${workout.workoutId}',
                 user: widget.user,

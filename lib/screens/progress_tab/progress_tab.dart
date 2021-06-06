@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
@@ -23,10 +24,11 @@ class _ProgressTabState extends State<ProgressTab>
   late AnimationController _colorAnimationController;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
+    debugPrint('${scrollInfo.metrics.pixels}');
+
     final size = MediaQuery.of(context).size;
 
     if (scrollInfo.metrics.axis == Axis.vertical) {
-      // debugPrint('${scrollInfo.metrics.pixels}');
       _colorAnimationController
           .animateTo((scrollInfo.metrics.pixels - size.height * 4 / 5) / 50);
 
@@ -46,13 +48,13 @@ class _ProgressTabState extends State<ProgressTab>
 
   @override
   void dispose() {
-    super.dispose();
     _colorAnimationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Progress Tab scaffold building...');
+    logger.d('progress Tab Scaffold building...');
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
@@ -116,7 +118,7 @@ class _ProgressTabState extends State<ProgressTab>
                       WeightsLiftedChartWidget(user: user, auth: auth),
                       ProteinsEatenChartWidget(user: user, auth: auth),
                       MeasurementsLineChartWidget(user: user),
-                      const SizedBox(height: 56),
+                      const SizedBox(height: 120),
                     ],
                   ),
                 ),

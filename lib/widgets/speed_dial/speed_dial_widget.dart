@@ -67,13 +67,10 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return SizedBox(
-      height: size.height,
-      width: size.width,
+      height: double.maxFinite,
+      width: double.maxFinite,
       child: Stack(
-        clipBehavior: Clip.none,
         alignment: Alignment(0, 1),
         children: [
           _renderOverlay(),
@@ -95,7 +92,8 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
         onTap: _toggleAnimation,
         child: BackgroundOverlay(
           animation: _controller,
-          color: Colors.black,
+          // color: Colors.black,
+          color: Colors.transparent,
           opacity: 0.5,
         ),
       ),

@@ -1,62 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 
-enum CustomTabItem { home, search, progress, library }
+enum CustomTabItem { progress, search, library, settings }
+// enum CustomTabItem { progress, library }
 
 class TabItemData {
-  const TabItemData({
-    required this.label,
-    @required this.selectedIcon,
-    this.isIconPNG = false,
-    this.size,
-    required this.isTabButton,
-    required this.leftPadding,
-    required this.rightPadding,
-  });
-
   final String label;
   final dynamic selectedIcon;
-  final bool isIconPNG;
   final double? size;
-  final bool isTabButton;
   final double leftPadding;
   final double rightPadding;
 
+  const TabItemData({
+    required this.label,
+    required this.selectedIcon,
+    this.leftPadding = 0,
+    this.rightPadding = 0,
+    this.size,
+  });
+
   static Map<CustomTabItem, TabItemData> allTabs = {
-    CustomTabItem.home: TabItemData(
-      label: 'Home',
-      selectedIcon: Icons.home_rounded,
-      isIconPNG: false,
+    CustomTabItem.progress: TabItemData(
+      label: S.current.progress,
+      selectedIcon: Icons.equalizer_rounded,
       size: 24,
-      isTabButton: false,
-      leftPadding: 0,
-      rightPadding: 16,
     ),
     CustomTabItem.search: TabItemData(
-      label: 'Search',
+      label: S.current.search,
       selectedIcon: Icons.search_rounded,
-      isIconPNG: false,
       size: 24,
-      isTabButton: false,
-      leftPadding: 0,
-      rightPadding: 40,
-    ),
-    CustomTabItem.progress: TabItemData(
-      label: 'Progress',
-      selectedIcon: Icons.bar_chart_rounded,
-      isIconPNG: false,
-      size: 24,
-      isTabButton: false,
-      leftPadding: 40,
-      rightPadding: 0,
+      rightPadding: 32,
     ),
     CustomTabItem.library: TabItemData(
-      label: 'Library',
-      selectedIcon: 'assets/icons/workout_collection_icon.png',
-      isIconPNG: true,
+      label: S.current.library,
+      selectedIcon: Icons.collections_bookmark_rounded,
       size: 24,
-      isTabButton: false,
-      leftPadding: 16,
-      rightPadding: 0,
+      leftPadding: 32,
+    ),
+    CustomTabItem.settings: TabItemData(
+      label: S.current.settingsScreenTitle,
+      selectedIcon: Icons.settings_rounded,
+      size: 24,
     ),
   };
 }

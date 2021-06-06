@@ -88,7 +88,7 @@ class WorkoutsTab extends StatelessWidget {
           imageUrl: workout.imageUrl,
           onTap: () => WorkoutDetailScreen.show(
             context,
-            workout: workout,
+            workoutId: workout.workoutId,
             isRootNavigation: false,
             tag: 'savedWorkout${workout.workoutId}',
           ),

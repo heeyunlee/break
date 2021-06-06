@@ -10,6 +10,15 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'main_provider.dart';
 
+final authServiceProvider = Provider<AuthBase>((ref) {
+  return AuthService();
+});
+
+final authStateChangeProvider = StreamProvider<auth.User?>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.idTokenChanges();
+});
+
 abstract class AuthBase {
   auth.User? get currentUser;
   Stream<auth.User?> authStateChanges();
@@ -27,15 +36,6 @@ abstract class AuthBase {
 
   Future<void> signOut();
 }
-
-final authServiceProvider = Provider<AuthBase>((ref) {
-  return AuthService();
-});
-
-final authStateChangeProvider = StreamProvider<auth.User?>((ref) {
-  final authService = ref.watch(authServiceProvider);
-  return authService.idTokenChanges();
-});
 
 class AuthService implements AuthBase {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;

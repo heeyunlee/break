@@ -4,12 +4,10 @@ class MixpanelManager {
   static Mixpanel? _instance;
 
   static Future<Mixpanel> init() async {
-    if (_instance == null) {
-      _instance = await Mixpanel.init(
-        'de3edf0f7f37fd6ccf2e07dbb7291b5d',
-        optOutTrackingDefault: false,
-      );
-    }
+    _instance = await Mixpanel.init(
+      'de3edf0f7f37fd6ccf2e07dbb7291b5d',
+      optOutTrackingDefault: false,
+    );
     return _instance!;
   }
 }

@@ -20,8 +20,8 @@ import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
 
-class MuscleGroupSearchScreen extends StatelessWidget {
-  const MuscleGroupSearchScreen({
+class SearchCategoryScreen extends StatelessWidget {
+  const SearchCategoryScreen({
     this.isEqualTo,
     this.arrayContains,
     required this.searchCategory,
@@ -40,7 +40,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => MuscleGroupSearchScreen(
+        builder: (context) => SearchCategoryScreen(
           isEqualTo: isEqualTo,
           arrayContains: arrayContains,
           searchCategory: searchCategory,
@@ -155,7 +155,7 @@ class MuscleGroupSearchScreen extends StatelessWidget {
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
             context,
-            workout: workout,
+            workoutId: workout.workoutId,
             isRootNavigation: false,
             tag: 'MoreScreen-${workout.workoutId}',
           ),
@@ -190,8 +190,9 @@ class MuscleGroupSearchScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
-        final routine = snapshot.data()!;
+        // final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
+        // final routine = snapshot.data()!;
+        final routine = documentSnapshot.data() as Routine;
 
         // final documentId = documentSnapshot.id;
         // final data = documentSnapshot.data();

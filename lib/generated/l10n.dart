@@ -3069,6 +3069,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Progress`
+  String get progress {
+    return Intl.message(
+      'Progress',
+      name: 'progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Workouts`
+  String get searchBarHintText {
+    return Intl.message(
+      'Search Workouts',
+      name: 'searchBarHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Muscle Group`
+  String get byMuscleGroup {
+    return Intl.message(
+      'By Muscle Group',
+      name: 'byMuscleGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Equipment`
+  String get byEquipment {
+    return Intl.message(
+      'By Equipment',
+      name: 'byEquipment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Location`
+  String get byLocation {
+    return Intl.message(
+      'By Location',
+      name: 'byLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search workouts!`
+  String get searchResultsEmptyText {
+    return Intl.message(
+      'Search workouts!',
+      name: 'searchResultsEmptyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{muscle} using {equipment}`
+  String searchResultSubtitle(Object muscle, Object equipment) {
+    return Intl.message(
+      '$muscle using $equipment',
+      name: 'searchResultSubtitle',
+      desc: '',
+      args: [muscle, equipment],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
