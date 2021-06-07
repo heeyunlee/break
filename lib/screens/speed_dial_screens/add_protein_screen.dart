@@ -6,6 +6,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
@@ -151,12 +152,10 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         await widget.database.updateUser(widget.auth.currentUser!.uid, user);
         Navigator.of(context).pop();
 
-        // TODO: Fix Snackbar here
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(S.current.addProteinEntrySnackbar),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ));
+        getSnackbarWidget(
+          S.current.addProteinEntrySnackbarTitle,
+          S.current.addProteinEntrySnackbar,
+        );
       } on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(

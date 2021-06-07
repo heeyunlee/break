@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -41,7 +42,8 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
   }
 
   void saveTitle() {
-    debugPrint('saveTitle Pressed');
+    logger.d('saveTitle Pressed');
+
     if (_routineTitle.isNotEmpty) {
       setState(() {
         _pageIndex = 1;

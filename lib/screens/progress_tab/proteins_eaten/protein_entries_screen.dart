@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -67,14 +68,12 @@ class ProteinEntriesScreen extends StatelessWidget {
       await database.deleteNutrition(nutrition);
       await database.updateUser(user.userId, newUserData);
 
-      // // Snackbar
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(S.current.deleteProteinSnackbar),
-      //   duration: Duration(seconds: 2),
-      //   behavior: SnackBarBehavior.floating,
-      // ));
+      getSnackbarWidget(
+        S.current.deleteProteinSnackbarTitle,
+        S.current.deleteProteinSnackbar,
+      );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

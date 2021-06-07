@@ -63,7 +63,7 @@ class AuthService implements AuthBase {
   ///////// Sign In Anonymously
   @override
   Future<auth.User?> signInAnonymously() async {
-    debugPrint('signInAnonymously triggered in auth');
+    logger.d('signInAnonymously triggered in auth');
     var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
     final user = userCredential.user;
 
@@ -80,7 +80,7 @@ class AuthService implements AuthBase {
     String email,
     String password,
   ) async {
-    debugPrint('signInWithEmailWithPassword triggered in auth');
+    logger.d('signInWithEmailWithPassword triggered in auth');
 
     var userCredential =
         await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -100,7 +100,7 @@ class AuthService implements AuthBase {
   @override
   Future<auth.User?> createUserWithEmailAndPassword(
       String email, String password) async {
-    debugPrint('createUserWithEmailAndPassword triggered in auth');
+    logger.d('createUserWithEmailAndPassword triggered in auth');
 
     var userCredential =
         await auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -119,7 +119,7 @@ class AuthService implements AuthBase {
   /// SIGN IN WITH GOOGLE
   @override
   Future<auth.User?> signInWithGoogle() async {
-    debugPrint('signInWithGoogle triggered in auth');
+    logger.d('signInWithGoogle triggered in auth');
 
     // Trigger Authentication flow
     final googleSignIn = GoogleSignIn();
@@ -160,69 +160,44 @@ class AuthService implements AuthBase {
   // Sign In with Facebook
   @override
   Future<auth.User?> signInWithFacebook() async {
-    // Trigger the authentication flow
-    debugPrint('signInWithFacebook auth triggered in auth');
-    try {
-      final facebookLogin = await FacebookAuth.instance.login();
-      if (facebookLogin.status == LoginStatus.success) {
-        final credential = auth.FacebookAuthProvider.credential(
-          facebookLogin.accessToken!.token,
-        );
+    logger.d('signInWithFacebook auth triggered in auth');
 
-        final authResult = await _auth.signInWithCredential(credential);
-        final user = authResult.user;
+    final facebookLogin = await FacebookAuth.instance.login();
+    if (facebookLogin.status == LoginStatus.success) {
+      final credential = auth.FacebookAuthProvider.credential(
+        facebookLogin.accessToken!.token,
+      );
 
-        final currentUser = _auth.currentUser;
-        assert(user!.uid == currentUser!.uid);
-        setUser(user!);
+      final authResult = await _auth.signInWithCredential(credential);
+      final user = authResult.user;
 
-        return user;
-      } else if (facebookLogin.status == LoginStatus.cancelled) {
-        throw auth.FirebaseAuthException(
-          code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-          message: 'Sign in aborted by user',
-        );
-      } else if (facebookLogin.status == LoginStatus.failed) {
-        throw auth.FirebaseAuthException(
-          code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-          message: 'Sign in Failed',
-        );
-      } else {
-        return null;
-      }
-    } on auth.FirebaseAuthException catch (e) {
-      logger.e(e);
-      // switch (e.message) {
-      //   case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
-      //     logger.d(e.message);
-      //     throw auth.FirebaseAuthException(
-      //       code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-      //       message: 'You have a previous login operation in progress',
-      //     );
-      //   case FacebookAuthErrorCode.CANCELLED:
-      //     logger.d(e.message);
+      final currentUser = _auth.currentUser;
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
 
-      //     throw auth.FirebaseAuthException(
-      //       code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
-      //       message: 'Login Cancelled',
-      //     );
-      //   case FacebookAuthErrorCode.FAILED:
-      //     logger.d(e.message);
-
-      //     throw auth.FirebaseAuthException(
-      //       code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-      //       message: 'Login Failed',
-      //     );
-      //   default:
-      //     throw UnimplementedError();
-      // }
+      return user;
+    } else if (facebookLogin.status == LoginStatus.cancelled) {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+        message: 'Sign in aborted by user',
+      );
+    } else if (facebookLogin.status == LoginStatus.failed) {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+        message: 'Sign in Failed',
+      );
+    } else {
+      throw auth.FirebaseAuthException(
+        code: 'ERROR_FACEBOOK_LOGIN_CANCELLED',
+        message: 'Sign in Failed',
+      );
     }
   }
 
   // Sign In With Apple
   @override
   Future<auth.User?> signInWithApple() async {
-    debugPrint('signInWithApple triggered in auth');
+    logger.d('signInWithApple triggered in auth');
 
     //Trigger the authentication flow
     try {
@@ -266,7 +241,8 @@ class AuthService implements AuthBase {
 
   @override
   Future<auth.User?> signInWithKakao() async {
-    debugPrint('signInwithKakao triggered in auth');
+    logger.d('signInwithKakao triggered in auth');
+
     try {
       final accessToken = await _getToken();
       final authResult = await _auth.signInWithCustomToken(

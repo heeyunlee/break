@@ -41,6 +41,7 @@ class _MeasurementsLineChartWidgetState
   late DateTime _today;
   late List<DateTime> _dates;
   List<String> _daysOfTheWeek = [];
+  // ignore: prefer_final_fields
   List<Measurement> _thisWeekData = [];
 
   //  SET MAX Y

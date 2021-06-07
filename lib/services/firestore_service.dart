@@ -131,6 +131,33 @@ class FirestoreService {
     return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
   }
 
+  Stream<List<T>> collectionStreamOfThisWeek2<T>({
+    required String path,
+    required String uid,
+    required String uidVariableName,
+    required String dateVariableName,
+    required String whereVariableName,
+    required String isEqualToVariable,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final lastWeek = DateTime.now().subtract(Duration(days: 7));
+
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(dateVariableName, isGreaterThanOrEqualTo: lastWeek)
+        .where(uidVariableName, isEqualTo: uid)
+        .where(whereVariableName, isEqualTo: isEqualToVariable)
+        .orderBy(dateVariableName, descending: false)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
   Stream<List<T>> collectionStreamOfToday<T>({
     required String path,
     required String uidVariableName,

@@ -9,6 +9,7 @@ import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -105,8 +106,11 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       );
       await widget.database.setRoutineWorkout(widget.routine, routineWorkout);
       Navigator.of(context).pop();
-      // TODO: ADD SNACKBAR
 
+      getSnackbarWidget(
+        S.current.addWorkoutToRoutineSnackbarTitle,
+        S.current.addWorkoutToRoutineSnackbar,
+      );
     } on Exception catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

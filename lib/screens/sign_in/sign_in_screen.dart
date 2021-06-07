@@ -113,7 +113,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       _showSignInError(e, context);
     }
   }
@@ -165,7 +165,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       _showSignInError(e, context);
     }
   }
@@ -221,7 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       _showSignInError(e, context);
     }
   }
@@ -275,7 +275,7 @@ class _SignInScreenState extends State<SignInScreen> {
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
       }
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       _showSignInError(e, context);
     }
   }

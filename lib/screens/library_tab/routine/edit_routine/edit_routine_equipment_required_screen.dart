@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -143,18 +144,33 @@ class _EditRoutineEquipmentRequiredScreenState
   }
 
   Future<void> _submit() async {
-    try {
-      final routine = {
-        'equipmentRequired': _selectedEquipmentRequired,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
-      debugPrint('$_selectedEquipmentRequired');
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
+    if (_selectedEquipmentRequired.isNotEmpty) {
+      try {
+        final routine = {
+          'equipmentRequired': _selectedEquipmentRequired,
+        };
+        await widget.database.updateRoutine(widget.routine, routine);
+
+        Navigator.of(context).pop();
+
+        getSnackbarWidget(
+          S.current.updateEquipmentRequiredRoutineTitle,
+          S.current.updateEquipmentRequiredRoutineMessage,
+        );
+      } on FirebaseException catch (e) {
+        logger.e(e);
+        await showExceptionAlertDialog(
+          context,
+          title: S.current.operationFailed,
+          exception: e.toString(),
+        );
+      }
+    } else {
+      await showAlertDialog(
         context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
+        title: S.current.equipmentRequiredAlertTitle,
+        content: S.current.equipmentRequiredAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -173,19 +189,7 @@ class _EditRoutineEquipmentRequiredScreenState
             Icons.arrow_back_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            if (_selectedEquipmentRequired.isNotEmpty) {
-              _submit();
-              Navigator.of(context).pop();
-            } else {
-              showAlertDialog(
-                context,
-                title: S.current.equipmentRequiredAlertTitle,
-                content: S.current.equipmentRequiredAlertContent,
-                defaultActionText: S.current.ok,
-              );
-            }
-          },
+          onPressed: _submit,
         ),
         title: Text(S.current.equipmentRequired, style: kSubtitle1),
         flexibleSpace: AppbarBlurBG(),

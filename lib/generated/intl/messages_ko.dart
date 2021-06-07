@@ -59,11 +59,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "addMasurementDataMessage": MessageLookupByLibrary.simpleMessage(
             "적어도 2개 이상의 신체 정보 기록을 저장해주세요!"),
         "addMeasurement": MessageLookupByLibrary.simpleMessage("신체정보 추가하기"),
+        "addMeasurementSnackbar":
+            MessageLookupByLibrary.simpleMessage("신체 정보 기록을 추가했습니다"),
+        "addMeasurementSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("신체 정보 추가"),
         "addNotes": MessageLookupByLibrary.simpleMessage("메모를 추가하세요"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("간단한 메모를 감겨주세요!"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록을 저장했습니다!"),
+        "addProteinEntrySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("단백질 추가"),
         "addProteinkButtonText":
             MessageLookupByLibrary.simpleMessage("단백질 추가하기"),
         "addProteins": MessageLookupByLibrary.simpleMessage("단백직 섭취"),
@@ -72,8 +78,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addWorkoutLog": MessageLookupByLibrary.simpleMessage("운동 기록하기"),
         "addWorkoutToRoutine":
             MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가"),
-        "addWorkoutToRoutinekButtonText":
-            MessageLookupByLibrary.simpleMessage("이 운동을 루틴에 추가"),
+        "addWorkoutToRoutineSnackbar":
+            MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가했습니다"),
+        "addWorkoutToRoutineSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("운동 추가"),
         "addWorkoutkButtonText": MessageLookupByLibrary.simpleMessage("운동 추가"),
         "advanced": MessageLookupByLibrary.simpleMessage("상급"),
         "afterWorkout": MessageLookupByLibrary.simpleMessage("운동 후"),
@@ -133,12 +141,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "createNewRoutine": MessageLookupByLibrary.simpleMessage("새로운 루틴 만들기"),
         "createNewRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("새로운 루틴을 만드셨습니다!"),
+        "createNewRoutineSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("루틴 생성"),
         "createNewWorkout": MessageLookupByLibrary.simpleMessage("새로운 운동 만들기"),
         "createNewWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("새로운 운동을 만드셨습니다!"),
         "createYourOwnWorkout":
             MessageLookupByLibrary.simpleMessage("나만의 루틴을 만들어 보세요"),
         "delete": MessageLookupByLibrary.simpleMessage("삭제"),
+        "deleteAccountSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage("계정과 유저 데이터를 모두 삭제했습니다"),
+        "deleteAccountSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("계정 삭제"),
         "deleteAccountTitle": m0,
         "deleteAcocunt": MessageLookupByLibrary.simpleMessage("계정삭제"),
         "deleteBottomSheetMessage": MessageLookupByLibrary.simpleMessage(
@@ -149,10 +163,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 기록 삭제"),
         "deleteMeasurementSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 신체 정보 기록을 삭제했습니다!"),
+        "deleteMeasurementSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("신체 기록 정보 삭제"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("기록을 삭제했습니다"),
+        "deleteProteinSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("단백질 기록 삭제"),
         "deleteRoutineHistorySnackbar":
             MessageLookupByLibrary.simpleMessage("운동 기록을 삭제했습니다"),
+        "deleteRoutineHistorySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("루틴 기록 삭제"),
         "deleteRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴을 삭제했습니다!"),
         "deleteRoutineWarningMessage": MessageLookupByLibrary.simpleMessage(
@@ -161,8 +181,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 삭제"),
         "deleteRoutineWorkoutMessage":
             MessageLookupByLibrary.simpleMessage("정말 운동을 삭제할까요?"),
-        "deleteRoutineWorkoutSnakbar":
+        "deleteRoutineWorkoutSnakbarMessage":
             MessageLookupByLibrary.simpleMessage("운동을 삭제했습니다!"),
+        "deleteRoutineWorkoutSnakbarTitle":
+            MessageLookupByLibrary.simpleMessage("운동 삭제"),
         "deleteRoutinekButtonText":
             MessageLookupByLibrary.simpleMessage("루틴 삭제"),
         "deleteWorkoutSnackbar":
@@ -252,6 +274,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "intermediate": MessageLookupByLibrary.simpleMessage("중급"),
         "invalidEmailValidationText":
             MessageLookupByLibrary.simpleMessage("유효한 이메일 주소를 입력헤주세요!"),
+        "isPublicRoutineHistorySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("운동 기록을 업데이트 했습니다"),
         "justMe": MessageLookupByLibrary.simpleMessage("나에게만"),
         "kettlebell": MessageLookupByLibrary.simpleMessage("케틀벨"),
         "lastEditedOn": MessageLookupByLibrary.simpleMessage("수정일: "),
@@ -282,6 +306,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "mainMuscleGroupAlertTitle":
             MessageLookupByLibrary.simpleMessage("주요 운동부위가 선택되지 않았습니다"),
         "makeItVisibleTo": MessageLookupByLibrary.simpleMessage("운동 내역 공개:   "),
+        "makeRoutineHistoryPrivateSnackbar":
+            MessageLookupByLibrary.simpleMessage("운동 기록을 비공개로 바꿨습니다"),
+        "makeRoutineHistoryPublicSnackbar":
+            MessageLookupByLibrary.simpleMessage("운동 기록을 공개로 바꿨습니다"),
         "manageAccount": MessageLookupByLibrary.simpleMessage("계정 관리"),
         "mealType": MessageLookupByLibrary.simpleMessage("분류"),
         "measurements": MessageLookupByLibrary.simpleMessage("인바디"),
@@ -358,6 +386,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 저장 & 종료하기"),
         "savedRoutineEmptyText":
             MessageLookupByLibrary.simpleMessage("자신만의 루틴을 만들어 보세요!"),
+        "savedRoutineSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("루틴 저장"),
         "savedRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴을 저장했습니다"),
         "savedRoutines": MessageLookupByLibrary.simpleMessage("저장된 루틴"),
@@ -370,7 +400,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchBarHintText": MessageLookupByLibrary.simpleMessage("운동을 검색하세요"),
         "searchResultSubtitle": m4,
         "searchResultsEmptyText":
-            MessageLookupByLibrary.simpleMessage("운동을 검색해 보세요!!"),
+            MessageLookupByLibrary.simpleMessage("검색 결과가 없습니다"),
         "seconds": MessageLookupByLibrary.simpleMessage("초"),
         "secondsPerRep":
             MessageLookupByLibrary.simpleMessage("1회 반복 당 예상 소요 시간"),
@@ -435,12 +465,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "trainingLevel": MessageLookupByLibrary.simpleMessage("운동 강도"),
         "traps": MessageLookupByLibrary.simpleMessage("승모근"),
         "unitOfMass": MessageLookupByLibrary.simpleMessage("단위"),
+        "unsavedRoutineSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("루틴 저장 취소"),
         "unsavedRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴 저장을 취소했습니다"),
         "updateDisplayNameSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 이름을 수정했습니다!"),
+        "updateDisplayNameSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("이름 수정"),
         "updateEmailSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 이메일을 수정했습니다!"),
+        "updateEquipmentRequiredRoutineMessage":
+            MessageLookupByLibrary.simpleMessage("루틴에 필요한 운동기구를 수정했습니다"),
+        "updateEquipmentRequiredRoutineTitle":
+            MessageLookupByLibrary.simpleMessage("필요 운동기구 수정"),
+        "updateRoutineHistoryNotesSnackbar":
+            MessageLookupByLibrary.simpleMessage("운동 기록에 메모를 업데이트했습니다"),
+        "updateRoutineHistoryNotesSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("메모 업데이트"),
         "updateWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("운동 정보를 수정했습니다!"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("유저를 찾을 수 없습니다"),

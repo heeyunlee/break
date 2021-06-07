@@ -67,6 +67,8 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
       };
       await widget.database.updateRoutine(widget.routine, routine);
       debugPrint('Updated Unit Of Mass');
+
+      // TODO: add snackbar here
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

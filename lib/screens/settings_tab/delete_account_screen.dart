@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -37,6 +38,11 @@ class DeleteAccountScreen extends StatelessWidget {
     try {
       await auth.currentUser!.delete();
       Navigator.of(context).popUntil((route) => route.isFirst);
+
+      getSnackbarWidget(
+        S.current.deleteAccountSnackbarTitle,
+        S.current.deleteAccountSnackbarMessage,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(displayName) => "Hello,\n${displayName}";
 
-  static String m4(muscle, equipment) => "${muscle} using ${equipment}";
+  static String m4(muscle, equipment) => "${muscle} workout using ${equipment}";
 
   static String m5(days) => "${days} days ago";
 
@@ -61,11 +61,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "Add at least two data to see your chart"),
         "addMeasurement":
             MessageLookupByLibrary.simpleMessage("Add Measurement"),
+        "addMeasurementSnackbar":
+            MessageLookupByLibrary.simpleMessage("Added measurement entry"),
+        "addMeasurementSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Add Measurement"),
         "addNotes": MessageLookupByLibrary.simpleMessage("Add notes"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("How do you feel? Add Notes"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("Added a protein entry!"),
+        "addProteinEntrySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Added Protein"),
         "addProteinkButtonText":
             MessageLookupByLibrary.simpleMessage("Add Protein"),
         "addProteins": MessageLookupByLibrary.simpleMessage("Add Proteins"),
@@ -75,8 +81,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add Log Workout"),
         "addWorkoutToRoutine":
             MessageLookupByLibrary.simpleMessage("Add workout to your routine"),
-        "addWorkoutToRoutinekButtonText":
-            MessageLookupByLibrary.simpleMessage("Add workout to the routine"),
+        "addWorkoutToRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
+            "Added workout to the routine"),
+        "addWorkoutToRoutineSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Add Workout"),
         "addWorkoutkButtonText":
             MessageLookupByLibrary.simpleMessage("Add workout"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
@@ -144,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create New Routine"),
         "createNewRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("Created a new routine!"),
+        "createNewRoutineSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Create Routine"),
         "createNewWorkout":
             MessageLookupByLibrary.simpleMessage("Create New Workout"),
         "createNewWorkoutSnackbar":
@@ -151,6 +161,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "createYourOwnWorkout":
             MessageLookupByLibrary.simpleMessage("Create Your Own Workout"),
         "delete": MessageLookupByLibrary.simpleMessage("DELETE"),
+        "deleteAccountSnackbarMessage": MessageLookupByLibrary.simpleMessage(
+            "We have successfully deleted your user data"),
+        "deleteAccountSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountTitle": m0,
         "deleteAcocunt": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteBottomSheetMessage": MessageLookupByLibrary.simpleMessage(
@@ -161,10 +175,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete History"),
         "deleteMeasurementSnackbar": MessageLookupByLibrary.simpleMessage(
             "Successfully delete Measurement!"),
+        "deleteMeasurementSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Body Measurement"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a protein entry"),
+        "deleteProteinSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Protein"),
         "deleteRoutineHistorySnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted workout history"),
+        "deleteRoutineHistorySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Routine History"),
         "deleteRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a routine!"),
         "deleteRoutineWarningMessage": MessageLookupByLibrary.simpleMessage(
@@ -173,8 +193,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Workout"),
         "deleteRoutineWorkoutMessage":
             MessageLookupByLibrary.simpleMessage("Delete the workout?"),
-        "deleteRoutineWorkoutSnakbar":
+        "deleteRoutineWorkoutSnakbarMessage":
             MessageLookupByLibrary.simpleMessage("Deleted a Workout!"),
+        "deleteRoutineWorkoutSnakbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Workout"),
         "deleteRoutinekButtonText":
             MessageLookupByLibrary.simpleMessage("Delete Routine"),
         "deleteWorkoutSnackbar": MessageLookupByLibrary.simpleMessage(
@@ -271,6 +293,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "intermediate": MessageLookupByLibrary.simpleMessage("Intermediate"),
         "invalidEmailValidationText": MessageLookupByLibrary.simpleMessage(
             "Please enter valid email address"),
+        "isPublicRoutineHistorySnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Update Routine History"),
         "justMe": MessageLookupByLibrary.simpleMessage("Just Me"),
         "kettlebell": MessageLookupByLibrary.simpleMessage("Kettlebell"),
         "lastEditedOn": MessageLookupByLibrary.simpleMessage("Last edited on "),
@@ -303,6 +327,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "No Main Muscle Group Selected"),
         "makeItVisibleTo":
             MessageLookupByLibrary.simpleMessage("Make it visible to:   "),
+        "makeRoutineHistoryPrivateSnackbar":
+            MessageLookupByLibrary.simpleMessage(
+                "Changed the record to private"),
+        "makeRoutineHistoryPublicSnackbar":
+            MessageLookupByLibrary.simpleMessage(
+                "Changed the record to public"),
         "manageAccount": MessageLookupByLibrary.simpleMessage("Manage Account"),
         "mealType": MessageLookupByLibrary.simpleMessage("Meal Type"),
         "measurements": MessageLookupByLibrary.simpleMessage("Body"),
@@ -384,6 +414,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("SAVE & END WORKOUT"),
         "savedRoutineEmptyText": MessageLookupByLibrary.simpleMessage(
             "You\'re one step away from creating your own routine!"),
+        "savedRoutineSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("Saved Routine"),
         "savedRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
             "Added to your Saved Routines"),
         "savedRoutines": MessageLookupByLibrary.simpleMessage("Saved Routines"),
@@ -397,7 +429,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search Workouts"),
         "searchResultSubtitle": m4,
         "searchResultsEmptyText":
-            MessageLookupByLibrary.simpleMessage("Search workouts!"),
+            MessageLookupByLibrary.simpleMessage("Search Result is Empty..."),
         "seconds": MessageLookupByLibrary.simpleMessage("s"),
         "secondsPerRep":
             MessageLookupByLibrary.simpleMessage("Seconds per rep"),
@@ -469,12 +501,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "trainingLevel": MessageLookupByLibrary.simpleMessage("Training Level"),
         "traps": MessageLookupByLibrary.simpleMessage("Traps"),
         "unitOfMass": MessageLookupByLibrary.simpleMessage("Unit of Mass"),
+        "unsavedRoutineSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("Unsaved Routine"),
         "unsavedRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
             "Removed from your Saved Routines"),
         "updateDisplayNameSnackbar": MessageLookupByLibrary.simpleMessage(
             "Successfully Updated Display Name!"),
+        "updateDisplayNameSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Update Display Name"),
         "updateEmailSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully Updated Email!"),
+        "updateEquipmentRequiredRoutineMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Updated equipment required for the routine"),
+        "updateEquipmentRequiredRoutineTitle":
+            MessageLookupByLibrary.simpleMessage("Updated Equipment Required"),
+        "updateRoutineHistoryNotesSnackbar":
+            MessageLookupByLibrary.simpleMessage("Successfully updated notes"),
+        "updateRoutineHistoryNotesSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Update Notes"),
         "updateWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("Updated a Workout Info!"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("User Not Found"),

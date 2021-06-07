@@ -1164,7 +1164,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     color: Colors.white,
                     size: 20,
                   ),
-                  buttonText: S.current.addWorkoutToRoutinekButtonText,
+                  buttonText: S.current.addWorkoutToRoutine,
                   onPressed: () => AddWorkoutToRoutineScreen.show(
                     context,
                     workout: workout,

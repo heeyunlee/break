@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:workout_player/screens/home_screen_provider.dart';
+import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/dummy_data.dart';
@@ -48,6 +50,8 @@ class SettingsTab extends StatelessWidget {
       // FirebaseCrashlytics.instance.crash();
       await auth.signOut();
       Navigator.of(context).pop();
+      currentTab = CustomTabItem.progress;
+      currentTabIndex = 0;
     } catch (e) {
       print(e.toString());
     }

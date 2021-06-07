@@ -6,6 +6,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
@@ -133,33 +134,34 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
-      debugPrint('validated');
+      try {
+        final id = documentIdFromCurrentDate();
 
-      final id = documentIdFromCurrentDate();
+        final bodyMeasurement = Measurement(
+          measurementId: 'BM$id',
+          userId: widget.user.userId,
+          username: widget.user.userName,
+          loggedTime: _loggedTime,
+          loggedDate: _loggedDate,
+          bodyWeight: _bodyWeight,
+          bodyFat: _bodyFat,
+          skeletalMuscleMass: _skeletalMuscleMass,
+          bmi: _bmi,
+          notes: _notes,
+        );
 
-      final bodyMeasurement = Measurement(
-        measurementId: 'BM$id',
-        userId: widget.user.userId,
-        username: widget.user.userName,
-        loggedTime: _loggedTime,
-        loggedDate: _loggedDate,
-        bodyWeight: _bodyWeight,
-        bodyFat: _bodyFat,
-        skeletalMuscleMass: _skeletalMuscleMass,
-        bmi: _bmi,
-        notes: _notes,
-      );
+        await widget.database.setMeasurement(
+          uid: widget.user.userId,
+          measurement: bodyMeasurement,
+        );
 
-      await widget.database.setMeasurement(
-        uid: widget.user.userId,
-        measurement: bodyMeasurement,
-      );
+        Navigator.of(context).pop();
 
-      Navigator.of(context).pop();
-
-      // TODO: Add snackbar after pop
-
-      try {} on FirebaseException catch (e) {
+        getSnackbarWidget(
+          S.current.addMeasurementSnackbarTitle,
+          S.current.addMeasurementSnackbar,
+        );
+      } on FirebaseException catch (e) {
         logger.d(e);
         await showExceptionAlertDialog(
           context,
@@ -168,7 +170,6 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         );
       }
     }
-    return null;
   }
 
   void _showDatePicker(BuildContext context) {

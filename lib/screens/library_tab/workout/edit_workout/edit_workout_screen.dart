@@ -132,12 +132,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       }
       tabNavigatorKeys[currentTab]!.currentState!.pop();
 
-      // Snackbar
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.deleteWorkoutSnackbar),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      // TODO: add snackbar HERE
+
+      // // Snackbar
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(S.current.deleteWorkoutSnackbar),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -163,11 +165,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         };
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(S.current.updateWorkoutSnackbar),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ));
+
+        // TODO: add snackbar HERE
+
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text(S.current.updateWorkoutSnackbar),
+        //   duration: Duration(seconds: 2),
+        //   behavior: SnackBarBehavior.floating,
+        // ));
       } on FirebaseException catch (e) {
         logger.e(e);
         await showExceptionAlertDialog(

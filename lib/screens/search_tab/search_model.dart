@@ -9,7 +9,7 @@ final searchModelProvider = ChangeNotifierProvider<SearchModel>(
 
 class SearchModel extends ChangeNotifier {
   AlgoliaIndexReference algoliaIndexReference =
-      algolia.instance.index('dev_WORKOUTS');
+      AlgoliaManager.init().instance.index('dev_WORKOUTS');
 
   List<AlgoliaObjectSnapshot> _searchResults = [];
   List<AlgoliaObjectSnapshot> get searchResults => _searchResults;

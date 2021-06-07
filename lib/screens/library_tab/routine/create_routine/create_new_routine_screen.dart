@@ -70,7 +70,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   // Submit data to Firestore
   Future<void> _submit() async {
-    debugPrint('_submit button pressed!');
+    logger.d('_submit button pressed!');
+
     final routineId = documentIdFromCurrentDate();
     final userId = widget.user.userId;
     final userName = widget.user.displayName;
@@ -123,6 +124,13 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
               ),
             ),
           );
+
+      // TODO: add SnackBar
+
+      // getSnackbarWidget(
+      //   S.current.createNewRoutineSnackbarTitle,
+      //   S.current.createNewRoutineSnackbar,
+      // );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -134,7 +142,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   void saveTitle() {
-    debugPrint('saveTitle Pressed');
+    logger.d('saveTitle Pressed');
     if (_routineTitle != '') {
       setState(() {
         _pageIndex = 1;
@@ -150,7 +158,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   void saveMainMuscleGroup() {
-    debugPrint('saveMainMuscleGroup Pressed');
+    logger.d('saveMainMuscleGroup Pressed');
     if (_selectedMainMuscleGroup.isNotEmpty) {
       setState(() {
         _pageIndex = 2;
@@ -166,7 +174,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   void saveEquipmentRequired() {
-    debugPrint('saveEquipmentRequired Pressed');
+    logger.d('saveEquipmentRequired Pressed');
     if (_selectedEquipmentRequired.isNotEmpty) {
       setState(() {
         _pageIndex = 3;
@@ -182,7 +190,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   void saveDifficultyAndMore() {
-    debugPrint('saveDifficultyAndMore Pressed');
+    logger.d('saveDifficultyAndMore Pressed');
     _submit();
   }
 
@@ -198,7 +206,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('building scaffold...');
+    logger.d('building create new routine scaffold...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,

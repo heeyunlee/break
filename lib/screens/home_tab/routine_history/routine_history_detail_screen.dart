@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/screens/home_tab/routine_history/workout_history_card.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
@@ -155,12 +156,14 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
       Navigator.of(context).pop();
-      // Navigator.of(context).popUntil((route) => route.isFirst);
       tabNavigatorKeys[currentTab]!
           .currentState!
           .popUntil((route) => route.isFirst);
 
-      // TODO: ADD SNACKBAR HERE
+      getSnackbarWidget(
+        S.current.deleteRoutineHistorySnackbarTitle,
+        S.current.deleteRoutineHistorySnackbar,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -177,10 +180,17 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       final routineHistory = {
         'notes': _notes,
       };
-      await widget.database
-          .updateRoutineHistory(widget.routineHistory, routineHistory);
+      await widget.database.updateRoutineHistory(
+        widget.routineHistory,
+        routineHistory,
+      );
+
+      getSnackbarWidget(
+        S.current.updateRoutineHistoryNotesSnackbarTitle,
+        S.current.updateRoutineHistoryNotesSnackbar,
+      );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -195,10 +205,19 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       final routineHistory = {
         'isPublic': _isPublic,
       };
-      await widget.database
-          .updateRoutineHistory(widget.routineHistory, routineHistory);
+      await widget.database.updateRoutineHistory(
+        widget.routineHistory,
+        routineHistory,
+      );
+
+      getSnackbarWidget(
+        S.current.isPublicRoutineHistorySnackbarTitle,
+        _isPublic
+            ? S.current.makeRoutineHistoryPublicSnackbar
+            : S.current.makeRoutineHistoryPrivateSnackbar,
+      );
     } on FirebaseException catch (e) {
-      logger.d(e);
+      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -232,25 +251,20 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('dailySummaryDetail screen scaffold building...');
+    logger.d('dailySummaryDetail screen scaffold building...');
     dataFormat(widget.routineHistory);
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: NotificationListener<ScrollNotification>(
-        onNotification: _scrollListener,
-        child: Stack(
-          children: <Widget>[
-            CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                _buildSliverAppBar(context),
-                _buildSliverBody(),
-              ],
-            )
-          ],
-        ),
-      ),
+          onNotification: _scrollListener,
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              _buildSliverAppBar(context),
+              _buildSliverBody(),
+            ],
+          )),
     );
   }
 

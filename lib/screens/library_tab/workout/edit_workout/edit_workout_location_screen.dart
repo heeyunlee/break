@@ -69,6 +69,8 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
       };
       await widget.database.updateWorkout(widget.workout, workout);
       debugPrint('Updated Location');
+
+      // TODO: add snackbar HERE
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

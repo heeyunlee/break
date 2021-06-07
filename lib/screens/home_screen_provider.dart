@@ -5,6 +5,9 @@ double percentageFromValueInRange({required final double min, max, value}) {
   return (value - min) / (max - min);
 }
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 // Home Screen Navigator Key
 final GlobalKey<NavigatorState> homeScreenNavigatorKey =
     GlobalKey<NavigatorState>();

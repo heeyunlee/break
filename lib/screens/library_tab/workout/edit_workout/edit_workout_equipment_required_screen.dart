@@ -137,18 +137,31 @@ class _EditWorkoutEquipmentRequiredScreenState
   }
 
   Future<void> _submit() async {
-    try {
-      final workout = {
-        'equipmentRequired': _selectedEquipmentRequired,
-      };
-      await widget.database.updateWorkout(widget.workout, workout);
-      debugPrint('$_selectedEquipmentRequired');
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
+    if (_selectedEquipmentRequired.isNotEmpty) {
+      try {
+        final workout = {
+          'equipmentRequired': _selectedEquipmentRequired,
+        };
+        await widget.database.updateWorkout(widget.workout, workout);
+        debugPrint('$_selectedEquipmentRequired');
+
+        Navigator.of(context).pop();
+
+        // TODO: add snackbar HERE
+      } on FirebaseException catch (e) {
+        logger.e(e);
+        await showExceptionAlertDialog(
+          context,
+          title: S.current.operationFailed,
+          exception: e.toString(),
+        );
+      }
+    } else {
+      await showAlertDialog(
         context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
+        title: S.current.equipmentRequiredAlertTitle,
+        content: S.current.equipmentRequiredAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -167,19 +180,7 @@ class _EditWorkoutEquipmentRequiredScreenState
             Icons.arrow_back_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            if (_selectedEquipmentRequired.isNotEmpty) {
-              _submit();
-              Navigator.of(context).pop();
-            } else {
-              showAlertDialog(
-                context,
-                title: S.current.equipmentRequiredAlertTitle,
-                content: S.current.equipmentRequiredAlertContent,
-                defaultActionText: S.current.ok,
-              );
-            }
-          },
+          onPressed: _submit,
         ),
         title: Text(S.current.equipmentRequired, style: kSubtitle1),
         flexibleSpace: AppbarBlurBG(),

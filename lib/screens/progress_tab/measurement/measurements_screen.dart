@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -51,13 +52,10 @@ class MeasurementsScreen extends StatelessWidget {
         measurement: measurement,
       );
 
-      // TODO: ADD SNACKBAR
-      // // Snackbar
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(S.current.deleteMeasurementSnackbar),
-      //   duration: Duration(seconds: 2),
-      //   behavior: SnackBarBehavior.floating,
-      // ));
+      getSnackbarWidget(
+        S.current.deleteMeasurementSnackbarTitle,
+        S.current.deleteMeasurementSnackbar,
+      );
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

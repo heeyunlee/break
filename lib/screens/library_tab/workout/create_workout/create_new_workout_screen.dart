@@ -131,6 +131,8 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
             ),
           );
 
+      // TODO: add snackbar HERE
+
       // await Navigator.of(context, rootNavigator: true).pushReplacement(
       //   CupertinoPageRoute(
       //     builder: (context) => WorkoutDetailScreen(

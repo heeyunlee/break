@@ -165,6 +165,7 @@ class _EditRoutineMainMuscleGroupScreenState
       };
       await widget.database.updateRoutine(widget.routine, routine);
       debugPrint('$_selectedMainMuscleGroup');
+      // TODO: add snackbar here
     } on Exception catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

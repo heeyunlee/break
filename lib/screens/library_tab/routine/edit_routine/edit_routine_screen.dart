@@ -138,12 +138,14 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
       }
       tabNavigatorKeys[CustomTabItem.library]!.currentState!.pop();
 
-      // SnackBar
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.deleteRoutineSnackbar),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      // TODO: add snackbar here
+
+      // // SnackBar
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(S.current.deleteRoutineSnackbar),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -304,21 +306,21 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Padding(
           padding:
               const EdgeInsets.only(right: 16, left: 16, top: 16, bottom: 8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: ListTile(
-              tileColor: kCardColor,
-              title: Text(S.current.publicRoutine, style: kButtonText),
-              trailing: Switch(
-                value: _isPublic,
-                activeColor: kPrimaryColor,
-                onChanged: (bool value) {
-                  HapticFeedback.mediumImpact();
-                  setState(() {
-                    _isPublic = value;
-                  });
-                },
-              ),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            tileColor: kCardColor,
+            title: Text(S.current.publicRoutine, style: kButtonText),
+            trailing: Switch(
+              value: _isPublic,
+              activeColor: kPrimaryColor,
+              onChanged: (bool value) {
+                HapticFeedback.mediumImpact();
+                setState(() {
+                  _isPublic = value;
+                });
+              },
             ),
           ),
         ),
@@ -348,7 +350,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Padding(
@@ -390,7 +392,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Padding(
@@ -430,7 +432,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
@@ -479,20 +481,20 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         /// Main Muscle Group
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: ListTile(
-              title: Text(S.current.mainMuscleGroup, style: kButtonText),
-              subtitle: Text(mainMuscleGroup!, style: kBodyText2Grey),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: kPrimaryGrey,
-              ),
-              tileColor: kCardColor,
-              onTap: () => EditRoutineMainMuscleGroupScreen.show(
-                context,
-                routine: routine,
-              ),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            title: Text(S.current.mainMuscleGroup, style: kButtonText),
+            subtitle: Text(mainMuscleGroup!, style: kBodyText2Grey),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: kPrimaryGrey,
+            ),
+            tileColor: kCardColor,
+            onTap: () => EditRoutineMainMuscleGroupScreen.show(
+              context,
+              routine: routine,
             ),
           ),
         ),
@@ -507,23 +509,23 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          title: Text(S.current.equipmentRequired, style: kButtonText),
-          subtitle: Text(
-            equipmentRequired!,
-            style: kBodyText2Grey,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: kPrimaryGrey,
-          ),
-          tileColor: kCardColor,
-          onTap: () => EditRoutineEquipmentRequiredScreen.show(
-            context,
-            routine: routine,
-          ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Text(S.current.equipmentRequired, style: kButtonText),
+        subtitle: Text(
+          equipmentRequired!,
+          style: kBodyText2Grey,
+        ),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: kPrimaryGrey,
+        ),
+        tileColor: kCardColor,
+        onTap: () => EditRoutineEquipmentRequiredScreen.show(
+          context,
+          routine: routine,
         ),
       ),
     );
@@ -532,24 +534,24 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Widget _buildUnitOfMassForm(Routine routine) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          title: Text(S.current.unitOfMass, style: kButtonText),
-          subtitle: Text(
-            UnitOfMass.values[routine.initialUnitOfMass].label!,
-            style: kBodyText2Grey,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: kPrimaryGrey,
-          ),
-          tileColor: kCardColor,
-          onTap: () => EditUnitOfMassScreen.show(
-            context,
-            routine: routine,
-            user: widget.user,
-          ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Text(S.current.unitOfMass, style: kButtonText),
+        subtitle: Text(
+          UnitOfMass.values[routine.initialUnitOfMass].label!,
+          style: kBodyText2Grey,
+        ),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: kPrimaryGrey,
+        ),
+        tileColor: kCardColor,
+        onTap: () => EditUnitOfMassScreen.show(
+          context,
+          routine: routine,
+          user: widget.user,
         ),
       ),
     );
@@ -564,21 +566,21 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          title: Text(S.current.location, style: kButtonText),
-          subtitle: Text(location!, style: kBodyText2Grey),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: kPrimaryGrey,
-          ),
-          tileColor: kCardColor,
-          onTap: () => EditRoutineLocationScreen.show(
-            context,
-            routine: routine,
-            user: widget.user,
-          ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Text(S.current.location, style: kButtonText),
+        subtitle: Text(location!, style: kBodyText2Grey),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: kPrimaryGrey,
+        ),
+        tileColor: kCardColor,
+        onTap: () => EditRoutineLocationScreen.show(
+          context,
+          routine: routine,
+          user: widget.user,
         ),
       ),
     );

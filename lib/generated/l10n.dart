@@ -681,10 +681,10 @@ class S {
   }
 
   /// `Deleted a Workout!`
-  String get deleteRoutineWorkoutSnakbar {
+  String get deleteRoutineWorkoutSnakbarMessage {
     return Intl.message(
       'Deleted a Workout!',
-      name: 'deleteRoutineWorkoutSnakbar',
+      name: 'deleteRoutineWorkoutSnakbarMessage',
       desc: '',
       args: [],
     );
@@ -1370,11 +1370,11 @@ class S {
     );
   }
 
-  /// `Add workout to the routine`
-  String get addWorkoutToRoutinekButtonText {
+  /// `Added workout to the routine`
+  String get addWorkoutToRoutineSnackbar {
     return Intl.message(
-      'Add workout to the routine',
-      name: 'addWorkoutToRoutinekButtonText',
+      'Added workout to the routine',
+      name: 'addWorkoutToRoutineSnackbar',
       desc: '',
       args: [],
     );
@@ -3130,23 +3130,233 @@ class S {
     );
   }
 
-  /// `Search workouts!`
+  /// `Search Result is Empty...`
   String get searchResultsEmptyText {
     return Intl.message(
-      'Search workouts!',
+      'Search Result is Empty...',
       name: 'searchResultsEmptyText',
       desc: '',
       args: [],
     );
   }
 
-  /// `{muscle} using {equipment}`
+  /// `{muscle} workout using {equipment}`
   String searchResultSubtitle(Object muscle, Object equipment) {
     return Intl.message(
-      '$muscle using $equipment',
+      '$muscle workout using $equipment',
       name: 'searchResultSubtitle',
       desc: '',
       args: [muscle, equipment],
+    );
+  }
+
+  /// `Saved Routine`
+  String get savedRoutineSnackBarTitle {
+    return Intl.message(
+      'Saved Routine',
+      name: 'savedRoutineSnackBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsaved Routine`
+  String get unsavedRoutineSnackBarTitle {
+    return Intl.message(
+      'Unsaved Routine',
+      name: 'unsavedRoutineSnackBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Routine History`
+  String get deleteRoutineHistorySnackbarTitle {
+    return Intl.message(
+      'Delete Routine History',
+      name: 'deleteRoutineHistorySnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout`
+  String get addWorkoutToRoutineSnackbarTitle {
+    return Intl.message(
+      'Add Workout',
+      name: 'addWorkoutToRoutineSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added Protein`
+  String get addProteinEntrySnackbarTitle {
+    return Intl.message(
+      'Added Protein',
+      name: 'addProteinEntrySnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added measurement entry`
+  String get addMeasurementSnackbar {
+    return Intl.message(
+      'Added measurement entry',
+      name: 'addMeasurementSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Measurement`
+  String get addMeasurementSnackbarTitle {
+    return Intl.message(
+      'Add Measurement',
+      name: 'addMeasurementSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully updated notes`
+  String get updateRoutineHistoryNotesSnackbar {
+    return Intl.message(
+      'Successfully updated notes',
+      name: 'updateRoutineHistoryNotesSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Notes`
+  String get updateRoutineHistoryNotesSnackbarTitle {
+    return Intl.message(
+      'Update Notes',
+      name: 'updateRoutineHistoryNotesSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changed the record to public`
+  String get makeRoutineHistoryPublicSnackbar {
+    return Intl.message(
+      'Changed the record to public',
+      name: 'makeRoutineHistoryPublicSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changed the record to private`
+  String get makeRoutineHistoryPrivateSnackbar {
+    return Intl.message(
+      'Changed the record to private',
+      name: 'makeRoutineHistoryPrivateSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Routine History`
+  String get isPublicRoutineHistorySnackbarTitle {
+    return Intl.message(
+      'Update Routine History',
+      name: 'isPublicRoutineHistorySnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Protein`
+  String get deleteProteinSnackbarTitle {
+    return Intl.message(
+      'Delete Protein',
+      name: 'deleteProteinSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Body Measurement`
+  String get deleteMeasurementSnackbarTitle {
+    return Intl.message(
+      'Delete Body Measurement',
+      name: 'deleteMeasurementSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Display Name`
+  String get updateDisplayNameSnackbarTitle {
+    return Intl.message(
+      'Update Display Name',
+      name: 'updateDisplayNameSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We have successfully deleted your user data`
+  String get deleteAccountSnackbarMessage {
+    return Intl.message(
+      'We have successfully deleted your user data',
+      name: 'deleteAccountSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccountSnackbarTitle {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccountSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Workout`
+  String get deleteRoutineWorkoutSnakbarTitle {
+    return Intl.message(
+      'Delete Workout',
+      name: 'deleteRoutineWorkoutSnakbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Routine`
+  String get createNewRoutineSnackbarTitle {
+    return Intl.message(
+      'Create Routine',
+      name: 'createNewRoutineSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated equipment required for the routine`
+  String get updateEquipmentRequiredRoutineMessage {
+    return Intl.message(
+      'Updated equipment required for the routine',
+      name: 'updateEquipmentRequiredRoutineMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated Equipment Required`
+  String get updateEquipmentRequiredRoutineTitle {
+    return Intl.message(
+      'Updated Equipment Required',
+      name: 'updateEquipmentRequiredRoutineTitle',
+      desc: '',
+      args: [],
     );
   }
 }

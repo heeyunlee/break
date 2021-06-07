@@ -3,17 +3,15 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
 
-class RoutineDescriptionWidget extends StatelessWidget {
+class DescriptionWidget extends StatelessWidget {
   final String? description;
 
-  const RoutineDescriptionWidget({
+  const DescriptionWidget({
     Key? key,
     required this.description,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('description is $description');
-
     if (description != null) {
       if (description!.isNotEmpty) {
         return Text(

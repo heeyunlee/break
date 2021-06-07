@@ -3,7 +3,7 @@ description: HēraKless - Workout Player
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 0.2.7
 
@@ -44,6 +44,7 @@ dependencies:
   # State Management
   provider: ^5.0.0
   flutter_riverpod: ^0.14.0+3
+  get: ^4.1.4
 
   # Widgets
   flutter_slidable: ^1.0.0-dev.2

@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
 import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 import '../../../../constants.dart';
-import '../../../../generated/l10n.dart';
-import '../../../../models/routine.dart';
 
-class RoutineStartButton extends StatelessWidget {
+class LogStartRoutineButtonWidget extends StatelessWidget {
+  final Database database;
+  final User user;
   final Routine routine;
   final AsyncValue<List<RoutineWorkout?>> asyncValue;
 
-  const RoutineStartButton({
+  const LogStartRoutineButtonWidget({
     Key? key,
+    required this.database,
+    required this.user,
     required this.routine,
     required this.asyncValue,
   }) : super(key: key);
 
-  void _onPressed(BuildContext context) {
+  void _startRoutine(BuildContext context) {
     asyncValue.when(
       loading: () => Center(child: CircularProgressIndicator()),
       error: (e, _) => _showAlertDialogs(context),
@@ -87,16 +94,42 @@ class RoutineStartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return ElevatedButton(
-      onPressed: () => _onPressed(context),
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size((size.width - 48) / 2, 48),
-        primary: kPrimaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return Row(
+      children: [
+        asyncValue.when(
+          loading: () => Center(child: CircularProgressIndicator()),
+          error: (e, _) => Icon(Icons.error_rounded),
+          data: (data) => OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              minimumSize: Size((size.width - 48) / 2, 48),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              side: BorderSide(width: 2, color: kPrimaryColor),
+            ),
+            onPressed: () => LogRoutineScreen.show(
+              context,
+              routine: routine,
+              database: database,
+              user: user,
+              routineWorkouts: data,
+            ),
+            child: Text(S.current.logRoutine, style: kButtonText),
+          ),
         ),
-      ),
-      child: Text(S.current.startRoutine, style: kButtonText),
+        const SizedBox(width: 16),
+        ElevatedButton(
+          onPressed: () => _startRoutine(context),
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size((size.width - 48) / 2, 48),
+            primary: kPrimaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(S.current.startRoutine, style: kButtonText),
+        ),
+      ],
     );
   }
 
@@ -104,7 +137,7 @@ class RoutineStartButton extends StatelessWidget {
     return showExceptionAlertDialog(
       context,
       exception: 'Error',
-      title: 'Error',
+      title: S.current.errorOccuredMessage,
     );
   }
 }

@@ -101,6 +101,8 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         routine: routine,
         tag: '',
       );
+
+      // TODO: add snack bar HERE
     } on Exception catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

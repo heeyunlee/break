@@ -25,7 +25,6 @@ class WorkoutSetWidget extends StatefulWidget {
     required this.set,
     required this.index,
     required this.auth,
-    // this.user,
   }) : super(key: key);
 
   final Database database;
@@ -34,15 +33,12 @@ class WorkoutSetWidget extends StatefulWidget {
   final WorkoutSet set;
   final int index;
   final AuthBase auth;
-  // final User user;
 
   @override
   _WorkoutSetWidgetState createState() => _WorkoutSetWidgetState();
 }
 
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
-  // final SlidableController _slidableController = SlidableController();
-
   final _formKey = GlobalKey<FormState>();
 
   late TextEditingController _textController1;
@@ -141,13 +137,15 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       );
       await widget.database.updateRoutine(widget.routine, routine);
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
-        ),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      // TODO: add snackbar HERE
+
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(
+      //     (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
+      //   ),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

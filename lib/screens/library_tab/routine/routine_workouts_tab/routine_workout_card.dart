@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -17,8 +18,8 @@ import '../../../../constants.dart';
 import '../../../../format.dart';
 import 'workout_set_widget.dart';
 
-class WorkoutMediumCard extends StatefulWidget {
-  WorkoutMediumCard({
+class RoutineWorkoutCard extends StatefulWidget {
+  RoutineWorkoutCard({
     required this.database,
     required this.routine,
     required this.routineWorkout,
@@ -31,10 +32,10 @@ class WorkoutMediumCard extends StatefulWidget {
   final AuthBase auth;
 
   @override
-  _WorkoutMediumCardState createState() => _WorkoutMediumCardState();
+  _RoutineWorkoutCardState createState() => _RoutineWorkoutCardState();
 }
 
-class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
+class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
   @override
   void initState() {
     super.initState();
@@ -136,6 +137,7 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
           .then((value) async {
         await widget.database.updateRoutine(widget.routine, routine);
       });
+
       debugPrint('Added a new Set');
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -266,15 +268,21 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
     RoutineWorkout routineWorkout,
   ) async {
     try {
-      await widget.database.deleteRoutineWorkout(routine, routineWorkout).then(
-        (value) async {
-          final routine = {
-            'totalWeights':
-                widget.routine.totalWeights - routineWorkout.totalWeights,
-            'duration': widget.routine.duration - routineWorkout.duration,
-          };
-          await widget.database.updateRoutine(widget.routine, routine);
-        },
+      await widget.database.deleteRoutineWorkout(routine, routineWorkout);
+
+      final updatedRoutine = {
+        'totalWeights':
+            widget.routine.totalWeights - routineWorkout.totalWeights,
+        'duration': widget.routine.duration - routineWorkout.duration,
+      };
+
+      await widget.database.updateRoutine(widget.routine, updatedRoutine);
+
+      Navigator.of(context).pop();
+
+      getSnackbarWidget(
+        S.current.deleteRoutineHistorySnackbarTitle,
+        S.current.deleteRoutineWorkoutSnakbarMessage,
       );
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -468,20 +476,11 @@ class _WorkoutMediumCardState extends State<WorkoutMediumCard> {
         actions: [
           CupertinoActionSheetAction(
             isDestructiveAction: true,
-            onPressed: () {
-              _deleteRoutineWorkout(
-                context,
-                widget.routine,
-                widget.routineWorkout,
-              );
-              Navigator.of(context).pop();
-
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(S.current.deleteRoutineWorkoutSnakbar),
-                duration: Duration(seconds: 2),
-                behavior: SnackBarBehavior.floating,
-              ));
-            },
+            onPressed: () => _deleteRoutineWorkout(
+              context,
+              widget.routine,
+              widget.routineWorkout,
+            ),
             child: Text(S.current.deleteRoutineWorkoutButton),
           ),
         ],

@@ -14,6 +14,7 @@ class AnnouncementCardPageView extends StatefulWidget {
 }
 
 class _AnnouncementCardPageViewState extends State<AnnouncementCardPageView> {
+  // ignore: prefer_final_fields
   int _currentPage = 0;
   late PageController _pageController;
 

@@ -149,28 +149,41 @@ class _EditWorkoutMainMuscleGroupScreenState
   }
 
   Future<void> _submit() async {
-    try {
-      // Image URL
-      final ref = FirebaseStorage.instance.ref().child('workout-pictures');
-      final imageIndex = Random().nextInt(2);
-      final imageUrl = await ref
-          .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
-          .getDownloadURL();
+    if (_selectedMainMuscleGroup.isNotEmpty) {
+      try {
+        // Image URL
+        final ref = FirebaseStorage.instance.ref().child('workout-pictures');
+        final imageIndex = Random().nextInt(2);
+        final imageUrl = await ref
+            .child('${_selectedMainMuscleGroup[0]}$imageIndex.jpeg')
+            .getDownloadURL();
 
-      // New Workout Data
-      final workout = {
-        'imageUrl': imageUrl,
-        'mainMuscleGroup': _selectedMainMuscleGroup,
-      };
+        // New Workout Data
+        final workout = {
+          'imageUrl': imageUrl,
+          'mainMuscleGroup': _selectedMainMuscleGroup,
+        };
 
-      await widget.database.updateWorkout(widget.workout, workout);
-      debugPrint('$_selectedMainMuscleGroup');
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
+        await widget.database.updateWorkout(widget.workout, workout);
+        Navigator.of(context).pop();
+
+        // TODO: add snackbar HERE
+
+        debugPrint('$_selectedMainMuscleGroup');
+      } on FirebaseException catch (e) {
+        logger.e(e);
+        await showExceptionAlertDialog(
+          context,
+          title: S.current.operationFailed,
+          exception: e.toString(),
+        );
+      }
+    } else {
+      await showAlertDialog(
         context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
+        title: S.current.mainMuscleGroupAlertTitle,
+        content: S.current.mainMuscleGroupAlertContent,
+        defaultActionText: S.current.ok,
       );
     }
   }
@@ -189,19 +202,7 @@ class _EditWorkoutMainMuscleGroupScreenState
             Icons.arrow_back_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            if (_selectedMainMuscleGroup.isNotEmpty) {
-              _submit();
-              Navigator.of(context).pop();
-            } else {
-              showAlertDialog(
-                context,
-                title: S.current.mainMuscleGroupAlertTitle,
-                content: S.current.mainMuscleGroupAlertContent,
-                defaultActionText: S.current.ok,
-              );
-            }
-          },
+          onPressed: _submit,
         ),
         title: Text(S.current.mainMuscleGroup, style: kSubtitle1),
         flexibleSpace: AppbarBlurBG(),

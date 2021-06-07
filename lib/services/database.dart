@@ -71,6 +71,13 @@ final rhOfThisWeekStreamProvider =
     return database.routineHistoriesThisWeekStream(uid);
   },
 );
+final rhOfThisWeekStreamProvider2 =
+    StreamProvider.autoDispose.family<List<RoutineHistory?>, List<String>>(
+  (ref, IDs) {
+    final database = ref.watch(databaseProvider(IDs[0]));
+    return database.routineHistoriesThisWeekStream2(IDs[0], IDs[1]);
+  },
+);
 
 ///
 ///
@@ -213,6 +220,8 @@ abstract class Database {
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream(String uid);
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream(String uid);
+  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream2(
+      String uid, String routineId);
   Stream<List<RoutineHistory>> routineHistoriesPublicStream();
 
   // QUERY
@@ -849,7 +858,7 @@ class FirestoreDatabase implements Database {
         toBuilder: (model) => model!.toJson(),
       );
 
-  // Workout History Stream for each User
+  // Routine History Stream for each User
   @override
   Stream<List<RoutineHistory>> routineHistoriesStream() =>
       _service.isEqualToOrderByCollectionStream<RoutineHistory>(
@@ -883,6 +892,21 @@ class FirestoreDatabase implements Database {
         uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'workoutEndTime',
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Stream of Specific Routine's Routine History
+  @override
+  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream2(
+          String uid, String routineId) =>
+      _service.collectionStreamOfThisWeek2<RoutineHistory>(
+        path: APIPath.routineHistories(),
+        uid: uid,
+        uidVariableName: 'userId',
+        dateVariableName: 'workoutEndTime',
+        whereVariableName: 'routineId',
+        isEqualToVariable: routineId,
         fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );

@@ -8,7 +8,6 @@ import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
-import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
@@ -17,7 +16,6 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,28 +25,24 @@ import 'log_routine_provider.dart';
 class LogRoutineScreen extends StatefulWidget {
   final User user;
   final Database database;
-  final AuthBase auth;
   final Routine routine;
+  final List<RoutineWorkout?> routineWorkouts;
 
   const LogRoutineScreen({
     Key? key,
     required this.user,
     required this.database,
-    required this.auth,
     required this.routine,
+    required this.routineWorkouts,
   }) : super(key: key);
 
   static Future<void> show(
     BuildContext context, {
     required Routine routine,
     required Database database,
-    required AuthBase auth,
     required User user,
+    required List<RoutineWorkout?> routineWorkouts,
   }) async {
-    // final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-    // final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
@@ -56,8 +50,8 @@ class LogRoutineScreen extends StatefulWidget {
         builder: (context) => LogRoutineScreen(
           user: user,
           database: database,
-          auth: auth,
           routine: routine,
+          routineWorkouts: routineWorkouts,
         ),
       ),
     );
@@ -241,13 +235,15 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
       Navigator.of(context).pop();
 
-      ScaffoldMessenger.of(tabNavigatorKeys[currentTab]!.currentContext!)
-          .showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text(S.current.afterWorkoutSnackbar),
-        ),
-      );
+      // TODO: add snackbar here
+
+      // ScaffoldMessenger.of(tabNavigatorKeys[currentTab]!.currentContext!)
+      //     .showSnackBar(
+      //   SnackBar(
+      //     behavior: SnackBarBehavior.floating,
+      //     content: Text(S.current.afterWorkoutSnackbar),
+      //   ),
+      // );
       context
           .read(miniplayerProviderNotifierProvider.notifier)
           .makeValuesNull();
@@ -291,56 +287,51 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return CustomStreamBuilderWidget<List<RoutineWorkout?>>(
-        stream: widget.database.routineWorkoutsStream(widget.routine.routineId),
-        hasDataWidget: (context, snapshot) {
-          return Scaffold(
-            backgroundColor: kBackgroundColor,
-            appBar: AppBar(
-              brightness: Brightness.dark,
-              leading: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close_rounded, color: Colors.white),
-              ),
-              backgroundColor: kAppBarColor,
-              flexibleSpace: const AppbarBlurBG(),
-              title: Text(S.current.addWorkoutLog, style: kSubtitle2),
-              centerTitle: true,
-            ),
-            body: _buildBody(),
-            floatingActionButton: Container(
-              width: size.width - 32,
-              padding: EdgeInsets.only(
-                bottom: (_focusNode1.hasFocus ||
-                        _focusNode2.hasFocus ||
-                        _focusNode3.hasFocus)
-                    ? 48
-                    : 0,
-              ),
-              child: Consumer(
-                builder: (context, watch, child) {
-                  final isPressed =
-                      watch(isLogRoutineButtonPressedProvider).isButtonPressed;
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.close_rounded, color: Colors.white),
+        ),
+        backgroundColor: kAppBarColor,
+        flexibleSpace: const AppbarBlurBG(),
+        title: Text(S.current.addWorkoutLog, style: kSubtitle2),
+        centerTitle: true,
+      ),
+      body: _buildBody(),
+      floatingActionButton: Container(
+        width: size.width - 32,
+        padding: EdgeInsets.only(
+          bottom: (_focusNode1.hasFocus ||
+                  _focusNode2.hasFocus ||
+                  _focusNode3.hasFocus)
+              ? 48
+              : 0,
+        ),
+        child: Consumer(
+          builder: (context, watch, child) {
+            final isPressed =
+                watch(isLogRoutineButtonPressedProvider).isButtonPressed;
 
-                  return FloatingActionButton.extended(
-                    onPressed: isPressed
-                        ? null
-                        : () => _submit(
-                              context,
-                              routine: widget.routine,
-                              routineWorkouts: snapshot.data!,
-                            ),
-                    backgroundColor: isPressed
-                        ? kPrimaryColor.withOpacity(0.8)
-                        : kPrimaryColor,
-                    heroTag: 'logRoutineSubmitButton',
-                    label: Text(S.current.submit),
-                  );
-                },
-              ),
-            ),
-          );
-        });
+            return FloatingActionButton.extended(
+              onPressed: isPressed
+                  ? null
+                  : () => _submit(
+                        context,
+                        routine: widget.routine,
+                        routineWorkouts: widget.routineWorkouts,
+                      ),
+              backgroundColor:
+                  isPressed ? kPrimaryColor.withOpacity(0.8) : kPrimaryColor,
+              heroTag: 'logRoutineSubmitButton',
+              label: Text(S.current.submit),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   Widget _buildBody() {

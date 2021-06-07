@@ -68,7 +68,8 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
         'location': _location,
       };
       await widget.database.updateRoutine(widget.routine, routine);
-      debugPrint('Updated Location');
+
+      // TODO: add snackbar here
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

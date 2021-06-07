@@ -21,7 +21,7 @@ class SearchTab extends StatefulWidget {
 class _SearchTabState extends State<SearchTab> {
   late FloatingSearchBarController _controller;
   AlgoliaIndexReference algoliaIndexReference =
-      algolia.instance.index('dev_WORKOUTS');
+      AlgoliaManager.init().instance.index('dev_WORKOUTS');
   List<AlgoliaObjectSnapshot> searchResults = [];
   bool _isLoading = false;
 
