@@ -15,6 +15,7 @@ import 'package:workout_player/screens/settings_tab/unit_of_mass_screen.dart';
 import 'package:workout_player/screens/settings_tab/user_feedback_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../widgets/show_alert_dialog.dart';
 import '../../constants.dart';
@@ -52,6 +53,11 @@ class SettingsTab extends StatelessWidget {
       Navigator.of(context).pop();
       currentTab = CustomTabItem.progress;
       currentTabIndex = 0;
+
+      getSnackbarWidget(
+        S.current.signOutSnackbarTitle,
+        S.current.signOutSnackbarMessage,
+      );
     } catch (e) {
       print(e.toString());
     }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -63,7 +64,11 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
         'unitOfMass': _unitOfMass,
       };
       await widget.database.updateUser(widget.auth.currentUser!.uid, user);
-      debugPrint('Updated Unit Of Mass');
+
+      getSnackbarWidget(
+        S.current.unitOfMass,
+        S.current.updateUnitOfMassUserMessage,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

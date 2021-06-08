@@ -518,3 +518,7 @@ const kBicepEmojiUrl =
 
 // Type Def
 typedef ListCallback<E> = void Function(List<E> list);
+typedef DoubleCallback = Function(double number);
+typedef StringCallback = Function(String string);
+typedef IntCallback = void Function(int index);
+typedef BoolCallback = void Function(bool value);

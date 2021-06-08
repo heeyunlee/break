@@ -15,6 +15,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/edit_workout/edit_workout_location_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
@@ -132,14 +133,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       }
       tabNavigatorKeys[currentTab]!.currentState!.pop();
 
-      // TODO: add snackbar HERE
-
-      // // Snackbar
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(S.current.deleteWorkoutSnackbar),
-      //   duration: Duration(seconds: 2),
-      //   behavior: SnackBarBehavior.floating,
-      // ));
+      getSnackbarWidget(
+        S.current.deleteWorkoutkButtonText,
+        S.current.deleteWorkoutSnackbar,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -166,13 +163,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         await widget.database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
 
-        // TODO: add snackbar HERE
-
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text(S.current.updateWorkoutSnackbar),
-        //   duration: Duration(seconds: 2),
-        //   behavior: SnackBarBehavior.floating,
-        // ));
+        getSnackbarWidget(
+          S.current.updateWorkoutSnackbarTitle,
+          S.current.updateWorkoutSnackbar,
+        );
       } on FirebaseException catch (e) {
         logger.e(e);
         await showExceptionAlertDialog(
@@ -290,20 +284,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Widget _buildSwitch() {
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: ListTile(
-            tileColor: kCardColor,
-            title: Text(S.current.publicWorkout, style: kButtonText),
-            trailing: Switch(
-              value: _isPublic,
-              activeColor: kPrimaryColor,
-              onChanged: (bool value) {
-                setState(() {
-                  _isPublic = value;
-                });
-              },
-            ),
+        ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          tileColor: kCardColor,
+          title: Text(S.current.publicWorkout, style: kButtonText),
+          trailing: Switch(
+            value: _isPublic,
+            activeColor: kPrimaryColor,
+            onChanged: (bool value) {
+              setState(() {
+                _isPublic = value;
+              });
+            },
           ),
         ),
         const SizedBox(height: 8),
@@ -329,7 +323,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: EdgeInsets.symmetric(vertical: 8),
           child: Padding(
@@ -371,7 +365,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: EdgeInsets.symmetric(vertical: 8),
           child: Padding(
@@ -414,7 +408,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
@@ -456,7 +450,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Card(
           color: kCardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
@@ -504,20 +498,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         /// Main Muscle Group
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: ListTile(
-              title: Text(S.current.mainMuscleGroup, style: kButtonText),
-              subtitle: Text(mainMuscleGroup, style: kBodyText2Grey),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: kPrimaryGrey,
-              ),
-              tileColor: kCardColor,
-              onTap: () => EditWorkoutMainMuscleGroupScreen.show(
-                context,
-                workout: workout,
-              ),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            title: Text(S.current.mainMuscleGroup, style: kButtonText),
+            subtitle: Text(mainMuscleGroup, style: kBodyText2Grey),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: kPrimaryGrey,
+            ),
+            tileColor: kCardColor,
+            onTap: () => EditWorkoutMainMuscleGroupScreen.show(
+              context,
+              workout: workout,
             ),
           ),
         ),
@@ -533,20 +527,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          title: Text(S.current.equipmentRequired, style: kButtonText),
-          subtitle: Text(equipmentRequired, style: kBodyText2Grey),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: kPrimaryGrey,
-          ),
-          tileColor: kCardColor,
-          onTap: () => EditWorkoutEquipmentRequiredScreen.show(
-            context,
-            workout: workout,
-          ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Text(S.current.equipmentRequired, style: kButtonText),
+        subtitle: Text(equipmentRequired, style: kBodyText2Grey),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: kPrimaryGrey,
+        ),
+        tileColor: kCardColor,
+        onTap: () => EditWorkoutEquipmentRequiredScreen.show(
+          context,
+          workout: workout,
         ),
       ),
     );
@@ -561,21 +555,21 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          title: Text(S.current.location, style: kButtonText),
-          subtitle: Text(location!, style: kBodyText2Grey),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: kPrimaryGrey,
-          ),
-          tileColor: kCardColor,
-          onTap: () => EditWorkoutLocationScreen.show(
-            context,
-            user: widget.user,
-            workout: workout,
-          ),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Text(S.current.location, style: kButtonText),
+        subtitle: Text(location!, style: kBodyText2Grey),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          color: kPrimaryGrey,
+        ),
+        tileColor: kCardColor,
+        onTap: () => EditWorkoutLocationScreen.show(
+          context,
+          user: widget.user,
+          workout: workout,
         ),
       ),
     );
@@ -584,11 +578,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
-      // TODO: Make a translation here
-      title: Text('Delete Workout'),
+      title: Text(S.current.deleteWorkoutkButtonText),
       message: Text(
         S.current.deleteWorkoutWarningMessage,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       ),
       firstActionText: S.current.deleteWorkoutkButtonText,
       isFirstActionDefault: false,

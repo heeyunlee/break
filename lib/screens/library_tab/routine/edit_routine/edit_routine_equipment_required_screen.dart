@@ -154,8 +154,8 @@ class _EditRoutineEquipmentRequiredScreenState
         Navigator.of(context).pop();
 
         getSnackbarWidget(
-          S.current.updateEquipmentRequiredRoutineTitle,
-          S.current.updateEquipmentRequiredRoutineMessage,
+          S.current.updateEquipmentRequiredTitle,
+          S.current.updateEquipmentRequiredMessage(S.current.routine),
         );
       } on FirebaseException catch (e) {
         logger.e(e);

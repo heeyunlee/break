@@ -23,16 +23,16 @@ class AppPreviewWidget extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Positioned(
-          top: -80,
+          top: 48,
           child: CachedNetworkImage(
             imageUrl: imageRoot,
-            height: size.height * 5 / 6,
+            height: size.height * 4 / 6,
             errorWidget: (context, url, error) => const Icon(Icons.error),
             placeholder: (context, url) => AppPreviewShimmer(),
           ),
         ),
         Positioned(
-          bottom: 16,
+          bottom: 48,
           child: Text(subtitle, style: kBodyText1),
         ),
       ],

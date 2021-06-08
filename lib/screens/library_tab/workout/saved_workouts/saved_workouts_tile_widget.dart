@@ -41,7 +41,7 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data!;
 
-        return GestureDetector(
+        return InkWell(
           onTap: () => SavedWorkoutsScreen.show(context, user: user),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

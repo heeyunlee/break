@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/screens/library_tab/routine/create_routine/create_new_routine_screen.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
@@ -18,6 +19,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../../constants.dart';
+import '../../home_screen_provider.dart';
 
 class AddWorkoutToRoutineScreen extends StatefulWidget {
   const AddWorkoutToRoutineScreen({
@@ -95,14 +97,48 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         translated: widget.workout.translated,
       );
       await widget.database.setRoutineWorkout(routine, routineWorkout);
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      await RoutineDetailScreen.show(
-        context,
-        routine: routine,
-        tag: '',
-      );
 
-      // TODO: add snack bar HERE
+      Navigator.of(context).pop();
+      await tabNavigatorKeys[currentTab]!.currentState!.push(
+            CupertinoPageRoute(
+              fullscreenDialog: false,
+              builder: (context) => RoutineDetailScreen(
+                database: widget.database,
+                routine: routine,
+                auth: widget.auth,
+                tag: 'addWorkoutToRoutine${routine.routineId}',
+                user: widget.user,
+              ),
+            ),
+          );
+      // Navigator.of(context).popUntil((route) => route.isFirst);
+      // await Navigator.of(context).pushReplacement(
+      //   CupertinoPageRoute(
+      //     fullscreenDialog: false,
+      //     builder: (context) => RoutineDetailScreen(
+      //       database: widget.database,
+      //       routine: routine,
+      //       auth: widget.auth,
+      //       tag: 'addWorkoutToRoutine${routine.routineId}',
+      //       user: widget.user,
+      //     ),
+      //   ),
+      // );
+      // await RoutineDetailScreen.show(
+      //   context,
+      //   routine: routine,
+      //   tag: '',
+      // );
+
+      // TODO: ADD snackbar here
+
+      // final locale = Intl.getCurrentLocale();
+      // final title = widget.workout.translated[locale];
+
+      // getSnackbarWidget(
+      //   S.current.addWorkout,
+      //   S.current.addWorkoutToRoutineSnackbarMessage(title),
+      // );
     } on Exception catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -143,6 +179,19 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
         message: S.current.emptyRoutineMessage,
+        button: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: kPrimaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            CreateNewRoutineScreen.show(context);
+          },
+          child: Text(S.current.createNewRoutine, style: kButtonText),
+        ),
       ),
       itemsPerPage: 10,
       header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),

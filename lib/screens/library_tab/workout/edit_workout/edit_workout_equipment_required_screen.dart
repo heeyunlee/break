@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -147,7 +148,10 @@ class _EditWorkoutEquipmentRequiredScreenState
 
         Navigator.of(context).pop();
 
-        // TODO: add snackbar HERE
+        getSnackbarWidget(
+          S.current.updateEquipmentRequiredTitle,
+          S.current.updateEquipmentRequiredMessage(S.current.workout),
+        );
       } on FirebaseException catch (e) {
         logger.e(e);
         await showExceptionAlertDialog(

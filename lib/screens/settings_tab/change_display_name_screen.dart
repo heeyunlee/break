@@ -123,9 +123,8 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
         //   await widget.database.batchUpdateWorkouts(workouts);
         // }
 
-        debugPrint('Updated Display Name');
+        logger.d('Updated Display Name');
 
-        // SnackBar
         getSnackbarWidget(
           S.current.updateDisplayNameSnackbarTitle,
           S.current.updateDisplayNameSnackbar,

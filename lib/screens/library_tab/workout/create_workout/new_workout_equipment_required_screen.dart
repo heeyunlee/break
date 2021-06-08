@@ -3,8 +3,6 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 
 import '../../../../constants.dart';
 
-// typedef ListCallback = void Function(List list);
-
 class NewWorkoutEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback equipmentRequiredCallback;
 

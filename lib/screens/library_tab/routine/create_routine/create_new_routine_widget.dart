@@ -7,7 +7,7 @@ import 'create_new_routine_screen.dart';
 class CreateNewRoutineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => CreateNewRoutineScreen.show(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -19,7 +19,6 @@ class CreateNewRoutineWidget extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                // color: kGrey800,
                 child: const Icon(
                   Icons.add_rounded,
                   color: Colors.white,

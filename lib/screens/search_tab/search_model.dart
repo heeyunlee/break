@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/services/main_provider.dart';
 
+// TODO: Extract Search Model HERE
+
 final searchModelProvider = ChangeNotifierProvider<SearchModel>(
   (ref) => SearchModel(),
 );

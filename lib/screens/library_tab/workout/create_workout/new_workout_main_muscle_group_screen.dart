@@ -3,10 +3,8 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 
 import '../../../../constants.dart';
 
-typedef StringCallback = void Function(List list);
-
 class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
-  final StringCallback mainMuscleGroupCallback;
+  final ListCallback mainMuscleGroupCallback;
 
   const NewWorkoutMainMuscleGroupScreen(
       {Key? key, required this.mainMuscleGroupCallback})

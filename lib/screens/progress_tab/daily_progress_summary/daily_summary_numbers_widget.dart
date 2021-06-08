@@ -12,6 +12,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
   final String? thousands;
   final String? tensOfTousands;
   final String unit;
+  final MainAxisAlignment? mainAxisAlignment;
 
   const DailySummaryNumbersWidget({
     Key? key,
@@ -23,12 +24,14 @@ class DailySummaryNumbersWidget extends StatelessWidget {
     this.hundreds = '0',
     this.thousands,
     this.tensOfTousands,
+    this.mainAxisAlignment = MainAxisAlignment.start,
     required this.unit,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: mainAxisAlignment!,
       children: [
         Text(title, style: kBodyText2),
         const SizedBox(height: 8),

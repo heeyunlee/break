@@ -5,9 +5,6 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../constants.dart';
 
-typedef StringCallback = void Function(String title);
-typedef IntCallback = void Function(int index);
-
 class NewRoutineTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;
   final IntCallback indexCallback;

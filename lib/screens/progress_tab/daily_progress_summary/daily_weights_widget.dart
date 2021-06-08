@@ -31,7 +31,6 @@ class DailyWeightsWidget extends ConsumerWidget {
     String _mainMuscleGroup = '-';
 
     return routineHistoriesStream.when(
-      // loading: () => Center(child: CircularProgressIndicator()),
       loading: () => Container(),
       error: (e, stack) {
         logger.e(e);

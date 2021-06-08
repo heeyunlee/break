@@ -339,8 +339,7 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                                 ),
                               ),
                               borderData: FlBorderData(show: false),
-                              barGroups: (widget
-                                      .user.dailyNutritionHistories!.isNotEmpty)
+                              barGroups: (streamData!.isNotEmpty)
                                   ? _barGroupsChild(widget.user, relativeYs)
                                   : randomData(),
                             ),

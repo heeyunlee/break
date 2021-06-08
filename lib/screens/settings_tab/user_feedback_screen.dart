@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -74,11 +75,16 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       );
       await widget.database.setUserFeedback(userFeedback);
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Thank you for your feedback!'),
-        duration: Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+
+      getSnackbarWidget(
+        S.current.submitUserFeedbackSnackbarTitle,
+        S.current.submitUserFeedbackSnackbarMessage,
+      );
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text('Thank you for your feedback!'),
+      //   duration: Duration(seconds: 2),
+      //   behavior: SnackBarBehavior.floating,
+      // ));
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

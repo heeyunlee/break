@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -15,6 +14,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../widgets/show_exception_alert_dialog.dart';
 import '../../constants.dart';
@@ -59,8 +59,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  late Mixpanel mixpanel;
-
   bool _showPreview = true;
   final locale = Intl.getCurrentLocale();
 
@@ -68,8 +66,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   /// SIGN IN WITH GOOGLE
   Future<void> _signInWithGoogle(BuildContext context) async {
-    debugPrint('sign in with google pressed');
-    mixpanel.track('sign up with Google pressed');
+    logger.d('sign in with google pressed');
+    MixpanelManager.track('sign up with Google pressed');
 
     try {
       await widget.signInBloc.signInWithGoogle();
@@ -103,6 +101,8 @@ class _SignInScreenState extends State<SignInScreen> {
           savedWorkouts: [],
         );
         await widget.database.setUser(userData);
+        // TODO: add snackbar HERE
+
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -111,6 +111,11 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.signInSnackbarMessage(user.displayName),
+        );
       }
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -120,8 +125,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   /// SIGN IN WITH FACEBOOK
   void _signInWithFacebook(BuildContext context) async {
-    debugPrint('sign in with facebook pressed');
-    mixpanel.track('sign up with Facebook pressed');
+    logger.d('sign in with facebook pressed');
+    MixpanelManager.track('sign up with Facebook pressed');
 
     try {
       await widget.signInBloc.signInWithFacebook();
@@ -155,6 +160,13 @@ class _SignInScreenState extends State<SignInScreen> {
           savedWorkouts: [],
         );
         await widget.database.setUser(userData);
+
+        // TODO: add snackbar HERE
+
+        // getSnackbarWidget(
+        //   title,
+        //   S.current.signInSnackbarMessage(userData.displayName),
+        // );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -163,6 +175,11 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.signInSnackbarMessage(user.displayName),
+        );
       }
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -173,7 +190,7 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH APPLE
   void _signInWithApple(BuildContext context) async {
     debugPrint('sign in with apple pressed');
-    mixpanel.track('sign up with Apple pressed');
+    MixpanelManager.track('sign up with Apple pressed');
 
     try {
       await widget.signInBloc.signInWithApple();
@@ -211,6 +228,8 @@ class _SignInScreenState extends State<SignInScreen> {
           savedWorkouts: [],
         );
         await widget.database.setUser(userData);
+        // TODO: add snackbar HERE
+
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -219,6 +238,11 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.signInSnackbarMessage(user.displayName),
+        );
       }
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -229,7 +253,7 @@ class _SignInScreenState extends State<SignInScreen> {
   /// SIGN IN WITH Kakao
   void _signInWithKakao(BuildContext context) async {
     debugPrint('sign in with Kakao triggered');
-    mixpanel.track('sign up with Kakao pressed');
+    MixpanelManager.track('sign up with Kakao pressed');
 
     try {
       await widget.signInBloc.signInWithKakao();
@@ -264,6 +288,9 @@ class _SignInScreenState extends State<SignInScreen> {
         );
 
         await widget.database.setUser(userData);
+
+        // TODO: add snackbar HERE
+
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -273,6 +300,11 @@ class _SignInScreenState extends State<SignInScreen> {
         };
 
         await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.signInSnackbarMessage(user.displayName),
+        );
       }
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -288,14 +320,15 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Future<void> initMixPanel() async {
-    mixpanel = await MixpanelManager.init();
-  }
+  // Future<Mixpanel> initMixPanel() async {
+  //   mixpanel = await MixpanelManager.init();
+  //   return mixpanel;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('sign in screen scaffold building...');
-    initMixPanel();
+    logger.d('sign in screen scaffold building...');
+    // initMixPanel();
 
     return Scaffold(
       extendBodyBehindAppBar: true,

@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
@@ -61,7 +61,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
         listOfYs.add(sum);
       });
 
-      final largest = listOfYs.reduce(max);
+      final largest = listOfYs.reduce(math.max);
 
       if (largest == 0) {
         _maxY = 20000;
@@ -86,7 +86,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   @override
   void initState() {
     super.initState();
-    print('weights lifted init');
+    // print('weights lifted init');
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {

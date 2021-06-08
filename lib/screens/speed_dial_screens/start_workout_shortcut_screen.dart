@@ -6,6 +6,7 @@ import 'package:workout_player/format.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import '../../widgets/appbar_blur_bg.dart';
 import '../../widgets/choice_chips_app_bar_widget.dart';
@@ -66,7 +67,7 @@ class _StartWorkoutShortcutScreenState
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('StartWorkoutShortcutScreen scaffold building...');
+    logger.d('StartWorkoutShortcutScreen scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,

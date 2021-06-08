@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -146,8 +147,6 @@ class _EditRoutineMainMuscleGroupScreenState
     } else {
       _selectedMainMuscleGroup.remove(key);
     }
-
-    debugPrint('$_selectedMainMuscleGroup');
   }
 
   Future<void> _submit() async {
@@ -164,8 +163,11 @@ class _EditRoutineMainMuscleGroupScreenState
         'mainMuscleGroup': _selectedMainMuscleGroup,
       };
       await widget.database.updateRoutine(widget.routine, routine);
-      debugPrint('$_selectedMainMuscleGroup');
-      // TODO: add snackbar here
+
+      getSnackbarWidget(
+        S.current.updateMainMuscleGroupTitle,
+        S.current.updateMainMuscleGroupMessage(S.current.routine),
+      );
     } on Exception catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

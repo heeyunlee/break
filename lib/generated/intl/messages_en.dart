@@ -19,27 +19,41 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(username) => "Delete ${username}\'s Account?";
+  static String m0(workoutTitle) => "Added ${workoutTitle} to this routine";
 
-  static String m1(chip) => "No ${chip} routines yet...";
+  static String m1(username) => "Delete ${username}\'s Account?";
 
-  static String m2(workout) => "No ${workout} workouts...";
+  static String m2(chip) => "No ${chip} routines yet...";
 
-  static String m3(displayName) => "Hello,\n${displayName}";
+  static String m3(workout) => "No ${workout} workouts...";
 
-  static String m4(muscle, equipment) => "${muscle} workout using ${equipment}";
+  static String m4(displayName) => "Hello,\n${displayName}";
 
-  static String m5(days) => "${days} days ago";
+  static String m5(muscle, equipment) => "${muscle} workout using ${equipment}";
 
-  static String m6(hours) => "${hours} hours ago";
+  static String m6(displayName) => "Welcome Back, ${displayName}!";
 
-  static String m7(minutes) => "${minutes} minutes ago";
+  static String m7(days) => "${days} days ago";
 
-  static String m8(seconds) => "${seconds} seconds ago";
+  static String m8(hours) => "${hours} hours ago";
 
-  static String m9(equipment) => "using ${equipment}";
+  static String m9(minutes) => "${minutes} minutes ago";
 
-  static String m10(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
+  static String m10(seconds) => "${seconds} seconds ago";
+
+  static String m11(dataType) =>
+      "Updated equipment required for the ${dataType}";
+
+  static String m12(dataType) => "Updated this ${dataType}\'s location";
+
+  static String m13(dataType) =>
+      "Updated main muscle group for this ${dataType}";
+
+  static String m14(dataType) => "Updated unit of mass for this ${dataType}";
+
+  static String m15(equipment) => "using ${equipment}";
+
+  static String m16(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -77,12 +91,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "addProteins": MessageLookupByLibrary.simpleMessage("Add Proteins"),
         "addSetsToWorkout": MessageLookupByLibrary.simpleMessage(
             "Add few sets to your workout"),
+        "addWorkout": MessageLookupByLibrary.simpleMessage("Add Workout"),
         "addWorkoutLog":
             MessageLookupByLibrary.simpleMessage("Add Log Workout"),
         "addWorkoutToRoutine":
             MessageLookupByLibrary.simpleMessage("Add workout to your routine"),
         "addWorkoutToRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
             "Added workout to the routine"),
+        "addWorkoutToRoutineSnackbarMessage": m0,
         "addWorkoutToRoutineSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Add Workout"),
         "addWorkoutkButtonText":
@@ -123,6 +139,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("By Muscle Group"),
         "cable": MessageLookupByLibrary.simpleMessage("Cable"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancelWorkoutSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage("Caneled the current workout"),
+        "cancelWorkoutSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Caneled Workout"),
         "cardio": MessageLookupByLibrary.simpleMessage("Cardio"),
         "chains": MessageLookupByLibrary.simpleMessage("Chains"),
         "chest": MessageLookupByLibrary.simpleMessage("Chest"),
@@ -158,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create New Workout"),
         "createNewWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("Created a new workout!"),
+        "createYourOwnRoutine":
+            MessageLookupByLibrary.simpleMessage("Create Your Own Routine"),
         "createYourOwnWorkout":
             MessageLookupByLibrary.simpleMessage("Create Your Own Workout"),
         "delete": MessageLookupByLibrary.simpleMessage("DELETE"),
@@ -165,7 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "We have successfully deleted your user data"),
         "deleteAccountSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
-        "deleteAccountTitle": m0,
+        "deleteAccountTitle": m1,
         "deleteAcocunt": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteBottomSheetMessage": MessageLookupByLibrary.simpleMessage(
             "It will delete your data permanently. You can\'t undo this process"),
@@ -187,6 +209,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Routine History"),
         "deleteRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a routine!"),
+        "deleteRoutineSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Routine"),
         "deleteRoutineWarningMessage": MessageLookupByLibrary.simpleMessage(
             "Are you sure? You can\'t undo this process"),
         "deleteRoutineWorkoutButton":
@@ -262,7 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Routine is empty!"),
         "emptyRoutineMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t created routines yet"),
-        "emptyroutinesContentTitle": m1,
+        "emptyroutinesContentTitle": m2,
         "endMiniplayerButtonText": MessageLookupByLibrary.simpleMessage("END"),
         "endWorkoutWarningMessage": MessageLookupByLibrary.simpleMessage(
             "Stop your workout? Data won\'t be saved"),
@@ -349,7 +373,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No routine Title!"),
         "noSavedRoutinesYet":
             MessageLookupByLibrary.simpleMessage("No saved routines yet..."),
-        "noWorkoutEmptyContent": m2,
+        "noWorkoutEmptyContent": m3,
         "noWorkoutSetTitle":
             MessageLookupByLibrary.simpleMessage("Add sets to your workout"),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
@@ -373,7 +397,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
-        "progressTabIntroduction": m3,
+        "progressTabIntroduction": m4,
         "proteinChartContentText": MessageLookupByLibrary.simpleMessage(
             "Getting your protein is as important as working out!"),
         "proteinEntriesEmptyMessage": MessageLookupByLibrary.simpleMessage(
@@ -427,7 +451,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "searchBarHintText":
             MessageLookupByLibrary.simpleMessage("Search Workouts"),
-        "searchResultSubtitle": m4,
+        "searchResultSubtitle": m5,
         "searchResultsEmptyText":
             MessageLookupByLibrary.simpleMessage("Search Result is Empty..."),
         "seconds": MessageLookupByLibrary.simpleMessage("s"),
@@ -455,8 +479,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "shoulder": MessageLookupByLibrary.simpleMessage("Shoulder"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signInFailed": MessageLookupByLibrary.simpleMessage("Sign In Failed"),
+        "signInSnackbarMessage": m6,
+        "signInSuccessful":
+            MessageLookupByLibrary.simpleMessage("Sign In Successful"),
         "signInWithEmail":
             MessageLookupByLibrary.simpleMessage("Sign In with Email"),
+        "signOutSnackbarMessage": MessageLookupByLibrary.simpleMessage(
+            "You have signed out of your account"),
+        "signOutSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Sign Out"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "signingIn": MessageLookupByLibrary.simpleMessage("Signing In..."),
         "skeletalMuscleMass":
@@ -478,13 +509,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Stop the workout"),
         "stretch": MessageLookupByLibrary.simpleMessage("Stretch"),
         "submit": MessageLookupByLibrary.simpleMessage("SUBMIT"),
+        "submitUserFeedbackSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Thank you for your feedback!"),
+        "submitUserFeedbackSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Feedback Submitted"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "terms": MessageLookupByLibrary.simpleMessage("Terms"),
+        "thisWeek": MessageLookupByLibrary.simpleMessage("This Week"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),
-        "timeDifferenceInDays": m5,
-        "timeDifferenceInHours": m6,
-        "timeDifferenceInMinutes": m7,
-        "timeDifferenceInSeconds": m8,
+        "timeDifferenceInDays": m7,
+        "timeDifferenceInHours": m8,
+        "timeDifferenceInMinutes": m9,
+        "timeDifferenceInSeconds": m10,
         "toNextSet": MessageLookupByLibrary.simpleMessage("To Next Set"),
         "toNextWorkout":
             MessageLookupByLibrary.simpleMessage("To Next Workout"),
@@ -511,27 +548,35 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Update Display Name"),
         "updateEmailSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully Updated Email!"),
-        "updateEquipmentRequiredRoutineMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "Updated equipment required for the routine"),
-        "updateEquipmentRequiredRoutineTitle":
+        "updateEquipmentRequiredMessage": m11,
+        "updateEquipmentRequiredTitle":
             MessageLookupByLibrary.simpleMessage("Updated Equipment Required"),
+        "updateLocationMessage": m12,
+        "updateLocationTitle": MessageLookupByLibrary.simpleMessage("Location"),
+        "updateMainMuscleGroupMessage": m13,
+        "updateMainMuscleGroupTitle":
+            MessageLookupByLibrary.simpleMessage("Main Muscle Group"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully updated notes"),
         "updateRoutineHistoryNotesSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Update Notes"),
+        "updateUnitOfMassMessage": m14,
+        "updateUnitOfMassUserMessage":
+            MessageLookupByLibrary.simpleMessage("Updated unit of mass"),
         "updateWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("Updated a Workout Info!"),
+        "updateWorkoutSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Update Workout"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("User Not Found"),
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "User was not found. Please check your email again."),
-        "usingEquipment": m9,
+        "usingEquipment": m15,
         "weights": MessageLookupByLibrary.simpleMessage("Weights"),
         "weightsChartMessage": MessageLookupByLibrary.simpleMessage(
             "Start working out now and see your progress!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("Please add weight data"),
-        "workedOutMainMuscleGroup": m10,
+        "workedOutMainMuscleGroup": m16,
         "workout": MessageLookupByLibrary.simpleMessage("Workout"),
         "workoutDifficultySliderText":
             MessageLookupByLibrary.simpleMessage("Workout Difficulty"),

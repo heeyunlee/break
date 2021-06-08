@@ -8,6 +8,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
 
 import '../../constants.dart';
 import 'search_result/search_result_list_tile.dart';
@@ -20,6 +21,7 @@ class SearchTab extends StatefulWidget {
 
 class _SearchTabState extends State<SearchTab> {
   late FloatingSearchBarController _controller;
+  // TODO: Extract search model HERE
   AlgoliaIndexReference algoliaIndexReference =
       AlgoliaManager.init().instance.index('dev_WORKOUTS');
   List<AlgoliaObjectSnapshot> searchResults = [];
@@ -62,6 +64,7 @@ class _SearchTabState extends State<SearchTab> {
           backgroundColor: kAppBarColor,
           brightness: Brightness.dark,
           elevation: 0,
+          flexibleSpace: AppbarBlurBG(),
         ),
       ),
       backgroundColor: kBackgroundColor,

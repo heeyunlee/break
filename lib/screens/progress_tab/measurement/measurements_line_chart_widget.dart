@@ -106,7 +106,7 @@ class _MeasurementsLineChartWidgetState
   @override
   void initState() {
     super.initState();
-    debugPrint('initiated');
+    // debugPrint('initiated');
 
     _today = DateTime.utc(_now.year, _now.month, _now.day);
 
@@ -124,7 +124,7 @@ class _MeasurementsLineChartWidgetState
   @override
   void dispose() {
     super.dispose();
-    debugPrint('disposed');
+    // debugPrint('disposed');
   }
 
   @override
@@ -150,7 +150,6 @@ class _MeasurementsLineChartWidgetState
     final auth = Provider.of<AuthBase>(context, listen: false);
 
     return CustomStreamBuilderWidget<List<Measurement>>(
-      initialData: [],
       stream: database.measurementsStreamThisWeek(auth.currentUser!.uid),
       hasDataWidget: (context, snapshot) {
         setMaxY(snapshot.data!);

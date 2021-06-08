@@ -3340,21 +3340,221 @@ class S {
     );
   }
 
-  /// `Updated equipment required for the routine`
-  String get updateEquipmentRequiredRoutineMessage {
+  /// `Updated equipment required for the {dataType}`
+  String updateEquipmentRequiredMessage(Object dataType) {
     return Intl.message(
-      'Updated equipment required for the routine',
-      name: 'updateEquipmentRequiredRoutineMessage',
+      'Updated equipment required for the $dataType',
+      name: 'updateEquipmentRequiredMessage',
+      desc: '',
+      args: [dataType],
+    );
+  }
+
+  /// `Updated Equipment Required`
+  String get updateEquipmentRequiredTitle {
+    return Intl.message(
+      'Updated Equipment Required',
+      name: 'updateEquipmentRequiredTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Updated Equipment Required`
-  String get updateEquipmentRequiredRoutineTitle {
+  /// `You have signed out of your account`
+  String get signOutSnackbarMessage {
     return Intl.message(
-      'Updated Equipment Required',
-      name: 'updateEquipmentRequiredRoutineTitle',
+      'You have signed out of your account',
+      name: 'signOutSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Out`
+  String get signOutSnackbarTitle {
+    return Intl.message(
+      'Sign Out',
+      name: 'signOutSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for your feedback!`
+  String get submitUserFeedbackSnackbarMessage {
+    return Intl.message(
+      'Thank you for your feedback!',
+      name: 'submitUserFeedbackSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback Submitted`
+  String get submitUserFeedbackSnackbarTitle {
+    return Intl.message(
+      'Feedback Submitted',
+      name: 'submitUserFeedbackSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome Back, {displayName}!`
+  String signInSnackbarMessage(Object displayName) {
+    return Intl.message(
+      'Welcome Back, $displayName!',
+      name: 'signInSnackbarMessage',
+      desc: '',
+      args: [displayName],
+    );
+  }
+
+  /// `This Week`
+  String get thisWeek {
+    return Intl.message(
+      'This Week',
+      name: 'thisWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Routine`
+  String get deleteRoutineSnackbarTitle {
+    return Intl.message(
+      'Delete Routine',
+      name: 'deleteRoutineSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated this {dataType}'s location`
+  String updateLocationMessage(Object dataType) {
+    return Intl.message(
+      'Updated this $dataType\'s location',
+      name: 'updateLocationMessage',
+      desc: '',
+      args: [dataType],
+    );
+  }
+
+  /// `Location`
+  String get updateLocationTitle {
+    return Intl.message(
+      'Location',
+      name: 'updateLocationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated main muscle group for this {dataType}`
+  String updateMainMuscleGroupMessage(Object dataType) {
+    return Intl.message(
+      'Updated main muscle group for this $dataType',
+      name: 'updateMainMuscleGroupMessage',
+      desc: '',
+      args: [dataType],
+    );
+  }
+
+  /// `Main Muscle Group`
+  String get updateMainMuscleGroupTitle {
+    return Intl.message(
+      'Main Muscle Group',
+      name: 'updateMainMuscleGroupTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated unit of mass for this {dataType}`
+  String updateUnitOfMassMessage(Object dataType) {
+    return Intl.message(
+      'Updated unit of mass for this $dataType',
+      name: 'updateUnitOfMassMessage',
+      desc: '',
+      args: [dataType],
+    );
+  }
+
+  /// `Added {workoutTitle} to this routine`
+  String addWorkoutToRoutineSnackbarMessage(Object workoutTitle) {
+    return Intl.message(
+      'Added $workoutTitle to this routine',
+      name: 'addWorkoutToRoutineSnackbarMessage',
+      desc: '',
+      args: [workoutTitle],
+    );
+  }
+
+  /// `Add Workout`
+  String get addWorkout {
+    return Intl.message(
+      'Add Workout',
+      name: 'addWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Workout`
+  String get updateWorkoutSnackbarTitle {
+    return Intl.message(
+      'Update Workout',
+      name: 'updateWorkoutSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Caneled the current workout`
+  String get cancelWorkoutSnackbarMessage {
+    return Intl.message(
+      'Caneled the current workout',
+      name: 'cancelWorkoutSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Caneled Workout`
+  String get cancelWorkoutSnackbarTitle {
+    return Intl.message(
+      'Caneled Workout',
+      name: 'cancelWorkoutSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated unit of mass`
+  String get updateUnitOfMassUserMessage {
+    return Intl.message(
+      'Updated unit of mass',
+      name: 'updateUnitOfMassUserMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In Successful`
+  String get signInSuccessful {
+    return Intl.message(
+      'Sign In Successful',
+      name: 'signInSuccessful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Your Own Routine`
+  String get createYourOwnRoutine {
+    return Intl.message(
+      'Create Your Own Routine',
+      name: 'createYourOwnRoutine',
       desc: '',
       args: [],
     );

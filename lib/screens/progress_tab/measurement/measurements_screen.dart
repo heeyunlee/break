@@ -102,8 +102,10 @@ class MeasurementsScreen extends StatelessWidget {
           // final documentId = documentSnapshot.id;
           // final data = documentSnapshot.data();
           // final measurement = Measurement.fromMap(data!, documentId);
-          final snapshot = documentSnapshot as DocumentSnapshot<Measurement?>;
-          final measurement = snapshot.data()!;
+          // final snapshot = documentSnapshot as DocumentSnapshot<Measurement?>;
+          // final measurement = snapshot.data()!;
+          final measurement = documentSnapshot.data()! as Measurement;
+
           final date = Format.yMdjm(measurement.loggedTime);
 
           final unit = Format.unitOfMass(user.unitOfMass);

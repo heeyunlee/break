@@ -5,12 +5,9 @@ import 'package:workout_player/models/enum/location.dart';
 
 import '../../../../constants.dart';
 
-typedef DoubleCallback = Function(double rating);
-typedef StringCallBack = Function(String location);
-
 class NewRoutineDifficultyAndMoreScreen extends StatefulWidget {
   final DoubleCallback ratingCallback;
-  final StringCallBack locationCallback;
+  final StringCallback locationCallback;
 
   const NewRoutineDifficultyAndMoreScreen({
     Key? key,

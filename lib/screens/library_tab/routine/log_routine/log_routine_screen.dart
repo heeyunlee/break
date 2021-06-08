@@ -8,6 +8,7 @@ import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/constants.dart';
 import 'package:workout_player/format.dart';
@@ -19,7 +20,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../home_screen_provider.dart';
 import 'log_routine_provider.dart';
 
 class LogRoutineScreen extends StatefulWidget {
@@ -235,15 +235,11 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
       Navigator.of(context).pop();
 
-      // TODO: add snackbar here
+      getSnackbarWidget(
+        '',
+        S.current.afterWorkoutSnackbar,
+      );
 
-      // ScaffoldMessenger.of(tabNavigatorKeys[currentTab]!.currentContext!)
-      //     .showSnackBar(
-      //   SnackBar(
-      //     behavior: SnackBarBehavior.floating,
-      //     content: Text(S.current.afterWorkoutSnackbar),
-      //   ),
-      // );
       context
           .read(miniplayerProviderNotifierProvider.notifier)
           .makeValuesNull();

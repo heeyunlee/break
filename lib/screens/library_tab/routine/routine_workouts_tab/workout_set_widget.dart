@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -137,15 +138,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       );
       await widget.database.updateRoutine(widget.routine, routine);
 
-      // TODO: add snackbar HERE
-
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(
-      //     (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
-      //   ),
-      //   duration: Duration(seconds: 2),
-      //   behavior: SnackBarBehavior.floating,
-      // ));
+      getSnackbarWidget(
+        '',
+        (set.isRest) ? S.current.deletedARestMessage : S.current.deletedASet,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

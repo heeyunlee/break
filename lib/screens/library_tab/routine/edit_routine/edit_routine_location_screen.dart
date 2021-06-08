@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
@@ -69,7 +70,10 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
       };
       await widget.database.updateRoutine(widget.routine, routine);
 
-      // TODO: add snackbar here
+      getSnackbarWidget(
+        S.current.updateLocationTitle,
+        S.current.updateLocationMessage(S.current.routine),
+      );
     } on FirebaseException catch (e) {
       logger.d(e);
       await showExceptionAlertDialog(

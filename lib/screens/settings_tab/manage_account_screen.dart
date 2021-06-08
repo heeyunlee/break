@@ -77,9 +77,6 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
         builder: (context, snapshot) {
           final user = snapshot.data;
 
-          // print(user);
-
-          // var context2 = context;
           return SingleChildScrollView(
             child: SizedBox(
               height: size.height,

@@ -10,4 +10,8 @@ class MixpanelManager {
     );
     return _instance!;
   }
+
+  static void track(String eventName) {
+    return _instance!.track(eventName);
+  }
 }

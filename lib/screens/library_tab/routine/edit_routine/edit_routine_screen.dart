@@ -15,6 +15,7 @@ import 'package:workout_player/screens/library_tab/routine/edit_routine/edit_rou
 import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
@@ -132,20 +133,15 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     try {
       await widget.database.deleteRoutine(routine);
 
-      // Navigation
       while (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       }
       tabNavigatorKeys[CustomTabItem.library]!.currentState!.pop();
 
-      // TODO: add snackbar here
-
-      // // SnackBar
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(S.current.deleteRoutineSnackbar),
-      //   duration: Duration(seconds: 2),
-      //   behavior: SnackBarBehavior.floating,
-      // ));
+      getSnackbarWidget(
+        S.current.deleteRoutineSnackbarTitle,
+        S.current.deleteRoutineSnackbar,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -177,11 +173,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         await HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(S.current.editRoutineSnackbar),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ));
+        getSnackbarWidget(
+          S.current.editRoutineTitle,
+          S.current.editRoutineSnackbar,
+        );
       } on FirebaseException catch (e) {
         await showExceptionAlertDialog(
           context,
@@ -194,7 +189,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('scaffold building...');
+    logger.d('edit routine scaffold building...');
 
     return StreamBuilder<Routine?>(
         initialData: widget.routine,
