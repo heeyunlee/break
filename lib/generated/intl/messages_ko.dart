@@ -62,7 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "about": MessageLookupByLibrary.simpleMessage("정보"),
         "abs": MessageLookupByLibrary.simpleMessage("복근"),
         "acceptingTerms": MessageLookupByLibrary.simpleMessage(
-            "\'계속하기\'버튼을 눌러 계정을 만들면 HēraKless의\n"),
+            "\'계속하기\'버튼을 눌러 계정을 만들면 Herakles의\n"),
         "acceptingTermsEmail":
             MessageLookupByLibrary.simpleMessage("계정을 만들면 Herakles의\n"),
         "account": MessageLookupByLibrary.simpleMessage("계정"),

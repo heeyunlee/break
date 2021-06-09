@@ -5,7 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -23,6 +24,7 @@ import 'package:workout_player/services/database.dart';
 import '../../../../constants.dart';
 import '../../../home_screen_provider.dart';
 import '../routine_detail_screen.dart';
+import 'create_new_routine_provider.dart';
 
 class CreateNewRoutineScreen extends StatefulWidget {
   const CreateNewRoutineScreen({
@@ -37,8 +39,8 @@ class CreateNewRoutineScreen extends StatefulWidget {
   final AuthBase auth;
 
   static Future<void> show(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -69,75 +71,16 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   int _pageIndex = 0;
 
   // Submit data to Firestore
-  Future<void> _submit() async {
-    logger.d('_submit button pressed!');
-
-    final routineId = documentIdFromCurrentDate();
-    final userId = widget.user.userId;
-    final userName = widget.user.displayName;
-    final initialUnitOfMass = widget.user.unitOfMass;
-    final lastEditedDate = Timestamp.now();
-    final routineCreatedDate = Timestamp.now();
-
-    try {
-      // Get Image Url
-      final ref = FirebaseStorage.instance.ref().child(
-            'workout-pictures/800by800',
-          );
-      final imageIndex = Random().nextInt(2);
-      final imageUrl = await ref
-          .child('${_selectedMainMuscleGroup[0]}${imageIndex}_800x800.jpeg')
-          .getDownloadURL();
-
-      // Create New Routine
-      final routine = Routine(
-        routineId: 'RT$routineId',
-        routineOwnerId: userId,
-        routineOwnerUserName: userName,
-        routineTitle: _routineTitle,
-        lastEditedDate: lastEditedDate,
-        routineCreatedDate: routineCreatedDate,
-        mainMuscleGroup: _selectedMainMuscleGroup,
-        secondMuscleGroup: null,
-        equipmentRequired: _selectedEquipmentRequired,
-        imageUrl: imageUrl,
-        trainingLevel: _rating.toInt(),
-        duration: 0,
-        totalWeights: 0,
-        averageTotalCalories: 0,
-        isPublic: true,
-        initialUnitOfMass: initialUnitOfMass,
-        location: _location,
-      );
-
-      await widget.database.setRoutine(routine);
-      Navigator.of(context).pop();
-      await tabNavigatorKeys[currentTab]!.currentState!.push(
-            CupertinoPageRoute(
-              fullscreenDialog: false,
-              builder: (context) => RoutineDetailScreen(
-                routine: routine,
-                auth: widget.auth,
-                database: widget.database,
-                user: widget.user,
-                tag: 'newRoutine-${routine.routineId}',
-              ),
-            ),
-          );
-
-      // TODO: add SnackBar
-
-      // getSnackbarWidget(
-      //   S.current.createNewRoutineSnackbarTitle,
-      //   S.current.createNewRoutineSnackbar,
-      // );
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+  Future<void> _submit(IsCreateRoutineButtonPressedNotifier isPressed) async {
+    switch (_pageIndex) {
+      case 0:
+        return saveTitle();
+      case 1:
+        return saveMainMuscleGroup();
+      case 2:
+        return saveEquipmentRequired();
+      case 3:
+        return submitToFirestore(isPressed);
     }
   }
 
@@ -189,9 +132,82 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     }
   }
 
-  void saveDifficultyAndMore() {
+  Future<void> submitToFirestore(
+      IsCreateRoutineButtonPressedNotifier isPressed) async {
     logger.d('saveDifficultyAndMore Pressed');
-    _submit();
+    logger.d('_submit button pressed!');
+
+    final routineId = documentIdFromCurrentDate();
+    final userId = widget.user.userId;
+    final userName = widget.user.displayName;
+    final initialUnitOfMass = widget.user.unitOfMass;
+    final lastEditedDate = Timestamp.now();
+    final routineCreatedDate = Timestamp.now();
+
+    try {
+      isPressed.toggleBoolValue();
+
+      // Get Image Url
+      final ref = FirebaseStorage.instance.ref().child(
+            'workout-pictures/800by800',
+          );
+      final imageIndex = Random().nextInt(2);
+      final imageUrl = await ref
+          .child('${_selectedMainMuscleGroup[0]}${imageIndex}_800x800.jpeg')
+          .getDownloadURL();
+
+      // Create New Routine
+      final routine = Routine(
+        routineId: 'RT$routineId',
+        routineOwnerId: userId,
+        routineOwnerUserName: userName,
+        routineTitle: _routineTitle,
+        lastEditedDate: lastEditedDate,
+        routineCreatedDate: routineCreatedDate,
+        mainMuscleGroup: _selectedMainMuscleGroup,
+        secondMuscleGroup: null,
+        equipmentRequired: _selectedEquipmentRequired,
+        imageUrl: imageUrl,
+        trainingLevel: _rating.toInt(),
+        duration: 0,
+        totalWeights: 0,
+        averageTotalCalories: 0,
+        isPublic: true,
+        initialUnitOfMass: initialUnitOfMass,
+        location: _location,
+      );
+
+      await widget.database.setRoutine(routine);
+
+      Navigator.of(context).pop();
+      await tabNavigatorKeys[currentTab]!.currentState!.push(
+            CupertinoPageRoute(
+              fullscreenDialog: false,
+              builder: (context) => RoutineDetailScreen(
+                routine: routine,
+                auth: widget.auth,
+                database: widget.database,
+                user: widget.user,
+                tag: 'newRoutine-${routine.routineId}',
+              ),
+            ),
+          );
+      isPressed.toggleBoolValue();
+
+      // TODO: add SnackBar
+
+      // getSnackbarWidget(
+      //   S.current.createNewRoutineSnackbarTitle,
+      //   S.current.createNewRoutineSnackbar,
+      // );
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
+    }
   }
 
   @override
@@ -280,28 +296,27 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   Widget _buildFAB() {
-    if (_pageIndex == 3) {
-      return FloatingActionButton.extended(
-        icon: const Icon(Icons.done, color: Colors.white),
-        backgroundColor: kPrimaryColor,
-        label: Text(S.current.finish, style: kButtonText),
-        onPressed: saveDifficultyAndMore,
-      );
-    } else {
-      return FloatingActionButton(
-        backgroundColor: kPrimaryColor,
-        onPressed: (_pageIndex == 0)
-            ? saveTitle
-            : (_pageIndex == 1)
-                ? saveMainMuscleGroup
-                : (_pageIndex == 2)
-                    ? saveEquipmentRequired
-                    : saveDifficultyAndMore,
-        child: const Icon(
-          Icons.arrow_forward_rounded,
-          color: Colors.white,
-        ),
-      );
-    }
+    return Consumer(builder: (context, watch, child) {
+      final isPressed = watch(isCreateRoutineButtonPressedProvider);
+
+      if (_pageIndex == 3) {
+        return FloatingActionButton.extended(
+          icon: const Icon(Icons.done, color: Colors.white),
+          backgroundColor: kPrimaryColor,
+          label: Text(S.current.finish, style: kButtonText),
+          onPressed:
+              (isPressed.isButtonPressed) ? null : () => _submit(isPressed),
+        );
+      } else {
+        return FloatingActionButton(
+          backgroundColor: kPrimaryColor,
+          onPressed: () => _submit(isPressed),
+          child: const Icon(
+            Icons.arrow_forward_rounded,
+            color: Colors.white,
+          ),
+        );
+      }
+    });
   }
 }

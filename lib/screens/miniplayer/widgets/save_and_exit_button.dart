@@ -13,7 +13,7 @@ import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../routine_history_summary_screen.dart';
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class SaveAndExitButton extends ConsumerWidget {
   final Future<User?> user;

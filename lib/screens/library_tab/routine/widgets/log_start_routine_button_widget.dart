@@ -6,7 +6,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/log_routine/log_routine_screen.dart';
-import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';

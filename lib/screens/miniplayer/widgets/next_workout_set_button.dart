@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
 
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class NextWorkoutSetButton extends ConsumerWidget {
   final double? iconSize;

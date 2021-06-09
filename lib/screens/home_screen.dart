@@ -15,7 +15,7 @@ import 'bottom_navigation_tab.dart';
 import 'home_screen_provider.dart';
 import 'library_tab/library_tab.dart';
 import 'miniplayer/workout_miniplayer.dart';
-import 'miniplayer/provider/workout_miniplayer_provider.dart';
+import 'miniplayer/workout_miniplayer_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

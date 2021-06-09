@@ -94,7 +94,7 @@ final miniplayerProviderNotifierProvider =
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);
 
-final double miniplayerMinHeight = 144;
+final double miniplayerMinHeight = 152;
 
 final miniplayerControllerProvider = StateProvider<MiniplayerController>(
   (ref) => MiniplayerController(),

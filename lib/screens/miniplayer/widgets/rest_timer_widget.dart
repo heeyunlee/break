@@ -1,86 +1,73 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/models/routine_workout.dart';
 
 import '../../../constants.dart';
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class RestTimerWidget extends ConsumerWidget {
   void _timerOnComplete(
-    BuildContext context, {
+    BuildContext context,
+    ScopedReader watch, {
     required CountDownController countdownController,
-    required MiniplayerIndexNotifier miniplayerIndex,
-    required IsWorkoutPausedNotifier isWorkoutPaused,
-    required List<RoutineWorkout?> routineWorkouts,
-    required RoutineWorkout routineWorkout,
-    required MiniplayerProviderNotifier miniplayerNotifier,
+    // required MiniplayerIndexNotifier miniplayerIndex,
+    // required IsWorkoutPausedNotifier isWorkoutPaused,
+    // required List<RoutineWorkout?> routineWorkouts,
+    // required RoutineWorkout routineWorkout,
+    // required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
     debugPrint('timer completed');
-    if (miniplayerIndex.currentIndex <= miniplayerIndex.routineLength) {
-      debugPrint('workout set is not last');
 
+    final miniplayerIndex = watch(miniplayerIndexProvider);
+    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    final isWorkoutPaused = watch(isWorkoutPausedProvider);
+
+    if (miniplayerIndex.currentIndex <= miniplayerIndex.routineLength) {
+      final miniplayerNotifier = watch(
+        miniplayerProviderNotifierProvider.notifier,
+      );
+
+      // Find length of routine workout
+      final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
       final routineWorkoutLength = routineWorkouts.length - 1;
+
+      // Find length of workout set
+      final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
       final workoutSetLength = routineWorkout.sets!.length - 1;
 
       miniplayerIndex.incrementCurrentIndex();
       isWorkoutPaused.setBoolean(false);
-      // setState(() {
-      //   // _isPaused = false;
-      //   // currentIndex++;
-      // });
+
+      // If workout set is NOT last
       if (miniplayerIndex.workoutSetIndex < workoutSetLength) {
         miniplayerIndex.incrementWorkoutSetIndex();
 
-        // set Workout Set
-        // context.read(currentWorkoutSetProvider).state =
-        //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
-        // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
-        //     routineWorkout.sets![miniplayerIndex.workoutSetIndex];
         miniplayerNotifier.setWorkoutSet(
           routineWorkout.sets![miniplayerIndex.workoutSetIndex],
         );
 
         final workoutSet =
             context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
-        // if (context.read(currentWorkoutSetProvider).state!.isRest) {
-        //   context.read(restTimerDurationProvider).state = Duration(
-        //     seconds:
-        //         context.read(currentWorkoutSetProvider).state!.restTime ?? 60,
-        //   );
-        // }
+
         if (workoutSet.isRest) {
           context.read(restTimerDurationProvider).state = Duration(
             seconds: workoutSet.restTime ?? 60,
           );
         }
       } else {
+        // If workout set is LAST && Routine Workout is NOT last
         if (miniplayerIndex.routineWorkoutIndex < routineWorkoutLength) {
           miniplayerIndex.setWorkoutSetIndex(0);
           miniplayerIndex.incrementRWIndex();
 
-          // set RW
-          // context.read(currentRoutineWorkoutProvider).state =
-          //     routineWorkouts[miniplayerIndex.routineWorkoutIndex];
-          // context
-          //         .read(miniplayerProviderNotifierProvider)
-          //         .currentRoutineWorkout =
-          //     routineWorkouts[miniplayerIndex.workoutSetIndex];
           miniplayerNotifier.setRoutineWorkout(
-            routineWorkouts[miniplayerIndex.workoutSetIndex],
+            routineWorkouts[miniplayerIndex.routineWorkoutIndex],
           );
 
-          // final newRoutineWorkout =
-          //     context.read(currentRoutineWorkoutProvider).state!;
           final newRoutineWorkout = context
               .read(miniplayerProviderNotifierProvider)
               .currentRoutineWorkout!;
 
-          // set Workout Set
-          // context.read(currentWorkoutSetProvider).state =
-          //     newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex];
-          // context.read(miniplayerProviderNotifierProvider).currentWorkoutSet =
-          //     newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex];
           miniplayerNotifier.setWorkoutSet(
             newRoutineWorkout.sets![miniplayerIndex.workoutSetIndex],
           );
@@ -104,14 +91,14 @@ class RestTimerWidget extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final countdownController = watch(miniplayerTimerControllerProvider).state;
     final timer = watch(restTimerDurationProvider).state;
-    final miniplayerIndex = watch(miniplayerIndexProvider);
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
-    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+    // final miniplayerIndex = watch(miniplayerIndexProvider);
+    // final isWorkoutPaused = watch(isWorkoutPausedProvider);
+    // final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+    // final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
+    // final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
 
-    final miniplayerNotifier =
-        watch(miniplayerProviderNotifierProvider.notifier);
+    // final miniplayerNotifier =
+    //     watch(miniplayerProviderNotifierProvider.notifier);
 
     return Center(
       child: Card(
@@ -134,13 +121,13 @@ class RestTimerWidget extends ConsumerWidget {
               isReverse: true,
               strokeWidth: 8,
               onComplete: () => _timerOnComplete(
-                context,
+                context, watch,
                 countdownController: countdownController,
-                miniplayerIndex: miniplayerIndex,
-                isWorkoutPaused: isWorkoutPaused,
-                routineWorkouts: routineWorkouts,
-                routineWorkout: routineWorkout,
-                miniplayerNotifier: miniplayerNotifier,
+                // miniplayerIndex: miniplayerIndex,
+                // isWorkoutPaused: isWorkoutPaused,
+                // routineWorkouts: routineWorkouts,
+                // routineWorkout: routineWorkout,
+                // miniplayerNotifier: miniplayerNotifier,
               ),
             ),
           ),

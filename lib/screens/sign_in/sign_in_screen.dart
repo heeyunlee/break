@@ -388,14 +388,17 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       )
                     : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('HēraKless', style: kHeadline3Menlo),
+                          Image.asset(
+                            'assets/logos/icon.png',
+                            width: size.width / 2,
+                          ),
                           const SizedBox(height: 8),
                           const Text(
-                            'wokrout. record. and share.',
-                            style: kSubtitle2Menlo,
+                            'Herakles: Workout Player',
+                            style: kSubtitle1Menlo,
                           ),
                         ],
                       ),

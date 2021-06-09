@@ -400,10 +400,10 @@ class S {
     );
   }
 
-  /// `HēraKless`
+  /// `Herakles`
   String get applicationName {
     return Intl.message(
-      'HēraKless',
+      'Herakles',
       name: 'applicationName',
       desc: '',
       args: [],

@@ -77,9 +77,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with TickerProviderStateMixin {
   //
   // For SliverApp to Work
-  late AnimationController _colorAnimationController;
+  // late AnimationController _colorAnimationController;
   late AnimationController _textAnimationController;
-  late Animation _colorTween;
+  // late Animation _colorTween;
   late Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
@@ -88,7 +88,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     debugPrint('scroll info is ${scrollInfo.metrics.pixels}');
 
     if (scrollInfo.metrics.axis == Axis.vertical) {
-      _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
+      // _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
       _textAnimationController
           .animateTo((scrollInfo.metrics.pixels - size.height / 2 + 48) / 50);
 
@@ -99,12 +99,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   @override
   void initState() {
-    _colorAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    // _colorAnimationController =
+    //     AnimationController(vsync: this, duration: Duration(seconds: 0));
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
-        .animate(_colorAnimationController);
+    // _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
+    //     .animate(_colorAnimationController);
     _transTween = Tween(begin: Offset(0, 40), end: Offset(0, 0))
         .animate(_textAnimationController);
     super.initState();
@@ -112,7 +112,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
   @override
   void dispose() {
-    _colorAnimationController.dispose();
+    // _colorAnimationController.dispose();
     _textAnimationController.dispose();
     super.dispose();
   }
@@ -182,7 +182,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final Size size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
-      animation: _colorAnimationController,
+      animation: _textAnimationController,
       builder: (context, child) {
         return SliverAppBar(
           leading: IconButton(
@@ -198,7 +198,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             offset: _transTween.value,
             child: child,
           ),
-          backgroundColor: _colorTween.value,
+          backgroundColor: kAppBarColor,
+          // backgroundColor: _colorTween.value,
           floating: false,
           pinned: true,
           snap: false,

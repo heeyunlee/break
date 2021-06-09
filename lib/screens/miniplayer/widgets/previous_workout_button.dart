@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class PreviousWorkoutButton extends ConsumerWidget {
   Future<void> _previousWorkout(

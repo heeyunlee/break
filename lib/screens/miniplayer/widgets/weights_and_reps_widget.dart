@@ -5,7 +5,7 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import '../../../constants.dart';
 import '../../../format.dart';
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class WeightsAndRepsWidget extends ConsumerWidget {
   final double width;

@@ -80,7 +80,7 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
               backgroundColor: _colorTween.value,
               title: Transform.translate(
                 offset: _transTween.value,
-                child: const Text('HēraKless', style: kSubtitle2MenloBold),
+                child: const Text('Herakles', style: kSubtitle2MenloBold),
               ),
             ),
           ),

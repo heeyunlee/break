@@ -4,17 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
 
-import '../provider/workout_miniplayer_provider.dart';
+import '../workout_miniplayer_provider.dart';
 
 class NextWRoutineorkoutButton extends ConsumerWidget {
   void _skipRoutineWorkout(
     BuildContext context,
     ScopedReader watch, {
     required List<RoutineWorkout?> routineWorkouts,
-    // required RoutineWorkout routineWorkout,
     required MiniplayerIndexNotifier miniplayerIndex,
-    // required IsWorkoutPausedNotifier isWorkoutPaused,
-    // required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
     final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
     final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
@@ -22,7 +19,6 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
     final miniplayerNotifier =
         watch(miniplayerProviderNotifierProvider.notifier);
 
-    // new Index = current index - workout set index + set.length
     if (miniplayerIndex.currentIndex < miniplayerIndex.routineLength) {
       final workoutSetLength = routineWorkout.sets!.length - 1;
       miniplayerIndex.setCurrentIndex(miniplayerIndex.currentIndex -
@@ -33,8 +29,10 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
 
     // set workout index to 0
     miniplayerIndex.setWorkoutSetIndex(0);
+
     // increase RW Index by 1
     miniplayerIndex.incrementRWIndex();
+
     // set is Workout Paused to false
     isWorkoutPaused.setBoolean(false);
 

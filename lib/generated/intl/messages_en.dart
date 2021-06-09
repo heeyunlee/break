@@ -118,7 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("CREATE\nYOUR\nOWN\nROUTINE"),
         "announcementCardTitle2":
             MessageLookupByLibrary.simpleMessage("SAVE\nYOUR\nPROGRESS"),
-        "applicationName": MessageLookupByLibrary.simpleMessage("HēraKless"),
+        "applicationName": MessageLookupByLibrary.simpleMessage("Herakles"),
         "arms": MessageLookupByLibrary.simpleMessage("Arms"),
         "atHome": MessageLookupByLibrary.simpleMessage("At Home"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),

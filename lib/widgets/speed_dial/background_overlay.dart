@@ -18,7 +18,7 @@ class BackgroundOverlay extends AnimatedWidget {
     // final Animation<double> animation = listenable as Animation<double>;
     return ClipRRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 5.0),
         child: Container(
           color: Colors.transparent,
           // color: color?.withOpacity(animation.value * opacity),

@@ -23,7 +23,7 @@ import 'widgets/next_workout_set_button.dart';
 import 'widgets/previous_workout_button.dart';
 import 'widgets/previous_workout_set_button.dart';
 import 'widgets/save_and_exit_button.dart';
-import 'provider/workout_miniplayer_provider.dart';
+import 'workout_miniplayer_provider.dart';
 
 class WorkoutMiniplayer extends ConsumerWidget {
   final Database database;

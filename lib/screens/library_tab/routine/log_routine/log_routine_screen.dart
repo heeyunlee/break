@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';

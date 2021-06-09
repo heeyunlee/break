@@ -163,6 +163,13 @@ const kSubtitle1 = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
+const kSubtitle1Menlo = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Colors.white,
+  letterSpacing: 0.15,
+  fontFamily: 'menlo',
+);
 const kSubtitle1Grey = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

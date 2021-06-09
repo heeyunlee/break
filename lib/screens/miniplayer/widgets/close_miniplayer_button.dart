@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/miniplayer/provider/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 
