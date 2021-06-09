@@ -70,7 +70,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 // Workout Player
                 AppPreviewWidget(
                   imageRoot: previewImages[osLocale]![3],
-                  subtitle: S.current.logYourWorkout,
+                  subtitle: S.current.WorkoutSeamlesslyWithWorkoutPlayer,
                 ),
               ],
             ),
@@ -111,7 +111,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: TextButton(
                   onPressed: () {
                     setState(() {
-                      if (_currentPage < 4) {
+                      if (_currentPage < 3) {
                         HapticFeedback.mediumImpact();
                         _currentPage++;
                         _pageController.animateToPage(
@@ -128,7 +128,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     });
                   },
                   child: Text(
-                    (_currentPage == 4) ? S.current.start : S.current.next,
+                    (_currentPage == 3) ? S.current.start : S.current.next,
                     style: kButtonText,
                   ),
                 ),
@@ -136,7 +136,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
               const SizedBox(width: 8),
             ],
           ),
-          const SizedBox(height: 38),
+          SizedBox(height: Platform.isIOS ? 38 : 8),
         ],
       ),
     );

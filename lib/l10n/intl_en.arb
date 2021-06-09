@@ -349,5 +349,6 @@
     "cancelWorkoutSnackbarTitle": "Caneled Workout",
     "updateUnitOfMassUserMessage": "Updated unit of mass",
     "signInSuccessful": "Sign In Successful",
-    "createYourOwnRoutine": "Create Your Own Routine"
+    "createYourOwnRoutine": "Create Your Own Routine",
+    "WorkoutSeamlesslyWithWorkoutPlayer": "Workout Seamlessly With Workout Player"
 }

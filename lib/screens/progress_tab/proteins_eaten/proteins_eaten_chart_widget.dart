@@ -424,13 +424,13 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
 
   List<BarChartGroupData> randomData() {
     return [
-      _makeBarChartGroupData(x: 0, y: 4, isTouched: touchedIndex == 0),
+      _makeBarChartGroupData(x: 0, y: 7, isTouched: touchedIndex == 0),
       _makeBarChartGroupData(x: 1, y: 6, isTouched: touchedIndex == 1),
       _makeBarChartGroupData(x: 2, y: 8.9, isTouched: touchedIndex == 2),
-      _makeBarChartGroupData(x: 3, y: 5, isTouched: touchedIndex == 3),
+      _makeBarChartGroupData(x: 3, y: 8, isTouched: touchedIndex == 3),
       _makeBarChartGroupData(x: 4, y: 6.8, isTouched: touchedIndex == 4),
       _makeBarChartGroupData(x: 5, y: 10, isTouched: touchedIndex == 5),
-      _makeBarChartGroupData(x: 6, y: 10, isTouched: touchedIndex == 6),
+      _makeBarChartGroupData(x: 6, y: 9, isTouched: touchedIndex == 6),
     ];
   }
 }

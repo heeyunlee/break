@@ -3559,6 +3559,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Workout Seamlessly With Workout Player`
+  String get WorkoutSeamlesslyWithWorkoutPlayer {
+    return Intl.message(
+      'Workout Seamlessly With Workout Player',
+      name: 'WorkoutSeamlesslyWithWorkoutPlayer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

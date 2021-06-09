@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -10,12 +12,12 @@ class AppPreviewShimmer extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: kBackgroundColor,
-      highlightColor: kBackgroundColor,
+      highlightColor: Colors.grey[800]!,
       child: Container(
-        height: size.height * 5 / 6,
-        width: size.width * 5 / 6,
+        height: size.height * 3 / 4,
+        width: size.width * 3 / 4,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(45),
+          borderRadius: BorderRadius.circular(Platform.isIOS ? 40 : 24),
           color: kCardColor,
         ),
       ),

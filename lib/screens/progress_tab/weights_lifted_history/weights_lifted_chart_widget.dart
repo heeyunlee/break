@@ -361,7 +361,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
     return [
       _makeBarChartGroupData(
         x: 0,
-        y: 5,
+        y: 8,
         isTouched: touchedIndex == 0,
       ),
       _makeBarChartGroupData(
@@ -376,7 +376,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
       ),
       _makeBarChartGroupData(
         x: 3,
-        y: 0,
+        y: 2,
         isTouched: touchedIndex == 3,
       ),
       _makeBarChartGroupData(
