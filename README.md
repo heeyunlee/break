@@ -1,1 +1,1 @@
-# HēraKless - Flutter App
+# Herakles - Workout Player
