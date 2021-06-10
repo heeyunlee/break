@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -68,8 +67,10 @@ class WorkoutsTab extends StatelessWidget {
         // final documentId = documentSnapshot.id;
         // final data = documentSnapshot.data()!;
         // final workout = Workout.fromJson(data, documentId);
-        final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
-        final workout = snapshot.data()!;
+        // final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
+        // final workout = snapshot.data()!;
+
+        final workout = documentSnapshot.data() as Workout;
 
         final locale = Intl.getCurrentLocale();
 
@@ -88,8 +89,7 @@ class WorkoutsTab extends StatelessWidget {
           imageUrl: workout.imageUrl,
           onTap: () => WorkoutDetailScreen.show(
             context,
-            workoutId: workout.workoutId,
-            isRootNavigation: false,
+            workout: workout,
             tag: 'savedWorkout${workout.workoutId}',
           ),
         );

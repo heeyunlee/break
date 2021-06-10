@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import '../constants.dart';
 
 class EmptyContent extends StatelessWidget {
+  final String? message;
+  final Widget? button;
+  final num sizeFactor;
+  final Object? e;
+
   const EmptyContent({
     Key? key,
     this.message,
     this.button,
     this.sizeFactor = 3,
+    this.e,
   }) : super(key: key);
-
-  final String? message;
-  final Widget? button;
-  final num sizeFactor;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    logger.e(e);
 
     return Container(
       width: size.width,

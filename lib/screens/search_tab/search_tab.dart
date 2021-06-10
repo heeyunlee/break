@@ -6,6 +6,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -131,21 +132,31 @@ class _SearchTabState extends State<SearchTab> {
             : SingleChildScrollView(
                 child: Column(
                   children: searchResults.map((e) {
+                    // TOOD: Parse data to Workout.fromJson without error
                     final data = e.data;
+                    final workoutId = data['workoutId'];
+
+                    // final workout = Workout.fromJson(data, workoutId);
 
                     final title = data['translated'][locale];
+                    // final title = workout.translated[locale];
 
                     final muscle = MainMuscleGroup.values
                         .firstWhere(
-                            (e) => e.toString() == data['mainMuscleGroup'][0])
+                          (e) => e.toString() == data['mainMuscleGroup'][0],
+                          // (e) => e.toString() == workout.mainMuscleGroup[0],
+                        )
                         .translation!;
 
                     final equipment = EquipmentRequired.values
                         .firstWhere(
-                            (e) => e.toString() == data['equipmentRequired'][0])
+                          (e) => e.toString() == data['equipmentRequired'][0],
+                          // (e) => e.toString() == workout.equipmentRequired[0],
+                        )
                         .translation!;
 
-                    final workoutId = data['workoutId'];
+                    // final s = 2;
+                    // print(s.toInt());
 
                     return SearchResultListTile(
                       title: title,

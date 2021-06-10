@@ -115,16 +115,17 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           'fr': 'Nom de l\'entraînement',
           'ko': '운동 이름'
         },
+        tags: [],
       );
       await widget.database.setWorkout(workout);
 
       Navigator.of(context).pop();
       await tabNavigatorKeys[currentTab]!.currentState!.push(
             CupertinoPageRoute(
-              fullscreenDialog: false,
               builder: (context) => WorkoutDetailScreen(
-                workoutId: workout.workoutId,
+                workout: workout,
                 database: widget.database,
+                auth: widget.auth,
                 tag: 'newWorkout-${workout.workoutId}',
                 user: widget.user,
               ),

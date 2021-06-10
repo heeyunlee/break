@@ -9,7 +9,6 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/equipment_required_widget.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/location_widget.dart';
-import 'package:workout_player/screens/library_tab/routine/widgets/save_button_button_widget.dart';
 import 'package:workout_player/screens/library_tab/routine/widgets/title_widget.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -26,6 +25,7 @@ import 'routine_workouts_tab/routine_workouts_tab.dart';
 import 'widgets/description_widget.dart';
 import 'widgets/log_start_routine_button_widget.dart';
 import 'widgets/main_muscle_group_widget.dart';
+import 'widgets/save_button_widget.dart';
 import 'widgets/subtitle_widget.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
@@ -296,7 +296,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           ),
           actions: [
             if (widget.auth.currentUser!.uid != routine.routineOwnerId)
-              SaveButtonButtonWidget(
+              SaveButtonWidget(
                 user: widget.user,
                 database: widget.database,
                 auth: widget.auth,

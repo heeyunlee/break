@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,10 +131,14 @@ class SearchCategoryScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
-        // final documentId = snapshot.id;
-        final workout = snapshot.data()!;
+        // final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
+        // // final documentId = snapshot.id;
+        // final workout = snapshot.data()!;
+
         // final workout = Workout.fromJson(data!, documentId);
+
+        final workout = documentSnapshot.data() as Workout;
+
         final leadingText = EquipmentRequired.values
             .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
             .translation;
@@ -155,8 +158,7 @@ class SearchCategoryScreen extends StatelessWidget {
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
             context,
-            workoutId: workout.workoutId,
-            isRootNavigation: false,
+            workout: workout,
             tag: 'MoreScreen-${workout.workoutId}',
           ),
         );

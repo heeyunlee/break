@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
@@ -10,18 +10,18 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-class SaveButtonButtonWidget extends StatelessWidget {
+class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
   final User user;
   final Database database;
   final AuthBase auth;
-  final Routine routine;
+  final Workout workout;
 
-  const SaveButtonButtonWidget({
+  const SaveUnsaveWorkoutButtonWidget({
     Key? key,
     required this.user,
     required this.database,
     required this.auth,
-    required this.routine,
+    required this.workout,
   }) : super(key: key);
 
   @override
@@ -32,9 +32,9 @@ class SaveButtonButtonWidget extends StatelessWidget {
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data!;
 
-        if (user.savedRoutines != null) {
-          if (user.savedRoutines!.isNotEmpty) {
-            if (user.savedRoutines!.contains(routine.routineId)) {
+        if (user.savedWorkouts != null) {
+          if (user.savedWorkouts!.isNotEmpty) {
+            if (user.savedWorkouts!.contains(workout.workoutId)) {
               return _unsaveButton(context);
             } else {
               return _saveButton(context);
@@ -60,7 +60,7 @@ class SaveButtonButtonWidget extends StatelessWidget {
       onPressed: () async {
         try {
           final user = {
-            'savedRoutines': FieldValue.arrayUnion([routine.routineId]),
+            'savedWorkouts': FieldValue.arrayUnion([workout.workoutId]),
           };
 
           await database.updateUser(auth.currentUser!.uid, user);
@@ -70,7 +70,7 @@ class SaveButtonButtonWidget extends StatelessWidget {
             S.current.savedRoutineSnackbar,
           );
 
-          logger.i('added routine to saved routine');
+          logger.d('added routine to saved routine');
         } on FirebaseException catch (e) {
           logger.e(e);
           await showExceptionAlertDialog(
@@ -91,7 +91,7 @@ class SaveButtonButtonWidget extends StatelessWidget {
       ),
       onPressed: () async {
         final user = {
-          'savedRoutines': FieldValue.arrayRemove([routine.routineId]),
+          'savedWorkouts': FieldValue.arrayRemove([workout.workoutId]),
         };
 
         await database.updateUser(auth.currentUser!.uid, user);
@@ -101,7 +101,7 @@ class SaveButtonButtonWidget extends StatelessWidget {
           S.current.unsavedRoutineSnackbar,
         );
 
-        logger.i('Removed routine from saved routine');
+        logger.d('Removed routine from saved routine');
       },
     );
   }
