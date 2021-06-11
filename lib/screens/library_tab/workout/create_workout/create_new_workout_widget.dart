@@ -9,7 +9,7 @@ class CreateNewWorkoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('CreateNewWorkoutWidget building...');
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => CreateNewWorkoutScreen.show(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

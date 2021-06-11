@@ -350,5 +350,6 @@
     "updateUnitOfMassUserMessage": "Updated unit of mass",
     "signInSuccessful": "Sign In Successful",
     "createYourOwnRoutine": "Create Your Own Routine",
-    "WorkoutSeamlesslyWithWorkoutPlayer": "Workout Seamlessly With Workout Player"
+    "WorkoutSeamlesslyWithWorkoutPlayer": "Workout Seamlessly With Workout Player",
+    "todayIs": "Today Is \n{today}"
 }

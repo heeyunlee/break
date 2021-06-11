@@ -371,7 +371,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.newline,
               controller: _textController2,
               style: kBodyText2,
               focusNode: focusNode2,

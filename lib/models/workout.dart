@@ -22,6 +22,7 @@ class Workout {
   final Map<String, dynamic> translated;
   final String? thumbnailImageUrl; // Nullable
   final List<dynamic>? tags; // Nullable
+  final Map<String, dynamic>? translatedDescription; // Nullable
 
   const Workout({
     required this.workoutId,
@@ -45,6 +46,7 @@ class Workout {
     required this.translated,
     this.thumbnailImageUrl,
     this.tags,
+    this.translatedDescription,
   });
 
   factory Workout.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -78,6 +80,8 @@ class Workout {
       final Map<String, dynamic> translated = data['translated'];
       final String? thumbnailImageUrl = data['thumbnailImageUrl'];
       final List<dynamic>? tags = data['tags'];
+      final Map<String, dynamic>? translatedDescription =
+          data['translatedDescription'];
 
       return Workout(
         workoutId: documentId,
@@ -101,6 +105,7 @@ class Workout {
         translated: translated,
         thumbnailImageUrl: thumbnailImageUrl,
         tags: tags,
+        translatedDescription: translatedDescription,
       );
     } else {
       throw 'null';
@@ -129,6 +134,7 @@ class Workout {
       'translated': translated,
       'thumbnailImageUrl': thumbnailImageUrl,
       'tags': tags,
+      'translatedDescription': translatedDescription,
     };
   }
 }

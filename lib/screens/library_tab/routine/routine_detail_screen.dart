@@ -74,46 +74,43 @@ class RoutineDetailScreen extends StatefulWidget {
 }
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   //
-  // For SliverApp to Work
-  // late AnimationController _colorAnimationController;
+  // For SliverApp Animation
   late AnimationController _textAnimationController;
-  // late Animation _colorTween;
   late Animation<Offset> _transTween;
-
-  bool _scrollListener(ScrollNotification scrollInfo) {
-    final size = MediaQuery.of(context).size;
-
-    debugPrint('scroll info is ${scrollInfo.metrics.pixels}');
-
-    if (scrollInfo.metrics.axis == Axis.vertical) {
-      // _colorAnimationController.animateTo(scrollInfo.metrics.pixels);
-      _textAnimationController
-          .animateTo((scrollInfo.metrics.pixels - size.height / 2 + 48) / 50);
-
-      return true;
-    }
-    return false;
-  }
+  late Animation<double> _opacityTween;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
-    // _colorAnimationController =
-    //     AnimationController(vsync: this, duration: Duration(seconds: 0));
-    _textAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
-    // _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
-    //     .animate(_colorAnimationController);
-    _transTween = Tween(begin: Offset(0, 40), end: Offset(0, 0))
-        .animate(_textAnimationController);
     super.initState();
+
+    _textAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 0),
+    );
+
+    _transTween = Tween(begin: Offset(0, 24), end: Offset(0, 0))
+        .animate(_textAnimationController);
+
+    _opacityTween =
+        Tween<double>(begin: 0, end: 1).animate(_textAnimationController);
+
+    _scrollController = ScrollController()
+      ..addListener(() {
+        debugPrint('offset is ${_scrollController.offset}');
+
+        _textAnimationController
+            .animateTo((_scrollController.offset - 336) / 100);
+      });
   }
 
   @override
   void dispose() {
-    // _colorAnimationController.dispose();
     _textAnimationController.dispose();
+    _scrollController.dispose();
+
     super.dispose();
   }
   // For SliverApp to Work
@@ -139,31 +136,29 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               logger.e(e);
               return EmptyContent();
             },
-            data: (routine) => NotificationListener<ScrollNotification>(
-              onNotification: _scrollListener,
-              child: DefaultTabController(
-                length: 2,
-                child: NestedScrollView(
-                  clipBehavior: Clip.antiAlias,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      _buildSliverAppBar(routine!, routineWorkoutStream),
-                    ];
-                  },
-                  body: TabBarView(
-                    children: [
-                      RoutineWorkoutsTab(
-                        auth: widget.auth,
-                        database: widget.database,
-                        routine: routine!,
-                      ),
-                      RoutineHistoryTab(
-                        routine: routine,
-                        auth: widget.auth,
-                        database: widget.database,
-                      ),
-                    ],
-                  ),
+            data: (routine) => DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                controller: _scrollController,
+                clipBehavior: Clip.antiAlias,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    _buildSliverAppBar(routine!, routineWorkoutStream),
+                  ];
+                },
+                body: TabBarView(
+                  children: [
+                    RoutineWorkoutsTab(
+                      auth: widget.auth,
+                      database: widget.database,
+                      routine: routine!,
+                    ),
+                    RoutineHistoryTab(
+                      routine: routine,
+                      auth: widget.auth,
+                      database: widget.database,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -196,10 +191,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           brightness: Brightness.dark,
           title: Transform.translate(
             offset: _transTween.value,
-            child: child,
+            child: Opacity(
+              opacity: _opacityTween.value,
+              child: child,
+            ),
           ),
           backgroundColor: kAppBarColor,
-          // backgroundColor: _colorTween.value,
           floating: false,
           pinned: true,
           snap: false,

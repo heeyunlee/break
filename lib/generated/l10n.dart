@@ -3569,6 +3569,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Today Is \n{today}`
+  String todayIs(Object today) {
+    return Intl.message(
+      'Today Is \n$today',
+      name: 'todayIs',
+      desc: '',
+      args: [today],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

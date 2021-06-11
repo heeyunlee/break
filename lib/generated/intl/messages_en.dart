@@ -41,19 +41,21 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(seconds) => "${seconds} seconds ago";
 
-  static String m11(dataType) =>
+  static String m11(today) => "Today Is \n${today}";
+
+  static String m12(dataType) =>
       "Updated equipment required for the ${dataType}";
 
-  static String m12(dataType) => "Updated this ${dataType}\'s location";
+  static String m13(dataType) => "Updated this ${dataType}\'s location";
 
-  static String m13(dataType) =>
+  static String m14(dataType) =>
       "Updated main muscle group for this ${dataType}";
 
-  static String m14(dataType) => "Updated unit of mass for this ${dataType}";
+  static String m15(dataType) => "Updated unit of mass for this ${dataType}";
 
-  static String m15(equipment) => "using ${equipment}";
+  static String m16(equipment) => "using ${equipment}";
 
-  static String m16(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
+  static String m17(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -532,6 +534,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("To previous set"),
         "toPreviousWorkout":
             MessageLookupByLibrary.simpleMessage("To Previous Workout"),
+        "todayIs": m11,
         "todaysWorkoutSummary":
             MessageLookupByLibrary.simpleMessage("Today\'s Workout Summary: "),
         "totalVolumeHintText":
@@ -551,19 +554,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Update Display Name"),
         "updateEmailSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully Updated Email!"),
-        "updateEquipmentRequiredMessage": m11,
+        "updateEquipmentRequiredMessage": m12,
         "updateEquipmentRequiredTitle":
             MessageLookupByLibrary.simpleMessage("Updated Equipment Required"),
-        "updateLocationMessage": m12,
+        "updateLocationMessage": m13,
         "updateLocationTitle": MessageLookupByLibrary.simpleMessage("Location"),
-        "updateMainMuscleGroupMessage": m13,
+        "updateMainMuscleGroupMessage": m14,
         "updateMainMuscleGroupTitle":
             MessageLookupByLibrary.simpleMessage("Main Muscle Group"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully updated notes"),
         "updateRoutineHistoryNotesSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Update Notes"),
-        "updateUnitOfMassMessage": m14,
+        "updateUnitOfMassMessage": m15,
         "updateUnitOfMassUserMessage":
             MessageLookupByLibrary.simpleMessage("Updated unit of mass"),
         "updateWorkoutSnackbar":
@@ -573,13 +576,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFound": MessageLookupByLibrary.simpleMessage("User Not Found"),
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "User was not found. Please check your email again."),
-        "usingEquipment": m15,
+        "usingEquipment": m16,
         "weights": MessageLookupByLibrary.simpleMessage("Weights"),
         "weightsChartMessage": MessageLookupByLibrary.simpleMessage(
             "Start working out now and see your progress!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("Please add weight data"),
-        "workedOutMainMuscleGroup": m16,
+        "workedOutMainMuscleGroup": m17,
         "workout": MessageLookupByLibrary.simpleMessage("Workout"),
         "workoutDifficultySliderText":
             MessageLookupByLibrary.simpleMessage("Workout Difficulty"),

@@ -4,10 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/screens/library_tab/routine/widgets/title_widget.dart';
 import 'package:workout_player/screens/library_tab/workout/widget/save_unsave_workout_button_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -19,10 +17,12 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../constants.dart';
 import 'add_workout_to_routine_screen.dart';
 import 'edit_workout/edit_workout_screen.dart';
 import 'widget/workout_title_widget.dart';
+import 'workout_tips/workout_youtube_tips_widget.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   final Workout? workout;
@@ -71,18 +71,45 @@ class WorkoutDetailScreen extends StatefulWidget {
   _WorkoutDetailScreenState createState() => _WorkoutDetailScreenState();
 }
 
-class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
-  final List<String> _tabs = ['Instructions', 'Tips'];
-  // PageController _pageController = PageController();
+class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
+    with TickerProviderStateMixin {
+  final List<String> _tabs = ['Overview', 'Tips'];
+
+  late ScrollController _scrollController;
+  late AnimationController _textAnimationController;
+  late Animation<Offset> _transTween;
+  late Animation<double> _opacityTween;
+
+  final locale = Intl.getCurrentLocale();
+
   @override
   void initState() {
     super.initState();
-    debugPrint('workout detail screen init');
+
+    _textAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+
+    _transTween = Tween(begin: Offset(0, 24), end: Offset(0, 0))
+        .animate(_textAnimationController);
+
+    _opacityTween = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_textAnimationController);
+
+    _scrollController = ScrollController()
+      ..addListener(() {
+        debugPrint('offset is ${_scrollController.offset}');
+
+        _textAnimationController
+            .animateTo((_scrollController.offset - 200) / 100);
+      });
   }
 
   @override
   void dispose() {
-    debugPrint('workout detail screen dispose');
+    _textAnimationController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -101,38 +128,21 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               message: S.current.somethingWentWrong,
               e: e,
             ),
-            data: (data) => NotificationListener<ScrollNotification>(
-              key: Key('asd'),
-              onNotification: (scroll) {
-                print('scroll is ${scroll.metrics.pixels}');
-
-                return false;
-              },
-              child: DefaultTabController(
-                length: 2,
-                child: NestedScrollView(
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
-                    return [
-                      SliverOverlapAbsorber(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context,
-                        ),
-                        sliver: _buildSliverAppBar(
-                          context,
-                          data!,
-                          innerBoxIsScrolled,
-                        ),
-                      ),
-                    ];
-                  },
-                  body: _buildSliverToBoxAdapter(data!),
-
-                  // slivers: [
-                  //   _buildSliverAppBar(context, data!),
-                  //   _buildSliverToBoxAdapter(data),
-                  // ],
-                ),
+            data: (data) => DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                controller: _scrollController,
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    _buildSliverAppBar(
+                      context,
+                      data!,
+                      innerBoxIsScrolled,
+                    ),
+                  ];
+                },
+                body: _buildTabBarView(data!),
               ),
             ),
           );
@@ -147,67 +157,75 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     bool innerBoxIsScrolled,
   ) {
     final size = MediaQuery.of(context).size;
-    return SliverAppBar(
-      key: Key('asd'),
-      forceElevated: innerBoxIsScrolled,
-      brightness: Brightness.dark,
-      leading: IconButton(
-        icon: const Icon(
-          Icons.arrow_back_rounded,
-          color: Colors.white,
+
+    final title = workout.translated[locale] ?? workout.workoutTitle;
+
+    return AnimatedBuilder(
+      animation: _textAnimationController,
+      builder: (context, child) => SliverAppBar(
+        forceElevated: innerBoxIsScrolled,
+        brightness: Brightness.dark,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      backgroundColor: kAppBarColor,
-      floating: false,
-      pinned: true,
-      snap: false,
-      stretch: true,
-      expandedHeight: size.height / 2,
-      centerTitle: true,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(48),
-        child: Container(
-          color: kAppBarColor,
-          child: TabBar(
-            labelColor: Colors.white,
-            unselectedLabelColor: kGrey400,
-            indicatorColor: kPrimaryColor,
-            tabs: _tabs.map((e) => Tab(text: e)).toList(),
-            // tabs: [
-            //   Tab(text: 'Instructions'),
-            //   Tab(text: 'Histories'),
-            // ],
+        title: Transform.translate(
+          offset: _transTween.value,
+          child: Opacity(
+            opacity: _opacityTween.value,
+            child: child,
           ),
         ),
-      ),
-      actions: <Widget>[
-        if (widget.user.userId != workout.workoutOwnerId)
-          SaveUnsaveWorkoutButtonWidget(
-            user: widget.user,
-            database: widget.database,
-            auth: widget.auth,
-            workout: workout,
-          ),
-        if (widget.user.userId == workout.workoutOwnerId)
-          IconButton(
-            icon: const Icon(Icons.edit_rounded, color: Colors.white),
-            onPressed: () => EditWorkoutScreen.show(
-              context,
-              workout: workout,
+        backgroundColor: kAppBarColor,
+        floating: false,
+        pinned: true,
+        snap: false,
+        stretch: true,
+        expandedHeight: size.height / 2,
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48),
+          child: Container(
+            color: kAppBarColor,
+            child: TabBar(
+              labelColor: Colors.white,
+              unselectedLabelColor: kGrey400,
+              indicatorColor: kPrimaryColor,
+              tabs: _tabs.map((e) => Tab(text: e)).toList(),
             ),
           ),
-        const SizedBox(width: 8),
-      ],
-      flexibleSpace: _buildFlexibleSpaceBarWidget(workout),
+        ),
+        actions: <Widget>[
+          if (widget.user.userId != workout.workoutOwnerId)
+            SaveUnsaveWorkoutButtonWidget(
+              user: widget.user,
+              database: widget.database,
+              auth: widget.auth,
+              workout: workout,
+            ),
+          if (widget.user.userId == workout.workoutOwnerId)
+            IconButton(
+              icon: const Icon(Icons.edit_rounded, color: Colors.white),
+              onPressed: () => EditWorkoutScreen.show(
+                context,
+                workout: workout,
+              ),
+            ),
+          const SizedBox(width: 8),
+        ],
+        flexibleSpace: _buildFlexibleSpaceBarWidget(workout),
+      ),
+      child: Text(title, style: kSubtitle1),
     );
   }
 
   Widget _buildFlexibleSpaceBarWidget(Workout workout) {
     final size = MediaQuery.of(context).size;
-    final locale = Intl.getCurrentLocale();
     final mainMuscleGroup = MainMuscleGroup.values
         .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
         .translation!;
@@ -215,7 +233,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
         .translation!;
     final difficulty = Format.difficulty(workout.difficulty)!;
-    final description = workout.description;
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -234,38 +251,20 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
               gradient: LinearGradient(
                 begin: Alignment(0.0, -0.75),
                 end: Alignment(0.0, 0.75),
-                // end: Alignment.bottomCenter,
                 colors: [
-                  // kBackgroundColor.withOpacity(0.5),
                   Colors.transparent,
                   kAppBarColor,
                 ],
               ),
             ),
           ),
-          // Center(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(16.0),
-          //     child: Text(
-          //       workout.translated[locale],
-          //       textAlign: TextAlign.center,
-          //       style: GoogleFonts.blackHanSans(
-          //         color: Colors.white,
-          //         fontSize: 40,
-          //       ),
-          //       maxLines: 2,
-          //       overflow: TextOverflow.ellipsis,
-          //       softWrap: true,
-          //     ),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                WorkoutTitleWidget(title: workout.translated[locale]),
+                WorkoutTitleWidget(workout: workout),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -327,14 +326,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                     ),
                   ],
                 ),
-                // const SizedBox(height: 24),
-                // Text(
-                //   description,
-                //   style: kBodyText2LightGrey,
-                //   maxLines: 5,
-                //   overflow: TextOverflow.ellipsis,
-                //   softWrap: false,
-                // ),
                 const SizedBox(height: 24),
                 MaxWidthRaisedButton(
                   width: double.infinity,
@@ -359,60 +350,56 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     );
   }
 
-  Widget _buildSliverToBoxAdapter(Workout workout) {
+  Widget _buildTabBarView(Workout workout) {
+    // print(locale);
+    // print(workout.translatedDescription);
+    // print(workout.translatedDescription?[locale]);
+
+    // final String description =
+    //     workout.translatedDescription?[locale] ?? workout.description;
+
+    // final s = YoutubePlayer.convertUrlToId(
+    //     'https://www.youtube.com/watch?v=Ia9DYFMkMmU');
+
     return TabBarView(
-      children: _tabs
-          .map(
-            (e) => Builder(
-              builder: (BuildContext context) => CustomScrollView(
-                key: PageStorageKey<String>(e),
-                slivers: [
-                  SliverOverlapInjector(
-                    // This is the flip side of the SliverOverlapAbsorber
-                    // above.
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                  ),
-                  SliverPadding(
-                    padding: EdgeInsets.all(16),
-                    sliver: Column(
-                      children: [
-                        Placeholder(),
-                        Placeholder(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // Text(description, style: kBodyText1),
+                Placeholder(),
+                Placeholder(),
+              ],
             ),
-          )
-          .toList(),
-      // children: [
-      //   SingleChildScrollView(
-      //     child: Column(
-      //       children: [
-      //         Placeholder(),
-      //         Placeholder(),
-      //       ],
-      //     ),
-      //   ),
-      //   SingleChildScrollView(
-      //     child: Column(
-      //       children: [
-      //         Placeholder(),
-      //         Placeholder(),
-      //       ],
-      //     ),
-      //   ),
-      // ],
+          ),
+        ),
+        Column(
+          children: [
+            Placeholder(),
+            Placeholder(),
+          ],
+        ),
+        // YoutubePlayerBuilder(
+        //   player: YoutubePlayer(
+        //     controller: YoutubePlayerController(initialVideoId: s!),
+        //     // controller: _controller,
+        //     showVideoProgressIndicator: true,
+        //     progressIndicatorColor: Colors.amber,
+        //     onReady: () {
+        //       // _controller.addListener(listener);
+        //     },
+        //   ),
+        //   builder: (context, player) => Column(
+        //     children: [
+        //       player,
+        //       Placeholder(),
+        //       Placeholder(),
+        //     ],
+        //   ),
+        // ),
+      ],
     );
-    // return SliverToBoxAdapter(
-    //   child: Column(
-    //     children: [
-    //       Placeholder(),
-    //       Placeholder(),
-    //     ],
-    //   ),
-    // );
   }
 }

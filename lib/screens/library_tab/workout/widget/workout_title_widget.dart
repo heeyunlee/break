@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:workout_player/models/workout.dart';
 
 import '../../../../constants.dart';
 
 class WorkoutTitleWidget extends StatelessWidget {
-  final String title;
+  final Workout workout;
   final double? width;
   final bool isAppBarTitle;
 
   const WorkoutTitleWidget({
     Key? key,
-    required this.title,
+    required this.workout,
     this.width,
     this.isAppBarTitle = false,
   }) : super(key: key);
@@ -21,11 +23,14 @@ class WorkoutTitleWidget extends StatelessWidget {
 
     return SizedBox(
       width: width ?? size.width - 32,
-      child: _buildChild(),
+      child: _buildChild(workout),
     );
   }
 
-  Widget _buildChild() {
+  Widget _buildChild(Workout workout) {
+    final locale = Intl.getCurrentLocale();
+    final title = workout.translated[locale] ?? workout.workoutTitle;
+
     if (isAppBarTitle) {
       return Center(child: Text(title, style: kSubtitle1));
     } else {
