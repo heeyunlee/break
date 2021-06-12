@@ -46,7 +46,7 @@ class CustomListTile64 extends StatelessWidget {
                       imageUrl: imageUrl,
                       placeholder: (context, url) => Shimmer.fromColors(
                         baseColor: kCardColor,
-                        highlightColor: Colors.white,
+                        highlightColor: kCardColorLight,
                         child: Container(
                           width: 64,
                           height: 64,

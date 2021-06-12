@@ -67,9 +67,11 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SizedBox(
-      height: double.maxFinite,
-      width: double.maxFinite,
+      height: size.height,
+      width: size.width,
       child: Stack(
         alignment: Alignment(0, 1),
         children: [

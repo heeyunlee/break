@@ -17,12 +17,10 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../constants.dart';
 import 'add_workout_to_routine_screen.dart';
 import 'edit_workout/edit_workout_screen.dart';
 import 'widget/workout_title_widget.dart';
-import 'workout_tips/workout_youtube_tips_widget.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   final Workout? workout;

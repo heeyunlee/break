@@ -82,7 +82,7 @@ class _ProgressTabState extends State<ProgressTab>
 
     _sizeTween = SizeTween(
       begin: Size(size.width, size.height),
-      end: Size(size.width / 1.5, size.height / 2),
+      end: Size(size.width / 1.1, size.height / 1.1),
     ).animate(_summaryAnimationController);
 
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -92,7 +92,7 @@ class _ProgressTabState extends State<ProgressTab>
       onNotification: _scrollListener,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Colors.deepPurpleAccent,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(48),
           child: AnimatedBuilder(
@@ -129,6 +129,7 @@ class _ProgressTabState extends State<ProgressTab>
     final size = MediaQuery.of(context).size;
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         AnimatedBuilder(
           animation: _summaryAnimationController,
@@ -141,12 +142,8 @@ class _ProgressTabState extends State<ProgressTab>
         ),
         SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: size.height - size.height / 5,
-                width: size.width,
-              ),
+              SizedBox(height: size.height * 4 / 5),
               Container(
                 decoration: BoxDecoration(
                   color: kBackgroundColor,
@@ -159,6 +156,7 @@ class _ProgressTabState extends State<ProgressTab>
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      const Icon(Icons.drag_handle_rounded),
                       const SizedBox(height: 56),
                       WeightsLiftedChartWidget(user: user, auth: auth),
                       ProteinsEatenChartWidget(user: user, auth: auth),

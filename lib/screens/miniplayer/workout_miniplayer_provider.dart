@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,7 +96,7 @@ final miniplayerProviderNotifierProvider =
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);
 
-final double miniplayerMinHeight = 152;
+final double miniplayerMinHeight = Platform.isIOS ? 152 : 120;
 
 final miniplayerControllerProvider = StateProvider<MiniplayerController>(
   (ref) => MiniplayerController(),
