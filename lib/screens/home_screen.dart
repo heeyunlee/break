@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   Map<CustomTabItem, dynamic> get widgetBuilders {
     return {
-      // CustomTabItem.home: (_) => HomeTab(),
       CustomTabItem.library: (_) => LibraryTab(),
       CustomTabItem.search: (_) => SearchTab(),
       CustomTabItem.progress: (_) => ProgressTab(),
@@ -84,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen>
                 children: [
                   Stack(
                     children: [
-                      // _buildOffstageNavigator(CustomTabItem.home),
                       _buildOffstageNavigator(CustomTabItem.progress),
                       _buildOffstageNavigator(CustomTabItem.search),
                       _buildOffstageNavigator(CustomTabItem.library),

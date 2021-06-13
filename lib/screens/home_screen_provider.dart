@@ -14,7 +14,6 @@ final GlobalKey<NavigatorState> homeScreenNavigatorKey =
 
 // Tab Navigator Keys
 final Map<CustomTabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-  // CustomTabItem.home: GlobalKey<NavigatorState>(),
   CustomTabItem.library: GlobalKey<NavigatorState>(),
   CustomTabItem.search: GlobalKey<NavigatorState>(),
   CustomTabItem.progress: GlobalKey<NavigatorState>(),

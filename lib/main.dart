@@ -10,6 +10,7 @@ import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
+import 'package:workout_player/services/private_keys.dart';
 
 import 'generated/l10n.dart';
 import 'screens/landing_screen.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MixpanelManager.init();
   AlgoliaManager.init();
-  KakaoContext.clientId = KakaoManager.kakaoClientId;
+  KakaoContext.clientId = PrivateKeys.kakaoClientId;
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(ProviderScope(child: MyApp()));

@@ -41,7 +41,6 @@ class BottomNavigationTab extends StatelessWidget {
             selectedItemColor: kPrimaryColor,
             type: BottomNavigationBarType.fixed,
             items: <BottomNavigationBarItem>[
-              // _buildItem(CustomTabItem.home),
               _buildItem(CustomTabItem.progress),
               _buildItem(CustomTabItem.search),
               _buildItem(CustomTabItem.library),

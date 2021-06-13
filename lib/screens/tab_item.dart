@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 enum CustomTabItem { progress, search, library, settings }
-// enum CustomTabItem { progress, library }
 
 class TabItemData {
   final String label;
