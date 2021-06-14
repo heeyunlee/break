@@ -14,7 +14,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
   const EditRoutineEquipmentRequiredScreen({
@@ -34,13 +34,14 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => EditRoutineEquipmentRequiredScreen(
           database: database,
           routine: routine,
-          user: user!,
+          user: user,
         ),
       ),
     );

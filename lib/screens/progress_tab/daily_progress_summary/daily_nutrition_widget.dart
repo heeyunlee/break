@@ -8,7 +8,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyNutritionWidget extends ConsumerWidget {
@@ -45,13 +45,13 @@ class DailyNutritionWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: size.width / 2.2,
+              width: size.width / 2.4,
               child: Center(
                 child: CircularPercentIndicator(
-                  radius: size.width / 2.7,
+                  radius: size.width / 3,
                   lineWidth: 12,
                   percent: _proteinsProgress,
-                  backgroundColor: Colors.greenAccent.withOpacity(0.25),
+                  backgroundColor: Colors.greenAccent.withOpacity(0.5),
                   progressColor: Colors.greenAccent,
                   animation: true,
                   animationDuration: 1000,
@@ -62,13 +62,13 @@ class DailyNutritionWidget extends ConsumerWidget {
             const SizedBox(width: 16),
             Column(
               children: [
-                SizedBox(height: size.height / 12),
-                SizedBox(height: size.height / 12),
+                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 14),
                 SizedBox(
-                  height: size.height / 12,
+                  height: size.height / 14,
                   child: _buildTotalNutritionWidget(nutritions, _totalProteins),
                 ),
-                SizedBox(height: size.height / 12),
+                SizedBox(height: size.height / 14),
               ],
             ),
           ],
@@ -94,7 +94,7 @@ class DailyNutritionWidget extends ConsumerWidget {
     return DailySummaryNumbersWidget(
       title: S.current.proteins,
       backgroundColor: Colors.greenAccent,
-      textStyle: kBodyText1Menlo.copyWith(color: Colors.deepPurpleAccent),
+      textStyle: kBodyText1Menlo,
       hundreds: hundreds,
       tens: tens,
       ones: ones,

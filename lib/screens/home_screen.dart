@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    // final user = database.getUserDocument(auth.currentUser!.uid);
     final user = database.getUserDocument(auth.currentUser!.uid);
 
     return MiniplayerWillPopScope(

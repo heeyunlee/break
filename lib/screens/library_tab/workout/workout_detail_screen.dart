@@ -9,7 +9,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/screens/library_tab/workout/widget/save_unsave_workout_button_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -17,7 +17,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import 'add_workout_to_routine_screen.dart';
 import 'edit_workout/edit_workout_screen.dart';
 import 'widget/workout_title_widget.dart';
@@ -230,7 +230,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     final equipmentRequired = EquipmentRequired.values
         .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
         .translation!;
-    final difficulty = Format.difficulty(workout.difficulty)!;
+    final difficulty = Formatter.difficulty(workout.difficulty)!;
 
     return FlexibleSpaceBar(
       background: Stack(

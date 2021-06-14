@@ -2,7 +2,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import '../workout_miniplayer_provider.dart';
 
 class RestTimerWidget extends ConsumerWidget {

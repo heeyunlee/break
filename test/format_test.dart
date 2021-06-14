@@ -1,22 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 void main() {
   group('weights', () {
     test('3digit', () {
-      expect(Format.weights(123), '123');
+      expect(Formatter.weights(123), '123');
     });
     test('6digit', () {
-      expect(Format.weights(123456), '123,456');
+      expect(Formatter.weights(123456), '123,456');
     });
     test('9digit', () {
-      expect(Format.weights(123456789), '123,456,789');
+      expect(Formatter.weights(123456789), '123,456,789');
     });
     test('12digit', () {
-      expect(Format.weights(123456789123), '123,456,789,123');
+      expect(Formatter.weights(123456789123), '123,456,789,123');
     });
     test('decimal', () {
-      expect(Format.weights(123.123), '123.1');
+      expect(Formatter.weights(123.123), '123.1');
     });
   });
 

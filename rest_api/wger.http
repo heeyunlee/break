@@ -1,0 +1,8 @@
+POST {{baseUrl}}/exercise/
+Authorization: Token {{token}}
+
+###
+
+GET {{baseUrl}}/exercise/
+Accept: application/json
+# Authorization: Token {{token}}

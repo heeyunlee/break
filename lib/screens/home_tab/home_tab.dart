@@ -5,7 +5,7 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import '../../services/database.dart';
 import '../../widgets/empty_content.dart';
 import '../../models/routine_history.dart';
@@ -107,7 +107,9 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
           message: S.current.homeTabEmptyMessage,
         ),
         itemsPerPage: 10,
-        header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
+        header: SliverToBoxAdapter(
+          child: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
+        ),
         footer: const SizedBox(height: 120),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong}: $error',

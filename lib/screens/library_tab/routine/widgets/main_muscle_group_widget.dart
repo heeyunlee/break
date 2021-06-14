@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class MainMuscleGroupWidget extends StatelessWidget {
   final Routine routine;

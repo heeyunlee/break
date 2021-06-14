@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../constants.dart';
+import '../styles/constants.dart';
 
 class EmptyContentWidget extends StatelessWidget {
   final String imageUrl;

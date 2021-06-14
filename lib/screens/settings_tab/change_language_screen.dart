@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class MiniplayerSubtitle extends ConsumerWidget {
   final double? horizontalPadding;

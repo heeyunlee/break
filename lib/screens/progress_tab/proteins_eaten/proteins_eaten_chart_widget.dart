@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
@@ -13,9 +13,10 @@ import 'package:workout_player/screens/progress_tab/proteins_eaten/protein_entri
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class ProteinsEatenChartWidget extends StatefulWidget {
   final User user;
@@ -168,186 +169,179 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
           data: (streamData) {
             _setData(streamData, relativeYs);
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Card(
-                margin: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            return BlurBackgroundCard(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
-                color: kCardColor,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => ProteinEntriesScreen.show(
-                          context,
-                          user: widget.user,
-                        ),
-                        child: Wrap(
-                          children: [
-                            SizedBox(
-                              height: 48,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.restaurant_menu_rounded,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => ProteinEntriesScreen.show(
+                        context,
+                        user: widget.user,
+                      ),
+                      child: Wrap(
+                        children: [
+                          SizedBox(
+                            height: 48,
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.restaurant_menu_rounded,
+                                  color: Colors.greenAccent,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  S.current.addProteins,
+                                  style: kSubtitle1w900GreenAc,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_rounded,
                                     color: Colors.greenAccent,
                                     size: 16,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    S.current.addProteins,
-                                    style: kSubtitle1w900GreenAc,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                    ),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: Colors.greenAccent,
-                                      size: 16,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  // if (widget.user.dailyWeightsGoal == null)
-                                  //   TextButton(
-                                  //     style: TextButton.styleFrom(
-                                  //       padding: EdgeInsets.zero,
-                                  //     ),
-                                  //     onPressed: () {},
-                                  //     child: Row(
-                                  //       children: [
-                                  //         Text(
-                                  //           S.current.setWeightsDailyGoal,
-                                  //           style: kButtonText2,
-                                  //         ),
-                                  //         const SizedBox(width: 4),
-                                  //         const Icon(
-                                  //           Icons.add_rounded,
-                                  //           color: Colors.white,
-                                  //           size: 16,
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8, bottom: 32),
-                              child: Text(
-                                S.current.proteinChartContentText,
-                                style: kBodyText2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 8),
-                          child: BarChart(
-                            BarChartData(
-                              maxY: 10,
-                              barTouchData: BarTouchData(
-                                touchTooltipData: BarTouchTooltipData(
-                                  getTooltipItem:
-                                      (group, groupIndex, rod, rodIndex) {
-                                    final amount =
-                                        (rod.y / 1.05 / 10 * _maxY).round();
-                                    final formattedAmount =
-                                        Format.proteins(amount);
-
-                                    return BarTooltipItem(
-                                      '$formattedAmount g',
-                                      kBodyText1Black,
-                                    );
-                                  },
                                 ),
-                                touchCallback: (barTouchResponse) {
-                                  setState(() {
-                                    if (barTouchResponse.spot != null &&
-                                        barTouchResponse.touchInput
-                                            is! PointerExitEvent &&
-                                        barTouchResponse.touchInput
-                                            is! PointerUpEvent) {
-                                      touchedIndex = barTouchResponse
-                                          .spot!.touchedBarGroupIndex;
-                                    } else {
-                                      touchedIndex = -1;
-                                    }
-                                  });
+                                const Spacer(),
+                                // if (widget.user.dailyWeightsGoal == null)
+                                //   TextButton(
+                                //     style: TextButton.styleFrom(
+                                //       padding: EdgeInsets.zero,
+                                //     ),
+                                //     onPressed: () {},
+                                //     child: Row(
+                                //       children: [
+                                //         Text(
+                                //           S.current.setWeightsDailyGoal,
+                                //           style: kButtonText2,
+                                //         ),
+                                //         const SizedBox(width: 4),
+                                //         const Icon(
+                                //           Icons.add_rounded,
+                                //           color: Colors.white,
+                                //           size: 16,
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, bottom: 32),
+                            child: Text(
+                              S.current.proteinChartContentText,
+                              style: kBodyText2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 8),
+                        child: BarChart(
+                          BarChartData(
+                            maxY: 10,
+                            barTouchData: BarTouchData(
+                              touchTooltipData: BarTouchTooltipData(
+                                getTooltipItem:
+                                    (group, groupIndex, rod, rodIndex) {
+                                  final amount =
+                                      (rod.y / 1.05 / 10 * _maxY).round();
+                                  final formattedAmount =
+                                      Formatter.proteins(amount);
+
+                                  return BarTooltipItem(
+                                    '$formattedAmount g',
+                                    kBodyText1Black,
+                                  );
                                 },
                               ),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  getTextStyles: (value) => kBodyText2,
-                                  margin: 16,
-                                  getTitles: (double value) {
-                                    switch (value.toInt()) {
-                                      case 0:
-                                        return _daysOfTheWeek[0];
-                                      case 1:
-                                        return _daysOfTheWeek[1];
-                                      case 2:
-                                        return _daysOfTheWeek[2];
-                                      case 3:
-                                        return _daysOfTheWeek[3];
-                                      case 4:
-                                        return _daysOfTheWeek[4];
-                                      case 5:
-                                        return _daysOfTheWeek[5];
-                                      case 6:
-                                        return _daysOfTheWeek[6];
-                                      default:
-                                        return '';
-                                    }
-                                  },
-                                ),
-                                leftTitles: SideTitles(
-                                  showTitles: true,
-                                  margin: 24,
-                                  reservedSize: 24,
-                                  getTextStyles: (value) => kCaption1Grey,
-                                  getTitles: (double value) {
-                                    final toOriginalNumber =
-                                        (value / 10 * _maxY).round();
-
-                                    switch (value.toInt()) {
-                                      case 0:
-                                        return '0g';
-                                      case 5:
-                                        return '$toOriginalNumber g';
-                                      case 10:
-                                        return '$toOriginalNumber g';
-
-                                      default:
-                                        return '';
-                                    }
-                                  },
-                                ),
-                              ),
-                              borderData: FlBorderData(show: false),
-                              barGroups: (streamData!.isNotEmpty)
-                                  ? _barGroupsChild(widget.user, relativeYs)
-                                  : randomData(),
+                              touchCallback: (barTouchResponse) {
+                                setState(() {
+                                  if (barTouchResponse.spot != null &&
+                                      barTouchResponse.touchInput
+                                          is! PointerExitEvent &&
+                                      barTouchResponse.touchInput
+                                          is! PointerUpEvent) {
+                                    touchedIndex = barTouchResponse
+                                        .spot!.touchedBarGroupIndex;
+                                  } else {
+                                    touchedIndex = -1;
+                                  }
+                                });
+                              },
                             ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                getTextStyles: (value) => kBodyText2,
+                                margin: 16,
+                                getTitles: (double value) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return _daysOfTheWeek[0];
+                                    case 1:
+                                      return _daysOfTheWeek[1];
+                                    case 2:
+                                      return _daysOfTheWeek[2];
+                                    case 3:
+                                      return _daysOfTheWeek[3];
+                                    case 4:
+                                      return _daysOfTheWeek[4];
+                                    case 5:
+                                      return _daysOfTheWeek[5];
+                                    case 6:
+                                      return _daysOfTheWeek[6];
+                                    default:
+                                      return '';
+                                  }
+                                },
+                              ),
+                              leftTitles: SideTitles(
+                                showTitles: true,
+                                margin: 24,
+                                reservedSize: 24,
+                                getTextStyles: (value) => kCaption1Grey,
+                                getTitles: (double value) {
+                                  final toOriginalNumber =
+                                      (value / 10 * _maxY).round();
+
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return '0g';
+                                    case 5:
+                                      return '$toOriginalNumber g';
+                                    case 10:
+                                      return '$toOriginalNumber g';
+
+                                    default:
+                                      return '';
+                                  }
+                                },
+                              ),
+                            ),
+                            borderData: FlBorderData(show: false),
+                            barGroups: (streamData!.isNotEmpty)
+                                ? _barGroupsChild(widget.user, relativeYs)
+                                : randomData(),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

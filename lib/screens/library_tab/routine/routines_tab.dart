@@ -28,6 +28,7 @@ class RoutinesTab extends StatelessWidget {
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 16),
             SavedRoutinesTileWidget(),
@@ -40,16 +41,18 @@ class RoutinesTab extends StatelessWidget {
         ),
       ),
       itemsPerPage: 10,
-      header: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          // if (query.snapshots() != null) CreateNewRoutineWidget(),
-          CreateNewRoutineWidget(),
-          SavedRoutinesTileWidget(),
-        ],
+      header: SliverToBoxAdapter(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            // if (query.snapshots() != null) CreateNewRoutineWidget(),
+            CreateNewRoutineWidget(),
+            SavedRoutinesTileWidget(),
+          ],
+        ),
       ),
-      footer: const SizedBox(height: 160),
+      footer: SliverToBoxAdapter(child: const SizedBox(height: 160)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),

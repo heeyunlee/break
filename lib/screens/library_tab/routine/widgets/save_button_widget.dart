@@ -28,7 +28,7 @@ class SaveButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomStreamBuilderWidget<User?>(
       initialData: user,
-      stream: database.userStream(auth.currentUser!.uid),
+      stream: database.userStream(),
       hasDataWidget: (context, snapshot) {
         final User user = snapshot.data!;
 
@@ -63,7 +63,7 @@ class SaveButtonWidget extends StatelessWidget {
             'savedRoutines': FieldValue.arrayUnion([routine.routineId]),
           };
 
-          await database.updateUser(auth.currentUser!.uid, user);
+          await database.updateUser(user);
 
           getSnackbarWidget(
             S.current.savedRoutineSnackBarTitle,
@@ -94,7 +94,7 @@ class SaveButtonWidget extends StatelessWidget {
           'savedRoutines': FieldValue.arrayRemove([routine.routineId]),
         };
 
-        await database.updateUser(auth.currentUser!.uid, user);
+        await database.updateUser(user);
 
         getSnackbarWidget(
           S.current.unsavedRoutineSnackBarTitle,

@@ -21,7 +21,7 @@ import 'package:workout_player/screens/library_tab/routine/create_routine/new_ro
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import '../../../home_screen_provider.dart';
 import '../routine_detail_screen.dart';
 import 'create_new_routine_provider.dart';
@@ -41,7 +41,7 @@ class CreateNewRoutineScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
 

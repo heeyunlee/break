@@ -11,7 +11,7 @@ import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/shimmer/routine_workout_shimmer.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import 'routine_workout_card.dart';
 
 class RoutineWorkoutsTab extends StatelessWidget {

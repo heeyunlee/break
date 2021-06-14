@@ -39,7 +39,7 @@ class LandingScreen extends StatelessWidget {
           }
           // Listening to the Firebase Cloud Firestore database
           return Provider<Database>(
-            create: (_) => FirestoreDatabase(userId: user.uid),
+            create: (_) => FirestoreDatabase(uid: user.uid),
             child: HomeScreen(),
           );
         }

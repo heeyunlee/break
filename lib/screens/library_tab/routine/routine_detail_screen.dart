@@ -16,7 +16,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import '../../../models/routine.dart';
 import '../../../services/database.dart';
 import 'edit_routine/edit_routine_screen.dart';

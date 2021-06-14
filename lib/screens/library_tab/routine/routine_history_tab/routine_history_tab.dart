@@ -12,8 +12,8 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
-import '../../../../constants.dart';
-import '../../../../format.dart';
+import '../../../../styles/constants.dart';
+import '../../../../utils/formatter.dart';
 
 class RoutineHistoryTab extends StatefulWidget {
   final Routine routine;
@@ -135,7 +135,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
     return CustomStreamBuilderWidget<List<RoutineHistory?>>(
       stream: widget.database.routineHistoriesThisWeekStream2(
-        widget.auth.currentUser!.uid,
+        // widget.auth.currentUser!.uid,
         widget.routine.routineId,
       ),
       hasDataWidget: (context, snapshot) {
@@ -180,8 +180,9 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                             getTooltipItem: (group, groupIndex, rod, rodIndex) {
                               final weights =
                                   (rod.y / 1.05 / 10 * _maxY).round();
-                              final formattedWeights = Format.weights(weights);
-                              final unit = Format.unitOfMass(
+                              final formattedWeights =
+                                  Formatter.weights(weights);
+                              final unit = Formatter.unitOfMass(
                                   widget.routine.initialUnitOfMass);
 
                               return BarTooltipItem(
@@ -241,7 +242,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                                   (value / 10 * _maxY).round();
                               final formatted = NumberFormat.compact()
                                   .format(toOriginalNumber);
-                              final unit = Format.unitOfMass(
+                              final unit = Formatter.unitOfMass(
                                   widget.routine.initialUnitOfMass);
 
                               switch (value.toInt()) {

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/workout.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class WorkoutTitleWidget extends StatelessWidget {
   final Workout workout;

@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -13,9 +13,10 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import 'routine_histories_screen.dart';
 
 class WeightsLiftedChartWidget extends StatefulWidget {
@@ -127,93 +128,86 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           data: (streamData) {
             _setData(streamData, relativeYs);
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Card(
-                margin: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            return BlurBackgroundCard(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
-                color: kCardColor,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => RoutineHistoriesScreen.show(context),
-                        child: Wrap(
-                          children: [
-                            SizedBox(
-                              height: 48,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.fitness_center_rounded,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => RoutineHistoriesScreen.show(context),
+                      child: Wrap(
+                        children: [
+                          SizedBox(
+                            height: 48,
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.fitness_center_rounded,
+                                  color: kPrimaryColor,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  S.current.liftedWeights,
+                                  style: kSubtitle1w900Primary,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_rounded,
                                     color: kPrimaryColor,
                                     size: 16,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    S.current.liftedWeights,
-                                    style: kSubtitle1w900Primary,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                    ),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: kPrimaryColor,
-                                      size: 16,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  // if (widget.user.dailyWeightsGoal == null)
-                                  //   TextButton(
-                                  //     style: TextButton.styleFrom(
-                                  //       padding: EdgeInsets.zero,
-                                  //     ),
-                                  //     onPressed: () =>
-                                  //         SetDailyWeightsGoalScreen.show(context),
-                                  //     child: Row(
-                                  //       children: [
-                                  //         Text(
-                                  //           S.current.setWeightsDailyGoal,
-                                  //           style: kButtonText2,
-                                  //         ),
-                                  //         const SizedBox(width: 4),
-                                  //         const Icon(
-                                  //           Icons.add_rounded,
-                                  //           color: Colors.white,
-                                  //           size: 16,
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                ],
-                              ),
-                            ),
-                            if (streamData.isEmpty)
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: Text(
-                                  S.current.weightsChartMessage,
-                                  style: kBodyText2,
                                 ),
-                              ),
-                          ],
-                        ),
+                                const Spacer(),
+                                // if (widget.user.dailyWeightsGoal == null)
+                                //   TextButton(
+                                //     style: TextButton.styleFrom(
+                                //       padding: EdgeInsets.zero,
+                                //     ),
+                                //     onPressed: () =>
+                                //         SetDailyWeightsGoalScreen.show(context),
+                                //     child: Row(
+                                //       children: [
+                                //         Text(
+                                //           S.current.setWeightsDailyGoal,
+                                //           style: kButtonText2,
+                                //         ),
+                                //         const SizedBox(width: 4),
+                                //         const Icon(
+                                //           Icons.add_rounded,
+                                //           color: Colors.white,
+                                //           size: 16,
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                              ],
+                            ),
+                          ),
+                          // if (streamData.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              S.current.weightsChartMessage,
+                              style: kBodyText2,
+                            ),
+                          ),
+                        ],
                       ),
-                      if (streamData.isEmpty) const Divider(color: kGrey700),
-                      const SizedBox(height: 16),
-                      _buildChart(_maxY, relativeYs, streamData),
-                    ],
-                  ),
+                    ),
+                    if (streamData.isEmpty) const Divider(color: kGrey700),
+                    const SizedBox(height: 16),
+                    _buildChart(_maxY, relativeYs, streamData),
+                  ],
                 ),
               ),
             );
@@ -236,8 +230,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               touchTooltipData: BarTouchTooltipData(
                 getTooltipItem: (group, groupIndex, rod, rodIndex) {
                   final weights = (rod.y / 1.05 / 10 * _maxY).round();
-                  final formattedWeights = Format.weights(weights);
-                  final unit = Format.unitOfMass(widget.user.unitOfMass);
+                  final formattedWeights = Formatter.weights(weights);
+                  final unit = Formatter.unitOfMass(widget.user.unitOfMass);
 
                   return BarTooltipItem(
                     '$formattedWeights $unit',

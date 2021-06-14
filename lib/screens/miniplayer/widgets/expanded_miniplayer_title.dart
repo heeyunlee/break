@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class ExpandedMiniplayerTitle extends ConsumerWidget {
   final double? horzPadding;

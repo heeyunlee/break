@@ -3,7 +3,7 @@ import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class NewRoutineTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;

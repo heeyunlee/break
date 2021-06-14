@@ -14,8 +14,8 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
-import '../../../../format.dart';
+import '../../../../styles/constants.dart';
+import '../../../../utils/formatter.dart';
 import 'workout_set_widget.dart';
 
 class RoutineWorkoutCard extends StatefulWidget {
@@ -305,8 +305,8 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Format.weights(routineWorkout.totalWeights);
-    final unit = Format.unitOfMass(routine.initialUnitOfMass);
+    final weights = Formatter.weights(routineWorkout.totalWeights);
+    final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
 
     final formattedTotalWeights = (widget.routineWorkout.isBodyWeightWorkout &&
             widget.routineWorkout.totalWeights == 0)

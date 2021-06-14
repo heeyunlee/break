@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class DailySummaryNumbersWidget extends StatelessWidget {
   final String title;

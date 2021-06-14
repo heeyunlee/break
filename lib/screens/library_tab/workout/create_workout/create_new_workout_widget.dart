@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import 'create_new_workout_screen.dart';
 
 class CreateNewWorkoutWidget extends StatelessWidget {
@@ -21,8 +21,12 @@ class CreateNewWorkoutWidget extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                color: kGrey800,
-                child: const Icon(Icons.add_rounded, color: Colors.white),
+                // color: kGrey800,
+                child: const Icon(
+                  Icons.add_rounded,
+                  color: Colors.white,
+                  size: 32,
+                ),
               ),
               const SizedBox(width: 16),
               Text(S.current.createNewWorkout, style: kBodyText1Bold),

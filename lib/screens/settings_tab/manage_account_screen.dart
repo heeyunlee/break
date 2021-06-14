@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
-import 'package:workout_player/dummy_data.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'change_display_name_screen.dart';
 import 'delete_account_screen.dart';
 
@@ -73,7 +73,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
 
     return StreamBuilder<User?>(
         initialData: userDummyData,
-        stream: widget.database.userStream(widget.auth.currentUser!.uid),
+        stream: widget.database.userStream(),
         builder: (context, snapshot) {
           final user = snapshot.data;
 

@@ -14,7 +14,7 @@ import 'package:workout_player/screens/home_tab/routine_history/routine_history_
 import 'package:workout_player/screens/speed_dial_screens/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;
@@ -67,8 +67,8 @@ class RoutineHistoriesScreen extends StatelessWidget {
           bodyText: S.current.routineHistoyEmptyMessage,
           onPressed: () => StartWorkoutShortcutScreen.show(context),
         ),
-        header: SizedBox(height: 16),
-        footer: const SizedBox(height: 16),
+        header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+        footer: const SliverToBoxAdapter(child: SizedBox(height: 120)),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong} $error',
         ),

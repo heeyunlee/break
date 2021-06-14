@@ -10,8 +10,8 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
+import '../../../styles/constants.dart';
+import '../../../utils/formatter.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyWeightsWidget extends ConsumerWidget {
@@ -75,10 +75,10 @@ class DailyWeightsWidget extends ConsumerWidget {
                     ),
                   ),
                 CircularPercentIndicator(
-                  radius: size.width / 2.2,
+                  radius: size.width / 2.4,
                   lineWidth: 12,
                   percent: _weightsProgress,
-                  backgroundColor: kPrimaryColor.withOpacity(0.25),
+                  backgroundColor: kPrimaryColor.withOpacity(0.5),
                   progressColor: kPrimaryColor,
                   animation: true,
                   animationDuration: 1000,
@@ -89,16 +89,16 @@ class DailyWeightsWidget extends ConsumerWidget {
             const SizedBox(width: 16),
             Column(
               children: [
-                SizedBox(height: size.height / 12),
+                SizedBox(height: size.height / 14),
                 SizedBox(
-                  height: size.height / 12,
+                  height: size.height / 14,
                   child: _buildTotalWeightsWidget(
                     routineHistories,
                     _totalWeights,
                   ),
                 ),
-                SizedBox(height: size.height / 12),
-                SizedBox(height: size.height / 12),
+                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 14),
               ],
             ),
           ],
@@ -125,7 +125,7 @@ class DailyWeightsWidget extends ConsumerWidget {
       tensOfThousands = (length > 3) ? totalWeightsInString[length - 4] : '0';
     }
 
-    final unit = Format.unitOfMass(user.unitOfMass);
+    final unit = Formatter.unitOfMass(user.unitOfMass);
 
     return DailySummaryNumbersWidget(
       title: S.current.liftedWeights,

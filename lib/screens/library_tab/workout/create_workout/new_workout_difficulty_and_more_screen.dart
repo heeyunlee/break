@@ -4,7 +4,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/enum/location.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallback discriptionCallback;

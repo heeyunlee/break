@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -100,7 +100,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
         };
 
         await widget.database.updateUser(
-          widget.auth.currentUser!.uid,
+          // widget.auth.currentUser!.uid,
           updatedUserData,
         );
 

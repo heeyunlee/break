@@ -8,8 +8,8 @@ import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/constants.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
@@ -31,6 +31,7 @@ class AddMeasurementScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -82,7 +83,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   void initState() {
     super.initState();
     _loggedTime = Timestamp.now();
-    _loggedTimeInString = Format.yMdjmInDateTime(_loggedTime.toDate());
+    _loggedTimeInString = Formatter.yMdjmInDateTime(_loggedTime.toDate());
     final nowInDate = _loggedTime.toDate();
     _loggedDate = DateTime.utc(nowInDate.year, nowInDate.month, nowInDate.day);
 
@@ -151,7 +152,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         );
 
         await widget.database.setMeasurement(
-          uid: widget.user.userId,
+          // uid: widget.user.userId,
           measurement: bodyMeasurement,
         );
 
@@ -187,7 +188,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
               initialDateTime: _loggedTime.toDate(),
               onDateTimeChanged: (value) => setState(() {
                 _loggedTime = Timestamp.fromDate(value);
-                _loggedTimeInString = Format.yMdjmInDateTime(
+                _loggedTimeInString = Formatter.yMdjmInDateTime(
                   _loggedTime.toDate(),
                 );
                 _loggedDate = DateTime.utc(value.year, value.month, value.day);
@@ -239,7 +240,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   }
 
   Widget _buildBody() {
-    final unitOfMass = Format.unitOfMass(widget.user.unitOfMass);
+    final unitOfMass = Formatter.unitOfMass(widget.user.unitOfMass);
 
     return Theme(
       data: ThemeData(

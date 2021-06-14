@@ -14,8 +14,8 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
-import '../../../../format.dart';
+import '../../../../styles/constants.dart';
+import '../../../../utils/formatter.dart';
 
 class WorkoutSetWidget extends StatefulWidget {
   const WorkoutSetWidget({
@@ -61,7 +61,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     focusNode2 = FocusNode();
     focusNode3 = FocusNode();
 
-    _weights = Format.weights(widget.set.weights!);
+    _weights = Formatter.weights(widget.set.weights!);
     _textController1 = TextEditingController(text: _weights);
 
     _reps = widget.set.reps.toString();
@@ -300,9 +300,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   Widget _buildRow(WorkoutSet set, AuthBase auth) {
     final title = '${S.current.set} ${set.setIndex}';
-    final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
+    final unit = Formatter.unitOfMass(widget.routine.initialUnitOfMass);
     final weights = widget.set.weights;
-    final formattedWeights = '${Format.weights(weights!)} $unit';
+    final formattedWeights = '${Formatter.weights(weights!)} $unit';
     final reps = '${widget.set.reps} ${S.current.x}';
     final restTime = '${widget.set.restTime} ${S.current.seconds}';
 

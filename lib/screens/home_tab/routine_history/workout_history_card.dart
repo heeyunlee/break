@@ -6,8 +6,8 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/screens/home_tab/routine_history/workout_set_widget_for_history.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
+import '../../../styles/constants.dart';
+import '../../../utils/formatter.dart';
 
 class WorkoutHistoryCard extends StatelessWidget {
   final RoutineHistory routineHistory;
@@ -27,8 +27,8 @@ class WorkoutHistoryCard extends StatelessWidget {
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Format.weights(workoutHistory.totalWeights);
-    final unit = Format.unitOfMass(routineHistory.unitOfMass);
+    final weights = Formatter.weights(workoutHistory.totalWeights);
+    final unit = Formatter.unitOfMass(routineHistory.unitOfMass);
 
     final formattedTotalWeights =
         (workoutHistory.isBodyWeightWorkout && workoutHistory.totalWeights == 0)

@@ -10,14 +10,14 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class MeasurementsScreen extends StatelessWidget {
   final Database database;
@@ -47,10 +47,7 @@ class MeasurementsScreen extends StatelessWidget {
 
   Future<void> _delete(BuildContext context, Measurement measurement) async {
     try {
-      await database.deleteMeasurement(
-        uid: user.userId,
-        measurement: measurement,
-      );
+      await database.deleteMeasurement(measurement: measurement);
 
       getSnackbarWidget(
         S.current.deleteMeasurementSnackbarTitle,
@@ -87,13 +84,13 @@ class MeasurementsScreen extends StatelessWidget {
       body: PaginateFirestore(
         shrinkWrap: true,
         itemsPerPage: 10,
-        query: database.measurementsQuery(user.userId),
+        query: database.measurementsQuery(),
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContent(
           message: S.current.measurementsEmptyMessage,
         ),
-        header: SizedBox(height: 16),
-        footer: const SizedBox(height: 16),
+        header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+        footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong}: $error',
         ),
@@ -106,9 +103,9 @@ class MeasurementsScreen extends StatelessWidget {
           // final measurement = snapshot.data()!;
           final measurement = documentSnapshot.data()! as Measurement;
 
-          final date = Format.yMdjm(measurement.loggedTime);
+          final date = Formatter.yMdjm(measurement.loggedTime);
 
-          final unit = Format.unitOfMass(user.unitOfMass);
+          final unit = Formatter.unitOfMass(user.unitOfMass);
 
           return Slidable(
             // startActionPane: const SlidableDrawerActionPane(),

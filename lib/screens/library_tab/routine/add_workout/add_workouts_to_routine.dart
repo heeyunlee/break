@@ -13,7 +13,7 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -23,7 +23,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class AddWorkoutsToRoutine extends StatefulWidget {
   const AddWorkoutsToRoutine({
@@ -188,7 +188,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
           itemBuilder: (context, workout) {
             final locale = Intl.getCurrentLocale();
 
-            final difficulty = Format.difficulty(workout.difficulty);
+            final difficulty = Formatter.difficulty(workout.difficulty);
             final leadingText = MainMuscleGroup.values
                 .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
                 .translation;

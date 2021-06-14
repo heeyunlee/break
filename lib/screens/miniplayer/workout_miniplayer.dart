@@ -13,7 +13,7 @@ import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.d
 import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'widgets/close_miniplayer_button.dart';
 import 'widgets/collapsed_miniplayer_title.dart';
 import 'widgets/linear_progress_indicator_widget.dart';

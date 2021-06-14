@@ -11,8 +11,8 @@ import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/constants.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -153,7 +153,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
       await widget.database.deleteRoutineHistory(routineHistory);
       await widget.database.batchDeleteWorkoutHistories(workoutHistories);
-      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+      await widget.database.updateUser(user);
 
       Navigator.of(context).pop();
       tabNavigatorKeys[currentTab]!
@@ -272,7 +272,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     final size = MediaQuery.of(context).size;
 
     // Data Formatting
-    final date = Format.date(widget.routineHistory.workoutStartTime);
+    final date = Formatter.date(widget.routineHistory.workoutStartTime);
     final title = widget.routineHistory.routineTitle;
 
     return AnimatedBuilder(
@@ -350,9 +350,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     final notes = widget.routineHistory.notes ?? S.current.notesHintText;
 
     // FORMATTING
-    final weights = Format.weights(routineHistory.totalWeights);
-    final unit = Format.unitOfMass(routineHistory.unitOfMass);
-    final duration = Format.durationInMin(routineHistory.totalDuration);
+    final weights = Formatter.weights(routineHistory.totalWeights);
+    final unit = Formatter.unitOfMass(routineHistory.unitOfMass);
+    final duration = Formatter.durationInMin(routineHistory.totalDuration);
 
     return SliverToBoxAdapter(
       child: Padding(

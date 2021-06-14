@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'sign_in_provider.dart';
 import 'widgets/app_preview_widget.dart';
 

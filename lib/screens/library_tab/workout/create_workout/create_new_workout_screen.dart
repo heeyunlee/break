@@ -21,7 +21,7 @@ import 'package:workout_player/screens/library_tab/workout/workout_detail_screen
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import '../../../home_screen_provider.dart';
 import 'new_workout_title_screen.dart';
 

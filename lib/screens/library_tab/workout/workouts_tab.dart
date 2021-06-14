@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 
+import '../../../styles/constants.dart';
 import '../../../widgets/custom_list_tile_64.dart';
-import '../../../constants.dart';
 import '../../../models/workout.dart';
 import '../../../services/database.dart';
 import 'create_workout/create_new_workout_screen.dart';
@@ -50,16 +50,18 @@ class WorkoutsTab extends StatelessWidget {
         ),
       ),
       itemsPerPage: 10,
-      header: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          // if (query.snapshots() != null) CreateNewWorkoutWidget(),
-          CreateNewWorkoutWidget(),
-          SavedWorkoutsTileWidget(),
-        ],
+      header: SliverToBoxAdapter(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            // if (query.snapshots() != null) CreateNewWorkoutWidget(),
+            CreateNewWorkoutWidget(),
+            SavedWorkoutsTileWidget(),
+          ],
+        ),
       ),
-      footer: const SizedBox(height: 120),
+      footer: SliverToBoxAdapter(child: const SizedBox(height: 120)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),

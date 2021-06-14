@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
+import '../../../styles/constants.dart';
+import '../../../utils/formatter.dart';
 
 class CollapsedMiniplayerTitle extends ConsumerWidget {
   final double? horzPadding;
@@ -35,8 +35,9 @@ class CollapsedMiniplayerTitle extends ConsumerWidget {
           child: Text(title, style: textStyle),
         );
       } else {
-        final unit = Format.unitOfMass(routine.initialUnitOfMass);
-        final formattedWeights = '${Format.weights(workoutSet.weights!)} $unit';
+        final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
+        final formattedWeights =
+            '${Formatter.weights(workoutSet.weights!)} $unit';
         final reps = '${workoutSet.reps} ${S.current.x}';
         final title = '$formattedWeights   •   $reps';
 

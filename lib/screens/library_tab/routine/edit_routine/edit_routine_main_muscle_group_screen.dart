@@ -16,7 +16,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
   const EditRoutineMainMuscleGroupScreen({
@@ -34,13 +34,14 @@ class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
       {required Routine routine}) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => EditRoutineMainMuscleGroupScreen(
           database: database,
           routine: routine,
-          user: user!,
+          user: user,
         ),
       ),
     );

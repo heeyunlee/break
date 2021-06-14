@@ -10,8 +10,8 @@ import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/constants.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -85,9 +85,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   void initState() {
     super.initState();
     _workoutEndTime = DateTime.now();
-    _nowInString = Format.yMdjmInDateTime(_workoutEndTime);
+    _nowInString = Formatter.yMdjmInDateTime(_workoutEndTime);
 
-    _durationInMinutes = Format.durationInMin(widget.routine.duration);
+    _durationInMinutes = Formatter.durationInMin(widget.routine.duration);
     _textController1 =
         TextEditingController(text: _durationInMinutes.toString());
 
@@ -231,7 +231,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
       await widget.database.setRoutineHistory(routineHistory);
       await widget.database.batchWriteWorkoutHistories(workoutHistories);
-      await widget.database.updateUser(widget.user.userId, updatedUserData);
+      await widget.database.updateUser(updatedUserData);
 
       Navigator.of(context).pop();
 
@@ -270,7 +270,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               initialDateTime: _workoutEndTime,
               onDateTimeChanged: (value) => setState(() {
                 _workoutEndTime = value;
-                _nowInString = Format.yMdjmInDateTime(_workoutEndTime);
+                _nowInString = Formatter.yMdjmInDateTime(_workoutEndTime);
               }),
             ),
           ),
@@ -331,7 +331,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   }
 
   Widget _buildBody() {
-    final unit = Format.unitOfMass(widget.routine.initialUnitOfMass);
+    final unit = Formatter.unitOfMass(widget.routine.initialUnitOfMass);
 
     return Theme(
       data: ThemeData(

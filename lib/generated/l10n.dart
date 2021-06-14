@@ -3579,6 +3579,16 @@ class S {
       args: [today],
     );
   }
+
+  /// `Today's Summary`
+  String get todaysSummary {
+    return Intl.message(
+      'Today\'s Summary',
+      name: 'todaysSummary',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

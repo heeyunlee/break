@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
+import '../../../styles/constants.dart';
+import '../../../utils/formatter.dart';
 import '../workout_miniplayer_provider.dart';
 
 class WeightsAndRepsWidget extends ConsumerWidget {
@@ -26,7 +26,7 @@ class WeightsAndRepsWidget extends ConsumerWidget {
     // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
     // final workoutSet = watch(currentWorkoutSetProvider).state!;
 
-    final weights = Format.weights(workoutSet.weights!);
+    final weights = Formatter.weights(workoutSet.weights!);
     final unit = UnitOfMass.values[routine.initialUnitOfMass].label;
 
     return Center(

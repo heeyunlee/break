@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/routine.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class LocationWidget extends StatelessWidget {
   final Routine routine;

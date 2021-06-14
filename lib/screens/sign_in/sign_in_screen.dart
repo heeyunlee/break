@@ -17,7 +17,7 @@ import 'package:workout_player/services/mixpanel_manager.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../widgets/show_exception_alert_dialog.dart';
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'log_in_with_email_scree.dart';
 import 'email_signup/email_sign_up_screen.dart';
 
@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(updatedUserData);
 
         getSnackbarWidget(
           S.current.signInSuccessful,
@@ -174,7 +174,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(updatedUserData);
 
         getSnackbarWidget(
           S.current.signInSuccessful,
@@ -237,7 +237,7 @@ class _SignInScreenState extends State<SignInScreen> {
         final updatedUserData = {
           'lastLoginDate': currentTime,
         };
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(updatedUserData);
 
         getSnackbarWidget(
           S.current.signInSuccessful,
@@ -263,6 +263,8 @@ class _SignInScreenState extends State<SignInScreen> {
       print(firebaseUser.toString());
 
       // GET User data to Firebase
+      // final User? user =
+      //     await widget.database.getUserDocument(firebaseUser.uid);
       final User? user =
           await widget.database.getUserDocument(firebaseUser.uid);
 
@@ -299,7 +301,7 @@ class _SignInScreenState extends State<SignInScreen> {
           'lastLoginDate': currentTime,
         };
 
-        await widget.database.updateUser(firebaseUser.uid, updatedUserData);
+        await widget.database.updateUser(updatedUserData);
 
         getSnackbarWidget(
           S.current.signInSuccessful,

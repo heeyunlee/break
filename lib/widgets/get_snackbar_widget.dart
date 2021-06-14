@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 
 void getSnackbarWidget(String title, String message) {
   return Get.snackbar(

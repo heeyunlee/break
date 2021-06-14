@@ -5,7 +5,7 @@ import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.da
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class CloseMiniplayerButton extends StatelessWidget {
   Future<bool?> _closeModalBottomSheet(BuildContext context) {

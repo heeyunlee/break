@@ -5,8 +5,8 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 
-import '../../../constants.dart';
-import '../../../format.dart';
+import '../../../styles/constants.dart';
+import '../../../utils/formatter.dart';
 
 class WorkoutSetWidgetForHistory extends StatelessWidget {
   final RoutineHistory routineHistory;
@@ -25,9 +25,9 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String title = '${S.current.set} ${workoutSet.setIndex}';
-    final String unit = Format.unitOfMass(routineHistory.unitOfMass);
+    final String unit = Formatter.unitOfMass(routineHistory.unitOfMass);
     final num weights = workoutSet.weights!;
-    final String formattedWeights = '${Format.weights(weights)} $unit';
+    final String formattedWeights = '${Formatter.weights(weights)} $unit';
     final String reps = '${workoutSet.reps} ${S.current.x}';
     final String restTime = '${workoutSet.restTime} ${S.current.seconds}';
 

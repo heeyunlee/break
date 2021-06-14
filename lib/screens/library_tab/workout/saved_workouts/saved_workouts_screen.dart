@@ -14,7 +14,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 // ignore: must_be_immutable
 class SavedWorkoutsScreen extends StatelessWidget {

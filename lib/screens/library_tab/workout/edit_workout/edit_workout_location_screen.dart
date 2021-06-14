@@ -12,7 +12,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class EditWorkoutLocationScreen extends StatefulWidget {
   const EditWorkoutLocationScreen({

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/dummy_data.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/library_tab/routine/saved_routines/saved_routines_screen.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class SavedRoutinesTileWidget extends StatelessWidget {
   String _getSubtitle(User user) {
@@ -29,10 +28,10 @@ class SavedRoutinesTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+
     return CustomStreamBuilderWidget<User?>(
       initialData: userDummyData,
-      stream: database.userStream(auth.currentUser!.uid),
+      stream: database.userStream(),
       errorWidget: ListTile(
         leading: Icon(Icons.error, color: Colors.white),
         title: Text(S.current.errorOccuredMessage, style: kBodyText1Bold),

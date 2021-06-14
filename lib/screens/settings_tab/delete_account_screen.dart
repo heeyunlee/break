@@ -10,7 +10,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 
 class DeleteAccountScreen extends StatelessWidget {
   final User user;

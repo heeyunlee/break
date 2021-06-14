@@ -10,13 +10,13 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class ProteinEntriesScreen extends StatelessWidget {
   final Database database;
@@ -66,7 +66,7 @@ class ProteinEntriesScreen extends StatelessWidget {
 
       // Cloud Firestore Callback
       await database.deleteNutrition(nutrition);
-      await database.updateUser(user.userId, newUserData);
+      await database.updateUser(newUserData);
 
       getSnackbarWidget(
         S.current.deleteProteinSnackbarTitle,
@@ -110,8 +110,8 @@ class ProteinEntriesScreen extends StatelessWidget {
         emptyDisplay: EmptyContent(
           message: S.current.proteinEntriesEmptyMessage,
         ),
-        header: SizedBox(height: 16),
-        footer: const SizedBox(height: 16),
+        header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+        footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
         onError: (error) => EmptyContent(
           message: '${S.current.somethingWentWrong}: $error',
         ),
@@ -122,7 +122,7 @@ class ProteinEntriesScreen extends StatelessWidget {
           // final nutrition = Nutrition.fromJson(data!, documentId);
           final snapshot = documentSnapshot as DocumentSnapshot<Nutrition?>;
           final nutrition = snapshot.data()!;
-          final date = Format.yMdjm(nutrition.loggedTime);
+          final date = Formatter.yMdjm(nutrition.loggedTime);
 
           return Slidable(
             // startActionPane: const SlidableDrawerActionPane(),

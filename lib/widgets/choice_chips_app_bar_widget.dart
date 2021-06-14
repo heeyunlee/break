@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../styles/constants.dart';
 import '../models/enum/main_muscle_group.dart';
 
 typedef StringCallback = void Function(String val);

@@ -4,7 +4,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'search_category/search_category_screen.dart';
 import 'search_category/search_category_widget.dart';
 

@@ -18,7 +18,7 @@ import 'package:workout_player/screens/library_tab/routine/routine_detail_screen
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import '../../home_screen_provider.dart';
 
 class AddWorkoutToRoutineScreen extends StatefulWidget {
@@ -194,8 +194,10 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         ),
       ),
       itemsPerPage: 10,
-      header: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
-      footer: const SizedBox(height: 16),
+      header: SliverToBoxAdapter(
+        child: SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
+      ),
+      footer: SliverToBoxAdapter(child: const SizedBox(height: 16)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),

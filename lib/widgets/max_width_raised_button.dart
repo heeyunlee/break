@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../styles/constants.dart';
 
 class MaxWidthRaisedButton extends StatelessWidget {
   const MaxWidthRaisedButton({

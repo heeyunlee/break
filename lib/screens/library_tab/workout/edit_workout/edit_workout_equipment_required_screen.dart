@@ -14,7 +14,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
   const EditWorkoutEquipmentRequiredScreen({

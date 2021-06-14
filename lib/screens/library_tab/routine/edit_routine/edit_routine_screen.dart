@@ -21,7 +21,7 @@ import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
 import '../../../../widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../widgets/show_exception_alert_dialog.dart';
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import '../../../../models/routine.dart';
 import '../../../../services/database.dart';
 import '../../../home_screen_provider.dart';
@@ -47,7 +47,7 @@ class EditRoutineScreen extends StatefulWidget {
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
@@ -56,7 +56,7 @@ class EditRoutineScreen extends StatefulWidget {
         builder: (context) => EditRoutineScreen(
           database: database,
           routine: routine,
-          user: user!,
+          user: user,
         ),
       ),
     );

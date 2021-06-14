@@ -139,7 +139,7 @@
     "publicWorkoutDescription": "운동 공개를 하시면 커스텀 운동을 다른 유저들과 굥유할 수 있습니다",
     "deleteWorkoutWarningMessage": "정말로 운동을 삭제할까요? 데이터는 복구할 수 없습니다",
     "deleteWorkoutkButtonText": "운동 삭제",
-    "addWorkoutToRoutine": "운동을 루틴에 추가",
+    "addWorkoutToRoutine": "운동을 루틴에 추가해 주세요",
     "emptyRoutineMessage": "아직 커스텀 루틴을 만드시지 않았어요",
     "liftedWeights": "들어올린 중량",
     "homeTabEmptyMessage": "아무것도 없어요...",
@@ -351,5 +351,6 @@
     "signInSuccessful": "성공적으로 로그인했습니다",
     "createYourOwnRoutine": "커스텀 루틴을 만들어 보세요",
     "WorkoutSeamlesslyWithWorkoutPlayer": "운동 플레이어를 이용해서 운동하세요",
-    "todayIs": "오늘은 \n{today} \n입니다"
+    "todayIs": "오늘은 \n{today} \n입니다",
+    "todaysSummary": "오늘의 요약"
 }

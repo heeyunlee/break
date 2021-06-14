@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 
 class SearchHistoryListTileWidget extends StatelessWidget {
   final String query;

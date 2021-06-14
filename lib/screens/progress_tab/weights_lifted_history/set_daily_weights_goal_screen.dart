@@ -8,7 +8,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class SetDailyWeightsGoalScreen extends StatefulWidget {
   final Database database;

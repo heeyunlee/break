@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class SignUpOutlinedButton extends StatelessWidget {
   final String? logo;

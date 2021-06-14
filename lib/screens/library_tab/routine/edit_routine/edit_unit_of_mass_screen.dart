@@ -11,7 +11,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class EditUnitOfMassScreen extends StatefulWidget {
   const EditUnitOfMassScreen({

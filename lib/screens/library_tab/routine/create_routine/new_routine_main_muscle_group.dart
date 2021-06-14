@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class NewRoutineMainMuscleGroupScreen extends StatefulWidget {
   final ListCallback mainMuscleGroupCallback;

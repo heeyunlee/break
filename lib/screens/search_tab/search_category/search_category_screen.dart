@@ -17,7 +17,7 @@ import 'package:workout_player/screens/library_tab/routine/routine_detail_screen
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class SearchCategoryScreen extends StatelessWidget {
   const SearchCategoryScreen({
@@ -124,8 +124,8 @@ class SearchCategoryScreen extends StatelessWidget {
       emptyDisplay: EmptyContent(
         message: S.current.emptyContentTitle,
       ),
-      header: const SizedBox(height: 8),
-      footer: const SizedBox(height: 8),
+      header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
@@ -185,8 +185,8 @@ class SearchCategoryScreen extends StatelessWidget {
       emptyDisplay: EmptyContent(
         message: S.current.emptyContentTitle,
       ),
-      header: const SizedBox(height: 8),
-      footer: const SizedBox(height: 8),
+      header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),

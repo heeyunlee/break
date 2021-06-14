@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 
 class TitleWidget extends StatelessWidget {
   final String title;

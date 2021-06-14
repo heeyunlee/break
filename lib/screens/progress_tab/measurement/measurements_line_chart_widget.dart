@@ -4,15 +4,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 import 'measurements_screen.dart';
 
 class MeasurementsLineChartWidget extends StatefulWidget {
@@ -129,28 +129,19 @@ class _MeasurementsLineChartWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Card(
-        margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        color: kCardColor,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: _buildChartWidget(),
-        ),
+    return BlurBackgroundCard(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: _buildChartWidget(),
       ),
     );
   }
 
   Widget _buildChartWidget() {
     final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
 
     return CustomStreamBuilderWidget<List<Measurement>>(
-      stream: database.measurementsStreamThisWeek(auth.currentUser!.uid),
+      stream: database.measurementsStreamThisWeek(),
       hasDataWidget: (context, snapshot) {
         setMaxY(snapshot.data!);
 
@@ -261,7 +252,7 @@ class _MeasurementsLineChartWidgetState
                           // reservedSize: 20,
                           getTextStyles: (value) => kCaption1Grey,
                           getTitles: (value) {
-                            final unit = Format.unitOfMass(
+                            final unit = Formatter.unitOfMass(
                               widget.user.unitOfMass,
                             );
                             final interaval = (maxY - minY) / 4;

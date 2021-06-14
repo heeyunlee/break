@@ -11,7 +11,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 
 class UnitOfMassScreen extends StatefulWidget {
   const UnitOfMassScreen({
@@ -63,7 +63,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       final user = {
         'unitOfMass': _unitOfMass,
       };
-      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+      await widget.database.updateUser(user);
 
       getSnackbarWidget(
         S.current.unitOfMass,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class SocialSignInButton extends StatelessWidget {
   final Color color;

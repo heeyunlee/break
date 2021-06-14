@@ -9,14 +9,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../format.dart';
+import '../../utils/formatter.dart';
 
 class RoutineHistorySummaryScreen extends StatefulWidget {
   final RoutineHistory routineHistory;
@@ -136,17 +136,17 @@ class _RoutineHistorySummaryScreenState
 
     // Unit Of Mass
     final _unit = routineHistory.unitOfMass;
-    _formattedUnit = Format.unitOfMass(_unit);
+    _formattedUnit = Formatter.unitOfMass(_unit);
 
     // Number Formatting
     final _weights = routineHistory.totalWeights;
-    _formattedWeight = Format.weights(_weights);
+    _formattedWeight = Formatter.weights(_weights);
 
     // Date / Time
     final startTime = routineHistory.workoutStartTime;
-    final formattedStartTime = Format.timeInHM(startTime);
+    final formattedStartTime = Formatter.timeInHM(startTime);
     final endTime = routineHistory.workoutEndTime;
-    final formattedEndTime = Format.timeInHM(endTime);
+    final formattedEndTime = Formatter.timeInHM(endTime);
 
     _formattedDuration = '$formattedStartTime ~ $formattedEndTime';
   }

@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../../../constants.dart';
+import '../../../styles/constants.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
   RoutineHistorySummaryCard({
@@ -47,10 +47,10 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   }
 
   Widget _buildChild() {
-    final formattedDate = Format.date(date);
-    final weights = Format.weights(totalWeights);
-    final unit = Format.unitOfMass(unitOfMass);
-    final durationInMinutes = Format.durationInMin(totalDuration);
+    final formattedDate = Formatter.date(date);
+    final weights = Formatter.weights(totalWeights);
+    final unit = Formatter.unitOfMass(unitOfMass);
+    final durationInMinutes = Formatter.durationInMin(totalDuration);
 
     return Column(
       children: <Widget>[

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 
 class SearchResultListTile extends StatelessWidget {
   final String? title;

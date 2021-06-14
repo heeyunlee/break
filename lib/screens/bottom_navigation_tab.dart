@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/screens/home_screen_provider.dart';
 import 'package:workout_player/screens/tab_item.dart';
 

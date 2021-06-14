@@ -94,7 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addWorkout": MessageLookupByLibrary.simpleMessage("운동 추가"),
         "addWorkoutLog": MessageLookupByLibrary.simpleMessage("운동 기록하기"),
         "addWorkoutToRoutine":
-            MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가"),
+            MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가해 주세요"),
         "addWorkoutToRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("운동을 루틴에 추가했습니다"),
         "addWorkoutToRoutineSnackbarMessage": m0,
@@ -494,6 +494,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "toPreviousSet": MessageLookupByLibrary.simpleMessage("이전 세트로"),
         "toPreviousWorkout": MessageLookupByLibrary.simpleMessage("이전 운동으로"),
         "todayIs": m11,
+        "todaysSummary": MessageLookupByLibrary.simpleMessage("오늘의 요약"),
         "todaysWorkoutSummary":
             MessageLookupByLibrary.simpleMessage("오늘의 운동 요약: "),
         "totalVolumeHintText":

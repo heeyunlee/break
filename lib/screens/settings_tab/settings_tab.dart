@@ -7,7 +7,7 @@ import 'package:workout_player/screens/home_screen_provider.dart';
 import 'package:workout_player/screens/tab_item.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
-import 'package:workout_player/dummy_data.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
@@ -18,7 +18,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 
 import '../../widgets/show_alert_dialog.dart';
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import 'change_language_screen.dart';
 import 'manage_account_screen.dart';
 
@@ -130,14 +130,14 @@ class SettingsTab extends StatelessWidget {
 
     return StreamBuilder<User?>(
         initialData: userDummyData,
-        stream: database.userStream(auth.currentUser!.uid),
+        stream: database.userStream(),
         builder: (context, snapshot) {
           final user = snapshot.data;
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              // mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                 Padding(
@@ -288,11 +288,11 @@ class SettingsTab extends StatelessWidget {
                   leading: const Icon(Icons.logout, color: Colors.white),
                   title: Text(S.current.logout, style: kBodyText2),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 48),
                 // const Spacer(),
                 // TODO: Change Version HERE
                 Center(child: const Text('v.0.3.0', style: kCaption1Grey)),
-                const SizedBox(height: 38),
+                const SizedBox(height: 80),
               ],
             ),
           );

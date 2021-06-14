@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/format.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
@@ -12,7 +12,7 @@ import '../../widgets/appbar_blur_bg.dart';
 import '../../widgets/choice_chips_app_bar_widget.dart';
 import '../../widgets/custom_list_tile_3.dart';
 import '../../widgets/list_item_builder.dart';
-import '../../constants.dart';
+import '../../styles/constants.dart';
 import '../../models/routine.dart';
 import '../../services/database.dart';
 import '../home_screen_provider.dart';
@@ -33,7 +33,9 @@ class StartWorkoutShortcutScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
+    // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
+
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -127,9 +129,9 @@ class _StartWorkoutShortcutScreenState
             ),
             snapshot: snapshot,
             itemBuilder: (context, routine) {
-              final trainingLevel = Format.difficulty(routine.trainingLevel);
-              final weights = Format.weights(routine.totalWeights);
-              final unit = Format.unitOfMass(routine.initialUnitOfMass);
+              final trainingLevel = Formatter.difficulty(routine.trainingLevel);
+              final weights = Formatter.weights(routine.totalWeights);
+              final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
 
               final duration = Duration(seconds: routine.duration).inMinutes;
 

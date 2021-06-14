@@ -12,7 +12,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 
 class ChangeDisplayNameScreen extends StatefulWidget {
   const ChangeDisplayNameScreen({
@@ -71,7 +71,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
         final user = {
           'displayName': _displayName,
         };
-        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+        await widget.database.updateUser(user);
 
         // Updating username in Routine History
         List<Map<String, dynamic>> routineHistories = [];

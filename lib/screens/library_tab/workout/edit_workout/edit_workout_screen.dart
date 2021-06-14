@@ -21,7 +21,7 @@ import '../../../../widgets/appbar_blur_bg.dart';
 import '../../../../widgets/max_width_raised_button.dart';
 import '../../../../widgets/show_adaptive_modal_bottom_sheet.dart';
 import '../../../../widgets/show_exception_alert_dialog.dart';
-import '../../../../constants.dart';
+import '../../../../styles/constants.dart';
 import '../../../../services/database.dart';
 import '../../../home_screen_provider.dart';
 import 'edit_workout_equipment_required_screen.dart';

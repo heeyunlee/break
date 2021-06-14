@@ -535,6 +535,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "toPreviousWorkout":
             MessageLookupByLibrary.simpleMessage("To Previous Workout"),
         "todayIs": m11,
+        "todaysSummary":
+            MessageLookupByLibrary.simpleMessage("Today\'s Summary"),
         "todaysWorkoutSummary":
             MessageLookupByLibrary.simpleMessage("Today\'s Workout Summary: "),
         "totalVolumeHintText":

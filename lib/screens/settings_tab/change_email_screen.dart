@@ -11,7 +11,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../constants.dart';
+import '../../styles/constants.dart';
 
 class ChangeEmailScreen extends StatefulWidget {
   const ChangeEmailScreen({
@@ -82,7 +82,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         final user = {
           'userEmail': _email,
         };
-        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+        await widget.database.updateUser(user);
 
         debugPrint('Updated userEmail');
 
