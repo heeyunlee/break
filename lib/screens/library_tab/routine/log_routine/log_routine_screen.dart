@@ -194,6 +194,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
             secondsPerRep: rw.secondsPerRep,
             translated: rw.translated,
             sets: rw.sets,
+            workoutTime: Timestamp.fromDate(_workoutEndTime),
+            workoutDate: Timestamp.fromDate(workoutDate),
+            unitOfMass: widget.routine.initialUnitOfMass,
           );
           workoutHistories.add(workoutHistory);
         },

@@ -430,10 +430,10 @@ class S {
     );
   }
 
-  /// `Are you sure you want to logout?`
+  /// `Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data`
   String get confirmSignOutContext {
     return Intl.message(
-      'Are you sure you want to logout?',
+      'Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data',
       name: 'confirmSignOutContext',
       desc: '',
       args: [],
@@ -3061,10 +3061,10 @@ class S {
   }
 
   /// `History`
-  String get routineHistory {
+  String get history {
     return Intl.message(
       'History',
-      name: 'routineHistory',
+      name: 'history',
       desc: '',
       args: [],
     );
@@ -3585,6 +3585,26 @@ class S {
     return Intl.message(
       'Today\'s Summary',
       name: 'todaysSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take a look`
+  String get takeALook {
+    return Intl.message(
+      'Take a look',
+      name: 'takeALook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message(
+      'Overview',
+      name: 'overview',
       desc: '',
       args: [],
     );

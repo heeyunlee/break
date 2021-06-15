@@ -1,7 +1,7 @@
 import 'package:algolia/algolia.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/services/algolia_manager.dart';
 
 // TODO: Extract Search Model HERE
 

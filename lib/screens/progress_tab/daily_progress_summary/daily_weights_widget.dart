@@ -78,7 +78,7 @@ class DailyWeightsWidget extends ConsumerWidget {
                   radius: size.width / 2.4,
                   lineWidth: 12,
                   percent: _weightsProgress,
-                  backgroundColor: kPrimaryColor.withOpacity(0.5),
+                  backgroundColor: kPrimaryColor.withOpacity(0.25),
                   progressColor: kPrimaryColor,
                   animation: true,
                   animationDuration: 1000,

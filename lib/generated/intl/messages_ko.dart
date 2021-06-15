@@ -146,8 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmPassword": MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
         "confirmPasswordHintText":
             MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
-        "confirmSignOutContext":
-            MessageLookupByLibrary.simpleMessage("정말로 로그아웃 할까요?"),
+        "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
+            "정말로 로그아웃 할까요? 익명으로 로그인 하셨다면 데이터는 다시 복구할 수 없습니다"),
         "continueAnonymously": MessageLookupByLibrary.simpleMessage("둘러보기"),
         "continueButton": MessageLookupByLibrary.simpleMessage("계속"),
         "continueWithApple":
@@ -295,6 +295,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gym": MessageLookupByLibrary.simpleMessage("헬스장"),
         "gymBall": MessageLookupByLibrary.simpleMessage("짐 볼"),
         "hamstring": MessageLookupByLibrary.simpleMessage("햄스트링"),
+        "history": MessageLookupByLibrary.simpleMessage("기록"),
         "homeTabEmptyMessage":
             MessageLookupByLibrary.simpleMessage("아무것도 없어요..."),
         "intermediate": MessageLookupByLibrary.simpleMessage("중급"),
@@ -362,6 +363,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "other": MessageLookupByLibrary.simpleMessage("그 외"),
         "others": MessageLookupByLibrary.simpleMessage("기타"),
         "outdoor": MessageLookupByLibrary.simpleMessage("야외"),
+        "overview": MessageLookupByLibrary.simpleMessage("설명"),
         "password": MessageLookupByLibrary.simpleMessage("비밀번호"),
         "passwordAllCap": MessageLookupByLibrary.simpleMessage("비밀번호"),
         "passwordHintText":
@@ -394,7 +396,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "rest": MessageLookupByLibrary.simpleMessage("휴식"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("운동 계속하기"),
         "routine": MessageLookupByLibrary.simpleMessage("루틴"),
-        "routineHistory": MessageLookupByLibrary.simpleMessage("기록"),
         "routineHistoryTitle": MessageLookupByLibrary.simpleMessage("운동 기록"),
         "routineHistoyEmptyMessage":
             MessageLookupByLibrary.simpleMessage("커스텀 루틴을 이용하여 운동하고 기록해보세요!"),
@@ -482,6 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submitUserFeedbackSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("피드백이 제출됐습니다"),
         "support": MessageLookupByLibrary.simpleMessage("서포트"),
+        "takeALook": MessageLookupByLibrary.simpleMessage("둘러보기"),
         "terms": MessageLookupByLibrary.simpleMessage("서비스 약관"),
         "thisWeek": MessageLookupByLibrary.simpleMessage("이번 주"),
         "time": MessageLookupByLibrary.simpleMessage("시간"),

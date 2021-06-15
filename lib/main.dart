@@ -14,8 +14,8 @@ import 'package:workout_player/services/private_keys.dart';
 
 import 'generated/l10n.dart';
 import 'screens/landing_screen.dart';
+import 'services/algolia_manager.dart';
 import 'services/database.dart';
-import 'services/main_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

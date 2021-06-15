@@ -64,6 +64,68 @@ class _SignInScreenState extends State<SignInScreen> {
 
   set setBool(bool value) => setState(() => _showPreview = value);
 
+  /// SIGN IN ANONYMOUSLY
+  Future<void> _signInAnonymously(BuildContext context) async {
+    logger.d('sign in with Anonymously pressed');
+    MixpanelManager.track('signed up Anonymously');
+
+    try {
+      await widget.signInBloc.signInAnonymously();
+
+      final firebaseUser = widget.signInBloc.auth.currentUser!;
+
+      // Check if the user document exists in Cloud Firestore
+      final User? user =
+          await widget.database.getUserDocument(firebaseUser.uid);
+
+      // Create new data if it does NOT exist
+      if (user == null) {
+        final uniqueId = UniqueKey().toString();
+        final id = 'Player $uniqueId';
+        final currentTime = Timestamp.now();
+
+        final userData = User(
+          userId: firebaseUser.uid,
+          displayName: id,
+          userName: id,
+          userEmail: null,
+          signUpDate: currentTime,
+          signUpProvider: 'Anonymous',
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          unitOfMass: (locale == 'ko') ? 0 : 1,
+          lastLoginDate: currentTime,
+          dailyWorkoutHistories: [],
+          dailyNutritionHistories: [],
+          savedRoutines: [],
+          savedWorkouts: [],
+          dailyProteinGoal: 0,
+          dailyWeightsGoal: 0,
+          backgroundImageIndex: 0,
+        );
+        await widget.database.setUser(userData);
+        // TODO: add snackbar HERE
+
+      } else {
+        // Update Data if exist
+        final currentTime = Timestamp.now();
+
+        final updatedUserData = {
+          'lastLoginDate': currentTime,
+        };
+        await widget.database.updateUser(updatedUserData);
+
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.signInSnackbarMessage(user.displayName),
+        );
+      }
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      _showSignInError(e, context);
+    }
+  }
+
   /// SIGN IN WITH GOOGLE
   Future<void> _signInWithGoogle(BuildContext context) async {
     logger.d('sign in with google pressed');
@@ -99,6 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
           dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
+          backgroundImageIndex: 0,
         );
         await widget.database.setUser(userData);
         // TODO: add snackbar HERE
@@ -158,6 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
           dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
+          backgroundImageIndex: 0,
         );
         await widget.database.setUser(userData);
 
@@ -226,6 +290,7 @@ class _SignInScreenState extends State<SignInScreen> {
           dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
+          backgroundImageIndex: 0,
         );
         await widget.database.setUser(userData);
         // TODO: add snackbar HERE
@@ -287,6 +352,7 @@ class _SignInScreenState extends State<SignInScreen> {
           dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
+          backgroundImageIndex: 0,
         );
 
         await widget.database.setUser(userData);
@@ -322,33 +388,35 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // Future<Mixpanel> initMixPanel() async {
-  //   mixpanel = await MixpanelManager.init();
-  //   return mixpanel;
-  // }
-
   @override
   Widget build(BuildContext context) {
     logger.d('sign in screen scaffold building...');
-    // initMixPanel();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        actions: [
+          if (!_showPreview)
+            TextButton(
+              onPressed:
+                  widget.isLoading ? null : () => _signInAnonymously(context),
+              child: Text(S.current.takeALook, style: kGoogleSignInStyleWhite),
+            ),
+          const SizedBox(width: 16),
+        ],
         leading: (_showPreview)
             ? null
             : IconButton(
                 icon: const Icon(Icons.arrow_back_rounded),
                 onPressed: widget.isLoading
                     ? null
-                    : () => setState(() {
-                          _showPreview = true;
-                        }),
+                    : () => setState(() => _showPreview = true),
               ),
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
+
       backgroundColor: kBackgroundColor,
 
       // For smooth transition between PreviewScreen and SignUpScreen
@@ -464,6 +532,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   widget.isLoading ? null : () => _signInWithKakao(context),
             ),
 
+            // LOG IN BUTTON
             TextButton(
               onPressed: widget.isLoading
                   ? null

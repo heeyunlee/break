@@ -51,7 +51,7 @@ class DailyNutritionWidget extends ConsumerWidget {
                   radius: size.width / 3,
                   lineWidth: 12,
                   percent: _proteinsProgress,
-                  backgroundColor: Colors.greenAccent.withOpacity(0.5),
+                  backgroundColor: Colors.greenAccent.withOpacity(0.25),
                   progressColor: Colors.greenAccent,
                   animation: true,
                   animationDuration: 1000,
@@ -94,7 +94,7 @@ class DailyNutritionWidget extends ConsumerWidget {
     return DailySummaryNumbersWidget(
       title: S.current.proteins,
       backgroundColor: Colors.greenAccent,
-      textStyle: kBodyText1Menlo,
+      textStyle: kBodyText1MenloBlack,
       hundreds: hundreds,
       tens: tens,
       ones: ones,

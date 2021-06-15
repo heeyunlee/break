@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'workout_set.dart';
 
 class WorkoutHistory {
@@ -16,6 +18,9 @@ class WorkoutHistory {
   final int duration;
   final int secondsPerRep;
   final Map<String, dynamic> translated;
+  final Timestamp? workoutTime; // Nullable
+  final Timestamp? workoutDate; // Nullable
+  final int? unitOfMass; // Nullable
 
   const WorkoutHistory({
     required this.workoutHistoryId,
@@ -33,6 +38,9 @@ class WorkoutHistory {
     required this.duration,
     required this.secondsPerRep,
     required this.translated,
+    required this.workoutTime,
+    required this.workoutDate,
+    required this.unitOfMass,
   });
 
   factory WorkoutHistory.fromJson(
@@ -48,7 +56,7 @@ class WorkoutHistory {
       final int numberOfSets = data['numberOfSets'];
       final int numberOfReps = data['numberOfReps'];
       final num totalWeights = data['totalWeights'];
-      List<WorkoutSet>? sets = <WorkoutSet>[];
+      List<WorkoutSet>? sets = <WorkoutSet>[]; // Nullable
       if (data['sets'] != null) {
         data['sets'].forEach((item) {
           sets.add(WorkoutSet.fromJson(item));
@@ -58,6 +66,9 @@ class WorkoutHistory {
       final int duration = data['duration'];
       final int secondsPerRep = data['secondsPerRep'];
       final Map<String, dynamic> translated = data['translated'];
+      final Timestamp? workoutTime = data['workoutTime']; // Nullable
+      final Timestamp? workoutDate = data['workoutDate']; // Nullable
+      final int? unitOfMass = data['unitOfMass']; // Nullable
 
       return WorkoutHistory(
         workoutHistoryId: workoutHistoryId,
@@ -75,6 +86,9 @@ class WorkoutHistory {
         duration: duration,
         secondsPerRep: secondsPerRep,
         translated: translated,
+        workoutTime: workoutTime,
+        workoutDate: workoutDate,
+        unitOfMass: unitOfMass,
       );
     } else {
       throw 'null';
@@ -99,6 +113,8 @@ class WorkoutHistory {
     data['duration'] = duration;
     data['secondsPerRep'] = secondsPerRep;
     data['translated'] = translated;
+    data['workoutTime'] = workoutTime;
+    data['workoutDate'] = workoutDate;
 
     return data;
   }

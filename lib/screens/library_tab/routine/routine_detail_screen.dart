@@ -211,7 +211,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 indicatorColor: kPrimaryColor,
                 tabs: [
                   Tab(text: S.current.workoutsUpperCase),
-                  Tab(text: S.current.routineHistory),
+                  Tab(text: S.current.history),
                 ],
               ),
             ),

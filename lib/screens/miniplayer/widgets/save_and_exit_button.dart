@@ -106,6 +106,9 @@ class SaveAndExitButton extends ConsumerWidget {
             secondsPerRep: rw.secondsPerRep,
             translated: rw.translated,
             sets: rw.sets,
+            workoutTime: workoutEndTime,
+            workoutDate: Timestamp.fromDate(workoutDate),
+            unitOfMass: routine.initialUnitOfMass,
           );
           workoutHistories.add(workoutHistory);
         },

@@ -1,9 +1,11 @@
 import 'dart:ui' as ui;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/progress_tab/progress_tab_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
@@ -115,21 +117,7 @@ class _ProgressTabState extends State<ProgressTab>
       alignment: Alignment.center,
       fit: StackFit.passthrough,
       children: [
-        _buildBlurredBG(),
-        // Container(
-        //   decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //       begin: Alignment(0, -1),
-        //       end: Alignment(0, 1),
-        //       colors: [
-        //         Colors.transparent,
-        //         Colors.black.withOpacity(0),
-        //       ],
-        //     ),
-        //   ),
-        //   width: size.width,
-        //   height: size.height,
-        // ),
+        _buildBlurredBG(user),
         Padding(
           padding: EdgeInsets.only(top: Scaffold.of(context).appBarMaxHeight!),
           child: SingleChildScrollView(
@@ -140,7 +128,6 @@ class _ProgressTabState extends State<ProgressTab>
                   SizedBox(height: size.height * 0.5),
                   Stack(
                     children: [
-                      // Text(S.current.todaysSummary, style: kBodyText2),
                       DailyWeightsWidget(user: user),
                       DailyNutritionWidget(user: user),
                     ],
@@ -158,13 +145,18 @@ class _ProgressTabState extends State<ProgressTab>
     );
   }
 
-  AnimatedBuilder _buildBlurredBG() {
+  AnimatedBuilder _buildBlurredBG(User user) {
     return AnimatedBuilder(
       animation: _bgAnimationController,
       builder: (context, child) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: ExactAssetImage('assets/images/AdobeStock_86647104.jpeg'),
+            image: CachedNetworkImageProvider(
+              ProgressTabProvider.bgURL[user.backgroundImageIndex ?? 0],
+            ),
+            // image: ExactAssetImage(
+            //   ProgressTabProvider.bgList[user.backgroundImageIndex ?? 0],
+            // ),
             fit: BoxFit.cover,
           ),
         ),

@@ -49,7 +49,15 @@ class SettingsTab extends StatelessWidget {
   Future<void> _signOut(BuildContext context, AuthBase auth) async {
     try {
       // FirebaseCrashlytics.instance.crash();
-      await auth.signOut();
+      if (auth.currentUser!.isAnonymous) {
+        debugPrint('signed in anonymously');
+        // await auth.signOut();
+        await auth.currentUser!.delete();
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } else {
+        await auth.signOut();
+      }
+
       Navigator.of(context).pop();
       currentTab = CustomTabItem.progress;
       currentTabIndex = 0;
@@ -83,14 +91,8 @@ class SettingsTab extends StatelessWidget {
       applicationName: S.current.applicationName,
       applicationVersion: '0.3.0',
       applicationIcon: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-        ),
-        child: Image.asset(
-          'assets/logos/herakless_logo.png',
-          width: 36,
-          height: 36,
-        ),
+        decoration: BoxDecoration(color: kBackgroundColor),
+        child: Image.asset('assets/logos/icon.png', width: 36, height: 36),
       ),
     );
   }
@@ -132,7 +134,8 @@ class SettingsTab extends StatelessWidget {
         initialData: userDummyData,
         stream: database.userStream(),
         builder: (context, snapshot) {
-          final user = snapshot.data;
+          // final user = snapshot.data;
+          final User? user = userDummyData;
 
           return SingleChildScrollView(
             child: Column(
@@ -289,10 +292,9 @@ class SettingsTab extends StatelessWidget {
                   title: Text(S.current.logout, style: kBodyText2),
                 ),
                 const SizedBox(height: 48),
-                // const Spacer(),
                 // TODO: Change Version HERE
                 Center(child: const Text('v.0.3.0', style: kCaption1Grey)),
-                const SizedBox(height: 80),
+                const SizedBox(height: 120),
               ],
             ),
           );

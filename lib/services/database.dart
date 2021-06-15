@@ -245,6 +245,8 @@ abstract class Database {
     List<WorkoutHistory> workoutHistories,
   );
   Stream<List<WorkoutHistory>> workoutHistoriesStream(String routineHistoryId);
+  Stream<List<WorkoutHistory?>> workoutHistoriesThisWeekStream(
+      String workoutId);
 }
 
 ///
@@ -1040,6 +1042,21 @@ class FirestoreDatabase implements Database {
         isEqualToValue: routineHistoryId,
         orderByVariable: 'index',
         isDescending: false,
+        fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Stream of Specific Workout's History
+  @override
+  Stream<List<WorkoutHistory?>> workoutHistoriesThisWeekStream(
+          String workoutId) =>
+      _service.collectionStreamOfThisWeek2<WorkoutHistory>(
+        path: APIPath.workoutHistories(),
+        uid: uid!,
+        uidVariableName: 'uid',
+        dateVariableName: 'workoutDate',
+        whereVariableName: 'workoutId',
+        isEqualToVariable: workoutId,
         fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );

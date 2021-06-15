@@ -37,7 +37,7 @@
     "applicationName": "Herakles",
     "launguage": "Language",
     "logout": "Logout",
-    "confirmSignOutContext": "Are you sure you want to logout?",
+    "confirmSignOutContext": "Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data",
     "cancel": "Cancel",
     "quickSummary": "Quick Summary",
     "sets": "Sets",
@@ -300,7 +300,7 @@
     "progressTabIntroduction": "Hello,\n{displayName}",
     "proteins": "Proteins",
     "workoutsUpperCase": "Workouts",
-    "routineHistory": "History",
+    "history": "History",
     "progress": "Progress",
     "search": "Search",
     "searchBarHintText": "Search Workouts",
@@ -352,5 +352,7 @@
     "createYourOwnRoutine": "Create Your Own Routine",
     "WorkoutSeamlesslyWithWorkoutPlayer": "Workout Seamlessly With Workout Player",
     "todayIs": "Today Is \n{today}",
-    "todaysSummary": "Today's Summary"
+    "todaysSummary": "Today's Summary",
+    "takeALook": "Take a look",
+    "overview": "Overview"
 }

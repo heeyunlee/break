@@ -37,7 +37,7 @@
     "applicationName": "헤라클레스",
     "launguage": "언어",
     "logout": "로그아웃",
-    "confirmSignOutContext": "정말로 로그아웃 할까요?",
+    "confirmSignOutContext": "정말로 로그아웃 할까요? 익명으로 로그인 하셨다면 데이터는 다시 복구할 수 없습니다",
     "cancel": "취소",
     "quickSummary": "운동 요약",
     "sets": "세트",
@@ -300,7 +300,7 @@
     "progressTabIntroduction": "안녕하세요,\n{displayName}님",
     "proteins": "단백질",
     "workoutsUpperCase": "운동",
-    "routineHistory": "기록",
+    "history": "기록",
     "progress": "기록",
     "search": "검색",
     "searchBarHintText": "운동을 검색하세요",
@@ -352,5 +352,7 @@
     "createYourOwnRoutine": "커스텀 루틴을 만들어 보세요",
     "WorkoutSeamlesslyWithWorkoutPlayer": "운동 플레이어를 이용해서 운동하세요",
     "todayIs": "오늘은 \n{today} \n입니다",
-    "todaysSummary": "오늘의 요약"
+    "todaysSummary": "오늘의 요약",
+    "takeALook": "둘러보기",
+    "overview": "설명"
 }

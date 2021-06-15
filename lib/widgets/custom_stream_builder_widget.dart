@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import 'empty_content.dart';
 
@@ -30,7 +31,11 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
         if (snapshot.hasData) {
           return hasDataWidget(context, snapshot);
         } else if (snapshot.hasError) {
-          return errorWidget ?? EmptyContent();
+          return errorWidget ??
+              EmptyContent(
+                message: S.current.errorOccuredMessage,
+                e: snapshot.error,
+              );
         }
         return loadingWidget ?? Center(child: CircularProgressIndicator());
       },

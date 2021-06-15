@@ -513,6 +513,12 @@ const kGoogleSignInStyleWhite = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.w400,
 );
+const kGoogleSignInStyleWhite2 = TextStyle(
+  fontFamily: 'Roboto',
+  fontSize: 12,
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+);
 
 // OTHERS //
 const kCustomDivider = Divider(

@@ -64,7 +64,7 @@ class AuthService implements AuthBase {
   @override
   Future<auth.User?> signInAnonymously() async {
     logger.d('signInAnonymously triggered in auth');
-    var userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
+    final userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
     final user = userCredential.user;
 
     final currentUser = _auth.currentUser;

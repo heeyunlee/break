@@ -7,6 +7,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/screens/library_tab/workout/workout_detail_screen.dart';
+import 'package:workout_player/services/algolia_manager.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 
@@ -20,10 +21,12 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
+  final locale = Intl.getCurrentLocale();
+
   late FloatingSearchBarController _controller;
   // TODO: Extract search model HERE
   AlgoliaIndexReference algoliaIndexReference =
-      AlgoliaManager.init().instance.index('dev_WORKOUTS');
+      AlgoliaManager.init().instance.index('prod_WORKOUTS');
   List<AlgoliaObjectSnapshot> searchResults = [];
   bool _isLoading = false;
 
@@ -40,14 +43,19 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   void onQueryChanged(String query) async {
-    _isLoading = true;
-    final algoliaQuery = algoliaIndexReference.query(query);
-    final snapshot = await algoliaQuery.getObjects();
-    final result = snapshot.hits;
-    setState(() {
-      _isLoading = false;
-      searchResults = result;
-    });
+    if (query.isNotEmpty) {
+      _isLoading = true;
+      final algoliaQuery = algoliaIndexReference
+          .query(query)
+          .setEnablePersonalization(enabled: true);
+
+      final snapshot = await algoliaQuery.getObjects();
+      final result = snapshot.hits;
+      setState(() {
+        _isLoading = false;
+        searchResults = result;
+      });
+    }
   }
 
   @override
@@ -55,7 +63,6 @@ class _SearchTabState extends State<SearchTab> {
     logger.d('SearchTab Scaffold building...');
 
     final size = MediaQuery.of(context).size;
-    final locale = Intl.getCurrentLocale();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -112,7 +119,7 @@ class _SearchTabState extends State<SearchTab> {
         ],
         transition: CircularFloatingSearchBarTransition(),
         physics: BouncingScrollPhysics(),
-        // onQueryChanged: onQueryChanged,
+        onQueryChanged: onQueryChanged,
         onSubmitted: onQueryChanged,
         body: FloatingSearchBarScrollNotifier(child: SearchTabBodyWidget()),
         builder: (context, transition) => (searchResults.isEmpty)

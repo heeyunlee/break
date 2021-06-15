@@ -158,7 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmPasswordHintText":
             MessageLookupByLibrary.simpleMessage("Confirm your password"),
         "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to logout?"),
+            "Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data"),
         "continueAnonymously":
             MessageLookupByLibrary.simpleMessage("Continue Anonymously"),
         "continueButton": MessageLookupByLibrary.simpleMessage("CONTINUE"),
@@ -317,6 +317,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gym": MessageLookupByLibrary.simpleMessage("Gym"),
         "gymBall": MessageLookupByLibrary.simpleMessage("Gym Ball"),
         "hamstring": MessageLookupByLibrary.simpleMessage("Hamstring"),
+        "history": MessageLookupByLibrary.simpleMessage("History"),
         "homeTabEmptyMessage":
             MessageLookupByLibrary.simpleMessage("Nothing\'s here..."),
         "intermediate": MessageLookupByLibrary.simpleMessage("Intermediate"),
@@ -390,6 +391,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "other": MessageLookupByLibrary.simpleMessage("Other"),
         "others": MessageLookupByLibrary.simpleMessage("Others"),
         "outdoor": MessageLookupByLibrary.simpleMessage("Outdoor"),
+        "overview": MessageLookupByLibrary.simpleMessage("Overview"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordAllCap": MessageLookupByLibrary.simpleMessage("PASSWORD"),
         "passwordHintText":
@@ -423,7 +425,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "rest": MessageLookupByLibrary.simpleMessage("Rest"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("Resume Workout"),
         "routine": MessageLookupByLibrary.simpleMessage("routine"),
-        "routineHistory": MessageLookupByLibrary.simpleMessage("History"),
         "routineHistoryTitle":
             MessageLookupByLibrary.simpleMessage("Histories"),
         "routineHistoyEmptyMessage": MessageLookupByLibrary.simpleMessage(
@@ -520,6 +521,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submitUserFeedbackSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Feedback Submitted"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
+        "takeALook": MessageLookupByLibrary.simpleMessage("Take a look"),
         "terms": MessageLookupByLibrary.simpleMessage("Terms"),
         "thisWeek": MessageLookupByLibrary.simpleMessage("This Week"),
         "time": MessageLookupByLibrary.simpleMessage("Time"),

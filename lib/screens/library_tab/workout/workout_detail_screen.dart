@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/screens/library_tab/workout/overview_tab/workout_overview_tab.dart';
 import 'package:workout_player/screens/library_tab/workout/widget/save_unsave_workout_button_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -21,6 +22,7 @@ import '../../../styles/constants.dart';
 import 'add_workout_to_routine_screen.dart';
 import 'edit_workout/edit_workout_screen.dart';
 import 'widget/workout_title_widget.dart';
+import 'workout_histories_tab/workout_histories_tab.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   final Workout? workout;
@@ -71,7 +73,7 @@ class WorkoutDetailScreen extends StatefulWidget {
 
 class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     with TickerProviderStateMixin {
-  final List<String> _tabs = ['Overview', 'Tips'];
+  final List<String> _tabs = [S.current.overview, S.current.history];
 
   late ScrollController _scrollController;
   late AnimationController _textAnimationController;
@@ -97,7 +99,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
 
     _scrollController = ScrollController()
       ..addListener(() {
-        debugPrint('offset is ${_scrollController.offset}');
+        // debugPrint('offset is ${_scrollController.offset}');
 
         _textAnimationController
             .animateTo((_scrollController.offset - 200) / 100);
@@ -349,54 +351,14 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   }
 
   Widget _buildTabBarView(Workout workout) {
-    // print(locale);
-    // print(workout.translatedDescription);
-    // print(workout.translatedDescription?[locale]);
-
-    // final String description =
-    //     workout.translatedDescription?[locale] ?? workout.description;
-
-    // final s = YoutubePlayer.convertUrlToId(
-    //     'https://www.youtube.com/watch?v=Ia9DYFMkMmU');
-
     return TabBarView(
       children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                // Text(description, style: kBodyText1),
-                Placeholder(),
-                Placeholder(),
-              ],
-            ),
-          ),
+        WorkoutOverviewTab(workout: workout),
+        WorkoutHistoriesTab(
+          user: widget.user,
+          database: widget.database,
+          workout: workout,
         ),
-        Column(
-          children: [
-            Placeholder(),
-            Placeholder(),
-          ],
-        ),
-        // YoutubePlayerBuilder(
-        //   player: YoutubePlayer(
-        //     controller: YoutubePlayerController(initialVideoId: s!),
-        //     // controller: _controller,
-        //     showVideoProgressIndicator: true,
-        //     progressIndicatorColor: Colors.amber,
-        //     onReady: () {
-        //       // _controller.addListener(listener);
-        //     },
-        //   ),
-        //   builder: (context, player) => Column(
-        //     children: [
-        //       player,
-        //       Placeholder(),
-        //       Placeholder(),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }
