@@ -17,12 +17,17 @@ import 'package:workout_player/services/firestore_service.dart';
 ///
 /// `riverpod`
 ///
-final databaseProvider = Provider.family<FirestoreDatabase, String>(
-  (ref, uid) => FirestoreDatabase(uid: uid),
+///
+final databaseProvider2 = Provider.family<FirestoreDatabase, String?>(
+  (ref, uid) => FirestoreDatabase(reader: ref.read, uid: uid),
 );
 
-final userStreamProvider = StreamProvider.family<User?, String>((ref, id) {
-  final database = ref.watch(databaseProvider(id));
+final databaseProvider = Provider.family<FirestoreDatabase, String>(
+  (ref, uid) => FirestoreDatabase(),
+);
+
+final userStreamProvider = StreamProvider.family<User?, String>((ref, uid) {
+  final database = ref.watch(databaseProvider(uid));
   return database.userStream();
 });
 
@@ -89,7 +94,7 @@ abstract class Database {
   /////////////// `User` ////////////////
   // FUTURE
   Future<void> setUser(User user);
-  Future<void> updateUser(Map<String, dynamic> data);
+  Future<void> updateUser(String uid, Map<String, dynamic> data);
   Future<User?> getUserDocument(String userId);
 
   // Stream
@@ -257,9 +262,11 @@ abstract class Database {
 
 class FirestoreDatabase implements Database {
   final String? uid;
+  final Reader? reader;
 
   FirestoreDatabase({
     this.uid,
+    this.reader,
   });
 
   final _service = FirestoreService.instance;
@@ -277,9 +284,9 @@ class FirestoreDatabase implements Database {
 
   // Update User Data
   @override
-  Future<void> updateUser(Map<String, dynamic> data) =>
+  Future<void> updateUser(String uid, Map<String, dynamic> data) =>
       _service.updateData<User>(
-        path: APIPath.user(uid!),
+        path: APIPath.user(uid),
         data: data,
         fromBuilder: (data, id) => User.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
@@ -287,8 +294,8 @@ class FirestoreDatabase implements Database {
 
   // Single User Data
   @override
-  Future<User?> getUserDocument(String userId) => _service.getDocument<User>(
-        path: APIPath.user(userId),
+  Future<User?> getUserDocument(String uid) => _service.getDocument<User>(
+        path: APIPath.user(uid),
         // builder: (data) => data,
         // builder: (data, documentId) => User.fromJson(data, documentId),
         fromBuilder: (data, id) => User.fromJson(data, id),

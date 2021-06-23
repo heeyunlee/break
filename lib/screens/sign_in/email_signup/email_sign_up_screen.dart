@@ -150,7 +150,8 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         );
 
         await widget.database.setUser(user);
-        Navigator.of(context).pop();
+
+        Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseException catch (e) {
         logger.e(e);
         _showSignInError(e, context);

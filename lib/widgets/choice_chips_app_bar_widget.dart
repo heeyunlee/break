@@ -30,8 +30,8 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
   final List<String> _mainMuscleGroupTranslated =
       ['All'] + MainMuscleGroup.values[0].translatedList;
 
+  // TODO: CHANGE SELECTED INDEX BASED ON DIFFERENT MUSCLE
   int _selectedIndex = 0;
-  // TODO: Using late here
   late String _selectedChipLabel;
 
   @override
@@ -46,8 +46,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: omit_local_variable_types
-    final List<Widget> chips = [];
+    List<Widget> chips = [];
 
     chips.add(SizedBox(width: 12));
     for (var i = 0; i < _mainMuscleGroup.length; i++) {

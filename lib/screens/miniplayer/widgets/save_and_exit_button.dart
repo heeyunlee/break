@@ -146,7 +146,11 @@ class SaveAndExitButton extends ConsumerWidget {
 
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
-      await database.updateUser(updatedUserData);
+
+      await database.updateUser(
+        userData.userId,
+        updatedUserData,
+      );
 
       RoutineHistorySummaryScreen.show(
         context,

@@ -7,8 +7,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import 'main_provider.dart';
+
+final authServiceProvider2 = Provider<AuthService>(
+  (ref) => AuthService(read: ref.read),
+);
+
+// final authStateChangeProvider2 = StreamProvider<auth.User?>((ref) {
+//   final auth = AuthService();
+
+//   return auth.authStateChanges();
+// });
 
 final authServiceProvider = Provider<AuthBase>((ref) {
   return AuthService();
@@ -38,6 +49,10 @@ abstract class AuthBase {
 }
 
 class AuthService implements AuthBase {
+  final Reader? read;
+
+  AuthService({this.read});
+
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
   @override
@@ -64,14 +79,24 @@ class AuthService implements AuthBase {
   @override
   Future<auth.User?> signInAnonymously() async {
     logger.d('signInAnonymously triggered in auth');
-    final userCredential = await auth.FirebaseAuth.instance.signInAnonymously();
-    final user = userCredential.user;
 
-    final currentUser = _auth.currentUser;
-    assert(user!.uid == currentUser!.uid);
-    setUser(user!);
+    try {
+      final userCredential =
+          await auth.FirebaseAuth.instance.signInAnonymously();
+      final user = userCredential.user;
 
-    return user;
+      final currentUser = _auth.currentUser;
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
+
+      return user;
+    } on auth.FirebaseAuthException catch (e) {
+      logger.e(e);
+      throw auth.FirebaseAuthException(
+        code: S.current.errorOccuredMessage,
+        message: e.toString(),
+      );
+    }
   }
 
   ///////// Sign In With Email and Password
@@ -82,18 +107,26 @@ class AuthService implements AuthBase {
   ) async {
     logger.d('signInWithEmailWithPassword triggered in auth');
 
-    var userCredential =
-        await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    final user = userCredential.user;
+    try {
+      final userCredential =
+          await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = userCredential.user;
 
-    final currentUser = _auth.currentUser;
-    assert(user!.uid == currentUser!.uid);
-    setUser(user!);
+      final currentUser = _auth.currentUser;
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
 
-    return user;
+      return user;
+    } on auth.FirebaseAuthException catch (e) {
+      logger.e(e);
+      throw auth.FirebaseAuthException(
+        code: S.current.errorOccuredMessage,
+        message: e.toString(),
+      );
+    }
   }
 
   ///////// Create User With Email And Password
@@ -214,12 +247,17 @@ class AuthService implements AuthBase {
         ),
       );
 
+      print('result is ${result.authorizationCode}');
+
       // Create a new credential
       final oAuthProvider = auth.OAuthProvider('apple.com');
+      print('oAuthProvider is $oAuthProvider');
+
       final credential = oAuthProvider.credential(
         accessToken: result.authorizationCode,
         idToken: result.identityToken,
       );
+      print('credential is $credential');
 
       // Using credential to get the user
       final authResult = await _auth.signInWithCredential(credential);
@@ -230,10 +268,16 @@ class AuthService implements AuthBase {
       setUser(user!);
 
       return user;
-    } on auth.FirebaseAuthException catch (e) {
-      logger.d(e);
+    } on SignInWithAppleException catch (e) {
+      logger.e(e);
       throw auth.FirebaseAuthException(
-        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        code: S.current.errorOccuredMessage,
+        message: '$e',
+      );
+    } on auth.FirebaseAuthException catch (e) {
+      logger.e(e);
+      throw auth.FirebaseAuthException(
+        code: S.current.errorOccuredMessage,
         message: '$e',
       );
     }
@@ -258,19 +302,18 @@ class AuthService implements AuthBase {
       return user;
     } on KakaoAuthException catch (e) {
       throw auth.FirebaseAuthException(
-        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        code: S.current.errorOccuredMessage,
         message: '$e',
       );
-      // some error happened during the course of user login... deal with it.
     } on KakaoClientException catch (e) {
       throw auth.FirebaseAuthException(
-        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        code: S.current.errorOccuredMessage,
         message: '$e',
       );
       //
     } catch (e) {
       throw auth.FirebaseAuthException(
-        code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',
+        code: S.current.errorOccuredMessage,
         message: '$e',
       );
       //

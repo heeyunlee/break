@@ -354,5 +354,6 @@
     "todayIs": "오늘은 \n{today} \n입니다",
     "todaysSummary": "오늘의 요약",
     "takeALook": "둘러보기",
-    "overview": "설명"
+    "overview": "설명",
+    "previewFirstWidget": "운동 일일, 주간의 목표를 세우고 이뤄보세요"
 }

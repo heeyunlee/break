@@ -354,5 +354,6 @@
     "todayIs": "Today Is \n{today}",
     "todaysSummary": "Today's Summary",
     "takeALook": "Take a look",
-    "overview": "Overview"
+    "overview": "Overview",
+    "previewFirstWidget": "See your daily and weekly progress"
 }

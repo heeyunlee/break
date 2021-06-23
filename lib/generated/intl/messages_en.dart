@@ -402,6 +402,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInformation":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
+        "previewFirstWidget": MessageLookupByLibrary.simpleMessage(
+            "See your daily and weekly progress"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
         "progressTabIntroduction": m4,

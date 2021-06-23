@@ -373,6 +373,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pauseWorkout": MessageLookupByLibrary.simpleMessage("운동 일시정지"),
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
+        "previewFirstWidget":
+            MessageLookupByLibrary.simpleMessage("운동 일일, 주간의 목표를 세우고 이뤄보세요"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("개인정보처리방침"),
         "progress": MessageLookupByLibrary.simpleMessage("기록"),
         "progressTabIntroduction": m4,

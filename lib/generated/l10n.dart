@@ -3609,6 +3609,16 @@ class S {
       args: [],
     );
   }
+
+  /// `See your daily and weekly progress`
+  String get previewFirstWidget {
+    return Intl.message(
+      'See your daily and weekly progress',
+      name: 'previewFirstWidget',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

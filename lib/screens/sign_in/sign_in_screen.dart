@@ -1,441 +1,81 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
+
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/sign_in/preview_screen.dart';
-import 'package:workout_player/screens/sign_in/sign_in_bloc.dart';
-import 'package:workout_player/screens/sign_in/widgets/social_sign_in_button.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
-import 'package:workout_player/services/mixpanel_manager.dart';
-import 'package:workout_player/widgets/get_snackbar_widget.dart';
+import 'package:workout_player/styles/button_styles.dart';
+import 'package:workout_player/styles/constants.dart';
 
-import '../../widgets/show_exception_alert_dialog.dart';
-import '../../styles/constants.dart';
-import 'log_in_with_email_scree.dart';
 import 'email_signup/email_sign_up_screen.dart';
+import 'log_in_with_email_screen.dart';
+import 'sign_in_screen_model.dart';
+import 'widgets/social_sign_in_button.dart';
 
-class SignInScreen extends StatefulWidget {
-  final SignInBloc signInBloc;
+class SignInScreen extends ConsumerWidget {
   final Database database;
-  final bool isLoading;
+  final AuthBase auth;
 
   const SignInScreen({
     Key? key,
-    required this.signInBloc,
-    required this.isLoading,
     required this.database,
+    required this.auth,
   }) : super(key: key);
 
-  static Widget create(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final database = Provider.of<Database>(context, listen: false);
+  static void show(BuildContext context) {
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
 
-    return ChangeNotifierProvider<ValueNotifier<bool>>(
-      create: (_) => ValueNotifier<bool>(false),
-      child: Consumer<ValueNotifier<bool>>(
-        builder: (_, isLoading, __) => Provider<SignInBloc>(
-          create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
-          child: Consumer<SignInBloc>(
-            builder: (_, signInBloc, __) => SignInScreen(
-              signInBloc: signInBloc,
-              isLoading: isLoading.value,
-              database: database,
-            ),
-          ),
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => SignInScreen(
+          auth: auth,
+          database: database,
         ),
+        transitionsBuilder: (context, animation1, animation2, child) =>
+            FadeTransition(opacity: animation1, child: child),
+        transitionDuration: Duration(milliseconds: 300),
       ),
     );
   }
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  bool _showPreview = true;
-  final locale = Intl.getCurrentLocale();
-
-  set setBool(bool value) => setState(() => _showPreview = value);
-
-  /// SIGN IN ANONYMOUSLY
-  Future<void> _signInAnonymously(BuildContext context) async {
-    logger.d('sign in with Anonymously pressed');
-    MixpanelManager.track('signed up Anonymously');
-
-    try {
-      await widget.signInBloc.signInAnonymously();
-
-      final firebaseUser = widget.signInBloc.auth.currentUser!;
-
-      // Check if the user document exists in Cloud Firestore
-      final User? user =
-          await widget.database.getUserDocument(firebaseUser.uid);
-
-      // Create new data if it does NOT exist
-      if (user == null) {
-        final uniqueId = UniqueKey().toString();
-        final id = 'Player $uniqueId';
-        final currentTime = Timestamp.now();
-
-        final userData = User(
-          userId: firebaseUser.uid,
-          displayName: id,
-          userName: id,
-          userEmail: null,
-          signUpDate: currentTime,
-          signUpProvider: 'Anonymous',
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
-          savedRoutines: [],
-          savedWorkouts: [],
-          dailyProteinGoal: 0,
-          dailyWeightsGoal: 0,
-          backgroundImageIndex: 0,
-        );
-        await widget.database.setUser(userData);
-        // TODO: add snackbar HERE
-
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
-
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-        await widget.database.updateUser(updatedUserData);
-
-        getSnackbarWidget(
-          S.current.signInSuccessful,
-          S.current.signInSnackbarMessage(user.displayName),
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      _showSignInError(e, context);
-    }
-  }
-
-  /// SIGN IN WITH GOOGLE
-  Future<void> _signInWithGoogle(BuildContext context) async {
-    logger.d('sign in with google pressed');
-    MixpanelManager.track('sign up with Google pressed');
-
-    try {
-      await widget.signInBloc.signInWithGoogle();
-
-      final firebaseUser = widget.signInBloc.auth.currentUser!;
-
-      // Check if the user document exists in Cloud Firestore
-      final User? user =
-          await widget.database.getUserDocument(firebaseUser.uid);
-
-      // Create new data if it does NOT exist
-      if (user == null) {
-        final uniqueId = UniqueKey().toString();
-        final id = 'Player $uniqueId';
-        final currentTime = Timestamp.now();
-
-        final userData = User(
-          userId: firebaseUser.uid,
-          displayName: firebaseUser.providerData[0].displayName ?? id,
-          userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email,
-          signUpDate: currentTime,
-          signUpProvider: firebaseUser.providerData[0].providerId,
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
-          savedRoutines: [],
-          savedWorkouts: [],
-          backgroundImageIndex: 0,
-        );
-        await widget.database.setUser(userData);
-        // TODO: add snackbar HERE
-
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
-
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-        await widget.database.updateUser(updatedUserData);
-
-        getSnackbarWidget(
-          S.current.signInSuccessful,
-          S.current.signInSnackbarMessage(user.displayName),
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      _showSignInError(e, context);
-    }
-  }
-
-  /// SIGN IN WITH FACEBOOK
-  void _signInWithFacebook(BuildContext context) async {
-    logger.d('sign in with facebook pressed');
-    MixpanelManager.track('sign up with Facebook pressed');
-
-    try {
-      await widget.signInBloc.signInWithFacebook();
-
-      final firebaseUser = widget.signInBloc.auth.currentUser!;
-
-      // Check if the user document exists in Cloud Firestore
-      final User? user =
-          await widget.database.getUserDocument(firebaseUser.uid);
-
-      // Create new data do NOT exist
-      if (user == null) {
-        final uniqueId = UniqueKey().toString();
-        final id = 'Player $uniqueId';
-        final currentTime = Timestamp.now();
-
-        final userData = User(
-          userId: firebaseUser.uid,
-          displayName: firebaseUser.providerData[0].displayName ?? id,
-          userName: firebaseUser.providerData[0].displayName ?? id,
-          userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
-          signUpDate: currentTime,
-          signUpProvider: firebaseUser.providerData[0].providerId,
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
-          savedRoutines: [],
-          savedWorkouts: [],
-          backgroundImageIndex: 0,
-        );
-        await widget.database.setUser(userData);
-
-        // TODO: add snackbar HERE
-
-        // getSnackbarWidget(
-        //   title,
-        //   S.current.signInSnackbarMessage(userData.displayName),
-        // );
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
-
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-        await widget.database.updateUser(updatedUserData);
-
-        getSnackbarWidget(
-          S.current.signInSuccessful,
-          S.current.signInSnackbarMessage(user.displayName),
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      _showSignInError(e, context);
-    }
-  }
-
-  /// SIGN IN WITH APPLE
-  void _signInWithApple(BuildContext context) async {
-    debugPrint('sign in with apple pressed');
-    MixpanelManager.track('sign up with Apple pressed');
-
-    try {
-      await widget.signInBloc.signInWithApple();
-
-      final firebaseUser = widget.signInBloc.auth.currentUser!;
-
-      // Check if the user document exists in Cloud Firestore
-      final User? user =
-          await widget.database.getUserDocument(firebaseUser.uid);
-
-      // Create new data do NOT exist
-      if (user == null) {
-        final uniqueId = UniqueKey().toString();
-        final id = 'Player $uniqueId';
-        final currentTime = Timestamp.now();
-
-        final userData = User(
-          userId: firebaseUser.uid,
-          displayName: firebaseUser.providerData[0].displayName ??
-              firebaseUser.displayName ??
-              id,
-          userName: firebaseUser.providerData[0].displayName ??
-              firebaseUser.displayName ??
-              id,
-          userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
-          signUpDate: currentTime,
-          signUpProvider: firebaseUser.providerData[0].providerId,
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
-          savedRoutines: [],
-          savedWorkouts: [],
-          backgroundImageIndex: 0,
-        );
-        await widget.database.setUser(userData);
-        // TODO: add snackbar HERE
-
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
-
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-        await widget.database.updateUser(updatedUserData);
-
-        getSnackbarWidget(
-          S.current.signInSuccessful,
-          S.current.signInSnackbarMessage(user.displayName),
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      _showSignInError(e, context);
-    }
-  }
-
-  /// SIGN IN WITH Kakao
-  void _signInWithKakao(BuildContext context) async {
-    debugPrint('sign in with Kakao triggered');
-    MixpanelManager.track('sign up with Kakao pressed');
-
-    try {
-      await widget.signInBloc.signInWithKakao();
-
-      final firebaseUser = widget.signInBloc.auth.currentUser!;
-
-      print(firebaseUser.toString());
-
-      // GET User data to Firebase
-      // final User? user =
-      //     await widget.database.getUserDocument(firebaseUser.uid);
-      final User? user =
-          await widget.database.getUserDocument(firebaseUser.uid);
-
-      // Create new data do NOT exist
-      if (user == null) {
-        final uniqueId = UniqueKey().toString();
-        final currentTime = Timestamp.now();
-        final userData = User(
-          userId: firebaseUser.uid,
-          userName: firebaseUser.displayName ?? 'Player $uniqueId',
-          displayName: firebaseUser.displayName ?? 'Player $uniqueId',
-          userEmail: firebaseUser.email,
-          signUpDate: currentTime,
-          signUpProvider: 'kakaocorp.com',
-          totalWeights: 0,
-          totalNumberOfWorkouts: 0,
-          unitOfMass: 1,
-          lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
-          savedRoutines: [],
-          savedWorkouts: [],
-          backgroundImageIndex: 0,
-        );
-
-        await widget.database.setUser(userData);
-
-        // TODO: add snackbar HERE
-
-      } else {
-        // Update Data if exist
-        final currentTime = Timestamp.now();
-
-        final updatedUserData = {
-          'lastLoginDate': currentTime,
-        };
-
-        await widget.database.updateUser(updatedUserData);
-
-        getSnackbarWidget(
-          S.current.signInSuccessful,
-          S.current.signInSnackbarMessage(user.displayName),
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      _showSignInError(e, context);
-    }
-  }
-
-  void _showSignInError(Exception exception, BuildContext context) {
-    showExceptionAlertDialog(
-      context,
-      title: S.current.signInFailed,
-      exception: exception.toString(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     logger.d('sign in screen scaffold building...');
+
+    final model = watch(signInScreenProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         actions: [
-          if (!_showPreview)
-            TextButton(
-              onPressed:
-                  widget.isLoading ? null : () => _signInAnonymously(context),
-              child: Text(S.current.takeALook, style: kGoogleSignInStyleWhite),
-            ),
+          TextButton(
+            style: ButtonStyles.textButton_google,
+            onPressed:
+                model.isLoading ? null : () => model.signInAnonymously(context),
+            child: Text(S.current.takeALook),
+          ),
           const SizedBox(width: 16),
         ],
-        leading: (_showPreview)
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: widget.isLoading
-                    ? null
-                    : () => setState(() => _showPreview = true),
-              ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: model.isLoading ? null : () => Navigator.of(context).pop(),
+        ),
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-
       backgroundColor: kBackgroundColor,
-
-      // For smooth transition between PreviewScreen and SignUpScreen
-      body: AnimatedCrossFade(
-        crossFadeState: (_showPreview)
-            ? CrossFadeState.showFirst
-            : CrossFadeState.showSecond,
-        duration: const Duration(milliseconds: 400),
-        firstChild: PreviewScreen(
-          callback: (value) => setState(() {
-            _showPreview = value;
-          }),
-        ),
-        secondChild: _buildSignInScreen(context),
-      ),
+      body: _buildSignInScreen(context, model),
     );
   }
 
-  Widget _buildSignInScreen(BuildContext context) {
+  Widget _buildSignInScreen(BuildContext context, SignInScreenNotifier model) {
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -445,7 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
           children: <Widget>[
             Expanded(
               child: Center(
-                child: widget.isLoading
+                child: model.isLoading
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -482,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
               color: kPrimary600Color,
               kDisabledColor: kPrimary600Color.withOpacity(0.85),
               textColor: Colors.white,
-              onPressed: widget.isLoading
+              onPressed: model.isLoading
                   ? null
                   : () => EmailSignUpScreen.show(context),
             ),
@@ -494,8 +134,9 @@ class _SignInScreenState extends State<SignInScreen> {
               kDisabledColor: Colors.white.withOpacity(0.85),
               textColor: Colors.black.withOpacity(0.85),
               logo: 'assets/logos/google_logo.png',
-              onPressed:
-                  widget.isLoading ? null : () => _signInWithGoogle(context),
+              onPressed: model.isLoading
+                  ? null
+                  : () => model.signInWithGoogle(context),
             ),
 
             // SIGN IN WITH FACEBOOK
@@ -505,8 +146,9 @@ class _SignInScreenState extends State<SignInScreen> {
               kDisabledColor: Color(0xff1877F2).withOpacity(0.85),
               textColor: Colors.white.withOpacity(0.85),
               logo: 'assets/logos/facebook_logo.png',
-              onPressed:
-                  widget.isLoading ? null : () => _signInWithFacebook(context),
+              onPressed: model.isLoading
+                  ? null
+                  : () => model.signInWithFacebook(context),
             ),
 
             // SIGN IN WITH APPLE
@@ -517,8 +159,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 textColor: Colors.black.withOpacity(0.85),
                 kDisabledColor: Colors.white.withOpacity(0.85),
                 logo: 'assets/logos/apple_logo.png',
-                onPressed:
-                    widget.isLoading ? null : () => _signInWithApple(context),
+                onPressed: model.isLoading
+                    ? null
+                    : () => model.signInWithApple(context),
               ),
 
             // SIGN IN WITH KAKAO
@@ -529,18 +172,16 @@ class _SignInScreenState extends State<SignInScreen> {
               logo: 'assets/logos/kakao_logo.png',
               textColor: Colors.black.withOpacity(0.85),
               onPressed:
-                  widget.isLoading ? null : () => _signInWithKakao(context),
+                  model.isLoading ? null : () => model.signInWithKakao(context),
             ),
 
             // LOG IN BUTTON
             TextButton(
-              onPressed: widget.isLoading
+              style: ButtonStyles.textButton_google,
+              onPressed: model.isLoading
                   ? null
                   : () => LogInWithEmailScreen.show(context),
-              child: Text(
-                S.current.logIn,
-                style: kGoogleSignInStyleWhite,
-              ),
+              child: Text(S.current.logIn),
             ),
           ],
         ),

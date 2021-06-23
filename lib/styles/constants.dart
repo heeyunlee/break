@@ -353,6 +353,14 @@ const kBodyText1Menlo = TextStyle(
   letterSpacing: 0,
   fontFamily: 'menlo',
 );
+const kBodyText1MenloSpaced = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Colors.white,
+  letterSpacing: 0,
+  fontFamily: 'menlo',
+  height: 1.5,
+);
 const kBodyText1Menlow900 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w900,
@@ -505,6 +513,12 @@ const kGoogleSignInStyle = TextStyle(
   fontFamily: 'Roboto',
   fontSize: 15,
   color: Colors.black,
+  fontWeight: FontWeight.normal,
+);
+const kGoogleSignInStyleWhite30 = TextStyle(
+  fontFamily: 'Roboto',
+  fontSize: 15,
+  color: Colors.white30,
   fontWeight: FontWeight.normal,
 );
 const kGoogleSignInStyleWhite = TextStyle(
