@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class ProgressTabProvider {
   static const bgList = [
     'assets/images/bg001.jpeg',
@@ -11,3 +14,25 @@ class ProgressTabProvider {
     'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/home_tab_bg%2Fbg003_1000x1000.jpeg?alt=media&token=4e9d2e6f-b550-4bd6-8a21-7d8e95a169fb',
   ];
 }
+
+class ProgressTabModel with ChangeNotifier {
+  DateTime _focusedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get focusedDate => _focusedDate;
+  DateTime get selectedDate => _selectedDate;
+
+  void selectSelectedDate(DateTime date) {
+    _selectedDate = date;
+    notifyListeners();
+  }
+
+  void selectFocusedDate(DateTime date) {
+    _focusedDate = date;
+    notifyListeners();
+  }
+}
+
+final progressTabModelProvider = ChangeNotifierProvider(
+  (ref) => ProgressTabModel(),
+);

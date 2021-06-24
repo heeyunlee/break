@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:workout_player/styles/constants.dart';
 
-void getSnackbarWidget(String title, String message) {
+void getSnackbarWidget(String title, String message, {int? duration}) {
   return Get.snackbar(
     title,
     message,
@@ -12,6 +12,6 @@ void getSnackbarWidget(String title, String message) {
     titleText: Text(title, style: kBodyText2Grey),
     messageText: Text(message, style: kBodyText2),
     borderRadius: 8,
-    duration: Duration(seconds: 2),
+    duration: Duration(seconds: duration ?? 2),
   );
 }

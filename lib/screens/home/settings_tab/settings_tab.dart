@@ -86,11 +86,11 @@ class SettingsTab extends StatelessWidget {
   }
 
   void _showAboutDialog(BuildContext context) {
-    // TODO: Change Version Number
+    // TODO: CHANGE VERSION CODE HERE
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: '0.3.1',
+      applicationVersion: 'v.0.3.1+2',
       applicationIcon: Container(
         decoration: BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/icon.png', width: 36, height: 36),
@@ -293,8 +293,8 @@ class SettingsTab extends StatelessWidget {
                   title: Text(S.current.logout, style: kBodyText2),
                 ),
                 const SizedBox(height: 48),
-                // TODO: Change Version HERE
-                Center(child: const Text('v.0.3.1', style: kCaption1Grey)),
+                // TODO: CHANGE VERSION CODE HERE
+                Center(child: const Text('v.0.3.1+2', style: kCaption1Grey)),
                 const SizedBox(height: 120),
               ],
             ),

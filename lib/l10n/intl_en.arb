@@ -355,5 +355,6 @@
     "todaysSummary": "Today's Summary",
     "takeALook": "Take a look",
     "overview": "Overview",
-    "previewFirstWidget": "See your daily and weekly progress"
+    "previewFirstWidget": "See your daily and weekly progress",
+    "firstSignInSnackbarMessage": "Welcome, {name}! Let's get lifting"
 }

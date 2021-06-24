@@ -6,25 +6,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/preview/first_preview_widget.dart';
+import 'package:workout_player/screens/preview/widgets/first_preview_widget.dart';
 import 'package:workout_player/screens/preview/preview_screen_provider.dart';
-import 'package:workout_player/screens/preview/third_preview_widget.dart';
+import 'package:workout_player/screens/preview/widgets/third_preview_widget.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen_model.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 
 import '../../styles/constants.dart';
-import 'second_preview_widget.dart';
+import 'widgets/second_preview_widget.dart';
 import 'widgets/app_preview_widget.dart';
 
 class PreviewScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('Preview Screen Building...');
+    logger.d('Preview Screen building...');
 
-    final PageController _pageController = PageController();
-    final _previewScreenProvider = watch(previewScreenNotifierProvider);
+    final model = watch(previewScreenNotifierProvider);
 
     final os = Platform.operatingSystem;
     final locale = Intl.getCurrentLocale();
@@ -40,8 +39,8 @@ class PreviewScreen extends ConsumerWidget {
         alignment: Alignment.bottomCenter,
         children: [
           PageView(
-            controller: _pageController,
-            onPageChanged: _previewScreenProvider.setCurrentPage,
+            controller: model.pageController,
+            onPageChanged: model.setCurrentPage,
             children: <Widget>[
               FirstPreviewWidget(),
               SecondPreviewWidget(),
@@ -76,7 +75,7 @@ class PreviewScreen extends ConsumerWidget {
                   height: 48,
                   child: Center(
                     child: SmoothPageIndicator(
-                      controller: _pageController,
+                      controller: model.pageController,
                       count: 4,
                       effect: const WormEffect(
                         activeDotColor: kPrimaryColor,
@@ -94,10 +93,10 @@ class PreviewScreen extends ConsumerWidget {
                     onPressed: () {
                       HapticFeedback.mediumImpact();
 
-                      if (_previewScreenProvider.currentPage < 3) {
-                        _previewScreenProvider.incrementCurrentPage();
-                        _pageController.animateToPage(
-                          _previewScreenProvider.currentPage,
+                      if (model.currentPage < 3) {
+                        model.incrementCurrentPage();
+                        model.pageController.animateToPage(
+                          model.currentPage,
                           duration: Duration(milliseconds: 350),
                           curve: Curves.easeInOut,
                         );
@@ -106,7 +105,7 @@ class PreviewScreen extends ConsumerWidget {
                       }
                     },
                     child: Text(
-                      (_previewScreenProvider.currentPage == 3)
+                      (model.currentPage == 3)
                           ? S.current.start
                           : S.current.next,
                       style: kButtonText,

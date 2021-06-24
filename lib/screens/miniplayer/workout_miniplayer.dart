@@ -49,7 +49,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
       valueNotifier: miniplayerExpandProgress,
       elevation: 6,
       builder: (height, percentage) {
-        debugPrint('height $height, and percentage is $percentage');
+        // debugPrint('height $height, and percentage is $percentage');
 
         if (routine == null) {
           return const SizedBox.shrink();

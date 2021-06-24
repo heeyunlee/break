@@ -62,7 +62,7 @@ dependencies:
   timer_count_down: ^2.0.1
   # convex_bottom_bar: ^3.0.0
   # youtube_player_flutter: ^8.0.0
-  # table_calendar: ^3.0.0
+  table_calendar: ^3.0.0
   material_floating_search_bar: ^0.3.4
   # implicitly_animated_reorderable_list: ^0.4.0
   animated_text_kit: ^4.2.1

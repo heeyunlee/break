@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 
 import 'home/home_screen.dart';
 import 'preview/preview_screen.dart';
@@ -12,6 +13,8 @@ import 'splash/splash_screen.dart';
 class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    logger.d('Landing Screen building...');
+
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     // Show either Home Screen, Preview Screen or Splash Screen, based on auth changes

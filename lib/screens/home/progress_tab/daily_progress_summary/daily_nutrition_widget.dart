@@ -1,39 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
+import '../progress_tab_provider.dart';
 import 'daily_summary_numbers_widget.dart';
 
-class DailyNutritionWidget extends StatelessWidget {
+class DailyNutritionWidget extends ConsumerWidget {
   final Database database;
+  final AuthBase auth;
 
-  const DailyNutritionWidget(this.database);
+  const DailyNutritionWidget({
+    required this.database,
+    required this.auth,
+  });
 
   static Widget create(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
-    return DailyNutritionWidget(database);
+    return DailyNutritionWidget(
+      database: database,
+      auth: auth,
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
+
+    // final model = ProgressTabModel();
+    final model = watch(progressTabModelProvider);
+    // final stream = watch(nutritionSelectedDayStreamProvider([
+    //   auth.currentUser!.uid,
+    //   model.selectedDate,
+    // ]));
 
     // final uid = watch(authServiceProvider).currentUser!.uid;
     // final nutritionsStream = watch(todaysNutritionStreamProvider(uid));
 
-    late num _totalProteins = 0;
-    late double _proteinsProgress = 0;
-
     return CustomStreamBuilderWidget<List<Nutrition>?>(
-      stream: database.todaysNutritionStream(),
+      // stream: database.todaysNutritionStream(),
+      stream: database.nutritionsSelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, snapshot) {
+        late num _totalProteins = 0;
+        late double _proteinsProgress = 0;
+
+        // print('selected day in widget is ${model.selectedDate}');
+
         if (snapshot.data != null) {
           snapshot.data!.forEach((e) {
             _totalProteins += e.proteinAmount.toInt();
@@ -81,10 +102,15 @@ class DailyNutritionWidget extends StatelessWidget {
       },
     );
 
-    // return nutritionsStream.when(
+    // return stream.when(
     //   loading: () => Container(),
     //   error: (e, stack) => EmptyContent(message: e.toString()),
     //   data: (nutritions) {
+    //     print('nutritions $nutritions');
+
+    //     num _totalProteins = 0;
+    //     double _proteinsProgress = 0;
+
     //     if (nutritions != null) {
     //       nutritions.forEach((e) {
     //         _totalProteins += e.proteinAmount.toInt();

@@ -183,6 +183,38 @@ class FirestoreService {
     return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
   }
 
+  Stream<List<T>> collectionStreamOfSelectedDay<T>({
+    required String path,
+    required String uidVariableName,
+    required String uid,
+    required String dateVariableName,
+    DateTime? dateIsEqualTo,
+    required String orderVariableName,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    // print('date is equal to is $dateIsEqualTo');
+
+    final day = dateIsEqualTo ?? DateTime.now();
+
+    // print('day is $day');
+
+    final dayInUtc = DateTime.utc(day.year, day.month, day.day);
+
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(uidVariableName, isEqualTo: uid)
+        .where(dateVariableName, isEqualTo: dayInUtc)
+        .orderBy(orderVariableName, descending: false)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
   // isEqualTo And OrderBy Stream
   Stream<List<T>> isEqualToOrderByCollectionStream<T>({
     required String path,

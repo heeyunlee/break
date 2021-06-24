@@ -82,8 +82,13 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
         await database!.setUser(userData);
 
-        // TODO: add snackbar HERE
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.firstSignInSnackbarMessage(userData.displayName),
+          duration: 4,
+        );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -97,12 +102,14 @@ class SignInScreenNotifier extends ChangeNotifier {
           updatedUserData,
         );
 
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
         getSnackbarWidget(
           S.current.signInSuccessful,
           S.current.signInSnackbarMessage(user.displayName),
+          duration: 4,
         );
       }
-      Navigator.of(context).pop();
     } on FirebaseException catch (e) {
       logger.e(e);
       _showSignInError(e, context);
@@ -147,9 +154,13 @@ class SignInScreenNotifier extends ChangeNotifier {
           backgroundImageIndex: 0,
         );
         await database!.setUser(userData);
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
-        // TODO: add snackbar HERE
-
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.firstSignInSnackbarMessage(userData.displayName),
+          duration: 4,
+        );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -162,17 +173,19 @@ class SignInScreenNotifier extends ChangeNotifier {
           auth!.currentUser!.uid,
           updatedUserData,
         );
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
         getSnackbarWidget(
           S.current.signInSuccessful,
           S.current.signInSnackbarMessage(user.displayName),
+          duration: 4,
         );
       }
-      Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.e(e);
       _showSignInError(e, context);
     }
+
     setIsLoading(false);
   }
 
@@ -216,12 +229,13 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
         await database!.setUser(userData);
 
-        // TODO: add snackbar HERE
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
-        // getSnackbarWidget(
-        //   title,
-        //   S.current.signInSnackbarMessage(userData.displayName),
-        // );
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.firstSignInSnackbarMessage(userData.displayName),
+          duration: 4,
+        );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -235,12 +249,14 @@ class SignInScreenNotifier extends ChangeNotifier {
           updatedUserData,
         );
 
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
         getSnackbarWidget(
           S.current.signInSuccessful,
           S.current.signInSnackbarMessage(user.displayName),
+          duration: 4,
         );
       }
-      Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.e(e);
       _showSignInError(e, context);
@@ -292,8 +308,13 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
         await database!.setUser(userData);
 
-        // TODO: add snackbar HERE
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.firstSignInSnackbarMessage(userData.displayName),
+          duration: 4,
+        );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -304,13 +325,14 @@ class SignInScreenNotifier extends ChangeNotifier {
 
         await database!.updateUser(auth!.currentUser!.uid, updatedUserData);
 
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
         getSnackbarWidget(
           S.current.signInSuccessful,
           S.current.signInSnackbarMessage(user.displayName),
+          duration: 4,
         );
       }
-
-      Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.e(e);
       _showSignInError(e, context);
@@ -359,8 +381,13 @@ class SignInScreenNotifier extends ChangeNotifier {
 
         await database!.setUser(userData);
 
-        // TODO: add snackbar HERE
+        Navigator.of(context).popUntil((route) => route.isFirst);
 
+        getSnackbarWidget(
+          S.current.signInSuccessful,
+          S.current.firstSignInSnackbarMessage(userData.displayName),
+          duration: 4,
+        );
       } else {
         // Update Data if exist
         final currentTime = Timestamp.now();
@@ -371,13 +398,13 @@ class SignInScreenNotifier extends ChangeNotifier {
 
         await database!.updateUser(auth!.currentUser!.uid, updatedUserData);
 
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
         getSnackbarWidget(
           S.current.signInSuccessful,
           S.current.signInSnackbarMessage(user.displayName),
         );
       }
-
-      Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseException catch (e) {
       logger.e(e);
       _showSignInError(e, context);

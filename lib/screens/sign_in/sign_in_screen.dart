@@ -46,7 +46,7 @@ class SignInScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('sign in screen scaffold building...');
+    logger.d('SignInScreen building...');
 
     final model = watch(signInScreenProvider);
 
@@ -127,7 +127,7 @@ class SignInScreen extends ConsumerWidget {
                   : () => EmailSignUpScreen.show(context),
             ),
 
-            // SIGN IN WITH GOOGLE
+            /// SIGN IN WITH GOOGLE
             SocialSignInButton(
               kButtonText: S.current.continueWithGoogle,
               color: Colors.white,
@@ -139,7 +139,7 @@ class SignInScreen extends ConsumerWidget {
                   : () => model.signInWithGoogle(context),
             ),
 
-            // SIGN IN WITH FACEBOOK
+            /// SIGN IN WITH FACEBOOK
             SocialSignInButton(
               kButtonText: S.current.continueWithFacebook,
               color: Color(0xff1877F2),
@@ -151,7 +151,7 @@ class SignInScreen extends ConsumerWidget {
                   : () => model.signInWithFacebook(context),
             ),
 
-            // SIGN IN WITH APPLE
+            /// SIGN IN WITH APPLE
             if (Platform.isIOS)
               SocialSignInButton(
                 kButtonText: S.current.continueWithApple,
@@ -164,7 +164,7 @@ class SignInScreen extends ConsumerWidget {
                     : () => model.signInWithApple(context),
               ),
 
-            // SIGN IN WITH KAKAO
+            /// SIGN IN WITH KAKAO
             SocialSignInButton(
               kButtonText: S.current.continueWithKakao,
               color: Color(0xffFEE500),
@@ -175,7 +175,7 @@ class SignInScreen extends ConsumerWidget {
                   model.isLoading ? null : () => model.signInWithKakao(context),
             ),
 
-            // LOG IN BUTTON
+            /// LOG IN BUTTON
             TextButton(
               style: ButtonStyles.textButton_google,
               onPressed: model.isLoading

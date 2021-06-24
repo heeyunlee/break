@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -11,17 +12,18 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
+import '../progress_tab_provider.dart';
 import 'daily_summary_numbers_widget.dart';
 
-class DailyWeightsWidget extends StatelessWidget {
+class DailyWeightsWidget extends ConsumerWidget {
   final User? user;
   final Database database;
 
   const DailyWeightsWidget({required this.user, required this.database});
 
   static Widget create(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final database = Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
     final user = database.getUserDocument(auth.currentUser!.uid);
 
     return FutureBuilder<User?>(
@@ -34,17 +36,19 @@ class DailyWeightsWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
-
-    int _totalWeights = 0;
-    double _weightsProgress = 0;
-    String _mainMuscleGroup = '-';
+    final model = watch(progressTabModelProvider);
 
     return CustomStreamBuilderWidget<List<RoutineHistory>?>(
-      stream: database.routineHistoryTodayStream(),
+      // stream: database.routineHistoryTodayStream(),
+      stream: database.routineHistorySelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, snapshot) {
+        int _totalWeights = 0;
+        double _weightsProgress = 0;
+        String _mainMuscleGroup = '-';
+
         if (snapshot.data != null) {
           if (snapshot.data!.isNotEmpty) {
             snapshot.data!.forEach((e) {

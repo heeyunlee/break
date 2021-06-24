@@ -24,6 +24,8 @@ class PreviewScreenNotifier extends ChangeNotifier {
     _currentPage = pageIndex;
     notifyListeners();
   }
+
+  final PageController pageController = PageController();
 }
 
 final GlobalKey<NavigatorState> previewScreenNavigatorKey =

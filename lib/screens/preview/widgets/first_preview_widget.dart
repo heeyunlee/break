@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class FirstPreviewWidget extends StatelessWidget {
@@ -7,6 +8,8 @@ class FirstPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('First Preview Widget building...');
+
     final size = MediaQuery.of(context).size;
 
     return Stack(

@@ -2,17 +2,23 @@ import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:table_calendar/table_calendar.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/button_styles.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../../styles/constants.dart';
+import '../home_screen_provider.dart';
 import 'daily_progress_summary/daily_nutrition_widget.dart';
 import 'daily_progress_summary/daily_weights_widget.dart';
 import 'measurement/measurements_line_chart_widget.dart';
@@ -51,13 +57,18 @@ class _ProgressTabState extends State<ProgressTab>
   void initState() {
     super.initState();
 
-    _bgAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+    _bgAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 0),
+    );
 
-    _blurTween =
-        Tween<double>(begin: 0, end: 20).animate(_bgAnimationController);
-    _brightnessTween =
-        Tween<double>(begin: 0.9, end: 0.0).animate(_bgAnimationController);
+    _blurTween = Tween<double>(begin: 0, end: 20).animate(
+      _bgAnimationController,
+    );
+
+    _brightnessTween = Tween<double>(begin: 0.9, end: 0.0).animate(
+      _bgAnimationController,
+    );
   }
 
   @override
@@ -70,39 +81,65 @@ class _ProgressTabState extends State<ProgressTab>
   Widget build(BuildContext context) {
     logger.d('progress Tab Scaffold building...');
 
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final database = Provider.of<Database>(context, listen: false);
+    // final model = ProgressTabModel();
 
-    final today = DateFormat.MMMEd().format(DateTime.now());
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
 
-    return NotificationListener<ScrollNotification>(
-      onNotification: _scrollListener,
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(48),
-          child: AppBar(
-            centerTitle: true,
-            brightness: Brightness.dark,
-            elevation: 0,
-            title: Text(today, style: kSubtitle2),
-            backgroundColor: Colors.transparent,
-          ),
-        ),
-        body: CustomStreamBuilderWidget<User?>(
-          stream: database.userStream(),
-          loadingWidget: ProgressTabShimmer(),
-          hasDataWidget: (context, snapshot) => Builder(
-            builder: (context) => _buildChildWidget(
-              context,
-              snapshot.data!,
-              database,
-              auth,
+    // final today = DateFormat.MMMEd().format(DateTime.now());
+
+    return Consumer(
+      builder: (context, watch, child) {
+        final model = watch(progressTabModelProvider);
+        // final selectedDate = DateFormat.MMMEd().format(model.selectedDate);
+
+        // DateTime _focusedDay = DateTime.now();
+        // DateTime? _selectedDay;
+
+        return NotificationListener<ScrollNotification>(
+          onNotification: _scrollListener,
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            extendBodyBehindAppBar: true,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(48),
+              child: AppBar(
+                centerTitle: true,
+                brightness: Brightness.dark,
+                elevation: 0,
+                title: TextButton(
+                  style: ButtonStyles.textButton_1,
+                  onPressed: () => _showCalendar(model),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        DateFormat.MMMEd().format(model.selectedDate),
+                        style: kSubtitle2,
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(Icons.arrow_drop_down),
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+            ),
+            body: CustomStreamBuilderWidget<User?>(
+              stream: database.userStream(),
+              loadingWidget: ProgressTabShimmer(),
+              hasDataWidget: (context, snapshot) => Builder(
+                builder: (context) => _buildChildWidget(
+                  context,
+                  snapshot.data!,
+                  database,
+                  auth,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -131,17 +168,13 @@ class _ProgressTabState extends State<ProgressTab>
                   Stack(
                     children: [
                       DailyWeightsWidget.create(context),
-                      // DailyWeightsWidget(user: user),
                       DailyNutritionWidget.create(context),
-                      // DailyNutritionWidget(user: user),
                     ],
                   ),
                   WeightsLiftedChartWidget.create(
                     context,
                     unitOfMass: unit,
                   ),
-                  // WeightsLiftedChartWidget(user: user, auth: auth),
-                  // ProteinsEatenChartWidget(auth: auth),
                   ProteinsEatenChartWidget.create(context),
                   MeasurementsLineChartWidget(user: user),
                   const SizedBox(height: 120),
@@ -163,9 +196,6 @@ class _ProgressTabState extends State<ProgressTab>
             image: CachedNetworkImageProvider(
               ProgressTabProvider.bgURL[user.backgroundImageIndex ?? 0],
             ),
-            // image: ExactAssetImage(
-            //   ProgressTabProvider.bgList[user.backgroundImageIndex ?? 0],
-            // ),
             fit: BoxFit.cover,
           ),
         ),
@@ -186,6 +216,61 @@ class _ProgressTabState extends State<ProgressTab>
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<bool?> _showCalendar(ProgressTabModel model) {
+    return showModalBottomSheet<bool>(
+      // context: context,
+      context: homeScreenNavigatorKey.currentContext!,
+      // backgroundColor: kCardColor,
+      builder: (context) => Container(
+        color: kCardColor,
+        height: 500,
+        child: TableCalendar(
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekdayStyle: TextStyles.kBodyText2,
+            weekendStyle: TextStyles.kBodyText2Red,
+          ),
+          headerStyle: HeaderStyle(
+            formatButtonShowsNext: false,
+            formatButtonVisible: false,
+            titleCentered: true,
+            titleTextStyle: TextStyles.kBodyText1w800,
+          ),
+          selectedDayPredicate: (day) {
+            return isSameDay(model.selectedDate, day);
+            // return isSameDay(_selectedDay, day);
+          },
+          calendarStyle: CalendarStyle(
+            weekendTextStyle: TextStyles.kBodyText2Red,
+            defaultTextStyle: TextStyles.kBodyText2,
+            outsideTextStyle: TextStyles.kBodyText2_grey700,
+          ),
+          onDaySelected: (selectedDay, focusedDay) {
+            // print(
+            //     'selected day is $selectedDay and focused day is $focusedDay');
+
+            model.selectSelectedDate(selectedDay);
+            model.selectFocusedDate(focusedDay);
+
+            Navigator.of(context).pop(true);
+
+            // _selectedDay = selectedDay;
+            // _focusedDay = focusedDay;
+          },
+          // enabledDayPredicate: (day) {
+          //   return isSameDay(model.selectedDate, day);
+          //   // return isSameDay(_selectedDay, day);
+          //   // return true;
+          // },
+
+          firstDay: DateTime.utc(2010, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14),
+          focusedDay: model.focusedDate,
+          // focusedDay: _focusedDay,
         ),
       ),
     );

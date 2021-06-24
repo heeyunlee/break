@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/home/progress_tab/daily_progress_summary/daily_summary_numbers_widget.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class SecondPreviewWidget extends StatelessWidget {
@@ -10,6 +11,8 @@ class SecondPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('Second Preview Widget building...');
+
     final size = MediaQuery.of(context).size;
 
     return Stack(

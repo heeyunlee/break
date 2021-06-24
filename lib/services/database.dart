@@ -37,6 +37,12 @@ final todaysNutritionStreamProvider =
   return database.todaysNutritionStream();
 });
 
+final nutritionSelectedDayStreamProvider =
+    StreamProvider.family<List<Nutrition>?, List<dynamic>>((ref, ids) {
+  final database = ref.watch(databaseProvider2(ids[0]));
+  return database.nutritionsSelectedDayStream(ids[1]);
+});
+
 final thisWeeksNutritionsStreamProvider =
     StreamProvider.family<List<Nutrition>?, String>((ref, uid) {
   final database = ref.watch(databaseProvider(uid));
@@ -132,6 +138,7 @@ abstract class Database {
   // Stream
   Stream<List<Nutrition>> userNutritionStream({int limit});
   Stream<List<Nutrition>?> todaysNutritionStream();
+  Stream<List<Nutrition>> nutritionsSelectedDayStream(DateTime? date);
   Stream<List<Nutrition>?> thisWeeksNutritionsStream();
 
   // Query
@@ -224,6 +231,7 @@ abstract class Database {
   Stream<RoutineHistory?> routineHistoryStream(String routineHistoryId);
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream();
+  Stream<List<RoutineHistory>?> routineHistorySelectedDayStream(DateTime? date);
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream();
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream2(
       String routineId);
@@ -429,6 +437,20 @@ class FirestoreDatabase implements Database {
       _service.collectionStreamOfToday<Nutrition>(
         uid: uid!,
         uidVariableName: 'userId',
+        dateVariableName: 'loggedDate',
+        orderVariableName: 'loggedTime',
+        path: APIPath.nutritions(),
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Stream of Selected Day's Nutrition Entries
+  @override
+  Stream<List<Nutrition>> nutritionsSelectedDayStream(DateTime? date) =>
+      _service.collectionStreamOfSelectedDay<Nutrition>(
+        uid: uid!,
+        uidVariableName: 'userId',
+        dateIsEqualTo: date,
         dateVariableName: 'loggedDate',
         orderVariableName: 'loggedTime',
         path: APIPath.nutritions(),
@@ -885,6 +907,21 @@ class FirestoreDatabase implements Database {
         uid: uid!,
         uidVariableName: 'userId',
         dateVariableName: 'workoutDate',
+        orderVariableName: 'workoutStartTime',
+        fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Stream of Selected Day's Routine History
+  @override
+  Stream<List<RoutineHistory>?> routineHistorySelectedDayStream(
+          DateTime? date) =>
+      _service.collectionStreamOfSelectedDay<RoutineHistory>(
+        path: APIPath.routineHistories(),
+        uid: uid!,
+        uidVariableName: 'userId',
+        dateVariableName: 'workoutDate',
+        dateIsEqualTo: date,
         orderVariableName: 'workoutStartTime',
         fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),

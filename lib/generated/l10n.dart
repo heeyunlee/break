@@ -3619,6 +3619,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome, {name}! Let's get lifting`
+  String firstSignInSnackbarMessage(Object name) {
+    return Intl.message(
+      'Welcome, $name! Let\'s get lifting',
+      name: 'firstSignInSnackbarMessage',
+      desc: '',
+      args: [name],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

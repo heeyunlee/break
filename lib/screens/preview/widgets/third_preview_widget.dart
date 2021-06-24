@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class ThirdPreviewWidget extends StatelessWidget {
@@ -9,6 +10,8 @@ class ThirdPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('Third Preview Widget building...');
+
     List<String> _daysOfTheWeek = [
       'Sun',
       'Mon',
