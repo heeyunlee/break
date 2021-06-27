@@ -8,6 +8,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -483,7 +484,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -498,7 +499,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -513,7 +514,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -528,7 +529,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }

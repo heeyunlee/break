@@ -12,6 +12,7 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
@@ -132,12 +133,12 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
       stream: widget.database.workoutHistoriesThisWeekStream(
         widget.workout.workoutId,
       ),
-      hasDataWidget: (context, snapshot) {
+      hasDataWidget: (context, data) {
         List<double> relativeYs = [];
 
         // print('this many whs: ${snapshot.data!.length}');
 
-        _setData(snapshot.data!, relativeYs);
+        _setData(data, relativeYs);
 
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -206,7 +207,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
                 show: true,
                 bottomTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (value) => kBodyText2,
+                  getTextStyles: (value) => TextStyles.body2,
                   margin: 16,
                   getTitles: (double value) {
                     switch (value.toInt()) {

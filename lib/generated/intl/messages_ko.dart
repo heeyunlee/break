@@ -374,6 +374,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordNotMatchValidationText":
             MessageLookupByLibrary.simpleMessage("비밀번호가 일치하지 않습니다"),
         "pauseWorkout": MessageLookupByLibrary.simpleMessage("운동 일시정지"),
+        "personalGoals": MessageLookupByLibrary.simpleMessage("개인 목표"),
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
         "previewFirstWidget":
@@ -388,6 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteinEntriesTitle":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록"),
         "proteins": MessageLookupByLibrary.simpleMessage("단백질"),
+        "proteinsGoal": MessageLookupByLibrary.simpleMessage("영양소 목표"),
         "publicRoutine": MessageLookupByLibrary.simpleMessage("루틴 공개"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "루틴을 공개하시면 다른 유저들과 공유할 수 있습니다"),
@@ -446,6 +448,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("식사 분류를 정해주세요!"),
         "set": MessageLookupByLibrary.simpleMessage("세트"),
         "setEffortsTitle": MessageLookupByLibrary.simpleMessage("오늘 운동은 어땠나요?"),
+        "setGoal": MessageLookupByLibrary.simpleMessage("목표 설정"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("일일 목표 세우기"),
         "sets": MessageLookupByLibrary.simpleMessage("세트"),

@@ -124,10 +124,11 @@ class _StartWorkoutShortcutScreenState
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(
+            items: snapshot.data!,
             emptyContentTitle: S.current.emptyroutinesContentTitle(
               _selectedChip,
             ),
-            snapshot: snapshot,
+            // snapshot: snapshot,
             itemBuilder: (context, routine) {
               final trainingLevel = Formatter.difficulty(routine.trainingLevel);
               final weights = Formatter.weights(routine.totalWeights);

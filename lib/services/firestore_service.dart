@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-typedef BoolCallback = void Function(bool val);
-
 class FirestoreService {
   // Making a private constructor
   FirestoreService._();
@@ -66,6 +64,8 @@ class FirestoreService {
     required Function(Map<String, dynamic>? data, String id) fromBuilder,
     required Function(T model) toBuilder,
   }) {
+    print('document stream');
+
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
           toFirestore: (model, _) => toBuilder(model),
@@ -318,7 +318,6 @@ class FirestoreService {
   Future<void> batchDelete({
     required List<String> path,
   }) async {
-    print('batch data triggered');
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {
@@ -334,7 +333,6 @@ class FirestoreService {
     required List<String> path,
     required List<Map<String, dynamic>> data,
   }) async {
-    print('batch data triggered');
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {

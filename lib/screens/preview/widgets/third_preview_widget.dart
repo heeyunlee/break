@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class ThirdPreviewWidget extends StatelessWidget {
   const ThirdPreviewWidget({Key? key}) : super(key: key);
@@ -83,7 +84,7 @@ class ThirdPreviewWidget extends StatelessWidget {
                               show: true,
                               bottomTitles: SideTitles(
                                 showTitles: true,
-                                getTextStyles: (value) => kBodyText2,
+                                getTextStyles: (value) => TextStyles.body2,
                                 margin: 16,
                                 getTitles: (double value) {
                                   switch (value.toInt()) {

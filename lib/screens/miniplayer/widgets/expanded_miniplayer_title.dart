@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
-
-import '../../../styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class ExpandedMiniplayerTitle extends ConsumerWidget {
   final double? horzPadding;
@@ -13,7 +12,7 @@ class ExpandedMiniplayerTitle extends ConsumerWidget {
   const ExpandedMiniplayerTitle({
     this.horzPadding = 24,
     this.vertPadding = 4,
-    this.textStyle = kHeadline5,
+    this.textStyle = TextStyles.headline5,
   });
   @override
   Widget build(BuildContext context, ScopedReader watch) {

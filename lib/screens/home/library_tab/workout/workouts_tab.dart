@@ -8,6 +8,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
@@ -42,8 +43,10 @@ class WorkoutsTab extends StatelessWidget {
                   primary: kPrimaryColor,
                 ),
                 onPressed: () => CreateNewWorkoutScreen.show(context),
-                child: Text(S.current.savedWorkoutEmptykButtonText,
-                    style: kButtonText),
+                child: Text(
+                  S.current.savedWorkoutEmptykButtonText,
+                  style: TextStyles.button1,
+                ),
               ),
             ),
           ],

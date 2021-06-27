@@ -8,12 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
@@ -27,6 +28,29 @@ import 'proteins_eaten/proteins_eaten_chart_widget.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 
 class ProgressTab extends StatefulWidget {
+  final Database database;
+  final ProgressTabModel model;
+
+  const ProgressTab({
+    Key? key,
+    required this.database,
+    required this.model,
+  }) : super(key: key);
+
+  static Widget create(BuildContext context) {
+    // print('progress tab created');
+
+    final database = provider.Provider.of<Database>(context, listen: false);
+
+    return Consumer(
+      builder: (context, watch, child) {
+        final model = watch(progressTabModelProvider);
+
+        return ProgressTab(database: database, model: model);
+      },
+    );
+  }
+
   @override
   _ProgressTabState createState() => _ProgressTabState();
 }
@@ -69,6 +93,8 @@ class _ProgressTabState extends State<ProgressTab>
     _brightnessTween = Tween<double>(begin: 0.9, end: 0.0).animate(
       _bgAnimationController,
     );
+
+    widget.model.initShowBanner();
   }
 
   @override
@@ -79,23 +105,12 @@ class _ProgressTabState extends State<ProgressTab>
 
   @override
   Widget build(BuildContext context) {
-    logger.d('progress Tab Scaffold building...');
+    logger.d('Progress Tab Scaffold building...');
 
-    // final model = ProgressTabModel();
-
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
-
-    // final today = DateFormat.MMMEd().format(DateTime.now());
-
-    return Consumer(
-      builder: (context, watch, child) {
-        final model = watch(progressTabModelProvider);
-        // final selectedDate = DateFormat.MMMEd().format(model.selectedDate);
-
-        // DateTime _focusedDay = DateTime.now();
-        // DateTime? _selectedDay;
-
+    return CustomStreamBuilderWidget<User?>(
+      stream: widget.database.userStream(),
+      loadingWidget: ProgressTabShimmer(),
+      hasDataWidget: (context, user) {
         return NotificationListener<ScrollNotification>(
           onNotification: _scrollListener,
           child: Scaffold(
@@ -108,13 +123,13 @@ class _ProgressTabState extends State<ProgressTab>
                 brightness: Brightness.dark,
                 elevation: 0,
                 title: TextButton(
-                  style: ButtonStyles.textButton_1,
-                  onPressed: () => _showCalendar(model),
+                  style: ButtonStyles.text1,
+                  onPressed: () => _showCalendar(),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        DateFormat.MMMEd().format(model.selectedDate),
+                        DateFormat.MMMEd().format(widget.model.selectedDate),
                         style: kSubtitle2,
                       ),
                       const SizedBox(width: 8),
@@ -125,17 +140,8 @@ class _ProgressTabState extends State<ProgressTab>
                 backgroundColor: Colors.transparent,
               ),
             ),
-            body: CustomStreamBuilderWidget<User?>(
-              stream: database.userStream(),
-              loadingWidget: ProgressTabShimmer(),
-              hasDataWidget: (context, snapshot) => Builder(
-                builder: (context) => _buildChildWidget(
-                  context,
-                  snapshot.data!,
-                  database,
-                  auth,
-                ),
-              ),
+            body: Builder(
+              builder: (context) => _buildChildWidget(context, user!),
             ),
           ),
         );
@@ -143,12 +149,7 @@ class _ProgressTabState extends State<ProgressTab>
     );
   }
 
-  Widget _buildChildWidget(
-    BuildContext context,
-    User user,
-    Database database,
-    AuthBase auth,
-  ) {
+  Widget _buildChildWidget(BuildContext context, User user) {
     final size = MediaQuery.of(context).size;
     final unit = Formatter.unitOfMass(user.unitOfMass);
 
@@ -164,11 +165,20 @@ class _ProgressTabState extends State<ProgressTab>
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  SizedBox(height: size.height * 0.5),
+                  if (widget.model.showBanner) _buildBanner(),
+                  SizedBox(
+                    height: widget.model.showBanner
+                        ? size.height * 0.5 - 136
+                        : size.height * 0.5,
+                  ),
                   Stack(
                     children: [
                       DailyWeightsWidget.create(context),
-                      DailyNutritionWidget.create(context),
+                      DailyNutritionWidget.create(
+                        context,
+                        user: user,
+                        model: widget.model,
+                      ),
                     ],
                   ),
                   WeightsLiftedChartWidget.create(
@@ -184,6 +194,44 @@ class _ProgressTabState extends State<ProgressTab>
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildBanner() {
+    return BlurBackgroundCard(
+      borderRadius: 12,
+      color: Colors.grey.withOpacity(0.25),
+      child: MaterialBanner(
+        backgroundColor: Colors.transparent,
+        content: Row(
+          children: [
+            Icon(
+              Icons.emoji_events_rounded,
+              color: kPrimaryColor,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Set your daily protein and lifting goal!',
+              style: TextStyles.body2,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            style: ButtonStyles.text1_bold,
+            onPressed: () => widget.model.setShowBanner(false),
+            child: Text('DISMISS'),
+          ),
+          TextButton(
+            style: ButtonStyles.text1_bold,
+            onPressed: () => PersonalGoalsScreen.show(
+              homeScreenNavigatorKey.currentContext!,
+              isRoot: true,
+            ),
+            child: Text('SET NOW'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -221,7 +269,7 @@ class _ProgressTabState extends State<ProgressTab>
     );
   }
 
-  Future<bool?> _showCalendar(ProgressTabModel model) {
+  Future<bool?> _showCalendar() {
     return showModalBottomSheet<bool>(
       // context: context,
       context: homeScreenNavigatorKey.currentContext!,
@@ -231,30 +279,30 @@ class _ProgressTabState extends State<ProgressTab>
         height: 500,
         child: TableCalendar(
           daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: TextStyles.kBodyText2,
-            weekendStyle: TextStyles.kBodyText2Red,
+            weekdayStyle: TextStyles.body2,
+            weekendStyle: TextStyles.body2_red,
           ),
           headerStyle: HeaderStyle(
             formatButtonShowsNext: false,
             formatButtonVisible: false,
             titleCentered: true,
-            titleTextStyle: TextStyles.kBodyText1w800,
+            titleTextStyle: TextStyles.body1_w800,
           ),
           selectedDayPredicate: (day) {
-            return isSameDay(model.selectedDate, day);
+            return isSameDay(widget.model.selectedDate, day);
             // return isSameDay(_selectedDay, day);
           },
           calendarStyle: CalendarStyle(
-            weekendTextStyle: TextStyles.kBodyText2Red,
-            defaultTextStyle: TextStyles.kBodyText2,
-            outsideTextStyle: TextStyles.kBodyText2_grey700,
+            weekendTextStyle: TextStyles.body2_red,
+            defaultTextStyle: TextStyles.body2,
+            outsideTextStyle: TextStyles.body2_grey700,
           ),
           onDaySelected: (selectedDay, focusedDay) {
             // print(
             //     'selected day is $selectedDay and focused day is $focusedDay');
 
-            model.selectSelectedDate(selectedDay);
-            model.selectFocusedDate(focusedDay);
+            widget.model.selectSelectedDate(selectedDay);
+            widget.model.selectFocusedDate(focusedDay);
 
             Navigator.of(context).pop(true);
 
@@ -269,7 +317,7 @@ class _ProgressTabState extends State<ProgressTab>
 
           firstDay: DateTime.utc(2010, 10, 16),
           lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: model.focusedDate,
+          focusedDay: widget.model.focusedDate,
           // focusedDay: _focusedDay,
         ),
       ),

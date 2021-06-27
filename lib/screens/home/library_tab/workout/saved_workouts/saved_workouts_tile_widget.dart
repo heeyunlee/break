@@ -36,11 +36,11 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
         leading: Icon(Icons.error, color: Colors.white),
         title: Text(S.current.errorOccuredMessage, style: kBodyText1Bold),
       ),
-      hasDataWidget: (context, snapshot) {
-        final User user = snapshot.data!;
+      hasDataWidget: (context, data) {
+        // final User user = snapshot.data!;
 
         return InkWell(
-          onTap: () => SavedWorkoutsScreen.show(context, user: user),
+          onTap: () => SavedWorkoutsScreen.show(context, user: data!),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Card(
@@ -67,7 +67,7 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
                       Text(S.current.savedWorkouts, style: kBodyText1Bold),
                       const SizedBox(height: 4),
                       Text(
-                        _getSubtitle(user),
+                        _getSubtitle(data!),
                         style: kBodyText2Grey,
                       ),
                     ],

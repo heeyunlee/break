@@ -402,6 +402,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordNotMatchValidationText":
             MessageLookupByLibrary.simpleMessage("Password do not match"),
         "pauseWorkout": MessageLookupByLibrary.simpleMessage("Pause Workout"),
+        "personalGoals": MessageLookupByLibrary.simpleMessage("Personal Goals"),
         "personalInformation":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
@@ -417,6 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteinEntriesTitle":
             MessageLookupByLibrary.simpleMessage("Protein Entries"),
         "proteins": MessageLookupByLibrary.simpleMessage("Proteins"),
+        "proteinsGoal": MessageLookupByLibrary.simpleMessage("Proteins Goal"),
         "publicRoutine": MessageLookupByLibrary.simpleMessage("Public Routine"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "Make your routine either just for yourself or sharable with other users"),
@@ -479,6 +481,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "set": MessageLookupByLibrary.simpleMessage("Set"),
         "setEffortsTitle":
             MessageLookupByLibrary.simpleMessage("How was your workout?"),
+        "setGoal": MessageLookupByLibrary.simpleMessage("Set Goal"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("SET DAILY GOAL"),
         "sets": MessageLookupByLibrary.simpleMessage("Sets"),

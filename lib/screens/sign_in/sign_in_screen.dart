@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
@@ -11,6 +12,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import 'email_signup/email_sign_up_screen.dart';
 import 'log_in_with_email_screen.dart';
@@ -55,7 +57,7 @@ class SignInScreen extends ConsumerWidget {
       appBar: AppBar(
         actions: [
           TextButton(
-            style: ButtonStyles.textButton_google,
+            style: ButtonStyles.text1_google,
             onPressed:
                 model.isLoading ? null : () => model.signInAnonymously(context),
             child: Text(S.current.takeALook),
@@ -77,6 +79,7 @@ class SignInScreen extends ConsumerWidget {
 
   Widget _buildSignInScreen(BuildContext context, SignInScreenNotifier model) {
     final size = MediaQuery.of(context).size;
+    final locale = Intl.getCurrentLocale();
 
     return Container(
       height: size.height,
@@ -94,7 +97,10 @@ class SignInScreen extends ConsumerWidget {
                                 AlwaysStoppedAnimation<Color>(kPrimaryColor),
                           ),
                           const SizedBox(height: 24),
-                          Text(S.current.signingIn, style: kBodyText2),
+                          Text(
+                            S.current.signingIn,
+                            style: TextStyles.body2,
+                          ),
                         ],
                       )
                     : Column(
@@ -165,19 +171,21 @@ class SignInScreen extends ConsumerWidget {
               ),
 
             /// SIGN IN WITH KAKAO
-            SocialSignInButton(
-              kButtonText: S.current.continueWithKakao,
-              color: Color(0xffFEE500),
-              kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
-              logo: 'assets/logos/kakao_logo.png',
-              textColor: Colors.black.withOpacity(0.85),
-              onPressed:
-                  model.isLoading ? null : () => model.signInWithKakao(context),
-            ),
+            if (locale == 'ko')
+              SocialSignInButton(
+                kButtonText: S.current.continueWithKakao,
+                color: Color(0xffFEE500),
+                kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
+                logo: 'assets/logos/kakao_logo.png',
+                textColor: Colors.black.withOpacity(0.85),
+                onPressed: model.isLoading
+                    ? null
+                    : () => model.signInWithKakao(context),
+              ),
 
             /// LOG IN BUTTON
             TextButton(
-              style: ButtonStyles.textButton_google,
+              style: ButtonStyles.text1_google,
               onPressed: model.isLoading
                   ? null
                   : () => LogInWithEmailScreen.show(context),

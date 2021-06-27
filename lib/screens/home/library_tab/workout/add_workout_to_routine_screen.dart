@@ -15,6 +15,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -191,7 +192,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
             Navigator.of(context).pop();
             CreateNewRoutineScreen.show(context);
           },
-          child: Text(S.current.createNewRoutine, style: kButtonText),
+          child: Text(S.current.createNewRoutine, style: TextStyles.button1),
         ),
       ),
       itemsPerPage: 10,

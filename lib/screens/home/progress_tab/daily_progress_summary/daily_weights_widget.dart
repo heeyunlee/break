@@ -44,14 +44,14 @@ class DailyWeightsWidget extends ConsumerWidget {
       // stream: database.routineHistoryTodayStream(),
       stream: database.routineHistorySelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
-      hasDataWidget: (context, snapshot) {
+      hasDataWidget: (context, data) {
         int _totalWeights = 0;
         double _weightsProgress = 0;
         String _mainMuscleGroup = '-';
 
-        if (snapshot.data != null) {
-          if (snapshot.data!.isNotEmpty) {
-            snapshot.data!.forEach((e) {
+        if (data != null) {
+          if (data.isNotEmpty) {
+            data.forEach((e) {
               _totalWeights += e.totalWeights.toInt();
             });
 
@@ -60,7 +60,7 @@ class DailyWeightsWidget extends ConsumerWidget {
               _weightsProgress = 1;
             }
 
-            final latest = snapshot.data!.last;
+            final latest = data.last;
 
             final mainMuscleGroup = MainMuscleGroup.values
                 .firstWhere((e) => e.toString() == latest.mainMuscleGroup[0])
@@ -104,10 +104,7 @@ class DailyWeightsWidget extends ConsumerWidget {
                 SizedBox(height: size.height / 14),
                 SizedBox(
                   height: size.height / 14,
-                  child: _buildTotalWeightsWidget(
-                    snapshot.data,
-                    _totalWeights,
-                  ),
+                  child: _buildTotalWeightsWidget(data, _totalWeights),
                 ),
                 SizedBox(height: size.height / 14),
                 SizedBox(height: size.height / 14),

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -263,7 +264,7 @@ class _RoutineHistorySummaryScreenState
                             child: TextFormField(
                               textInputAction: TextInputAction.done,
                               controller: _textController1,
-                              style: kBodyText2,
+                              style: TextStyles.body2,
                               focusNode: focusNode1,
                               decoration: InputDecoration(
                                 hintText: S.current.addNotesHintText,
@@ -428,7 +429,7 @@ class _RoutineHistorySummaryScreenState
                   child: Chip(
                     label: Text(
                       _musclesAndEquipment[index],
-                      style: kButtonText,
+                      style: TextStyles.button1,
                     ),
                     backgroundColor: kPrimaryColor,
                   ),
@@ -456,8 +457,6 @@ class _SummaryRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -469,7 +468,7 @@ class _SummaryRowWidget extends StatelessWidget {
         const SizedBox(width: 16),
         RichText(
           text: TextSpan(
-            style: kHeadline5.copyWith(fontSize: size.height * 0.03),
+            style: TextStyles.headline5,
             children: <TextSpan>[
               TextSpan(text: title),
               if (subtitle != null) TextSpan(text: subtitle, style: kSubtitle1)

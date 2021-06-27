@@ -4,6 +4,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallback discriptionCallback;
@@ -95,7 +96,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                     child: TextFormField(
                       textInputAction: TextInputAction.done,
                       controller: _textController,
-                      style: kBodyText2,
+                      style: TextStyles.body2,
                       maxLines: 3,
                       decoration: InputDecoration(
                         hintText: S.current.descriptionHintText,

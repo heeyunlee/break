@@ -9,6 +9,7 @@ import 'package:workout_player/screens/home/library_tab/routine/log_routine/log_
 import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -114,7 +115,7 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
               user: user,
               routineWorkouts: data,
             ),
-            child: Text(S.current.logRoutine, style: kButtonText),
+            child: Text(S.current.logRoutine, style: TextStyles.button1),
           ),
         ),
         const SizedBox(width: 16),
@@ -127,7 +128,7 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: Text(S.current.startRoutine, style: kButtonText),
+          child: Text(S.current.startRoutine, style: TextStyles.button1),
         ),
       ],
     );

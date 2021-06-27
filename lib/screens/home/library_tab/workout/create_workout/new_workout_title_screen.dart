@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -67,7 +68,7 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
         child: TextFormField(
           maxLength: 35,
           maxLines: 1,
-          style: kHeadline5,
+          style: TextStyles.headline5,
           autofocus: true,
           textAlign: TextAlign.center,
           controller: _textController1,

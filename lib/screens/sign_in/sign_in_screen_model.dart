@@ -14,10 +14,6 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 class SignInScreenNotifier extends ChangeNotifier {
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
   AuthService? auth;
   FirestoreDatabase? database;
 
@@ -29,6 +25,10 @@ class SignInScreenNotifier extends ChangeNotifier {
     auth = container.read(authServiceProvider2);
     database = container.read(databaseProvider2(auth!.currentUser?.uid));
   }
+
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
 
   final locale = Intl.getCurrentLocale();
 

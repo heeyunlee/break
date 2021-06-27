@@ -356,5 +356,8 @@
     "takeALook": "Take a look",
     "overview": "Overview",
     "previewFirstWidget": "See your daily and weekly progress",
-    "firstSignInSnackbarMessage": "Welcome, {name}! Let's get lifting"
+    "firstSignInSnackbarMessage": "Welcome, {name}! Let's get lifting",
+    "personalGoals": "Personal Goals",
+    "proteinsGoal": "Proteins Goal",
+    "setGoal": "Set Goal"
 }

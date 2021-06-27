@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -112,7 +113,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         actions: [
           TextButton(
             onPressed: _submit,
-            child: Text(S.current.submit, style: kButtonText),
+            child: Text(S.current.submit, style: TextStyles.button1),
           ),
         ],
       ),

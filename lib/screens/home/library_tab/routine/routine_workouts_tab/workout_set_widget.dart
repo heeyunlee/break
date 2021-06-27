@@ -6,6 +6,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -512,7 +513,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -534,7 +535,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -556,7 +557,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }

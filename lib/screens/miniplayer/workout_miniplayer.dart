@@ -12,6 +12,7 @@ import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_b
 import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.dart';
 import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
 import 'widgets/close_miniplayer_button.dart';
@@ -187,13 +188,10 @@ class WorkoutMiniplayer extends ConsumerWidget {
               children: [
                 Text(
                   formattedCurrentProgress,
-                  style: kBodyText2,
+                  style: TextStyles.body2,
                 ),
                 const Spacer(),
-                const Text(
-                  '100 %',
-                  style: kBodyText2,
-                ),
+                const Text('100 %', style: TextStyles.body2),
               ],
             ),
           ),

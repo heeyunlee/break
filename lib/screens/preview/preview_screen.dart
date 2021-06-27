@@ -13,6 +13,7 @@ import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen_model.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
 import 'widgets/second_preview_widget.dart';
@@ -62,7 +63,7 @@ class PreviewScreen extends ConsumerWidget {
                 SizedBox(
                   width: 100,
                   child: TextButton(
-                    style: ButtonStyles.textButton_1,
+                    style: ButtonStyles.text1,
                     onPressed: () {
                       HapticFeedback.mediumImpact();
                       SignInScreen.show(context);
@@ -89,7 +90,7 @@ class PreviewScreen extends ConsumerWidget {
                 SizedBox(
                   width: 100,
                   child: TextButton(
-                    style: ButtonStyles.textButton_google,
+                    style: ButtonStyles.text1_google,
                     onPressed: () {
                       HapticFeedback.mediumImpact();
 
@@ -108,7 +109,7 @@ class PreviewScreen extends ConsumerWidget {
                       (model.currentPage == 3)
                           ? S.current.start
                           : S.current.next,
-                      style: kButtonText,
+                      style: TextStyles.button1,
                     ),
                   ),
                 ),

@@ -39,11 +39,12 @@ class RoutineWorkoutsTab extends StatelessWidget {
             CustomStreamBuilderWidget<List<RoutineWorkout?>>(
               loadingWidget: RoutineWorkoutShimmer(),
               stream: database.routineWorkoutsStream(routine.routineId),
-              hasDataWidget: (context, snapshot) => Padding(
+              hasDataWidget: (context, list) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ListItemBuilder<RoutineWorkout?>(
+                  items: list,
                   emptyContentTitle: S.current.routineWorkoutEmptyText,
-                  snapshot: snapshot,
+                  // snapshot: snapshot,
                   itemBuilder: (context, routineWorkout) => RoutineWorkoutCard(
                     database: database,
                     routine: routine,

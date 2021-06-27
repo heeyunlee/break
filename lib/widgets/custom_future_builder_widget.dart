@@ -4,35 +4,32 @@ import 'package:workout_player/styles/constants.dart';
 
 import 'empty_content.dart';
 
-class CustomStreamBuilderWidget<T> extends StatelessWidget {
-  final Stream<T> stream;
-  final T? initialData;
+class CustomFutureBuilderWidget<T> extends StatelessWidget {
+  final Future<T> future;
   final HasDataWidget<T> hasDataWidget;
   final Widget? errorWidget;
   final Widget? loadingWidget;
 
-  const CustomStreamBuilderWidget({
+  const CustomFutureBuilderWidget({
     Key? key,
-    required this.stream,
+    required this.future,
     required this.hasDataWidget,
     this.errorWidget,
-    this.initialData,
     this.loadingWidget,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<T>(
-      initialData: initialData,
-      stream: stream,
-      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
-        if (snapshot.hasData) {
-          return hasDataWidget(context, snapshot.data!);
-        } else if (snapshot.hasError) {
+    return FutureBuilder<T>(
+      future: future,
+      builder: (BuildContext context, AsyncSnapshot<T> future) {
+        if (future.hasData) {
+          return hasDataWidget(context, future.data!);
+        } else if (future.hasError) {
           return errorWidget ??
               EmptyContent(
                 message: S.current.errorOccuredMessage,
-                e: snapshot.error,
+                e: future.error,
               );
         }
         return loadingWidget ?? Center(child: CircularProgressIndicator());

@@ -5,6 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 import 'workout_set_widget_for_history.dart';
@@ -100,7 +101,7 @@ class WorkoutHistoryCard extends StatelessWidget {
               Container(
                 height: 80,
                 child: Center(
-                  child: Text(S.current.addASet, style: kBodyText2),
+                  child: Text(S.current.addASet, style: TextStyles.body2),
                 ),
               ),
             const Divider(endIndent: 8, indent: 8, color: kGrey700),

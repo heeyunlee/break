@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -231,7 +232,7 @@ class _EditRoutineMainMuscleGroupScreenState
                       child: CheckboxListTile(
                         selected: _mainMuscleGroup[key]!,
                         activeColor: kPrimary700Color,
-                        title: Text(title!, style: kButtonText),
+                        title: Text(title!, style: TextStyles.button1),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],
                         onChanged: (bool? value) =>

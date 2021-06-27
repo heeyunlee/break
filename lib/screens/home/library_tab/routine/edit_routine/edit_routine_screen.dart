@@ -18,6 +18,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -218,7 +219,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,
-                  child: Text(S.current.save, style: kButtonText),
+                  child: Text(S.current.save, style: TextStyles.button1),
                 ),
               ],
               flexibleSpace: AppbarBlurBG(),
@@ -306,7 +307,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             tileColor: kCardColor,
-            title: Text(S.current.publicRoutine, style: kButtonText),
+            title: Text(S.current.publicRoutine, style: TextStyles.button1),
             trailing: Switch(
               value: _isPublic,
               activeColor: kPrimaryColor,
@@ -353,7 +354,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               controller: _textController1,
-              style: kBodyText2,
+              style: TextStyles.body2,
               focusNode: focusNode1,
               maxLength: 45,
               decoration: const InputDecoration(
@@ -395,7 +396,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               controller: _textController2,
-              style: kBodyText2,
+              style: TextStyles.body2,
               focusNode: focusNode2,
               maxLines: 3,
               decoration: InputDecoration(
@@ -480,7 +481,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            title: Text(S.current.mainMuscleGroup, style: kButtonText),
+            title: Text(S.current.mainMuscleGroup, style: TextStyles.button1),
             subtitle: Text(mainMuscleGroup!, style: kBodyText2Grey),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
@@ -508,7 +509,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        title: Text(S.current.equipmentRequired, style: kButtonText),
+        title: Text(S.current.equipmentRequired, style: TextStyles.button1),
         subtitle: Text(
           equipmentRequired!,
           style: kBodyText2Grey,
@@ -533,7 +534,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        title: Text(S.current.unitOfMass, style: kButtonText),
+        title: Text(S.current.unitOfMass, style: TextStyles.button1),
         subtitle: Text(
           UnitOfMass.values[routine.initialUnitOfMass].label!,
           style: kBodyText2Grey,
@@ -565,7 +566,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        title: Text(S.current.location, style: kButtonText),
+        title: Text(S.current.location, style: TextStyles.button1),
         subtitle: Text(location!, style: kBodyText2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
@@ -613,7 +614,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }
@@ -628,7 +629,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 onTap: () => node.unfocus(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.done, style: kButtonText),
+                  child: Text(S.current.done, style: TextStyles.button1),
                 ),
               );
             }

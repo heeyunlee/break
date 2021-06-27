@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class DailySummaryNumbersWidget extends StatelessWidget {
   final String title;
@@ -32,7 +33,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: mainAxisAlignment!,
       children: [
-        Text(title, style: kBodyText2),
+        Text(title, style: TextStyles.body2),
         const SizedBox(height: 8),
         Row(
           children: [

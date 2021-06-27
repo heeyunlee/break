@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -394,7 +395,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               ),
               builder: (context, snapshot) {
                 return ListItemBuilder<WorkoutHistory>(
-                  snapshot: snapshot,
+                  items: snapshot.data!,
+                  // snapshot: snapshot,
                   itemBuilder: (context, workoutHistory) {
                     workoutHistories = snapshot.data!;
 
@@ -427,7 +429,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         maxLines: 4,
                         textInputAction: TextInputAction.done,
                         controller: _textController1,
-                        style: kBodyText2,
+                        style: TextStyles.body2,
                         focusNode: focusNode1,
                         decoration: InputDecoration(
                           hintText: S.current.notesHintText,
@@ -446,7 +448,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         height: 100,
                         child: Text(
                           notes,
-                          style: kBodyText2,
+                          style: TextStyles.body2,
                         ),
                       ),
               ),
@@ -539,7 +541,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             child: Chip(
               label: Text(
                 _musclesAndEquipment[index],
-                style: kButtonText,
+                style: TextStyles.button1,
               ),
               backgroundColor: kPrimaryColor,
             ),

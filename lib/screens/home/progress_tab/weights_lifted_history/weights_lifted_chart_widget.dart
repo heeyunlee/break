@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -124,9 +125,9 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   Widget build(BuildContext context) {
     return CustomStreamBuilderWidget<List<RoutineHistory?>>(
       stream: widget.database.routineHistoriesThisWeekStream(),
-      hasDataWidget: (context, snapshot) {
+      hasDataWidget: (context, data) {
         List<double> relativeYs = [];
-        _setData(snapshot.data!, relativeYs);
+        _setData(data, relativeYs);
 
         return BlurBackgroundCard(
           child: Padding(
@@ -198,15 +199,15 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: Text(
                           S.current.weightsChartMessage,
-                          style: kBodyText2,
+                          style: TextStyles.body2,
                         ),
                       ),
                     ],
                   ),
                 ),
-                if (snapshot.data!.isEmpty) const Divider(color: kGrey700),
+                if (data.isEmpty) const Divider(color: kGrey700),
                 const SizedBox(height: 16),
-                _buildChart(_maxY, relativeYs, snapshot.data!),
+                _buildChart(_maxY, relativeYs, data),
               ],
             ),
           ),
@@ -367,7 +368,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
               show: true,
               bottomTitles: SideTitles(
                 showTitles: true,
-                getTextStyles: (value) => kBodyText2,
+                getTextStyles: (value) => TextStyles.body2,
                 margin: 16,
                 getTitles: (double value) {
                   switch (value.toInt()) {

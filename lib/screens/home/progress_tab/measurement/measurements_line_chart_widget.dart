@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -142,8 +143,8 @@ class _MeasurementsLineChartWidgetState
 
     return CustomStreamBuilderWidget<List<Measurement>>(
       stream: database.measurementsStreamThisWeek(),
-      hasDataWidget: (context, snapshot) {
-        setMaxY(snapshot.data!);
+      hasDataWidget: (context, data) {
+        setMaxY(data);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,15 +182,15 @@ class _MeasurementsLineChartWidgetState
                       const Spacer(),
                     ],
                   ),
-                  if (snapshot.data!.length < 2)
+                  if (data.length < 2)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
                         S.current.addMasurementDataMessage,
-                        style: kBodyText2,
+                        style: TextStyles.body2,
                       ),
                     ),
-                  if (snapshot.data!.length >= 2) const SizedBox(height: 16),
+                  if (data.length >= 2) const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -223,7 +224,7 @@ class _MeasurementsLineChartWidgetState
                           showTitles: true,
                           reservedSize: 22,
                           margin: 24,
-                          getTextStyles: (value) => kBodyText2,
+                          getTextStyles: (value) => TextStyles.body2,
                           getTitles: (value) {
                             switch (value.toInt()) {
                               case 0:
@@ -284,7 +285,7 @@ class _MeasurementsLineChartWidgetState
                       maxY: maxY,
                       lineBarsData: [
                         LineChartBarData(
-                          spots: (snapshot.data!.length > 1)
+                          spots: (data.length > 1)
                               ? actualSpots()
                               : _randomSpots(),
                           isCurved: true,

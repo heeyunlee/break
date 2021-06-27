@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
 import '../models/enum/main_muscle_group.dart';
-
-typedef StringCallback = void Function(String val);
 
 class ChoiceChipsAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {
@@ -57,7 +56,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
               color: (_selectedIndex == i) ? kPrimary300Color : Colors.grey,
               width: 1),
         ),
-        label: Text(_mainMuscleGroupTranslated[i], style: kButtonText),
+        label: Text(_mainMuscleGroupTranslated[i], style: TextStyles.button1),
         selected: _selectedIndex == i,
         backgroundColor: kAppBarColor,
         selectedColor: kPrimaryColor,

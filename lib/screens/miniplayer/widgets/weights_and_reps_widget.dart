@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../../styles/constants.dart';
 import '../../../utils/formatter.dart';
@@ -59,12 +60,12 @@ class WeightsAndRepsWidget extends ConsumerWidget {
                           //   ),
                           RichText(
                             text: TextSpan(
-                              style: kBodyText2,
+                              style: TextStyles.body2,
                               children: <TextSpan>[
                                 if (routineWorkout.isBodyWeightWorkout)
                                   TextSpan(
                                     text: S.current.bodyweight,
-                                    style: kHeadline5,
+                                    style: TextStyles.headline5,
                                   ),
                                 if (!routineWorkout.isBodyWeightWorkout)
                                   TextSpan(text: weights, style: kHeadline3),
@@ -118,7 +119,10 @@ class WeightsAndRepsWidget extends ConsumerWidget {
                               style: kHeadline3,
                               children: <TextSpan>[
                                 TextSpan(text: '${workoutSet.reps}'),
-                                const TextSpan(text: ' x', style: kBodyText2),
+                                const TextSpan(
+                                  text: ' x',
+                                  style: TextStyles.body2,
+                                ),
                               ],
                             ),
                           ),

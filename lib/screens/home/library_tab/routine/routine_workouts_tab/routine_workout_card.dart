@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -379,7 +380,7 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
               Container(
                 height: 80,
                 child: Center(
-                  child: Text(S.current.addASet, style: kBodyText2),
+                  child: Text(S.current.addASet, style: TextStyles.body2),
                 ),
               ),
             const Divider(endIndent: 8, indent: 8, color: kGrey700),

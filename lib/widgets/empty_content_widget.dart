@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
 
@@ -49,7 +50,7 @@ class EmptyContentWidget extends StatelessWidget {
                       primary: kPrimaryColor,
                     ),
                     onPressed: onPressed,
-                    child: Text(S.current.startNow, style: kButtonText),
+                    child: Text(S.current.startNow, style: TextStyles.button1),
                   ),
                 ],
               ),

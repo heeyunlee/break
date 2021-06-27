@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
@@ -14,15 +24,6 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 
 class AddWorkoutsToRoutine extends StatefulWidget {
   const AddWorkoutsToRoutine({
@@ -181,9 +182,9 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               ),
         errorWidget: EmptyContent(),
         loadingWidget: ListViewShimmer(),
-        hasDataWidget: (context, snapshot) => ListItemBuilder<Workout>(
+        hasDataWidget: (context, data) => ListItemBuilder<Workout>(
+          items: data,
           emptyContentTitle: S.current.noWorkoutEmptyContent(chip!),
-          snapshot: snapshot,
           itemBuilder: (context, workout) {
             final locale = Intl.getCurrentLocale();
 

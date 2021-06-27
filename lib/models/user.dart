@@ -68,7 +68,7 @@ class User {
         });
       }
       final num? dailyWeightsGoal = data['dailyWeightsGoal'];
-      final num? dailyProteinGoal = data['dailyWeightsGoal'];
+      final num? dailyProteinGoal = data['dailyProteinGoal'];
       final String displayName = data['displayName'];
       final int? backgroundImageIndex = data['backgroundImageIndex'];
 

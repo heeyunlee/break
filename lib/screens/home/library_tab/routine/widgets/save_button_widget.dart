@@ -29,12 +29,12 @@ class SaveButtonWidget extends StatelessWidget {
     return CustomStreamBuilderWidget<User?>(
       initialData: user,
       stream: database.userStream(),
-      hasDataWidget: (context, snapshot) {
-        final User user = snapshot.data!;
+      hasDataWidget: (context, data) {
+        // final User user = snapshot.data!;
 
-        if (user.savedRoutines != null) {
-          if (user.savedRoutines!.isNotEmpty) {
-            if (user.savedRoutines!.contains(routine.routineId)) {
+        if (data!.savedRoutines != null) {
+          if (data.savedRoutines!.isNotEmpty) {
+            if (data.savedRoutines!.contains(routine.routineId)) {
               return _unsaveButton(context);
             } else {
               return _saveButton(context);

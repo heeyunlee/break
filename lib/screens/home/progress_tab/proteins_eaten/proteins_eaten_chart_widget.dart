@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
@@ -47,52 +48,6 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
 
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
-
-  // List<DailyNutritionHistory> _historiesFromFirebase = [];
-  // List<DailyNutritionHistory> _sevenDayHistory = [];
-
-  // final List<double> _relativeNumber = [];
-
-  // void setSevenDaysOfHistory() {
-  //   _historiesFromFirebase = widget.user.dailyNutritionHistories!;
-  //   if (_historiesFromFirebase.isNotEmpty) {
-  //     var sevenDayHistory = List<DailyNutritionHistory>.generate(7, (index) {
-  //       var matchingHistory = _historiesFromFirebase
-  //           .where((element) => element.date.toUtc() == _dates[index]);
-  //       double proteins =
-  //           (matchingHistory.isEmpty) ? 0 : matchingHistory.first.totalProteins;
-
-  //       return DailyNutritionHistory(
-  //         date: _dates[index],
-  //         totalProteins: proteins,
-  //       );
-  //     });
-  //     _sevenDayHistory = sevenDayHistory.reversed.toList();
-  //   }
-  // }
-
-  // //  SET MAX Y
-  // void setMaxY() {
-  //   if (widget.user.dailyNutritionHistories!.isEmpty) {
-  //     maxY = 150;
-  //   } else {
-  //     final largest =
-  //         _sevenDayHistory.map<double>((e) => e.totalProteins).reduce(max);
-
-  //     if (largest == 0) {
-  //       maxY = 150;
-  //       _sevenDayHistory.forEach((element) {
-  //         _relativeNumber.add(0);
-  //       });
-  //     } else {
-  //       final roundedLargest = (largest / 10).ceil() * 10;
-  //       maxY = roundedLargest.toDouble();
-  //       _sevenDayHistory.forEach((element) {
-  //         _relativeNumber.add(element.totalProteins / maxY * 10);
-  //       });
-  //     }
-  //   }
-  // }
 
   void _setData(List<Nutrition>? streamData, List<double> relativeYs) {
     Map<DateTime, List<Nutrition>> _mapData;
@@ -161,9 +116,9 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
 
     return CustomStreamBuilderWidget<List<Nutrition>?>(
       stream: widget.database.thisWeeksNutritionsStream(),
-      hasDataWidget: (context, snapshot) {
+      hasDataWidget: (context, data) {
         List<double> relativeYs = [];
-        _setData(snapshot.data!, relativeYs);
+        _setData(data, relativeYs);
 
         return BlurBackgroundCard(
           child: Padding(
@@ -205,27 +160,6 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                               ),
                             ),
                             const Spacer(),
-                            // if (widget.user.dailyWeightsGoal == null)
-                            //   TextButton(
-                            //     style: TextButton.styleFrom(
-                            //       padding: EdgeInsets.zero,
-                            //     ),
-                            //     onPressed: () {},
-                            //     child: Row(
-                            //       children: [
-                            //         Text(
-                            //           S.current.setWeightsDailyGoal,
-                            //           style: kButtonText2,
-                            //         ),
-                            //         const SizedBox(width: 4),
-                            //         const Icon(
-                            //           Icons.add_rounded,
-                            //           color: Colors.white,
-                            //           size: 16,
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
                           ],
                         ),
                       ),
@@ -233,15 +167,15 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
                         padding: const EdgeInsets.only(top: 8, bottom: 32),
                         child: Text(
                           S.current.proteinChartContentText,
-                          style: kBodyText2,
+                          style: TextStyles.body2,
                         ),
                       ),
                     ],
                   ),
                 ),
-                if (snapshot.data!.isEmpty) const Divider(color: kGrey700),
+                if (data!.isEmpty) const Divider(color: kGrey700),
                 const SizedBox(height: 16),
-                _buildChart(_maxY, relativeYs, snapshot.data!),
+                _buildChart(_maxY, relativeYs, data),
               ],
             ),
           ),
@@ -446,6 +380,97 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
     // );
   }
 
+  Widget _buildChart(
+      double maxY, List<double> relativeYs, List<Nutrition> list) {
+    return AspectRatio(
+      aspectRatio: 1.5,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 8),
+        child: BarChart(
+          BarChartData(
+            maxY: 10,
+            barTouchData: BarTouchData(
+              touchTooltipData: BarTouchTooltipData(
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  final amount = (rod.y / 1.05 / 10 * _maxY).round();
+                  final formattedAmount = Formatter.proteins(amount);
+
+                  return BarTooltipItem(
+                    '$formattedAmount g',
+                    kBodyText1Black,
+                  );
+                },
+              ),
+              touchCallback: (barTouchResponse) {
+                setState(() {
+                  if (barTouchResponse.spot != null &&
+                      barTouchResponse.touchInput is! PointerExitEvent &&
+                      barTouchResponse.touchInput is! PointerUpEvent) {
+                    touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                  } else {
+                    touchedIndex = -1;
+                  }
+                });
+              },
+            ),
+            titlesData: FlTitlesData(
+              show: true,
+              bottomTitles: SideTitles(
+                showTitles: true,
+                getTextStyles: (value) => TextStyles.body2,
+                margin: 16,
+                getTitles: (double value) {
+                  switch (value.toInt()) {
+                    case 0:
+                      return _daysOfTheWeek[0];
+                    case 1:
+                      return _daysOfTheWeek[1];
+                    case 2:
+                      return _daysOfTheWeek[2];
+                    case 3:
+                      return _daysOfTheWeek[3];
+                    case 4:
+                      return _daysOfTheWeek[4];
+                    case 5:
+                      return _daysOfTheWeek[5];
+                    case 6:
+                      return _daysOfTheWeek[6];
+                    default:
+                      return '';
+                  }
+                },
+              ),
+              leftTitles: SideTitles(
+                showTitles: true,
+                margin: 24,
+                reservedSize: 24,
+                getTextStyles: (value) => kCaption1Grey,
+                getTitles: (double value) {
+                  final toOriginalNumber = (value / 10 * _maxY).round();
+
+                  switch (value.toInt()) {
+                    case 0:
+                      return '0g';
+                    case 5:
+                      return '$toOriginalNumber g';
+                    case 10:
+                      return '$toOriginalNumber g';
+
+                    default:
+                      return '';
+                  }
+                },
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            barGroups:
+                (list.isNotEmpty) ? _barGroupsChild(relativeYs) : randomData(),
+          ),
+        ),
+      ),
+    );
+  }
+
   BarChartGroupData _makeBarChartGroupData({
     required int x,
     required double y,
@@ -521,96 +546,5 @@ class _ProteinsEatenChartWidgetState extends State<ProteinsEatenChartWidget> {
       _makeBarChartGroupData(x: 5, y: 10, isTouched: touchedIndex == 5),
       _makeBarChartGroupData(x: 6, y: 9, isTouched: touchedIndex == 6),
     ];
-  }
-
-  Widget _buildChart(
-      double maxY, List<double> relativeYs, List<Nutrition> list) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 8),
-        child: BarChart(
-          BarChartData(
-            maxY: 10,
-            barTouchData: BarTouchData(
-              touchTooltipData: BarTouchTooltipData(
-                getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                  final amount = (rod.y / 1.05 / 10 * _maxY).round();
-                  final formattedAmount = Formatter.proteins(amount);
-
-                  return BarTooltipItem(
-                    '$formattedAmount g',
-                    kBodyText1Black,
-                  );
-                },
-              ),
-              touchCallback: (barTouchResponse) {
-                setState(() {
-                  if (barTouchResponse.spot != null &&
-                      barTouchResponse.touchInput is! PointerExitEvent &&
-                      barTouchResponse.touchInput is! PointerUpEvent) {
-                    touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
-                  } else {
-                    touchedIndex = -1;
-                  }
-                });
-              },
-            ),
-            titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (value) => kBodyText2,
-                margin: 16,
-                getTitles: (double value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return _daysOfTheWeek[0];
-                    case 1:
-                      return _daysOfTheWeek[1];
-                    case 2:
-                      return _daysOfTheWeek[2];
-                    case 3:
-                      return _daysOfTheWeek[3];
-                    case 4:
-                      return _daysOfTheWeek[4];
-                    case 5:
-                      return _daysOfTheWeek[5];
-                    case 6:
-                      return _daysOfTheWeek[6];
-                    default:
-                      return '';
-                  }
-                },
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                margin: 24,
-                reservedSize: 24,
-                getTextStyles: (value) => kCaption1Grey,
-                getTitles: (double value) {
-                  final toOriginalNumber = (value / 10 * _maxY).round();
-
-                  switch (value.toInt()) {
-                    case 0:
-                      return '0g';
-                    case 5:
-                      return '$toOriginalNumber g';
-                    case 10:
-                      return '$toOriginalNumber g';
-
-                    default:
-                      return '';
-                  }
-                },
-              ),
-            ),
-            borderData: FlBorderData(show: false),
-            barGroups:
-                (list.isNotEmpty) ? _barGroupsChild(relativeYs) : randomData(),
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../../styles/constants.dart';
 
@@ -58,7 +59,7 @@ class SignUpOutlinedButton extends StatelessWidget {
               Center(
                 child: Text(
                   kButtonText,
-                  style: kGoogleSignInStyleWhite,
+                  style: TextStyles.google1,
                 ),
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class SocialSignInButton extends StatelessWidget {
   final Color color;
@@ -73,7 +72,7 @@ class SocialSignInButton extends StatelessWidget {
               Center(
                 child: Text(
                   kButtonText,
-                  style: kGoogleSignInStyle.copyWith(color: textColor),
+                  style: TextStyles.google1.copyWith(color: textColor),
                 ),
               ),
             ],

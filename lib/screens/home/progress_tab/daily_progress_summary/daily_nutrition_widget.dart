@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -12,54 +12,54 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import '../progress_tab_provider.dart';
 import 'daily_summary_numbers_widget.dart';
 
-class DailyNutritionWidget extends ConsumerWidget {
+class DailyNutritionWidget extends StatelessWidget {
   final Database database;
   final AuthBase auth;
+  final User user;
+  final ProgressTabModel model;
 
   const DailyNutritionWidget({
     required this.database,
     required this.auth,
+    required this.user,
+    required this.model,
   });
 
-  static Widget create(BuildContext context) {
+  static Widget create(
+    BuildContext context, {
+    required User user,
+    required ProgressTabModel model,
+  }) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     return DailyNutritionWidget(
       database: database,
       auth: auth,
+      user: user,
+      model: model,
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // final model = ProgressTabModel();
-    final model = watch(progressTabModelProvider);
-    // final stream = watch(nutritionSelectedDayStreamProvider([
-    //   auth.currentUser!.uid,
-    //   model.selectedDate,
-    // ]));
-
-    // final uid = watch(authServiceProvider).currentUser!.uid;
-    // final nutritionsStream = watch(todaysNutritionStreamProvider(uid));
-
     return CustomStreamBuilderWidget<List<Nutrition>?>(
-      // stream: database.todaysNutritionStream(),
       stream: database.nutritionsSelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
-      hasDataWidget: (context, snapshot) {
+      hasDataWidget: (context, data) {
+        num _proteinGoal = user.dailyProteinGoal ?? 150.0;
+        // print('protein goal is $_proteinGoal');
+
         late num _totalProteins = 0;
         late double _proteinsProgress = 0;
 
-        // print('selected day in widget is ${model.selectedDate}');
-
-        if (snapshot.data != null) {
-          snapshot.data!.forEach((e) {
+        if (data != null) {
+          data.forEach((e) {
             _totalProteins += e.proteinAmount.toInt();
           });
-          _proteinsProgress = _totalProteins / 150;
+          _proteinsProgress = _totalProteins / _proteinGoal;
           if (_proteinsProgress >= 1) {
             _proteinsProgress = 1;
           }
@@ -91,8 +91,7 @@ class DailyNutritionWidget extends ConsumerWidget {
                 SizedBox(height: size.height / 14),
                 SizedBox(
                   height: size.height / 14,
-                  child:
-                      _buildTotalNutritionWidget(snapshot.data, _totalProteins),
+                  child: _buildTotalNutritionWidget(data, _totalProteins),
                 ),
                 SizedBox(height: size.height / 14),
               ],
@@ -101,61 +100,6 @@ class DailyNutritionWidget extends ConsumerWidget {
         );
       },
     );
-
-    // return stream.when(
-    //   loading: () => Container(),
-    //   error: (e, stack) => EmptyContent(message: e.toString()),
-    //   data: (nutritions) {
-    //     print('nutritions $nutritions');
-
-    //     num _totalProteins = 0;
-    //     double _proteinsProgress = 0;
-
-    //     if (nutritions != null) {
-    //       nutritions.forEach((e) {
-    //         _totalProteins += e.proteinAmount.toInt();
-    //       });
-    //       _proteinsProgress = _totalProteins / 150;
-    //       if (_proteinsProgress >= 1) {
-    //         _proteinsProgress = 1;
-    //       }
-    //     }
-
-    //     return Row(
-    //       mainAxisAlignment: MainAxisAlignment.start,
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: [
-    //         SizedBox(
-    //           width: size.width / 2.4,
-    //           child: Center(
-    //             child: CircularPercentIndicator(
-    //               radius: size.width / 3,
-    //               lineWidth: 12,
-    //               percent: _proteinsProgress,
-    //               backgroundColor: Colors.greenAccent.withOpacity(0.25),
-    //               progressColor: Colors.greenAccent,
-    //               animation: true,
-    //               animationDuration: 1000,
-    //               circularStrokeCap: CircularStrokeCap.round,
-    //             ),
-    //           ),
-    //         ),
-    //         const SizedBox(width: 16),
-    //         Column(
-    //           children: [
-    //             SizedBox(height: size.height / 14),
-    //             SizedBox(height: size.height / 14),
-    //             SizedBox(
-    //               height: size.height / 14,
-    //               child: _buildTotalNutritionWidget(nutritions, _totalProteins),
-    //             ),
-    //             SizedBox(height: size.height / 14),
-    //           ],
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
   }
 
   Widget _buildTotalNutritionWidget(List<Nutrition>? data, num proteins) {

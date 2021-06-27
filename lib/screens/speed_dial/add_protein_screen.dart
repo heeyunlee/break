@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -356,7 +357,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                     maxLines: 5,
                     textInputAction: TextInputAction.done,
                     controller: _textController1,
-                    style: kBodyText2,
+                    style: TextStyles.body2,
                     focusNode: focusNode1,
                     decoration: InputDecoration(
                       hintText: S.current.addNotes,
@@ -389,7 +390,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               width: 1),
         ),
         padding: EdgeInsets.symmetric(horizontal: 8),
-        label: Text(_mealsTranslated[i], style: kButtonText),
+        label: Text(_mealsTranslated[i], style: TextStyles.button1),
         selected: _selectedIndex == i,
         selectedShadowColor: kPrimaryColor,
         backgroundColor: kBackgroundColor,

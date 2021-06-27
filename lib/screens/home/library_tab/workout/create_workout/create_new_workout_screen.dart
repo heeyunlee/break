@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -303,7 +304,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
         backgroundColor: kPrimaryColor,
-        label: Text(S.current.finish, style: kButtonText),
+        label: Text(S.current.finish, style: TextStyles.button1),
         onPressed: saveDifficulty,
       );
     } else {

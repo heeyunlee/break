@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class MaxWidthRaisedButton extends StatelessWidget {
   const MaxWidthRaisedButton({
@@ -56,7 +55,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
           // TODO: Check if this works
           if (icon != null) icon ?? Container(),
           if (icon != null) const SizedBox(width: 16),
-          Text(buttonText, style: kButtonText),
+          Text(buttonText, style: TextStyles.button1),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class SearchResultListTile extends StatelessWidget {
   final String? title;
@@ -37,7 +38,7 @@ class SearchResultListTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (title != null) Text(title!, style: kBodyText2),
+                if (title != null) Text(title!, style: TextStyles.body2),
                 if (subtitle != null) Text(subtitle!, style: kCaption1Grey),
               ],
             ),

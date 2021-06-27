@@ -7,7 +7,7 @@ class AlgoliaManager {
 
   static Algolia init() {
     _algolia = Algolia.init(
-      applicationId: '3RSFQTXAS4',
+      applicationId: PrivateKeys.algoliaAppId,
       apiKey: PrivateKeys.algoliaKey,
     );
 

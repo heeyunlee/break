@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 
 class ProgressTabProvider {
   static const bgList = [
@@ -16,11 +18,25 @@ class ProgressTabProvider {
 }
 
 class ProgressTabModel with ChangeNotifier {
+  AuthService? auth;
+  FirestoreDatabase? database;
+
+  ProgressTabModel({
+    this.auth,
+    this.database,
+  }) {
+    final container = ProviderContainer();
+    auth = container.read(authServiceProvider2);
+    database = container.read(databaseProvider2(auth!.currentUser?.uid));
+  }
+
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
+  bool _showBanner = false;
 
   DateTime get focusedDate => _focusedDate;
   DateTime get selectedDate => _selectedDate;
+  bool get showBanner => _showBanner;
 
   void selectSelectedDate(DateTime date) {
     _selectedDate = date;
@@ -29,6 +45,22 @@ class ProgressTabModel with ChangeNotifier {
 
   void selectFocusedDate(DateTime date) {
     _focusedDate = date;
+    notifyListeners();
+  }
+
+  void setShowBanner(bool value) {
+    _showBanner = value;
+    notifyListeners();
+  }
+
+  Future<void> initShowBanner() async {
+    final userData = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+    if (userData.dailyProteinGoal == null ||
+        userData.dailyWeightsGoal == null) {
+      _showBanner = true;
+    } else {
+      _showBanner = false;
+    }
     notifyListeners();
   }
 }

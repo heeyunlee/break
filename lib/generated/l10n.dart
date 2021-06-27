@@ -3629,6 +3629,36 @@ class S {
       args: [name],
     );
   }
+
+  /// `Personal Goals`
+  String get personalGoals {
+    return Intl.message(
+      'Personal Goals',
+      name: 'personalGoals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proteins Goal`
+  String get proteinsGoal {
+    return Intl.message(
+      'Proteins Goal',
+      name: 'proteinsGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Goal`
+  String get setGoal {
+    return Intl.message(
+      'Set Goal',
+      name: 'setGoal',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

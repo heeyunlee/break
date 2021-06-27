@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -11,7 +12,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../../../styles/constants.dart';
+import '../../../../styles/constants.dart';
 
 class ChangeEmailScreen extends StatefulWidget {
   const ChangeEmailScreen({
@@ -135,7 +136,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             padding: const EdgeInsets.all(8),
             child: TextFormField(
-              style: kHeadline5,
+              style: TextStyles.headline5,
               autofocus: true,
               textAlign: TextAlign.center,
               controller: _textController1,

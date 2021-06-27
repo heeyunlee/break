@@ -31,7 +31,8 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # pod 'FBSDKLoginKit'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
   
   pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '8.0.0'
   pod 'KakaoSDKAuth'  # Authentication
