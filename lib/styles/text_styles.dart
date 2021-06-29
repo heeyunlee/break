@@ -52,6 +52,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const body2_primary = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: kPrimaryColor,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
   static const button1 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,

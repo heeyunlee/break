@@ -32,7 +32,7 @@ class ProgressTabModel with ChangeNotifier {
 
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  bool _showBanner = false;
+  bool _showBanner = true;
 
   DateTime get focusedDate => _focusedDate;
   DateTime get selectedDate => _selectedDate;

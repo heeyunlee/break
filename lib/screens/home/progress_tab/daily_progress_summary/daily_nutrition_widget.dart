@@ -50,7 +50,6 @@ class DailyNutritionWidget extends StatelessWidget {
       loadingWidget: Container(),
       hasDataWidget: (context, data) {
         num _proteinGoal = user.dailyProteinGoal ?? 150.0;
-        // print('protein goal is $_proteinGoal');
 
         late num _totalProteins = 0;
         late double _proteinsProgress = 0;

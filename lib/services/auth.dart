@@ -270,6 +270,7 @@ class AuthService implements AuthBase {
       return user;
     } on SignInWithAppleException catch (e) {
       logger.e(e);
+
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: '$e',

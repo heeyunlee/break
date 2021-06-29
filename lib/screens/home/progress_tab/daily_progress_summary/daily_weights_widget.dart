@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
@@ -15,30 +14,39 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import '../progress_tab_provider.dart';
 import 'daily_summary_numbers_widget.dart';
 
-class DailyWeightsWidget extends ConsumerWidget {
-  final User? user;
+class DailyWeightsWidget extends StatelessWidget {
   final Database database;
+  final AuthBase auth;
+  final User user;
+  final ProgressTabModel model;
 
-  const DailyWeightsWidget({required this.user, required this.database});
+  const DailyWeightsWidget({
+    required this.database,
+    required this.auth,
+    required this.user,
+    required this.model,
+  });
 
-  static Widget create(BuildContext context) {
+  static Widget create(
+    BuildContext context, {
+    required User user,
+    required ProgressTabModel model,
+  }) {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final database = provider.Provider.of<Database>(context, listen: false);
-    final user = database.getUserDocument(auth.currentUser!.uid);
 
-    return FutureBuilder<User?>(
-      future: user,
-      builder: (context, snapshot) => DailyWeightsWidget(
-        database: database,
-        user: snapshot.data,
-      ),
+    return DailyWeightsWidget(
+      database: database,
+      auth: auth,
+      user: user,
+      model: model,
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final model = watch(progressTabModelProvider);
+    // final model = watch(progressTabModelProvider);
 
     return CustomStreamBuilderWidget<List<RoutineHistory>?>(
       // stream: database.routineHistoryTodayStream(),
@@ -49,13 +57,15 @@ class DailyWeightsWidget extends ConsumerWidget {
         double _weightsProgress = 0;
         String _mainMuscleGroup = '-';
 
+        num _liftingGoal = user.dailyWeightsGoal ?? 20000;
+
         if (data != null) {
           if (data.isNotEmpty) {
             data.forEach((e) {
               _totalWeights += e.totalWeights.toInt();
             });
 
-            _weightsProgress = _totalWeights / 20000;
+            _weightsProgress = _totalWeights / _liftingGoal;
             if (_weightsProgress >= 1) {
               _weightsProgress = 1;
             }
@@ -134,7 +144,7 @@ class DailyWeightsWidget extends ConsumerWidget {
       tensOfThousands = (length > 3) ? totalWeightsInString[length - 4] : '0';
     }
 
-    final unit = Formatter.unitOfMass(user?.unitOfMass ?? 1);
+    final unit = Formatter.unitOfMass(user.unitOfMass);
 
     return DailySummaryNumbersWidget(
       title: S.current.liftedWeights,

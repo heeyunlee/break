@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -131,30 +132,30 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     BuildContext context,
     RoutineHistory routineHistory,
   ) async {
-    final userData = await widget.user;
+    // final userData = await widget.user;
 
     try {
-      // Update User Data
-      final histories = userData!.dailyWorkoutHistories;
-      final index = userData.dailyWorkoutHistories!.indexWhere(
-        (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
-      );
-      final oldHistory = histories![index];
-      final newHistory = DailyWorkoutHistory(
-        date: oldHistory.date,
-        totalWeights: oldHistory.totalWeights - routineHistory.totalWeights,
-      );
-      histories[index] = newHistory;
+      // // Update User Data
+      // final histories = userData!.dailyWorkoutHistories;
+      // final index = userData.dailyWorkoutHistories!.indexWhere(
+      //   (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
+      // );
+      // final oldHistory = histories![index];
+      // final newHistory = DailyWorkoutHistory(
+      //   date: oldHistory.date,
+      //   totalWeights: oldHistory.totalWeights - routineHistory.totalWeights,
+      // );
+      // histories[index] = newHistory;
 
-      final user = {
-        'totalWeights': userData.totalWeights - routineHistory.totalWeights,
-        'totalNumberOfWorkouts': userData.totalNumberOfWorkouts - 1,
-        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      };
+      // final user = {
+      //   'totalWeights': userData.totalWeights - routineHistory.totalWeights,
+      //   'totalNumberOfWorkouts': userData.totalNumberOfWorkouts - 1,
+      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
+      // };
 
       await widget.database.deleteRoutineHistory(routineHistory);
       await widget.database.batchDeleteWorkoutHistories(workoutHistories);
-      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+      // await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
       Navigator.of(context).pop();
       tabNavigatorKeys[currentTab]!
@@ -389,16 +390,16 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(S.current.routines, style: kHeadline6w900),
             ),
-            StreamBuilder<List<WorkoutHistory>>(
+            CustomStreamBuilderWidget<List<WorkoutHistory>>(
               stream: widget.database.workoutHistoriesStream(
                 widget.routineHistory.routineHistoryId,
               ),
-              builder: (context, snapshot) {
+              hasDataWidget: (context, snapshot) {
                 return ListItemBuilder<WorkoutHistory>(
-                  items: snapshot.data!,
+                  items: snapshot,
                   // snapshot: snapshot,
                   itemBuilder: (context, workoutHistory) {
-                    workoutHistories = snapshot.data!;
+                    workoutHistories = snapshot;
 
                     return WorkoutHistoryCard(
                       routineHistory: routineHistory,

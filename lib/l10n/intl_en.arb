@@ -359,5 +359,13 @@
     "firstSignInSnackbarMessage": "Welcome, {name}! Let's get lifting",
     "personalGoals": "Personal Goals",
     "proteinsGoal": "Proteins Goal",
-    "setGoal": "Set Goal"
+    "setGoal": "Set Goal",
+    "progressTabBannerTitle": "Set your daily protein and lifting goal!",
+    "DISMISS": "DISMISS",
+    "SETNOW": "SET NOW",
+    "setProteinGoalSnackbarTitle": "Protein Goal",
+    "setProteinGoalSnackbarBody": "You've successfully set a daily protein goal!",
+    "liftingGoal": "Lifting Goal",
+    "setLiftingGoalSnackbarTitle": "Lifting Goal",
+    "setLiftingGoalSnackbarBody": "You've successfully set a daily lifting goal!"
 }

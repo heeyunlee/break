@@ -72,12 +72,10 @@ class SignInScreenNotifier extends ChangeNotifier {
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
+          // dailyWorkoutHistories: [],
+          // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          dailyProteinGoal: 0,
-          dailyWeightsGoal: 0,
           backgroundImageIndex: 0,
         );
         await database!.setUser(userData);
@@ -111,7 +109,6 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       _showSignInError(e, context);
     }
     setIsLoading(false);
@@ -147,8 +144,8 @@ class SignInScreenNotifier extends ChangeNotifier {
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
+          // dailyWorkoutHistories: [],
+          // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: 0,
@@ -182,7 +179,6 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       _showSignInError(e, context);
     }
 
@@ -221,8 +217,8 @@ class SignInScreenNotifier extends ChangeNotifier {
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
+          // dailyWorkoutHistories: [],
+          // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: 0,
@@ -258,7 +254,6 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       _showSignInError(e, context);
     }
     setIsLoading(false);
@@ -300,8 +295,8 @@ class SignInScreenNotifier extends ChangeNotifier {
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
           lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
+          // dailyWorkoutHistories: [],
+          // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: 0,
@@ -334,7 +329,6 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       _showSignInError(e, context);
     }
     setIsLoading(false);
@@ -372,8 +366,8 @@ class SignInScreenNotifier extends ChangeNotifier {
           totalNumberOfWorkouts: 0,
           unitOfMass: 1,
           lastLoginDate: currentTime,
-          dailyWorkoutHistories: [],
-          dailyNutritionHistories: [],
+          // dailyWorkoutHistories: [],
+          // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: 0,
@@ -406,18 +400,31 @@ class SignInScreenNotifier extends ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       _showSignInError(e, context);
     }
     setIsLoading(false);
   }
 
-  void _showSignInError(Exception exception, BuildContext context) {
+  void _showSignInError(FirebaseException exception, BuildContext context) {
+    print('exception code is ${exception.code}');
+    print('exception code is ${exception.message}');
+
+    logger.e(exception);
+
     showExceptionAlertDialog(
       context,
       title: S.current.signInFailed,
-      exception: exception.toString(),
+      exception: getExceptionMessage(exception),
     );
+  }
+
+  String getExceptionMessage(FirebaseException exception) {
+    switch (exception.code) {
+      case 'ERROR_ABORTED_BY_USER':
+        return 'Sign In Was Aborted by User';
+      default:
+        return 'Sign In Failed';
+    }
   }
 }
 

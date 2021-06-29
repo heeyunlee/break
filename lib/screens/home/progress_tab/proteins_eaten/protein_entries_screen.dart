@@ -49,29 +49,29 @@ class ProteinEntriesScreen extends StatelessWidget {
 
   Future<void> _delete(BuildContext context, Nutrition nutrition) async {
     try {
-      // Update User Data
-      final nutritions = user.dailyNutritionHistories;
-      final index = user.dailyNutritionHistories!.indexWhere(
-        (element) => element.date == nutrition.loggedDate,
-      );
+      // // Update User Data
+      // final nutritions = user.dailyNutritionHistories;
+      // final index = user.dailyNutritionHistories!.indexWhere(
+      //   (element) => element.date == nutrition.loggedDate,
+      // );
 
-      final oldNutrition = nutritions![index];
-      final newNutrition = DailyNutritionHistory(
-        date: oldNutrition.date,
-        totalProteins: oldNutrition.totalProteins - nutrition.proteinAmount,
-      );
+      // final oldNutrition = nutritions![index];
+      // final newNutrition = DailyNutritionHistory(
+      //   date: oldNutrition.date,
+      //   totalProteins: oldNutrition.totalProteins - nutrition.proteinAmount,
+      // );
 
-      nutritions[index] = newNutrition;
+      // nutritions[index] = newNutrition;
 
-      final newUserData = {
-        'dailyNutritionHistories': nutritions.map((e) => e.toMap()).toList(),
-      };
+      // final newUserData = {
+      //   'dailyNutritionHistories': nutritions.map((e) => e.toMap()).toList(),
+      // };
 
-      print(newUserData);
+      // print(newUserData);
 
       // Cloud Firestore Callback
       await database.deleteNutrition(nutrition);
-      await database.updateUser(auth.currentUser!.uid, newUserData);
+      // await database.updateUser(auth.currentUser!.uid, newUserData);
 
       getSnackbarWidget(
         S.current.deleteProteinSnackbarTitle,

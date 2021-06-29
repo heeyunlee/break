@@ -114,43 +114,40 @@ class SaveAndExitButton extends ConsumerWidget {
         },
       );
 
-      /// Update User Data
-      // GET history data
-      final histories = userData.dailyWorkoutHistories;
+      // /// Update User Data
+      // // GET history data
+      // final histories = userData.dailyWorkoutHistories;
 
-      final index = userData.dailyWorkoutHistories!
-          .indexWhere((element) => element.date.toUtc() == workoutDate);
+      // final index = userData.dailyWorkoutHistories!
+      //     .indexWhere((element) => element.date.toUtc() == workoutDate);
 
-      if (index == -1) {
-        final newHistory = DailyWorkoutHistory(
-          date: workoutDate,
-          totalWeights: totalWeights,
-        );
-        histories!.add(newHistory);
-      } else {
-        final oldHistory = histories![index];
+      // if (index == -1) {
+      //   final newHistory = DailyWorkoutHistory(
+      //     date: workoutDate,
+      //     totalWeights: totalWeights,
+      //   );
+      //   histories!.add(newHistory);
+      // } else {
+      //   final oldHistory = histories![index];
 
-        final newHistory = DailyWorkoutHistory(
-          date: oldHistory.date,
-          totalWeights: oldHistory.totalWeights + totalWeights,
-        );
-        histories[index] = newHistory;
-      }
+      //   final newHistory = DailyWorkoutHistory(
+      //     date: oldHistory.date,
+      //     totalWeights: oldHistory.totalWeights + totalWeights,
+      //   );
+      //   histories[index] = newHistory;
+      // }
 
-      // User
-      final updatedUserData = {
-        'totalWeights': userData.totalWeights + totalWeights,
-        'totalNumberOfWorkouts': userData.totalNumberOfWorkouts + 1,
-        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      };
+      // // User
+      // final updatedUserData = {
+      //   'totalWeights': userData.totalWeights + totalWeights,
+      //   'totalNumberOfWorkouts': userData.totalNumberOfWorkouts + 1,
+      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
+      // };
 
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
-      await database.updateUser(
-        userData.userId,
-        updatedUserData,
-      );
+      // await database.updateUser(userData.userId, updatedUserData);
 
       RoutineHistorySummaryScreen.show(
         context,

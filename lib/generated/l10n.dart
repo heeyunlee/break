@@ -3659,6 +3659,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Set your daily protein and lifting goal!`
+  String get progressTabBannerTitle {
+    return Intl.message(
+      'Set your daily protein and lifting goal!',
+      name: 'progressTabBannerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DISMISS`
+  String get DISMISS {
+    return Intl.message(
+      'DISMISS',
+      name: 'DISMISS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SET NOW`
+  String get SETNOW {
+    return Intl.message(
+      'SET NOW',
+      name: 'SETNOW',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Protein Goal`
+  String get setProteinGoalSnackbarTitle {
+    return Intl.message(
+      'Protein Goal',
+      name: 'setProteinGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set a daily protein goal!`
+  String get setProteinGoalSnackbarBody {
+    return Intl.message(
+      'You\'ve successfully set a daily protein goal!',
+      name: 'setProteinGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifting Goal`
+  String get liftingGoal {
+    return Intl.message(
+      'Lifting Goal',
+      name: 'liftingGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifting Goal`
+  String get setLiftingGoalSnackbarTitle {
+    return Intl.message(
+      'Lifting Goal',
+      name: 'setLiftingGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set a daily lifting goal!`
+  String get setLiftingGoalSnackbarBody {
+    return Intl.message(
+      'You\'ve successfully set a daily lifting goal!',
+      name: 'setLiftingGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

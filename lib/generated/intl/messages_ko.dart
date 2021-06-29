@@ -59,8 +59,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "DISMISS": MessageLookupByLibrary.simpleMessage("나중에"),
         "FeedbackAndFeatureRequests":
             MessageLookupByLibrary.simpleMessage("피드백 및 기능 추가 요청"),
+        "SETNOW": MessageLookupByLibrary.simpleMessage("설정하기"),
         "WorkoutSeamlesslyWithWorkoutPlayer":
             MessageLookupByLibrary.simpleMessage("운동 플레이어를 이용해서 운동하세요"),
         "about": MessageLookupByLibrary.simpleMessage("정보"),
@@ -318,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "library": MessageLookupByLibrary.simpleMessage("운동 창고"),
         "lifted": MessageLookupByLibrary.simpleMessage("총 중량"),
         "liftedWeights": MessageLookupByLibrary.simpleMessage("들어올린 중량"),
+        "liftingGoal": MessageLookupByLibrary.simpleMessage("중량 목표"),
         "location": MessageLookupByLibrary.simpleMessage("장소"),
         "logIn": MessageLookupByLibrary.simpleMessage("로그인"),
         "logRoutine": MessageLookupByLibrary.simpleMessage("루틴 기록"),
@@ -381,6 +384,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 일일, 주간의 목표를 세우고 이뤄보세요"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("개인정보처리방침"),
         "progress": MessageLookupByLibrary.simpleMessage("기록"),
+        "progressTabBannerTitle":
+            MessageLookupByLibrary.simpleMessage("영양분 섭취 목표와 운동 목표를 설정하세요!"),
         "progressTabIntroduction": m5,
         "proteinChartContentText":
             MessageLookupByLibrary.simpleMessage("먹는것도 운동이야! 단백질을 섭취하고 기록하세요!"),
@@ -449,6 +454,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "set": MessageLookupByLibrary.simpleMessage("세트"),
         "setEffortsTitle": MessageLookupByLibrary.simpleMessage("오늘 운동은 어땠나요?"),
         "setGoal": MessageLookupByLibrary.simpleMessage("목표 설정"),
+        "setLiftingGoalSnackbarBody":
+            MessageLookupByLibrary.simpleMessage("성공적으로 중량 목표를 설정했습니다!!"),
+        "setLiftingGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("중량 목표"),
+        "setProteinGoalSnackbarBody":
+            MessageLookupByLibrary.simpleMessage("성공적으로 단백질 목표를 설정했습니다!!"),
+        "setProteinGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("단백질 목표"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("일일 목표 세우기"),
         "sets": MessageLookupByLibrary.simpleMessage("세트"),

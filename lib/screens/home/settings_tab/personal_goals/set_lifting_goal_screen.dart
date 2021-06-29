@@ -3,28 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 import 'personal_goals_screen_model.dart';
 
-class SetProteinGoalScreen extends StatefulWidget {
+class SetLiftingGoalScreen extends StatefulWidget {
   final Database database;
   final AuthBase auth;
   final PersonalGoalsScreenModel model;
+  final User user;
   final bool isRoot;
 
-  const SetProteinGoalScreen({
+  const SetLiftingGoalScreen({
     Key? key,
     required this.database,
     required this.auth,
     required this.model,
+    required this.user,
     required this.isRoot,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required bool isRoot}) async {
+  static Future<void> show(
+    BuildContext context, {
+    required User user,
+    required bool isRoot,
+  }) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
@@ -32,10 +40,11 @@ class SetProteinGoalScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: isRoot,
         builder: (context) => Consumer(
-          builder: (context, watch, child) => SetProteinGoalScreen(
+          builder: (context, watch, child) => SetLiftingGoalScreen(
             database: database,
             auth: auth,
             model: watch(personalGoalsScreenModelProvider),
+            user: user,
             isRoot: isRoot,
           ),
         ),
@@ -44,14 +53,14 @@ class SetProteinGoalScreen extends StatefulWidget {
   }
 
   @override
-  _SetProteinGoalScreenState createState() => _SetProteinGoalScreenState();
+  _SetLiftingGoalScreenState createState() => _SetLiftingGoalScreenState();
 }
 
-class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
+class _SetLiftingGoalScreenState extends State<SetLiftingGoalScreen> {
   @override
   void initState() {
     super.initState();
-    widget.model.initProteinGoal();
+    widget.model.initLiftingGoal();
   }
 
   @override
@@ -86,7 +95,7 @@ class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
       floatingActionButton: SizedBox(
         width: size.width - 32,
         child: FloatingActionButton.extended(
-          onPressed: () => widget.model.setProteinGoal(context),
+          onPressed: () => widget.model.setLiftingGoal(context),
           backgroundColor: kPrimaryColor,
           label: Text(S.current.setGoal, style: TextStyles.button1_bold),
         ),
@@ -95,6 +104,9 @@ class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
+    final unit = Formatter.unitOfMass(widget.user.unitOfMass);
+    final formatted = Formatter.weights(widget.model.liftingGoal);
+
     return Stack(
       children: [
         Center(
@@ -103,18 +115,20 @@ class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: widget.model.decrementProteinGoal,
+                onPressed: widget.model.decrementLiftingGoal,
                 icon: const Icon(
                   Icons.remove_rounded,
                   color: Colors.greenAccent,
                 ),
               ),
               const SizedBox(width: 32),
-              Text('${widget.model.proteinGoal} g',
-                  style: TextStyles.headline4),
+              Text(
+                '$formatted $unit',
+                style: TextStyles.headline4,
+              ),
               const SizedBox(width: 32),
               IconButton(
-                onPressed: widget.model.incrementProteinGoal,
+                onPressed: widget.model.incrementLiftingGoal,
                 icon: const Icon(
                   Icons.add_rounded,
                   color: Colors.greenAccent,
@@ -129,7 +143,7 @@ class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
             const SizedBox(height: 96),
             Center(
               child: Text(
-                S.current.proteins,
+                S.current.liftingGoal,
                 style: TextStyles.headline5,
               ),
             ),

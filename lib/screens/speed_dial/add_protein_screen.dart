@@ -121,38 +121,38 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
           notes: _notes,
         );
 
-        // Update User data
-        final nutritions = widget.user.dailyNutritionHistories;
+        // // Update User data
+        // final nutritions = widget.user.dailyNutritionHistories;
 
-        final index = widget.user.dailyNutritionHistories!
-            .indexWhere((element) => element.date.toUtc() == _loggedDate);
+        // final index = widget.user.dailyNutritionHistories!
+        //     .indexWhere((element) => element.date.toUtc() == _loggedDate);
 
-        if (index == -1) {
-          // create new nutrition data if not exists
-          final newNutrition = DailyNutritionHistory(
-            date: _loggedDate,
-            totalProteins: _proteinAmount,
-          );
-          nutritions!.add(newNutrition);
-        } else {
-          // Update nutrition data if exists
-          final oldNutrition = nutritions![index];
+        // if (index == -1) {
+        //   // create new nutrition data if not exists
+        //   final newNutrition = DailyNutritionHistory(
+        //     date: _loggedDate,
+        //     totalProteins: _proteinAmount,
+        //   );
+        //   nutritions!.add(newNutrition);
+        // } else {
+        //   // Update nutrition data if exists
+        //   final oldNutrition = nutritions![index];
 
-          final newNutrition = DailyNutritionHistory(
-            date: oldNutrition.date,
-            totalProteins: oldNutrition.totalProteins + _proteinAmount,
-          );
-          nutritions[index] = newNutrition;
-        }
+        //   final newNutrition = DailyNutritionHistory(
+        //     date: oldNutrition.date,
+        //     totalProteins: oldNutrition.totalProteins + _proteinAmount,
+        //   );
+        //   nutritions[index] = newNutrition;
+        // }
 
-        final user = {
-          'dailyNutritionHistories': nutritions.map((e) => e.toMap()).toList(),
-        };
+        // final user = {
+        //   'dailyNutritionHistories': nutritions.map((e) => e.toMap()).toList(),
+        // };
 
         // Call Firebase
         await widget.database.setNutrition(nutrition);
         // await widget.database.updateUser(widget.auth.currentUser!.uid, user);
-        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+        // await widget.database.updateUser(widget.auth.currentUser!.uid, user);
         Navigator.of(context).pop();
 
         getSnackbarWidget(

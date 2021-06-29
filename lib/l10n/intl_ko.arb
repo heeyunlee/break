@@ -359,5 +359,13 @@
     "firstSignInSnackbarMessage": "반가워요, {name}님! 오늘도 득근하세요!",
     "personalGoals": "개인 목표",
     "proteinsGoal": "영양소 목표",
-    "setGoal": "목표 설정"
+    "setGoal": "목표 설정",
+    "progressTabBannerTitle": "영양분 섭취 목표와 운동 목표를 설정하세요!",
+    "DISMISS": "나중에",
+    "SETNOW": "설정하기",
+    "setProteinGoalSnackbarTitle": "단백질 목표",
+    "setProteinGoalSnackbarBody": "성공적으로 단백질 목표를 설정했습니다!!",
+    "liftingGoal": "중량 목표",
+    "setLiftingGoalSnackbarTitle": "중량 목표",
+    "setLiftingGoalSnackbarBody": "성공적으로 중량 목표를 설정했습니다!!"
 }

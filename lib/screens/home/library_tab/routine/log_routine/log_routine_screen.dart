@@ -207,39 +207,39 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         },
       );
 
-      /// Update User Data
-      // GET history data
-      final histories = widget.user.dailyWorkoutHistories;
+      // /// Update User Data
+      // // GET history data
+      // final histories = widget.user.dailyWorkoutHistories;
 
-      final index = widget.user.dailyWorkoutHistories!
-          .indexWhere((element) => element.date.toUtc() == workoutDate);
+      // final index = widget.user.dailyWorkoutHistories!
+      //     .indexWhere((element) => element.date.toUtc() == workoutDate);
 
-      if (index == -1) {
-        final newHistory = DailyWorkoutHistory(
-          date: workoutDate,
-          totalWeights: _totalWeights,
-        );
-        histories!.add(newHistory);
-      } else {
-        final oldHistory = histories![index];
+      // if (index == -1) {
+      //   final newHistory = DailyWorkoutHistory(
+      //     date: workoutDate,
+      //     totalWeights: _totalWeights,
+      //   );
+      //   histories!.add(newHistory);
+      // } else {
+      //   final oldHistory = histories![index];
 
-        final newHistory = DailyWorkoutHistory(
-          date: oldHistory.date,
-          totalWeights: oldHistory.totalWeights + _totalWeights,
-        );
-        histories[index] = newHistory;
-      }
+      //   final newHistory = DailyWorkoutHistory(
+      //     date: oldHistory.date,
+      //     totalWeights: oldHistory.totalWeights + _totalWeights,
+      //   );
+      //   histories[index] = newHistory;
+      // }
 
-      // User
-      final updatedUserData = {
-        'totalWeights': widget.user.totalWeights + _totalWeights,
-        'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
-        'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      };
+      // // User
+      // final updatedUserData = {
+      //   'totalWeights': widget.user.totalWeights + _totalWeights,
+      //   'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
+      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
+      // };
 
       await widget.database.setRoutineHistory(routineHistory);
       await widget.database.batchWriteWorkoutHistories(workoutHistories);
-      await widget.database.updateUser(widget.uid, updatedUserData);
+      // await widget.database.updateUser(widget.uid, updatedUserData);
 
       Navigator.of(context).pop();
 

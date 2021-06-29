@@ -61,8 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "DISMISS": MessageLookupByLibrary.simpleMessage("DISMISS"),
         "FeedbackAndFeatureRequests":
             MessageLookupByLibrary.simpleMessage("Feedback & Feature Requests"),
+        "SETNOW": MessageLookupByLibrary.simpleMessage("SET NOW"),
         "WorkoutSeamlesslyWithWorkoutPlayer":
             MessageLookupByLibrary.simpleMessage(
                 "Workout Seamlessly With Workout Player"),
@@ -340,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "library": MessageLookupByLibrary.simpleMessage("Library"),
         "lifted": MessageLookupByLibrary.simpleMessage("lifted"),
         "liftedWeights": MessageLookupByLibrary.simpleMessage("Lifted Weights"),
+        "liftingGoal": MessageLookupByLibrary.simpleMessage("Lifting Goal"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "logIn": MessageLookupByLibrary.simpleMessage("Log In"),
         "logRoutine": MessageLookupByLibrary.simpleMessage("Log Routine"),
@@ -410,6 +413,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "See your daily and weekly progress"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
+        "progressTabBannerTitle": MessageLookupByLibrary.simpleMessage(
+            "Set your daily protein and lifting goal!"),
         "progressTabIntroduction": m5,
         "proteinChartContentText": MessageLookupByLibrary.simpleMessage(
             "Getting your protein is as important as working out!"),
@@ -482,6 +487,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "setEffortsTitle":
             MessageLookupByLibrary.simpleMessage("How was your workout?"),
         "setGoal": MessageLookupByLibrary.simpleMessage("Set Goal"),
+        "setLiftingGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
+            "You\'ve successfully set a daily lifting goal!"),
+        "setLiftingGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Lifting Goal"),
+        "setProteinGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
+            "You\'ve successfully set a daily protein goal!"),
+        "setProteinGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Protein Goal"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("SET DAILY GOAL"),
         "sets": MessageLookupByLibrary.simpleMessage("Sets"),
