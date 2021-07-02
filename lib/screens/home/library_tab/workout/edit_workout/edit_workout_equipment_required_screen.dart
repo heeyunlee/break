@@ -134,7 +134,7 @@ class _EditWorkoutEquipmentRequiredScreenState
       _selectedEquipmentRequired.remove(key);
     }
 
-    debugPrint('$_selectedEquipmentRequired');
+    // debugPrint('$_selectedEquipmentRequired');
   }
 
   Future<void> _submit() async {
@@ -144,7 +144,7 @@ class _EditWorkoutEquipmentRequiredScreenState
           'equipmentRequired': _selectedEquipmentRequired,
         };
         await widget.database.updateWorkout(widget.workout, workout);
-        debugPrint('$_selectedEquipmentRequired');
+        // debugPrint('$_selectedEquipmentRequired');
 
         Navigator.of(context).pop();
 

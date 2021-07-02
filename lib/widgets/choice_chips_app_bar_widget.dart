@@ -67,7 +67,7 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
             _selectedChipLabel = _mainMuscleGroup[i];
             widget.callback(_selectedChipLabel);
           }
-          debugPrint(_selectedChipLabel);
+          // debugPrint(_selectedChipLabel);
           // });
         },
       );

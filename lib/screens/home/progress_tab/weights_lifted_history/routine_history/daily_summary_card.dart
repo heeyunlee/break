@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -73,7 +74,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(formattedDate, style: kSubtitle2),
+          title: Text(formattedDate, style: TextStyles.subtitle2),
           subtitle: Text(
             '$workoutTitle',
             style: kSubtitle1w900,

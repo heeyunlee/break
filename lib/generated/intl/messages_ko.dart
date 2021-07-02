@@ -86,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("메모를 추가하세요"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("간단한 메모를 감겨주세요!"),
+        "addPhotos": MessageLookupByLibrary.simpleMessage("사진 선택"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록을 저장했습니다!"),
         "addProteinEntrySnackbarTitle":
@@ -147,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chest": MessageLookupByLibrary.simpleMessage("가슴"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("루틴을 골라주세요"),
+        "chooseWallpaper": MessageLookupByLibrary.simpleMessage("배경 선택"),
         "confirmPassword": MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
         "confirmPasswordHintText":
             MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
@@ -380,8 +382,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalGoals": MessageLookupByLibrary.simpleMessage("개인 목표"),
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
-        "previewFirstWidget":
-            MessageLookupByLibrary.simpleMessage("운동 일일, 주간의 목표를 세우고 이뤄보세요"),
+        "previewWidgetFirstSubtitle":
+            MessageLookupByLibrary.simpleMessage("운동하고, 기록하고, 공유하세요"),
+        "previewWidgetFirstTitle":
+            MessageLookupByLibrary.simpleMessage("헤라클레스: 운동 플레이어"),
+        "previewWidgetSecondSubtitle":
+            MessageLookupByLibrary.simpleMessage("다양한 위젯으로 일일목표 현황을 확인하세요"),
+        "previewWidgetSecondTitle":
+            MessageLookupByLibrary.simpleMessage("목표를 이루세요"),
+        "previewWidgetThirdSubtitle":
+            MessageLookupByLibrary.simpleMessage("주간 목표 등 다양한 데이터를 확인하세요"),
+        "previewWidgetThirdTitle":
+            MessageLookupByLibrary.simpleMessage("목표를 이루세요"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("개인정보처리방침"),
         "progress": MessageLookupByLibrary.simpleMessage("기록"),
         "progressTabBannerTitle":
@@ -432,6 +444,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutines": MessageLookupByLibrary.simpleMessage("저장된 루틴"),
         "savedWorkoutEmptykButtonText":
             MessageLookupByLibrary.simpleMessage("커스텀 운동 만들기!"),
+        "savedWorkoutSnackBarSubtitle":
+            MessageLookupByLibrary.simpleMessage("운동을 저장했습니다"),
+        "savedWorkoutSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("운동 저장"),
         "savedWorkouts": MessageLookupByLibrary.simpleMessage("저장한 운동"),
         "savedWorkoutsEmptyText":
             MessageLookupByLibrary.simpleMessage("운동을 저장하거나 커스텀 운동을 만들어 보세요!"),
@@ -462,6 +478,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("성공적으로 단백질 목표를 설정했습니다!!"),
         "setProteinGoalSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("단백질 목표"),
+        "setWallpaper": MessageLookupByLibrary.simpleMessage("배경 설정하기"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("일일 목표 세우기"),
         "sets": MessageLookupByLibrary.simpleMessage("세트"),
@@ -531,6 +548,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("루틴 저장 취소"),
         "unsavedRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴 저장을 취소했습니다"),
+        "updateBackgroundSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage("성공적으로 배경을 수정했습니다!"),
+        "updateBackgroundSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("배경 수정"),
         "updateDisplayNameSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 이름을 수정했습니다!"),
         "updateDisplayNameSnackbarTitle":

@@ -192,9 +192,6 @@ class _WeeklyNutritionChartState extends State<WeeklyNutritionChart> {
 
             _setData(data, _relativeYs);
 
-            print('protein goal is ${widget.user.dailyProteinGoal}');
-            print('max y is ${widget.model.nutritionMaxY}');
-
             final _interval = (widget.user.dailyProteinGoal != null)
                 ? widget.user.dailyProteinGoal! /
                     widget.model.nutritionMaxY *

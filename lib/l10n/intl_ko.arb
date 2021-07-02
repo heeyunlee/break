@@ -355,7 +355,6 @@
     "todaysSummary": "오늘의 요약",
     "takeALook": "둘러보기",
     "overview": "설명",
-    "previewFirstWidget": "운동 일일, 주간의 목표를 세우고 이뤄보세요",
     "firstSignInSnackbarMessage": "반가워요, {name}님! 오늘도 득근하세요!",
     "personalGoals": "개인 목표",
     "proteinsGoal": "영양소 목표",
@@ -367,5 +366,18 @@
     "setProteinGoalSnackbarBody": "성공적으로 단백질 목표를 설정했습니다!!",
     "liftingGoal": "중량 목표",
     "setLiftingGoalSnackbarTitle": "중량 목표",
-    "setLiftingGoalSnackbarBody": "성공적으로 중량 목표를 설정했습니다!!"
+    "setLiftingGoalSnackbarBody": "성공적으로 중량 목표를 설정했습니다!!",
+    "updateBackgroundSnackbarTitle": "배경 수정",
+    "updateBackgroundSnackbarMessage": "성공적으로 배경을 수정했습니다!",
+    "chooseWallpaper": "배경 선택",
+    "addPhotos": "사진 선택",
+    "setWallpaper": "배경 설정하기",
+    "previewWidgetFirstTitle": "헤라클레스: 운동 플레이어",
+    "previewWidgetFirstSubtitle": "운동하고, 기록하고, 공유하세요",
+    "previewWidgetSecondTitle": "목표를 이루세요",
+    "previewWidgetSecondSubtitle": "다양한 위젯으로 일일목표 현황을 확인하세요",
+    "previewWidgetThirdTitle": "목표를 이루세요",
+    "previewWidgetThirdSubtitle": "주간 목표 등 다양한 데이터를 확인하세요",
+    "savedWorkoutSnackBarTitle": "운동 저장",
+    "savedWorkoutSnackBarSubtitle": "운동을 저장했습니다"
 }

@@ -3610,16 +3610,6 @@ class S {
     );
   }
 
-  /// `See your daily and weekly progress`
-  String get previewFirstWidget {
-    return Intl.message(
-      'See your daily and weekly progress',
-      name: 'previewFirstWidget',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Welcome, {name}! Let's get lifting`
   String firstSignInSnackbarMessage(Object name) {
     return Intl.message(
@@ -3735,6 +3725,136 @@ class S {
     return Intl.message(
       'You\'ve successfully set a daily lifting goal!',
       name: 'setLiftingGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Wallpaper`
+  String get updateBackgroundSnackbarTitle {
+    return Intl.message(
+      'Update Wallpaper',
+      name: 'updateBackgroundSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully updated a wallpaper`
+  String get updateBackgroundSnackbarMessage {
+    return Intl.message(
+      'Successfully updated a wallpaper',
+      name: 'updateBackgroundSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Wallpaper`
+  String get chooseWallpaper {
+    return Intl.message(
+      'Choose Wallpaper',
+      name: 'chooseWallpaper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Photos`
+  String get addPhotos {
+    return Intl.message(
+      'Add Photos',
+      name: 'addPhotos',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Wallpaper`
+  String get setWallpaper {
+    return Intl.message(
+      'Set Wallpaper',
+      name: 'setWallpaper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Herakles: Workout Player`
+  String get previewWidgetFirstTitle {
+    return Intl.message(
+      'Herakles: Workout Player',
+      name: 'previewWidgetFirstTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout, Record, and Share`
+  String get previewWidgetFirstSubtitle {
+    return Intl.message(
+      'Workout, Record, and Share',
+      name: 'previewWidgetFirstSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See Your Progress`
+  String get previewWidgetSecondTitle {
+    return Intl.message(
+      'See Your Progress',
+      name: 'previewWidgetSecondTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See your daily progress with widgets`
+  String get previewWidgetSecondSubtitle {
+    return Intl.message(
+      'See your daily progress with widgets',
+      name: 'previewWidgetSecondSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See More Progress`
+  String get previewWidgetThirdTitle {
+    return Intl.message(
+      'See More Progress',
+      name: 'previewWidgetThirdTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout, Record, and Share`
+  String get previewWidgetThirdSubtitle {
+    return Intl.message(
+      'Workout, Record, and Share',
+      name: 'previewWidgetThirdSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Workout`
+  String get savedWorkoutSnackBarTitle {
+    return Intl.message(
+      'Save Workout',
+      name: 'savedWorkoutSnackBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully saved a workout`
+  String get savedWorkoutSnackBarSubtitle {
+    return Intl.message(
+      'Successfully saved a workout',
+      name: 'savedWorkoutSnackBarSubtitle',
       desc: '',
       args: [],
     );

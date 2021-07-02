@@ -16,7 +16,7 @@ class RestTimerWidget extends ConsumerWidget {
     // required RoutineWorkout routineWorkout,
     // required MiniplayerProviderNotifier miniplayerNotifier,
   }) {
-    debugPrint('timer completed');
+    // debugPrint('timer completed');
 
     final miniplayerIndex = watch(miniplayerIndexProvider);
     final miniplayerProvider = watch(miniplayerProviderNotifierProvider);

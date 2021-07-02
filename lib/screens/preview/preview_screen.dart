@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/preview/widgets/first_preview_widget.dart';
+import 'package:workout_player/screens/preview/widgets/preview_widget.dart';
 import 'package:workout_player/screens/preview/preview_screen_provider.dart';
-import 'package:workout_player/screens/preview/widgets/third_preview_widget.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen_model.dart';
 import 'package:workout_player/services/main_provider.dart';
@@ -16,8 +16,9 @@ import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
-import 'widgets/second_preview_widget.dart';
 import 'widgets/app_preview_widget.dart';
+import 'widgets/second_preview_widget_child.dart';
+import 'widgets/third_preview_widget_child.dart';
 
 class PreviewScreen extends ConsumerWidget {
   @override
@@ -43,11 +44,30 @@ class PreviewScreen extends ConsumerWidget {
             controller: model.pageController,
             onPageChanged: model.setCurrentPage,
             children: <Widget>[
-              FirstPreviewWidget(),
-              SecondPreviewWidget(),
-              ThirdPreviewWidget(),
+              // First Preview
+              PreviewWidget(
+                title: S.current.previewWidgetFirstTitle,
+                subtitle: S.current.previewWidgetFirstSubtitle,
+                child: SvgPicture.asset(
+                  'assets/images/preview_screen_image_1.svg',
+                ),
+              ),
 
-              // Workout Player
+              // Second Preview
+              PreviewWidget(
+                title: S.current.previewWidgetSecondTitle,
+                subtitle: S.current.previewWidgetSecondSubtitle,
+                child: SecondPreviewWidgetChild(),
+              ),
+
+              // Third Preview
+              PreviewWidget(
+                title: S.current.previewWidgetThirdTitle,
+                subtitle: S.current.previewWidgetThirdSubtitle,
+                child: ThirdPreviewWidgetChild(),
+              ),
+
+              // Last Preview: Workout Player
               AppPreviewWidget(
                 imageRoot: previewImages[osLocale]![3],
                 subtitle: S.current.WorkoutSeamlesslyWithWorkoutPlayer,

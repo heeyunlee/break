@@ -126,7 +126,7 @@ class _SearchTabState extends State<SearchTab> {
                 children: [
                   const SizedBox(height: 48),
                   SvgPicture.asset(
-                    'assets/images/people_working_out_1.svg',
+                    'assets/images/people_working_out.svg',
                     width: 200,
                   ),
                   const SizedBox(height: 24),

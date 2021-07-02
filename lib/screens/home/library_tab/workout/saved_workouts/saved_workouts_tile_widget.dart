@@ -13,15 +13,15 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
   String _getSubtitle(User user) {
     if (user.savedWorkouts != null) {
       if (user.savedWorkouts!.isNotEmpty) {
-        if (user.savedRoutines!.length == 1) {
-          return '1 ${S.current.routine}';
+        if (user.savedWorkouts!.length == 1) {
+          return '1 ${S.current.workout}';
         }
-        return '${user.savedRoutines!.length} ${S.current.routinesLowerCase}';
+        return '${user.savedWorkouts!.length} ${S.current.workout}';
       } else {
-        return '0 ${S.current.routine}';
+        return '0 ${S.current.workout}';
       }
     } else {
-      return '0 ${S.current.routine}';
+      return '0 ${S.current.workout}';
     }
   }
 

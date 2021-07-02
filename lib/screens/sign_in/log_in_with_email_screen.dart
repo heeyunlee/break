@@ -84,7 +84,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
   }
 
   Future<void> _submitLogIn() async {
-    debugPrint('_submitLogIn pressed');
+    // debugPrint('_submitLogIn pressed');
     if (_validateAndSaveForm()) {
       setState(() {
         submitted = true;
@@ -121,7 +121,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(S.current.signInWithEmail, style: kSubtitle2),
+        title: Text(S.current.signInWithEmail, style: TextStyles.subtitle2),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
@@ -159,7 +159,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.email, style: kSubtitle2),
+                  child: Text(S.current.email, style: TextStyles.subtitle2),
                 ),
                 TextFormField(
                   autofocus: true,
@@ -207,7 +207,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                 // PASSWORD
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.password, style: kSubtitle2),
+                  child: Text(S.current.password, style: TextStyles.subtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,

@@ -49,7 +49,7 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
 
   /// Add a New Set
   Future<void> _addNewSet() async {
-    debugPrint('_addNewSet Button pressed');
+    // debugPrint('_addNewSet Button pressed');
     try {
       final routineWorkout = widget.routineWorkout;
       WorkoutSet newSet;
@@ -57,19 +57,19 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
       if (routineWorkout.sets!
           .where((element) => element.isRest == false)
           .isNotEmpty) {
-        debugPrint('sets exist');
+        // debugPrint('sets exist');
 
         /// Workout Set
         final sets = widget.routineWorkout.sets!
             .where((element) => element.isRest == false)
             .toList();
 
-        print('set length is ${sets.length}');
+        // print('set length is ${sets.length}');
 
         final id = UniqueKey().toString();
         final setIndex = sets.length + 1;
 
-        print('set Index is $setIndex');
+        // print('set Index is $setIndex');
 
         // Get latest set data
         final latestSet = sets.last;
@@ -86,7 +86,7 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
           setIndex: setIndex,
         );
       } else {
-        debugPrint('sets DO NOT exist');
+        // debugPrint('sets DO NOT exist');
 
         /// Workout Set
         final id = UniqueKey().toString();
@@ -139,7 +139,7 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
         await widget.database.updateRoutine(widget.routine, routine);
       });
 
-      debugPrint('Added a new Set');
+      // debugPrint('Added a new Set');
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -152,13 +152,13 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
 
   /// Add new a Rest
   Future<void> _addNewRest() async {
-    debugPrint('_addNewRest Button pressed');
+    // debugPrint('_addNewRest Button pressed');
     try {
       final routineWorkout = widget.routineWorkout;
       if (routineWorkout.sets!
           .where((element) => element.isRest == true)
           .isNotEmpty) {
-        debugPrint('rest exist');
+        // debugPrint('rest exist');
 
         /// Workout Set
         final rests = widget.routineWorkout.sets!
@@ -205,9 +205,9 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
             .then((value) async {
           await widget.database.updateRoutine(widget.routine, routine);
         });
-        debugPrint('Added a new Rest');
+        // debugPrint('Added a new Rest');
       } else {
-        debugPrint('rest DO NOT exist');
+        // debugPrint('rest DO NOT exist');
 
         /// Workout Set
         final id = UniqueKey().toString();
@@ -250,7 +250,7 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
             .then((value) async {
           await widget.database.updateRoutine(widget.routine, routine);
         });
-        debugPrint('Added a new Rest');
+        // debugPrint('Added a new Rest');
       }
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -366,9 +366,9 @@ class _RoutineWorkoutCardState extends State<RoutineWorkoutCard> {
                 ),
           subtitle: Row(
             children: <Widget>[
-              Text(formattedNumberOfSets, style: kSubtitle2),
-              const Text('   |   ', style: kSubtitle2),
-              Text(formattedTotalWeights, style: kSubtitle2),
+              Text(formattedNumberOfSets, style: TextStyles.subtitle2),
+              const Text('   |   ', style: TextStyles.subtitle2),
+              Text(formattedTotalWeights, style: TextStyles.subtitle2),
             ],
           ),
           childrenPadding: const EdgeInsets.all(0),

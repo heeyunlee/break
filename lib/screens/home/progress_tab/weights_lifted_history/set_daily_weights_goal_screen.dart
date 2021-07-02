@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 
 import '../../../../styles/constants.dart';
@@ -76,7 +77,7 @@ class _SetDailyWeightsGoalScreenState extends State<SetDailyWeightsGoalScreen> {
         ),
         title: Text(
           'Set',
-          style: kSubtitle2,
+          style: TextStyles.subtitle2,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

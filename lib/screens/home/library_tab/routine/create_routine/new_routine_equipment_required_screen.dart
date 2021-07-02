@@ -61,7 +61,7 @@ class _NewRoutineEquipmentRequiredScreenState
                         widget.selectedEquipmentRequired(
                             _selectedEquipmentRequired);
 
-                        print(_selectedEquipmentRequired);
+                        // print(_selectedEquipmentRequired);
                       },
                     ),
                   ),

@@ -50,19 +50,19 @@ class _NewWorkoutDifficultyAndMoreScreenState
 
     _secondsPerRepSlider = 3;
     _secondsPerRepSliderLabel = '$_secondsPerRepSlider ${S.current.seconds}';
-    debugPrint('NewWorkoutDifficultyAndMoreScreen init');
+    // debugPrint('NewWorkoutDifficultyAndMoreScreen init');
   }
 
   @override
   void dispose() {
     _textController.dispose();
-    debugPrint('NewWorkoutDifficultyAndMoreScreen dispose');
+    // debugPrint('NewWorkoutDifficultyAndMoreScreen dispose');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('NewWorkoutDifficultyAndMoreScreen scaffold building...');
+    // debugPrint('NewWorkoutDifficultyAndMoreScreen scaffold building...');
 
     final size = MediaQuery.of(context).size;
     final f = NumberFormat('#,###');

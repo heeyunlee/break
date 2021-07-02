@@ -9,6 +9,7 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/speed_dial/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
@@ -46,7 +47,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
-        title: Text(S.current.routineHistoryTitle, style: kSubtitle2),
+        title: Text(S.current.routineHistoryTitle, style: TextStyles.subtitle2),
         centerTitle: true,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),

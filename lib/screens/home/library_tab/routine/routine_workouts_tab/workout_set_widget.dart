@@ -157,11 +157,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     if (_formKey.currentState!.validate()) {
       try {
         final workoutSets = widget.routineWorkout.sets;
-        print('workoutSets is ${workoutSets.runtimeType}');
+        // print('workoutSets is ${workoutSets.runtimeType}');
         final set = widget.set;
 
-        final workoutWeights = num.parse(_weights);
-        print('workoutWeights is ${workoutWeights.runtimeType}');
+        // final workoutWeights = num.parse(_weights);
+        // print('workoutWeights is ${workoutWeights.runtimeType}');
 
         // /// Workout Set
         // final sets = widget.routineWorkout.sets
@@ -259,7 +259,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             await widget.database.updateRoutine(widget.routine, routine);
           },
         );
-        print('routineWorkout Updated');
+        // print('routineWorkout Updated');
       } on FirebaseException catch (e) {
         logger.e(e);
         await showExceptionAlertDialog(

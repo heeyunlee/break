@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -35,7 +36,7 @@ class LibraryTab extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
-      title: Text(S.current.library, style: kSubtitle2),
+      title: Text(S.current.library, style: TextStyles.subtitle2),
       floating: true,
       pinned: true,
       snap: false,

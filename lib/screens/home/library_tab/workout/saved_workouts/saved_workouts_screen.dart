@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -44,7 +45,7 @@ class SavedWorkoutsScreen extends StatelessWidget {
   void _getDocuments(List<Future<Workout?>> workoutsFuture) {
     user.savedWorkouts!.forEach((id) {
       Future<Workout?> nextDoc = database.getWorkout(id);
-      print(nextDoc);
+      // print(nextDoc);
       workoutsFuture.add(nextDoc);
     });
   }
@@ -60,7 +61,7 @@ class SavedWorkoutsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.savedRoutines, style: kSubtitle2),
+        title: Text(S.current.savedRoutines, style: TextStyles.subtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,

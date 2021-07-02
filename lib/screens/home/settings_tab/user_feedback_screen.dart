@@ -109,7 +109,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(S.current.yourFeedbackMatters, style: kSubtitle2),
+        title: Text(S.current.yourFeedbackMatters, style: TextStyles.subtitle2),
         actions: [
           TextButton(
             onPressed: _submit,

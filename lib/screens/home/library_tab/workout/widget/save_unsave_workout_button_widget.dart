@@ -66,8 +66,8 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
           await database.updateUser(auth.currentUser!.uid, user);
 
           getSnackbarWidget(
-            S.current.savedRoutineSnackBarTitle,
-            S.current.savedRoutineSnackbar,
+            S.current.savedWorkoutSnackBarTitle,
+            S.current.savedWorkoutSnackBarSubtitle,
           );
 
           logger.d('added routine to saved routine');

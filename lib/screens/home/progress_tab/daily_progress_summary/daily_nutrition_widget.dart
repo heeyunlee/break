@@ -9,7 +9,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
-import '../progress_tab_provider.dart';
+import '../progress_tab_model.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyNutritionWidget extends StatelessWidget {
@@ -49,20 +49,27 @@ class DailyNutritionWidget extends StatelessWidget {
       stream: database.nutritionsSelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, data) {
-        num _proteinGoal = user.dailyProteinGoal ?? 150.0;
+        model.setNutritionDailyGoal(user.dailyProteinGoal);
+        model.setNutritionDailyTotal(data);
 
-        late num _totalProteins = 0;
-        late double _proteinsProgress = 0;
+        // () => model.setNutritionDailyGoal(user.dailyProteinGoal);
+        // () => model.setNutritionDailyTotal(data);
+        // num _proteinGoal = user.dailyProteinGoal ?? 150.0;
 
-        if (data != null) {
-          data.forEach((e) {
-            _totalProteins += e.proteinAmount.toInt();
-          });
-          _proteinsProgress = _totalProteins / _proteinGoal;
-          if (_proteinsProgress >= 1) {
-            _proteinsProgress = 1;
-          }
-        }
+        // late num _totalProteins = 0;
+        // late double _proteinsProgress = 0;
+
+        // if (data != null) {
+        //   data.forEach((e) {
+        //     _totalProteins += e.proteinAmount.toInt();
+        //   });
+        //   // _proteinsProgress = _totalProteins / _proteinGoal;
+        //   _proteinsProgress = _totalProteins / model.nutritionDailyGoal;
+
+        //   if (_proteinsProgress >= 1) {
+        //     _proteinsProgress = 1;
+        //   }
+        // }
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +81,7 @@ class DailyNutritionWidget extends StatelessWidget {
                 child: CircularPercentIndicator(
                   radius: size.width / 3,
                   lineWidth: 12,
-                  percent: _proteinsProgress,
+                  percent: model.nutritionDailyProgress,
                   backgroundColor: Colors.greenAccent.withOpacity(0.25),
                   progressColor: Colors.greenAccent,
                   animation: true,
@@ -86,13 +93,16 @@ class DailyNutritionWidget extends StatelessWidget {
             const SizedBox(width: 16),
             Column(
               children: [
-                SizedBox(height: size.height / 14),
-                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 13),
+                SizedBox(height: size.height / 13),
                 SizedBox(
-                  height: size.height / 14,
-                  child: _buildTotalNutritionWidget(data, _totalProteins),
+                  height: size.height / 13,
+                  child: _buildTotalNutritionWidget(
+                      // data,
+                      // model.nutritionDailyTotal,
+                      ),
                 ),
-                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 13),
               ],
             ),
           ],
@@ -101,19 +111,19 @@ class DailyNutritionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalNutritionWidget(List<Nutrition>? data, num proteins) {
+  Widget _buildTotalNutritionWidget() {
     String? hundreds;
     String? tens;
     String? ones;
 
-    if (data != null) {
-      int length = proteins.toString().length - 1;
-      String totalProteinsInString = proteins.toString();
+    // if (data != null) {
+    int length = model.nutritionDailyTotal.toString().length - 1;
+    String totalProteinsInString = model.nutritionDailyTotal.toString();
 
-      ones = totalProteinsInString[length];
-      tens = (length > 0) ? totalProteinsInString[length - 1] : '0';
-      hundreds = (length > 1) ? totalProteinsInString[length - 2] : '0';
-    }
+    ones = totalProteinsInString[length];
+    tens = (length > 0) ? totalProteinsInString[length - 1] : '0';
+    hundreds = (length > 1) ? totalProteinsInString[length - 2] : '0';
+    // }
 
     return DailySummaryNumbersWidget(
       title: S.current.proteins,

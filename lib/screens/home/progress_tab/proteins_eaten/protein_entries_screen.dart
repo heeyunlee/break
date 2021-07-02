@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -94,7 +95,7 @@ class ProteinEntriesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.proteinEntriesTitle, style: kSubtitle2),
+        title: Text(S.current.proteinEntriesTitle, style: TextStyles.subtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,

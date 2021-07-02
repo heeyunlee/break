@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 Future<bool?> showAdaptiveModalBottomSheet(
   context, {
-  required Text title,
+  Text? title,
   Text? message,
   bool? isFirstActionDefault,
   Icon? firstActionIcon,

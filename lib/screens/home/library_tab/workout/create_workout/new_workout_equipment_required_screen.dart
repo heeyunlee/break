@@ -22,7 +22,7 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('NewWorkoutEquipmentRequiredScreen building...');
+    // debugPrint('NewWorkoutEquipmentRequiredScreen building...');
 
     return SingleChildScrollView(
       child: Column(

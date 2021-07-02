@@ -87,9 +87,9 @@ class WorkoutHistoryCard extends StatelessWidget {
                 ),
           subtitle: Row(
             children: <Widget>[
-              Text(formattedNumberOfSets, style: kSubtitle2),
-              const Text('   |   ', style: kSubtitle2),
-              Text(formattedTotalWeights, style: kSubtitle2),
+              Text(formattedNumberOfSets, style: TextStyles.subtitle2),
+              const Text('   |   ', style: TextStyles.subtitle2),
+              Text(formattedTotalWeights, style: TextStyles.subtitle2),
             ],
           ),
           childrenPadding: const EdgeInsets.all(0),

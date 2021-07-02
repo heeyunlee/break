@@ -2,13 +2,16 @@ import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+// import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/choose_background_icon.dart';
 import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
@@ -23,7 +26,7 @@ import '../home_screen_provider.dart';
 import 'daily_progress_summary/daily_nutrition_widget.dart';
 import 'daily_progress_summary/daily_weights_widget.dart';
 import 'measurement/measurements_line_chart_widget.dart';
-import 'progress_tab_provider.dart';
+import 'progress_tab_model.dart';
 import 'proteins_eaten/weekly_nutrition_chart.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 
@@ -38,16 +41,13 @@ class ProgressTab extends StatefulWidget {
   }) : super(key: key);
 
   static Widget create(BuildContext context) {
-    // print('progress tab created');
-
     final database = provider.Provider.of<Database>(context, listen: false);
 
     return Consumer(
-      builder: (context, watch, child) {
-        final model = watch(progressTabModelProvider);
-
-        return ProgressTab(database: database, model: model);
-      },
+      builder: (context, watch, child) => ProgressTab(
+        database: database,
+        model: watch(progressTabModelProvider),
+      ),
     );
   }
 
@@ -95,6 +95,22 @@ class _ProgressTabState extends State<ProgressTab>
     );
 
     widget.model.initShowBanner();
+
+    // SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    //   () async {
+    //     final s = await FeatureDiscovery.hasPreviouslyCompleted(
+    //         context, 'choose_background');
+
+    //     if (!s) {
+    //       FeatureDiscovery.discoverFeatures(
+    //         context,
+    //         const <String>{
+    //           'choose_background',
+    //         },
+    //       );
+    //     }
+    //   };
+    // });
   }
 
   @override
@@ -122,6 +138,7 @@ class _ProgressTabState extends State<ProgressTab>
                 centerTitle: true,
                 brightness: Brightness.dark,
                 elevation: 0,
+                leading: ChooseBackgroundIcon(user: user!),
                 title: TextButton(
                   style: ButtonStyles.text1,
                   onPressed: () => _showCalendar(),
@@ -130,10 +147,10 @@ class _ProgressTabState extends State<ProgressTab>
                     children: [
                       Text(
                         DateFormat.MMMEd().format(widget.model.selectedDate),
-                        style: kSubtitle2,
+                        style: TextStyles.subtitle2,
                       ),
                       const SizedBox(width: 8),
-                      Icon(Icons.arrow_drop_down),
+                      const Icon(Icons.arrow_drop_down),
                     ],
                   ),
                 ),
@@ -141,7 +158,7 @@ class _ProgressTabState extends State<ProgressTab>
               ),
             ),
             body: Builder(
-              builder: (context) => _buildChildWidget(context, user!),
+              builder: (context) => _buildChildWidget(context, user),
             ),
           ),
         );
@@ -152,48 +169,52 @@ class _ProgressTabState extends State<ProgressTab>
   Widget _buildChildWidget(BuildContext context, User user) {
     final size = MediaQuery.of(context).size;
 
-    return Stack(
-      alignment: Alignment.center,
-      fit: StackFit.passthrough,
-      children: [
-        _buildBlurredBG(user),
-        Padding(
-          padding: EdgeInsets.only(top: Scaffold.of(context).appBarMaxHeight!),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  if (widget.model.showBanner) _buildBanner(),
-                  SizedBox(
-                    height: widget.model.showBanner
-                        ? size.height * 0.5 - 136
-                        : size.height * 0.5,
-                  ),
-                  Stack(
-                    children: [
-                      DailyWeightsWidget.create(
-                        context,
-                        user: user,
-                        model: widget.model,
-                      ),
-                      DailyNutritionWidget.create(
-                        context,
-                        user: user,
-                        model: widget.model,
-                      ),
-                    ],
-                  ),
-                  WeightsLiftedChartWidget.create(context, user: user),
-                  WeeklyNutritionChart.create(context, user: user),
-                  MeasurementsLineChartWidget(user: user),
-                  const SizedBox(height: 120),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) => Stack(
+        alignment: Alignment.center,
+        fit: StackFit.passthrough,
+        children: [
+          _buildBlurredBG(user),
+          Padding(
+            padding:
+                EdgeInsets.only(top: Scaffold.of(context).appBarMaxHeight!),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    if (widget.model.showBanner) _buildBanner(),
+                    SizedBox(
+                      height: widget.model.showBanner
+                          ? size.height * 0.5 - 136
+                          : size.height * 0.5,
+                    ),
+                    Stack(
+                      children: [
+                        DailyWeightsWidget.create(
+                          context,
+                          user: user,
+                          model: widget.model,
+                          constraints: constraints,
+                        ),
+                        DailyNutritionWidget.create(
+                          context,
+                          user: user,
+                          model: widget.model,
+                        ),
+                      ],
+                    ),
+                    WeightsLiftedChartWidget.create(context, user: user),
+                    WeeklyNutritionChart.create(context, user: user),
+                    MeasurementsLineChartWidget(user: user),
+                    const SizedBox(height: 120),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -242,7 +263,8 @@ class _ProgressTabState extends State<ProgressTab>
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
-              ProgressTabProvider.bgURL[user.backgroundImageIndex ?? 0],
+              // ProgressTabProvider.bgURL[user.backgroundImageIndex ?? 0],
+              ProgressTabModel.bgURL[user.backgroundImageIndex ?? 0],
             ),
             fit: BoxFit.cover,
           ),

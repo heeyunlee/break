@@ -73,7 +73,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   // Submit data to Firestore
   Future<void> _submit() async {
-    debugPrint('_submit button pressed!');
+    // debugPrint('_submit button pressed!');
     try {
       final workoutId = documentIdFromCurrentDate();
       final userId = widget.user.userId;
@@ -156,7 +156,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveTitle() {
-    debugPrint('saveTitle Pressed');
+    // debugPrint('saveTitle Pressed');
     if (_workoutTitle.isNotEmpty) {
       setState(() {
         _pageIndex = 1;
@@ -172,7 +172,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveMainMuscleGroup() {
-    debugPrint('saveMainMuscleGroup Pressed');
+    // debugPrint('saveMainMuscleGroup Pressed');
     if (_selectedMainMuscleGroup.isNotEmpty) {
       setState(() {
         _pageIndex = 2;
@@ -188,7 +188,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveEquipmentRequired() {
-    debugPrint('saveEquipmentRequired Pressed');
+    // debugPrint('saveEquipmentRequired Pressed');
     if (_selectedEquipmentRequired.isNotEmpty) {
       setState(() {
         _pageIndex = 3;
@@ -204,7 +204,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveDifficulty() {
-    debugPrint('saveDifficulty Pressed');
+    // debugPrint('saveDifficulty Pressed');
     _submit();
   }
 
@@ -220,7 +220,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Create New Workout Screen scaffold building...');
+    // debugPrint('Create New Workout Screen scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -245,7 +245,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                   : (_pageIndex == 2)
                       ? S.current.equipmentRequired
                       : S.current.moreAboutThisWorkout,
-          style: kSubtitle2,
+          style: TextStyles.subtitle2,
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

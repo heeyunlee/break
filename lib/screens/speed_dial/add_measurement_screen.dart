@@ -216,7 +216,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
         ),
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addMeasurement, style: kSubtitle2),
+        title: Text(S.current.addMeasurement, style: TextStyles.subtitle2),
       ),
       body: _buildBody(),
       floatingActionButton: Container(

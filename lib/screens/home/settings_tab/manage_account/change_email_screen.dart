@@ -85,7 +85,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         };
         await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
-        debugPrint('Updated userEmail');
+        // debugPrint('Updated userEmail');
 
         // SnackBar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

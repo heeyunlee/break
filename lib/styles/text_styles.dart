@@ -3,6 +3,7 @@ import 'package:workout_player/styles/constants.dart';
 
 class TextStyles {
   static const defaultFontFamily = 'NanumSquareRound';
+  static const menlo = 'menlo';
 
   static const headline4 = TextStyle(
     fontSize: 34,
@@ -20,12 +21,77 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline5_w900 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline5_menlo = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
+  static const headline6 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline6_menlo = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: menlo,
+  );
+
+  static const headline6_menlo_bold = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: menlo,
+  );
+
+  static const subtitle2 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: 0.1,
+    fontFamily: defaultFontFamily,
+  );
+
   static const body1_w800 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w800,
     color: Colors.white,
     letterSpacing: 0.50,
     fontFamily: defaultFontFamily,
+  );
+
+  static const body1_menlo = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    letterSpacing: 0.50,
+    fontFamily: menlo,
+  );
+
+  static const body1_menlo_white54 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.white54,
+    letterSpacing: 0,
+    fontFamily: menlo,
+    height: 1.5,
   );
 
   static const body2 = TextStyle(
@@ -101,16 +167,16 @@ class TextStyles {
   );
 
   static const google1 = TextStyle(
-    fontFamily: 'Roboto',
     fontSize: 15,
     color: Colors.white,
     fontWeight: FontWeight.w400,
+    fontFamily: 'Roboto',
   );
 
   static const google1_white30 = TextStyle(
-    fontFamily: 'Roboto',
     fontSize: 15,
     color: Colors.white30,
     fontWeight: FontWeight.normal,
+    fontFamily: 'Roboto',
   );
 }

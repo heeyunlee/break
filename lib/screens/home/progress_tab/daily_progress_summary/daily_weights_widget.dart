@@ -8,10 +8,11 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
-import '../progress_tab_provider.dart';
+import '../progress_tab_model.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyWeightsWidget extends StatelessWidget {
@@ -19,18 +20,21 @@ class DailyWeightsWidget extends StatelessWidget {
   final AuthBase auth;
   final User user;
   final ProgressTabModel model;
+  final BoxConstraints constraints;
 
   const DailyWeightsWidget({
     required this.database,
     required this.auth,
     required this.user,
     required this.model,
+    required this.constraints,
   });
 
   static Widget create(
     BuildContext context, {
     required User user,
     required ProgressTabModel model,
+    required BoxConstraints constraints,
   }) {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final database = provider.Provider.of<Database>(context, listen: false);
@@ -40,19 +44,20 @@ class DailyWeightsWidget extends StatelessWidget {
       auth: auth,
       user: user,
       model: model,
+      constraints: constraints,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final model = watch(progressTabModelProvider);
 
     return CustomStreamBuilderWidget<List<RoutineHistory>?>(
-      // stream: database.routineHistoryTodayStream(),
       stream: database.routineHistorySelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, data) {
+        // print('constraints are ${constraints.maxWidth}');
+
         int _totalWeights = 0;
         double _weightsProgress = 0;
         String _mainMuscleGroup = '-';
@@ -87,13 +92,17 @@ class DailyWeightsWidget extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                if (_mainMuscleGroup == '-') Text('-', style: kHeadline5w900),
+                if (_mainMuscleGroup == '-')
+                  Text('-', style: TextStyles.headline5_w900),
                 if (_mainMuscleGroup != '-')
                   SizedBox(
                     width: size.width / 5,
                     child: FittedBox(
                       alignment: Alignment.center,
-                      child: Text(_mainMuscleGroup, style: kHeadline5w900),
+                      child: Text(
+                        _mainMuscleGroup,
+                        style: TextStyles.headline5_w900,
+                      ),
                     ),
                   ),
                 CircularPercentIndicator(
@@ -111,13 +120,13 @@ class DailyWeightsWidget extends StatelessWidget {
             const SizedBox(width: 16),
             Column(
               children: [
-                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 13),
                 SizedBox(
-                  height: size.height / 14,
+                  height: size.height / 13,
                   child: _buildTotalWeightsWidget(data, _totalWeights),
                 ),
-                SizedBox(height: size.height / 14),
-                SizedBox(height: size.height / 14),
+                SizedBox(height: size.height / 13),
+                SizedBox(height: size.height / 13),
               ],
             ),
           ],

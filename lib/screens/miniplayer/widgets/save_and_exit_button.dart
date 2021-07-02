@@ -31,7 +31,7 @@ class SaveAndExitButton extends ConsumerWidget {
     required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
-      debugPrint('submit button pressed');
+      // debugPrint('submit button pressed');
 
       /// For Routine History
       final userData = (await user)!;

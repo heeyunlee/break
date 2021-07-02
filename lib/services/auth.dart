@@ -1,7 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -247,17 +245,17 @@ class AuthService implements AuthBase {
         ),
       );
 
-      print('result is ${result.authorizationCode}');
+      // print('result is ${result.authorizationCode}');
 
       // Create a new credential
       final oAuthProvider = auth.OAuthProvider('apple.com');
-      print('oAuthProvider is $oAuthProvider');
+      // print('oAuthProvider is $oAuthProvider');
 
       final credential = oAuthProvider.credential(
         accessToken: result.authorizationCode,
         idToken: result.identityToken,
       );
-      print('credential is $credential');
+      // print('credential is $credential');
 
       // Using credential to get the user
       final authResult = await _auth.signInWithCredential(credential);
@@ -322,7 +320,7 @@ class AuthService implements AuthBase {
   }
 
   Future<String> _getToken() async {
-    debugPrint('get token function triggered');
+    // debugPrint('get token function triggered');
     final installed = await isKakaoTalkInstalled();
     final authCode = installed
         ? await AuthCodeClient.instance.requestWithTalk()
@@ -334,7 +332,7 @@ class AuthService implements AuthBase {
   }
 
   Future<String> _verifyToken(String kakaoToken) async {
-    debugPrint('_verifyToken function triggered in auth');
+    // debugPrint('_verifyToken function triggered in auth');
 
     try {
       FirebaseFunctions functions = FirebaseFunctions.instance;

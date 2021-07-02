@@ -1,3 +1,4 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -50,23 +51,25 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthService(),
         ),
       ],
-      child: GetMaterialApp(
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'NanumSquareRound',
-          primaryColorBrightness: Brightness.dark,
-          iconTheme: IconThemeData(
-            color: Colors.white,
+      child: FeatureDiscovery(
+        child: GetMaterialApp(
+          localizationsDelegates: [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'NanumSquareRound',
+            primaryColorBrightness: Brightness.dark,
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            ),
           ),
+          home: LandingScreen(),
         ),
-        home: LandingScreen(),
       ),
     );
   }

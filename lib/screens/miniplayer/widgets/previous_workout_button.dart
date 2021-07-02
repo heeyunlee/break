@@ -64,9 +64,9 @@ class PreviousWorkoutButton extends ConsumerWidget {
       context.read(restTimerDurationProvider).state = null;
     }
 
-    print('current Index is ${miniplayerIndex.currentIndex}');
-    print('routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
-    print('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
+    // print('current Index is ${miniplayerIndex.currentIndex}');
+    // print('routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
+    // print('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
   }
 
   @override

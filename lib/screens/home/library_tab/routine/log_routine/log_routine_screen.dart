@@ -301,7 +301,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         ),
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addWorkoutLog, style: kSubtitle2),
+        title: Text(S.current.addWorkoutLog, style: TextStyles.subtitle2),
         centerTitle: true,
       ),
       body: _buildBody(),

@@ -105,7 +105,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     if (_mealType != null) {
-      debugPrint('submit Button Pressed!');
+      // debugPrint('submit Button Pressed!');
       try {
         // Create new Nutrition Data
         final id = 'NUT${documentIdFromCurrentDate()}';
@@ -219,7 +219,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
         ),
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addProteins, style: kSubtitle2),
+        title: Text(S.current.addProteins, style: TextStyles.subtitle2),
       ),
       body: _buildBody(),
       floatingActionButton: Container(
@@ -401,7 +401,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               _selectedIndex = i;
               _mealType = _meals[i];
             }
-            debugPrint(_mealType);
+            // debugPrint(_mealType);
           });
         },
       );

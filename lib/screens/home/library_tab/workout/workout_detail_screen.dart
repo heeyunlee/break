@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -278,7 +279,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                           const SizedBox(height: 8),
                           Text(
                             mainMuscleGroup,
-                            style: kSubtitle2,
+                            style: TextStyles.subtitle2,
                           ),
                         ],
                       ),
@@ -301,7 +302,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                             style: kCaption1Grey,
                           ),
                           const SizedBox(height: 8),
-                          Text(equipmentRequired, style: kSubtitle2),
+                          Text(equipmentRequired, style: TextStyles.subtitle2),
                         ],
                       ),
                     ),
@@ -320,7 +321,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                         children: <Widget>[
                           Text(S.current.difficulty, style: kCaption1Grey),
                           const SizedBox(height: 8),
-                          Text(difficulty, style: kSubtitle2),
+                          Text(difficulty, style: TextStyles.subtitle2),
                         ],
                       ),
                     ),

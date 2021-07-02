@@ -247,7 +247,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
                   : (_pageIndex == 2)
                       ? S.current.equipmentRequired
                       : S.current.others,
-          style: kSubtitle2,
+          style: TextStyles.subtitle2,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

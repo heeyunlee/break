@@ -13,6 +13,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -68,7 +69,7 @@ class MeasurementsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.bodyMeasurement, style: kSubtitle2),
+        title: Text(S.current.bodyMeasurement, style: TextStyles.subtitle2),
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: kAppBarColor,

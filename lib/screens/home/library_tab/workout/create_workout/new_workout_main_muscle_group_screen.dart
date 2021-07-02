@@ -62,7 +62,7 @@ class _NewWorkoutMainMuscleGroupScreenState
                           _selectedMainMuscleGroup,
                         );
 
-                        print(_selectedMainMuscleGroup);
+                        // print(_selectedMainMuscleGroup);
                       },
                     ),
                   ),

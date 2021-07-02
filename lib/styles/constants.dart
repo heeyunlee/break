@@ -93,13 +93,13 @@ const kHeadline5Bold = TextStyle(
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-const kHeadline5w900 = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.w900,
-  color: Colors.white,
-  letterSpacing: 0,
-  fontFamily: 'NanumSquareRound',
-);
+// const kHeadline5w900 = TextStyle(
+//   fontSize: 24,
+//   fontWeight: FontWeight.w900,
+//   color: Colors.white,
+//   letterSpacing: 0,
+//   fontFamily: 'NanumSquareRound',
+// );
 const kHeadline5w900Primary = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w900,
@@ -254,13 +254,13 @@ const kSubtitle1BoldGrey = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-const kSubtitle2 = TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.w500,
-  color: Colors.white,
-  letterSpacing: 0.1,
-  fontFamily: 'NanumSquareRound',
-);
+// const kSubtitle2 = TextStyle(
+//   fontSize: 14,
+//   fontWeight: FontWeight.w500,
+//   color: Colors.white,
+//   letterSpacing: 0.1,
+//   fontFamily: 'NanumSquareRound',
+// );
 const kSubtitle2Menlo = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,

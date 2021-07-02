@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,8 @@ class SignInScreenNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  final randomNumber = Random().nextInt(6);
+
   // SIGN IN ANONYMOUSLY
   Future<void> signInAnonymously(BuildContext context) async {
     logger.d('sign in with Anonymously pressed');
@@ -76,7 +80,7 @@ class SignInScreenNotifier extends ChangeNotifier {
           // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          backgroundImageIndex: 0,
+          backgroundImageIndex: randomNumber,
         );
         await database!.setUser(userData);
 
@@ -148,7 +152,7 @@ class SignInScreenNotifier extends ChangeNotifier {
           // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          backgroundImageIndex: 0,
+          backgroundImageIndex: randomNumber,
         );
         await database!.setUser(userData);
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -221,7 +225,7 @@ class SignInScreenNotifier extends ChangeNotifier {
           // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          backgroundImageIndex: 0,
+          backgroundImageIndex: randomNumber,
         );
         await database!.setUser(userData);
 
@@ -261,7 +265,7 @@ class SignInScreenNotifier extends ChangeNotifier {
 
   /// SIGN IN WITH APPLE
   Future<void> signInWithApple(BuildContext context) async {
-    debugPrint('sign in with apple pressed');
+    // debugPrint('sign in with apple pressed');
     MixpanelManager.track('sign up with Apple pressed');
 
     setIsLoading(true);
@@ -299,7 +303,7 @@ class SignInScreenNotifier extends ChangeNotifier {
           // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          backgroundImageIndex: 0,
+          backgroundImageIndex: randomNumber,
         );
         await database!.setUser(userData);
 
@@ -336,7 +340,7 @@ class SignInScreenNotifier extends ChangeNotifier {
 
   /// SIGN IN WITH Kakao
   Future<void> signInWithKakao(BuildContext context) async {
-    debugPrint('sign in with Kakao triggered');
+    // debugPrint('sign in with Kakao triggered');
     MixpanelManager.track('sign up with Kakao pressed');
 
     setIsLoading(true);
@@ -370,7 +374,7 @@ class SignInScreenNotifier extends ChangeNotifier {
           // dailyNutritionHistories: [],
           savedRoutines: [],
           savedWorkouts: [],
-          backgroundImageIndex: 0,
+          backgroundImageIndex: randomNumber,
         );
 
         await database!.setUser(userData);
@@ -406,8 +410,8 @@ class SignInScreenNotifier extends ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    print('exception code is ${exception.code}');
-    print('exception code is ${exception.message}');
+    // print('exception code is ${exception.code}');
+    // print('exception code is ${exception.message}');
 
     logger.e(exception);
 

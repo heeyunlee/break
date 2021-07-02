@@ -24,7 +24,7 @@ class HoriListItemBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (snapshot.hasData) {
-      print(snapshot.error);
+      // print(snapshot.error);
       final items = snapshot.data;
       if (items!.isNotEmpty) {
         return _buildList(items);
@@ -38,7 +38,7 @@ class HoriListItemBuilder<T> extends StatelessWidget {
         }
       }
     } else if (snapshot.hasError) {
-      print(snapshot.error);
+      // print(snapshot.error);
       return EmptyContent(
         message: S.current.somethingWentWrong,
       );

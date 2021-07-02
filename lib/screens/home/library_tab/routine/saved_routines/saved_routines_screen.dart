@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -47,7 +48,7 @@ class SavedRoutinesScreen extends StatelessWidget {
   void _getDocuments() {
     user.savedRoutines!.forEach((id) {
       Future<Routine?> nextDoc = database.getRoutine(id);
-      print(nextDoc);
+      // print(nextDoc);
       routinesFuture.add(nextDoc);
       // routinesFuture.add(nextDoc);
     });
@@ -63,7 +64,7 @@ class SavedRoutinesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.savedRoutines, style: kSubtitle2),
+        title: Text(S.current.savedRoutines, style: TextStyles.subtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,

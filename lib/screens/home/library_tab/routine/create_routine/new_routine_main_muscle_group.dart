@@ -62,7 +62,7 @@ class _NewRoutineMainMuscleGroupScreenState
                           _selectedMainMuscleGroup,
                         );
 
-                        print(_selectedMainMuscleGroup);
+                        // print(_selectedMainMuscleGroup);
                       },
                     ),
                   ),

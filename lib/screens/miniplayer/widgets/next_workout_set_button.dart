@@ -40,10 +40,10 @@ class NextWorkoutSetButton extends ConsumerWidget {
           60,
     );
 
-    debugPrint('current Index is ${miniplayerIndex.currentIndex}');
-    debugPrint(
-        'routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
-    debugPrint('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
+    // debugPrint('current Index is ${miniplayerIndex.currentIndex}');
+    // debugPrint(
+    //     'routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
+    // debugPrint('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
   }
 
   @override

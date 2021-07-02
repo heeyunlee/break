@@ -58,7 +58,7 @@ class SettingsTabModel with ChangeNotifier {
     try {
       // FirebaseCrashlytics.instance.crash();
       if (auth!.currentUser!.isAnonymous) {
-        debugPrint('signed in anonymously');
+        // debugPrint('signed in anonymously');
         await auth!.currentUser!.delete();
         Navigator.of(context).popUntil((route) => route.isFirst);
       } else {
@@ -74,7 +74,8 @@ class SettingsTabModel with ChangeNotifier {
         S.current.signOutSnackbarMessage,
       );
     } catch (e) {
-      print(e.toString());
+      // TODO: SHOW DIALOG AFTER CATCHING ERROR
+      // print(e.toString());
     }
   }
 
@@ -83,7 +84,7 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.1+2',
+      applicationVersion: 'v.0.3.1',
       applicationIcon: Container(
         decoration: BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/icon.png', width: 36, height: 36),

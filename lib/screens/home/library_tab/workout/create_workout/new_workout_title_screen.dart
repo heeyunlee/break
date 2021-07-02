@@ -29,18 +29,18 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
     super.initState();
     _workoutTitle = null;
     _textController1 = TextEditingController(text: _workoutTitle);
-    debugPrint('init');
+    // debugPrint('init');
   }
 
   @override
   void dispose() {
     _textController1.dispose();
-    debugPrint('dispose');
+    // debugPrint('dispose');
     super.dispose();
   }
 
   void saveTitle() {
-    debugPrint('saveTitle Pressed');
+    // debugPrint('saveTitle Pressed');
     if (_workoutTitle != null && _workoutTitle != '') {
       setState(() {
         _pageIndex = 1;
@@ -58,7 +58,7 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('NewWorkoutTitleScreen widget building...');
+    // debugPrint('NewWorkoutTitleScreen widget building...');
 
     return Center(
       child: Container(

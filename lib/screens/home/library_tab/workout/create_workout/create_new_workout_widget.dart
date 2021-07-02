@@ -7,7 +7,7 @@ import 'create_new_workout_screen.dart';
 class CreateNewWorkoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrint('CreateNewWorkoutWidget building...');
+    // debugPrint('CreateNewWorkoutWidget building...');
 
     return InkWell(
       onTap: () => CreateNewWorkoutScreen.show(context),

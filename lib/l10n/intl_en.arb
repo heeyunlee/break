@@ -355,7 +355,6 @@
     "todaysSummary": "Today's Summary",
     "takeALook": "Take a look",
     "overview": "Overview",
-    "previewFirstWidget": "See your daily and weekly progress",
     "firstSignInSnackbarMessage": "Welcome, {name}! Let's get lifting",
     "personalGoals": "Personal Goals",
     "proteinsGoal": "Proteins Goal",
@@ -367,5 +366,18 @@
     "setProteinGoalSnackbarBody": "You've successfully set a daily protein goal!",
     "liftingGoal": "Lifting Goal",
     "setLiftingGoalSnackbarTitle": "Lifting Goal",
-    "setLiftingGoalSnackbarBody": "You've successfully set a daily lifting goal!"
+    "setLiftingGoalSnackbarBody": "You've successfully set a daily lifting goal!",
+    "updateBackgroundSnackbarTitle": "Update Wallpaper",
+    "updateBackgroundSnackbarMessage": "Successfully updated a wallpaper",
+    "chooseWallpaper": "Choose Wallpaper",
+    "addPhotos": "Add Photos",
+    "setWallpaper": "Set Wallpaper",
+    "previewWidgetFirstTitle": "Herakles: Workout Player",
+    "previewWidgetFirstSubtitle": "Workout, Record, and Share",
+    "previewWidgetSecondTitle": "See Your Progress",
+    "previewWidgetSecondSubtitle": "See your daily progress with widgets",
+    "previewWidgetThirdTitle": "See More Progress",
+    "previewWidgetThirdSubtitle": "Workout, Record, and Share",
+    "savedWorkoutSnackBarTitle": "Save Workout",
+    "savedWorkoutSnackBarSubtitle": "Successfully saved a workout"
 }

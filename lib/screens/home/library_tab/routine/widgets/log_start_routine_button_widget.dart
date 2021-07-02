@@ -59,11 +59,11 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
 
             if (items[i]!.sets != null) {
               length = items[i]!.sets!.length;
-              print('set length $length');
+              // print('set length $length');
             }
 
             routineLength = routineLength + length;
-            print('routine length is $routineLength');
+            // print('routine length is $routineLength');
           }
 
           // Setting indexes

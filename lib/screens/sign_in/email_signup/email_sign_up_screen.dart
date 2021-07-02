@@ -118,7 +118,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   }
 
   Future<void> _submitLogIn() async {
-    print('_submitLogIn pressed');
+    // print('_submitLogIn pressed');
     if (_validateAndSaveForm()) {
       setState(() {
         submitted = true;
@@ -168,7 +168,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(S.current.signUp, style: kSubtitle2),
+        title: Text(S.current.signUp, style: TextStyles.subtitle2),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
@@ -218,7 +218,10 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // EMAIL
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.emailAddress, style: kSubtitle2),
+                  child: Text(
+                    S.current.emailAddress,
+                    style: TextStyles.subtitle2,
+                  ),
                 ),
                 TextFormField(
                   autofocus: true,
@@ -266,7 +269,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // FIRST NAME
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.firstName, style: kSubtitle2),
+                  child: Text(S.current.firstName, style: TextStyles.subtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -314,7 +317,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // LAST NAME
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.lastName, style: kSubtitle2),
+                  child: Text(S.current.lastName, style: TextStyles.subtitle2),
                 ),
                 TextFormField(
                   autocorrect: false,
@@ -362,7 +365,10 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                 // PASSWORD
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.current.passwordAllCap, style: kSubtitle2),
+                  child: Text(
+                    S.current.passwordAllCap,
+                    style: TextStyles.subtitle2,
+                  ),
                 ),
                 TextFormField(
                   autocorrect: false,

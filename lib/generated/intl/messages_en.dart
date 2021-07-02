@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("Add notes"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("How do you feel? Add Notes"),
+        "addPhotos": MessageLookupByLibrary.simpleMessage("Add Photos"),
         "addProteinEntrySnackbar":
             MessageLookupByLibrary.simpleMessage("Added a protein entry!"),
         "addProteinEntrySnackbarTitle":
@@ -157,6 +158,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "chest": MessageLookupByLibrary.simpleMessage("Chest"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("Choose Routine to Start"),
+        "chooseWallpaper":
+            MessageLookupByLibrary.simpleMessage("Choose Wallpaper"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "confirmPasswordHintText":
@@ -409,8 +412,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInformation":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
-        "previewFirstWidget": MessageLookupByLibrary.simpleMessage(
-            "See your daily and weekly progress"),
+        "previewWidgetFirstSubtitle":
+            MessageLookupByLibrary.simpleMessage("Workout, Record, and Share"),
+        "previewWidgetFirstTitle":
+            MessageLookupByLibrary.simpleMessage("Herakles: Workout Player"),
+        "previewWidgetSecondSubtitle": MessageLookupByLibrary.simpleMessage(
+            "See your daily progress with widgets"),
+        "previewWidgetSecondTitle":
+            MessageLookupByLibrary.simpleMessage("See Your Progress"),
+        "previewWidgetThirdSubtitle":
+            MessageLookupByLibrary.simpleMessage("Workout, Record, and Share"),
+        "previewWidgetThirdTitle":
+            MessageLookupByLibrary.simpleMessage("See More Progress"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "progress": MessageLookupByLibrary.simpleMessage("Progress"),
         "progressTabBannerTitle": MessageLookupByLibrary.simpleMessage(
@@ -463,6 +476,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "savedRoutines": MessageLookupByLibrary.simpleMessage("Saved Routines"),
         "savedWorkoutEmptykButtonText": MessageLookupByLibrary.simpleMessage(
             "Create your own Workout now!"),
+        "savedWorkoutSnackBarSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Successfully saved a workout"),
+        "savedWorkoutSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("Save Workout"),
         "savedWorkouts": MessageLookupByLibrary.simpleMessage("Saved Workouts"),
         "savedWorkoutsEmptyText": MessageLookupByLibrary.simpleMessage(
             "Save workouts, or create your own!"),
@@ -495,6 +512,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You\'ve successfully set a daily protein goal!"),
         "setProteinGoalSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Protein Goal"),
+        "setWallpaper": MessageLookupByLibrary.simpleMessage("Set Wallpaper"),
         "setWeightsDailyGoal":
             MessageLookupByLibrary.simpleMessage("SET DAILY GOAL"),
         "sets": MessageLookupByLibrary.simpleMessage("Sets"),
@@ -573,6 +591,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unsaved Routine"),
         "unsavedRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
             "Removed from your Saved Routines"),
+        "updateBackgroundSnackbarMessage": MessageLookupByLibrary.simpleMessage(
+            "Successfully updated a wallpaper"),
+        "updateBackgroundSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Update Wallpaper"),
         "updateDisplayNameSnackbar": MessageLookupByLibrary.simpleMessage(
             "Successfully Updated Display Name!"),
         "updateDisplayNameSnackbarTitle":
