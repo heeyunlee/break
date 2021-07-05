@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/screens/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -119,13 +120,15 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   // Submit data to Firestore
   Future<void> _submit(
-    BuildContext context, {
+    BuildContext context,
+    WidgetRef ref,
+    MiniplayerModel model, {
     required Routine routine,
     required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
       debugPrint('submit button pressed');
-      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
+      ref.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
       /// For Routine History
       final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
@@ -141,17 +144,6 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         _workoutEndTime.month,
         _workoutEndTime.day,
       );
-
-      // // For Calculating Total Weights
-      // var totalWeights = 0.00;
-      // var weightsCalculated = false;
-      // if (!weightsCalculated) {
-      //   for (var i = 0; i < routineWorkouts.length; i++) {
-      //     var weights = routineWorkouts[i].totalWeights;
-      //     totalWeights = totalWeights + weights;
-      //   }
-      //   weightsCalculated = true;
-      // }
 
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
@@ -207,52 +199,25 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         },
       );
 
-      // /// Update User Data
-      // // GET history data
-      // final histories = widget.user.dailyWorkoutHistories;
-
-      // final index = widget.user.dailyWorkoutHistories!
-      //     .indexWhere((element) => element.date.toUtc() == workoutDate);
-
-      // if (index == -1) {
-      //   final newHistory = DailyWorkoutHistory(
-      //     date: workoutDate,
-      //     totalWeights: _totalWeights,
-      //   );
-      //   histories!.add(newHistory);
-      // } else {
-      //   final oldHistory = histories![index];
-
-      //   final newHistory = DailyWorkoutHistory(
-      //     date: oldHistory.date,
-      //     totalWeights: oldHistory.totalWeights + _totalWeights,
-      //   );
-      //   histories[index] = newHistory;
-      // }
-
-      // // User
-      // final updatedUserData = {
-      //   'totalWeights': widget.user.totalWeights + _totalWeights,
-      //   'totalNumberOfWorkouts': widget.user.totalNumberOfWorkouts + 1,
-      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      // };
-
       await widget.database.setRoutineHistory(routineHistory);
       await widget.database.batchWriteWorkoutHistories(workoutHistories);
-      // await widget.database.updateUser(widget.uid, updatedUserData);
 
       Navigator.of(context).pop();
+
+      RoutineHistorySummaryScreen.show(
+        context,
+        routineHistory: routineHistory,
+      );
 
       getSnackbarWidget(
         '',
         S.current.afterWorkoutSnackbar,
       );
 
-      context
-          .read(miniplayerProviderNotifierProvider.notifier)
-          .makeValuesNull();
-      context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
-      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
+      model.setMiniplayerValuesNull();
+      model.setIndexesToDefault();
+
+      ref.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -315,15 +280,19 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               : 0,
         ),
         child: Consumer(
-          builder: (context, watch, child) {
+          builder: (context, ref, child) {
+            final model = ref.watch(miniplayerModelProvider);
+
             final isPressed =
-                watch(isLogRoutineButtonPressedProvider).isButtonPressed;
+                ref.watch(isLogRoutineButtonPressedProvider).isButtonPressed;
 
             return FloatingActionButton.extended(
               onPressed: isPressed
                   ? null
                   : () => _submit(
                         context,
+                        ref,
+                        model,
                         routine: widget.routine,
                         routineWorkouts: widget.routineWorkouts,
                       ),

@@ -8,6 +8,8 @@ class BlurBackgroundCard extends StatelessWidget {
   final double? vertPadding;
   final double? horzPadding;
   final double? borderRadius;
+  final double? width;
+  final double? height;
 
   const BlurBackgroundCard({
     Key? key,
@@ -16,6 +18,8 @@ class BlurBackgroundCard extends StatelessWidget {
     this.vertPadding = 16,
     this.horzPadding = 0,
     this.borderRadius = 24,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -26,6 +30,8 @@ class BlurBackgroundCard extends StatelessWidget {
         horizontal: horzPadding!,
       ),
       child: Container(
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),
           boxShadow: [

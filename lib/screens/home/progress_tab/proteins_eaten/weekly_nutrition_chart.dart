@@ -38,10 +38,10 @@ class WeeklyNutritionChart extends StatefulWidget {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     return Consumer(
-      builder: (context, watch, child) => WeeklyNutritionChart(
+      builder: (context, ref, child) => WeeklyNutritionChart(
         auth: auth,
         database: database,
-        model: watch(weeklyProgressChartModelProvider),
+        model: ref.watch(weeklyProgressChartModelProvider),
         user: user,
       ),
     );

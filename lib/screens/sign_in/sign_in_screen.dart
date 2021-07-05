@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
@@ -33,6 +34,8 @@ class SignInScreen extends ConsumerWidget {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final database = provider.Provider.of<Database>(context, listen: false);
 
+    HapticFeedback.mediumImpact();
+
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => SignInScreen(
@@ -47,10 +50,10 @@ class SignInScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('SignInScreen building...');
 
-    final model = watch(signInScreenProvider);
+    final model = ref.watch(signInScreenProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -77,7 +80,7 @@ class SignInScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSignInScreen(BuildContext context, SignInScreenNotifier model) {
+  Widget _buildSignInScreen(BuildContext context, SignInScreenModel model) {
     final size = MediaQuery.of(context).size;
     final locale = Intl.getCurrentLocale();
 

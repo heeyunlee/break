@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 
@@ -29,10 +32,13 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
   int? _selectedImageIndex;
   PickedFile? _pickedImageFile;
   File? _image;
+  // ignore: prefer_final_fields
+  List<String> _personalImagesUrls = [];
 
   int? get selectedImageIndex => _selectedImageIndex;
   PickedFile? get pickedImageFile => _pickedImageFile;
   File? get image => _image;
+  List<String> get personalImagesUrls => _personalImagesUrls;
 
   void setselectedImageIndex(int? index) {
     _selectedImageIndex = index;
@@ -72,10 +78,44 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
     _pickedImageFile = pickedFile;
     if (_pickedImageFile != null) {
       _image = File(pickedImageFile!.path);
+
+      final id = Uuid().v4();
+
+      await _uploadFile(_image!, id);
     }
     Navigator.of(context).pop();
 
     notifyListeners();
+  }
+
+  Future<void> _uploadFile(File file, String id) async {
+    try {
+      await FirebaseStorage.instance
+          .ref('users/${auth!.currentUser!.uid}/bg/$id.jpg')
+          .putFile(file);
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      throw UnimplementedError();
+    }
+  }
+
+  Future<void> showFiles() async {
+    print('show files init');
+
+    ListResult result = await FirebaseStorage.instance
+        .ref('users/${auth!.currentUser!.uid}/bg')
+        .list();
+
+    final items = result.items;
+
+    print('items are ${items.toString()}');
+
+    items.forEach((element) async {
+      final url = await element.getDownloadURL();
+      print('url is $url');
+
+      _personalImagesUrls.add(url);
+    });
   }
 
   Future<void> initSelectedImageIndex() async {

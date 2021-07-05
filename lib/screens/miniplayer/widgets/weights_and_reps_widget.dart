@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../../styles/constants.dart';
 import '../../../utils/formatter.dart';
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class WeightsAndRepsWidget extends ConsumerWidget {
+class WeightsAndRepsWidget extends StatelessWidget {
   final double width;
   final double height;
+  final MiniplayerModel model;
 
   const WeightsAndRepsWidget({
     required this.width,
     required this.height,
+    required this.model,
   });
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routine = miniplayerProvider.selectedRoutine!;
-    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
-    final workoutSet = miniplayerProvider.currentWorkoutSet!;
-    // final routine = watch(selectedRoutineProvider).state!;
-    // final routineWorkout = watch(currentRoutineWorkoutProvider).state!;
-    // final workoutSet = watch(currentWorkoutSetProvider).state!;
+  Widget build(BuildContext context) {
+    final routine = model.selectedRoutine!;
+    final routineWorkout = model.currentRoutineWorkout!;
+    final workoutSet = model.currentWorkoutSet!;
 
     final weights = Formatter.weights(workoutSet.weights!);
     final unit = UnitOfMass.values[routine.initialUnitOfMass].label;

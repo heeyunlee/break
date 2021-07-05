@@ -379,5 +379,7 @@
     "previewWidgetThirdTitle": "See More Progress",
     "previewWidgetThirdSubtitle": "Workout, Record, and Share",
     "savedWorkoutSnackBarTitle": "Save Workout",
-    "savedWorkoutSnackBarSubtitle": "Successfully saved a workout"
+    "savedWorkoutSnackBarSubtitle": "Successfully saved a workout",
+    "emptyFirstNameText": "Please enter the first name",
+    "emptyLastNameText": "Please enter the last name"
 }

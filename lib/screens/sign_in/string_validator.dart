@@ -58,6 +58,8 @@ class EmailAndPasswordValidators {
   final StringValidator validator = StringValidatorBase();
   final String invalidEmailText = S.current.invalidEmailValidationText;
   final String emptyPasswordText = S.current.emptyPasswordValidationText;
+  final String emptyFirstNameText = S.current.emptyFirstNameText;
+  final String emptyLastNameText = S.current.emptyLastNameText;
   final String emptyConfirmPasswordText =
       S.current.emptyConfirmPasswordValidationtext;
 }

@@ -12,6 +12,7 @@ import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_b
 import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.dart';
 import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
@@ -24,7 +25,7 @@ import 'widgets/next_workout_set_button.dart';
 import 'widgets/previous_workout_button.dart';
 import 'widgets/previous_workout_set_button.dart';
 import 'widgets/save_and_exit_button.dart';
-import 'workout_miniplayer_provider.dart';
+import 'miniplayer_model.dart';
 
 class WorkoutMiniplayer extends ConsumerWidget {
   final Database database;
@@ -36,14 +37,16 @@ class WorkoutMiniplayer extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    logger.d('miniplayer building...');
+
     final size = MediaQuery.of(context).size;
 
-    final miniplayerController = watch(miniplayerControllerProvider).state;
-    final routine = watch(miniplayerProviderNotifierProvider).selectedRoutine;
+    final model = ref.watch(miniplayerModelProvider);
+    final routine = model.selectedRoutine;
 
     return Miniplayer(
-      controller: miniplayerController,
+      controller: model.miniplayerController,
       minHeight: miniplayerMinHeight,
       maxHeight: size.height,
       backgroundColor: Colors.transparent,
@@ -62,8 +65,8 @@ class WorkoutMiniplayer extends ConsumerWidget {
           height: miniplayerMinHeight,
           child: Stack(
             children: [
-              _expandedPlayer(context, percentage: percentage, watch: watch),
-              _collapsedPlayer(context, percentage: percentage, watch: watch),
+              _expandedPlayer(context, percentage: percentage, model: model),
+              _collapsedPlayer(context, percentage: percentage, model: model),
             ],
           ),
         );
@@ -73,7 +76,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
 
   Widget _collapsedPlayer(
     BuildContext context, {
-    required ScopedReader watch,
+    required MiniplayerModel model,
     required double percentage,
   }) {
     final size = MediaQuery.of(context).size;
@@ -86,6 +89,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
           LinearProgressIndicatorWidget(
             width: size.width,
             radius: 0.00,
+            model: model,
           ),
           Row(
             children: [
@@ -96,16 +100,18 @@ class WorkoutMiniplayer extends ConsumerWidget {
                     horzPadding: 16,
                     vertPadding: 4,
                     textStyle: kBodyText1Bold,
+                    model: model,
                   ),
                   MiniplayerSubtitle(
                     horizontalPadding: 16,
                     textStyle: kBodyText2Grey,
+                    model: model,
                   ),
                 ],
               ),
               const Spacer(),
-              PauseOrPlayButton(iconSize: 36),
-              NextWorkoutSetButton(iconSize: 36),
+              PauseOrPlayButton(iconSize: 36, model: model),
+              NextWorkoutSetButton(iconSize: 36, model: model),
               const SizedBox(width: 8),
             ],
           ),
@@ -116,17 +122,15 @@ class WorkoutMiniplayer extends ConsumerWidget {
 
   Widget _expandedPlayer(
     BuildContext context, {
-    required ScopedReader watch,
+    required MiniplayerModel model,
     required double percentage,
   }) {
     final f = NumberFormat('#,###');
     final size = MediaQuery.of(context).size;
 
-    final routine = watch(miniplayerProviderNotifierProvider).selectedRoutine!;
-    final miniplayerIndex = watch(miniplayerIndexProvider);
+    final routine = model.selectedRoutine;
 
-    final currentProgress =
-        miniplayerIndex.currentIndex / miniplayerIndex.routineLength * 100;
+    final currentProgress = model.currentIndex / model.setsLength * 100;
     final formattedCurrentProgress = '${f.format(currentProgress)} %';
 
     return Opacity(
@@ -152,7 +156,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
                       ),
                     ),
                     const Spacer(),
-                    CloseMiniplayerButton(),
+                    CloseMiniplayerButton(model: model),
                     const SizedBox(width: 8),
                   ],
                 ),
@@ -160,7 +164,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
                   width: 150,
                   child: Center(
                     child: Text(
-                      '${routine.routineTitle}',
+                      '${routine?.routineTitle}',
                       style: kBodyText2w900,
                       maxLines: 1,
                       softWrap: false,
@@ -172,14 +176,15 @@ class WorkoutMiniplayer extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
-          _timerCoverOrEmptyContainer(context, watch),
+          _timerCoverOrEmptyContainer(context, model),
           const SizedBox(height: 8),
-          ExpandedMiniplayerTitle(),
-          MiniplayerSubtitle(),
+          ExpandedMiniplayerTitle(model: model),
+          MiniplayerSubtitle(model: model),
           const SizedBox(height: 16),
           Center(
             child: LinearProgressIndicatorWidget(
               width: size.width - 48,
+              model: model,
             ),
           ),
           Padding(
@@ -196,27 +201,28 @@ class WorkoutMiniplayer extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
-          _buildWorkoutController(context, watch),
-          SaveAndExitButton(database: database, user: user),
+          _buildWorkoutController(context, model),
+          SaveAndExitButton(database: database, user: user, model: model),
         ],
       ),
     );
   }
 
-  Widget _timerCoverOrEmptyContainer(BuildContext context, ScopedReader watch) {
+  Widget _timerCoverOrEmptyContainer(
+      BuildContext context, MiniplayerModel model) {
     final size = MediaQuery.of(context).size;
     final double ratio = size.height / size.width;
 
-    final workoutSet =
-        watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
+    final workoutSet = model.currentWorkoutSet;
 
     if (workoutSet != null) {
       if (workoutSet.isRest) {
-        return RestTimerWidget();
+        return RestTimerWidget(model: model);
       } else {
         return WeightsAndRepsWidget(
           height: (ratio > 2.00) ? size.width - 56 : size.width - 88,
           width: (ratio > 2.00) ? size.width - 56 : size.width - 88,
+          model: model,
         );
       }
     } else {
@@ -224,7 +230,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
     }
   }
 
-  Widget _buildWorkoutController(BuildContext context, ScopedReader watch) {
+  Widget _buildWorkoutController(BuildContext context, MiniplayerModel model) {
     final size = MediaQuery.of(context).size;
 
     return ButtonTheme(
@@ -233,11 +239,11 @@ class WorkoutMiniplayer extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          PreviousWorkoutButton(),
-          PreviousWorkoutSetButton(),
-          PauseOrPlayButton(),
-          NextWorkoutSetButton(),
-          NextWRoutineorkoutButton(),
+          PreviousWorkoutButton(model: model),
+          PreviousWorkoutSetButton(model: model),
+          PauseOrPlayButton(model: model),
+          NextWorkoutSetButton(model: model),
+          NextWRoutineorkoutButton(model: model),
         ],
       ),
     );

@@ -119,9 +119,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: Consumer(
-        builder: (context, watch, child) {
+        builder: (context, ref, child) {
           final workoutId = widget.workout?.workoutId ?? widget.workoutId!;
-          final workoutStream = watch(workoutStreamProvider(workoutId));
+          final workoutStream = ref.watch(workoutStreamProvider(workoutId));
 
           return workoutStream.when(
             loading: () => Center(child: CircularProgressIndicator()),

@@ -297,27 +297,29 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   }
 
   Widget _buildFAB() {
-    return Consumer(builder: (context, watch, child) {
-      final isPressed = watch(isCreateRoutineButtonPressedProvider);
+    return Consumer(
+      builder: (context, ref, child) {
+        final isPressed = ref.watch(isCreateRoutineButtonPressedProvider);
 
-      if (_pageIndex == 3) {
-        return FloatingActionButton.extended(
-          icon: const Icon(Icons.done, color: Colors.white),
-          backgroundColor: kPrimaryColor,
-          label: Text(S.current.finish, style: TextStyles.button1),
-          onPressed:
-              (isPressed.isButtonPressed) ? null : () => _submit(isPressed),
-        );
-      } else {
-        return FloatingActionButton(
-          backgroundColor: kPrimaryColor,
-          onPressed: () => _submit(isPressed),
-          child: const Icon(
-            Icons.arrow_forward_rounded,
-            color: Colors.white,
-          ),
-        );
-      }
-    });
+        if (_pageIndex == 3) {
+          return FloatingActionButton.extended(
+            icon: const Icon(Icons.done, color: Colors.white),
+            backgroundColor: kPrimaryColor,
+            label: Text(S.current.finish, style: TextStyles.button1),
+            onPressed:
+                (isPressed.isButtonPressed) ? null : () => _submit(isPressed),
+          );
+        } else {
+          return FloatingActionButton(
+            backgroundColor: kPrimaryColor,
+            onPressed: () => _submit(isPressed),
+            child: const Icon(
+              Icons.arrow_forward_rounded,
+              color: Colors.white,
+            ),
+          );
+        }
+      },
+    );
   }
 }

@@ -270,6 +270,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("아직 아무것도 없어요..."),
         "emptyEmailValidationText":
             MessageLookupByLibrary.simpleMessage("이메일을 입력해주세요!"),
+        "emptyFirstNameText":
+            MessageLookupByLibrary.simpleMessage("이름을 입력해 주세요"),
+        "emptyLastNameText": MessageLookupByLibrary.simpleMessage("성을 입력해 주세요"),
         "emptyPasswordValidationText":
             MessageLookupByLibrary.simpleMessage("비밀번호를 입력해주세요!"),
         "emptyRoutineAlertTitle":

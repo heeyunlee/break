@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import 'home_screen_provider.dart';
 import 'tab_item.dart';
@@ -36,8 +37,8 @@ class BottomNavigationTab extends StatelessWidget {
             showUnselectedLabels: true,
             unselectedItemColor: Colors.white,
             currentIndex: currentTabIndex,
-            selectedLabelStyle: kOverlinePrimary,
-            unselectedLabelStyle: kOverline,
+            selectedLabelStyle: TextStyles.overline_primary,
+            unselectedLabelStyle: TextStyles.overline,
             backgroundColor: kBottomNavBarColor,
             selectedItemColor: kPrimaryColor,
             type: BottomNavigationBarType.fixed,

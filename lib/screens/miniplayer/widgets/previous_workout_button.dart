@@ -1,78 +1,60 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class PreviousWorkoutButton extends ConsumerWidget {
-  Future<void> _previousWorkout(
-    BuildContext context,
-    ScopedReader watch, {
-    required MiniplayerIndexNotifier miniplayerIndex,
-  }) async {
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
+class PreviousWorkoutButton extends StatelessWidget {
+  final MiniplayerModel model;
 
-    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
+  const PreviousWorkoutButton({Key? key, required this.model})
+      : super(key: key);
 
-    final miniplayerNotifier =
-        watch(miniplayerProviderNotifierProvider.notifier);
+  Future<void> _previousWorkout(BuildContext context) async {
+    final routineWorkouts = model.selectedRoutineWorkouts!;
 
     // set isWorkoutPaused to false
-    isWorkoutPaused.setBoolean(false);
+    model.setIsWorkoutPaused(false);
 
     // new index = currentIndex - workoutIndex - workoutSetLength
-    final workoutSetLength = miniplayerIndex.currentIndex -
-        miniplayerIndex.workoutSetIndex -
-        routineWorkouts[miniplayerIndex.routineWorkoutIndex - 1]!.sets!.length;
+    final workoutSetLength = model.currentIndex -
+        model.workoutSetIndex -
+        routineWorkouts[model.routineWorkoutIndex - 1]!.sets!.length;
 
     // set current index
-    miniplayerIndex.setCurrentIndex(workoutSetLength);
+    model.setCurrentIndex(workoutSetLength);
 
     // set Workout Set Index
-    miniplayerIndex.setWorkoutSetIndex(0);
+    model.setWorkoutSetIndex(0);
 
     // set RW Index
-    miniplayerIndex.decrementRWIndex();
+    model.decrementRoutineWorkoutIndex();
 
     // set Routine Workout
-    miniplayerNotifier.setRoutineWorkout(
-      routineWorkouts[miniplayerIndex.routineWorkoutIndex],
+    model.setRoutineWorkout(
+      routineWorkouts[model.routineWorkoutIndex],
     );
 
     // set Workout Set
-    final routineWorkout =
-        context.read(miniplayerProviderNotifierProvider).currentRoutineWorkout!;
+    final routineWorkout = model.currentRoutineWorkout!;
 
     if (routineWorkout.sets!.isNotEmpty) {
-      miniplayerNotifier.setWorkoutSet(
-        routineWorkout.sets![miniplayerIndex.workoutSetIndex],
-      );
+      model.setWorkoutSet(routineWorkout.sets![model.workoutSetIndex]);
 
-      final workoutSet =
-          context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
+      final workoutSet = model.currentWorkoutSet!;
 
       // set Duration
       if (workoutSet.isRest) {
-        context.read(restTimerDurationProvider).state = Duration(
-          seconds: workoutSet.restTime ?? 0,
-        );
+        model.setRestTime(Duration(seconds: workoutSet.restTime ?? 0));
       }
     } else {
-      miniplayerNotifier.initiate(workoutSet: null);
-      context.read(restTimerDurationProvider).state = null;
+      model.setMiniplayerValues(workoutSet: null);
+      model.setRestTime(null);
     }
-
-    // print('current Index is ${miniplayerIndex.currentIndex}');
-    // print('routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
-    // print('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final miniplayerIndex = watch(miniplayerIndexProvider);
-
+  Widget build(BuildContext context) {
     return Tooltip(
       verticalOffset: -56,
       message: S.current.toPreviousWorkout,
@@ -80,13 +62,9 @@ class PreviousWorkoutButton extends ConsumerWidget {
         disabledColor: Colors.grey[700],
         color: Colors.white,
         icon: Icon(CupertinoIcons.backward_end_alt_fill),
-        onPressed: (miniplayerIndex.routineWorkoutIndex == 0)
+        onPressed: (model.routineWorkoutIndex == 0)
             ? null
-            : () => _previousWorkout(
-                  context,
-                  watch,
-                  miniplayerIndex: miniplayerIndex,
-                ),
+            : () => _previousWorkout(context),
       ),
     );
   }

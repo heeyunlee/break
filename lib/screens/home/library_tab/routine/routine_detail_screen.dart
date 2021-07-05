@@ -124,10 +124,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       body: Consumer(
-        builder: (context, watch, child) {
+        builder: (context, ref, child) {
           final routineId = widget.routine.routineId;
-          final routineStream = watch(routineStreamProvider(routineId));
-          final routineWorkoutStream = watch(
+          final routineStream = ref.watch(routineStreamProvider(routineId));
+          final routineWorkoutStream = ref.watch(
             routineWorkoutsStreamProvider(routineId),
           );
 

@@ -10,7 +10,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/preview/widgets/preview_widget.dart';
 import 'package:workout_player/screens/preview/preview_screen_provider.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
-import 'package:workout_player/screens/sign_in/sign_in_screen_model.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -22,10 +21,10 @@ import 'widgets/third_preview_widget_child.dart';
 
 class PreviewScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('Preview Screen building...');
 
-    final model = watch(previewScreenNotifierProvider);
+    final model = ref.watch(previewScreenModelProvider);
 
     final os = Platform.operatingSystem;
     final locale = Intl.getCurrentLocale();
@@ -34,7 +33,7 @@ class PreviewScreen extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      key: previewScreenNavigatorKey,
+      key: PreviewScreenModel.previewScreenNavigatorKey,
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       body: Stack(
@@ -69,7 +68,7 @@ class PreviewScreen extends ConsumerWidget {
 
               // Last Preview: Workout Player
               AppPreviewWidget(
-                imageRoot: previewImages[osLocale]![3],
+                imageRoot: PreviewScreenModel.previewImage[osLocale]![3],
                 subtitle: S.current.WorkoutSeamlesslyWithWorkoutPlayer,
               ),
             ],
@@ -84,10 +83,7 @@ class PreviewScreen extends ConsumerWidget {
                   width: 100,
                   child: TextButton(
                     style: ButtonStyles.text1,
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      SignInScreen.show(context);
-                    },
+                    onPressed: () => SignInScreen.show(context),
                     child: Text(S.current.skip),
                   ),
                 ),

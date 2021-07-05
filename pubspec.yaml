@@ -24,6 +24,8 @@ dependencies:
   cupertino_icons: ^1.0.3
   url_launcher: ^6.0.7
   image_picker: ^0.8.1+2
+  uuid: ^3.0.4
+  permission_handler: ^8.1.2
 
   # Firebase & Google
   firebase_storage: ^8.1.3
@@ -45,7 +47,7 @@ dependencies:
 
   # State Management & Important Libraries
   provider: ^5.0.0
-  flutter_riverpod: ^0.14.0+3
+  flutter_riverpod: ^1.0.0-dev.3
   get: ^4.1.4
   algolia: ^1.0.1
   mixpanel_flutter: ^1.1.0

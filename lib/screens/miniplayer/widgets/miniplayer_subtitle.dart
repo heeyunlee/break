@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 
 import '../../../styles/constants.dart';
 
-class MiniplayerSubtitle extends ConsumerWidget {
+class MiniplayerSubtitle extends StatelessWidget {
   final double? horizontalPadding;
   final TextStyle? textStyle;
+  final MiniplayerModel model;
 
-  const MiniplayerSubtitle({this.horizontalPadding, this.textStyle});
+  const MiniplayerSubtitle({
+    this.horizontalPadding,
+    this.textStyle,
+    required this.model,
+  });
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     final locale = Intl.getCurrentLocale();
 
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
+    final routineWorkout = model.currentRoutineWorkout!;
 
     final translatedTitle = routineWorkout.translated;
     final title = (translatedTitle.isEmpty)

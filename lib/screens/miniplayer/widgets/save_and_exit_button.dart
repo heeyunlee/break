@@ -1,38 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../routine_history_summary_screen.dart';
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class SaveAndExitButton extends ConsumerWidget {
+class SaveAndExitButton extends StatelessWidget {
   final Future<User?> user;
   final Database database;
+  final MiniplayerModel model;
 
   const SaveAndExitButton({
     Key? key,
     required this.user,
     required this.database,
+    required this.model,
   }) : super(key: key);
 
-  Future<void> _submit(
-    BuildContext context, {
-    required Routine routine,
-    required List<RoutineWorkout?> routineWorkouts,
-  }) async {
-    try {
-      // debugPrint('submit button pressed');
+  Future<void> _submit(BuildContext context) async {
+    final routine = model.selectedRoutine!;
+    final routineWorkouts = model.selectedRoutineWorkouts!;
 
+    try {
       /// For Routine History
       final userData = (await user)!;
       final _workoutStartTime = Timestamp.now();
@@ -114,52 +110,22 @@ class SaveAndExitButton extends ConsumerWidget {
         },
       );
 
-      // /// Update User Data
-      // // GET history data
-      // final histories = userData.dailyWorkoutHistories;
-
-      // final index = userData.dailyWorkoutHistories!
-      //     .indexWhere((element) => element.date.toUtc() == workoutDate);
-
-      // if (index == -1) {
-      //   final newHistory = DailyWorkoutHistory(
-      //     date: workoutDate,
-      //     totalWeights: totalWeights,
-      //   );
-      //   histories!.add(newHistory);
-      // } else {
-      //   final oldHistory = histories![index];
-
-      //   final newHistory = DailyWorkoutHistory(
-      //     date: oldHistory.date,
-      //     totalWeights: oldHistory.totalWeights + totalWeights,
-      //   );
-      //   histories[index] = newHistory;
-      // }
-
-      // // User
-      // final updatedUserData = {
-      //   'totalWeights': userData.totalWeights + totalWeights,
-      //   'totalNumberOfWorkouts': userData.totalNumberOfWorkouts + 1,
-      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      // };
-
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
-      // await database.updateUser(userData.userId, updatedUserData);
+      model.setMiniplayerValuesNull();
+      model.setIndexesToDefault();
 
       RoutineHistorySummaryScreen.show(
         context,
         routineHistory: routineHistory,
       );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(S.current.afterWorkoutSnackbar),
-      ));
-      context
-          .read(miniplayerProviderNotifierProvider.notifier)
-          .makeValuesNull();
-      context.read(miniplayerIndexProvider).setEveryIndexToDefault(0);
+
+      // TODO: ADD SNACKBAR HERE
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(S.current.afterWorkoutSnackbar),
+      // ));
+
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -171,29 +137,19 @@ class SaveAndExitButton extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    // final routine = watch(selectedRoutineProvider).state;
-    final routine = miniplayerProvider.selectedRoutine;
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    // final routineWorkouts = watch(selectedRoutineWorkoutsProvider).state;
-    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts;
 
     return SizedBox(
       height: size.height * 0.1,
-      child: (isWorkoutPaused.isWorkoutPaused)
+      child: (model.isWorkoutPaused)
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: MaxWidthRaisedButton(
                 width: double.infinity,
                 buttonText: S.current.saveAndEndWorkout,
                 color: Colors.grey[700],
-                onPressed: () => _submit(
-                  context,
-                  routine: routine!,
-                  routineWorkouts: routineWorkouts!,
-                ),
+                onPressed: () => _submit(context),
               ),
             )
           : Container(),

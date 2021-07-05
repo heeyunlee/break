@@ -23,7 +23,6 @@ import 'routine_histories_screen.dart';
 class WeightsLiftedChartWidget extends StatefulWidget {
   final AuthBase auth;
   final Database database;
-  // final String unitOfMass;
   final User user;
   final WeeklyProgressChartModel model;
 
@@ -31,7 +30,6 @@ class WeightsLiftedChartWidget extends StatefulWidget {
     Key? key,
     required this.auth,
     required this.database,
-    // required this.unitOfMass,
     required this.user,
     required this.model,
   }) : super(key: key);
@@ -41,12 +39,12 @@ class WeightsLiftedChartWidget extends StatefulWidget {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     return Consumer(
-      builder: (context, watch, child) => WeightsLiftedChartWidget(
+      builder: (context, ref, child) => WeightsLiftedChartWidget(
         auth: auth,
         database: database,
         // unitOfMass: unitOfMass,
         user: user,
-        model: watch(weeklyProgressChartModelProvider),
+        model: ref.watch(weeklyProgressChartModelProvider),
       ),
     );
   }
@@ -94,7 +92,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
           relativeYs.add(0);
         });
       } else {
-        final roundedLargest = (largest / 10000).ceil() * 10000;
+        final roundedLargest = (largest / 1000).ceil() * 1000;
 
         if (widget.user.dailyWeightsGoal != null) {
           if (roundedLargest <= widget.user.dailyWeightsGoal!) {
@@ -123,21 +121,6 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   void initState() {
     super.initState();
     widget.model.setDaysOfTheWeek();
-
-    // print('weights lifted init');
-
-    // // Create list of 7 days
-    // _dates = List<DateTime>.generate(7, (index) {
-    //   var now = DateTime.now();
-    //   return DateTime.utc(now.year, now.month, now.day - index);
-    // });
-    // _dates = _dates.reversed.toList();
-
-    // // Create list of 7 days of the week
-    // _daysOfTheWeek = List<String>.generate(
-    //   7,
-    //   (index) => DateFormat.E().format(_dates[index]),
-    // );
   }
 
   @override
@@ -186,33 +169,9 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                             size: 16,
                           ),
                         ),
-                        const Spacer(),
-                        // if (widget.user.dailyWeightsGoal == null)
-                        //   TextButton(
-                        //     style: TextButton.styleFrom(
-                        //       padding: EdgeInsets.zero,
-                        //     ),
-                        //     onPressed: () =>
-                        //         SetDailyWeightsGoalScreen.show(context),
-                        //     child: Row(
-                        //       children: [
-                        //         Text(
-                        //           S.current.setWeightsDailyGoal,
-                        //           style: kButtonText2,
-                        //         ),
-                        //         const SizedBox(width: 4),
-                        //         const Icon(
-                        //           Icons.add_rounded,
-                        //           color: Colors.white,
-                        //           size: 16,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
                       ],
                     ),
                   ),
-                  // if (streamData.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Text(

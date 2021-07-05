@@ -33,18 +33,16 @@ class ChooseBackgroundScreen extends StatefulWidget {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
-    // widget.model.initSelectedImageIndex();
-
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
-          builder: (context, watch, child) => ChooseBackgroundScreen(
+          builder: (context, ref, child) => ChooseBackgroundScreen(
             auth: auth,
             database: database,
             user: user,
-            model: watch(chooseBackgroundScreenModelModel),
+            model: ref.watch(chooseBackgroundScreenModelModel),
           ),
         ),
       ),
@@ -60,6 +58,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
   void initState() {
     super.initState();
     widget.model.initSelectedImageIndex();
+    widget.model.showFiles();
   }
 
   @override
@@ -90,28 +89,26 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
-              // Card(
-              //   color: kCardColor,
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(12),
-              //   ),
-              //   child: InkWell(
-              //     // onTap: () => _openGallery(context),
-              //     // onTap: () => _show(context),
-              //     onTap: () => widget.model.showModalBottomSheet(context),
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Text(S.current.addPhotos, style: TextStyles.body2),
-              //         const SizedBox(height: 8),
-              //         Icon(
-              //           Icons.add_rounded,
-              //           color: Colors.white,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              Card(
+                color: kCardColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: InkWell(
+                  onTap: () => widget.model.showModalBottomSheet(context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(S.current.addPhotos, style: TextStyles.body2),
+                      const SizedBox(height: 8),
+                      Icon(
+                        Icons.add_rounded,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               ...List.generate(
                 ProgressTabModel.bgURL.length,
                 (index) => GestureDetector(
@@ -138,15 +135,31 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
                   ),
                 ),
               ),
-              if (widget.model.image != null)
-                Card(
-                  color: Colors.transparent,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Image.file(widget.model.image!, fit: BoxFit.cover),
-                ),
+              ...List.generate(
+                widget.model.personalImagesUrls.length,
+                (index) {
+                  print('${widget.model.personalImagesUrls.length}');
+                  return GestureDetector(
+                    child: Card(
+                      color: Colors.transparent,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Stack(
+                        clipBehavior: Clip.antiAlias,
+                        fit: StackFit.passthrough,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: widget.model.personalImagesUrls[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           );
         },

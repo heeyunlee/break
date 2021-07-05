@@ -166,6 +166,39 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const overline = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: Colors.white,
+    letterSpacing: 1.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const overline_grey = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: Colors.grey,
+    letterSpacing: 1.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const overline_primary = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: kPrimaryColor,
+    letterSpacing: 1.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const overline_gery_underlined = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: Colors.grey,
+    letterSpacing: 1.5,
+    fontFamily: defaultFontFamily,
+    decoration: TextDecoration.underline,
+  );
+
   static const google1 = TextStyle(
     fontSize: 15,
     color: Colors.white,

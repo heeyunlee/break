@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class MaxWidthRaisedButton extends StatelessWidget {
+  final Color? color;
+  final String buttonText;
+  final Widget? icon;
+  final void Function()? onPressed;
+  final double? width;
+
   const MaxWidthRaisedButton({
     Key? key,
     required this.buttonText,
@@ -10,12 +16,6 @@ class MaxWidthRaisedButton extends StatelessWidget {
     this.onPressed,
     this.width,
   }) : super(key: key);
-
-  final Color? color;
-  final String buttonText;
-  final Widget? icon;
-  final void Function()? onPressed;
-  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +41,10 @@ class MaxWidthRaisedButton extends StatelessWidget {
           ),
         ),
       ),
-      // style: ElevatedButton.styleFrom(
-      //   minimumSize: Size(width ?? size.width, 48),
-      //   primary: color,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(10),
-      //   ),
-      // ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // TODO: Check if this works
           if (icon != null) icon ?? Container(),
           if (icon != null) const SizedBox(width: 16),
           Text(buttonText, style: TextStyles.button1),

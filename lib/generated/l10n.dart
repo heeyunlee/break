@@ -3859,6 +3859,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter the first name`
+  String get emptyFirstNameText {
+    return Intl.message(
+      'Please enter the first name',
+      name: 'emptyFirstNameText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the last name`
+  String get emptyLastNameText {
+    return Intl.message(
+      'Please enter the last name',
+      name: 'emptyLastNameText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

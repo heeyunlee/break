@@ -65,13 +65,6 @@ const kHeadline3Menlo = TextStyle(
   letterSpacing: 0,
   fontFamily: 'menlo',
 );
-// const kHeadline4 = TextStyle(
-//   fontSize: 34,
-//   fontWeight: FontWeight.w400,
-//   color: Colors.white,
-//   letterSpacing: 0.25,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kHeadline4Bold = TextStyle(
   fontSize: 34,
   fontWeight: FontWeight.bold,
@@ -79,13 +72,6 @@ const kHeadline4Bold = TextStyle(
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-// const kHeadline5 = TextStyle(
-//   fontSize: 24,
-//   fontWeight: FontWeight.w400,
-//   color: Colors.white,
-//   letterSpacing: 0,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kHeadline5Bold = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.bold,
@@ -93,13 +79,6 @@ const kHeadline5Bold = TextStyle(
   letterSpacing: 0,
   fontFamily: 'NanumSquareRound',
 );
-// const kHeadline5w900 = TextStyle(
-//   fontSize: 24,
-//   fontWeight: FontWeight.w900,
-//   color: Colors.white,
-//   letterSpacing: 0,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kHeadline5w900Primary = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w900,
@@ -254,13 +233,6 @@ const kSubtitle1BoldGrey = TextStyle(
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
-// const kSubtitle2 = TextStyle(
-//   fontSize: 14,
-//   fontWeight: FontWeight.w500,
-//   color: Colors.white,
-//   letterSpacing: 0.1,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kSubtitle2Menlo = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
@@ -375,13 +347,6 @@ const kBodyText1MenloBlack = TextStyle(
   letterSpacing: 0,
   fontFamily: 'menlo',
 );
-// const kBodyText2 = TextStyle(
-//   fontSize: 14,
-//   fontWeight: FontWeight.w400,
-//   color: Colors.white,
-//   letterSpacing: 0.25,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kBodyText2Grey = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.normal,
@@ -424,13 +389,6 @@ const kBodyText2BoldGrey = TextStyle(
   letterSpacing: 0.25,
   fontFamily: 'NanumSquareRound',
 );
-// const kButtonText = TextStyle(
-//   fontSize: 14,
-//   fontWeight: FontWeight.w500,
-//   color: Colors.white,
-//   letterSpacing: 1.25,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kButtonTextBlack = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
@@ -473,35 +431,21 @@ const kCaption1Grey = TextStyle(
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
-const kOverline = TextStyle(
-  fontSize: 10,
-  fontWeight: FontWeight.normal,
-  color: Colors.white,
-  letterSpacing: 1.5,
-  fontFamily: 'NanumSquareRound',
-);
-const kOverlinePrimary = TextStyle(
-  fontSize: 10,
-  fontWeight: FontWeight.normal,
-  color: kPrimaryColor,
-  letterSpacing: 1.5,
-  fontFamily: 'NanumSquareRound',
-);
-const kOverlineGrey = TextStyle(
-  fontSize: 10,
-  fontWeight: FontWeight.normal,
-  color: Colors.grey,
-  letterSpacing: 1.5,
-  fontFamily: 'NanumSquareRound',
-);
-const kOverlineGreyUnderlined = TextStyle(
-  fontSize: 10,
-  fontWeight: FontWeight.normal,
-  color: Colors.grey,
-  letterSpacing: 1.5,
-  fontFamily: 'NanumSquareRound',
-  decoration: TextDecoration.underline,
-);
+// const kOverlinePrimary = TextStyle(
+//   fontSize: 10,
+//   fontWeight: FontWeight.normal,
+//   color: kPrimaryColor,
+//   letterSpacing: 1.5,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kOverlineGreyUnderlined = TextStyle(
+//   fontSize: 10,
+//   fontWeight: FontWeight.normal,
+//   color: Colors.grey,
+//   letterSpacing: 1.5,
+//   fontFamily: 'NanumSquareRound',
+//   decoration: TextDecoration.underline,
+// );
 
 const kSearchBarHintStyle = TextStyle(
   color: Colors.grey,
@@ -509,30 +453,6 @@ const kSearchBarHintStyle = TextStyle(
   fontWeight: FontWeight.normal,
   fontFamily: 'NanumSquareRound',
 );
-// const kGoogleSignInStyle = TextStyle(
-//   fontFamily: 'Roboto',
-//   fontSize: 15,
-//   color: Colors.black,
-//   fontWeight: FontWeight.normal,
-// );
-// const kGoogleSignInStyleWhite30 = TextStyle(
-//   fontFamily: 'Roboto',
-//   fontSize: 15,
-//   color: Colors.white30,
-//   fontWeight: FontWeight.normal,
-// );
-// const kGoogleSignInStyleWhite = TextStyle(
-//   fontFamily: 'Roboto',
-//   fontSize: 15,
-//   color: Colors.white,
-//   fontWeight: FontWeight.w400,
-// );
-// const kGoogleSignInStyleWhite2 = TextStyle(
-//   fontFamily: 'Roboto',
-//   fontSize: 12,
-//   color: Colors.white,
-//   fontWeight: FontWeight.w400,
-// );
 
 // OTHERS //
 const kCustomDivider = Divider(

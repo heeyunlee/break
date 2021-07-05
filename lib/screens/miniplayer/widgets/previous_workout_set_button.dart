@@ -1,56 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine_workout.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class PreviousWorkoutSetButton extends ConsumerWidget {
+class PreviousWorkoutSetButton extends StatelessWidget {
+  final MiniplayerModel model;
+
+  const PreviousWorkoutSetButton({Key? key, required this.model})
+      : super(key: key);
+
   Future<void> _skipPrevious(
-    BuildContext context, {
-    required List<RoutineWorkout?> routineWorkouts,
-    required RoutineWorkout routineWorkout,
-    required MiniplayerIndexNotifier miniplayerIndex,
-    required IsWorkoutPausedNotifier isWorkoutPaused,
-    required MiniplayerProviderNotifier miniplayerNotifier,
-  }) async {
+    BuildContext context,
+    MiniplayerModel model,
+  ) async {
+    final routineWorkout = model.currentRoutineWorkout!;
+
     // set isWorkoutPaused to false
-    isWorkoutPaused.setBoolean(false);
+    model.setIsWorkoutPaused(false);
 
     // decrease current index by 1
-    miniplayerIndex.decrementCurrentIndex();
+    model.decrementCurrentIndex();
 
-    miniplayerIndex.decrementWorkoutSetIndex();
+    model.decrementWorkoutSetIndex();
 
-    miniplayerNotifier.setWorkoutSet(
-      routineWorkout.sets![miniplayerIndex.workoutSetIndex],
+    model.setWorkoutSet(
+      routineWorkout.sets![model.workoutSetIndex],
     );
 
-    context.read(restTimerDurationProvider).state = Duration(
-      seconds: context
-              .read(miniplayerProviderNotifierProvider)
-              .currentWorkoutSet!
-              .restTime ??
-          60,
+    model.setRestTime(
+      Duration(seconds: model.currentWorkoutSet!.restTime ?? 60),
     );
-
-    // debugPrint('current Index is ${miniplayerIndex.currentIndex}');
-    // debugPrint(
-    //     'routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
-    // debugPrint('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts;
-    final routineWorkout = miniplayerProvider.currentRoutineWorkout;
-    final miniplayerIndex = watch(miniplayerIndexProvider);
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-
-    final miniplayerNotifier =
-        watch(miniplayerProviderNotifierProvider.notifier);
-
+  Widget build(BuildContext context) {
     return Tooltip(
       verticalOffset: -56,
       message: S.current.toPreviousSet,
@@ -59,16 +42,8 @@ class PreviousWorkoutSetButton extends ConsumerWidget {
         color: Colors.white,
         iconSize: 48,
         icon: Icon(Icons.skip_previous_rounded),
-        onPressed: (miniplayerIndex.currentIndex > 1 &&
-                miniplayerIndex.workoutSetIndex != 0)
-            ? () => _skipPrevious(
-                  context,
-                  routineWorkouts: routineWorkouts!,
-                  routineWorkout: routineWorkout!,
-                  isWorkoutPaused: isWorkoutPaused,
-                  miniplayerIndex: miniplayerIndex,
-                  miniplayerNotifier: miniplayerNotifier,
-                )
+        onPressed: (model.currentIndex > 1 && model.workoutSetIndex != 0)
+            ? () => _skipPrevious(context, model)
             : null,
       ),
     );

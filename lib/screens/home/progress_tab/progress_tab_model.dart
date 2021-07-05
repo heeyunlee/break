@@ -27,6 +27,10 @@ class ProgressTabModel with ChangeNotifier {
   num _nutritionDailyGoal = 150;
   num _nutritionDailyTotal = 0;
   double _nutritionDailyProgress = 0.0;
+  late AnimationController _animationController;
+  late Animation<double> _blurTween;
+  late Animation<double> _brightnessTween;
+  late bool Function(ScrollNotification) _onNotification;
 
   DateTime get focusedDate => _focusedDate;
   DateTime get selectedDate => _selectedDate;
@@ -34,6 +38,10 @@ class ProgressTabModel with ChangeNotifier {
   num get nutritionDailyGoal => _nutritionDailyGoal;
   num get nutritionDailyTotal => _nutritionDailyTotal;
   double get nutritionDailyProgress => _nutritionDailyProgress;
+  AnimationController get animationController => _animationController;
+  Animation<double> get blurTween => _blurTween;
+  Animation<double> get brightnessTween => _brightnessTween;
+  bool Function(ScrollNotification) get onNotification => _onNotification;
 
   void selectSelectedDate(DateTime date) {
     _selectedDate = date;
@@ -58,15 +66,11 @@ class ProgressTabModel with ChangeNotifier {
     } else {
       _showBanner = false;
     }
-    // print('show banner $_showBanner');
     notifyListeners();
   }
 
   void setNutritionDailyGoal(num? value) {
-    // print('setNutritionDailyGoal init');
-
     _nutritionDailyGoal = value ?? 150.0;
-    // notifyListeners();
   }
 
   void setNutritionDailyTotal(List<Nutrition>? data) {
@@ -76,17 +80,36 @@ class ProgressTabModel with ChangeNotifier {
       data.forEach((e) {
         _nutritionDailyTotal += e.proteinAmount.toInt();
       });
-      // _proteinsProgress = _totalProteins / _proteinGoal;
       _nutritionDailyProgress = _nutritionDailyTotal / _nutritionDailyGoal;
 
       if (_nutritionDailyProgress >= 1) {
         _nutritionDailyProgress = 1;
       }
     }
-    // print('total is $_nutritionDailyTotal');
-    // print('progress is $_nutritionDailyProgress');
+  }
 
-    // notifyListeners();
+  void init(TickerProvider vsync) {
+    _animationController = AnimationController(
+      vsync: vsync,
+      duration: Duration(seconds: 0),
+    );
+
+    _blurTween = Tween<double>(begin: 0, end: 20).animate(animationController);
+    _brightnessTween = Tween<double>(begin: 0.9, end: 0.0).animate(
+      animationController,
+    );
+    _onNotification = (ScrollNotification scrollInfo) {
+      // debugPrint('${scrollInfo.metrics.pixels}');
+
+      if (scrollInfo.metrics.axis == Axis.vertical) {
+        _animationController.animateTo(
+          scrollInfo.metrics.pixels / 1400,
+        );
+
+        return true;
+      }
+      return false;
+    };
   }
 
   // CONST VARIABLES

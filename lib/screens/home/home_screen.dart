@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/screens/miniplayer/workout_miniplayer.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/speed_dial/widgets/speed_dial_widget.dart';
 
 import 'package:workout_player/services/auth.dart';
@@ -73,92 +73,107 @@ class _HomeScreenState extends State<HomeScreen>
         onWillPop: () async => !await tabNavigatorKeys[currentTab]!
             .currentState!
             .maybePop(), // Preventing from closing the app on Android
-        child: Consumer(
-          builder: (context, watch, child) {
-            final miniplayerProvider =
-                watch(miniplayerProviderNotifierProvider);
-
-            return Scaffold(
-              key: homeScreenNavigatorKey,
-              extendBody: true,
-              resizeToAvoidBottomInset: false,
-              body: Stack(
+        child: Scaffold(
+          key: homeScreenNavigatorKey,
+          extendBody: true,
+          resizeToAvoidBottomInset: false,
+          body: Stack(
+            children: [
+              Stack(
                 children: [
-                  Stack(
-                    children: [
-                      _buildOffstageNavigator(CustomTabItem.progress),
-                      _buildOffstageNavigator(CustomTabItem.search),
-                      _buildOffstageNavigator(CustomTabItem.library),
-                      _buildOffstageNavigator(CustomTabItem.settings),
-                    ],
-                  ),
-                  Offstage(
-                    offstage: miniplayerProvider.selectedRoutine == null,
+                  _buildOffstageNavigator(CustomTabItem.progress),
+                  _buildOffstageNavigator(CustomTabItem.search),
+                  _buildOffstageNavigator(CustomTabItem.library),
+                  _buildOffstageNavigator(CustomTabItem.settings),
+                ],
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final model = ref.watch(miniplayerModelProvider);
+
+                  return Offstage(
+                    offstage: model.selectedRoutine == null,
                     child: WorkoutMiniplayer(
                       database: database,
                       user: user,
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: (miniplayerProvider.selectedRoutine == null)
-                  ? SpeedDialWidget(distance: 136)
-                  : ValueListenableBuilder(
-                      valueListenable: miniplayerExpandProgress,
-                      builder:
-                          (BuildContext context, double height, Widget? child) {
-                        final size = MediaQuery.of(context).size;
+            ],
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: Consumer(
+            builder: (context, ref, child) {
+              final model = ref.watch(miniplayerModelProvider);
 
-                        final value = percentageFromValueInRange(
-                          min: miniplayerMinHeight,
-                          max: size.height,
-                          value: height,
-                        );
+              if (model.selectedRoutine == null) {
+                return SpeedDialWidget(distance: 136);
+              } else {
+                return ValueListenableBuilder(
+                  valueListenable: miniplayerExpandProgress,
+                  builder:
+                      (BuildContext context, double height, Widget? child) {
+                    final size = MediaQuery.of(context).size;
 
-                        return Transform.translate(
-                          offset: Offset(
-                            0,
-                            kBottomNavigationBarHeight * value * 2,
-                          ),
-                          child: SpeedDialWidget(distance: 136),
-                        );
-                      },
-                    ),
-              bottomNavigationBar: (miniplayerProvider.selectedRoutine == null)
-                  ? BottomNavigationTab(
-                      currentTab: currentTab,
-                      onSelectTab: _selectTab,
-                      onSelectTabIndex: _selectTabIndex,
-                    )
-                  : ValueListenableBuilder(
-                      valueListenable: miniplayerExpandProgress,
-                      builder:
-                          (BuildContext context, double height, Widget? child) {
-                        final size = MediaQuery.of(context).size;
+                    final value = percentageFromValueInRange(
+                      min: miniplayerMinHeight,
+                      max: size.height,
+                      value: height,
+                    );
 
-                        final value = percentageFromValueInRange(
-                          min: miniplayerMinHeight,
-                          max: size.height,
-                          value: height,
-                        );
+                    return Transform.translate(
+                      offset: Offset(
+                        0,
+                        kBottomNavigationBarHeight * value * 2,
+                      ),
+                      child: SpeedDialWidget(distance: 136),
+                    );
+                  },
+                );
+              }
+            },
+          ),
+          bottomNavigationBar: Consumer(
+            builder: (context, ref, child) {
+              final model = ref.watch(miniplayerModelProvider);
 
-                        return Transform.translate(
-                          offset: Offset(
-                            0.0,
-                            kBottomNavigationBarHeight * value * 2,
-                          ),
-                          child: BottomNavigationTab(
-                            currentTab: currentTab,
-                            onSelectTab: _selectTab,
-                            onSelectTabIndex: _selectTabIndex,
-                          ),
-                        );
-                      },
-                    ),
-            );
-          },
+              if (model.selectedRoutine == null) {
+                return BottomNavigationTab(
+                  currentTab: currentTab,
+                  onSelectTab: _selectTab,
+                  onSelectTabIndex: _selectTabIndex,
+                );
+              } else {
+                return ValueListenableBuilder(
+                  valueListenable: miniplayerExpandProgress,
+                  builder:
+                      (BuildContext context, double height, Widget? child) {
+                    final size = MediaQuery.of(context).size;
+
+                    final value = percentageFromValueInRange(
+                      min: miniplayerMinHeight,
+                      max: size.height,
+                      value: height,
+                    );
+
+                    return Transform.translate(
+                      offset: Offset(
+                        0.0,
+                        kBottomNavigationBarHeight * value * 2,
+                      ),
+                      child: BottomNavigationTab(
+                        currentTab: currentTab,
+                        onSelectTab: _selectTab,
+                        onSelectTabIndex: _selectTabIndex,
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          ),
         ),
       ),
     );

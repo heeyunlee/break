@@ -1,58 +1,43 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class PauseOrPlayButton extends ConsumerWidget {
+class PauseOrPlayButton extends StatelessWidget {
   final double? iconSize;
+  final MiniplayerModel model;
 
   const PauseOrPlayButton({
     this.iconSize = 56,
+    required this.model,
   });
 
-  Future<void> _pausePlay(
-    BuildContext context,
-    ScopedReader watch, {
-    required IsWorkoutPausedNotifier isWorkoutPaused,
-    required CountDownController circularCountDownController,
-  }) async {
-    final workoutSet =
-        watch(miniplayerProviderNotifierProvider).currentWorkoutSet;
+  Future<void> _pausePlay(BuildContext context) async {
+    final workoutSet = model.currentWorkoutSet;
 
     if (workoutSet != null) {
-      if (!isWorkoutPaused.isWorkoutPaused) {
-        isWorkoutPaused.toggleBoolValue();
-        if (workoutSet.isRest) circularCountDownController.pause();
+      if (!model.isWorkoutPaused) {
+        model.toggleIsWorkoutPaused();
+        if (workoutSet.isRest) model.countDownController.pause();
       } else {
-        isWorkoutPaused.toggleBoolValue();
-        if (workoutSet.isRest) circularCountDownController.resume();
+        model.toggleIsWorkoutPaused();
+        if (workoutSet.isRest) model.countDownController.resume();
       }
     }
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final circularCountdownController =
-        watch(miniplayerTimerControllerProvider).state;
-
+  Widget build(BuildContext context) {
     return Tooltip(
       verticalOffset: -56,
-      message: (isWorkoutPaused.isWorkoutPaused)
+      message: (model.isWorkoutPaused)
           ? S.current.pauseWorkout
           : S.current.resumeWorkout,
       child: IconButton(
         color: Colors.white,
-        onPressed: () => _pausePlay(
-          context,
-          watch,
-          isWorkoutPaused: isWorkoutPaused,
-          circularCountDownController: circularCountdownController,
-        ),
+        onPressed: () => _pausePlay(context),
         iconSize: iconSize!,
-        icon: (!isWorkoutPaused.isWorkoutPaused)
+        icon: (!model.isWorkoutPaused)
             ? Icon(Icons.pause_rounded)
             : Icon(Icons.play_arrow_rounded),
       ),

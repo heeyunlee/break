@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
@@ -13,29 +10,19 @@ import '../progress_tab_model.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyNutritionWidget extends StatelessWidget {
-  final Database database;
-  final AuthBase auth;
   final User user;
   final ProgressTabModel model;
 
   const DailyNutritionWidget({
-    required this.database,
-    required this.auth,
     required this.user,
     required this.model,
   });
 
-  static Widget create(
-    BuildContext context, {
+  static Widget create({
     required User user,
     required ProgressTabModel model,
   }) {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-
     return DailyNutritionWidget(
-      database: database,
-      auth: auth,
       user: user,
       model: model,
     );
@@ -46,30 +33,11 @@ class DailyNutritionWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return CustomStreamBuilderWidget<List<Nutrition>?>(
-      stream: database.nutritionsSelectedDayStream(model.selectedDate),
+      stream: model.database!.nutritionsSelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, data) {
         model.setNutritionDailyGoal(user.dailyProteinGoal);
         model.setNutritionDailyTotal(data);
-
-        // () => model.setNutritionDailyGoal(user.dailyProteinGoal);
-        // () => model.setNutritionDailyTotal(data);
-        // num _proteinGoal = user.dailyProteinGoal ?? 150.0;
-
-        // late num _totalProteins = 0;
-        // late double _proteinsProgress = 0;
-
-        // if (data != null) {
-        //   data.forEach((e) {
-        //     _totalProteins += e.proteinAmount.toInt();
-        //   });
-        //   // _proteinsProgress = _totalProteins / _proteinGoal;
-        //   _proteinsProgress = _totalProteins / model.nutritionDailyGoal;
-
-        //   if (_proteinsProgress >= 1) {
-        //     _proteinsProgress = 1;
-        //   }
-        // }
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -97,10 +65,7 @@ class DailyNutritionWidget extends StatelessWidget {
                 SizedBox(height: size.height / 13),
                 SizedBox(
                   height: size.height / 13,
-                  child: _buildTotalNutritionWidget(
-                      // data,
-                      // model.nutritionDailyTotal,
-                      ),
+                  child: _buildTotalNutritionWidget(),
                 ),
                 SizedBox(height: size.height / 13),
               ],

@@ -17,7 +17,7 @@ class User {
   final num? dailyWeightsGoal; // Nullable
   final num? dailyProteinGoal; // Nullable
   final String displayName;
-  final int? backgroundImageIndex;
+  final int? backgroundImageIndex; // Nullable
 
   const User({
     required this.userId,

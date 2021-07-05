@@ -18,12 +18,12 @@ class ProgressTabShimmer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 100),
+            SizedBox(height: size.height / 7),
             const CircleAvatar(),
             const SizedBox(height: 24),
             Center(
               child: Container(
-                height: 200,
+                height: size.height / 5,
                 width: size.width - 32,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -35,7 +35,7 @@ class ProgressTabShimmer extends StatelessWidget {
             const SizedBox(height: 32),
             Center(
               child: Container(
-                height: 200,
+                height: size.height / 5,
                 width: size.width - 32,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -47,7 +47,7 @@ class ProgressTabShimmer extends StatelessWidget {
             const SizedBox(height: 32),
             Center(
               child: Container(
-                height: 200,
+                height: size.height / 5,
                 width: size.width - 32,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),

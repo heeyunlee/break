@@ -1,84 +1,65 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_workout.dart';
 
-import '../workout_miniplayer_provider.dart';
+import '../miniplayer_model.dart';
 
-class NextWRoutineorkoutButton extends ConsumerWidget {
+class NextWRoutineorkoutButton extends StatelessWidget {
+  final MiniplayerModel model;
+
+  const NextWRoutineorkoutButton({Key? key, required this.model})
+      : super(key: key);
+
   void _skipRoutineWorkout(
-    BuildContext context,
-    ScopedReader watch, {
+    BuildContext context, {
     required List<RoutineWorkout?> routineWorkouts,
-    required MiniplayerIndexNotifier miniplayerIndex,
   }) {
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
-    final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final miniplayerNotifier =
-        watch(miniplayerProviderNotifierProvider.notifier);
+    final routineWorkout = model.currentRoutineWorkout!;
 
-    if (miniplayerIndex.currentIndex < miniplayerIndex.routineLength) {
+    if (model.currentIndex < model.setsLength) {
       final workoutSetLength = routineWorkout.sets!.length - 1;
-      miniplayerIndex.setCurrentIndex(miniplayerIndex.currentIndex -
-          miniplayerIndex.workoutSetIndex +
-          workoutSetLength +
-          1);
+      model.setCurrentIndex(
+          model.currentIndex - model.workoutSetIndex + workoutSetLength + 1);
     }
 
     // set workout index to 0
-    miniplayerIndex.setWorkoutSetIndex(0);
+    model.setWorkoutSetIndex(0);
 
     // increase RW Index by 1
-    miniplayerIndex.incrementRWIndex();
+    model.incrementRoutineWorkoutIndex();
 
     // set is Workout Paused to false
-    isWorkoutPaused.setBoolean(false);
+    model.setIsWorkoutPaused(false);
 
-    miniplayerNotifier.setRoutineWorkout(
-        routineWorkouts[miniplayerIndex.routineWorkoutIndex]);
+    model.setRoutineWorkout(routineWorkouts[model.routineWorkoutIndex]);
 
     // sets from new Routine Workout
-    final sets = context
-        .read(miniplayerProviderNotifierProvider)
-        .currentRoutineWorkout!
-        .sets!;
+    final sets = model.currentRoutineWorkout!.sets!;
 
     if (sets.isNotEmpty) {
-      miniplayerNotifier.setWorkoutSet(sets[0]);
+      model.setWorkoutSet(sets[0]);
 
-      final currentWorkoutSet =
-          context.read(miniplayerProviderNotifierProvider).currentWorkoutSet!;
+      final currentWorkoutSet = model.currentWorkoutSet!;
+
       if (currentWorkoutSet.isRest) {
-        context.read(restTimerDurationProvider).state = Duration(
+        model.setRestTime(Duration(
           seconds: currentWorkoutSet.restTime ?? 90,
-        );
+        ));
       } else {
-        context.read(restTimerDurationProvider).state = Duration();
+        model.setRestTime(null);
       }
     } else {
-      miniplayerNotifier.setWorkoutSet(null);
-      context.read(restTimerDurationProvider).state = Duration();
+      model.setWorkoutSet(null);
+      model.setRestTime(null);
     }
-
-    // debugPrint('current Index is ${miniplayerIndex.currentIndex}');
-    // debugPrint(
-    //     'routineWorkout Index is ${miniplayerIndex.routineWorkoutIndex}');
-    // debugPrint('Workout Set Index is ${miniplayerIndex.workoutSetIndex}');
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final miniplayerProvider = watch(miniplayerProviderNotifierProvider);
-    final routineWorkouts = miniplayerProvider.selectedRoutineWorkouts!;
-    // final routineWorkout = miniplayerProvider.currentRoutineWorkout!;
-    // final isWorkoutPaused = watch(isWorkoutPausedProvider);
-    final miniplayerIndex = watch(miniplayerIndexProvider);
-    // final miniplayerNotifier =
-    //     watch(miniplayerProviderNotifierProvider.notifier);
+  Widget build(BuildContext context) {
+    final routineWorkouts = model.selectedRoutineWorkouts!;
     final isLastRoutineWorkout =
-        miniplayerIndex.routineWorkoutIndex == routineWorkouts.length - 1;
+        model.routineWorkoutIndex == routineWorkouts.length - 1;
 
     return Tooltip(
       verticalOffset: -56,
@@ -90,12 +71,8 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
         onPressed: (isLastRoutineWorkout)
             ? null
             : () => _skipRoutineWorkout(
-                  context, watch,
+                  context,
                   routineWorkouts: routineWorkouts,
-                  // routineWorkout: routineWorkout,
-                  // isWorkoutPaused: isWorkoutPaused,
-                  miniplayerIndex: miniplayerIndex,
-                  // miniplayerNotifier: miniplayerNotifier,
                 ),
       ),
     );

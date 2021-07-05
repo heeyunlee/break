@@ -20,21 +20,18 @@ class DailyWeightsWidget extends StatelessWidget {
   final AuthBase auth;
   final User user;
   final ProgressTabModel model;
-  final BoxConstraints constraints;
 
   const DailyWeightsWidget({
     required this.database,
     required this.auth,
     required this.user,
     required this.model,
-    required this.constraints,
   });
 
   static Widget create(
     BuildContext context, {
     required User user,
     required ProgressTabModel model,
-    required BoxConstraints constraints,
   }) {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final database = provider.Provider.of<Database>(context, listen: false);
@@ -44,7 +41,6 @@ class DailyWeightsWidget extends StatelessWidget {
       auth: auth,
       user: user,
       model: model,
-      constraints: constraints,
     );
   }
 
@@ -56,8 +52,6 @@ class DailyWeightsWidget extends StatelessWidget {
       stream: database.routineHistorySelectedDayStream(model.selectedDate),
       loadingWidget: Container(),
       hasDataWidget: (context, data) {
-        // print('constraints are ${constraints.maxWidth}');
-
         int _totalWeights = 0;
         double _weightsProgress = 0;
         String _mainMuscleGroup = '-';

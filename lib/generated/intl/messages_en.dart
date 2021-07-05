@@ -292,6 +292,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Nothing here..."),
         "emptyEmailValidationText":
             MessageLookupByLibrary.simpleMessage("Please enter email"),
+        "emptyFirstNameText":
+            MessageLookupByLibrary.simpleMessage("Please enter the first name"),
+        "emptyLastNameText":
+            MessageLookupByLibrary.simpleMessage("Please enter the last name"),
         "emptyPasswordValidationText":
             MessageLookupByLibrary.simpleMessage("Please enter a password"),
         "emptyRoutineAlertTitle":

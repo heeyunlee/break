@@ -23,10 +23,10 @@ import 'user_feedback_screen.dart';
 
 class SettingsTab extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('Settings Tab scaffold building...');
 
-    final model = watch(settingsTabModelProvider);
+    final model = ref.watch(settingsTabModelProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,

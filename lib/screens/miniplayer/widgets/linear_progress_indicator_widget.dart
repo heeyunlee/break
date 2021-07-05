@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 
 import '../../../styles/constants.dart';
 
-class LinearProgressIndicatorWidget extends ConsumerWidget {
+class LinearProgressIndicatorWidget extends StatelessWidget {
   final double width;
   final double? radius;
+  final MiniplayerModel model;
 
   const LinearProgressIndicatorWidget({
     required this.width,
     this.radius = 2,
+    required this.model,
   });
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final miniplayerIndex = watch(miniplayerIndexProvider);
-
-    final progress =
-        miniplayerIndex.currentIndex / miniplayerIndex.routineLength;
+  Widget build(BuildContext context) {
+    final progress = model.currentIndex / model.setsLength;
 
     return Stack(
       children: [

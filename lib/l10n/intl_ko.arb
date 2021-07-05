@@ -379,5 +379,7 @@
     "previewWidgetThirdTitle": "목표를 이루세요",
     "previewWidgetThirdSubtitle": "주간 목표 등 다양한 데이터를 확인하세요",
     "savedWorkoutSnackBarTitle": "운동 저장",
-    "savedWorkoutSnackBarSubtitle": "운동을 저장했습니다"
+    "savedWorkoutSnackBarSubtitle": "운동을 저장했습니다",
+    "emptyFirstNameText": "이름을 입력해 주세요",
+    "emptyLastNameText": "성을 입력해 주세요"
 }

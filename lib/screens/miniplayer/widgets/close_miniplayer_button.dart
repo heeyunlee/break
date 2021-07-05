@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 
 class CloseMiniplayerButton extends StatelessWidget {
+  final MiniplayerModel model;
+
+  const CloseMiniplayerButton({Key? key, required this.model})
+      : super(key: key);
+
   Future<bool?> _closeModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
@@ -19,11 +23,10 @@ class CloseMiniplayerButton extends StatelessWidget {
       firstActionOnPressed: () {
         Navigator.of(context).pop();
 
-        context
-            .read(miniplayerProviderNotifierProvider.notifier)
-            .makeValuesNull();
-        context.read(miniplayerIndexProvider).setEveryIndexToDefault(1);
-        context.read(restTimerDurationProvider).state = null;
+        model.setMiniplayerValuesNull();
+
+        model.setIndexesToDefault();
+        model.setRestTime(null);
 
         getSnackbarWidget(
           S.current.cancelWorkoutSnackbarTitle,

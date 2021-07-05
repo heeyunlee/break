@@ -32,10 +32,10 @@ class SetProteinGoalScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: isRoot,
         builder: (context) => Consumer(
-          builder: (context, watch, child) => SetProteinGoalScreen(
+          builder: (context, ref, child) => SetProteinGoalScreen(
             database: database,
             auth: auth,
-            model: watch(personalGoalsScreenModelProvider),
+            model: ref.watch(personalGoalsScreenModelProvider),
             isRoot: isRoot,
           ),
         ),

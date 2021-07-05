@@ -6,14 +6,14 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/home/library_tab/routine/log_routine/log_routine_screen.dart';
-import 'package:workout_player/screens/miniplayer/workout_miniplayer_provider.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-class LogStartRoutineButtonWidget extends StatelessWidget {
+class LogStartRoutineButtonWidget extends ConsumerWidget {
   final Database database;
   final User user;
   final Routine routine;
@@ -27,30 +27,47 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
     required this.asyncValue,
   }) : super(key: key);
 
-  void _startRoutine(BuildContext context) {
+  void _startRoutine(
+    BuildContext context,
+    WidgetRef ref,
+    MiniplayerModel model,
+  ) {
     asyncValue.when(
       loading: () => Center(child: CircularProgressIndicator()),
       error: (e, _) => _showAlertDialogs(context),
       data: (items) {
         if (items.isNotEmpty) {
           if (items[0]!.sets!.isNotEmpty) {
-            context.read(miniplayerProviderNotifierProvider.notifier).initiate(
-                  routine: routine,
-                  routineWorkouts: items,
-                  routineWorkout: items[0],
-                  workoutSet: items[0]!.sets![0],
-                );
+            model.setMiniplayerValues(
+              routine: routine,
+              routineWorkouts: items,
+              routineWorkout: items[0],
+              workoutSet: items[0]!.sets![0],
+            );
+            // ref.read(miniplayerProviderNotifierProvider.notifier).initiate(
+            //       routine: routine,
+            //       routineWorkouts: items,
+            //       routineWorkout: items[0],
+            //       workoutSet: items[0]!.sets![0],
+            //     );
           } else {
-            context.read(miniplayerProviderNotifierProvider.notifier).initiate(
-                  routine: routine,
-                  routineWorkouts: items,
-                  routineWorkout: items[0],
-                  workoutSet: null,
-                );
+            model.setMiniplayerValues(
+              routine: routine,
+              routineWorkouts: items,
+              routineWorkout: items[0],
+              workoutSet: null,
+            );
+            // ref.read(miniplayerProviderNotifierProvider.notifier).initiate(
+            //       routine: routine,
+            //       routineWorkouts: items,
+            //       routineWorkout: items[0],
+            //       workoutSet: null,
+            //     );
           }
 
           // setting isWorkoutPaused to false
-          context.read(isWorkoutPausedProvider).setBoolean(false);
+          // ref.read(isWorkoutPausedProvider).setBoolean(false);
+          model.setIsWorkoutPaused(false);
 
           // Setting Routine Length
           int routineLength = 0;
@@ -67,17 +84,20 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
           }
 
           // Setting indexes
-          context
-              .read(miniplayerIndexProvider)
-              .setEveryIndexToDefault(routineLength);
+          // ref
+          //     .read(miniplayerIndexProvider)
+          //     .setEveryIndexToDefault(routineLength);
+          model.setIndexesToDefault();
 
-          context.read(miniplayerIndexProvider).setRoutineLength(routineLength);
+          // ref.read(miniplayerIndexProvider).setRoutineLength(routineLength);
+          model.setSetsLength(routineLength);
 
           // Expanding miniplayer
-          context
-              .read(miniplayerControllerProvider)
-              .state
-              .animateToHeight(state: PanelState.MAX);
+          // ref
+          //     .read(miniplayerControllerProvider)
+          //     .state
+          //     .animateToHeight(state: PanelState.MAX);
+          model.miniplayerController.animateToHeight(state: PanelState.MAX);
         } else {
           showAlertDialog(
             context,
@@ -91,7 +111,9 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(miniplayerModelProvider);
+
     final size = MediaQuery.of(context).size;
 
     return Row(
@@ -120,7 +142,7 @@ class LogStartRoutineButtonWidget extends StatelessWidget {
         ),
         const SizedBox(width: 16),
         ElevatedButton(
-          onPressed: () => _startRoutine(context),
+          onPressed: () => _startRoutine(context, ref, model),
           style: ElevatedButton.styleFrom(
             minimumSize: Size((size.width - 48) / 2, 48),
             primary: kPrimaryColor,
