@@ -1,7 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
-import '../../../styles/constants.dart';
 import '../miniplayer_model.dart';
 
 class RestTimerWidget extends StatelessWidget {
@@ -76,7 +76,7 @@ class RestTimerWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: CircularCountDownTimer(
-              textStyle: kHeadline2,
+              textStyle: TextStyles.headline2,
               controller: model.countDownController,
               width: 280,
               height: 280,

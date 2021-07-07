@@ -275,7 +275,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(S.current.mainMuscleGroup, style: kCaption1Grey),
+                          Text(
+                            S.current.mainMuscleGroup,
+                            style: TextStyles.caption1_grey,
+                          ),
                           const SizedBox(height: 8),
                           Text(
                             mainMuscleGroup,
@@ -299,7 +302,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                         children: <Widget>[
                           Text(
                             S.current.equipmentRequired,
-                            style: kCaption1Grey,
+                            style: TextStyles.caption1_grey,
                           ),
                           const SizedBox(height: 8),
                           Text(equipmentRequired, style: TextStyles.subtitle2),
@@ -319,7 +322,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(S.current.difficulty, style: kCaption1Grey),
+                          Text(
+                            S.current.difficulty,
+                            style: TextStyles.caption1,
+                          ),
                           const SizedBox(height: 8),
                           Text(difficulty, style: TextStyles.subtitle2),
                         ],

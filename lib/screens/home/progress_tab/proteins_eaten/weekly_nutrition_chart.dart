@@ -271,7 +271,7 @@ class _WeeklyNutritionChartState extends State<WeeklyNutritionChart> {
                         showTitles: true,
                         margin: 24,
                         reservedSize: 24,
-                        getTextStyles: (value) => kCaption1Grey,
+                        getTextStyles: (_) => TextStyles.caption1_grey,
                         getTitles: (double value) {
                           final toOriginalNumber =
                               (value / 10 * widget.model.nutritionMaxY).round();

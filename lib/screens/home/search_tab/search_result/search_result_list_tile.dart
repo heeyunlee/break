@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class SearchResultListTile extends StatelessWidget {
@@ -39,7 +38,11 @@ class SearchResultListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (title != null) Text(title!, style: TextStyles.body2),
-                if (subtitle != null) Text(subtitle!, style: kCaption1Grey),
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: TextStyles.caption1_grey,
+                  ),
               ],
             ),
           ],

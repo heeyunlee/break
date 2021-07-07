@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
 
@@ -65,7 +66,7 @@ class CustomListTile3 extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: kCaption1Grey,
+                        style: TextStyles.caption1_grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -74,7 +75,7 @@ class CustomListTile3 extends StatelessWidget {
                       if (kSubtitle2 != null)
                         Text(
                           kSubtitle2 ?? 'Subtitle 2',
-                          style: kCaption1Grey,
+                          style: TextStyles.caption1_grey,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
@@ -132,7 +133,11 @@ class CustomListTile3 extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isLeadingDuration) const Text('min', style: kHeadline6),
+                if (isLeadingDuration)
+                  const Text(
+                    'min',
+                    style: TextStyles.headline6,
+                  ),
               ],
             ),
           ),

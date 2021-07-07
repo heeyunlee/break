@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 
 import '../../widgets/appbar_blur_bg.dart';
 import '../../widgets/choice_chips_app_bar_widget.dart';
@@ -31,8 +33,8 @@ class StartWorkoutShortcutScreen extends StatefulWidget {
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
     // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
@@ -148,12 +150,17 @@ class _StartWorkoutShortcutScreenState
                   Navigator.of(context).pop();
                   tabNavigatorKeys[currentTab]!.currentState!.push(
                         CupertinoPageRoute(
-                          builder: (context) => RoutineDetailScreen(
-                            database: widget.database,
-                            routine: routine,
-                            tag: 'startShortcut-${routine.routineId}',
-                            auth: widget.auth,
-                            user: widget.user,
+                          builder: (context) => Consumer(
+                            builder: (context, ref, child) =>
+                                RoutineDetailScreen(
+                              // database: widget.database,
+                              routine: routine,
+                              // auth: widget.auth,
+                              tag: 'startWorkoutShortcut${routine.routineId}',
+                              user: widget.user,
+                              model:
+                                  ref.watch(routineDetailScreenModelProvider),
+                            ),
                           ),
                         ),
                       );

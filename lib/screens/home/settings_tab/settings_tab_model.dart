@@ -84,7 +84,7 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.1',
+      applicationVersion: 'v.0.3.2',
       applicationIcon: Container(
         decoration: BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/icon.png', width: 36, height: 36),

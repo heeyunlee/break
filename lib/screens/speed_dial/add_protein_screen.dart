@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -108,7 +109,8 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       // debugPrint('submit Button Pressed!');
       try {
         // Create new Nutrition Data
-        final id = 'NUT${documentIdFromCurrentDate()}';
+        // final id = 'NUT${documentIdFromCurrentDate()}';
+        final id = 'NUT${Uuid().v1()}';
 
         final nutrition = Nutrition(
           nutritionId: id,
@@ -297,7 +299,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         maxValue: 100,
                         itemHeight: 36,
                         textStyle: kBodyText1,
-                        selectedTextStyle: kHeadline5w900Primary,
+                        selectedTextStyle: TextStyles.headline5_w900_primary,
                         value: _intValue,
                         onChanged: (value) => setState(
                           () {
@@ -307,13 +309,13 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                           },
                         ),
                       ),
-                      const Text('.', style: kHeadline5w900Primary),
+                      const Text('.', style: TextStyles.headline5_w900_primary),
                       NumberPicker(
                         minValue: 0,
                         maxValue: 9,
                         itemHeight: 36,
                         textStyle: kBodyText1,
-                        selectedTextStyle: kHeadline5w900Primary,
+                        selectedTextStyle: TextStyles.headline5_w900_primary,
                         value: _decimalValue,
                         onChanged: (value) => setState(
                           () {

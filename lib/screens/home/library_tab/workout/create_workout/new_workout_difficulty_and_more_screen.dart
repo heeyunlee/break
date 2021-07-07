@@ -192,7 +192,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     S.current.secondsPerRepHelperText,
-                    style: kCaption1Grey,
+                    style: TextStyles.caption1_grey,
                   ),
                 ),
                 const SizedBox(height: 36),

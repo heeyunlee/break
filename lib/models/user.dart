@@ -12,12 +12,11 @@ class User {
   final int totalNumberOfWorkouts;
   final int unitOfMass;
   final Timestamp lastLoginDate;
-  final List<DailyWorkoutHistory>? dailyWorkoutHistories; // Nullable
-  final List<DailyNutritionHistory>? dailyNutritionHistories; // Nullable
   final num? dailyWeightsGoal; // Nullable
   final num? dailyProteinGoal; // Nullable
   final String displayName;
   final int? backgroundImageIndex; // Nullable
+  final DateTime? lastHealthDataFetchedTime;
 
   const User({
     required this.userId,
@@ -31,12 +30,11 @@ class User {
     required this.totalNumberOfWorkouts,
     required this.unitOfMass,
     required this.lastLoginDate,
-    this.dailyWorkoutHistories,
-    this.dailyNutritionHistories,
     this.dailyWeightsGoal,
     this.dailyProteinGoal,
     required this.displayName,
     this.backgroundImageIndex,
+    this.lastHealthDataFetchedTime,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -51,26 +49,12 @@ class User {
       final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
       final int unitOfMass = data['unitOfMass'];
       final Timestamp lastLoginDate = data['lastLoginDate'];
-      List<DailyWorkoutHistory>? dailyWorkoutHistories =
-          <DailyWorkoutHistory>[];
-      List<DailyNutritionHistory>? dailyNutritionHistories =
-          <DailyNutritionHistory>[];
-
-      if (data['dailyWorkoutHistories'] != null) {
-        data['dailyWorkoutHistories'].forEach((item) {
-          dailyWorkoutHistories.add(DailyWorkoutHistory.fromMap(item));
-        });
-      }
-
-      if (data['dailyNutritionHistories'] != null) {
-        data['dailyNutritionHistories'].forEach((item) {
-          dailyNutritionHistories.add(DailyNutritionHistory.fromMap(item));
-        });
-      }
       final num? dailyWeightsGoal = data['dailyWeightsGoal'];
       final num? dailyProteinGoal = data['dailyProteinGoal'];
       final String displayName = data['displayName'];
       final int? backgroundImageIndex = data['backgroundImageIndex'];
+      final DateTime? lastHealthDataFetchedTime =
+          data['lastHealthDataFetchedTime'];
 
       return User(
         userId: documentId,
@@ -84,12 +68,11 @@ class User {
         totalNumberOfWorkouts: totalNumberOfWorkouts,
         unitOfMass: unitOfMass,
         lastLoginDate: lastLoginDate,
-        dailyWorkoutHistories: dailyWorkoutHistories,
-        dailyNutritionHistories: dailyNutritionHistories,
         dailyWeightsGoal: dailyWeightsGoal,
         dailyProteinGoal: dailyProteinGoal,
         displayName: displayName,
         backgroundImageIndex: backgroundImageIndex,
+        lastHealthDataFetchedTime: lastHealthDataFetchedTime,
       );
     } else {
       throw 'null';
@@ -108,79 +91,12 @@ class User {
     data['totalNumberOfWorkouts'] = totalNumberOfWorkouts;
     data['unitOfMass'] = unitOfMass;
     data['lastLoginDate'] = lastLoginDate;
-    if (dailyWorkoutHistories != null) {
-      data['dailyWorkoutHistories'] =
-          dailyWorkoutHistories!.map((e) => e.toMap()).toList();
-    }
-    if (dailyNutritionHistories != null) {
-      data['dailyNutritionHistories'] =
-          dailyNutritionHistories!.map((e) => e.toMap()).toList();
-    }
     data['dailyWeightsGoal'] = dailyWeightsGoal;
     data['dailyProteinGoal'] = dailyProteinGoal;
     data['displayName'] = displayName;
     data['backgroundImageIndex'] = backgroundImageIndex;
+    data['lastHealthDataFetchedTime'] = lastHealthDataFetchedTime;
 
     return data;
-  }
-}
-
-class DailyWorkoutHistory {
-  DailyWorkoutHistory({
-    required this.date,
-    required this.totalWeights,
-  });
-
-  final DateTime date;
-  final num totalWeights;
-
-  factory DailyWorkoutHistory.fromMap(Map<String, dynamic> data) {
-    // if (data == null) {
-    //   return null;
-    // }
-    final DateTime date = data['date'].toDate();
-    final num totalWeights = data['totalWeights'].toDouble();
-
-    return DailyWorkoutHistory(
-      date: date,
-      totalWeights: totalWeights,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'date': date,
-      'totalWeights': totalWeights,
-    };
-  }
-}
-
-class DailyNutritionHistory {
-  DailyNutritionHistory({
-    required this.date,
-    required this.totalProteins,
-  });
-
-  final DateTime date;
-  final double totalProteins;
-
-  factory DailyNutritionHistory.fromMap(Map<String, dynamic> data) {
-    // if (data == null) {
-    //   return null;
-    // }
-    final DateTime date = data['date'].toDate();
-    final double totalProteins = data['totalProteins'].toDouble();
-
-    return DailyNutritionHistory(
-      date: date,
-      totalProteins: totalProteins,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'date': date,
-      'totalProteins': totalProteins,
-    };
   }
 }

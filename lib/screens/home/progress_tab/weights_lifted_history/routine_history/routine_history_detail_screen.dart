@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -329,7 +329,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     Text(
                       widget.routineHistory.routineTitle,
                       maxLines: 1,
-                      style: kHeadline4Bold,
+                      style: TextStyles.headline4_bold,
                       softWrap: false,
                       overflow: TextOverflow.fade,
                     ),

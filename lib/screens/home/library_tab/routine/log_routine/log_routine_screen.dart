@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/miniplayer/routine_history_summary_screen.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -131,7 +132,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       ref.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
       /// For Routine History
-      final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
+      // final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
+      final routineHistoryId = 'RH${Uuid().v1()}';
       final _workoutStartTime = _workoutEndTime.subtract(
         Duration(minutes: _durationInMinutes),
       );
@@ -171,12 +173,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       List<WorkoutHistory> workoutHistories = [];
       routineWorkouts.forEach(
         (rw) {
-          final workoutHistoryId = documentIdFromCurrentDate();
-          final uniqueId = UniqueKey().toString();
-          // print('unique id is $uniqueId');
+          // final workoutHistoryId = documentIdFromCurrentDate();
+          final routineHistoryId = 'WH${Uuid().v1()}';
+
+          // final uniqueId = UniqueKey().toString();
 
           final workoutHistory = WorkoutHistory(
-            workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
+            workoutHistoryId: routineHistoryId,
             routineHistoryId: routineHistoryId,
             workoutId: rw!.workoutId,
             routineId: rw.routineId,
@@ -359,7 +362,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                           color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.startTime, style: kCaption1),
+                            child: Text(
+                              S.current.startTime,
+                              style: TextStyles.caption1,
+                            ),
                           ),
                         ),
                       ),
@@ -528,7 +534,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                           color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.effort, style: kCaption1),
+                            child: Text(
+                              S.current.effort,
+                              style: TextStyles.caption1,
+                            ),
                           ),
                         ),
                       ),

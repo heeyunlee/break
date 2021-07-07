@@ -12,7 +12,7 @@ import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_b
 import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.dart';
 import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';

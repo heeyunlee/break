@@ -359,7 +359,7 @@ class FirestoreDatabase implements Database {
   Stream<List<Measurement>> measurementsStream() =>
       _service.collectionStream<Measurement>(
         order: 'loggedTime',
-        descending: true,
+        descending: false,
         path: APIPath.measurements(uid!),
         fromBuilder: (data, id) => Measurement.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
@@ -473,7 +473,7 @@ class FirestoreDatabase implements Database {
   // Nutrition Query for specfic User
   @override
   Query<Nutrition> nutritionsPaginatedUserQuery() =>
-      _service.whereAndOrderByQuert<Nutrition>(
+      _service.whereAndOrderByQuery<Nutrition>(
         path: APIPath.nutritions(),
         where: 'userId',
         isEqualTo: uid!,
@@ -587,7 +587,7 @@ class FirestoreDatabase implements Database {
   // Paginated Workouts Query for specific user
   @override
   Query<Workout> workoutsPaginatedUserQuery() =>
-      _service.whereAndOrderByQuert<Workout>(
+      _service.whereAndOrderByQuery<Workout>(
         path: APIPath.workouts(),
         where: 'workoutOwnerId',
         isEqualTo: uid!,
@@ -809,7 +809,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Query<Routine> routinesPaginatedUserQuery() =>
-      _service.whereAndOrderByQuert<Routine>(
+      _service.whereAndOrderByQuery<Routine>(
         path: APIPath.routines(),
         orderBy: 'routineTitle',
         descending: false,
@@ -978,7 +978,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Query<RoutineHistory> routineHistoriesPaginatedUserQuery() =>
-      _service.whereAndOrderByQuert<RoutineHistory>(
+      _service.whereAndOrderByQuery<RoutineHistory>(
         path: APIPath.routineHistories(),
         orderBy: 'workoutEndTime',
         descending: true,

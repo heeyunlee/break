@@ -5,13 +5,15 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - cloud_firestore (2.2.2):
+  - cloud_firestore (2.3.0):
     - Firebase/Firestore (= 8.0.0)
     - firebase_core
     - Flutter
   - cloud_functions (1.1.2):
     - Firebase/Functions (= 8.0.0)
     - firebase_core
+    - Flutter
+  - device_info (0.0.1):
     - Flutter
   - FBSDKCoreKit (11.0.0):
     - FBSDKCoreKit/Core (= 11.0.0)
@@ -58,7 +60,7 @@ PODS:
   - firebase_core (1.3.0):
     - Firebase/CoreOnly (= 8.0.0)
     - Flutter
-  - firebase_crashlytics (2.0.6):
+  - firebase_crashlytics (2.0.7):
     - Firebase/Crashlytics (= 8.0.0)
     - firebase_core
     - Flutter
@@ -187,9 +189,11 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
+  - health (1.0.1):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
-  - kakao_flutter_sdk (0.6.3):
+  - kakao_flutter_sdk (0.6.4):
     - Flutter
   - KakaoSDKAuth (2.5.3):
     - KakaoSDKCommon (= 2.5.3)
@@ -217,6 +221,8 @@ PODS:
     - Flutter
   - path_provider (0.0.1):
     - Flutter
+  - "permission_handler (5.1.0+2)":
+    - Flutter
   - PromisesObjC (1.2.12)
   - shared_preferences (0.0.1):
     - Flutter
@@ -231,6 +237,7 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - FBSDKCoreKit
   - FBSDKLoginKit
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -242,6 +249,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - health (from `.symlinks/plugins/health/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - kakao_flutter_sdk (from `.symlinks/plugins/kakao_flutter_sdk/ios`)
   - KakaoSDKAuth
@@ -249,6 +257,7 @@ DEPENDENCIES:
   - mixpanel_flutter (from `.symlinks/plugins/mixpanel_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -289,6 +298,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -308,6 +319,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  health:
+    :path: ".symlinks/plugins/health/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   kakao_flutter_sdk:
@@ -318,6 +331,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sign_in_with_apple:
@@ -335,8 +350,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  cloud_firestore: 83d6cd19d24798c523265494ab81db32009fcb7b
+  cloud_firestore: 0e708a57ee3e13a56cf6a6fdaf085d5edb1e7e0f
   cloud_functions: 76c1a4e38a1b11e657a10d2edbcc214869e52003
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   FBSDKCoreKit: 3e6f565de8b4fbe11f8ee5d499f5898b0bde2cdd
   FBSDKCoreKit_Basics: 9cf699662174870962deb39f07a5d70d4594c4b7
   FBSDKLoginKit: 0ba3e15e9bdbeb46716d0fa375e6b71c39d4c477
@@ -344,7 +360,7 @@ SPEC CHECKSUMS:
   firebase_analytics: 5e1820ff8ca6cc984fd4d1dedd2dd45965b91535
   firebase_auth: 6532658f5a4f76be32cd5e7518753ebedd4544d2
   firebase_core: cda81ae37eda6df2bc2d16027fda527987c4bd33
-  firebase_crashlytics: 1dad18971e1bac07bbd560c7a344df391a3a833c
+  firebase_crashlytics: 19eca4f6f262e11e3f6306d16cbb3f643b828ce1
   firebase_storage: 1c82ef47319a51b82b216475b91a102bca2e66d0
   FirebaseAnalytics: dcb92c7c9ef4fa7ffac276e8f87bd4fc8c97f1b8
   FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1
@@ -365,8 +381,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  health: 44840ad4328aa5586e77bef289898bfed644a81c
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
-  kakao_flutter_sdk: ef3deb25e3ec2fd5a236847fdb1904016b3db2a3
+  kakao_flutter_sdk: 90f18c09513cfaaa6af63214617ceb696878fc09
   KakaoSDKAuth: b1a0b9a84c21c967c4139d221edce83a7f15cdfe
   KakaoSDKCommon: 08548932f6f570215ea038241a98157c0b3f7a8b
   KakaoSDKUser: 5d2de71fe070455bbaaad6a37af3eb500fbc8972
@@ -375,6 +392,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sign_in_with_apple: 34f3f5456a45fd7ac5fb42905e2ad31dae061b4a

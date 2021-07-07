@@ -37,62 +37,62 @@ const kFocusedColor = Color(0xff605350);
 const kBottomNavBarColor = Color(0xff1C1C1C);
 
 // TEXT STYLE //
-const kHeadline1 = TextStyle(
-  fontSize: 96,
-  fontWeight: FontWeight.w300,
-  color: Colors.white,
-  letterSpacing: -1.5,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline2 = TextStyle(
-  fontSize: 60,
-  fontWeight: FontWeight.w300,
-  color: Colors.white,
-  letterSpacing: -0.5,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline3 = TextStyle(
-  fontSize: 48,
-  fontWeight: FontWeight.w400,
-  color: Colors.white,
-  letterSpacing: 0,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline3Menlo = TextStyle(
-  fontSize: 48,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-  letterSpacing: 0,
-  fontFamily: 'menlo',
-);
-const kHeadline4Bold = TextStyle(
-  fontSize: 34,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-  letterSpacing: 0.25,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline5Bold = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-  letterSpacing: 0,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline5w900Primary = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.w900,
-  color: kPrimaryColor,
-  letterSpacing: 0,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline6 = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w500,
-  color: Colors.white,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
+// const kHeadline1 = TextStyle(
+//   fontSize: 96,
+//   fontWeight: FontWeight.w300,
+//   color: Colors.white,
+//   letterSpacing: -1.5,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline2 = TextStyle(
+//   fontSize: 60,
+//   fontWeight: FontWeight.w300,
+//   color: Colors.white,
+//   letterSpacing: -0.5,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline3 = TextStyle(
+//   fontSize: 48,
+//   fontWeight: FontWeight.w400,
+//   color: Colors.white,
+//   letterSpacing: 0,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline3Menlo = TextStyle(
+//   fontSize: 48,
+//   fontWeight: FontWeight.bold,
+//   color: Colors.white,
+//   letterSpacing: 0,
+//   fontFamily: 'menlo',
+// );
+// const kHeadline4Bold = TextStyle(
+//   fontSize: 34,
+//   fontWeight: FontWeight.bold,
+//   color: Colors.white,
+//   letterSpacing: 0.25,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline5Bold = TextStyle(
+//   fontSize: 24,
+//   fontWeight: FontWeight.bold,
+//   color: Colors.white,
+//   letterSpacing: 0,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline5w900Primary = TextStyle(
+//   fontSize: 24,
+//   fontWeight: FontWeight.w900,
+//   color: kPrimaryColor,
+//   letterSpacing: 0,
+//   fontFamily: 'NanumSquareRound',
+// );
+// const kHeadline6 = TextStyle(
+//   fontSize: 20,
+//   fontWeight: FontWeight.w500,
+//   color: Colors.white,
+//   letterSpacing: 0.15,
+//   fontFamily: 'NanumSquareRound',
+// );
 const kHeadline6Grey = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
@@ -410,13 +410,13 @@ const kButtonText2 = TextStyle(
   letterSpacing: 1.5,
   fontFamily: 'NanumSquareRound',
 );
-const kCaption1 = TextStyle(
-  fontSize: 12,
-  fontWeight: FontWeight.w400,
-  color: Colors.white,
-  letterSpacing: 0.4,
-  fontFamily: 'NanumSquareRound',
-);
+// const kCaption1 = TextStyle(
+//   fontSize: 12,
+//   fontWeight: FontWeight.w400,
+//   color: Colors.white,
+//   letterSpacing: 0.4,
+//   fontFamily: 'NanumSquareRound',
+// );
 const kCaption1Primary = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
@@ -424,13 +424,13 @@ const kCaption1Primary = TextStyle(
   letterSpacing: 0.4,
   fontFamily: 'NanumSquareRound',
 );
-const kCaption1Grey = TextStyle(
-  fontSize: 12,
-  fontWeight: FontWeight.w400,
-  color: Colors.grey,
-  letterSpacing: 0.4,
-  fontFamily: 'NanumSquareRound',
-);
+// const kCaption1Grey = TextStyle(
+//   fontSize: 12,
+//   fontWeight: FontWeight.w400,
+//   color: Colors.grey,
+//   letterSpacing: 0.4,
+//   fontFamily: 'NanumSquareRound',
+// );
 // const kOverlinePrimary = TextStyle(
 //   fontSize: 10,
 //   fontWeight: FontWeight.normal,

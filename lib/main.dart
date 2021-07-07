@@ -24,8 +24,8 @@ Future<void> main() async {
   await MixpanelManager.init();
   AlgoliaManager.init();
   KakaoContext.clientId = PrivateKeys.kakaoClientId;
-
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   runApp(ProviderScope(child: MyApp()));
 }
 

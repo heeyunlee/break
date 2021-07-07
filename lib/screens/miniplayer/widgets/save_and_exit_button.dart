@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -32,7 +33,8 @@ class SaveAndExitButton extends StatelessWidget {
       /// For Routine History
       final userData = (await user)!;
       final _workoutStartTime = Timestamp.now();
-      final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
+      // final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
+      final routineHistoryId = 'RH${Uuid().v1()}';
       final workoutEndTime = Timestamp.now();
       final workoutStartDate = _workoutStartTime.toDate();
       final workoutEndDate = workoutEndTime.toDate();
@@ -83,11 +85,12 @@ class SaveAndExitButton extends StatelessWidget {
       List<WorkoutHistory> workoutHistories = [];
       routineWorkouts.forEach(
         (rw) {
-          final workoutHistoryId = documentIdFromCurrentDate();
-          final uniqueId = UniqueKey().toString();
+          final id = 'WH${Uuid().v1()}';
+          // final workoutHistoryId = documentIdFromCurrentDate();
+          // final uniqueId = UniqueKey().toString();
 
           final workoutHistory = WorkoutHistory(
-            workoutHistoryId: 'WH$workoutHistoryId$uniqueId',
+            workoutHistoryId: id,
             routineHistoryId: routineHistoryId,
             workoutId: rw!.workoutId,
             routineId: rw.routineId,

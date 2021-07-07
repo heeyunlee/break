@@ -275,7 +275,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
                   leftTitles: SideTitles(
                     showTitles: true,
                     margin: 28,
-                    getTextStyles: (valie) => kCaption1Grey,
+                    getTextStyles: (_) => TextStyles.caption1_grey,
                     getTitles: (double value) {
                       final toOriginalNumber =
                           (value / 10 * widget.model.weightsChartMaxY).round();

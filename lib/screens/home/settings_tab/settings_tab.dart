@@ -9,7 +9,7 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
@@ -240,7 +240,9 @@ class SettingsTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 48),
                 // TODO: CHANGE VERSION CODE HERE
-                Center(child: const Text('v.0.3.1', style: kCaption1Grey)),
+                Center(
+                  child: const Text('v.0.3.2', style: TextStyles.caption1_grey),
+                ),
                 const SizedBox(height: 120),
               ],
             ),

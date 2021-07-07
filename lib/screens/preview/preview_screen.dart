@@ -10,7 +10,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/preview/widgets/preview_widget.dart';
 import 'package:workout_player/screens/preview/preview_screen_provider.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 

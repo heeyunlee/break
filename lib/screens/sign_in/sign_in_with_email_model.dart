@@ -10,7 +10,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/sign_in/string_validator.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 
 final signInWithEmailModelProvider =

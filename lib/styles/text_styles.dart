@@ -5,9 +5,49 @@ class TextStyles {
   static const defaultFontFamily = 'NanumSquareRound';
   static const menlo = 'menlo';
 
+  static const headline1 = TextStyle(
+    fontSize: 96,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+    letterSpacing: -1.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline2 = TextStyle(
+    fontSize: 60,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+    letterSpacing: -0.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline3 = TextStyle(
+    fontSize: 48,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline3_menlo = TextStyle(
+    fontSize: 48,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
   static const headline4 = TextStyle(
     fontSize: 34,
     fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline4_bold = TextStyle(
+    fontSize: 34,
+    fontWeight: FontWeight.bold,
     color: Colors.white,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
@@ -21,10 +61,26 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline5_bold = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: defaultFontFamily,
+  );
+
   static const headline5_w900 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
     color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline5_w900_primary = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
+    color: kPrimaryColor,
     letterSpacing: 0,
     fontFamily: defaultFontFamily,
   );
@@ -126,6 +182,7 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  // BUTTON 1
   static const button1 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -163,6 +220,23 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: kPrimaryColor,
     letterSpacing: 1.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  // CAPTION
+  static const caption1 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0.4,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const caption1_grey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+    letterSpacing: 0.4,
     fontFamily: defaultFontFamily,
   );
 

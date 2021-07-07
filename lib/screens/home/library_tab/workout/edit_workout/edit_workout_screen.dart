@@ -15,7 +15,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -304,7 +304,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.publicWorkoutDescription, style: kCaption1Grey),
+          child: Text(
+            S.current.publicWorkoutDescription,
+            style: TextStyles.caption1_grey,
+          ),
         ),
       ],
     );
@@ -474,7 +477,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             S.current.secondsPerRepHelperText,
-            style: kCaption1Grey,
+            style: TextStyles.caption1,
           ),
         ),
       ],

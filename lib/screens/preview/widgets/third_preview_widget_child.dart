@@ -114,7 +114,7 @@ class ThirdPreviewWidgetChild extends StatelessWidget {
                           leftTitles: SideTitles(
                             showTitles: true,
                             margin: 28,
-                            getTextStyles: (valie) => kCaption1Grey,
+                            getTextStyles: (_) => TextStyles.caption1_grey,
                             getTitles: (double value) {
                               final formatted =
                                   NumberFormat.compact().format(value);

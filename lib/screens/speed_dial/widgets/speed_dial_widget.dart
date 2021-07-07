@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../add_measurement_screen.dart';
@@ -135,11 +135,16 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
           _toggleAnimation();
           AddMeasurementScreen.show(context);
         },
-        icon: const FaIcon(
-          FontAwesomeIcons.weight,
+        icon: const Icon(
+          Icons.monitor_weight_rounded,
           color: Colors.white,
           size: 20,
         ),
+        // icon: const FaIcon(
+        //   FontAwesomeIcons.weight,
+        //   color: Colors.white,
+        //   size: 20,
+        // ),
       ),
       SpeedDialChildren(
         label: S.current.workout,

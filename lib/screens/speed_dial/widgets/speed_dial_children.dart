@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class SpeedDialChildren extends StatelessWidget {
   final void Function() onPressed;
@@ -39,7 +40,7 @@ class SpeedDialChildren extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(label, style: kCaption1)
+          Text(label, style: TextStyles.caption1)
         ],
       ),
     );

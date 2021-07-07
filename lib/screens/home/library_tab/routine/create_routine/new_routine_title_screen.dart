@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -71,7 +71,7 @@ class _NewRoutineTitleScreenState extends State<NewRoutineTitleScreen> {
           textAlign: TextAlign.center,
           controller: _textController1,
           decoration: InputDecoration(
-            counterStyle: kCaption1,
+            counterStyle: TextStyles.caption1,
             hintStyle: kSearchBarHintStyle,
             hintText: S.current.routineTitleHintText,
             enabledBorder: const UnderlineInputBorder(

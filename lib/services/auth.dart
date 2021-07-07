@@ -7,7 +7,7 @@ import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import 'main_provider.dart';
+import '../main_provider.dart';
 
 final authServiceProvider2 = Provider<AuthService>(
   (ref) => AuthService(read: ref.read),

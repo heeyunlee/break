@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -137,10 +138,11 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        final id = documentIdFromCurrentDate();
+        // final id = documentIdFromCurrentDate();
+        final id = 'MS${Uuid().v1()}';
 
-        final bodyMeasurement = Measurement(
-          measurementId: 'BM$id',
+        final measurement = Measurement(
+          measurementId: id,
           userId: widget.user.userId,
           username: widget.user.userName,
           loggedTime: _loggedTime,
@@ -154,7 +156,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
 
         await widget.database.setMeasurement(
           // uid: widget.user.userId,
-          measurement: bodyMeasurement,
+          measurement: measurement,
         );
 
         Navigator.of(context).pop();
@@ -294,7 +296,10 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                           color: kBackgroundColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Text(S.current.time, style: kCaption1),
+                            child: Text(
+                              S.current.time,
+                              style: TextStyles.caption1,
+                            ),
                           ),
                         ),
                       ),

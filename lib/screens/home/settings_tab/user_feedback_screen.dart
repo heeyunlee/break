@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -62,11 +63,12 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
 
   Future<void> _submit() async {
     try {
-      final userFeedbackId = documentIdFromCurrentDate();
+      // final userFeedbackId = documentIdFromCurrentDate();
+      final id = 'UF${Uuid().v1()}';
       final createdDate = Timestamp.now();
 
       final userFeedback = UserFeedback(
-        userFeedbackId: 'UF$userFeedbackId',
+        userFeedbackId: id,
         userId: widget.user.userId,
         username: widget.user.userName,
         createdDate: createdDate,

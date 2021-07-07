@@ -5,7 +5,7 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
@@ -36,6 +36,13 @@ class RoutineWorkoutsTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: () {}, icon: Icon(Icons.reorder)),
+              ],
+            ),
             CustomStreamBuilderWidget<List<RoutineWorkout?>>(
               loadingWidget: RoutineWorkoutShimmer(),
               stream: database.routineWorkoutsStream(routine.routineId),

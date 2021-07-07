@@ -8,7 +8,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/screens/home/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/algolia_manager.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 
 import '../../../styles/constants.dart';

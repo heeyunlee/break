@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Herakles', style: kHeadline3Menlo),
+            const Text('Herakles', style: TextStyles.headline3_menlo),
             const SizedBox(height: 8),
             const Text(
               'wokrout. share. and gain.',

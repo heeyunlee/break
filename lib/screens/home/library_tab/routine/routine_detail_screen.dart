@@ -8,9 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
@@ -30,18 +31,20 @@ import 'widgets/subtitle_widget.dart';
 import 'widgets/title_widget.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
-  final Database database;
+  // final Database database;
   final Routine routine;
   final String tag;
-  final AuthBase auth;
+  // final AuthBase auth;
   final User user;
+  final RoutineDetailScreenModel model;
 
   RoutineDetailScreen({
-    required this.database,
+    // required this.database,
     required this.routine,
     required this.tag,
-    required this.auth,
+    // required this.auth,
     required this.user,
+    required this.model,
   });
 
   // For Navigation
@@ -59,12 +62,15 @@ class RoutineDetailScreen extends StatefulWidget {
     await Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
         fullscreenDialog: false,
-        builder: (context) => RoutineDetailScreen(
-          database: database,
-          routine: routine,
-          auth: auth,
-          tag: tag,
-          user: user,
+        builder: (context) => Consumer(
+          builder: (context, ref, child) => RoutineDetailScreen(
+            // database: database,
+            routine: routine,
+            // auth: auth,
+            tag: tag,
+            user: user,
+            model: ref.watch(routineDetailScreenModelProvider),
+          ),
         ),
       ),
     );
@@ -76,45 +82,18 @@ class RoutineDetailScreen extends StatefulWidget {
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     with SingleTickerProviderStateMixin {
-  //
-  // For SliverApp Animation
-  late AnimationController _textAnimationController;
-  late Animation<Offset> _transTween;
-  late Animation<double> _opacityTween;
-  late ScrollController _scrollController;
-
   @override
   void initState() {
     super.initState();
-
-    _textAnimationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 0),
-    );
-
-    _transTween = Tween(begin: Offset(0, 24), end: Offset(0, 0))
-        .animate(_textAnimationController);
-
-    _opacityTween =
-        Tween<double>(begin: 0, end: 1).animate(_textAnimationController);
-
-    _scrollController = ScrollController()
-      ..addListener(() {
-        // debugPrint('offset is ${_scrollController.offset}');
-
-        _textAnimationController
-            .animateTo((_scrollController.offset - 336) / 100);
-      });
+    widget.model.init(this);
   }
 
   @override
   void dispose() {
-    _textAnimationController.dispose();
-    _scrollController.dispose();
-
+    widget.model.textAnimationController.dispose();
+    widget.model.scrollController.dispose();
     super.dispose();
   }
-  // For SliverApp to Work
 
   @override
   Widget build(BuildContext context) {
@@ -133,14 +112,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
 
           return routineStream.when(
             loading: () => Center(child: CircularProgressIndicator()),
-            error: (e, stack) {
-              logger.e(e);
-              return EmptyContent();
-            },
+            error: (e, stack) => EmptyContent(e: e),
             data: (routine) => DefaultTabController(
               length: 2,
               child: NestedScrollView(
-                controller: _scrollController,
+                controller: widget.model.scrollController,
                 clipBehavior: Clip.antiAlias,
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
                   return [
@@ -150,14 +126,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 body: TabBarView(
                   children: [
                     RoutineWorkoutsTab(
-                      auth: widget.auth,
-                      database: widget.database,
+                      auth: widget.model.auth!,
+                      database: widget.model.database!,
                       routine: routine!,
                     ),
                     RoutineHistoryTab(
                       routine: routine,
-                      auth: widget.auth,
-                      database: widget.database,
+                      auth: widget.model.auth!,
+                      database: widget.model.database!,
                     ),
                   ],
                 ),
@@ -178,7 +154,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final Size size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
-      animation: _textAnimationController,
+      animation: widget.model.textAnimationController,
       builder: (context, child) {
         return SliverAppBar(
           leading: IconButton(
@@ -191,9 +167,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           centerTitle: true,
           brightness: Brightness.dark,
           title: Transform.translate(
-            offset: _transTween.value,
+            offset: widget.model.transTween.value,
             child: Opacity(
-              opacity: _opacityTween.value,
+              opacity: widget.model.opacityTween.value,
               child: child,
             ),
           ),
@@ -281,7 +257,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         const SizedBox(height: 24),
                         LogStartRoutineButtonWidget(
                           user: widget.user,
-                          database: widget.database,
+                          database: widget.model.database!,
                           routine: routine,
                           asyncValue: asyncValue,
                         ),
@@ -293,14 +269,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             ),
           ),
           actions: [
-            if (widget.auth.currentUser!.uid != routine.routineOwnerId)
+            if (widget.model.auth!.currentUser!.uid != routine.routineOwnerId)
               SaveButtonWidget(
                 user: widget.user,
-                database: widget.database,
-                auth: widget.auth,
+                database: widget.model.database!,
+                auth: widget.model.auth!,
                 routine: routine,
               ),
-            if (widget.auth.currentUser!.uid == routine.routineOwnerId)
+            if (widget.model.auth!.currentUser!.uid == routine.routineOwnerId)
               IconButton(
                 icon: const Icon(
                   Icons.edit_rounded,

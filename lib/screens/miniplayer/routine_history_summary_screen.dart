@@ -399,8 +399,6 @@ class _RoutineHistorySummaryScreenState
   }
 
   Widget _buildChips() {
-    final size = MediaQuery.of(context).size;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -414,9 +412,7 @@ class _RoutineHistorySummaryScreenState
           Text(
             _title,
             maxLines: 1,
-            style: kHeadline5Bold.copyWith(
-              fontSize: size.height * 0.03,
-            ),
+            style: TextStyles.headline5_bold,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

@@ -13,7 +13,6 @@ enum EquipmentRequired {
   kettlebell,
   machine,
   plate,
-
   other,
 }
 

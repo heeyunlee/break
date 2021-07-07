@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -11,9 +13,10 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/create_routine/create_new_routine_screen.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -41,8 +44,8 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
     BuildContext context, {
     required Workout workout,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await Navigator.of(context, rootNavigator: true).push(
@@ -82,8 +85,10 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
           await widget.database.routineWorkoutsStream(routine.routineId).first;
       final index = routineWorkouts.length + 1;
 
+      final id = 'RW${Uuid().v1()}';
+
       final routineWorkout = RoutineWorkout(
-        routineWorkoutId: documentIdFromCurrentDate(),
+        routineWorkoutId: id,
         workoutId: widget.workout.workoutId,
         routineId: routine.routineId,
         routineWorkoutOwnerId: widget.auth.currentUser!.uid,
@@ -104,12 +109,15 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       await tabNavigatorKeys[currentTab]!.currentState!.push(
             CupertinoPageRoute(
               fullscreenDialog: false,
-              builder: (context) => RoutineDetailScreen(
-                database: widget.database,
-                routine: routine,
-                auth: widget.auth,
-                tag: 'addWorkoutToRoutine${routine.routineId}',
-                user: widget.user,
+              builder: (context) => Consumer(
+                builder: (context, ref, child) => RoutineDetailScreen(
+                  // database: widget.database,
+                  routine: routine,
+                  // auth: widget.auth,
+                  tag: 'addWorkoutToRoutine${routine.routineId}',
+                  user: widget.user,
+                  model: ref.watch(routineDetailScreenModelProvider),
+                ),
               ),
             ),
           );

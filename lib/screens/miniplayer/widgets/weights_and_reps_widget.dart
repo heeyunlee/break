@@ -65,7 +65,10 @@ class WeightsAndRepsWidget extends StatelessWidget {
                                     style: TextStyles.headline5,
                                   ),
                                 if (!routineWorkout.isBodyWeightWorkout)
-                                  TextSpan(text: weights, style: kHeadline3),
+                                  TextSpan(
+                                    text: weights,
+                                    style: TextStyles.headline3,
+                                  ),
                                 if (!routineWorkout.isBodyWeightWorkout)
                                   TextSpan(text: unit),
                               ],
@@ -113,7 +116,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           // ),
                           RichText(
                             text: TextSpan(
-                              style: kHeadline3,
+                              style: TextStyles.headline3,
                               children: <TextSpan>[
                                 TextSpan(text: '${workoutSet.reps}'),
                                 const TextSpan(

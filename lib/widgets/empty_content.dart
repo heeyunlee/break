@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 
 import '../styles/constants.dart';
 

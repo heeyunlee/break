@@ -10,7 +10,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -233,7 +233,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
                 leftTitles: SideTitles(
                   showTitles: true,
                   margin: 28,
-                  getTextStyles: (valie) => kCaption1Grey,
+                  getTextStyles: (_) => TextStyles.caption1_grey,
                   getTitles: (double value) {
                     final toOriginalNumber = (value / 10 * _maxY).round();
                     final formatted =

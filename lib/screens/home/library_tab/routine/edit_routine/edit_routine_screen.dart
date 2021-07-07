@@ -16,7 +16,7 @@ import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/screens/home/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -324,7 +324,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             S.current.publicRoutineDescription,
-            style: kCaption1Grey,
+            style: TextStyles.caption1_grey,
           ),
         ),
         const SizedBox(height: 16),

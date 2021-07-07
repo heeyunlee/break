@@ -303,7 +303,6 @@ class FirestoreService {
     required List<String> path,
     required List<Map<String, dynamic>> data,
   }) async {
-    // print('batch data triggered');
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {
@@ -363,7 +362,7 @@ class FirestoreService {
     return query;
   }
 
-  Query<T> whereAndOrderByQuert<T>({
+  Query<T> whereAndOrderByQuery<T>({
     required String path,
     required String where,
     required dynamic isEqualTo,

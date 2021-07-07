@@ -76,11 +76,11 @@ class WorkoutHistoryCard extends StatelessWidget {
           title: (title.length > 24)
               ? FittedBox(
                   fit: BoxFit.cover,
-                  child: Text(title, style: kHeadline6),
+                  child: Text(title, style: TextStyles.headline6),
                 )
               : Text(
                   title,
-                  style: kHeadline6,
+                  style: TextStyles.headline6,
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   maxLines: 1,

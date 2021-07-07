@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:uuid/uuid.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
-import 'package:workout_player/services/main_provider.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
@@ -21,6 +22,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../routine_detail_screen.dart';
+import '../routine_detail_screen_model.dart';
 import 'create_new_routine_provider.dart';
 import 'new_routine_difficulty_and_mre_screen.dart';
 import 'new_routine_equipment_required_screen.dart';
@@ -138,7 +140,8 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
     logger.d('saveDifficultyAndMore Pressed');
     logger.d('_submit button pressed!');
 
-    final routineId = documentIdFromCurrentDate();
+    // final routineId = documentIdFromCurrentDate();
+    final id = Uuid().v1();
     final userId = widget.user.userId;
     final userName = widget.user.displayName;
     final initialUnitOfMass = widget.user.unitOfMass;
@@ -159,7 +162,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
 
       // Create New Routine
       final routine = Routine(
-        routineId: 'RT$routineId',
+        routineId: 'RT$id',
         routineOwnerId: userId,
         routineOwnerUserName: userName,
         routineTitle: _routineTitle,
@@ -184,12 +187,15 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       await tabNavigatorKeys[currentTab]!.currentState!.push(
             CupertinoPageRoute(
               fullscreenDialog: false,
-              builder: (context) => RoutineDetailScreen(
-                routine: routine,
-                auth: widget.auth,
-                database: widget.database,
-                user: widget.user,
-                tag: 'newRoutine-${routine.routineId}',
+              builder: (context) => Consumer(
+                builder: (context, ref, child) => RoutineDetailScreen(
+                  // database: widget.database,
+                  routine: routine,
+                  // auth: widget.auth,
+                  tag: 'createRoutine${routine.routineId}',
+                  user: widget.user,
+                  model: ref.watch(routineDetailScreenModelProvider),
+                ),
               ),
             ),
           );

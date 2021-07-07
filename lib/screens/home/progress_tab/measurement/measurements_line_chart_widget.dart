@@ -64,9 +64,9 @@ class _MeasurementsLineChartWidgetState
       );
 
       final largest =
-          measurements.map<double>((e) => e.bodyWeight.toDouble()).reduce(max);
+          measurements.map<double>((e) => e.bodyWeight!.toDouble()).reduce(max);
       final lowest =
-          measurements.map<double>((e) => e.bodyWeight.toDouble()).reduce(min);
+          measurements.map<double>((e) => e.bodyWeight!.toDouble()).reduce(min);
 
       final roundedLargest = (largest / 10).ceil() * 10;
       final roundedLowest = lowest ~/ 10 * 10;
@@ -251,7 +251,7 @@ class _MeasurementsLineChartWidgetState
                           showTitles: true,
                           margin: 24,
                           // reservedSize: 20,
-                          getTextStyles: (value) => kCaption1Grey,
+                          getTextStyles: (_) => TextStyles.caption1_grey,
                           getTitles: (value) {
                             final unit = Formatter.unitOfMass(
                               widget.user.unitOfMass,
@@ -315,7 +315,7 @@ class _MeasurementsLineChartWidgetState
 
         return FlSpot(
           flipNumber(diff)!,
-          _thisWeekData[index].bodyWeight.toDouble(),
+          _thisWeekData[index].bodyWeight!.toDouble(),
         );
       },
     );
