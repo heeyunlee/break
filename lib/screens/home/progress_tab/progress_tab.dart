@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provdier;
 import 'package:health/health.dart';
-import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/measurement.dart';
@@ -11,9 +11,7 @@ import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/blurred_background.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/services/api_path.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -27,21 +25,27 @@ import 'progress_tab_model.dart';
 import 'proteins_eaten/weekly_nutrition_chart.dart';
 import 'weights_lifted_history/weights_lifted_chart_widget.dart';
 import 'widgets/blurred_material_banner.dart';
-import 'widgets/choose_background_icon.dart';
+import 'widgets/choose_background_button.dart';
 import 'widgets/choose_date_icon_button.dart';
+import 'widgets/recent_weight_widget.dart';
 
 class ProgressTab extends StatefulWidget {
   final ProgressTabModel model;
+  final AuthBase auth;
 
   const ProgressTab({
     Key? key,
     required this.model,
+    required this.auth,
   }) : super(key: key);
 
   static Widget create(BuildContext context) {
+    final auth = provdier.Provider.of<AuthBase>(context, listen: false);
+
     return Consumer(
       builder: (context, ref, child) => ProgressTab(
         model: ref.watch(progressTabModelProvider),
+        auth: auth,
       ),
     );
   }
@@ -78,10 +82,14 @@ class _ProgressTabState extends State<ProgressTab>
     }
   }
 
-  Future fetchData(User user) async {
+  Future<void> _fetchData(User user) async {
     DateTime now = DateTime.now();
     DateTime startDate =
         user.lastHealthDataFetchedTime ?? now.subtract(Duration(days: 7));
+
+    print('date time is ${user.lastHealthDataFetchedTime.runtimeType}');
+
+    print('startTime is $startDate');
 
     HealthFactory health = HealthFactory();
 
@@ -113,7 +121,8 @@ class _ProgressTabState extends State<ProgressTab>
           // final batch = FirebaseFirestore.instance.batch();
           Measurement measurement = Measurement(
             measurementId: id,
-            userId: widget.model.auth!.currentUser!.uid,
+            // userId: widget.model.auth!.currentUser!.uid,
+            userId: widget.auth.currentUser!.uid,
             username: user.displayName,
             loggedTime: Timestamp.fromDate(now),
             loggedDate: DateTime.utc(now.year, now.month, now.day),
@@ -192,6 +201,16 @@ class _ProgressTabState extends State<ProgressTab>
             await widget.model.database!.setMeasurement(
               measurement: measurement,
             );
+
+            final userData = {
+              'lastHealthDataFetchedTime': now,
+            };
+
+            await widget.model.database!.updateUser(
+              // widget.model.auth!.currentUser!.uid,
+              widget.auth.currentUser!.uid,
+              userData,
+            );
           });
 
           // await batch.commit();
@@ -199,6 +218,8 @@ class _ProgressTabState extends State<ProgressTab>
           /// Save all the new data points
           // _healthDataList.addAll(healthData);
           print('measurement data at the end is ${measurement.toJson()}');
+        } else {
+          debugPrint('health data do NOT exist');
         }
       } catch (e) {
         print('Caught exception in getHealthDataFromTypes: $e');
@@ -220,6 +241,8 @@ class _ProgressTabState extends State<ProgressTab>
       stream: widget.model.database!.userStream(),
       loadingWidget: ProgressTabShimmer(),
       hasDataWidget: (context, user) {
+        // _fetchData(user!);
+
         return NotificationListener<ScrollNotification>(
           onNotification: widget.model.onNotification,
           child: Scaffold(
@@ -231,21 +254,9 @@ class _ProgressTabState extends State<ProgressTab>
                 centerTitle: true,
                 brightness: Brightness.dark,
                 elevation: 0,
-                leading: ChooseBackgroundIcon(user: user!),
+                leading: ChooseBackgroundButton(user: user!),
                 title: ChooseDateIconButton(model: widget.model),
                 backgroundColor: Colors.transparent,
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        fetchData(user);
-                        // print('${_healthDataList.length}');
-                        // print('${_healthDataList.first}');
-                        // print('${_healthDataList.last}');
-                      },
-                      icon: Icon(
-                        Icons.get_app,
-                      ))
-                ],
               ),
             ),
             body: Builder(
@@ -309,59 +320,10 @@ class _ProgressTabState extends State<ProgressTab>
                   ),
                   Row(
                     children: [
-                      CustomStreamBuilderWidget<List<Measurement>>(
-                        stream: widget.model.database!.measurementsStream(),
-                        hasDataWidget: (context, list) {
-                          final lastMeasurement = list.last;
-                          final date = DateFormat.MMMEd()
-                              .format(lastMeasurement.loggedDate);
-                          final weight = Formatter.weights(
-                              lastMeasurement.bodyWeight ?? 0);
-                          final unit = Formatter.unitOfMass(user.unitOfMass);
-
-                          return BlurBackgroundCard(
-                            width: size.width / 2 - 24,
-                            height: 104,
-                            borderRadius: 8,
-                            child: Stack(
-                              children: [
-                                // Container(
-                                //   color: Colors.blue,
-                                //   width: (size.width / 2 - 24) * 0.8,
-                                //   height: double.maxFinite,
-                                // ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 16,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        date,
-                                        style: TextStyles.overline,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        '$weight $unit',
-                                        style: TextStyles.headline5_menlo,
-                                      ),
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        '-2.2kg',
-                                        style: TextStyles.caption1_grey,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                      // RecentWeightWidget(
+                      //   model: widget.model,
+                      //   user: user,
+                      // ),
                       const Spacer(),
                       BlurBackgroundCard(
                         width: size.width / 2 - 24,

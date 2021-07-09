@@ -3879,6 +3879,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit Workout Order`
+  String get editRoutineWorkoutOrder {
+    return Intl.message(
+      'Edit Workout Order',
+      name: 'editRoutineWorkoutOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reorder Workouts`
+  String get editRoutineWorkoutOrderSnackbarTitle {
+    return Intl.message(
+      'Reorder Workouts',
+      name: 'editRoutineWorkoutOrderSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully reordered workouts`
+  String get editRoutineWorkoutOrderSnackbarMessage {
+    return Intl.message(
+      'Successfully reordered workouts',
+      name: 'editRoutineWorkoutOrderSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long press the card to reorder`
+  String get reorderRoutineWorkoutsHeader {
+    return Intl.message(
+      'Long press the card to reorder',
+      name: 'reorderRoutineWorkoutsHeader',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

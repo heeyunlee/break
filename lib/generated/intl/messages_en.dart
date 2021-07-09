@@ -276,6 +276,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Edited a routine!"),
         "editRoutineTitle":
             MessageLookupByLibrary.simpleMessage("Edit Routine"),
+        "editRoutineWorkoutOrder":
+            MessageLookupByLibrary.simpleMessage("Edit Workout Order"),
+        "editRoutineWorkoutOrderSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Successfully reordered workouts"),
+        "editRoutineWorkoutOrderSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Reorder Workouts"),
         "editWorkoutTitle":
             MessageLookupByLibrary.simpleMessage("Edit Workout"),
         "effort": MessageLookupByLibrary.simpleMessage("Effort"),
@@ -450,6 +457,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "quads": MessageLookupByLibrary.simpleMessage("Quads"),
         "quickSummary": MessageLookupByLibrary.simpleMessage("Quick Summary"),
         "register": MessageLookupByLibrary.simpleMessage("Register!"),
+        "reorderRoutineWorkoutsHeader": MessageLookupByLibrary.simpleMessage(
+            "Long press the card to reorder"),
         "reps": MessageLookupByLibrary.simpleMessage("Reps"),
         "rest": MessageLookupByLibrary.simpleMessage("Rest"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("Resume Workout"),

@@ -381,5 +381,9 @@
     "savedWorkoutSnackBarTitle": "운동 저장",
     "savedWorkoutSnackBarSubtitle": "운동을 저장했습니다",
     "emptyFirstNameText": "이름을 입력해 주세요",
-    "emptyLastNameText": "성을 입력해 주세요"
+    "emptyLastNameText": "성을 입력해 주세요",
+    "editRoutineWorkoutOrder": "운동 순서 편집",
+    "editRoutineWorkoutOrderSnackbarTitle": "운동 순서 번경",
+    "editRoutineWorkoutOrderSnackbarMessage": "성공적으로 운동 순서를 번경했습니다",
+    "reorderRoutineWorkoutsHeader": "순서변경을 위해 운동 카드를 길게 눌러 주세요"
 }

@@ -54,7 +54,7 @@ class User {
       final String displayName = data['displayName'];
       final int? backgroundImageIndex = data['backgroundImageIndex'];
       final DateTime? lastHealthDataFetchedTime =
-          data['lastHealthDataFetchedTime'];
+          data['lastHealthDataFetchedTime']?.toDate();
 
       return User(
         userId: documentId,

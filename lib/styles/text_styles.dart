@@ -93,6 +93,14 @@ class TextStyles {
     fontFamily: menlo,
   );
 
+  static const headline5_menlo_primary = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w400,
+    color: kPrimaryColor,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
   static const headline6 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
@@ -154,6 +162,14 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_grey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
   );
@@ -236,6 +252,14 @@ class TextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: Colors.grey,
+    letterSpacing: 0.4,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const caption1_primary = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: kPrimaryColor,
     letterSpacing: 0.4,
     fontFamily: defaultFontFamily,
   );

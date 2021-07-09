@@ -381,5 +381,9 @@
     "savedWorkoutSnackBarTitle": "Save Workout",
     "savedWorkoutSnackBarSubtitle": "Successfully saved a workout",
     "emptyFirstNameText": "Please enter the first name",
-    "emptyLastNameText": "Please enter the last name"
+    "emptyLastNameText": "Please enter the last name",
+    "editRoutineWorkoutOrder": "Edit Workout Order",
+    "editRoutineWorkoutOrderSnackbarTitle": "Reorder Workouts",
+    "editRoutineWorkoutOrderSnackbarMessage": "Successfully reordered workouts",
+    "reorderRoutineWorkoutsHeader": "Long press the card to reorder"
 }

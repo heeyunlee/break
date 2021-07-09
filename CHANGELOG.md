@@ -2,6 +2,13 @@
 
 Here is the changelog of the project, Herakles. I first created this log on version 0.3.1, so any update before that is not logged.
 
+## 0.3.2
+### New Feautres
+- Added button and screen to reorder routine workouts on routines
+
+### Bug Fix & Refactor
+- Refactored AddWorkoutToRoutineScreen with ChangeNotifierProvider (riverpod)
+
 ## 0.3.1
 ### New Features
 - Changed preview screen (simpler than before)

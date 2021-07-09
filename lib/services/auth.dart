@@ -9,6 +9,10 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../main_provider.dart';
 
+final authServiceProvider3 = Provider<AuthService>((ref) {
+  return AuthService();
+});
+
 final authServiceProvider2 = Provider<AuthService>(
   (ref) => AuthService(read: ref.read),
 );

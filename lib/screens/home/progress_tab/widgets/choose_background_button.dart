@@ -5,10 +5,11 @@ import 'package:workout_player/screens/home/progress_tab/choose_background/choos
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-class ChooseBackgroundIcon extends StatelessWidget {
+class ChooseBackgroundButton extends StatelessWidget {
   final User user;
 
-  const ChooseBackgroundIcon({Key? key, required this.user}) : super(key: key);
+  const ChooseBackgroundButton({Key? key, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

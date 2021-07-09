@@ -257,6 +257,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "editRoutineSnackbar":
             MessageLookupByLibrary.simpleMessage("루틴을 수정했습니다"),
         "editRoutineTitle": MessageLookupByLibrary.simpleMessage("루틴 수정"),
+        "editRoutineWorkoutOrder":
+            MessageLookupByLibrary.simpleMessage("운동 순서 편집"),
+        "editRoutineWorkoutOrderSnackbarMessage":
+            MessageLookupByLibrary.simpleMessage("성공적으로 운동 순서를 번경했습니다"),
+        "editRoutineWorkoutOrderSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("운동 순서 번경"),
         "editWorkoutTitle": MessageLookupByLibrary.simpleMessage("운동 수정"),
         "effort": MessageLookupByLibrary.simpleMessage("운동 강도"),
         "email": MessageLookupByLibrary.simpleMessage("이메일"),
@@ -419,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "quads": MessageLookupByLibrary.simpleMessage("대퇴 사두근"),
         "quickSummary": MessageLookupByLibrary.simpleMessage("운동 요약"),
         "register": MessageLookupByLibrary.simpleMessage("회원가입!"),
+        "reorderRoutineWorkoutsHeader":
+            MessageLookupByLibrary.simpleMessage("순서변경을 위해 운동 카드를 길게 눌러 주세요"),
         "reps": MessageLookupByLibrary.simpleMessage("횟수"),
         "rest": MessageLookupByLibrary.simpleMessage("휴식"),
         "resumeWorkout": MessageLookupByLibrary.simpleMessage("운동 계속하기"),

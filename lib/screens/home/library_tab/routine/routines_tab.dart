@@ -19,7 +19,6 @@ class RoutinesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    // var query = database.routinesPaginatedUserQuery();
 
     return PaginateFirestore(
       shrinkWrap: true,

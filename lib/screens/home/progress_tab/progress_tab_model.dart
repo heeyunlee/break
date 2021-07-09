@@ -17,7 +17,8 @@ class ProgressTabModel with ChangeNotifier {
     this.database,
   }) {
     final container = ProviderContainer();
-    auth = container.read(authServiceProvider2);
+    // auth = container.read(authServiceProvider2);
+    auth = container.read(authServiceProvider3);
     database = container.read(databaseProvider2(auth!.currentUser?.uid));
   }
 
