@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/auth_and_database.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/nutritions_and_routine_histories.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+
+// final progressTabModelProvider =
+//     ChangeNotifierProvider.family<ProgressTabModel, AuthAndDatabase>(
+//   (ref, authAndDatabase) => ProgressTabModel(
+//     auth: authAndDatabase.authbase,
+//     database: authAndDatabase.database,
+//   ),
+// );
 
 final progressTabModelProvider = ChangeNotifierProvider(
   (ref) => ProgressTabModel(),
 );
 
 class ProgressTabModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  late AuthBase? auth;
+  late Database? database;
 
   ProgressTabModel({
     this.auth,
     this.database,
-  }) {
-    final container = ProviderContainer();
-    // auth = container.read(authServiceProvider2);
-    auth = container.read(authServiceProvider3);
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
-  }
+  });
 
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
@@ -28,6 +34,10 @@ class ProgressTabModel with ChangeNotifier {
   num _nutritionDailyGoal = 150;
   num _nutritionDailyTotal = 0;
   double _nutritionDailyProgress = 0.0;
+  num _liftingDailyGoal = 10000;
+  num _weightsLiftedDailyTotal = 0;
+  double _weightsLiftedDailyProgress = 0.0;
+  String _todaysMuscleWorked = '-';
   late AnimationController _animationController;
   late Animation<double> _blurTween;
   late Animation<double> _brightnessTween;
@@ -39,6 +49,11 @@ class ProgressTabModel with ChangeNotifier {
   num get nutritionDailyGoal => _nutritionDailyGoal;
   num get nutritionDailyTotal => _nutritionDailyTotal;
   double get nutritionDailyProgress => _nutritionDailyProgress;
+
+  num get liftingDailyGoal => _liftingDailyGoal;
+  num get weightsLiftedDailyTotal => _weightsLiftedDailyTotal;
+  double get weightsLiftedDailyProgress => _weightsLiftedDailyProgress;
+  String get todaysMuscleWorked => _todaysMuscleWorked;
   AnimationController get animationController => _animationController;
   Animation<double> get blurTween => _blurTween;
   Animation<double> get brightnessTween => _brightnessTween;
@@ -59,44 +74,17 @@ class ProgressTabModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initShowBanner() async {
-    final userData = (await database!.getUserDocument(auth!.currentUser!.uid))!;
-    if (userData.dailyProteinGoal == null ||
-        userData.dailyWeightsGoal == null) {
-      _showBanner = true;
-    } else {
-      _showBanner = false;
-    }
-    notifyListeners();
-  }
+  void init(TickerProvider vsync, AuthAndDatabase authAndDatabase) {
+    auth = authAndDatabase.auth;
+    database = authAndDatabase.database;
 
-  void setNutritionDailyGoal(num? value) {
-    _nutritionDailyGoal = value ?? 150.0;
-  }
-
-  void setNutritionDailyTotal(List<Nutrition>? data) {
-    _nutritionDailyTotal = 0;
-
-    if (data != null) {
-      data.forEach((e) {
-        _nutritionDailyTotal += e.proteinAmount.toInt();
-      });
-      _nutritionDailyProgress = _nutritionDailyTotal / _nutritionDailyGoal;
-
-      if (_nutritionDailyProgress >= 1) {
-        _nutritionDailyProgress = 1;
-      }
-    }
-  }
-
-  void init(TickerProvider vsync) {
     _animationController = AnimationController(
       vsync: vsync,
       duration: Duration(seconds: 0),
     );
 
     _blurTween = Tween<double>(begin: 0, end: 20).animate(animationController);
-    _brightnessTween = Tween<double>(begin: 0.9, end: 0.0).animate(
+    _brightnessTween = Tween<double>(begin: 1, end: 0.0).animate(
       animationController,
     );
     _onNotification = (ScrollNotification scrollInfo) {
@@ -111,6 +99,62 @@ class ProgressTabModel with ChangeNotifier {
       }
       return false;
     };
+  }
+
+  Future<void> initShowBanner() async {
+    final uid = auth!.currentUser!.uid;
+    final user = await database!.getUserDocument(uid);
+    if (user!.dailyProteinGoal == null ||
+        user.dailyWeightsGoal == null ||
+        user.weightGoal == null ||
+        user.bodyFatPercentageGoal == null) {
+      _showBanner = true;
+    } else {
+      _showBanner = false;
+    }
+  }
+
+  void setDailyGoal(User user) {
+    _nutritionDailyGoal = user.dailyProteinGoal ?? 150.0;
+    _liftingDailyGoal = user.dailyWeightsGoal ?? 10000;
+  }
+
+  void setDailyTotal(NutritionsAndRoutineHistories data) {
+    _nutritionDailyTotal = 0;
+    _nutritionDailyProgress = 0;
+    _weightsLiftedDailyTotal = 0;
+    _weightsLiftedDailyProgress = 0;
+    _todaysMuscleWorked = '-';
+
+    if (data.nutritions.isNotEmpty) {
+      data.nutritions.forEach((e) {
+        _nutritionDailyTotal += e.proteinAmount.toInt();
+      });
+      _nutritionDailyProgress = _nutritionDailyTotal / _nutritionDailyGoal;
+
+      if (_nutritionDailyProgress >= 1) {
+        _nutritionDailyProgress = 1;
+      }
+    }
+
+    if (data.routineHistories.isNotEmpty) {
+      data.routineHistories.forEach((e) {
+        _weightsLiftedDailyTotal += e.totalWeights.toInt();
+      });
+
+      _weightsLiftedDailyProgress =
+          _weightsLiftedDailyTotal / _liftingDailyGoal;
+
+      if (_weightsLiftedDailyProgress >= 1) {
+        _weightsLiftedDailyProgress = 1;
+      }
+
+      final latest = data.routineHistories.last;
+
+      _todaysMuscleWorked = MainMuscleGroup.values
+          .firstWhere((e) => e.toString() == latest.mainMuscleGroup[0])
+          .broadGroup!;
+    }
   }
 
   // CONST VARIABLES

@@ -111,9 +111,9 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
               fullscreenDialog: false,
               builder: (context) => Consumer(
                 builder: (context, ref, child) => RoutineDetailScreen(
-                  // database: widget.database,
+                  database: widget.database,
                   routine: routine,
-                  // auth: widget.auth,
+                  auth: widget.auth,
                   tag: 'addWorkoutToRoutine${routine.routineId}',
                   user: widget.user,
                   model: ref.watch(routineDetailScreenModelProvider),

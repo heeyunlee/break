@@ -10,7 +10,7 @@ class RoutineWorkout {
   final int numberOfSets;
   final int numberOfReps;
   final num totalWeights;
-  final List<WorkoutSet>? sets; // Nullable
+  final List<WorkoutSet> sets;
   final bool isBodyWeightWorkout;
   final int duration;
   final int secondsPerRep;
@@ -26,7 +26,7 @@ class RoutineWorkout {
     required this.numberOfSets,
     required this.numberOfReps,
     required this.totalWeights,
-    this.sets,
+    required this.sets,
     required this.isBodyWeightWorkout,
     required this.duration,
     required this.secondsPerRep,
@@ -45,7 +45,7 @@ class RoutineWorkout {
       final int numberOfSets = data['numberOfSets'];
       final int numberOfReps = data['numberOfReps'];
       final num totalWeights = data['totalWeights'];
-      List<WorkoutSet>? sets = <WorkoutSet>[];
+      List<WorkoutSet> sets = <WorkoutSet>[];
       if (data['sets'] != null) {
         data['sets'].forEach((item) {
           sets.add(WorkoutSet.fromJson(item));
@@ -87,7 +87,7 @@ class RoutineWorkout {
     data['numberOfSets'] = numberOfSets;
     data['numberOfReps'] = numberOfReps;
     data['totalWeights'] = totalWeights;
-    data['sets'] = sets!.map((e) => e.toJson()).toList();
+    data['sets'] = sets.map((e) => e.toJson()).toList();
     data['isBodyWeightWorkout'] = isBodyWeightWorkout;
     data['duration'] = duration;
     data['secondsPerRep'] = secondsPerRep;

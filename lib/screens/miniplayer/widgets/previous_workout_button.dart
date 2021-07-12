@@ -19,7 +19,7 @@ class PreviousWorkoutButton extends StatelessWidget {
     // new index = currentIndex - workoutIndex - workoutSetLength
     final workoutSetLength = model.currentIndex -
         model.workoutSetIndex -
-        routineWorkouts[model.routineWorkoutIndex - 1]!.sets!.length;
+        routineWorkouts[model.routineWorkoutIndex - 1]!.sets.length;
 
     // set current index
     model.setCurrentIndex(workoutSetLength);
@@ -38,8 +38,8 @@ class PreviousWorkoutButton extends StatelessWidget {
     // set Workout Set
     final routineWorkout = model.currentRoutineWorkout!;
 
-    if (routineWorkout.sets!.isNotEmpty) {
-      model.setWorkoutSet(routineWorkout.sets![model.workoutSetIndex]);
+    if (routineWorkout.sets.isNotEmpty) {
+      model.setWorkoutSet(routineWorkout.sets[model.workoutSetIndex]);
 
       final workoutSet = model.currentWorkoutSet!;
 

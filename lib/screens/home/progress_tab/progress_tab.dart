@@ -1,51 +1,59 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provdier;
-import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:uuid/uuid.dart';
-import 'package:workout_player/models/measurement.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/auth_and_database.dart';
+// import 'package:health/health.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:uuid/uuid.dart';
+// import 'package:workout_player/models/measurement.dart';
 
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/blurred_background.dart';
-import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/widgets/blur_background_card.dart';
+import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/widgets/get_snackbar_widget.dart';
+// import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../../styles/constants.dart';
-import 'daily_progress_summary/daily_nutrition_widget.dart';
-import 'daily_progress_summary/daily_weights_widget.dart';
-import 'measurement/measurements_line_chart_widget.dart';
+import 'measurement/weekly_measurements_card.dart';
 import 'progress_tab_model.dart';
-import 'proteins_eaten/weekly_nutrition_chart.dart';
-import 'weights_lifted_history/weights_lifted_chart_widget.dart';
+import 'proteins_eaten/weekly_nutrition_card.dart';
 import 'widgets/blurred_material_banner.dart';
 import 'widgets/choose_background_button.dart';
 import 'widgets/choose_date_icon_button.dart';
+import 'widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
+import 'widgets/recent_body_fat_percentage_widget.dart';
 import 'widgets/recent_weight_widget.dart';
+import 'widgets/weekly_weights_lifted_chart/weights_lifted_chart_widget.dart';
 
 class ProgressTab extends StatefulWidget {
   final ProgressTabModel model;
-  final AuthBase auth;
+  // final AuthBase auth;
+  final AuthAndDatabase authAndDatabase;
 
   const ProgressTab({
     Key? key,
     required this.model,
-    required this.auth,
+    // required this.auth,
+    required this.authAndDatabase,
   }) : super(key: key);
 
   static Widget create(BuildContext context) {
-    final auth = provdier.Provider.of<AuthBase>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
 
     return Consumer(
       builder: (context, ref, child) => ProgressTab(
         model: ref.watch(progressTabModelProvider),
-        auth: auth,
+        authAndDatabase: AuthAndDatabase(auth: auth, database: database),
       ),
     );
   }
@@ -59,7 +67,7 @@ class _ProgressTabState extends State<ProgressTab>
   @override
   void initState() {
     super.initState();
-    widget.model.init(this);
+    widget.model.init(this, widget.authAndDatabase);
     widget.model.initShowBanner();
   }
 
@@ -69,169 +77,130 @@ class _ProgressTabState extends State<ProgressTab>
     super.dispose();
   }
 
-  List<HealthDataPoint> _healthDataList = [];
+  // List<HealthDataPoint> _healthDataList = [];
 
-  Future<void> _showPermission() async {
-    final request = Permission.activityRecognition.request();
+  // Future<void> _showPermission() async {
+  //   final request = Permission.activityRecognition.request();
 
-    if (await request.isDenied || await request.isPermanentlyDenied) {
-      getSnackbarWidget(
-        'title',
-        'Permission is needed',
-      );
-    }
-  }
+  //   if (await request.isDenied || await request.isPermanentlyDenied) {
+  //     getSnackbarWidget(
+  //       'title',
+  //       'Permission is needed',
+  //     );
+  //   }
+  // }
 
-  Future<void> _fetchData(User user) async {
-    DateTime now = DateTime.now();
-    DateTime startDate =
-        user.lastHealthDataFetchedTime ?? now.subtract(Duration(days: 7));
+  // Future<void> _fetchData(User user) async {
+  //   DateTime now = DateTime.now();
+  //   DateTime startDate =
+  //       user.lastHealthDataFetchedTime ?? now.subtract(Duration(days: 7));
 
-    print('date time is ${user.lastHealthDataFetchedTime.runtimeType}');
+  //   HealthFactory health = HealthFactory();
 
-    print('startTime is $startDate');
+  //   /// Define the types to get.
+  //   List<HealthDataType> types = [
+  //     HealthDataType.WEIGHT,
+  //     HealthDataType.BODY_FAT_PERCENTAGE,
+  //     HealthDataType.BODY_MASS_INDEX,
+  //     HealthDataType.ACTIVE_ENERGY_BURNED,
+  //     HealthDataType.DISTANCE_WALKING_RUNNING,
+  //     HealthDataType.STEPS,
+  //   ];
 
-    HealthFactory health = HealthFactory();
+  //   /// You MUST request access to the data types before reading them
+  //   bool accessWasGranted = await health.requestAuthorization(types);
 
-    /// Define the types to get.
-    List<HealthDataType> types = [
-      HealthDataType.WEIGHT,
-      HealthDataType.BODY_FAT_PERCENTAGE,
-      HealthDataType.BODY_MASS_INDEX,
-    ];
+  //   if (accessWasGranted) {
+  //     try {
+  //       /// Fetch new data
+  //       List<HealthDataPoint> rawHealthData =
+  //           await health.getHealthDataFromTypes(
+  //         startDate,
+  //         now,
+  //         types,
+  //       );
 
-    /// You MUST request access to the data types before reading them
-    bool accessWasGranted = await health.requestAuthorization(types);
+  //       if (rawHealthData.isNotEmpty) {
+  //         print('raw data length is ${rawHealthData.length}');
 
-    if (accessWasGranted) {
-      try {
-        /// Fetch new data
-        List<HealthDataPoint> rawHealthData =
-            await health.getHealthDataFromTypes(
-          startDate,
-          now,
-          types,
-        );
+  //         final id = 'MS${Uuid().v1()}';
 
-        if (rawHealthData.isNotEmpty) {
-          print('raw data length is ${rawHealthData.length}');
+  //         Measurement _measurement = Measurement(
+  //           measurementId: id,
+  //           userId: widget.auth.currentUser!.uid,
+  //           username: user.displayName,
+  //           loggedTime: Timestamp.fromDate(now),
+  //           loggedDate: DateTime.utc(now.year, now.month, now.day),
+  //         );
 
-          final id = 'MS${Uuid().v1()}';
+  //         rawHealthData.forEach((element) async {
+  //           print('data is ${element.toJson()}');
 
-          // final batch = FirebaseFirestore.instance.batch();
-          Measurement measurement = Measurement(
-            measurementId: id,
-            // userId: widget.model.auth!.currentUser!.uid,
-            userId: widget.auth.currentUser!.uid,
-            username: user.displayName,
-            loggedTime: Timestamp.fromDate(now),
-            loggedDate: DateTime.utc(now.year, now.month, now.day),
-          );
+  //           if (element.type == HealthDataType.WEIGHT) {
+  //             _measurement = _measurement.copyWith(
+  //               bodyWeight: (user.unitOfMass == 0)
+  //                   ? element.value
+  //                   : element.value * 2.20462,
+  //               dataSource: 'appleHealthKitApi',
+  //               dataType: element.typeString,
+  //               platformType: element.platform.toString(),
+  //               sourceId: element.sourceId,
+  //               sourceName: element.sourceName,
+  //             );
+  //           } else if (element.type == HealthDataType.BODY_MASS_INDEX) {
+  //             _measurement = _measurement.copyWith(
+  //               bmi: element.value,
+  //               dataSource: 'appleHealthKitApi',
+  //               dataType: element.typeString,
+  //               platformType: element.platform.toString(),
+  //               sourceId: element.sourceId,
+  //               sourceName: element.sourceName,
+  //             );
+  //           } else if (element.type == HealthDataType.BODY_FAT_PERCENTAGE) {
+  //             _measurement = _measurement.copyWith(
+  //               bodyFat: element.value,
+  //               dataSource: 'appleHealthKitApi',
+  //               dataType: element.typeString,
+  //               platformType: element.platform.toString(),
+  //               sourceId: element.sourceId,
+  //               sourceName: element.sourceName,
+  //             );
+  //           }
 
-          rawHealthData.forEach((element) async {
-            print('data is ${element.toJson()}');
+  //           await widget.model.database!.setMeasurement(
+  //             measurement: _measurement,
+  //           );
 
-            if (element.type == HealthDataType.WEIGHT) {
-              measurement = measurement.copyWith(
-                bodyWeight: (user.unitOfMass == 0)
-                    ? element.value
-                    : element.value * 2.20462,
-                dataSource: 'appleHealthKitApi',
-                dataType: element.typeString,
-                platformType: element.platform.toString(),
-                sourceId: element.sourceId,
-                sourceName: element.sourceName,
-              );
-              // final measurement = Measurement(
-              //   measurementId: id,
-              //   userId: widget.model.auth!.currentUser!.uid,
-              //   username: user.displayName,
-              //   loggedTime: Timestamp.fromDate(element.dateFrom),
-              //   loggedDate: DateTime.utc(
-              //     element.dateFrom.year,
-              //     element.dateFrom.month,
-              //     element.dateFrom.day,
-              //   ),
-              //   bodyWeight: element.value,
-              //   dataSource: 'appleHealthKitApi',
-              //   dataType: element.typeString,
-              //   platformType: element.platform.toString(),
-              //   sourceId: element.sourceId,
-              //   sourceName: element.sourceName,
-              // );
+  //           final userData = {
+  //             'lastHealthDataFetchedTime': now,
+  //           };
 
-              // final userData = {
-              //   'lastHealthDataFetchedTime': now,
-              // };
+  //           await widget.model.database!.updateUser(
+  //             // widget.model.auth!.currentUser!.uid,
+  //             widget.auth.currentUser!.uid,
+  //             userData,
+  //           );
+  //         });
 
-              // final path = APIPath.measurement(
-              //   widget.model.auth!.currentUser!.uid,
-              //   id,
-              // );
+  //         // await batch.commit();
 
-              // final doc = FirebaseFirestore.instance.doc(path);
+  //         /// Save all the new data points
+  //         // _healthDataList.addAll(healthData);
+  //         print('measurement data at the end is ${_measurement.toJson()}');
+  //       } else {
+  //         debugPrint('health data do NOT exist');
+  //       }
+  //     } catch (e) {
+  //       print('Caught exception in getHealthDataFromTypes: $e');
+  //     }
 
-              // batch.set(
-              //   doc,
-              //   measurement,
-              // );
-
-              // await widget.model.database!
-              //     .setMeasurement(measurement: measurement);
-            } else if (element.type == HealthDataType.BODY_MASS_INDEX) {
-              measurement = measurement.copyWith(
-                bmi: element.value,
-                dataSource: 'appleHealthKitApi',
-                dataType: element.typeString,
-                platformType: element.platform.toString(),
-                sourceId: element.sourceId,
-                sourceName: element.sourceName,
-              );
-            } else if (element.type == HealthDataType.BODY_FAT_PERCENTAGE) {
-              measurement = measurement.copyWith(
-                bodyFat: element.value,
-                dataSource: 'appleHealthKitApi',
-                dataType: element.typeString,
-                platformType: element.platform.toString(),
-                sourceId: element.sourceId,
-                sourceName: element.sourceName,
-              );
-            }
-
-            await widget.model.database!.setMeasurement(
-              measurement: measurement,
-            );
-
-            final userData = {
-              'lastHealthDataFetchedTime': now,
-            };
-
-            await widget.model.database!.updateUser(
-              // widget.model.auth!.currentUser!.uid,
-              widget.auth.currentUser!.uid,
-              userData,
-            );
-          });
-
-          // await batch.commit();
-
-          /// Save all the new data points
-          // _healthDataList.addAll(healthData);
-          print('measurement data at the end is ${measurement.toJson()}');
-        } else {
-          debugPrint('health data do NOT exist');
-        }
-      } catch (e) {
-        print('Caught exception in getHealthDataFromTypes: $e');
-      }
-
-      /// Filter out duplicates
-      _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
-    } else {
-      await _showPermission();
-      logger.d('Authorization not granted');
-    }
-  }
+  //     /// Filter out duplicates
+  //     _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
+  //   } else {
+  //     // await _showPermission();
+  //     logger.d('Authorization not granted');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +238,11 @@ class _ProgressTabState extends State<ProgressTab>
   }
 
   Widget _buildChildWidget(BuildContext context, User user) {
+    final appBarHeight = Scaffold.of(context).appBarMaxHeight!;
+    final bottomNavBarHeight = Platform.isAndroid ? 56 : 90;
     final size = MediaQuery.of(context).size;
+    final gridWidth = size.width - 32;
+    final gridHeight = size.height - appBarHeight - bottomNavBarHeight;
 
     return Stack(
       children: [
@@ -295,47 +268,80 @@ class _ProgressTabState extends State<ProgressTab>
           ),
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   if (widget.model.showBanner)
                     BlurredMaterialBanner(model: widget.model),
                   SizedBox(
-                    height: widget.model.showBanner
-                        ? size.height * 0.5 - 136
-                        : size.height * 0.5,
+                    height: (widget.model.showBanner)
+                        ? gridHeight / 2 - 136
+                        : gridHeight / 2,
+                    width: gridWidth / 2,
                   ),
-                  Stack(
-                    children: [
-                      DailyWeightsWidget.create(
-                        context,
-                        user: user,
-                        model: widget.model,
-                      ),
-                      DailyNutritionWidget.create(
-                        user: user,
-                        model: widget.model,
-                      ),
-                    ],
+                  DailyActivityRingWidget.create(
+                    context,
+                    user: user,
+                    model: widget.model,
+                    gridHeight: gridHeight,
+                    gridWidth: gridWidth,
                   ),
-                  Row(
-                    children: [
-                      // RecentWeightWidget(
-                      //   model: widget.model,
-                      //   user: user,
-                      // ),
-                      const Spacer(),
-                      BlurBackgroundCard(
-                        width: size.width / 2 - 24,
-                        height: 104,
-                        child: Text('asdas'),
-                      ),
-                    ],
+                  SizedBox(
+                    height: gridHeight / 4,
+                    child: Row(
+                      children: [
+                        RecentWeightWidget(
+                          model: widget.model,
+                          user: user,
+                          gridHeight: gridHeight,
+                          gridWidth: gridWidth,
+                        ),
+                        const SizedBox(width: 16),
+                        RecentBodyFatPercentageWidget(
+                          model: widget.model,
+                          user: user,
+                          gridHeight: gridHeight,
+                          gridWidth: gridWidth,
+                        ),
+                      ],
+                    ),
                   ),
-                  WeightsLiftedChartWidget.create(context, user: user),
-                  WeeklyNutritionChart.create(context, user: user),
-                  MeasurementsLineChartWidget(user: user),
-                  const SizedBox(height: 120),
+                  WeightsLiftedChartWidget.create(
+                    context,
+                    user: user,
+                    gridHeight: gridHeight,
+                    gridWidth: gridWidth,
+                  ),
+                  WeeklyNutritionCard(
+                    auth: widget.authAndDatabase.auth,
+                    database: widget.authAndDatabase.database,
+                    user: user,
+                    gridHeight: gridHeight,
+                    gridWidth: gridWidth,
+                  ),
+                  WeeklyMeasurementsCard(
+                    database: widget.authAndDatabase.database,
+                    user: user,
+                    gridHeight: gridHeight,
+                    gridWidth: gridWidth,
+                  ),
+                  SizedBox(
+                    height: gridHeight / 4,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svgs/herakles_icon.svg',
+                            width: 32,
+                          ),
+                          const SizedBox(height: 24),
+                          Text('Herakles', style: TextStyles.body1_menlo),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 90),
                 ],
               ),
             ),

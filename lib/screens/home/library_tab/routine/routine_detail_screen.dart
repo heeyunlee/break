@@ -1,23 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/routine_and_routine_workouts.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 
-import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import 'edit_routine/edit_routine_screen.dart';
 import 'routine_history_tab/routine_history_tab.dart';
@@ -25,25 +23,26 @@ import 'routine_workouts_tab/routine_workouts_tab.dart';
 import 'widgets/description_widget.dart';
 import 'widgets/equipment_required_widget.dart';
 import 'widgets/location_widget.dart';
-import 'widgets/log_start_routine_button_widget.dart';
+import 'widgets/log_routine_button.dart';
 import 'widgets/main_muscle_group_widget.dart';
 import 'widgets/save_button_widget.dart';
+import 'widgets/start_routine_button.dart';
 import 'widgets/subtitle_widget.dart';
 import 'widgets/title_widget.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
-  // final Database database;
+  final Database database;
   final Routine routine;
   final String tag;
-  // final AuthBase auth;
+  final AuthBase auth;
   final User user;
   final RoutineDetailScreenModel model;
 
   RoutineDetailScreen({
-    // required this.database,
+    required this.database,
     required this.routine,
     required this.tag,
-    // required this.auth,
+    required this.auth,
     required this.user,
     required this.model,
   });
@@ -65,12 +64,12 @@ class RoutineDetailScreen extends StatefulWidget {
         fullscreenDialog: false,
         builder: (context) => Consumer(
           builder: (context, ref, child) => RoutineDetailScreen(
-            // database: database,
             routine: routine,
-            // auth: auth,
             tag: tag,
             user: user,
             model: ref.watch(routineDetailScreenModelProvider),
+            auth: auth,
+            database: database,
           ),
         ),
       ),
@@ -87,14 +86,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   void initState() {
     super.initState();
     widget.model.init(this);
-    SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-      FeatureDiscovery.discoverFeatures(
-        context,
-        const <String>{
-          'reorder_routine_workouts',
-        },
-      );
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
+    //   FeatureDiscovery.discoverFeatures(
+    //     context,
+    //     const <String>{
+    //       'reorder_routine_workouts',
+    //     },
+    //   );
+    // });
   }
 
   @override
@@ -111,53 +110,43 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
-      body: Consumer(
-        builder: (context, ref, child) {
-          final routineId = widget.routine.routineId;
-          final routineStream = ref.watch(routineStreamProvider(routineId));
-          final routineWorkoutStream = ref.watch(
-            routineWorkoutsStreamProvider(routineId),
-          );
-
-          return routineStream.when(
-            loading: () => Center(child: CircularProgressIndicator()),
-            error: (e, stack) => EmptyContent(e: e),
-            data: (routine) => DefaultTabController(
-              length: 2,
-              child: NestedScrollView(
-                controller: widget.model.scrollController,
-                clipBehavior: Clip.antiAlias,
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    _buildSliverAppBar(routine!, routineWorkoutStream),
-                  ];
-                },
-                body: TabBarView(
-                  children: [
-                    RoutineWorkoutsTab(
-                      auth: widget.model.auth!,
-                      database: widget.model.database!,
-                      routine: routine!,
-                    ),
-                    RoutineHistoryTab(
-                      routine: routine,
-                      auth: widget.model.auth!,
-                      database: widget.model.database!,
-                    ),
-                  ],
+      body: CustomStreamBuilderWidget<RoutineAndRoutineWorkouts>(
+        stream: widget.model.database!.routineRoutineWorkoutsStream(
+          widget.routine.routineId,
+        ),
+        hasDataWidget: (context, data) => DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+            controller: widget.model.scrollController,
+            clipBehavior: Clip.antiAlias,
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [_buildSliverAppBar(data)];
+            },
+            body: TabBarView(
+              children: [
+                RoutineWorkoutsTab(
+                  // auth: widget.model.auth!,
+                  // database: widget.model.database!,
+                  auth: widget.auth,
+                  database: widget.database,
+                  routine: data.routine!,
                 ),
-              ),
+                RoutineHistoryTab(
+                  routine: data.routine!,
+                  auth: widget.auth,
+                  database: widget.database,
+                  // auth: widget.model.auth!,
+                  // database: widget.model.database!,
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildSliverAppBar(
-    Routine routine,
-    AsyncValue<List<RoutineWorkout?>> asyncValue,
-  ) {
+  Widget _buildSliverAppBar(RoutineAndRoutineWorkouts data) {
     logger.d('building sliver app bar...');
 
     final Size size = MediaQuery.of(context).size;
@@ -218,7 +207,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         Hero(
                           tag: widget.tag,
                           child: CachedNetworkImage(
-                            imageUrl: routine.imageUrl,
+                            imageUrl: data.routine!.imageUrl,
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                             fit: BoxFit.cover,
@@ -239,13 +228,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                         Positioned(
                           bottom: 16,
                           left: 16,
-                          child: TitleWidget(title: routine.routineTitle),
+                          child: TitleWidget(title: data.routine!.routineTitle),
                         ),
                         Positioned(
                           bottom: 0,
                           left: 16,
                           child: Text(
-                            routine.routineOwnerUserName,
+                            data.routine!.routineOwnerUserName,
                             style: kSubtitle2BoldGrey,
                           ),
                         ),
@@ -258,17 +247,24 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SubtitleWidget(routine: routine),
-                        MainMuscleGroupWidget(routine: routine),
-                        EquipmentRequiredWidget(routine: routine),
-                        LocationWidget(routine: routine),
-                        DescriptionWidget(description: routine.description),
+                        SubtitleWidget(routine: data.routine!),
+                        MainMuscleGroupWidget(routine: data.routine!),
+                        EquipmentRequiredWidget(routine: data.routine!),
+                        LocationWidget(routine: data.routine!),
+                        DescriptionWidget(
+                          description: data.routine!.description,
+                        ),
                         const SizedBox(height: 24),
-                        LogStartRoutineButtonWidget(
-                          user: widget.user,
-                          database: widget.model.database!,
-                          routine: routine,
-                          asyncValue: asyncValue,
+                        Row(
+                          children: [
+                            LogRoutineButton(
+                              data: data,
+                              database: widget.model.database!,
+                              user: widget.user,
+                            ),
+                            const Spacer(),
+                            StartRoutineButton(data: data),
+                          ],
                         ),
                       ],
                     ),
@@ -278,14 +274,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
             ),
           ),
           actions: [
-            if (widget.model.auth!.currentUser!.uid != routine.routineOwnerId)
+            if (widget.model.auth!.currentUser!.uid !=
+                data.routine!.routineOwnerId)
               SaveButtonWidget(
                 user: widget.user,
                 database: widget.model.database!,
                 auth: widget.model.auth!,
-                routine: routine,
+                routine: data.routine!,
               ),
-            if (widget.model.auth!.currentUser!.uid == routine.routineOwnerId)
+            if (widget.model.auth!.currentUser!.uid ==
+                data.routine!.routineOwnerId)
               IconButton(
                 icon: const Icon(
                   Icons.edit_rounded,
@@ -293,7 +291,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                 ),
                 onPressed: () => EditRoutineScreen.show(
                   context,
-                  routine: routine,
+                  routine: data.routine!,
                 ),
               ),
             const SizedBox(width: 8),
@@ -301,7 +299,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         );
       },
       child: TitleWidget(
-        title: routine.routineTitle,
+        title: data.routine!.routineTitle,
         isAppBarTitle: true,
       ),
     );

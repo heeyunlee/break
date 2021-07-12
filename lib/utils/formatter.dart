@@ -13,6 +13,13 @@ class Formatter {
     return formatter.format(weightsNotNull);
   }
 
+  static String weightsWithDecimal(num weights) {
+    final weightsNotNull = weights;
+    final formatter = NumberFormat(',##0.0');
+
+    return formatter.format(weightsNotNull);
+  }
+
   static String proteins(num weights) {
     final weightsNotNull = weights;
     final formatter = NumberFormat(',###,###.0');

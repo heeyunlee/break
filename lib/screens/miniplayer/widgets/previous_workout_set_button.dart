@@ -24,7 +24,7 @@ class PreviousWorkoutSetButton extends StatelessWidget {
     model.decrementWorkoutSetIndex();
 
     model.setWorkoutSet(
-      routineWorkout.sets![model.workoutSetIndex],
+      routineWorkout.sets[model.workoutSetIndex],
     );
 
     model.setRestTime(

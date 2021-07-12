@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/nutritions_and_routine_histories.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_and_routine_workouts.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
@@ -210,7 +213,7 @@ abstract class Database {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   });
-  Stream<List<RoutineWorkout?>> routineWorkoutsStream(String routineId);
+  Stream<List<RoutineWorkout>> routineWorkoutsStream(String routineId);
 
   Future<void> setWorkoutSet({
     required Routine routine,
@@ -231,7 +234,7 @@ abstract class Database {
   Stream<RoutineHistory?> routineHistoryStream(String routineHistoryId);
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream();
-  Stream<List<RoutineHistory>?> routineHistorySelectedDayStream(DateTime? date);
+  Stream<List<RoutineHistory>> routineHistorySelectedDayStream(DateTime? date);
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream();
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream2(
       String routineId);
@@ -260,6 +263,14 @@ abstract class Database {
   Stream<List<WorkoutHistory>> workoutHistoriesStream(String routineHistoryId);
   Stream<List<WorkoutHistory?>> workoutHistoriesThisWeekStream(
       String workoutId);
+
+  // RxDart CombinedLists
+  Stream<NutritionsAndRoutineHistories> nutritionsAndRoutineHistoriesStream(
+    DateTime? day,
+  );
+  Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
+    String routineId,
+  );
 }
 
 ///
@@ -787,7 +798,7 @@ class FirestoreDatabase implements Database {
 
   // Routine Workout Stream
   @override
-  Stream<List<RoutineWorkout?>> routineWorkoutsStream(String routineId) =>
+  Stream<List<RoutineWorkout>> routineWorkoutsStream(String routineId) =>
       _service.collectionStream<RoutineWorkout>(
         path: APIPath.routineWorkouts(routineId),
         order: 'index',
@@ -914,7 +925,7 @@ class FirestoreDatabase implements Database {
 
   // Stream of Selected Day's Routine History
   @override
-  Stream<List<RoutineHistory>?> routineHistorySelectedDayStream(
+  Stream<List<RoutineHistory>> routineHistorySelectedDayStream(
           DateTime? date) =>
       _service.collectionStreamOfSelectedDay<RoutineHistory>(
         path: APIPath.routineHistories(),
@@ -1104,4 +1115,36 @@ class FirestoreDatabase implements Database {
         fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );
+
+  @override
+  Stream<NutritionsAndRoutineHistories> nutritionsAndRoutineHistoriesStream(
+    DateTime? day,
+  ) {
+    return Rx.combineLatest2(
+      routineHistorySelectedDayStream(day),
+      nutritionsSelectedDayStream(day),
+      (List<RoutineHistory> routineHistories, List<Nutrition> nutritions) {
+        return NutritionsAndRoutineHistories(
+          nutritions: nutritions,
+          routineHistories: routineHistories,
+        );
+      },
+    );
+  }
+
+  @override
+  Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
+    String routineId,
+  ) {
+    return Rx.combineLatest2(
+      routineStream(routineId),
+      routineWorkoutsStream(routineId),
+      (Routine? routine, List<RoutineWorkout?> routineWorkouts) {
+        return RoutineAndRoutineWorkouts(
+          routine: routine,
+          routineWorkouts: routineWorkouts,
+        );
+      },
+    );
+  }
 }

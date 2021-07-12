@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -16,8 +17,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
-import '../../../../styles/constants.dart';
-import '../weekly_progress_chart_model.dart';
+import '../../weekly_progress_chart_model.dart';
 import 'routine_histories_screen.dart';
 
 class WeightsLiftedChartWidget extends StatefulWidget {
@@ -25,6 +25,8 @@ class WeightsLiftedChartWidget extends StatefulWidget {
   final Database database;
   final User user;
   final WeeklyProgressChartModel model;
+  final double gridHeight;
+  final double gridWidth;
 
   const WeightsLiftedChartWidget({
     Key? key,
@@ -32,9 +34,16 @@ class WeightsLiftedChartWidget extends StatefulWidget {
     required this.database,
     required this.user,
     required this.model,
+    required this.gridHeight,
+    required this.gridWidth,
   }) : super(key: key);
 
-  static Widget create(BuildContext context, {required User user}) {
+  static Widget create(
+    BuildContext context, {
+    required User user,
+    required double gridHeight,
+    required double gridWidth,
+  }) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
@@ -42,9 +51,10 @@ class WeightsLiftedChartWidget extends StatefulWidget {
       builder: (context, ref, child) => WeightsLiftedChartWidget(
         auth: auth,
         database: database,
-        // unitOfMass: unitOfMass,
         user: user,
         model: ref.watch(weeklyProgressChartModelProvider),
+        gridHeight: gridHeight,
+        gridWidth: gridWidth,
       ),
     );
   }
@@ -56,10 +66,6 @@ class WeightsLiftedChartWidget extends StatefulWidget {
 
 class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   int? touchedIndex;
-  // late double _maxY = 20000;
-
-  // List<DateTime> _dates = [];
-  // List<String> _daysOfTheWeek = [];
 
   void _setData(List<RoutineHistory?> streamData, List<double> relativeYs) {
     Map<DateTime, List<RoutineHistory?>> _mapData;
@@ -102,7 +108,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
             widget.model.setWeightsChartMaxY(roundedLargest.toDouble());
           }
         } else {
-          widget.model.setNutritionMaxY(roundedLargest.toDouble());
+          widget.model.setWeightsChartMaxY(roundedLargest.toDouble());
         }
 
         listOfYs.forEach((element) {
@@ -131,6 +137,8 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
+      width: widget.gridWidth,
+      height: widget.gridHeight / 2,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
@@ -201,8 +209,7 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
             ? widget.user.dailyWeightsGoal! / widget.model.weightsChartMaxY * 10
             : 1.00;
 
-        return AspectRatio(
-          aspectRatio: 1.5,
+        return Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 8),
             child: BarChart(

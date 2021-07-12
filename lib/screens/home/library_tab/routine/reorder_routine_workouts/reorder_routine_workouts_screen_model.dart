@@ -38,8 +38,6 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   void initList(List<RoutineWorkout?> list) {
     _newList = list;
     _newMap = list.asMap();
-
-    print(_newMap.values.first?.toJson());
   }
 
   void onReorder(int oldIndex, int newIndex) {

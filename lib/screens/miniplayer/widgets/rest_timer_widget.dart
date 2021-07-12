@@ -17,7 +17,7 @@ class RestTimerWidget extends StatelessWidget {
 
       // Find length of workout set
       final routineWorkout = model.currentRoutineWorkout!;
-      final workoutSetLength = routineWorkout.sets!.length - 1;
+      final workoutSetLength = routineWorkout.sets.length - 1;
 
       model.incrementCurrentIndex();
       model.setIsWorkoutPaused(false);
@@ -27,7 +27,7 @@ class RestTimerWidget extends StatelessWidget {
         model.incrementWorkoutSetIndex();
 
         model.setWorkoutSet(
-          routineWorkout.sets![model.workoutSetIndex],
+          routineWorkout.sets[model.workoutSetIndex],
         );
 
         final workoutSet = model.currentWorkoutSet!;
@@ -48,7 +48,7 @@ class RestTimerWidget extends StatelessWidget {
           final newRoutineWorkout = model.currentRoutineWorkout!;
 
           model.setWorkoutSet(
-            newRoutineWorkout.sets![model.workoutSetIndex],
+            newRoutineWorkout.sets[model.workoutSetIndex],
           );
 
           final workoutSet = model.currentWorkoutSet!;

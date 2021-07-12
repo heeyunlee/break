@@ -16,7 +16,9 @@ class User {
   final num? dailyProteinGoal; // Nullable
   final String displayName;
   final int? backgroundImageIndex; // Nullable
-  final DateTime? lastHealthDataFetchedTime;
+  final DateTime? lastHealthDataFetchedTime; // Nullable
+  final num? weightGoal; // Nullable
+  final num? bodyFatPercentageGoal; // Nullable
 
   const User({
     required this.userId,
@@ -35,6 +37,8 @@ class User {
     required this.displayName,
     this.backgroundImageIndex,
     this.lastHealthDataFetchedTime,
+    this.weightGoal,
+    this.bodyFatPercentageGoal,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -55,6 +59,8 @@ class User {
       final int? backgroundImageIndex = data['backgroundImageIndex'];
       final DateTime? lastHealthDataFetchedTime =
           data['lastHealthDataFetchedTime']?.toDate();
+      final num? weightGoal = data['weightGoal'];
+      final num? bodyFatPercentageGoal = data['bodyFatPercentageGoal'];
 
       return User(
         userId: documentId,
@@ -73,6 +79,8 @@ class User {
         displayName: displayName,
         backgroundImageIndex: backgroundImageIndex,
         lastHealthDataFetchedTime: lastHealthDataFetchedTime,
+        weightGoal: weightGoal,
+        bodyFatPercentageGoal: bodyFatPercentageGoal,
       );
     } else {
       throw 'null';
@@ -96,6 +104,8 @@ class User {
     data['displayName'] = displayName;
     data['backgroundImageIndex'] = backgroundImageIndex;
     data['lastHealthDataFetchedTime'] = lastHealthDataFetchedTime;
+    data['weightGoal'] = weightGoal;
+    data['bodyFatPercentageGoal'] = bodyFatPercentageGoal;
 
     return data;
   }

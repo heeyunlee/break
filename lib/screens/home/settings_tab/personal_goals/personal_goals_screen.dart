@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/screens/home/settings_tab/personal_goals/set_body_fat_percentage_screen.dart';
 import 'package:workout_player/screens/home/settings_tab/personal_goals/set_protein_goal_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -10,9 +11,11 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import '../../../../styles/constants.dart';
 import 'set_lifting_goal_screen.dart';
+import 'set_weight_goal_screen.dart';
 
 class PersonalGoalsScreen extends StatelessWidget {
   final Database database;
@@ -72,11 +75,11 @@ class PersonalGoalsScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return StreamBuilder<User?>(
+    return CustomStreamBuilderWidget<User?>(
       initialData: userDummyData,
       stream: database.userStream(),
-      builder: (context, snapshot) {
-        final unit = Formatter.unitOfMass(snapshot.data!.unitOfMass);
+      hasDataWidget: (context, user) {
+        final unit = Formatter.unitOfMass(user!.unitOfMass);
 
         return SingleChildScrollView(
           child: Column(
@@ -84,6 +87,74 @@ class PersonalGoalsScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
+
+              // WEIGHT GOAL
+              ListTile(
+                onTap: () => SetWeightGoalScreen.show(
+                  context,
+                  isRoot: !isRoot,
+                  user: user,
+                ),
+                leading: const Icon(
+                  Icons.monitor_weight_outlined,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  S.current.weightGoal,
+                  style: TextStyles.body2,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (user.weightGoal != null)
+                      Text(
+                        '${Formatter.weightsWithDecimal(user.weightGoal!)} $unit',
+                        style: kBodyText2Grey,
+                      ),
+                    const SizedBox(width: 16),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
+                  ],
+                ),
+              ),
+
+              // BODY FAT PERCENTAGE GOAL
+              ListTile(
+                onTap: () => SetBodyFatPercentageScreen.show(
+                  context,
+                  isRoot: !isRoot,
+                  user: user,
+                ),
+                leading: const Icon(
+                  Icons.monitor_weight_outlined,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  S.current.bodyFatGoal,
+                  style: TextStyles.body2,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (user.bodyFatPercentageGoal != null)
+                      Text(
+                        '${Formatter.weightsWithDecimal(user.bodyFatPercentageGoal!)} %',
+                        style: kBodyText2Grey,
+                      ),
+                    const SizedBox(width: 16),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
+                  ],
+                ),
+              ),
+
+              // PROTEIN GOAL
               ListTile(
                 onTap: () => SetProteinGoalScreen.show(
                   context,
@@ -100,9 +171,9 @@ class PersonalGoalsScreen extends StatelessWidget {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (snapshot.data!.dailyProteinGoal != null)
+                    if (user.dailyProteinGoal != null)
                       Text(
-                        '${snapshot.data!.dailyProteinGoal!} g',
+                        '${user.dailyProteinGoal!} g',
                         style: kBodyText2Grey,
                       ),
                     const SizedBox(width: 16),
@@ -114,10 +185,12 @@ class PersonalGoalsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
+              // LIFTING GOAL
               ListTile(
                 onTap: () => SetLiftingGoalScreen.show(
                   context,
-                  user: snapshot.data!,
+                  user: user,
                   isRoot: !isRoot,
                 ),
                 leading: const Icon(
@@ -131,9 +204,9 @@ class PersonalGoalsScreen extends StatelessWidget {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (snapshot.data!.dailyWeightsGoal != null)
+                    if (user.dailyWeightsGoal != null)
                       Text(
-                        '${Formatter.weights(snapshot.data!.dailyWeightsGoal!)} $unit',
+                        '${Formatter.weights(user.dailyWeightsGoal!)} $unit',
                         style: kBodyText2Grey,
                       ),
                     const SizedBox(width: 16),
@@ -145,7 +218,6 @@ class PersonalGoalsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // const Divider(color: kGrey700, indent: 16, endIndent: 16),
             ],
           ),
         );

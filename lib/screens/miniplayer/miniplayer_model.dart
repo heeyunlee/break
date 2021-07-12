@@ -165,4 +165,6 @@ class MiniplayerModel with ChangeNotifier {
     _restTime = time;
     notifyListeners();
   }
+
+  void startRoutine() {}
 }

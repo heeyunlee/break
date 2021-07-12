@@ -89,26 +89,26 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
-              Card(
-                color: kCardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: InkWell(
-                  onTap: () => widget.model.showModalBottomSheet(context),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(S.current.addPhotos, style: TextStyles.body2),
-                      const SizedBox(height: 8),
-                      Icon(
-                        Icons.add_rounded,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Card(
+              //   color: kCardColor,
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(12),
+              //   ),
+              //   child: InkWell(
+              //     onTap: () => widget.model.showModalBottomSheet(context),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text(S.current.addPhotos, style: TextStyles.body2),
+              //         const SizedBox(height: 8),
+              //         Icon(
+              //           Icons.add_rounded,
+              //           color: Colors.white,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               ...List.generate(
                 ProgressTabModel.bgURL.length,
                 (index) => GestureDetector(
@@ -135,31 +135,31 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
                   ),
                 ),
               ),
-              ...List.generate(
-                widget.model.personalImagesUrls.length,
-                (index) {
-                  print('${widget.model.personalImagesUrls.length}');
-                  return GestureDetector(
-                    child: Card(
-                      color: Colors.transparent,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Stack(
-                        clipBehavior: Clip.antiAlias,
-                        fit: StackFit.passthrough,
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: widget.model.personalImagesUrls[index],
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+              // ...List.generate(
+              //   widget.model.personalImagesUrls.length,
+              //   (index) {
+              //     print('${widget.model.personalImagesUrls.length}');
+              //     return GestureDetector(
+              //       child: Card(
+              //         color: Colors.transparent,
+              //         clipBehavior: Clip.antiAlias,
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //         child: Stack(
+              //           clipBehavior: Clip.antiAlias,
+              //           fit: StackFit.passthrough,
+              //           children: [
+              //             CachedNetworkImage(
+              //               imageUrl: widget.model.personalImagesUrls[index],
+              //               fit: BoxFit.cover,
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
             ],
           );
         },

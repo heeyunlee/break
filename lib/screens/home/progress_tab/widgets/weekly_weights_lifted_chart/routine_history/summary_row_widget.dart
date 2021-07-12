@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../../../../../styles/constants.dart';
 
 class SummaryRowWidget extends StatelessWidget {
   const SummaryRowWidget({

@@ -174,12 +174,12 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       routineWorkouts.forEach(
         (rw) {
           // final workoutHistoryId = documentIdFromCurrentDate();
-          final routineHistoryId = 'WH${Uuid().v1()}';
+          final uniqueId = UniqueKey().toString();
 
-          // final uniqueId = UniqueKey().toString();
+          final workoutHistoryId = 'WH${Uuid().v1()}$uniqueId';
 
           final workoutHistory = WorkoutHistory(
-            workoutHistoryId: routineHistoryId,
+            workoutHistoryId: workoutHistoryId,
             routineHistoryId: routineHistoryId,
             workoutId: rw!.workoutId,
             routineId: rw.routineId,

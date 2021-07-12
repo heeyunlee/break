@@ -14,7 +14,7 @@ class BlurBackgroundCard extends StatelessWidget {
   const BlurBackgroundCard({
     Key? key,
     required this.child,
-    this.color = Colors.black54,
+    this.color,
     this.vertPadding = 16,
     this.horzPadding = 0,
     this.borderRadius = 24,
@@ -24,39 +24,44 @@ class BlurBackgroundCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: vertPadding!,
-        horizontal: horzPadding!,
-      ),
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius!),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.14),
-              blurRadius: 5,
-              offset: Offset(0, 4),
-            ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.12),
-              blurRadius: 10,
-              offset: Offset(0, 1),
-            ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.20),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: vertPadding!,
+          horizontal: horzPadding!,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(borderRadius!),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
-            child: Container(color: color!, child: child),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius!),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.14),
+                blurRadius: 5,
+                offset: Offset(0, 4),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.12),
+                blurRadius: 10,
+                offset: Offset(0, 1),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.20),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(borderRadius!),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(
+                color: color ?? Colors.black38,
+                child: child,
+              ),
+            ),
           ),
         ),
       ),

@@ -18,7 +18,7 @@ class NextWRoutineorkoutButton extends StatelessWidget {
     final routineWorkout = model.currentRoutineWorkout!;
 
     if (model.currentIndex < model.setsLength) {
-      final workoutSetLength = routineWorkout.sets!.length - 1;
+      final workoutSetLength = routineWorkout.sets.length - 1;
       model.setCurrentIndex(
           model.currentIndex - model.workoutSetIndex + workoutSetLength + 1);
     }
@@ -35,7 +35,7 @@ class NextWRoutineorkoutButton extends StatelessWidget {
     model.setRoutineWorkout(routineWorkouts[model.routineWorkoutIndex]);
 
     // sets from new Routine Workout
-    final sets = model.currentRoutineWorkout!.sets!;
+    final sets = model.currentRoutineWorkout!.sets;
 
     if (sets.isNotEmpty) {
       model.setWorkoutSet(sets[0]);

@@ -71,4 +71,18 @@ class ButtonStyles {
       return TextStyles.google1;
     }),
   );
+
+  static final outlined1 = OutlinedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    side: BorderSide(width: 2, color: kPrimaryColor),
+  );
+
+  static final elevated1 = ElevatedButton.styleFrom(
+    primary: kPrimaryColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
 }

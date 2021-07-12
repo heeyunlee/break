@@ -9,12 +9,12 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/screens/speed_dial/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
 
-import '../../../../styles/constants.dart';
 import 'routine_history/daily_summary_card.dart';
 import 'routine_history/routine_history_detail_screen.dart';
 
@@ -86,17 +86,13 @@ class RoutineHistoriesScreen extends StatelessWidget {
             totalDuration: routineHistory.totalDuration,
             earnedBadges: routineHistory.earnedBadges,
             unitOfMass: routineHistory.unitOfMass,
-            onTap: () {
-              debugPrint('Activity Card was tapped');
-
-              RoutineHistoryDetailScreen.show(
-                context,
-                routineHistory: routineHistory,
-                database: database,
-                auth: auth,
-                user: user,
-              );
-            },
+            onTap: () => RoutineHistoryDetailScreen.show(
+              context,
+              routineHistory: routineHistory,
+              database: database,
+              auth: auth,
+              user: user,
+            ),
           );
         },
         isLive: true,

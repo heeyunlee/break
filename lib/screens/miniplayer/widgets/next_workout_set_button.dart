@@ -26,7 +26,7 @@ class NextWorkoutSetButton extends StatelessWidget {
     model.incrementWorkoutSetIndex();
 
     // set Workout Set
-    model.setWorkoutSet(routineWorkout.sets![model.workoutSetIndex]);
+    model.setWorkoutSet(routineWorkout.sets[model.workoutSetIndex]);
 
     model.setRestTime(
       Duration(seconds: model.currentWorkoutSet!.restTime ?? 60),
@@ -39,7 +39,7 @@ class NextWorkoutSetButton extends StatelessWidget {
     final workoutSet = model.currentWorkoutSet;
 
     final isLastSet = (workoutSet != null)
-        ? model.workoutSetIndex == routineWorkout.sets!.length - 1
+        ? model.workoutSetIndex == routineWorkout.sets.length - 1
         : true;
 
     return Tooltip(

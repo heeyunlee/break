@@ -3,26 +3,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workout_player/models/workout_history.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/screens/home/home_screen_provider.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 
-import '../../../home_screen_provider.dart';
 import 'summary_row_widget.dart';
 import 'workout_history_card.dart';
 
@@ -49,10 +50,6 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
     required AuthBase auth,
     required Future<User?> user,
   }) async {
-    // final database = provider.Provider.of<Database>(context, listen: false);
-    // final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    // final user = await database.getUserDocument(auth.currentUser!.uid);
-
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(

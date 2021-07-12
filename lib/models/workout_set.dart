@@ -62,4 +62,28 @@ class WorkoutSet {
       'restIndex': restIndex,
     };
   }
+
+  WorkoutSet copyWith({
+    String? workoutSetId,
+    bool? isRest,
+    int? index,
+    String? setTitle,
+    num? weights,
+    int? reps,
+    int? restTime,
+    int? setIndex,
+    int? restIndex,
+  }) {
+    return WorkoutSet(
+      workoutSetId: workoutSetId ?? this.workoutSetId,
+      isRest: isRest ?? this.isRest,
+      index: index ?? this.index,
+      setTitle: setTitle ?? this.setTitle,
+      weights: weights ?? this.weights,
+      reps: reps ?? this.reps,
+      restTime: restTime ?? this.restTime,
+      setIndex: setIndex ?? this.setIndex,
+      restIndex: restIndex ?? this.restIndex,
+    );
+  }
 }

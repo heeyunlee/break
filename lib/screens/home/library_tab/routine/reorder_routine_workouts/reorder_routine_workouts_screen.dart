@@ -10,6 +10,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 
 import 'reorder_routine_workouts_screen_model.dart';
 
@@ -62,7 +63,6 @@ class _ReorderRoutineWorkoutsScreenState
   Widget build(BuildContext context) {
     logger.d('reorder routine workout screen building...');
 
-    final locale = Intl.getCurrentLocale();
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -80,7 +80,25 @@ class _ReorderRoutineWorkoutsScreenState
           icon: const Icon(Icons.close_rounded),
         ),
       ),
-      body: ReorderableListView.builder(
+      body: _buildBody(),
+      floatingActionButton: SizedBox(
+        width: size.width - 32,
+        child: FloatingActionButton.extended(
+          onPressed: widget.model.areMapsEqual
+              ? null
+              : () => widget.model.onSubmit(context, widget.routine),
+          backgroundColor: widget.model.areMapsEqual ? kGrey700 : kPrimaryColor,
+          label: Text(S.current.save, style: TextStyles.button1_bold),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    final locale = Intl.getCurrentLocale();
+
+    if (widget.routineWorkouts.isNotEmpty) {
+      return ReorderableListView.builder(
         itemCount: widget.model.newList.length,
         onReorder: widget.model.onReorder,
         header: Padding(
@@ -129,17 +147,9 @@ class _ReorderRoutineWorkoutsScreenState
             ),
           );
         },
-      ),
-      floatingActionButton: SizedBox(
-        width: size.width - 32,
-        child: FloatingActionButton.extended(
-          onPressed: widget.model.areMapsEqual
-              ? null
-              : () => widget.model.onSubmit(context, widget.routine),
-          backgroundColor: widget.model.areMapsEqual ? kGrey700 : kPrimaryColor,
-          label: Text(S.current.save, style: TextStyles.button1_bold),
-        ),
-      ),
-    );
+      );
+    } else {
+      return EmptyContent(message: S.current.noWorkoutsWereAddedYet);
+    }
   }
 }

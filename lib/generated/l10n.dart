@@ -620,20 +620,20 @@ class S {
     );
   }
 
-  /// `Deleted a Rest!`
+  /// `Deleted a rest set!`
   String get deletedARestMessage {
     return Intl.message(
-      'Deleted a Rest!',
+      'Deleted a rest set!',
       name: 'deletedARestMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Deleted a Set!`
+  /// `Deleted a workout set!`
   String get deletedASet {
     return Intl.message(
-      'Deleted a Set!',
+      'Deleted a workout set!',
       name: 'deletedASet',
       desc: '',
       args: [],
@@ -1930,10 +1930,10 @@ class S {
     );
   }
 
-  /// `Body Fat`
+  /// `Body Fat Percentage`
   String get bodyFat {
     return Intl.message(
-      'Body Fat',
+      'Body Fat Percentage',
       name: 'bodyFat',
       desc: '',
       args: [],
@@ -3650,10 +3650,10 @@ class S {
     );
   }
 
-  /// `Set your daily protein and lifting goal!`
+  /// `Set various goals for your health and fitness!`
   String get progressTabBannerTitle {
     return Intl.message(
-      'Set your daily protein and lifting goal!',
+      'Set various goals for your health and fitness!',
       name: 'progressTabBannerTitle',
       desc: '',
       args: [],
@@ -3915,6 +3915,116 @@ class S {
     return Intl.message(
       'Long press the card to reorder',
       name: 'reorderRoutineWorkoutsHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No workouts were added yet`
+  String get noWorkoutsWereAddedYet {
+    return Intl.message(
+      'No workouts were added yet',
+      name: 'noWorkoutsWereAddedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight Goal`
+  String get weightGoal {
+    return Intl.message(
+      'Weight Goal',
+      name: 'weightGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Weight Goal`
+  String get setWeightGoalSnackbarTitle {
+    return Intl.message(
+      'Set Weight Goal',
+      name: 'setWeightGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set the weight goal`
+  String get setWeightGoalSnackbarMessage {
+    return Intl.message(
+      'You\'ve successfully set the weight goal',
+      name: 'setWeightGoalSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weights`
+  String get bodyWeight {
+    return Intl.message(
+      'Weights',
+      name: 'bodyWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{weightDif} to your goal!`
+  String recentWeightWidgetSubtitle(Object weightDif) {
+    return Intl.message(
+      '$weightDif to your goal!',
+      name: 'recentWeightWidgetSubtitle',
+      desc: '',
+      args: [weightDif],
+    );
+  }
+
+  /// `Set Body Fat Percentage Goal`
+  String get setBodyFatPercentageGoalSnackbarTitle {
+    return Intl.message(
+      'Set Body Fat Percentage Goal',
+      name: 'setBodyFatPercentageGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set the body fat percentage goal`
+  String get setBodyFatPercentageGoalSnackbarMessage {
+    return Intl.message(
+      'You\'ve successfully set the body fat percentage goal',
+      name: 'setBodyFatPercentageGoalSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Body Fat Percentage Goal`
+  String get bodyFatGoal {
+    return Intl.message(
+      'Body Fat Percentage Goal',
+      name: 'bodyFatGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{difference}% to your goal!`
+  String recentBodyFatWidgetSubtitle(Object difference) {
+    return Intl.message(
+      '$difference% to your goal!',
+      name: 'recentBodyFatWidgetSubtitle',
+      desc: '',
+      args: [difference],
+    );
+  }
+
+  /// `Delete a set`
+  String get deleteWorkoutSet {
+    return Intl.message(
+      'Delete a set',
+      name: 'deleteWorkoutSet',
       desc: '',
       args: [],
     );

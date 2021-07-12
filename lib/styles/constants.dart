@@ -31,6 +31,7 @@ const kBackgroundColor = Color(0xff121212);
 const kAppBarColor = Color(0xff1C1C1C);
 const kCardColor = Color(0xff242526);
 const kCardColorLight = Color(0xff3C3C3C);
+const kCardColorSuperLight = Color(0xff666666);
 const kButtonEnabledColor = Color(0xff4E4F50);
 const kDisabledColor = Color(0xff9A9EA6);
 const kFocusedColor = Color(0xff605350);

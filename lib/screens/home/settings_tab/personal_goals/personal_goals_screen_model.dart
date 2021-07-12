@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
+import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 final personalGoalsScreenModelProvider = ChangeNotifierProvider(
   (ref) => PersonalGoalsScreenModel(),
@@ -23,6 +26,19 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     database = container.read(databaseProvider2(auth!.currentUser?.uid));
   }
 
+  num _proteinGoal = 150.0;
+  num _liftingGoal = 20000.0;
+  num _weightGoal = 70.0;
+  num _bodyFatPercentageGoal = 15.0;
+  bool _isButtonPressed = false;
+
+  num get proteinGoal => _proteinGoal;
+  num get liftingGoal => _liftingGoal;
+  num get weightGoal => _weightGoal;
+  num get bodyFatPercentageGoal => _bodyFatPercentageGoal;
+  bool get isButtonPressed => _isButtonPressed;
+
+  // Protein Goal
   Future<void> initProteinGoal() async {
     final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
     _proteinGoal = user.dailyProteinGoal ?? 150;
@@ -30,20 +46,6 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initLiftingGoal() async {
-    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
-    _liftingGoal = user.dailyWeightsGoal ?? 20000;
-
-    notifyListeners();
-  }
-
-  num _proteinGoal = 150.0;
-  num _liftingGoal = 20000.0;
-
-  num get proteinGoal => _proteinGoal;
-  num get liftingGoal => _liftingGoal;
-
-  // Protein Goal
   void incrementProteinGoal() {
     _proteinGoal++;
     notifyListeners();
@@ -55,21 +57,36 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   }
 
   Future<void> setProteinGoal(BuildContext context) async {
-    final userData = {
-      'dailyProteinGoal': _proteinGoal,
-    };
+    try {
+      final userData = {
+        'dailyProteinGoal': _proteinGoal,
+      };
 
-    await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database!.updateUser(auth!.currentUser!.uid, userData);
 
-    Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
-    getSnackbarWidget(
-      S.current.setProteinGoalSnackbarTitle,
-      S.current.setProteinGoalSnackbarBody,
-    );
+      getSnackbarWidget(
+        S.current.setProteinGoalSnackbarTitle,
+        S.current.setProteinGoalSnackbarBody,
+      );
+    } on FirebaseException catch (e) {
+      _showSignInError(e, context);
+    }
   }
 
   // Lifting Goal
+  Future<void> initLiftingGoal() async {
+    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+    _liftingGoal = (user.dailyWeightsGoal != null)
+        ? user.dailyWeightsGoal!
+        : (user.unitOfMass == 0)
+            ? 10000
+            : 20000;
+
+    notifyListeners();
+  }
+
   void incrementLiftingGoal() {
     _liftingGoal += 500;
     notifyListeners();
@@ -81,17 +98,177 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   }
 
   Future<void> setLiftingGoal(BuildContext context) async {
-    final userData = {
-      'dailyWeightsGoal': _liftingGoal,
-    };
+    try {
+      final userData = {
+        'dailyWeightsGoal': _liftingGoal,
+      };
 
-    await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database!.updateUser(auth!.currentUser!.uid, userData);
 
-    Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
-    getSnackbarWidget(
-      S.current.setLiftingGoalSnackbarTitle,
-      S.current.setLiftingGoalSnackbarBody,
+      getSnackbarWidget(
+        S.current.setLiftingGoalSnackbarTitle,
+        S.current.setLiftingGoalSnackbarBody,
+      );
+    } on FirebaseException catch (e) {
+      _showSignInError(e, context);
+    }
+  }
+
+  // WEIGHT
+  Future<void> initWeightGoal(BuildContext context) async {
+    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+
+    _weightGoal = (user.weightGoal != null)
+        ? user.weightGoal!
+        : (user.unitOfMass == 0)
+            ? 70
+            : 150;
+
+    notifyListeners();
+  }
+
+  void incrementWeightGoal() {
+    _weightGoal += 0.1;
+    notifyListeners();
+  }
+
+  void decrementWeightGoal() {
+    _weightGoal -= 0.1;
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartDecrementWeight(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      decrementWeightGoal();
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndDecrementWeight(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartIncrementWeight(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      incrementWeightGoal();
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndIncrementWeight(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> setWeightGoal(BuildContext context) async {
+    try {
+      final userData = {
+        'weightGoal': _weightGoal,
+      };
+
+      await database!.updateUser(auth!.currentUser!.uid, userData);
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
+      getSnackbarWidget(
+        S.current.setWeightGoalSnackbarTitle,
+        S.current.setWeightGoalSnackbarMessage,
+      );
+    } on FirebaseException catch (e) {
+      _showSignInError(e, context);
+    }
+  }
+
+  // BODY FAT PERCENTAGE GOAL
+  Future<void> initBodyFatPercentageGoal(BuildContext context) async {
+    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+
+    _weightGoal = user.bodyFatPercentageGoal ?? 15.0;
+
+    notifyListeners();
+  }
+
+  void incrementBodyFatGoall() {
+    _bodyFatPercentageGoal += 0.1;
+    notifyListeners();
+  }
+
+  void decrementBodyFatGoal() {
+    _bodyFatPercentageGoal -= 0.1;
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartDecrementBodyFat(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      decrementBodyFatGoal();
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndDecrementBodyFat(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartIncrementBodyFat(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      incrementBodyFatGoall();
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndIncrementBodyFat(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> setBodyFatPercentageGoal(BuildContext context) async {
+    try {
+      final userData = {
+        'bodyFatPercentageGoal': _bodyFatPercentageGoal,
+      };
+
+      await database!.updateUser(auth!.currentUser!.uid, userData);
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
+      getSnackbarWidget(
+        S.current.setBodyFatPercentageGoalSnackbarTitle,
+        S.current.setBodyFatPercentageGoalSnackbarMessage,
+      );
+    } on FirebaseException catch (e) {
+      _showSignInError(e, context);
+    }
+  }
+
+  // IS BUTTON PRESSED
+  void setIsButtonPressed(bool value) {
+    _isButtonPressed = value;
+    notifyListeners();
+  }
+
+  void _showSignInError(FirebaseException exception, BuildContext context) {
+    logger.e(exception);
+
+    showExceptionAlertDialog(
+      context,
+      title: S.current.operationFailed,
+      exception: exception.message ?? S.current.errorOccuredMessage,
     );
   }
 }

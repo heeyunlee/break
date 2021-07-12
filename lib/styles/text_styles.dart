@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class TextStyles {
@@ -96,6 +97,14 @@ class TextStyles {
   static const headline5_menlo_primary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w400,
+    color: kPrimaryColor,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
+  static const headline5_menlo_bold_primary = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
     color: kPrimaryColor,
     letterSpacing: 0,
     fontFamily: menlo,
@@ -239,6 +248,15 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  // BUTTON 2
+  static const button2 = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: 1.5,
+    fontFamily: defaultFontFamily,
+  );
+
   // CAPTION
   static const caption1 = TextStyle(
     fontSize: 12,
@@ -309,5 +327,10 @@ class TextStyles {
     color: Colors.white30,
     fontWeight: FontWeight.normal,
     fontFamily: 'Roboto',
+  );
+
+  static final blackHans1 = GoogleFonts.blackHanSans(
+    color: Colors.white,
+    fontSize: 24,
   );
 }

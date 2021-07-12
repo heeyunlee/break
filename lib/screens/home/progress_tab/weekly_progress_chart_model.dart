@@ -7,13 +7,13 @@ final weeklyProgressChartModelProvider = ChangeNotifierProvider(
 );
 
 class WeeklyProgressChartModel extends ChangeNotifier {
-  num _nutritionMaxY = 150;
+  // num _nutritionMaxY = 150;
   num _weightsChartMaxY = 20000;
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   // List<double> _relativeList = [];
 
-  num get nutritionMaxY => _nutritionMaxY;
+  // num get nutritionMaxY => _nutritionMaxY;
   num get weightsChartMaxY => _weightsChartMaxY;
   List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
@@ -35,9 +35,9 @@ class WeeklyProgressChartModel extends ChangeNotifier {
     );
   }
 
-  void setNutritionMaxY(num value) {
-    _nutritionMaxY = value;
-  }
+  // void setNutritionMaxY(num value) {
+  //   _nutritionMaxY = value;
+  // }
 
   void setWeightsChartMaxY(num value) {
     _weightsChartMaxY = value;

@@ -26,9 +26,12 @@ class ChooseBackgroundButton extends StatelessWidget {
           'Change background of the progress tab',
           style: TextStyles.body2,
         ),
+        backgroundDismissible: true,
+        overflowMode: OverflowMode.clipContent,
         backgroundColor: kPrimary800Color,
         targetColor: kPrimaryColor,
         textColor: Colors.white,
+        backgroundOpacity: 0.95,
         onComplete: () async {
           await FeatureDiscovery.clearPreferences(context, <String>{
             'choose_background',

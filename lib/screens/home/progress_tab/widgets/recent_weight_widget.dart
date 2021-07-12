@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/screens/home/progress_tab/progress_tab_model.dart';
@@ -11,50 +12,80 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 class RecentWeightWidget extends StatelessWidget {
   final ProgressTabModel model;
   final User user;
+  final double gridHeight;
+  final double gridWidth;
 
-  const RecentWeightWidget({Key? key, required this.model, required this.user})
-      : super(key: key);
+  const RecentWeightWidget({
+    Key? key,
+    required this.model,
+    required this.user,
+    required this.gridHeight,
+    required this.gridWidth,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return BlurBackgroundCard(
-      width: size.width / 2 - 24,
-      height: 104,
-      borderRadius: 8,
+      width: gridWidth / 2 - 8,
+      height: gridHeight / 4 - 32,
+      vertPadding: 0,
       child: CustomStreamBuilderWidget<List<Measurement>>(
         stream: model.database!.measurementsStream(),
         hasDataWidget: (context, list) {
-          final lastMeasurement = list.last;
-          final date = DateFormat.MMMEd().format(lastMeasurement.loggedDate);
-          final weight = Formatter.weights(lastMeasurement.bodyWeight ?? 0);
           final unit = Formatter.unitOfMass(user.unitOfMass);
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  date,
-                  style: TextStyles.overline,
+
+          final Measurement? lastMeasurement = list.isNotEmpty
+              ? list.lastWhere((element) => element.bodyWeight != null)
+              : null;
+
+          final date = DateFormat.MMMEd().format(
+            lastMeasurement?.loggedDate ?? DateTime.now(),
+          );
+
+          final weight = (lastMeasurement != null)
+              ? Formatter.weights(lastMeasurement.bodyWeight!)
+              : '--.-';
+
+          final difference =
+              (user.weightGoal != null && lastMeasurement != null)
+                  ? user.weightGoal! - lastMeasurement.bodyWeight!
+                  : null;
+
+          final formattedDif = Formatter.weightsWithDecimal(difference ?? 0);
+
+          return Stack(
+            children: [
+              Positioned(
+                right: 16,
+                top: 16,
+                child: Text(date, style: TextStyles.overline),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '$weight $unit',
-                  style: TextStyles.headline5_menlo_primary,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(S.current.bodyWeight, style: TextStyles.button1),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$weight $unit',
+                      style: TextStyles.headline5_menlo_bold_primary,
+                    ),
+                    const SizedBox(height: 4),
+                    if (difference != null)
+                      Text(
+                        S.current
+                            .recentWeightWidgetSubtitle('$formattedDif $unit'),
+                        style: TextStyles.caption1,
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  '-2.2kg',
-                  style: TextStyles.caption1,
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
