@@ -126,18 +126,12 @@ class SearchCategoryScreen extends StatelessWidget {
         message: S.current.emptyContentTitle,
       ),
       header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-      footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      footer: const SliverToBoxAdapter(child: SizedBox(height: 120)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        // final snapshot = documentSnapshot as DocumentSnapshot<Workout?>;
-        // // final documentId = snapshot.id;
-        // final workout = snapshot.data()!;
-
-        // final workout = Workout.fromJson(data!, documentId);
-
         final workout = documentSnapshot.data() as Workout;
 
         final leadingText = EquipmentRequired.values
@@ -187,19 +181,13 @@ class SearchCategoryScreen extends StatelessWidget {
         message: S.current.emptyContentTitle,
       ),
       header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-      footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      footer: const SliverToBoxAdapter(child: SizedBox(height: 120)),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        // final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
-        // final routine = snapshot.data()!;
         final routine = documentSnapshot.data() as Routine;
-
-        // final documentId = documentSnapshot.id;
-        // final data = documentSnapshot.data();
-        // final routine = Routine.fromJson(data!, documentId);
 
         final duration = Duration(seconds: routine.duration).inMinutes;
         return CustomListTile3(

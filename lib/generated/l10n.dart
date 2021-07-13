@@ -2070,10 +2070,10 @@ class S {
     );
   }
 
-  /// `Add at least two data to see your chart`
+  /// `See your weekly weight change`
   String get addMasurementDataMessage {
     return Intl.message(
-      'Add at least two data to see your chart',
+      'See your weekly weight change',
       name: 'addMasurementDataMessage',
       desc: '',
       args: [],
@@ -4025,6 +4025,16 @@ class S {
     return Intl.message(
       'Delete a set',
       name: 'deleteWorkoutSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No saved workouts yet...`
+  String get noSavedWorkoutsYet {
+    return Intl.message(
+      'No saved workouts yet...',
+      name: 'noSavedWorkoutsYet',
       desc: '',
       args: [],
     );

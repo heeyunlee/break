@@ -58,10 +58,12 @@ class SavedWorkoutsScreen extends StatelessWidget {
 
     _getDocuments(workoutsFuture);
 
+    print(workoutsFuture.length);
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: Text(S.current.savedRoutines, style: TextStyles.subtitle2),
+        title: Text(S.current.savedWorkouts, style: TextStyles.subtitle2),
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,
@@ -74,8 +76,8 @@ class SavedWorkoutsScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: (user.savedRoutines!.isEmpty)
-          ? EmptyContent(message: S.current.noSavedRoutinesYet)
+      body: (user.savedWorkouts!.isEmpty)
+          ? EmptyContent(message: S.current.noSavedWorkoutsYet)
           : SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: SizedBox(

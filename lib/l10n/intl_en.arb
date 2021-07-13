@@ -201,7 +201,7 @@
     "bodyMeasurement": "Body Measurement",
     "measurementsEmptyMessage": "You haven't added any body measurements records yet!",
     "deleteMeasurementSnackbar": "Successfully delete Measurement!",
-    "addMasurementDataMessage": "Add at least two data to see your chart",
+    "addMasurementDataMessage": "See your weekly weight change",
     "afterWorkoutSnackbar": "You've finished your workout! \nKeep Lifting! 🎉",
     "addSetsToWorkout": "Add few sets to your workout",
     "weights": "Weights",
@@ -396,5 +396,6 @@
     "setBodyFatPercentageGoalSnackbarMessage": "You've successfully set the body fat percentage goal",
     "bodyFatGoal": "Body Fat Percentage Goal",
     "recentBodyFatWidgetSubtitle": "{difference}% to your goal!",
-    "deleteWorkoutSet": "Delete a set"
+    "deleteWorkoutSet": "Delete a set",
+    "noSavedWorkoutsYet": "No saved workouts yet..."
 }

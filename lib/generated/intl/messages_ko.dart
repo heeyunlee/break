@@ -80,8 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("에 동의하는 것입니다."),
         "addASet": MessageLookupByLibrary.simpleMessage("세트를 추가하세요!"),
         "addDescription": MessageLookupByLibrary.simpleMessage("설명을 추가하세요"),
-        "addMasurementDataMessage": MessageLookupByLibrary.simpleMessage(
-            "적어도 2개 이상의 신체 정보 기록을 저장해주세요!"),
+        "addMasurementDataMessage":
+            MessageLookupByLibrary.simpleMessage("지난 일주일간의 몸무게 변화를 확인하세요"),
         "addMeasurement": MessageLookupByLibrary.simpleMessage("신체정보 추가하기"),
         "addMeasurementSnackbar":
             MessageLookupByLibrary.simpleMessage("신체 정보 기록을 추가했습니다"),
@@ -375,6 +375,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("루틴 이름이 없습니다!"),
         "noSavedRoutinesYet":
             MessageLookupByLibrary.simpleMessage("아직 저장된 루틴이 없습니다..."),
+        "noSavedWorkoutsYet":
+            MessageLookupByLibrary.simpleMessage("저장한 운동이 없습니다..."),
         "noWorkoutEmptyContent": m4,
         "noWorkoutSetTitle":
             MessageLookupByLibrary.simpleMessage("운동에 세트를 추가해주세요"),

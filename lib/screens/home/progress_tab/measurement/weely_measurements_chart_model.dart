@@ -50,7 +50,7 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
     if (measurements.isNotEmpty) {
       _dates.forEach(
         (date) {
-          final measurement = measurements.firstWhereOrNull(
+          final measurement = measurements.lastWhereOrNull(
             (element) => element.loggedDate.toUtc() == date,
           );
           if (measurement != null) {
@@ -80,6 +80,8 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
       } else {
         _horizontalInterval = (maxY - minY) / 4;
       }
+    } else {
+      _thisWeekData = _thisWeekDataS;
     }
   }
 }

@@ -85,7 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addDescription":
             MessageLookupByLibrary.simpleMessage("Add Description"),
         "addMasurementDataMessage": MessageLookupByLibrary.simpleMessage(
-            "Add at least two data to see your chart"),
+            "See your weekly weight change"),
         "addMeasurement":
             MessageLookupByLibrary.simpleMessage("Add Measurement"),
         "addMeasurementSnackbar":
@@ -409,6 +409,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No routine Title!"),
         "noSavedRoutinesYet":
             MessageLookupByLibrary.simpleMessage("No saved routines yet..."),
+        "noSavedWorkoutsYet":
+            MessageLookupByLibrary.simpleMessage("No saved workouts yet..."),
         "noWorkoutEmptyContent": m4,
         "noWorkoutSetTitle":
             MessageLookupByLibrary.simpleMessage("Add sets to your workout"),

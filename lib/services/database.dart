@@ -381,7 +381,7 @@ class FirestoreDatabase implements Database {
   Stream<List<Measurement>> measurementsStreamThisWeek() =>
       _service.collectionStreamOfThisWeek<Measurement>(
         path: APIPath.measurements(uid!),
-        dateVariableName: 'loggedDate',
+        dateVariableName: 'loggedTime',
         fromBuilder: (data, id) => Measurement.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );

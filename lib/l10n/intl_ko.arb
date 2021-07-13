@@ -201,7 +201,7 @@
     "bodyMeasurement": "신체 정보",
     "measurementsEmptyMessage": "아직 신체 정보 기록이 없어요!",
     "deleteMeasurementSnackbar": "성공적으로 신체 정보 기록을 삭제했습니다!",
-    "addMasurementDataMessage": "적어도 2개 이상의 신체 정보 기록을 저장해주세요!",
+    "addMasurementDataMessage": "지난 일주일간의 몸무게 변화를 확인하세요",
     "afterWorkoutSnackbar": "운동을 완료 했습니다!! 🎉",
     "addSetsToWorkout": "운동에 세트를 더하세요!",
     "weights": "중량",
@@ -396,5 +396,6 @@
     "setBodyFatPercentageGoalSnackbarMessage": "성공적으로 체지방률 목표를 설정했습니다",
     "bodyFatGoal": "체지방률 목표",
     "recentBodyFatWidgetSubtitle": "목표까지 {difference}%",
-    "deleteWorkoutSet": "세트 삭제"
+    "deleteWorkoutSet": "세트 삭제",
+    "noSavedWorkoutsYet": "저장한 운동이 없습니다..."
 }
