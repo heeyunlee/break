@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
@@ -23,15 +22,15 @@ class SubtitleWidget extends StatelessWidget {
         children: [
           Text(
             weights + ' ' + unitOfMass,
-            style: kBodyText2Light,
+            style: TextStyles.body2_light,
           ),
           const Text('   \u2022   ', style: TextStyles.caption1),
           Text(
             '$duration ${S.current.minutes}',
-            style: kBodyText2Light,
+            style: TextStyles.body2_light,
           ),
           const Text('   \u2022   ', style: TextStyles.caption1),
-          Text(trainingLevel, style: kBodyText2Light)
+          Text(trainingLevel, style: TextStyles.body2_light)
         ],
       ),
     );

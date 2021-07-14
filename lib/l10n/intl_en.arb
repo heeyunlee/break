@@ -187,7 +187,7 @@
     "addMeasurement": "Add Measurement",
     "bodyweightMeasurement": "Body weight",
     "weightsHintText": "Please add weight data",
-    "bodyFat": "Body Fat Percentage",
+    "bodyFat": "Body Fat",
     "skeletalMuscleMass": "Skeletal Muscle Mass",
     "createYourOwnWorkout": "Create Your Own Workout",
     "logYourWorkout": "Log Your Workout",
@@ -397,5 +397,6 @@
     "bodyFatGoal": "Body Fat Percentage Goal",
     "recentBodyFatWidgetSubtitle": "{difference}% to your goal!",
     "deleteWorkoutSet": "Delete a set",
-    "noSavedWorkoutsYet": "No saved workouts yet..."
+    "noSavedWorkoutsYet": "No saved workouts yet...",
+    "wokroutsThisWeek": "This Week's Workouts"
 }

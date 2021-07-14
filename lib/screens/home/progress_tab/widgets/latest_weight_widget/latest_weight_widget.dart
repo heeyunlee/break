@@ -12,23 +12,16 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 class RecentWeightWidget extends StatelessWidget {
   final ProgressTabModel model;
   final User user;
-  final double gridHeight;
-  final double gridWidth;
 
   const RecentWeightWidget({
     Key? key,
     required this.model,
     required this.user,
-    required this.gridHeight,
-    required this.gridWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
-      width: gridWidth / 2 - 8,
-      height: gridHeight / 4 - 32,
-      vertPadding: 0,
       child: CustomStreamBuilderWidget<List<Measurement>>(
         stream: model.database!.measurementsStream(),
         hasDataWidget: (context, list) {
@@ -54,7 +47,12 @@ class RecentWeightWidget extends StatelessWidget {
           final formattedDif = Formatter.weightsWithDecimal(difference ?? 0);
 
           return Stack(
+            // alignment: Alignment.bottomCenter,
             children: [
+              // FractionallySizedBox(
+              //   heightFactor: 0.4,
+              //   child: Container(color: Colors.amber),
+              // ),
               Positioned(
                 right: 16,
                 top: 16,
@@ -73,7 +71,7 @@ class RecentWeightWidget extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       '$weight $unit',
-                      style: TextStyles.headline5_menlo_bold_primary,
+                      style: TextStyles.headline5_menlo_bold_secondary,
                     ),
                     const SizedBox(height: 4),
                     if (difference != null)

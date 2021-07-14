@@ -5,7 +5,7 @@ description: Herakles - Workout Player
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 0.3.2
+version: 0.3.3
 
 environment:
   sdk: ">=2.13.4 <3.0.0"
@@ -96,8 +96,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path_ios: "assets/logos/icon.png"
-  image_path_android: "assets/logos/icon.png"
+  image_path_ios: "assets/logos/herakles_icon.png"
+  image_path_android: "assets/logos/herakles_icon.png"
   andriod: true
   ios: true
   remove_alpha_ios: true

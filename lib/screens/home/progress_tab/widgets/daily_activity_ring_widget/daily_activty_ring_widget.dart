@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutritions_and_routine_histories.dart';
 import 'package:workout_player/models/user.dart';
@@ -19,37 +18,13 @@ class DailyActivityRingWidget extends StatelessWidget {
   final AuthBase auth;
   final User user;
   final ProgressTabModel model;
-  final double gridWidth;
-  final double gridHeight;
 
   const DailyActivityRingWidget({
     required this.database,
     required this.auth,
     required this.user,
     required this.model,
-    required this.gridWidth,
-    required this.gridHeight,
   });
-
-  static Widget create(
-    BuildContext context, {
-    required User user,
-    required ProgressTabModel model,
-    required double gridHeight,
-    required double gridWidth,
-  }) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
-
-    return DailyActivityRingWidget(
-      database: database,
-      auth: auth,
-      user: user,
-      model: model,
-      gridHeight: gridHeight,
-      gridWidth: gridWidth,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,67 +34,73 @@ class DailyActivityRingWidget extends StatelessWidget {
         model.setDailyGoal(user);
         model.setDailyTotal(data);
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: gridWidth / 2,
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (model.todaysMuscleWorked == '-')
-                      Text('-', style: TextStyles.headline5_w900),
-                    if (model.todaysMuscleWorked != '-')
-                      SizedBox(
-                        width: gridWidth / 5,
-                        child: FittedBox(
-                          alignment: Alignment.center,
-                          child: Text(
-                            model.todaysMuscleWorked,
-                            style: TextStyles.headline5_w900,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: constraints.maxWidth / 2,
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        if (model.todaysMuscleWorked == '-')
+                          Text('-', style: TextStyles.headline5_w900),
+                        if (model.todaysMuscleWorked != '-')
+                          SizedBox(
+                            width: constraints.maxWidth / 5,
+                            child: FittedBox(
+                              alignment: Alignment.center,
+                              child: Text(
+                                model.todaysMuscleWorked,
+                                style: TextStyles.headline5_w900,
+                              ),
+                            ),
                           ),
+                        CircularPercentIndicator(
+                          radius: (constraints.maxWidth - 104) / 2,
+                          lineWidth: 12,
+                          percent: model.nutritionDailyProgress,
+                          backgroundColor: Colors.greenAccent.withOpacity(0.25),
+                          progressColor: Colors.greenAccent,
+                          animation: true,
+                          animationDuration: 1000,
+                          circularStrokeCap: CircularStrokeCap.round,
                         ),
-                      ),
-                    CircularPercentIndicator(
-                      radius: (gridWidth - 88) / 2,
-                      lineWidth: 12,
-                      percent: model.nutritionDailyProgress,
-                      backgroundColor: Colors.greenAccent.withOpacity(0.25),
-                      progressColor: Colors.greenAccent,
-                      animation: true,
-                      animationDuration: 1000,
-                      circularStrokeCap: CircularStrokeCap.round,
+                        CircularPercentIndicator(
+                          radius: (constraints.maxWidth - 48) / 2,
+                          lineWidth: 12,
+                          percent: model.weightsLiftedDailyProgress,
+                          backgroundColor: kPrimaryColor.withOpacity(0.25),
+                          progressColor: kPrimaryColor,
+                          animation: true,
+                          animationDuration: 1000,
+                          circularStrokeCap: CircularStrokeCap.round,
+                        ),
+                      ],
                     ),
-                    CircularPercentIndicator(
-                      radius: (gridWidth - 32) / 2,
-                      lineWidth: 12,
-                      percent: model.weightsLiftedDailyProgress,
-                      backgroundColor: kPrimaryColor.withOpacity(0.25),
-                      progressColor: kPrimaryColor,
-                      animation: true,
-                      animationDuration: 1000,
-                      circularStrokeCap: CircularStrokeCap.round,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: gridWidth / 2,
-              height: gridHeight / 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildTotalWeightsWidget(),
-                  const SizedBox(height: 8),
-                  _buildTotalNutritionWidget(),
-                ],
-              ),
-            ),
-          ],
+                SizedBox(
+                  width: constraints.maxWidth / 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildTotalWeightsWidget(),
+                        const SizedBox(height: 8),
+                        _buildTotalNutritionWidget(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );

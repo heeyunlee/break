@@ -111,7 +111,7 @@ class SignInScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/logos/icon.png',
+                            'assets/logos/herakles_icon.png',
                             width: size.width / 2,
                           ),
                           const SizedBox(height: 8),

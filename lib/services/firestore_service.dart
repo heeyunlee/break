@@ -97,6 +97,29 @@ class FirestoreService {
     return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
   }
 
+  Stream<List<T>> collectionStreamWithWhereIsNull<T>({
+    required String path,
+    required String where,
+    required String order,
+    required bool descending,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+    int? limit,
+  }) {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .where(where, isNull: false)
+        .orderBy(order, descending: descending)
+        .limit(limit ?? 50)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    final snapshots = reference.snapshots();
+    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+  }
+
   Stream<List<T>> collectionStreamOfThisWeek<T>({
     required String path,
     String? uid,

@@ -550,13 +550,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     children: [
                       Text(
                         S.current.makeItVisibleTo,
-                        style: kBodyText2Light,
+                        style: TextStyles.body2_light,
                       ),
                       SizedBox(
                         width: 72,
                         child: Text(
                           (_isPublic) ? S.current.everyone : S.current.justMe,
-                          style: kBodyText2w900,
+                          style: TextStyles.body2_w900,
                         ),
                       ),
                       const SizedBox(width: 8),

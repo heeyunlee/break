@@ -3,10 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/home/progress_tab/proteins_eaten/weekly_nutrition_chart_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+
+import 'weekly_nutrition_chart_model.dart';
 
 class WeeklyNutritionChart extends StatefulWidget {
   final WeeklyNutritionChartModel model;
@@ -40,10 +41,11 @@ class _WeeklyNutritionChartState extends State<WeeklyNutritionChart> {
 
   @override
   Widget build(BuildContext context) {
+    widget.model.setRelativeList(widget.nutritions, widget.user);
+
     final _interval = (widget.user.dailyProteinGoal != null)
         ? widget.user.dailyProteinGoal! / widget.model.nutritionMaxY * 10
         : 1.00;
-    widget.model.setRelativeList(widget.nutritions);
 
     return Expanded(
       child: Padding(

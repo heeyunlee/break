@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 void getSnackbarWidget(String title, String message, {int? duration}) {
@@ -10,7 +9,7 @@ void getSnackbarWidget(String title, String message, {int? duration}) {
     animationDuration: Duration(milliseconds: 500),
     backgroundColor: Colors.grey[700]!.withOpacity(0.75),
     snackPosition: SnackPosition.BOTTOM,
-    titleText: Text(title, style: kBodyText2Grey),
+    titleText: Text(title, style: TextStyles.body2_grey),
     messageText: Text(message, style: TextStyles.body2),
     borderRadius: 8,
     duration: Duration(seconds: duration ?? 2),

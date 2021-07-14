@@ -61,7 +61,10 @@ class SettingsTab extends ConsumerWidget {
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.account, style: kBodyText2BoldGrey),
+                  child: Text(
+                    S.current.account,
+                    style: TextStyles.body2_grey_bold,
+                  ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person, color: Colors.white),
@@ -93,7 +96,7 @@ class SettingsTab extends ConsumerWidget {
                     children: [
                       Text(
                         UnitOfMass.values[snapshot.data!.unitOfMass].label!,
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                       const SizedBox(width: 16),
                       const Icon(
@@ -124,7 +127,7 @@ class SettingsTab extends ConsumerWidget {
                     children: [
                       Text(
                         Intl.getCurrentLocale(),
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                       const SizedBox(width: 16),
                       const Icon(
@@ -160,7 +163,10 @@ class SettingsTab extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.support, style: kBodyText2BoldGrey),
+                  child: Text(
+                    S.current.support,
+                    style: TextStyles.body2_grey_bold,
+                  ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.feedback, color: Colors.white),
@@ -181,7 +187,10 @@ class SettingsTab extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.about, style: kBodyText2BoldGrey),
+                  child: Text(
+                    S.current.about,
+                    style: TextStyles.body2_grey_bold,
+                  ),
                 ),
                 ListTile(
                   leading: const Icon(
@@ -231,7 +240,10 @@ class SettingsTab extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.logIn, style: kBodyText2BoldGrey),
+                  child: Text(
+                    S.current.logIn,
+                    style: TextStyles.body2_grey_bold,
+                  ),
                 ),
                 ListTile(
                   onTap: () => model.confirmSignOut(context),
@@ -241,7 +253,7 @@ class SettingsTab extends ConsumerWidget {
                 const SizedBox(height: 48),
                 // TODO: CHANGE VERSION CODE HERE
                 Center(
-                  child: const Text('v.0.3.2', style: TextStyles.caption1_grey),
+                  child: const Text('v.0.3.3', style: TextStyles.caption1_grey),
                 ),
                 const SizedBox(height: 120),
               ],

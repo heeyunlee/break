@@ -89,7 +89,10 @@ class WeightsAndRepsWidget extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(S.current.weights, style: kBodyText2Grey),
+                          child: Text(
+                            S.current.weights,
+                            style: TextStyles.body2_grey,
+                          ),
                         ),
                         const Divider(color: kBackgroundColor, height: 0),
                       ],
@@ -140,7 +143,10 @@ class WeightsAndRepsWidget extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Text(S.current.reps, style: kBodyText2Grey),
+                          child: Text(
+                            S.current.reps,
+                            style: TextStyles.body2_grey,
+                          ),
                         ),
                         const Divider(color: kBackgroundColor, height: 0),
                       ],

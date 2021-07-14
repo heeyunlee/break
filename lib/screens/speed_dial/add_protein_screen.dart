@@ -363,7 +363,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                     focusNode: focusNode1,
                     decoration: InputDecoration(
                       hintText: S.current.addNotes,
-                      hintStyle: kBodyText2Grey,
+                      hintStyle: TextStyles.body2_grey,
                       border: InputBorder.none,
                     ),
                     onFieldSubmitted: (value) => setState(() {}),

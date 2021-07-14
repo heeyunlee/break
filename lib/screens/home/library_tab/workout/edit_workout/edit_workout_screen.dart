@@ -382,7 +382,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: S.current.descriptionHintText,
-                hintStyle: kBodyText2LightGrey,
+                hintStyle: TextStyles.body2_light_grey,
                 border: InputBorder.none,
               ),
               onFieldSubmitted: (value) => _description = value,
@@ -507,7 +507,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             title: Text(S.current.mainMuscleGroup, style: TextStyles.button1),
-            subtitle: Text(mainMuscleGroup, style: kBodyText2Grey),
+            subtitle: Text(mainMuscleGroup, style: TextStyles.body2_grey),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               color: kPrimaryGrey,
@@ -536,7 +536,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.button1),
-        subtitle: Text(equipmentRequired, style: kBodyText2Grey),
+        subtitle: Text(equipmentRequired, style: TextStyles.body2_grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: kPrimaryGrey,
@@ -564,7 +564,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(S.current.location, style: TextStyles.button1),
-        subtitle: Text(location!, style: kBodyText2Grey),
+        subtitle: Text(location!, style: TextStyles.body2_grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: kPrimaryGrey,

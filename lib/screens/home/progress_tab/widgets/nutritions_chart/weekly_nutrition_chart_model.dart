@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/user.dart';
 
 final weeklyNutritionChartModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyNutritionChartModel(),
@@ -36,7 +37,7 @@ class WeeklyNutritionChartModel with ChangeNotifier {
     );
   }
 
-  Future<void> setRelativeList(List<Nutrition>? list) async {
+  Future<void> setRelativeList(List<Nutrition>? list, User user) async {
     Map<DateTime, List<Nutrition>> _mapData;
     List<num> listOfYs = [];
     List<double> relatives = [];
@@ -57,7 +58,8 @@ class WeeklyNutritionChartModel with ChangeNotifier {
 
         listOfYs.add(sum);
       });
-      final largest = listOfYs.reduce(math.max);
+      final largest =
+          [...listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
 
       if (largest == 0) {
         _nutritionMaxY = 150;
@@ -65,13 +67,10 @@ class WeeklyNutritionChartModel with ChangeNotifier {
         listOfYs.forEach((element) {
           relatives.add(0);
         });
-      } else {
+      } else if (user.dailyProteinGoal != null) {
         final roundedLargest = (largest / 10).ceil() * 10;
-        if (roundedLargest < 150) {
-          _nutritionMaxY = 160;
-        } else {
-          _nutritionMaxY = roundedLargest.toDouble();
-        }
+
+        _nutritionMaxY = roundedLargest.toDouble() + 10;
 
         listOfYs.forEach((element) {
           relatives.add(element / _nutritionMaxY * 10);

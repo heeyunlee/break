@@ -85,7 +85,7 @@ class ManageAccountScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     S.current.personalInformation,
-                    style: kBodyText2BoldGrey,
+                    style: TextStyles.body2_grey_bold,
                   ),
                 ),
                 ListTile(
@@ -99,7 +99,7 @@ class ManageAccountScreen extends StatelessWidget {
                       // if (user!.displayName != null)
                       Text(
                         user!.displayName,
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                       const SizedBox(width: 16),
                       const Icon(

@@ -104,7 +104,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
                   ),
                   MiniplayerSubtitle(
                     horizontalPadding: 16,
-                    textStyle: kBodyText2Grey,
+                    textStyle: TextStyles.body2_grey,
                     model: model,
                   ),
                 ],
@@ -165,7 +165,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
                   child: Center(
                     child: Text(
                       '${routine?.routineTitle}',
-                      style: kBodyText2w900,
+                      style: TextStyles.body2_w900,
                       maxLines: 1,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,

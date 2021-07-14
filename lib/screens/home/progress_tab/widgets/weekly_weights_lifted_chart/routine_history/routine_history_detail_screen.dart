@@ -431,7 +431,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         focusNode: focusNode1,
                         decoration: InputDecoration(
                           hintText: S.current.notesHintText,
-                          hintStyle: kBodyText2Grey,
+                          hintStyle: TextStyles.body2_grey,
                           border: InputBorder.none,
                         ),
                         onFieldSubmitted: (value) {
@@ -461,12 +461,15 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(S.current.makeItVisibleTo, style: kBodyText2Light),
+                  Text(
+                    S.current.makeItVisibleTo,
+                    style: TextStyles.body2_light,
+                  ),
                   SizedBox(
                     width: 72,
                     child: Text(
                       (_isPublic) ? S.current.everyone : S.current.justMe,
-                      style: kBodyText2w900,
+                      style: TextStyles.body2_w900,
                     ),
                   ),
                   const SizedBox(width: 8),

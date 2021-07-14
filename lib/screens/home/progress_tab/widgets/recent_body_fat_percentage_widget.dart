@@ -13,23 +13,16 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 class RecentBodyFatPercentageWidget extends StatelessWidget {
   final ProgressTabModel model;
   final User user;
-  final double gridHeight;
-  final double gridWidth;
 
   const RecentBodyFatPercentageWidget({
     Key? key,
     required this.model,
     required this.user,
-    required this.gridHeight,
-    required this.gridWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
-      width: gridWidth / 2 - 8,
-      height: gridHeight / 4 - 32,
-      vertPadding: 0,
       child: CustomStreamBuilderWidget<List<Measurement>>(
         stream: model.database!.measurementsStream(),
         hasDataWidget: (context, list) {
@@ -73,7 +66,7 @@ class RecentBodyFatPercentageWidget extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       '$bodyFat %',
-                      style: TextStyles.headline5_menlo_bold_primary,
+                      style: TextStyles.headline5_menlo_bold_secondary,
                     ),
                     if (difference != null)
                       Text(

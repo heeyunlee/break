@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:workout_player/models/auth_and_database.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/nutritions_and_routine_histories.dart';
@@ -28,6 +29,8 @@ class ProgressTabModel with ChangeNotifier {
     this.database,
   });
 
+  List<DateTime> _dates = [];
+  List<String> _daysOfTheWeek = [];
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
   bool _showBanner = true;
@@ -43,6 +46,8 @@ class ProgressTabModel with ChangeNotifier {
   late Animation<double> _brightnessTween;
   late bool Function(ScrollNotification) _onNotification;
 
+  List<DateTime> get dates => _dates;
+  List<String> get daysOfTheWeek => _daysOfTheWeek;
   DateTime get focusedDate => _focusedDate;
   DateTime get selectedDate => _selectedDate;
   bool get showBanner => _showBanner;
@@ -72,6 +77,22 @@ class ProgressTabModel with ChangeNotifier {
   void setShowBanner(bool value) {
     _showBanner = value;
     notifyListeners();
+  }
+
+  void initWeeklyDates() {
+    DateTime now = DateTime.now();
+
+    // Create list of 7 days
+    _dates = List<DateTime>.generate(7, (index) {
+      return DateTime.utc(now.year, now.month, now.day - index);
+    });
+    _dates = _dates.reversed.toList();
+
+    // Create list of 7 days of the week
+    _daysOfTheWeek = List<String>.generate(
+      7,
+      (index) => DateFormat.E().format(_dates[index]),
+    );
   }
 
   void init(TickerProvider vsync, AuthAndDatabase authAndDatabase) {

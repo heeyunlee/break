@@ -123,7 +123,7 @@ abstract class Database {
     // required String uid,
     required Measurement measurement,
   });
-  Stream<List<Measurement>> measurementsStream();
+  Stream<List<Measurement>> measurementsStream({int? limit});
   Stream<List<Measurement>> measurementsStreamThisWeek();
 
   // Query
@@ -367,10 +367,11 @@ class FirestoreDatabase implements Database {
 
   // Body Measurements Stream for User
   @override
-  Stream<List<Measurement>> measurementsStream() =>
+  Stream<List<Measurement>> measurementsStream({int? limit}) =>
       _service.collectionStream<Measurement>(
         order: 'loggedTime',
         descending: false,
+        limit: limit,
         path: APIPath.measurements(uid!),
         fromBuilder: (data, id) => Measurement.fromJson(data, id),
         toBuilder: (model) => model.toJson(),

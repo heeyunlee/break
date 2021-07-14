@@ -138,7 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "beforeWorkout": MessageLookupByLibrary.simpleMessage("Before Workout"),
         "beginner": MessageLookupByLibrary.simpleMessage("Beginner"),
         "bench": MessageLookupByLibrary.simpleMessage("Bench"),
-        "bodyFat": MessageLookupByLibrary.simpleMessage("Body Fat Percentage"),
+        "bodyFat": MessageLookupByLibrary.simpleMessage("Body Fat"),
         "bodyFatGoal":
             MessageLookupByLibrary.simpleMessage("Body Fat Percentage Goal"),
         "bodyMeasurement":
@@ -669,6 +669,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Start working out now and see your progress!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("Please add weight data"),
+        "wokroutsThisWeek":
+            MessageLookupByLibrary.simpleMessage("This Week\'s Workouts"),
         "workedOutMainMuscleGroup": m20,
         "workout": MessageLookupByLibrary.simpleMessage("Workout"),
         "workoutDifficultySliderText":

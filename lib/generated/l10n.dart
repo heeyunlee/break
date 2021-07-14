@@ -1930,10 +1930,10 @@ class S {
     );
   }
 
-  /// `Body Fat Percentage`
+  /// `Body Fat`
   String get bodyFat {
     return Intl.message(
-      'Body Fat Percentage',
+      'Body Fat',
       name: 'bodyFat',
       desc: '',
       args: [],
@@ -4035,6 +4035,16 @@ class S {
     return Intl.message(
       'No saved workouts yet...',
       name: 'noSavedWorkoutsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Week's Workouts`
+  String get wokroutsThisWeek {
+    return Intl.message(
+      'This Week\'s Workouts',
+      name: 'wokroutsThisWeek',
       desc: '',
       args: [],
     );

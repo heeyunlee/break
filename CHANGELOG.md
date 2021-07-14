@@ -1,6 +1,13 @@
 # Change Log
 
-Here is the changelog of the project, Herakles. I first created this log on version 0.3.1, so any update before that is not logged.
+Hi, below is the change log of my project, Herakles.
+
+## 0.3.3
+### New Features
+- Added Weekly Workout Widget (smaller and simpler version than before)
+
+### Bug Fix & Refactor
+- Refactored CreateNewRoutineScreen with ChangeNotifierProvider (riverpod)
 
 ## 0.3.2
 ### New Feautres
@@ -30,8 +37,4 @@ Here is the changelog of the project, Herakles. I first created this log on vers
 - Implemented Sign In screen model with riverpod and ChangeNotifier (separated model and ui code)
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
-
-## 0.3.0
-### New Features
-- Added WorkoutOverviewTab for WorkoutDetailScreen
 

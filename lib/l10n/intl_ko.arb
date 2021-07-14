@@ -397,5 +397,6 @@
     "bodyFatGoal": "체지방률 목표",
     "recentBodyFatWidgetSubtitle": "목표까지 {difference}%",
     "deleteWorkoutSet": "세트 삭제",
-    "noSavedWorkoutsYet": "저장한 운동이 없습니다..."
+    "noSavedWorkoutsYet": "저장한 운동이 없습니다...",
+    "wokroutsThisWeek": "이번 주 운동"
 }

@@ -2,10 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/home/progress_tab/measurement/weely_measurements_chart_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+
+import 'weekly_measurements_chart_model.dart';
 
 class WeeklyMeasurementsChart extends StatefulWidget {
   final WeeklyMeasurementsChartModel model;
@@ -29,25 +30,6 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
     kSecondaryColor,
     kSecondaryColor.withOpacity(0.95),
   ];
-
-  double? flipNumber(double number) {
-    switch (number.toInt()) {
-      case 6:
-        return 0.toDouble();
-      case 5:
-        return 1.toDouble();
-      case 4:
-        return 2.toDouble();
-      case 3:
-        return 3.toDouble();
-      case 2:
-        return 4.toDouble();
-      case 1:
-        return 5.toDouble();
-      case 0:
-        return 6.toDouble();
-    }
-  }
 
   @override
   void initState() {
@@ -96,19 +78,19 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                   getTitles: (value) {
                     switch (value.toInt()) {
                       case 0:
-                        return '${widget.model.daysOfTheWeek[6]}';
+                        return '${widget.model.daysOfTheWeek[0]}';
                       case 1:
-                        return '${widget.model.daysOfTheWeek[5]}';
+                        return '${widget.model.daysOfTheWeek[1]}';
                       case 2:
-                        return '${widget.model.daysOfTheWeek[4]}';
+                        return '${widget.model.daysOfTheWeek[2]}';
                       case 3:
                         return '${widget.model.daysOfTheWeek[3]}';
                       case 4:
-                        return '${widget.model.daysOfTheWeek[2]}';
+                        return '${widget.model.daysOfTheWeek[4]}';
                       case 5:
-                        return '${widget.model.daysOfTheWeek[1]}';
+                        return '${widget.model.daysOfTheWeek[5]}';
                       case 6:
-                        return '${widget.model.daysOfTheWeek[0]}';
+                        return '${widget.model.daysOfTheWeek[6]}';
 
                       default:
                         return '';
@@ -180,7 +162,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
             .toDouble();
 
         return FlSpot(
-          flipNumber(diff)!,
+          widget.model.flipNumber(diff)!,
           widget.model.thisWeekData[index]!.bodyWeight!.toDouble(),
         );
       },

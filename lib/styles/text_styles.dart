@@ -110,10 +110,26 @@ class TextStyles {
     fontFamily: menlo,
   );
 
+  static const headline5_menlo_bold_secondary = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: kSecondaryColor,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
   static const headline6 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
     color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline6_grey = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
@@ -142,6 +158,11 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  /// Body 1 Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 16,
+  /// `letterSpacing` = 0.50
   static const body1_w800 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w800,
@@ -167,6 +188,11 @@ class TextStyles {
     height: 1.5,
   );
 
+  /// Body 2 Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 14,
+  /// `letterSpacing` = 0.25
   static const body2 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -178,6 +204,46 @@ class TextStyles {
   static const body2_grey = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
+    color: Colors.grey,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_light = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_light_grey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
+    color: Colors.grey,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_w900 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_black = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2_grey_bold = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
     color: Colors.grey,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
@@ -207,7 +273,11 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // BUTTON 1
+  /// Button 1 Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 14,
+  /// `letterSpacing` = 1.25
   static const button1 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -220,6 +290,14 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.grey,
+    letterSpacing: 1.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const button1_black = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
     letterSpacing: 1.25,
     fontFamily: defaultFontFamily,
   );
@@ -248,7 +326,11 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // BUTTON 2
+  /// Button 2 Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 10,
+  /// `letterSpacing` = 1.5
   static const button2 = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w500,
@@ -257,7 +339,11 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // CAPTION
+  /// Caption Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 12,
+  /// `letterSpacing` = 0.4
   static const caption1 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
@@ -282,6 +368,11 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  /// Overline Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 10,
+  /// `letterSpacing` = 1.5
   static const overline = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.normal,

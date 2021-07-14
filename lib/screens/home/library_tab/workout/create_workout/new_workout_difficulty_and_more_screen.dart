@@ -100,7 +100,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       maxLines: 3,
                       decoration: InputDecoration(
                         hintText: S.current.descriptionHintText,
-                        hintStyle: kBodyText2LightGrey,
+                        hintStyle: TextStyles.body2_light_grey,
                         border: InputBorder.none,
                       ),
                       onFieldSubmitted: (value) {

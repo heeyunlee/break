@@ -23,16 +23,17 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../../styles/constants.dart';
-import 'measurement/weekly_measurements_card.dart';
 import 'progress_tab_model.dart';
-import 'proteins_eaten/weekly_nutrition_card.dart';
 import 'widgets/blurred_material_banner.dart';
 import 'widgets/choose_background_button.dart';
 import 'widgets/choose_date_icon_button.dart';
 import 'widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
+import 'widgets/measurement/weekly_measurements_card.dart';
+import 'widgets/nutritions_chart/weekly_nutrition_card.dart';
 import 'widgets/recent_body_fat_percentage_widget.dart';
-import 'widgets/recent_weight_widget.dart';
+import 'widgets/latest_weight_widget/latest_weight_widget.dart';
 import 'widgets/weekly_weights_lifted_chart/weights_lifted_chart_widget.dart';
+import 'widgets/weekly_workout_summary/weekly_workout_summary.dart';
 
 class ProgressTab extends StatefulWidget {
   final ProgressTabModel model;
@@ -210,23 +211,25 @@ class _ProgressTabState extends State<ProgressTab>
       stream: widget.model.database!.userStream(),
       loadingWidget: ProgressTabShimmer(),
       hasDataWidget: (context, user) {
-        // _fetchData(user!);
-
         return NotificationListener<ScrollNotification>(
           onNotification: widget.model.onNotification,
           child: Scaffold(
             backgroundColor: kBackgroundColor,
             extendBodyBehindAppBar: true,
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(48),
-              child: AppBar(
-                centerTitle: true,
-                brightness: Brightness.dark,
-                elevation: 0,
-                leading: ChooseBackgroundButton(user: user!),
-                title: ChooseDateIconButton(model: widget.model),
-                backgroundColor: Colors.transparent,
-              ),
+            appBar: AppBar(
+              centerTitle: true,
+              brightness: Brightness.dark,
+              elevation: 0,
+              leading: ChooseBackgroundButton(user: user!),
+              title: ChooseDateIconButton(model: widget.model),
+              backgroundColor: Colors.transparent,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.dashboard_customize_rounded),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             body: Builder(
               builder: (context) => _buildChildWidget(context, user),
@@ -277,53 +280,69 @@ class _ProgressTabState extends State<ProgressTab>
                     height: (widget.model.showBanner)
                         ? gridHeight / 2 - 136
                         : gridHeight / 2,
-                    width: gridWidth / 2,
                   ),
-                  DailyActivityRingWidget.create(
-                    context,
-                    user: user,
-                    model: widget.model,
-                    gridHeight: gridHeight,
-                    gridWidth: gridWidth,
+                  SizedBox(
+                    height: gridHeight / 4,
+                    child: DailyActivityRingWidget(
+                      auth: widget.authAndDatabase.auth,
+                      database: widget.authAndDatabase.database,
+                      user: user,
+                      model: widget.model,
+                    ),
                   ),
                   SizedBox(
                     height: gridHeight / 4,
                     child: Row(
                       children: [
-                        RecentWeightWidget(
-                          model: widget.model,
-                          user: user,
-                          gridHeight: gridHeight,
-                          gridWidth: gridWidth,
+                        SizedBox(
+                          width: gridWidth / 2 - 8,
+                          child: RecentWeightWidget(
+                            model: widget.model,
+                            user: user,
+                          ),
                         ),
                         const SizedBox(width: 16),
-                        RecentBodyFatPercentageWidget(
-                          model: widget.model,
-                          user: user,
-                          gridHeight: gridHeight,
-                          gridWidth: gridWidth,
+                        SizedBox(
+                          width: gridWidth / 2 - 8,
+                          child: RecentBodyFatPercentageWidget(
+                            model: widget.model,
+                            user: user,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  WeightsLiftedChartWidget.create(
-                    context,
-                    user: user,
-                    gridHeight: gridHeight,
-                    gridWidth: gridWidth,
+                  SizedBox(
+                    height: gridHeight / 4,
+                    child: WeeklyWorkoutWidget.create(
+                      AuthAndDatabase(
+                        auth: widget.authAndDatabase.auth,
+                        database: widget.authAndDatabase.database,
+                      ),
+                      user,
+                    ),
                   ),
-                  WeeklyNutritionCard(
-                    auth: widget.authAndDatabase.auth,
-                    database: widget.authAndDatabase.database,
-                    user: user,
-                    gridHeight: gridHeight,
-                    gridWidth: gridWidth,
+                  SizedBox(
+                    height: gridHeight / 2,
+                    child: WeightsLiftedChartWidget.create(
+                      context,
+                      user: user,
+                    ),
                   ),
-                  WeeklyMeasurementsCard(
-                    database: widget.authAndDatabase.database,
-                    user: user,
-                    gridHeight: gridHeight,
-                    gridWidth: gridWidth,
+                  SizedBox(
+                    height: gridHeight / 2,
+                    child: WeeklyNutritionCard(
+                      auth: widget.authAndDatabase.auth,
+                      database: widget.authAndDatabase.database,
+                      user: user,
+                    ),
+                  ),
+                  SizedBox(
+                    height: gridHeight / 2,
+                    child: WeeklyMeasurementsCard(
+                      database: widget.authAndDatabase.database,
+                      user: user,
+                    ),
                   ),
                   SizedBox(
                     height: gridHeight / 4,

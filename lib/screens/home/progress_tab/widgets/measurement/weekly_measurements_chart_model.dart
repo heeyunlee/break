@@ -84,4 +84,23 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
       _thisWeekData = _thisWeekDataS;
     }
   }
+
+  double? flipNumber(double number) {
+    switch (number.toInt()) {
+      case 6:
+        return 0.toDouble();
+      case 5:
+        return 1.toDouble();
+      case 4:
+        return 2.toDouble();
+      case 3:
+        return 3.toDouble();
+      case 2:
+        return 4.toDouble();
+      case 1:
+        return 5.toDouble();
+      case 0:
+        return 6.toDouble();
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class WorkoutOverviewTab extends StatelessWidget {
   final Workout workout;
@@ -38,7 +39,7 @@ class WorkoutOverviewTab extends StatelessWidget {
         style: kBodyText1,
       );
     } else {
-      return Text(S.current.addDescription, style: kBodyText2LightGrey);
+      return Text(S.current.addDescription, style: TextStyles.body2_light_grey);
     }
   }
 }

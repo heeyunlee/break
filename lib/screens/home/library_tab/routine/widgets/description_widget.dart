@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class DescriptionWidget extends StatelessWidget {
   final String? description;
@@ -15,16 +15,19 @@ class DescriptionWidget extends StatelessWidget {
       if (description!.isNotEmpty) {
         return Text(
           description!,
-          style: kBodyText2LightGrey,
+          style: TextStyles.body2_light_grey,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
         );
       } else {
-        return Text(S.current.addDescription, style: kBodyText2LightGrey);
+        return Text(
+          S.current.addDescription,
+          style: TextStyles.body2_light_grey,
+        );
       }
     } else {
-      return Text(S.current.addDescription, style: kBodyText2LightGrey);
+      return Text(S.current.addDescription, style: TextStyles.body2_light_grey);
     }
   }
 }

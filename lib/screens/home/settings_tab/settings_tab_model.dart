@@ -84,10 +84,11 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.2',
+      applicationVersion: 'v.0.3.3',
       applicationIcon: Container(
         decoration: BoxDecoration(color: kBackgroundColor),
-        child: Image.asset('assets/logos/icon.png', width: 36, height: 36),
+        child: Image.asset('assets/logos/herakles_icon.png',
+            width: 36, height: 36),
       ),
     );
   }

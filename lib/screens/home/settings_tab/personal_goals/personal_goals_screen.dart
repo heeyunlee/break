@@ -109,7 +109,7 @@ class PersonalGoalsScreen extends StatelessWidget {
                     if (user.weightGoal != null)
                       Text(
                         '${Formatter.weightsWithDecimal(user.weightGoal!)} $unit',
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                     const SizedBox(width: 16),
                     const Icon(
@@ -142,7 +142,7 @@ class PersonalGoalsScreen extends StatelessWidget {
                     if (user.bodyFatPercentageGoal != null)
                       Text(
                         '${Formatter.weightsWithDecimal(user.bodyFatPercentageGoal!)} %',
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                     const SizedBox(width: 16),
                     const Icon(
@@ -174,7 +174,7 @@ class PersonalGoalsScreen extends StatelessWidget {
                     if (user.dailyProteinGoal != null)
                       Text(
                         '${user.dailyProteinGoal!} g',
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                     const SizedBox(width: 16),
                     const Icon(
@@ -207,7 +207,7 @@ class PersonalGoalsScreen extends StatelessWidget {
                     if (user.dailyWeightsGoal != null)
                       Text(
                         '${Formatter.weights(user.dailyWeightsGoal!)} $unit',
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                     const SizedBox(width: 16),
                     const Icon(

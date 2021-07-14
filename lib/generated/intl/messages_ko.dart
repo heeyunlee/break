@@ -619,6 +619,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("지금 운동을 시작하고 발전하는 모습을 보세요!"),
         "weightsHintText":
             MessageLookupByLibrary.simpleMessage("몸무게 정보를 입력해주세요"),
+        "wokroutsThisWeek": MessageLookupByLibrary.simpleMessage("이번 주 운동"),
         "workedOutMainMuscleGroup": m20,
         "workout": MessageLookupByLibrary.simpleMessage("운동"),
         "workoutDifficultySliderText":

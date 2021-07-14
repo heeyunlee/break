@@ -1,9 +1,13 @@
-# Herakles: Workout Player
+<h1 align="center">
+  <a name="logo" href="https://www.vCloudInfo.com/tag/iot"><img src="https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/Icons%2Fherakles_icon.png?alt=media&token=f0428433-3497-48d7-a956-8e0fd1c3d930" alt="Herakles" width="200"></a>
+  <br>
+  Herakles: Workout Player
+</h1>
 
 ## TO DO:
 ### Refactoring: Need to refactor a LOT of codes to separate logic with ui
 - [x] Add Workout To Routine Screen
-- [ ] Create Routine Screen
+- [x] Create Routine Screen
 - [ ] Edit Routine Screen
 - [ ] Log Routine Screen
 - [ ] Routine History Tab

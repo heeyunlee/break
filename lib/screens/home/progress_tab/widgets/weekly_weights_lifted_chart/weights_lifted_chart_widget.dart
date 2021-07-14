@@ -25,8 +25,6 @@ class WeightsLiftedChartWidget extends StatefulWidget {
   final Database database;
   final User user;
   final WeeklyProgressChartModel model;
-  final double gridHeight;
-  final double gridWidth;
 
   const WeightsLiftedChartWidget({
     Key? key,
@@ -34,15 +32,11 @@ class WeightsLiftedChartWidget extends StatefulWidget {
     required this.database,
     required this.user,
     required this.model,
-    required this.gridHeight,
-    required this.gridWidth,
   }) : super(key: key);
 
   static Widget create(
     BuildContext context, {
     required User user,
-    required double gridHeight,
-    required double gridWidth,
   }) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
@@ -53,8 +47,6 @@ class WeightsLiftedChartWidget extends StatefulWidget {
         database: database,
         user: user,
         model: ref.watch(weeklyProgressChartModelProvider),
-        gridHeight: gridHeight,
-        gridWidth: gridWidth,
       ),
     );
   }
@@ -137,8 +129,6 @@ class _WeightsLiftedChartWidgetState extends State<WeightsLiftedChartWidget> {
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
-      width: widget.gridWidth,
-      height: widget.gridHeight / 2,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,

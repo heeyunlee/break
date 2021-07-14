@@ -9,6 +9,7 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/screens/home/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/algolia_manager.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 
 import '../../../styles/constants.dart';
@@ -86,10 +87,10 @@ class _SearchTabState extends State<SearchTab> {
         progress: _isLoading,
         transitionCurve: Curves.easeInOut,
         hint: S.current.searchBarHintText,
-        hintStyle: kBodyText2Grey,
+        hintStyle: TextStyles.body2_grey,
         backdropColor: kAppBarColor,
         backgroundColor: Colors.white,
-        queryStyle: kBodyText2Black,
+        queryStyle: TextStyles.body2_black,
         actions: [
           FloatingSearchBarAction(
             showIfOpened: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -68,7 +69,7 @@ class SavedRoutinesTileWidget extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         _getSubtitle(data!),
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                       ),
                     ],
                   ),

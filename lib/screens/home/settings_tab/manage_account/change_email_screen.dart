@@ -150,7 +150,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 return null;
               },
               decoration: InputDecoration(
-                hintStyle: kSearchBarHintStyle,
+                hintStyle: TextStyles.headline6_grey,
                 hintText: 'JohnDoe@abc.com',
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),

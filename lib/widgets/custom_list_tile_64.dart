@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
 
@@ -75,7 +76,7 @@ class CustomListTile64 extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: kBodyText2Grey,
+                        style: TextStyles.body2_grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,

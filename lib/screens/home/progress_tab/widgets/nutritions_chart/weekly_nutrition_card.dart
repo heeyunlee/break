@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/screens/home/progress_tab/proteins_eaten/weekly_nutrition_chart.dart';
-import 'package:workout_player/screens/home/progress_tab/proteins_eaten/weekly_nutrition_chart_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -13,28 +11,30 @@ import 'package:workout_player/widgets/blur_background_card.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import 'protein_entries_screen.dart';
+import 'weekly_nutrition_chart.dart';
+import 'weekly_nutrition_chart_model.dart';
 
 class WeeklyNutritionCard extends StatelessWidget {
   final AuthBase auth;
   final Database database;
   final User user;
-  final double gridHeight;
-  final double gridWidth;
+  // final double gridHeight;
+  // final double gridWidth;
 
   const WeeklyNutritionCard({
     Key? key,
     required this.auth,
     required this.database,
     required this.user,
-    required this.gridHeight,
-    required this.gridWidth,
+    // required this.gridHeight,
+    // required this.gridWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
-      width: gridWidth,
-      height: gridHeight / 2,
+      // width: gridWidth,
+      // height: gridHeight / 2,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,

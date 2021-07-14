@@ -182,7 +182,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
             controller: _textController1,
             maxLength: 25,
             decoration: InputDecoration(
-              hintStyle: kSearchBarHintStyle,
+              hintStyle: TextStyles.headline6_grey,
               hintText: S.current.displayNameHintText,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),

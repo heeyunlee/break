@@ -169,7 +169,7 @@ class _DailySummaryRowWidget extends StatelessWidget {
         const SizedBox(height: 16),
         Text(title, style: kSubtitle1w900),
         const SizedBox(height: 4),
-        Text(subtitle, style: kBodyText2Light),
+        Text(subtitle, style: TextStyles.body2_light),
       ],
     );
   }

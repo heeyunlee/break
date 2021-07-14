@@ -12,27 +12,27 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import 'measurements_screen.dart';
 import 'weekly_measurements_chart.dart';
-import 'weely_measurements_chart_model.dart';
+import 'weekly_measurements_chart_model.dart';
 
 class WeeklyMeasurementsCard extends StatelessWidget {
   final Database database;
   final User user;
-  final double gridHeight;
-  final double gridWidth;
+  // final double gridHeight;
+  // final double gridWidth;
 
   const WeeklyMeasurementsCard({
     Key? key,
     required this.database,
     required this.user,
-    required this.gridHeight,
-    required this.gridWidth,
+    // required this.gridHeight,
+    // required this.gridWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlurBackgroundCard(
-      width: gridWidth,
-      height: gridHeight / 2,
+      // width: gridWidth,
+      // height: gridHeight / 2,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: _buildChartWidget(context),
