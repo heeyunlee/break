@@ -97,11 +97,6 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, documentSnapshot) {
-          // final documentId = documentSnapshot.id;
-          // final data = documentSnapshot.data();
-          // final measurement = Measurement.fromMap(data!, documentId);
-          // final snapshot = documentSnapshot as DocumentSnapshot<Measurement?>;
-          // final measurement = snapshot.data()!;
           final measurement = documentSnapshot.data()! as Measurement;
 
           final date = Formatter.yMdjm(measurement.loggedTime);
@@ -124,7 +119,7 @@ class MeasurementsScreen extends StatelessWidget {
             child: ListTile(
               leading: Text(
                 '${measurement.bodyWeight}$unit',
-                style: kBodyText1,
+                style: TextStyles.body1,
               ),
               trailing: Text(date, style: kBodyText1Grey),
             ),

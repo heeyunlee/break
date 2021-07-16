@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/models/nutritions_and_routine_histories.dart';
+import 'package:workout_player/models/progress_tab_class.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_and_routine_workouts.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -47,7 +47,7 @@ final nutritionSelectedDayStreamProvider =
 });
 
 final thisWeeksNutritionsStreamProvider =
-    StreamProvider.family<List<Nutrition>?, String>((ref, uid) {
+    StreamProvider.family<List<Nutrition>, String>((ref, uid) {
   final database = ref.watch(databaseProvider(uid));
   return database.thisWeeksNutritionsStream();
 });
@@ -79,12 +79,13 @@ final todaysRHStreamProvider =
 });
 
 final rhOfThisWeekStreamProvider =
-    StreamProvider.autoDispose.family<List<RoutineHistory?>, String>(
+    StreamProvider.autoDispose.family<List<RoutineHistory>, String>(
   (ref, uid) {
     final database = ref.watch(databaseProvider(uid));
     return database.routineHistoriesThisWeekStream();
   },
 );
+
 final rhOfThisWeekStreamProvider2 =
     StreamProvider.autoDispose.family<List<RoutineHistory?>, List<String>>(
   (ref, IDs) {
@@ -142,7 +143,7 @@ abstract class Database {
   Stream<List<Nutrition>> userNutritionStream({int limit});
   Stream<List<Nutrition>?> todaysNutritionStream();
   Stream<List<Nutrition>> nutritionsSelectedDayStream(DateTime? date);
-  Stream<List<Nutrition>?> thisWeeksNutritionsStream();
+  Stream<List<Nutrition>> thisWeeksNutritionsStream();
 
   // Query
   Query<Nutrition> nutritionsPaginatedUserQuery();
@@ -235,7 +236,7 @@ abstract class Database {
   Stream<List<RoutineHistory>> routineHistoriesStream();
   Stream<List<RoutineHistory>?> routineHistoryTodayStream();
   Stream<List<RoutineHistory>> routineHistorySelectedDayStream(DateTime? date);
-  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream();
+  Stream<List<RoutineHistory>> routineHistoriesThisWeekStream();
   Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream2(
       String routineId);
   Stream<List<RoutineHistory>> routineHistoriesPublicStream();
@@ -265,12 +266,10 @@ abstract class Database {
       String workoutId);
 
   // RxDart CombinedLists
-  Stream<NutritionsAndRoutineHistories> nutritionsAndRoutineHistoriesStream(
-    DateTime? day,
-  );
   Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
     String routineId,
   );
+  Stream<ProgressTabClass> progressTabStream(DateTime? day);
 }
 
 ///
@@ -472,7 +471,7 @@ class FirestoreDatabase implements Database {
 
   // Stream of This Week's Nutrition Entries
   @override
-  Stream<List<Nutrition>?> thisWeeksNutritionsStream() =>
+  Stream<List<Nutrition>> thisWeeksNutritionsStream() =>
       _service.collectionStreamOfThisWeek<Nutrition>(
         uid: uid,
         uidVariableName: 'userId',
@@ -941,7 +940,7 @@ class FirestoreDatabase implements Database {
 
   // Stream of This Week's Routine History
   @override
-  Stream<List<RoutineHistory?>> routineHistoriesThisWeekStream() =>
+  Stream<List<RoutineHistory>> routineHistoriesThisWeekStream() =>
       _service.collectionStreamOfThisWeek<RoutineHistory>(
         path: APIPath.routineHistories(),
         uid: uid!,
@@ -1118,22 +1117,6 @@ class FirestoreDatabase implements Database {
       );
 
   @override
-  Stream<NutritionsAndRoutineHistories> nutritionsAndRoutineHistoriesStream(
-    DateTime? day,
-  ) {
-    return Rx.combineLatest2(
-      routineHistorySelectedDayStream(day),
-      nutritionsSelectedDayStream(day),
-      (List<RoutineHistory> routineHistories, List<Nutrition> nutritions) {
-        return NutritionsAndRoutineHistories(
-          nutritions: nutritions,
-          routineHistories: routineHistories,
-        );
-      },
-    );
-  }
-
-  @override
   Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
     String routineId,
   ) {
@@ -1144,6 +1127,44 @@ class FirestoreDatabase implements Database {
         return RoutineAndRoutineWorkouts(
           routine: routine,
           routineWorkouts: routineWorkouts,
+        );
+      },
+    );
+  }
+
+  @override
+  Stream<ProgressTabClass> progressTabStream(DateTime? day) {
+    return Rx.combineLatest6(
+      userStream(),
+      measurementsStreamThisWeek(),
+      thisWeeksNutritionsStream(),
+      routineHistoriesThisWeekStream(),
+      routineHistorySelectedDayStream(day),
+      nutritionsSelectedDayStream(day),
+      (
+        User? user,
+        List<Measurement> measurements,
+        List<Nutrition> nutritions,
+        List<RoutineHistory> routineHistories,
+        List<RoutineHistory> selectedDayRoutineHistories,
+        List<Nutrition> selectedDayNutritions,
+      ) {
+        final mLength = measurements.length;
+        final nLength = nutritions.length;
+        final rLength = routineHistories.length;
+        final sLength = selectedDayRoutineHistories.length;
+        final aLength = selectedDayNutritions.length;
+        final entireLength = mLength + nLength + rLength + sLength + aLength;
+
+        print('entire length is $entireLength');
+
+        return ProgressTabClass(
+          user: user!,
+          routineHistories: routineHistories,
+          nutritions: nutritions,
+          measurements: measurements,
+          selectedDayRoutineHistories: selectedDayRoutineHistories,
+          selectedDayNutritions: selectedDayNutritions,
         );
       },
     );

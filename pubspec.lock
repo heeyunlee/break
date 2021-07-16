@@ -225,6 +225,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  dotted_border:
+    dependency: "direct main"
+    description:
+      name: dotted_border
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   easy_localization:
     dependency: "direct main"
     description:
@@ -889,6 +896,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6-nullsafety"
+  reorderables:
+    dependency: "direct main"
+    description:
+      name: reorderables
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   riverpod:
     dependency: transitive
     description:

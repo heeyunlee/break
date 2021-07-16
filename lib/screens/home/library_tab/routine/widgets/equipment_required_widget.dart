@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class EquipmentRequiredWidget extends StatelessWidget {
   final Routine routine;
@@ -44,7 +44,7 @@ class EquipmentRequiredWidget extends StatelessWidget {
             width: size.width - 68,
             child: Text(
               _equipments,
-              style: kBodyText1,
+              style: TextStyles.body1,
               maxLines: 1,
               softWrap: false,
               overflow: TextOverflow.fade,

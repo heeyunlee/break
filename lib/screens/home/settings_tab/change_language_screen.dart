@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -47,7 +48,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         ListTile(
           tileColor:
               (_currentLang == 'ko') ? kPrimaryColor : Colors.transparent,
-          title: const Text('한국어', style: kBodyText1),
+          title: const Text('한국어', style: TextStyles.body1),
           trailing: (_currentLang == 'ko')
               ? const Icon(Icons.check, color: Colors.white)
               : null,
@@ -62,7 +63,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         ListTile(
           tileColor:
               (_currentLang == 'en') ? kPrimaryColor : Colors.transparent,
-          title: const Text('English', style: kBodyText1),
+          title: const Text('English', style: TextStyles.body1),
           trailing: (_currentLang == 'en')
               ? const Icon(Icons.check, color: Colors.white)
               : null,

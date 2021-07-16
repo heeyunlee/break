@@ -155,7 +155,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                 ),
-                child: Text(S.current.thisWeek, style: kBodyText1),
+                child: Text(S.current.thisWeek, style: TextStyles.body1),
               ),
               Card(
                 color: kCardColor,

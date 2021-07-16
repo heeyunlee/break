@@ -54,6 +54,20 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Widget proxyDecorator(child, index, animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          color: Colors.transparent,
+          elevation: 0,
+          child: child,
+        );
+      },
+      child: child,
+    );
+  }
+
   Future<void> onSubmit(BuildContext context, Routine routine) async {
     try {
       _newMap.forEach((key, value) {

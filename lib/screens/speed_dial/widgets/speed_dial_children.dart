@@ -6,42 +6,40 @@ class SpeedDialChildren extends StatelessWidget {
   final void Function() onPressed;
   final Widget icon;
   final String label;
-  // final double distance;
 
   const SpeedDialChildren({
     Key? key,
     required this.onPressed,
     required this.icon,
     required this.label,
-    // required this.distance,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Material(
-            color: kPrimaryColor,
-            clipBehavior: Clip.antiAlias,
-            shape: const CircleBorder(),
-            elevation: 6,
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: IconButton(
-                onPressed: onPressed,
-                icon: icon,
+    return Material(
+      color: Colors.transparent,
+      elevation: 0,
+      child: InkWell(
+        onTap: onPressed,
+        child: SizedBox(
+          width: 80,
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Material(
+                color: kPrimaryColor,
+                clipBehavior: Clip.antiAlias,
+                shape: const CircleBorder(),
+                elevation: 6,
+                child: SizedBox(width: 40, height: 40, child: icon),
               ),
-            ),
+              const SizedBox(height: 8),
+              Text(label, style: TextStyles.caption1)
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(label, style: TextStyles.caption1)
-        ],
+        ),
       ),
     );
   }

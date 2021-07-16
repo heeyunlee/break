@@ -6,8 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/main_provider.dart';
@@ -16,6 +14,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
+import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -263,40 +262,55 @@ class RoutineWorkoutCard extends StatelessWidget {
         childrenPadding: const EdgeInsets.all(0),
         maintainState: true,
         children: [
-          if (routineWorkout.sets.isEmpty)
-            const Divider(endIndent: 8, indent: 8, color: kGrey700),
-          if (routineWorkout.sets.isEmpty)
-            Container(
-              height: 80,
-              child: Center(
-                child: Text(S.current.addASet, style: TextStyles.body2),
-              ),
-            ),
           const Divider(endIndent: 8, indent: 8, color: kGrey700),
-          if (routineWorkout.sets.isNotEmpty)
-            ImplicitlyAnimatedList<WorkoutSet>(
-              items: routineWorkout.sets,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              areItemsTheSame: (a, b) => a.workoutSetId == b.workoutSetId,
-              removeDuration: Duration(milliseconds: 200),
-              insertDuration: Duration(milliseconds: 200),
-              itemBuilder: (context, animation, item, index) {
-                return SizeFadeTransition(
-                  sizeFraction: 0.7,
-                  curve: Curves.easeInOut,
-                  animation: animation,
-                  child: WorkoutSetWidget(
-                    database: database,
-                    routine: routine,
-                    routineWorkout: routineWorkout,
-                    workoutSet: item,
-                    index: index,
-                    auth: auth,
+          ListItemBuilder<WorkoutSet>(
+            items: routineWorkout.sets,
+            emptyContentWidget: Column(
+              children: [
+                Container(
+                  height: 80,
+                  child: Center(
+                    child: Text(S.current.addASet, style: TextStyles.body2),
                   ),
-                );
-              },
+                ),
+                const Divider(endIndent: 8, indent: 8, color: kGrey700),
+              ],
             ),
+            itemBuilder: (context, item, index) {
+              return WorkoutSetWidget(
+                database: database,
+                routine: routine,
+                routineWorkout: routineWorkout,
+                workoutSet: item,
+                index: index,
+                auth: auth,
+              );
+            },
+          ),
+          // if (routineWorkout.sets.isNotEmpty)
+          //   ImplicitlyAnimatedList<WorkoutSet>(
+          //     items: routineWorkout.sets,
+          //     shrinkWrap: true,
+          //     physics: NeverScrollableScrollPhysics(),
+          //     areItemsTheSame: (a, b) => a.workoutSetId == b.workoutSetId,
+          //     removeDuration: Duration(milliseconds: 200),
+          //     insertDuration: Duration(milliseconds: 200),
+          //     itemBuilder: (context, animation, item, index) {
+          //       return SizeFadeTransition(
+          //         sizeFraction: 0.7,
+          //         curve: Curves.easeInOut,
+          //         animation: animation,
+          //         child: WorkoutSetWidget(
+          //           database: database,
+          //           routine: routine,
+          //           routineWorkout: routineWorkout,
+          //           workoutSet: item,
+          //           index: index,
+          //           auth: auth,
+          //         ),
+          //       );
+          //     },
+          //   ),
           if (routineWorkout.sets.isNotEmpty == true &&
               auth.currentUser!.uid == routine.routineOwnerId)
             const Divider(endIndent: 8, indent: 8, color: kGrey700),

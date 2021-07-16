@@ -163,6 +163,14 @@ class TextStyles {
   /// Basic Settings
   /// `fontSize` = 16,
   /// `letterSpacing` = 0.50
+  static const body1 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0.50,
+    fontFamily: defaultFontFamily,
+  );
+
   static const body1_w800 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w800,

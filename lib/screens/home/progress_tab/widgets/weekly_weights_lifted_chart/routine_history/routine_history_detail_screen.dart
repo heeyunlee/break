@@ -395,7 +395,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 return ListItemBuilder<WorkoutHistory>(
                   items: snapshot,
                   // snapshot: snapshot,
-                  itemBuilder: (context, workoutHistory) {
+                  itemBuilder: (context, workoutHistory, index) {
                     workoutHistories = snapshot;
 
                     return WorkoutHistoryCard(

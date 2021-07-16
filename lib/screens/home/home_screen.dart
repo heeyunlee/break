@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen>
     return {
       CustomTabItem.library: (_) => LibraryTab(),
       CustomTabItem.search: (_) => SearchTab(),
-      // CustomTabItem.progress: (_) => ProgressTab(),
       CustomTabItem.progress: (_) => ProgressTab.create(context),
       CustomTabItem.settings: (_) => SettingsTab(),
     };

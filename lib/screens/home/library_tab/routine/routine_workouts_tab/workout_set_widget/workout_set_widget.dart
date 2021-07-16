@@ -283,7 +283,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final auth = Provider.of<AuthBase>(context, listen: false);
+    logger.d('workout set widget building...');
 
     return Slidable(
       endActionPane: ActionPane(
@@ -351,7 +351,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             (widget.routineWorkout.isBodyWeightWorkout)
                                 ? S.current.bodyweight
                                 : formattedWeights,
-                            style: kBodyText1,
+                            style: TextStyles.body1,
                           ),
                         )
                       : TextField(
@@ -359,7 +359,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.center,
                           controller: _textController1,
-                          style: kBodyText1,
+                          style: TextStyles.body1,
                           focusNode: _focusNode1,
                           keyboardAppearance: Brightness.dark,
                           keyboardType: const TextInputType.numberWithOptions(
@@ -370,7 +370,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                             border: InputBorder.none,
                             counterText: '',
                             suffixText: unit,
-                            suffixStyle: kBodyText1,
+                            suffixStyle: TextStyles.body1,
                           ),
                           onSubmitted: (_) => updateWeight(),
                         ),
@@ -400,19 +400,19 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   alignment: Alignment.center,
                   color: kPrimaryColor,
                   child: (!repsTabbed)
-                      ? Center(child: Text(reps, style: kBodyText1))
+                      ? Center(child: Text(reps, style: TextStyles.body1))
                       : TextField(
                           autofocus: true,
                           textAlign: TextAlign.center,
                           controller: _textController2,
-                          style: kBodyText1,
+                          style: TextStyles.body1,
                           focusNode: _focusNode2,
                           keyboardType: TextInputType.number,
                           maxLength: 2,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             suffixText: S.current.x,
-                            suffixStyle: kBodyText1,
+                            suffixStyle: TextStyles.body1,
                             counterText: '',
                           ),
                           onSubmitted: (_) => updateWeight(),
@@ -442,19 +442,19 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                   alignment: Alignment.center,
                   color: kPrimaryColor,
                   child: (!restTimeTabbed)
-                      ? Center(child: Text(restTime, style: kBodyText1))
+                      ? Center(child: Text(restTime, style: TextStyles.body1))
                       : TextField(
                           autofocus: true,
                           textAlign: TextAlign.center,
                           controller: _textController3,
-                          style: kBodyText1,
+                          style: TextStyles.body1,
                           focusNode: _focusNode3,
                           keyboardType: TextInputType.number,
                           maxLength: 3,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             suffixText: S.current.seconds,
-                            suffixStyle: kBodyText1,
+                            suffixStyle: TextStyles.body1,
                             counterText: '',
                           ),
                           onSubmitted: (_) => updateWeight(),

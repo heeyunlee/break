@@ -81,6 +81,8 @@ dependencies:
   # delayed_display: ^2.0.0
   feature_discovery: ^0.14.0
   implicitly_animated_reorderable_list: ^0.4.0
+  reorderables: ^0.4.1
+  dotted_border: ^2.0.0
 
   # Others
   # flutter_cache_manager: ^3.0.2 # no web

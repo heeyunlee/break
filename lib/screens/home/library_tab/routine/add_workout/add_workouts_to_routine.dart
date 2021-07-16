@@ -117,7 +117,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
           emptyContentTitle: S.current.noWorkoutEmptyContent(
             widget.model.selectedChipTranslated,
           ),
-          itemBuilder: (context, workout) {
+          itemBuilder: (context, workout, index) {
             final locale = Intl.getCurrentLocale();
 
             final difficulty = Formatter.difficulty(workout.difficulty);

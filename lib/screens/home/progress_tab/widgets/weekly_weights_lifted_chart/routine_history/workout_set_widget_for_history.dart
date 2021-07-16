@@ -5,6 +5,7 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class WorkoutSetWidgetForHistory extends StatelessWidget {
@@ -53,7 +54,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
                   (workoutHistory.isBodyWeightWorkout)
                       ? S.current.bodyweight
                       : formattedWeights,
-                  style: kBodyText1,
+                  style: TextStyles.body1,
                 ),
               ),
             ),
@@ -70,7 +71,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
               color: kPrimaryColor,
-              child: Center(child: Text(reps, style: kBodyText1)),
+              child: Center(child: Text(reps, style: TextStyles.body1)),
             ),
           ),
 
@@ -84,7 +85,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 alignment: Alignment.center,
                 color: kPrimaryColor,
-                child: Center(child: Text(restTime, style: kBodyText1))),
+                child: Center(child: Text(restTime, style: TextStyles.body1))),
           ),
 
         const SizedBox(width: 16),

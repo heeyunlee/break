@@ -1,11 +1,19 @@
 <h1 align="center">
-  <a name="logo" href="https://www.vCloudInfo.com/tag/iot"><img src="https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/Icons%2Fherakles_icon.png?alt=media&token=f0428433-3497-48d7-a956-8e0fd1c3d930" alt="Herakles" width="200"></a>
+  <a name="logo"><img src="https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/Icons%2Fherakles_icon.svg?alt=media&token=7a7edfab-cb91-4eaf-a98a-6c1c9002ea84" alt="Herakles" width="120"></a>
+  <br>
   <br>
   Herakles: Workout Player
 </h1>
 
-## TO DO:
-### Refactoring: Need to refactor a LOT of codes to separate logic with ui
+### **Table of contents**
+- [**Introduction**](#introduction)
+- [**To Do**](#to-do)
+
+## Introduction
+
+## To Do
+### Refactoring
+#### This project is always-changing and always-improving. As I learn more about Flutter, and especially more about better factoring, I need to refactor old codes to make them better. Below are my refactoring to-do lists
 - [x] Add Workout To Routine Screen
 - [x] Create Routine Screen
 - [ ] Edit Routine Screen

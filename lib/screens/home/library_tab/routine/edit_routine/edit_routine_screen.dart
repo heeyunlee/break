@@ -435,7 +435,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              Text(_difficultySliderLabel, style: kBodyText1),
+              Text(_difficultySliderLabel, style: TextStyles.body1),
               const SizedBox(height: 8),
               Slider(
                 activeColor: kPrimaryColor,

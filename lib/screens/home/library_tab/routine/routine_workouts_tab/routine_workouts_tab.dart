@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/models/routine.dart';
@@ -11,13 +9,12 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/widgets/empty_content.dart';
-// import 'package:workout_player/widgets/list_item_builder.dart';
+import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 
 import 'routine_workout_card/routine_workout_card.dart';
 
-class RoutineWorkoutsTab extends StatelessWidget {
+class RoutineWorkoutsTab extends StatefulWidget {
   final Routine routine;
   final AuthBase auth;
   final Database database;
@@ -30,11 +27,16 @@ class RoutineWorkoutsTab extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _RoutineWorkoutsTabState createState() => _RoutineWorkoutsTabState();
+}
+
+class _RoutineWorkoutsTabState extends State<RoutineWorkoutsTab> {
+  @override
   Widget build(BuildContext context) {
     logger.d('build routine workouts tab');
 
     return CustomStreamBuilderWidget<List<RoutineWorkout>>(
-        stream: database.routineWorkoutsStream(routine.routineId),
+        stream: widget.database.routineWorkoutsStream(widget.routine.routineId),
         hasDataWidget: (context, list) {
           final List<Widget> routineOwnerWidgets = [
             const Divider(
@@ -52,11 +54,11 @@ class RoutineWorkoutsTab extends StatelessWidget {
               color: kCardColor,
               onPressed: () => AddWorkoutsToRoutine.show(
                 context,
-                routine: routine,
+                routine: widget.routine,
               ),
             ),
             const SizedBox(height: 8),
-            ReorderRoutineWorkoutsButton(routine: routine, list: list),
+            ReorderRoutineWorkoutsButton(routine: widget.routine, list: list),
           ];
 
           return SingleChildScrollView(
@@ -65,50 +67,52 @@ class RoutineWorkoutsTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (list.isEmpty)
-                    EmptyContent(message: S.current.routineWorkoutEmptyText),
+                  // if (list.isEmpty)
+                  //   EmptyContent(message: S.current.routineWorkoutEmptyText),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: ImplicitlyAnimatedList<RoutineWorkout>(
-                      shrinkWrap: true,
-                      items: list,
-                      physics: NeverScrollableScrollPhysics(),
-                      areItemsTheSame: (a, b) =>
-                          a.routineWorkoutId == b.routineWorkoutId,
-                      removeDuration: Duration(milliseconds: 200),
-                      insertDuration: Duration(milliseconds: 200),
-                      itemBuilder: (context, animation, item, index) {
-                        return SizeFadeTransition(
-                          sizeFraction: 0.7,
-                          curve: Curves.easeInOut,
-                          animation: animation,
-                          child: RoutineWorkoutCard(
-                            database: database,
-                            routine: routine,
-                            routineWorkout: item,
-                            auth: auth,
-                            // key: UniqueKey(),
-                            // model: RoutineWorkoutCardModel(),
-                          ),
-                        );
-                      },
-                    ),
-
-                    // child: ListItemBuilder<RoutineWorkout?>(
+                    // child: ImplicitlyAnimatedList<RoutineWorkout>(
+                    //   shrinkWrap: true,
                     //   items: list,
-                    //   emptyContentTitle: S.current.routineWorkoutEmptyText,
-                    //   itemBuilder: (context, routineWorkout) =>
-                    //       RoutineWorkoutCard(
-                    //     database: database,
-                    //     routine: routine,
-                    //     routineWorkout: routineWorkout!,
-                    //     auth: auth,
-                    //     // key: UniqueKey(),
-                    //     // model: RoutineWorkoutCardModel(),
-                    //   ),
+                    //   physics: NeverScrollableScrollPhysics(),
+                    //   areItemsTheSame: (a, b) => false,
+                    //   // areItemsTheSame: (a, b) =>
+                    //   //     a.routineWorkoutId == b.routineWorkoutId,
+                    //   removeDuration: Duration(milliseconds: 200),
+                    //   insertDuration: Duration(milliseconds: 200),
+                    //   itemBuilder: (context, animation, item, index) {
+                    //     return SizeFadeTransition(
+                    //       sizeFraction: 0.7,
+                    //       curve: Curves.easeInOut,
+                    //       animation: animation,
+                    //       child: RoutineWorkoutCard(
+                    //         database: database,
+                    //         routine: routine,
+                    //         routineWorkout: item,
+                    //         auth: auth,
+                    //         // key: UniqueKey(),
+                    //         // model: RoutineWorkoutCardModel(),
+                    //       ),
+                    //     );
+                    //   },
                     // ),
+
+                    child: ListItemBuilder<RoutineWorkout?>(
+                      items: list,
+                      emptyContentTitle: S.current.routineWorkoutEmptyText,
+                      itemBuilder: (context, routineWorkout, index) =>
+                          RoutineWorkoutCard(
+                        database: widget.database,
+                        routine: widget.routine,
+                        routineWorkout: routineWorkout!,
+                        auth: widget.auth,
+                        // key: UniqueKey(),
+                        // model: RoutineWorkoutCardModel(),
+                      ),
+                    ),
                   ),
-                  if (auth.currentUser!.uid == routine.routineOwnerId)
+                  if (widget.auth.currentUser!.uid ==
+                      widget.routine.routineOwnerId)
                     ...routineOwnerWidgets,
                   const SizedBox(height: 160),
                 ],

@@ -404,7 +404,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.difficulty}: $_difficultySliderLabel',
-            style: kBodyText1.copyWith(fontWeight: FontWeight.w800),
+            style: TextStyles.body1_w800,
           ),
         ),
 
@@ -448,7 +448,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-            style: kBodyText1.copyWith(fontWeight: FontWeight.w800),
+            style: TextStyles.body1_w800,
           ),
         ),
         Card(

@@ -131,7 +131,10 @@ class _SearchTabState extends State<SearchTab> {
                     width: 200,
                   ),
                   const SizedBox(height: 24),
-                  Text(S.current.searchResultsEmptyText, style: kBodyText1),
+                  Text(
+                    S.current.searchResultsEmptyText,
+                    style: TextStyles.body1,
+                  ),
                 ],
               )
             : SingleChildScrollView(

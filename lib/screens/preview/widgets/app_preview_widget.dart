@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/shimmer/app_preview_shimmer.dart';
-
-import '../../../styles/constants.dart';
 
 class AppPreviewWidget extends StatelessWidget {
   const AppPreviewWidget({
@@ -33,7 +32,7 @@ class AppPreviewWidget extends StatelessWidget {
         ),
         Positioned(
           bottom: 120,
-          child: Text(subtitle, style: kBodyText1),
+          child: Text(subtitle, style: TextStyles.body1),
         ),
       ],
     );

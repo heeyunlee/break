@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import 'create_new_routine_model.dart';
 
@@ -52,7 +53,7 @@ class NewRoutineMoreSettingsWidget extends StatelessWidget {
                   decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                   ),
-                  style: kBodyText1,
+                  style: TextStyles.body1,
                   onChanged: model.onChangedLocation,
                   items: [
                     DropdownMenuItem(

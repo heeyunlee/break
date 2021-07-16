@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -109,7 +110,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.atHome.toString())
               ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.atHome.translation!, style: kBodyText1),
+          title: Text(Location.atHome.translation!, style: TextStyles.body1),
           trailing: (_location == Location.atHome.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -124,7 +125,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.gym.toString())
               ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.gym.translation!, style: kBodyText1),
+          title: Text(Location.gym.translation!, style: TextStyles.body1),
           trailing: (_location == Location.gym.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -139,7 +140,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.outdoor.toString())
               ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.outdoor.translation!, style: kBodyText1),
+          title: Text(Location.outdoor.translation!, style: TextStyles.body1),
           trailing: (_location == Location.outdoor.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,
@@ -154,7 +155,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
           tileColor: (_location == Location.others.toString())
               ? kPrimary600Color
               : Colors.transparent,
-          title: Text(Location.others.translation!, style: kBodyText1),
+          title: Text(Location.others.translation!, style: TextStyles.body1),
           trailing: (_location == Location.others.toString())
               ? Icon(Icons.check, color: Colors.white)
               : null,

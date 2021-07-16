@@ -131,7 +131,7 @@ class _StartWorkoutShortcutScreenState
               _selectedChip,
             ),
             // snapshot: snapshot,
-            itemBuilder: (context, routine) {
+            itemBuilder: (context, routine, index) {
               final trainingLevel = Formatter.difficulty(routine.trainingLevel);
               final weights = Formatter.weights(routine.totalWeights);
               final unit = Formatter.unitOfMass(routine.initialUnitOfMass);

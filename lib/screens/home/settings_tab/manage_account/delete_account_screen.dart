@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -85,13 +86,13 @@ class DeleteAccountScreen extends StatelessWidget {
             style: kHeadline6w900,
           ),
           const SizedBox(height: 16),
-          Text(S.current.byDeletingAccount, style: kBodyText1),
+          Text(S.current.byDeletingAccount, style: TextStyles.body1),
           const SizedBox(height: 8),
-          Text(S.current.deletingAccountWarning1, style: kBodyText1),
+          Text(S.current.deletingAccountWarning1, style: TextStyles.body1),
           const SizedBox(height: 4),
-          Text(S.current.deletingAccountWarning2, style: kBodyText1),
+          Text(S.current.deletingAccountWarning2, style: TextStyles.body1),
           const SizedBox(height: 4),
-          Text(S.current.deletingAccountWarning3, style: kBodyText1),
+          Text(S.current.deletingAccountWarning3, style: TextStyles.body1),
           const SizedBox(height: 40),
           MaxWidthRaisedButton(
             color: Colors.red,

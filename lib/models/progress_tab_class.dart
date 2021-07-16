@@ -8,11 +8,15 @@ class ProgressTabClass {
   final List<RoutineHistory> routineHistories;
   final List<Nutrition> nutritions;
   final List<Measurement> measurements;
+  final List<RoutineHistory> selectedDayRoutineHistories;
+  final List<Nutrition> selectedDayNutritions;
 
   const ProgressTabClass({
     required this.user,
     required this.routineHistories,
     required this.nutritions,
     required this.measurements,
+    required this.selectedDayRoutineHistories,
+    required this.selectedDayNutritions,
   });
 }

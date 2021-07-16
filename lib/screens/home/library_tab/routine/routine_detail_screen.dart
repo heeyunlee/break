@@ -86,14 +86,6 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
   void initState() {
     super.initState();
     widget.model.init(this);
-    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-    //   FeatureDiscovery.discoverFeatures(
-    //     context,
-    //     const <String>{
-    //       'reorder_routine_workouts',
-    //     },
-    //   );
-    // });
   }
 
   @override
@@ -114,190 +106,197 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
         stream: widget.model.database!.routineRoutineWorkoutsStream(
           widget.routine.routineId,
         ),
-        hasDataWidget: (context, data) => DefaultTabController(
-          length: 2,
-          child: NestedScrollView(
-            controller: widget.model.scrollController,
-            clipBehavior: Clip.antiAlias,
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [_buildSliverAppBar(data)];
-            },
-            body: TabBarView(
-              children: [
-                RoutineWorkoutsTab(
-                  // auth: widget.model.auth!,
-                  // database: widget.model.database!,
-                  auth: widget.auth,
-                  database: widget.database,
-                  routine: data.routine!,
+        hasDataWidget: (context, data) => LayoutBuilder(
+          builder: (context, constraints) {
+            return DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                controller: widget.model.scrollController,
+                clipBehavior: Clip.antiAlias,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [_buildSliverAppBar(data, constraints)];
+                },
+                body: TabBarView(
+                  children: [
+                    RoutineWorkoutsTab(
+                      auth: widget.auth,
+                      database: widget.database,
+                      routine: data.routine!,
+                    ),
+                    RoutineHistoryTab(
+                      routine: data.routine!,
+                      auth: widget.auth,
+                      database: widget.database,
+                    ),
+                  ],
                 ),
-                RoutineHistoryTab(
-                  routine: data.routine!,
-                  auth: widget.auth,
-                  database: widget.database,
-                  // auth: widget.model.auth!,
-                  // database: widget.model.database!,
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildSliverAppBar(RoutineAndRoutineWorkouts data) {
+  Widget _buildSliverAppBar(
+    RoutineAndRoutineWorkouts data,
+    BoxConstraints constraints,
+  ) {
     logger.d('building sliver app bar...');
 
-    final Size size = MediaQuery.of(context).size;
+    print('max height is ${constraints.maxHeight}');
+
+    final height = (constraints.maxHeight > 700)
+        ? constraints.maxHeight / 2 + 80
+        : constraints.maxHeight / 2 + 120;
+
+    // final Size size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
       animation: widget.model.textAnimationController,
-      builder: (context, child) {
-        return SliverAppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () => Navigator.of(context).pop(),
+      builder: (context, child) => SliverAppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
           ),
-          centerTitle: true,
-          brightness: Brightness.dark,
-          title: Transform.translate(
-            offset: widget.model.transTween.value,
-            child: Opacity(
-              opacity: widget.model.opacityTween.value,
-              child: child,
-            ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        centerTitle: true,
+        brightness: Brightness.dark,
+        title: Transform.translate(
+          offset: widget.model.transTween.value,
+          child: Opacity(
+            opacity: widget.model.opacityTween.value,
+            child: child,
           ),
-          backgroundColor: kAppBarColor,
-          floating: false,
-          pinned: true,
-          snap: false,
-          stretch: true,
-          elevation: 0,
-          expandedHeight: size.height / 2 + 64,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48),
-            child: Container(
-              color: kAppBarColor,
-              child: TabBar(
-                indicatorColor: kPrimaryColor,
-                tabs: [
-                  Tab(text: S.current.workoutsUpperCase),
-                  Tab(text: S.current.history),
-                ],
-              ),
+        ),
+        backgroundColor: kAppBarColor,
+        floating: false,
+        pinned: true,
+        snap: false,
+        stretch: true,
+        elevation: 0,
+        expandedHeight: height,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48),
+          child: Container(
+            color: kAppBarColor,
+            child: TabBar(
+              indicatorColor: kPrimaryColor,
+              tabs: [
+                Tab(text: S.current.workoutsUpperCase),
+                Tab(text: S.current.history),
+              ],
             ),
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.parallax,
-            background: Container(
-              color: kAppBarColor,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: size.height / 4,
-                    width: size.width,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      fit: StackFit.passthrough,
-                      children: [
-                        Hero(
-                          tag: widget.tag,
-                          child: CachedNetworkImage(
-                            imageUrl: data.routine!.imageUrl,
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.cover,
+        ),
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.parallax,
+          background: Container(
+            color: kAppBarColor,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: constraints.maxHeight / 4,
+                  width: constraints.maxWidth,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.passthrough,
+                    children: [
+                      Hero(
+                        tag: widget.tag,
+                        child: CachedNetworkImage(
+                          imageUrl: data.routine!.imageUrl,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment(0.0, 0.0),
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              kAppBarColor,
+                            ],
                           ),
                         ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment(0.0, 0.0),
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                kAppBarColor,
-                              ],
-                            ),
-                          ),
+                      ),
+                      Positioned(
+                        bottom: 16,
+                        left: 16,
+                        child: TitleWidget(title: data.routine!.routineTitle),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 16,
+                        child: Text(
+                          data.routine!.routineOwnerUserName,
+                          style: kSubtitle2BoldGrey,
                         ),
-                        Positioned(
-                          bottom: 16,
-                          left: 16,
-                          child: TitleWidget(title: data.routine!.routineTitle),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 16,
-                          child: Text(
-                            data.routine!.routineOwnerUserName,
-                            style: kSubtitle2BoldGrey,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SubtitleWidget(routine: data.routine!),
-                        MainMuscleGroupWidget(routine: data.routine!),
-                        EquipmentRequiredWidget(routine: data.routine!),
-                        LocationWidget(routine: data.routine!),
-                        DescriptionWidget(
-                          description: data.routine!.description,
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          children: [
-                            LogRoutineButton(
-                              data: data,
-                              database: widget.model.database!,
-                              user: widget.user,
-                            ),
-                            const Spacer(),
-                            StartRoutineButton(data: data),
-                          ],
-                        ),
-                      ],
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SubtitleWidget(routine: data.routine!),
+                      MainMuscleGroupWidget(routine: data.routine!),
+                      EquipmentRequiredWidget(routine: data.routine!),
+                      LocationWidget(routine: data.routine!),
+                      DescriptionWidget(
+                        description: data.routine!.description,
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        children: [
+                          LogRoutineButton(
+                            data: data,
+                            database: widget.model.database!,
+                            user: widget.user,
+                          ),
+                          const Spacer(),
+                          StartRoutineButton(data: data),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          actions: [
-            if (widget.model.auth!.currentUser!.uid !=
-                data.routine!.routineOwnerId)
-              SaveButtonWidget(
-                user: widget.user,
-                database: widget.model.database!,
-                auth: widget.model.auth!,
+        ),
+        actions: [
+          if (widget.model.auth!.currentUser!.uid !=
+              data.routine!.routineOwnerId)
+            SaveButtonWidget(
+              user: widget.user,
+              database: widget.model.database!,
+              auth: widget.model.auth!,
+              routine: data.routine!,
+            ),
+          if (widget.model.auth!.currentUser!.uid ==
+              data.routine!.routineOwnerId)
+            IconButton(
+              icon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => EditRoutineScreen.show(
+                context,
                 routine: data.routine!,
               ),
-            if (widget.model.auth!.currentUser!.uid ==
-                data.routine!.routineOwnerId)
-              IconButton(
-                icon: const Icon(
-                  Icons.edit_rounded,
-                  color: Colors.white,
-                ),
-                onPressed: () => EditRoutineScreen.show(
-                  context,
-                  routine: data.routine!,
-                ),
-              ),
-            const SizedBox(width: 8),
-          ],
-        );
-      },
+            ),
+          const SizedBox(width: 8),
+        ],
+      ),
       child: TitleWidget(
         title: data.routine!.routineTitle,
         isAppBarTitle: true,

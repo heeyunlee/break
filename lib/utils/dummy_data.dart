@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/measurement.dart';
+import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/progress_tab_class.dart';
+import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 
@@ -97,4 +101,49 @@ final routineWorkoutsDummyData = List.generate(
     },
     sets: [],
   ),
+);
+
+final routineHistoryDummyData = RoutineHistory(
+  routineHistoryId: 'routineHistoryId',
+  userId: 'userId',
+  username: 'username',
+  routineId: 'routineId',
+  routineTitle: 'routineTitle',
+  isPublic: true,
+  workoutStartTime: Timestamp.now(),
+  workoutEndTime: Timestamp.now(),
+  totalWeights: 100,
+  totalDuration: 100,
+  mainMuscleGroup: ['MainMuscleGroup.abs'],
+  isBodyWeightWorkout: false,
+  workoutDate: DateTime.now(),
+  imageUrl: '',
+  unitOfMass: 0,
+  equipmentRequired: ['EquipmentRequired.band'],
+);
+
+final nutritionDummyData = Nutrition(
+  nutritionId: 'nutritionId',
+  userId: 'userId',
+  username: 'username',
+  loggedTime: Timestamp.now(),
+  loggedDate: DateTime.now(),
+  type: 'type',
+  proteinAmount: 100,
+);
+
+final measurementDummyData = Measurement(
+  measurementId: 'measurementId',
+  userId: 'userId',
+  username: 'username',
+  loggedTime: Timestamp.now(),
+  loggedDate: DateTime.now(),
+);
+final dummyProgressTabClassData = ProgressTabClass(
+  user: userDummyData,
+  routineHistories: [routineHistoryDummyData],
+  nutritions: [nutritionDummyData],
+  measurements: [measurementDummyData],
+  selectedDayRoutineHistories: [routineHistoryDummyData],
+  selectedDayNutritions: [nutritionDummyData],
 );

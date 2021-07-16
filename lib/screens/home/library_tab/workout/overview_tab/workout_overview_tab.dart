@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class WorkoutOverviewTab extends StatelessWidget {
@@ -36,7 +35,7 @@ class WorkoutOverviewTab extends StatelessWidget {
     if (description.isNotEmpty) {
       return Text(
         description,
-        style: kBodyText1,
+        style: TextStyles.body1_w800,
       );
     } else {
       return Text(S.current.addDescription, style: TextStyles.body2_light_grey);

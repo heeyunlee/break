@@ -269,7 +269,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           _loggedTimeInString,
-                          style: kBodyText1,
+                          style: TextStyles.body1,
                         ),
                       ),
                     ],
@@ -298,7 +298,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         minValue: 1,
                         maxValue: 100,
                         itemHeight: 36,
-                        textStyle: kBodyText1,
+                        textStyle: TextStyles.body1,
                         selectedTextStyle: TextStyles.headline5_w900_primary,
                         value: _intValue,
                         onChanged: (value) => setState(
@@ -314,7 +314,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                         minValue: 0,
                         maxValue: 9,
                         itemHeight: 36,
-                        textStyle: kBodyText1,
+                        textStyle: TextStyles.body1,
                         selectedTextStyle: TextStyles.headline5_w900_primary,
                         value: _decimalValue,
                         onChanged: (value) => setState(
@@ -325,7 +325,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                           },
                         ),
                       ),
-                      const Text('g', style: kBodyText1),
+                      const Text('g', style: TextStyles.body1),
                     ],
                   ),
                 ),

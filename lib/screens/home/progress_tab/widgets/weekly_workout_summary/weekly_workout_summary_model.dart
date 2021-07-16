@@ -48,22 +48,6 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
               .toList()
       };
 
-      // _mapData.values.map((list) {
-      //   if (list.isNotEmpty) {
-      //     // num sum = 0;
-
-      //     final _todaysMuscleWorked = MainMuscleGroup.values
-      //         .firstWhere((e) => e.toString() == list.last!.mainMuscleGroup[0])
-      //         .broadGroup!;
-
-      //     // list.map((e) => sum += e!.totalWeights);
-
-      //     _muscleWorked.add(_todaysMuscleWorked);
-      //   } else {
-      //     _muscleWorked.add(null);
-      //   }
-      // });
-
       _mapData.values.forEach((list) {
         if (list.isNotEmpty) {
           final _todaysMuscleWorked = MainMuscleGroup.values

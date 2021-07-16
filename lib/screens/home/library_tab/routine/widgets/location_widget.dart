@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class LocationWidget extends StatelessWidget {
   final Routine routine;
@@ -24,7 +24,7 @@ class LocationWidget extends StatelessWidget {
             color: Colors.white,
           ),
           const SizedBox(width: 16),
-          Text(_location, style: kBodyText1),
+          Text(_location, style: TextStyles.body1),
         ],
       ),
     );

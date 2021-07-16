@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 
-import 'protein_entries_screen.dart';
-import 'weekly_nutrition_chart.dart';
-import 'weekly_nutrition_chart_model.dart';
+import 'routine_histories_screen.dart';
+import 'weekly_lifted_weights_chart.dart';
+import 'weekly_lifted_weights_chart_model.dart';
 
-class WeeklyNutritionCard extends StatelessWidget {
+class WeeklyLiftedWeightsCard extends StatelessWidget {
   final ProgressTabClass progressTabClass;
   final BoxConstraints constraints;
 
-  const WeeklyNutritionCard({
+  const WeeklyLiftedWeightsCard({
     Key? key,
     required this.progressTabClass,
     required this.constraints,
@@ -40,7 +39,7 @@ class WeeklyNutritionCard extends StatelessWidget {
             children: [
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => ProteinEntriesScreen.show(context),
+                onTap: () => RoutineHistoriesScreen.show(context),
                 child: Wrap(
                   children: [
                     SizedBox(
@@ -48,14 +47,14 @@ class WeeklyNutritionCard extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(
-                            Icons.restaurant_menu_rounded,
-                            color: Colors.greenAccent,
+                            Icons.fitness_center_rounded,
+                            color: kPrimaryColor,
                             size: 16,
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            S.current.addProteins,
-                            style: kSubtitle1w900GreenAc,
+                            S.current.liftedWeights,
+                            style: kSubtitle1w900Primary,
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(
@@ -63,18 +62,17 @@ class WeeklyNutritionCard extends StatelessWidget {
                             ),
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
-                              color: Colors.greenAccent,
+                              color: kPrimaryColor,
                               size: 16,
                             ),
                           ),
-                          const Spacer(),
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        S.current.proteinChartContentText,
+                        S.current.weightsChartMessage,
                         style: TextStyles.body2,
                       ),
                     ),
@@ -83,10 +81,10 @@ class WeeklyNutritionCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Consumer(
-                builder: (context, ref, child) => WeeklyNutritionChart(
-                  nutritions: progressTabClass.nutritions,
+                builder: (context, ref, child) => WeeklyLiftedWeightsChart(
+                  routineHistories: progressTabClass.routineHistories,
+                  model: ref.watch(weeklyLiftedWeightsChartModelProvider),
                   user: progressTabClass.user,
-                  model: ref.watch(weeklyNutritionChartModelProvider),
                 ),
               ),
             ],

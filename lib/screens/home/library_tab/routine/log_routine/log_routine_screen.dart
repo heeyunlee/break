@@ -350,7 +350,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: const EdgeInsets.all(16),
-                              child: Text(_nowInString, style: kBodyText1),
+                              child: Text(
+                                _nowInString,
+                                style: TextStyles.body1,
+                              ),
                             ),
                           ),
                         ),
@@ -381,7 +384,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: S.current.durationHintText,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -396,7 +399,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.durationHintText;
@@ -422,7 +425,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: '${S.current.totalVolumeHintText} $unit',
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -437,7 +440,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.totalVolumeValidatorText;
@@ -463,7 +466,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                       labelText: S.current.notes,
                       hintText: S.current.addNotes,
                       hintStyle: kBodyText1Grey,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -478,7 +481,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     onChanged: (value) => setState(() {
                       _notes = value;
                     }),

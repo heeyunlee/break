@@ -283,7 +283,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                               padding: const EdgeInsets.all(16),
                               child: Text(
                                 _loggedTimeInString,
-                                style: kBodyText1,
+                                style: TextStyles.body1,
                               ),
                             ),
                           ),
@@ -316,7 +316,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.bodyweightMeasurement,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -331,9 +331,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: unitOfMass,
-                      suffixStyle: kBodyText1,
+                      suffixStyle: TextStyles.body1,
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return S.current.weightsHintText;
@@ -360,7 +360,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.bodyFat,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -375,9 +375,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: '%',
-                      suffixStyle: kBodyText1,
+                      suffixStyle: TextStyles.body1,
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -392,7 +392,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: S.current.skeletalMuscleMass,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -407,9 +407,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       suffixText: unitOfMass,
-                      suffixStyle: kBodyText1,
+                      suffixStyle: TextStyles.body1,
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -424,7 +424,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     ),
                     decoration: InputDecoration(
                       labelText: 'BMI',
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -439,9 +439,9 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                       // suffixText: '$unitOfMass/m^2',
-                      suffixStyle: kBodyText1,
+                      suffixStyle: TextStyles.body1,
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),
@@ -454,7 +454,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                     maxLines: 5,
                     decoration: InputDecoration(
                       labelText: S.current.notes,
-                      labelStyle: kBodyText1,
+                      labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: kSecondaryColor),
@@ -469,7 +469,7 @@ class _AddMeasurementScreenState extends State<AddMeasurementScreen> {
                         borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
-                    style: kBodyText1,
+                    style: TextStyles.body1,
                     onChanged: (value) => setState(() {}),
                     onFieldSubmitted: (value) => setState(() {}),
                   ),

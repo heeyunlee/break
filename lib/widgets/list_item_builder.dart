@@ -9,16 +9,14 @@ class ListItemBuilder<T> extends StatelessWidget {
     required this.itemBuilder,
     this.emptyContentTitle = 'No Contents....',
     this.emptyContentButton,
-    this.isEmptyContentWidget = false,
     this.emptyContentWidget,
     this.scrollController,
   }) : super(key: key);
 
   final List<T> items;
-  final ItemWidgetBuilder<T> itemBuilder;
+  final ItemWidgetBuilder2<T> itemBuilder;
   final String emptyContentTitle;
   final Widget? emptyContentButton;
-  final bool isEmptyContentWidget;
   final Widget? emptyContentWidget;
   final ScrollController? scrollController;
 
@@ -27,13 +25,11 @@ class ListItemBuilder<T> extends StatelessWidget {
     if (items.isNotEmpty) {
       return _buildList(items);
     } else {
-      if (!isEmptyContentWidget) {
-        return EmptyContent(
-          message: emptyContentTitle,
-          button: emptyContentButton,
-        );
-      }
-      return emptyContentWidget ?? Container();
+      return emptyContentWidget ??
+          EmptyContent(
+            message: emptyContentTitle,
+            button: emptyContentButton,
+          );
     }
   }
 
@@ -46,6 +42,7 @@ class ListItemBuilder<T> extends StatelessWidget {
       itemBuilder: (context, index) => itemBuilder(
         context,
         items[index],
+        index,
       ),
     );
   }

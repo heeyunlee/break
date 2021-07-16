@@ -144,7 +144,10 @@ class ProteinEntriesScreen extends StatelessWidget {
               ],
             ),
             child: ListTile(
-              leading: Text('${nutrition.proteinAmount}g', style: kBodyText1),
+              leading: Text(
+                '${nutrition.proteinAmount}g',
+                style: TextStyles.body1,
+              ),
               trailing: Text(date, style: kBodyText1Grey),
             ),
           );

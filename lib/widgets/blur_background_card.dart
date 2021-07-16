@@ -65,8 +65,6 @@ class BlurBackgroundCard extends StatelessWidget {
           ),
         ),
       ),
-
-      // ),
     );
   }
 }

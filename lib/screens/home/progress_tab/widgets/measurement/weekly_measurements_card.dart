@@ -1,106 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/models/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
-import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
-
 import 'measurements_screen.dart';
 import 'weekly_measurements_chart.dart';
 import 'weekly_measurements_chart_model.dart';
 
 class WeeklyMeasurementsCard extends StatelessWidget {
-  final Database database;
-  final User user;
-  // final double gridHeight;
-  // final double gridWidth;
+  final ProgressTabClass progressTabClass;
+  final BoxConstraints constraints;
 
   const WeeklyMeasurementsCard({
     Key? key,
-    required this.database,
-    required this.user,
-    // required this.gridHeight,
-    // required this.gridWidth,
+    required this.progressTabClass,
+    required this.constraints,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlurBackgroundCard(
-      // width: gridWidth,
-      // height: gridHeight / 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: _buildChartWidget(context),
-      ),
-    );
-  }
+    final heightFactor = (constraints.maxHeight > 600) ? 2 : 1.5;
 
-  Widget _buildChartWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => MeasurementsScreen.show(context),
+    return SizedBox(
+      width: constraints.maxWidth,
+      height: constraints.maxHeight / heightFactor,
+      child: BlurBackgroundCard(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.line_weight_rounded,
-                    color: kSecondaryColor,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    S.current.bodyMeasurement,
-                    style: kSubtitle1w900Secondary,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8,
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => MeasurementsScreen.show(context),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.line_weight_rounded,
+                          color: kSecondaryColor,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          S.current.bodyMeasurement,
+                          style: kSubtitle1w900Secondary,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: kSecondaryColor,
+                            size: 16,
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
                     ),
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: kSecondaryColor,
-                      size: 16,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        S.current.addMasurementDataMessage,
+                        style: TextStyles.body2,
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  S.current.addMasurementDataMessage,
-                  style: TextStyles.body2,
+                    const SizedBox(height: 16),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
+              Consumer(
+                builder: (context, ref, child) => WeeklyMeasurementsChart(
+                  model: ref.watch(weeklyMeasurementsChartModelProvider),
+                  user: progressTabClass.user,
+                  measurements: progressTabClass.measurements,
+                ),
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        Consumer(
-          builder: (context, ref, child) =>
-              CustomStreamBuilderWidget<List<Measurement>>(
-            stream: database.measurementsStreamThisWeek(),
-            hasDataWidget: (context, data) => WeeklyMeasurementsChart(
-              model: ref.watch(weeklyMeasurementsChartModelProvider),
-              user: user,
-              measurements: data,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

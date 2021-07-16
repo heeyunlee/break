@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 // TODO: FINISH PASSWROD STRENGTH METER
 
@@ -18,7 +19,7 @@ class PasswordStrengthMeter extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text('Weak', style: kBodyText1),
+        const Text('Weak', style: TextStyles.body1),
       ],
     );
   }

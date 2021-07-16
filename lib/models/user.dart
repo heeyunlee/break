@@ -19,6 +19,7 @@ class User {
   final DateTime? lastHealthDataFetchedTime; // Nullable
   final num? weightGoal; // Nullable
   final num? bodyFatPercentageGoal; // Nullable
+  final List<dynamic>? widgetsList;
 
   const User({
     required this.userId,
@@ -39,6 +40,7 @@ class User {
     this.lastHealthDataFetchedTime,
     this.weightGoal,
     this.bodyFatPercentageGoal,
+    this.widgetsList,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -61,6 +63,7 @@ class User {
           data['lastHealthDataFetchedTime']?.toDate();
       final num? weightGoal = data['weightGoal'];
       final num? bodyFatPercentageGoal = data['bodyFatPercentageGoal'];
+      final List<dynamic>? widgetsList = data['widgetsList'];
 
       return User(
         userId: documentId,
@@ -81,6 +84,7 @@ class User {
         lastHealthDataFetchedTime: lastHealthDataFetchedTime,
         weightGoal: weightGoal,
         bodyFatPercentageGoal: bodyFatPercentageGoal,
+        widgetsList: widgetsList,
       );
     } else {
       throw 'null';
@@ -106,6 +110,7 @@ class User {
     data['lastHealthDataFetchedTime'] = lastHealthDataFetchedTime;
     data['weightGoal'] = weightGoal;
     data['bodyFatPercentageGoal'] = bodyFatPercentageGoal;
+    data['widgetsList'] = widgetsList;
 
     return data;
   }

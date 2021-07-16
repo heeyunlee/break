@@ -12,6 +12,7 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 
 import 'create_new_routine_model.dart';
 import 'new_routine_equipment_required_widget.dart';
@@ -79,10 +80,7 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const AppBarCloseButton(),
         title: Text(_getText(), style: TextStyles.subtitle2),
         centerTitle: true,
         backgroundColor: Colors.transparent,

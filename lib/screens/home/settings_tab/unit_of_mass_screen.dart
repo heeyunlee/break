@@ -8,6 +8,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -104,7 +105,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       children: <Widget>[
         ListTile(
           tileColor: (_unitOfMass == 0) ? kPrimary600Color : Colors.transparent,
-          title: const Text('kg', style: kBodyText1),
+          title: const Text('kg', style: TextStyles.body1),
           trailing: (_unitOfMass == 0)
               ? const Icon(Icons.check, color: Colors.white)
               : null,
@@ -117,7 +118,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
         ),
         ListTile(
           tileColor: (_unitOfMass == 1) ? kPrimary600Color : Colors.transparent,
-          title: const Text('lbs', style: kBodyText1),
+          title: const Text('lbs', style: TextStyles.body1),
           trailing: (_unitOfMass == 1)
               ? const Icon(Icons.check, color: Colors.white)
               : null,

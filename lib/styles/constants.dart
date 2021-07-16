@@ -213,13 +213,13 @@ const kSubtitle2w900 = TextStyle(
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-const kBodyText1 = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  color: Colors.white,
-  letterSpacing: 0.50,
-  fontFamily: 'NanumSquareRound',
-);
+// const kBodyText1 = TextStyle(
+//   fontSize: 16,
+//   fontWeight: FontWeight.w400,
+//   color: Colors.white,
+//   letterSpacing: 0.50,
+//   fontFamily: 'NanumSquareRound',
+// );
 const kBodyText1Black = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
@@ -309,4 +309,6 @@ typedef StringCallback = Function(String string);
 typedef IntCallback = void Function(int index);
 typedef BoolCallback = void Function(bool value);
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
+typedef ItemWidgetBuilder2<T> = Widget Function(
+    BuildContext context, T item, int index);
 typedef HasDataWidget<T> = Widget Function(BuildContext context, T data);

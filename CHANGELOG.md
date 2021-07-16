@@ -1,15 +1,19 @@
 # Change Log
 
-Hi, below is the change log of my project, Herakles.
+Hi, below is all the changes from my project, Herakles, after version 0.3.0. I didn't think of doing it before, so I have no idea what I've added/removed/changed. I regret it immensely.
 
-## 0.3.3
+## Unreleased (0.3.3)
 ### New Features
 - Added Weekly Workout Widget (smaller and simpler version than before)
+- Enabled users to reorder progress tab's widgets using reorderables package
 
 ### Bug Fix & Refactor
 - Refactored CreateNewRoutineScreen with ChangeNotifierProvider (riverpod)
+- Refactored ProgressTab's widgets with ChangeNotifierProvider (riverpod)
+- Combined 6 streams on progress tab with RxDart
+- Stopped using implicitly_animated_reorderable_list because of an error
 
-## 0.3.2
+## [0.3.2] - July 13th, 2021
 ### New Feautres
 - Added button and screen to reorder routine workouts on routines
 - Added features to set weight goal & added RecentWeightWidget on ProgressTab
@@ -23,7 +27,7 @@ Hi, below is the change log of my project, Herakles.
 - Refactored WeeklyNutritionCard and WeeklyNutritionChart
 - Refactored WeeklyMeasurementsCard and WeeklyMeasurementsChart
 
-## 0.3.1
+## [0.3.1] - July 2nd, 2021
 ### New Features
 - Changed preview screen (simpler than before)
 - Enable users to pick date for daily progress tab using table_calendar library
@@ -38,3 +42,5 @@ Hi, below is the change log of my project, Herakles.
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
 
+[0.3.2]: https://github.com/heeyunlee/herakless/compare/db5c6992dcc41fd9f5f11160333509e97fa42019..ea1d7a2abec9c652e2e508e1326df011b1ab2e8b
+[0.3.1]: https://github.com/heeyunlee/herakless/compare/42acc8b1464d163177826bd24b6bd69e9f883173..db5c6992dcc41fd9f5f11160333509e97fa42019

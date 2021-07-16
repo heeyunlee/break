@@ -228,7 +228,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                       ),
-                      style: kBodyText1,
+                      style: TextStyles.body1,
                       onChanged: (value) {
                         setState(() {
                           _dropdownValue = value.toString();

@@ -19,39 +19,45 @@ class BlurredMaterialBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlurBackgroundCard(
-      borderRadius: 12,
-      color: Colors.grey.withOpacity(0.25),
-      child: MaterialBanner(
-        backgroundColor: Colors.transparent,
-        content: Row(
-          children: [
-            Icon(
-              Icons.emoji_events_rounded,
-              color: kPrimaryColor,
+    final size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: 136,
+      width: size.width - 32,
+      child: BlurBackgroundCard(
+        borderRadius: 12,
+        color: Colors.grey.withOpacity(0.25),
+        child: MaterialBanner(
+          backgroundColor: Colors.transparent,
+          content: Row(
+            children: [
+              Icon(
+                Icons.emoji_events_rounded,
+                color: kPrimaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                S.current.progressTabBannerTitle,
+                style: TextStyles.body2,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              style: ButtonStyles.text1_bold,
+              onPressed: () => model.setShowBanner(false),
+              child: Text(S.current.DISMISS),
             ),
-            const SizedBox(width: 8),
-            Text(
-              S.current.progressTabBannerTitle,
-              style: TextStyles.body2,
+            TextButton(
+              style: ButtonStyles.text1_bold,
+              onPressed: () => PersonalGoalsScreen.show(
+                homeScreenNavigatorKey.currentContext!,
+                isRoot: true,
+              ),
+              child: Text(S.current.SETNOW),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            style: ButtonStyles.text1_bold,
-            onPressed: () => model.setShowBanner(false),
-            child: Text(S.current.DISMISS),
-          ),
-          TextButton(
-            style: ButtonStyles.text1_bold,
-            onPressed: () => PersonalGoalsScreen.show(
-              homeScreenNavigatorKey.currentContext!,
-              isRoot: true,
-            ),
-            child: Text(S.current.SETNOW),
-          ),
-        ],
       ),
     );
   }
