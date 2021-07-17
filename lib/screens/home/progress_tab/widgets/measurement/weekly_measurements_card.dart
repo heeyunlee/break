@@ -78,8 +78,8 @@ class WeeklyMeasurementsCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Consumer(
-                builder: (context, ref, child) => WeeklyMeasurementsChart(
-                  model: ref.watch(weeklyMeasurementsChartModelProvider),
+                builder: (context, watch, child) => WeeklyMeasurementsChart(
+                  model: watch(weeklyMeasurementsChartModelProvider),
                   user: progressTabClass.user,
                   measurements: progressTabClass.measurements,
                 ),

@@ -63,11 +63,11 @@ class RoutineDetailScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: false,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => RoutineDetailScreen(
+          builder: (context, watch, child) => RoutineDetailScreen(
             routine: routine,
             tag: tag,
             user: user,
-            model: ref.watch(routineDetailScreenModelProvider),
+            model: watch(routineDetailScreenModelProvider),
             auth: auth,
             database: database,
           ),
@@ -142,15 +142,9 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     RoutineAndRoutineWorkouts data,
     BoxConstraints constraints,
   ) {
-    logger.d('building sliver app bar...');
-
-    print('max height is ${constraints.maxHeight}');
-
     final height = (constraints.maxHeight > 700)
         ? constraints.maxHeight / 2 + 80
         : constraints.maxHeight / 2 + 120;
-
-    // final Size size = MediaQuery.of(context).size;
 
     return AnimatedBuilder(
       animation: widget.model.textAnimationController,

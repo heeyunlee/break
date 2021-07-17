@@ -62,13 +62,13 @@ class StartRoutineButton extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
 
     return ElevatedButton(
       onPressed: () => _startRoutine(
         context,
-        ref.watch(miniplayerModelProvider),
+        watch(miniplayerModelProvider),
       ),
       style: ButtonStyles.elevated1,
       child: SizedBox(

@@ -86,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
               Consumer(
-                builder: (context, ref, child) {
-                  final model = ref.watch(miniplayerModelProvider);
+                builder: (context, watch, child) {
+                  final model = watch(miniplayerModelProvider);
 
                   return Offstage(
                     offstage: model.selectedRoutine == null,
@@ -103,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen>
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Consumer(
-            builder: (context, ref, child) {
-              final model = ref.watch(miniplayerModelProvider);
+            builder: (context, watch, child) {
+              final model = watch(miniplayerModelProvider);
 
               if (model.selectedRoutine == null) {
                 return SpeedDialWidget(distance: 136);
@@ -134,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen>
             },
           ),
           bottomNavigationBar: Consumer(
-            builder: (context, ref, child) {
-              final model = ref.watch(miniplayerModelProvider);
+            builder: (context, watch, child) {
+              final model = watch(miniplayerModelProvider);
 
               if (model.selectedRoutine == null) {
                 return BottomNavigationTab(

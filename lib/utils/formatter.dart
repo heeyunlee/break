@@ -106,4 +106,15 @@ class Formatter {
 
     return formattedTime;
   }
+
+  static String percentage(num? value) {
+    if (value != null) {
+      final formatter = NumberFormat('##.0');
+      final formattedNum = formatter.format(value);
+
+      return '$formattedNum %';
+    } else {
+      return '';
+    }
+  }
 }

@@ -398,5 +398,7 @@
     "recentBodyFatWidgetSubtitle": "목표까지 {difference}%",
     "deleteWorkoutSet": "세트 삭제",
     "noSavedWorkoutsYet": "저장한 운동이 없습니다...",
-    "wokroutsThisWeek": "이번 주 운동"
+    "wokroutsThisWeek": "이번 주 운동",
+    "changeBackground": "배경 변경",
+    "changeBackgroundFeatureDescription": "이 버튼을 눌러서 원하는 배경을 선택할 수 있습니다!"
 }

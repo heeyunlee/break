@@ -50,10 +50,10 @@ class SignInScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ScopedReader watch) {
     logger.d('SignInScreen building...');
 
-    final model = ref.watch(signInScreenProvider);
+    final model = watch(signInScreenProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,

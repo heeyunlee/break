@@ -36,25 +36,17 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   Workout? _selectedWorkout;
   String _selectedMainMuscleGroup = 'All';
   String _selectedChipTranslated = 'All';
-  // int _selectedIndex = 0;
 
   Workout? get selectedWorkout => _selectedWorkout;
   String get selectedMainMuscleGroup => _selectedMainMuscleGroup;
   String get selectedChipTranslated => _selectedChipTranslated;
-  // int get selectedIndex => _selectedIndex;
 
   void initSelectedChip(Routine routine) {
     _selectedMainMuscleGroup = routine.mainMuscleGroup[0];
   }
 
   void onSelected(bool selected, String string) {
-    // final List<String> _mainMuscleGroup =
-    //     ['All'] + MainMuscleGroup.values[0].list;
-
-    // if (selected) {
     HapticFeedback.mediumImpact();
-    // _selectedIndex = index;
-    // _selectedMainMuscleGroup = _mainMuscleGroup[index];
     _selectedMainMuscleGroup = string;
     _selectedChipTranslated = MainMuscleGroup.values
         .firstWhere((e) => e.toString() == _selectedMainMuscleGroup)
@@ -69,13 +61,14 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     Routine routine,
     Workout workout,
   ) async {
+    await HapticFeedback.mediumImpact();
+
     try {
       _selectedWorkout = workout;
 
       final routineWorkouts =
           await database!.routineWorkoutsStream(routine.routineId).first;
       final index = routineWorkouts.length + 1;
-      // final id = documentIdFromCurrentDate();
       final id = Uuid().v1();
 
       final routineWorkout = RoutineWorkout(

@@ -40,10 +40,10 @@ class SetLiftingGoalScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: isRoot,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => SetLiftingGoalScreen(
+          builder: (context, watch, child) => SetLiftingGoalScreen(
             database: database,
             auth: auth,
-            model: ref.watch(personalGoalsScreenModelProvider),
+            model: watch(personalGoalsScreenModelProvider),
             user: user,
             isRoot: isRoot,
           ),

@@ -37,8 +37,8 @@ class ProgressTab extends StatefulWidget {
     final database = provider.Provider.of<Database>(context, listen: false);
 
     return Consumer(
-      builder: (context, ref, child) => ProgressTab(
-        model: ref.watch(progressTabModelProvider),
+      builder: (context, watch, child) => ProgressTab(
+        model: watch(progressTabModelProvider),
         authAndDatabase: AuthAndDatabase(auth: auth, database: database),
       ),
     );
@@ -98,10 +98,10 @@ class _ProgressTabState extends State<ProgressTab>
               backgroundColor: Colors.transparent,
               leading: ChooseBackgroundButton(user: progressTabClass.user),
               title: ChooseDateIconButton(model: widget.model),
-              actions: [
-                CustomizeWidgetsButton(),
-                const SizedBox(width: 8),
-              ],
+              // actions: [
+              //   CustomizeWidgetsButton(),
+              //   const SizedBox(width: 8),
+              // ],
             ),
             body: Builder(
               builder: (context) => _buildChildWidget(
@@ -134,12 +134,6 @@ class _ProgressTabState extends State<ProgressTab>
             ),
           ),
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(
-        //     top: Scaffold.of(context).appBarMaxHeight!,
-        //     // bottom: Platform.isIOS ? 90 : 56,
-        //   ),
-        //   child: SafeArea(
         SafeArea(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -149,8 +143,8 @@ class _ProgressTabState extends State<ProgressTab>
                 constraints: constraints,
               );
 
-              return ReorderableColumn(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              return ReorderableWrap(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 buildDraggableFeedback: widget.model.buildDraggableFeedback,
                 onReorder: widget.model.onReorder,
                 footer: LogoWidget(
@@ -162,7 +156,6 @@ class _ProgressTabState extends State<ProgressTab>
             },
           ),
         ),
-        // ),
 
         /// TODO: ADD Banner here
         // Positioned(

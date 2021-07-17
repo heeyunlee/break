@@ -14,7 +14,7 @@ class WeeklyNutritionChartModel with ChangeNotifier {
   num _nutritionMaxY = 150;
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
-  List<double> _relativeYs = [0, 0, 0, 0, 0, 0, 0];
+  List<double> _relativeYs = [];
 
   num get nutritionMaxY => _nutritionMaxY;
   List<DateTime> get dates => _dates;
@@ -39,44 +39,47 @@ class WeeklyNutritionChartModel with ChangeNotifier {
 
   Future<void> setRelativeList(List<Nutrition>? list, User user) async {
     Map<DateTime, List<Nutrition>> _mapData;
-    List<num> listOfYs = [];
-    List<double> relatives = [];
+    List<num> _listOfYs = [];
+    List<double> _relatives = [];
+
     if (list != null) {
-      _mapData = {
-        for (var item in _dates)
-          item: list.where((e) => e.loggedDate.toUtc() == item).toList()
-      };
+      if (list.isNotEmpty) {
+        _mapData = {
+          for (var item in _dates)
+            item: list.where((e) => e.loggedDate.toUtc() == item).toList()
+        };
 
-      _mapData.values.forEach((list) {
-        num sum = 0;
+        _mapData.values.forEach((list) {
+          num sum = 0;
 
-        if (list.isNotEmpty) {
-          list.forEach((nutrition) {
-            sum += nutrition.proteinAmount;
+          if (list.isNotEmpty) {
+            list.forEach((nutrition) {
+              sum += nutrition.proteinAmount;
+            });
+          }
+
+          _listOfYs.add(sum);
+        });
+        final largest =
+            [..._listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
+
+        if (largest == 0) {
+          _nutritionMaxY = 150;
+
+          _listOfYs.forEach((element) {
+            _relatives.add(0);
+          });
+        } else {
+          final roundedLargest = (largest / 10).ceil() * 10;
+
+          _nutritionMaxY = roundedLargest.toDouble() + 10;
+
+          _listOfYs.forEach((element) {
+            _relatives.add(element / _nutritionMaxY * 10);
           });
         }
-
-        listOfYs.add(sum);
-      });
-      final largest =
-          [...listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
-
-      if (largest == 0) {
-        _nutritionMaxY = 150;
-
-        listOfYs.forEach((element) {
-          relatives.add(0);
-        });
-      } else if (user.dailyProteinGoal != null) {
-        final roundedLargest = (largest / 10).ceil() * 10;
-
-        _nutritionMaxY = roundedLargest.toDouble() + 10;
-
-        listOfYs.forEach((element) {
-          relatives.add(element / _nutritionMaxY * 10);
-        });
+        _relativeYs = _relatives;
       }
-      _relativeYs = relatives;
     }
   }
 }

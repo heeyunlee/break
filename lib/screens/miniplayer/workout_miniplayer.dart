@@ -37,12 +37,12 @@ class WorkoutMiniplayer extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ScopedReader watch) {
     logger.d('miniplayer building...');
 
     final size = MediaQuery.of(context).size;
 
-    final model = ref.watch(miniplayerModelProvider);
+    final model = watch(miniplayerModelProvider);
     final routine = model.selectedRoutine;
 
     return Miniplayer(

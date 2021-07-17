@@ -33,9 +33,9 @@ class WeeklyWorkoutWidget extends StatefulWidget {
   }) {
     return Consumer(
       key: Key('weeklyWorkoutHistorySmall'),
-      builder: (context, ref, child) => WeeklyWorkoutWidget(
+      builder: (context, watch, child) => WeeklyWorkoutWidget(
         user: user,
-        model: ref.watch(weeklyWorkoutSummaryModelProvider),
+        model: watch(weeklyWorkoutSummaryModelProvider),
         routineHistories: routineHistories,
         constraints: constraints,
       ),

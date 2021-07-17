@@ -47,7 +47,7 @@ class _WeeklyLiftedWeightsChartState extends State<WeeklyLiftedWeightsChart> {
     widget.model.setData(widget.routineHistories, widget.user);
 
     final _interval = (widget.user.dailyWeightsGoal != null)
-        ? widget.user.dailyWeightsGoal! / widget.model.maxY * 10
+        ? widget.user.dailyWeightsGoal! / widget.model.weightsLiftedMaxY * 10
         : 1.00;
 
     return Expanded(
@@ -69,7 +69,8 @@ class _WeeklyLiftedWeightsChartState extends State<WeeklyLiftedWeightsChart> {
               touchTooltipData: BarTouchTooltipData(
                 getTooltipItem: (group, groupIndex, rod, rodIndex) {
                   final weights =
-                      (rod.y / 1.05 / 10 * widget.model.maxY).round();
+                      (rod.y / 1.05 / 10 * widget.model.weightsLiftedMaxY)
+                          .round();
                   final formattedWeights = Formatter.weights(weights);
                   final unit = Formatter.unitOfMass(widget.user.unitOfMass);
 
@@ -124,7 +125,7 @@ class _WeeklyLiftedWeightsChartState extends State<WeeklyLiftedWeightsChart> {
                 getTextStyles: (_) => TextStyles.caption1_grey,
                 getTitles: (double value) {
                   final toOriginalNumber =
-                      (value / 10 * widget.model.maxY).round();
+                      (value / 10 * widget.model.weightsLiftedMaxY.round());
                   final formatted =
                       NumberFormat.compact().format(toOriginalNumber);
                   final unit = Formatter.unitOfMass(widget.user.unitOfMass);

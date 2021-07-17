@@ -42,10 +42,10 @@ class CreateNewRoutineScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => CreateNewRoutineScreen(
+          builder: (context, watch, child) => CreateNewRoutineScreen(
             database: database,
             auth: auth,
-            model: ref.watch(createNewROutineModelProvider),
+            model: watch(createNewROutineModelProvider),
           ),
         ),
       ),

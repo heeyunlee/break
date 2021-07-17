@@ -4049,6 +4049,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Change Your Background!`
+  String get changeBackground {
+    return Intl.message(
+      'Change Your Background!',
+      name: 'changeBackground',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can choose different backgrounds for this tab using this button`
+  String get changeBackgroundFeatureDescription {
+    return Intl.message(
+      'You can choose different backgrounds for this tab using this button',
+      name: 'changeBackgroundFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

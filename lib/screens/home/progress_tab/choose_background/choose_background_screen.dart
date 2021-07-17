@@ -38,11 +38,11 @@ class ChooseBackgroundScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => ChooseBackgroundScreen(
+          builder: (context, watch, child) => ChooseBackgroundScreen(
             auth: auth,
             database: database,
             user: user,
-            model: ref.watch(chooseBackgroundScreenModelModel),
+            model: watch(chooseBackgroundScreenModelModel),
           ),
         ),
       ),

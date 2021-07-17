@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine.dart';
@@ -14,7 +14,7 @@ import 'package:workout_player/widgets/max_width_raised_button.dart';
 
 import 'routine_workout_card/routine_workout_card.dart';
 
-class RoutineWorkoutsTab extends StatefulWidget {
+class RoutineWorkoutsTab extends StatelessWidget {
   final Routine routine;
   final AuthBase auth;
   final Database database;
@@ -27,23 +27,14 @@ class RoutineWorkoutsTab extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RoutineWorkoutsTabState createState() => _RoutineWorkoutsTabState();
-}
-
-class _RoutineWorkoutsTabState extends State<RoutineWorkoutsTab> {
-  @override
   Widget build(BuildContext context) {
-    logger.d('build routine workouts tab');
-
     return CustomStreamBuilderWidget<List<RoutineWorkout>>(
-        stream: widget.database.routineWorkoutsStream(widget.routine.routineId),
+        stream: database.routineWorkoutsStream(routine.routineId),
         hasDataWidget: (context, list) {
+          bool isOwner = auth.currentUser!.uid == routine.routineOwnerId;
+          // Widgets to show only if one's routine's owner
           final List<Widget> routineOwnerWidgets = [
-            const Divider(
-              endIndent: 8,
-              indent: 8,
-              color: Colors.white12,
-            ),
+            const Divider(endIndent: 8, indent: 8, color: Colors.white12),
             const SizedBox(height: 16),
             MaxWidthRaisedButton(
               icon: const Icon(
@@ -54,11 +45,11 @@ class _RoutineWorkoutsTabState extends State<RoutineWorkoutsTab> {
               color: kCardColor,
               onPressed: () => AddWorkoutsToRoutine.show(
                 context,
-                routine: widget.routine,
+                routine: routine,
               ),
             ),
             const SizedBox(height: 8),
-            ReorderRoutineWorkoutsButton(routine: widget.routine, list: list),
+            ReorderRoutineWorkoutsButton(routine: routine, list: list),
           ];
 
           return SingleChildScrollView(
@@ -100,20 +91,19 @@ class _RoutineWorkoutsTabState extends State<RoutineWorkoutsTab> {
                     child: ListItemBuilder<RoutineWorkout?>(
                       items: list,
                       emptyContentTitle: S.current.routineWorkoutEmptyText,
-                      itemBuilder: (context, routineWorkout, index) =>
-                          RoutineWorkoutCard(
-                        database: widget.database,
-                        routine: widget.routine,
-                        routineWorkout: routineWorkout!,
-                        auth: widget.auth,
-                        // key: UniqueKey(),
-                        // model: RoutineWorkoutCardModel(),
-                      ),
+                      itemBuilder: (context, routineWorkout, index) {
+                        return RoutineWorkoutCard(
+                          authAndDatabase: AuthAndDatabase(
+                            auth: auth,
+                            database: database,
+                          ),
+                          routine: routine,
+                          routineWorkout: routineWorkout!,
+                        );
+                      },
                     ),
                   ),
-                  if (widget.auth.currentUser!.uid ==
-                      widget.routine.routineOwnerId)
-                    ...routineOwnerWidgets,
+                  if (isOwner) ...routineOwnerWidgets,
                   const SizedBox(height: 160),
                 ],
               ),

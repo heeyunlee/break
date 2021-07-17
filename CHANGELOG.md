@@ -12,6 +12,8 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0. I d
 - Refactored ProgressTab's widgets with ChangeNotifierProvider (riverpod)
 - Combined 6 streams on progress tab with RxDart
 - Stopped using implicitly_animated_reorderable_list because of an error
+- Fixed layour problems with smaller-screened phones
+- Refactored RoutineWorkoutCard and WorkoutSetWidget with ChangeNotifierProvider (riverpod)
 
 ## [0.3.2] - July 13th, 2021
 ### New Feautres

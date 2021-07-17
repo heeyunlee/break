@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class BlurBackgroundCard extends StatelessWidget {
   final Widget child;
   final Color? color;
-  final double? vertPadding;
-  final double? horzPadding;
+  final double? topPadding;
+  final double? leftPadding;
+  final double? bottomPadding;
+  final double? rightPadding;
   final double? borderRadius;
   final void Function()? onTap;
   final void Function()? onLongPress;
@@ -15,8 +17,10 @@ class BlurBackgroundCard extends StatelessWidget {
     Key? key,
     required this.child,
     this.color,
-    this.vertPadding = 16,
-    this.horzPadding = 0,
+    this.topPadding = 16,
+    this.leftPadding = 8,
+    this.bottomPadding = 16,
+    this.rightPadding = 8,
     this.borderRadius = 24,
     this.onTap,
     this.onLongPress,
@@ -25,9 +29,11 @@ class BlurBackgroundCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: vertPadding!,
-        horizontal: horzPadding!,
+      padding: EdgeInsets.only(
+        top: topPadding!,
+        left: leftPadding!,
+        bottom: bottomPadding!,
+        right: rightPadding!,
       ),
       child: Container(
         decoration: BoxDecoration(

@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -16,7 +12,17 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
+import 'workout_set_widget_model.dart';
+
 class WorkoutSetWidget extends StatefulWidget {
+  final Database database;
+  final Routine routine;
+  final RoutineWorkout routineWorkout;
+  final WorkoutSet workoutSet;
+  final int index;
+  final AuthBase auth;
+  final WorkoutSetWidgetModel model;
+
   const WorkoutSetWidget({
     Key? key,
     required this.database,
@@ -25,14 +31,8 @@ class WorkoutSetWidget extends StatefulWidget {
     required this.workoutSet,
     required this.index,
     required this.auth,
+    required this.model,
   }) : super(key: key);
-
-  final Database database;
-  final Routine routine;
-  final RoutineWorkout routineWorkout;
-  final WorkoutSet workoutSet;
-  final int index;
-  final AuthBase auth;
 
   @override
   _WorkoutSetWidgetState createState() => _WorkoutSetWidgetState();
@@ -46,6 +46,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   late FocusNode _focusNode1;
   late FocusNode _focusNode2;
   late FocusNode _focusNode3;
+
+  bool _weightsTabbed = false;
+  bool _repsTabbed = false;
+  bool _restTimeTabbed = false;
 
   @override
   void initState() {
@@ -77,214 +81,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     super.dispose();
   }
 
-  /// DELETE WORKOUT SET
-  Future<void> _deleteSet(BuildContext context) async {
-    try {
-      // Update Routine Workout Data
-      final numberOfSets = (widget.workoutSet.isRest)
-          ? widget.routineWorkout.numberOfSets
-          : widget.routineWorkout.numberOfSets - 1;
-
-      final numberOfReps = (widget.workoutSet.isRest)
-          ? widget.routineWorkout.numberOfReps
-          : widget.routineWorkout.numberOfReps - (widget.workoutSet.reps ?? 0);
-
-      final totalWeights = widget.routineWorkout.totalWeights -
-          (widget.workoutSet.weights ?? 0) * (widget.workoutSet.reps ?? 0);
-
-      final duration = widget.routineWorkout.duration -
-          (widget.workoutSet.restTime ?? 0) -
-          (widget.workoutSet.reps ?? 0) * widget.routineWorkout.secondsPerRep;
-
-      final routineWorkout = {
-        'numberOfSets': numberOfSets,
-        'numberOfReps': numberOfReps,
-        'totalWeights': totalWeights,
-        'duration': duration,
-        'sets': FieldValue.arrayRemove([widget.workoutSet.toJson()]),
-      };
-
-      // Update Routine Data
-      final routineTotalWeights = (widget.workoutSet.isRest)
-          ? widget.routine.totalWeights
-          : (widget.workoutSet.weights == 0)
-              ? widget.routine.totalWeights
-              : widget.routine.totalWeights -
-                  ((widget.workoutSet.weights ?? 0) *
-                      (widget.workoutSet.reps ?? 0));
-      final routineDuration = (widget.workoutSet.isRest)
-          ? widget.routine.duration - (widget.workoutSet.restTime ?? 0)
-          : widget.routine.duration -
-              ((widget.workoutSet.reps ?? 0) *
-                  widget.routineWorkout.secondsPerRep);
-
-      final routine = {
-        'totalWeights': routineTotalWeights,
-        'duration': routineDuration,
-        'lastEditedDate': Timestamp.now(),
-      };
-
-      await widget.database.setWorkoutSet(
-        routine: widget.routine,
-        routineWorkout: widget.routineWorkout,
-        data: routineWorkout,
-      );
-      await widget.database.updateRoutine(widget.routine, routine);
-
-      getSnackbarWidget(
-        S.current.deleteWorkoutSet,
-        (widget.workoutSet.isRest)
-            ? S.current.deletedARestMessage
-            : S.current.deletedASet,
-      );
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-  }
-
-  /// UPDATE WEIGHT
-  Future<void> updateWeight() async {
-    try {
-      /// Update Workout Set
-      List<WorkoutSet> workoutSets = widget.routineWorkout.sets;
-
-      final updatedWorkoutSet = widget.workoutSet.copyWith(
-        weights: int.tryParse(_textController1.text),
-      );
-
-      workoutSets[widget.index] = updatedWorkoutSet;
-
-      await _submit(workoutSets);
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-
-    setState(() {
-      weightsTabbed = false;
-    });
-    _focusNode1.unfocus();
-  }
-
-  /// UPDATE WORKOUT SET
-  Future<void> updateReps() async {
-    try {
-      List<WorkoutSet> workoutSets = widget.routineWorkout.sets;
-
-      /// Update Workout Set
-      final updatedWorkoutSet = widget.workoutSet.copyWith(
-        reps: int.tryParse(_textController2.text),
-      );
-
-      workoutSets[widget.index] = updatedWorkoutSet;
-
-      await _submit(workoutSets);
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-
-    setState(() {
-      weightsTabbed = false;
-    });
-    _focusNode2.unfocus();
-  }
-
-  /// UPDATE WORKOUT SET
-  Future<void> updateRestTime() async {
-    try {
-      List<WorkoutSet> workoutSets = widget.routineWorkout.sets;
-
-      /// Update Workout Set
-      final updatedWorkoutSet = widget.workoutSet.copyWith(
-        restTime: int.tryParse(_textController3.text),
-      );
-
-      workoutSets[widget.index] = updatedWorkoutSet;
-
-      await _submit(workoutSets);
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-
-    setState(() {
-      weightsTabbed = false;
-    });
-    _focusNode3.unfocus();
-  }
-
-  Future<void> _submit(List<WorkoutSet> workoutSets) async {
-    /// Update Routine Workout
-    int numberOfReps = 0;
-    workoutSets.forEach((workoutSet) {
-      numberOfReps += workoutSet.reps ?? 0;
-    });
-
-    num totalWeights = 0;
-    workoutSets.forEach((workoutSet) {
-      totalWeights += (workoutSet.weights ?? 0) * (workoutSet.reps ?? 0);
-    });
-
-    int duration = 0;
-    workoutSets.forEach((workoutSet) {
-      final int rest = workoutSet.restTime ?? 0;
-      final int reps = workoutSet.reps ?? 0;
-      final int secondsPerRep = widget.routineWorkout.secondsPerRep;
-
-      duration += rest + reps * secondsPerRep;
-    });
-
-    final routineWorkout = {
-      'numberOfReps': numberOfReps,
-      'totalWeights': totalWeights,
-      'duration': duration,
-      'sets': workoutSets.map((e) => e.toJson()).toList(),
-    };
-
-    await widget.database.updateRoutineWorkout(
-      routine: widget.routine,
-      routineWorkout: widget.routineWorkout,
-      data: routineWorkout,
-    );
-
-    /// Update Routine
-    final routineTotalWeights = widget.routine.totalWeights -
-        widget.routineWorkout.totalWeights +
-        totalWeights;
-    final routineDuration =
-        widget.routine.duration - widget.routineWorkout.duration + duration;
-
-    final routine = {
-      'totalWeights': routineTotalWeights,
-      'duration': routineDuration,
-      'lastEditedDate': Timestamp.now(),
-    };
-
-    await widget.database.updateRoutine(widget.routine, routine);
-  }
-
   @override
   Widget build(BuildContext context) {
-    logger.d('workout set widget building...');
-
     return Slidable(
       endActionPane: ActionPane(
         motion: ScrollMotion(),
@@ -293,179 +91,230 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             label: S.current.delete,
             backgroundColor: Colors.red,
             icon: Icons.delete_rounded,
-            onPressed: (context) => _deleteSet(context),
+            onPressed: (context) => widget.model.deleteSet(
+              context,
+              routine: widget.routine,
+              routineWorkout: widget.routineWorkout,
+              workoutSet: widget.workoutSet,
+            ),
           ),
         ],
       ),
-      child: _buildRow(),
+      child: KeyboardActions(
+        config: _buildConfig(),
+        bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
+        disableScroll: true,
+        child: SizedBox(
+          height: 56,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                _buildTitleWidget(),
+                const Spacer(),
+                if (!widget.workoutSet.isRest) _buildWeightWidget(),
+                const SizedBox(width: 16),
+                _buildActionsWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  bool weightsTabbed = false;
-  bool repsTabbed = false;
-  bool restTimeTabbed = false;
-
-  Widget _buildRow() {
+  Widget _buildTitleWidget() {
     final title = '${S.current.set} ${widget.workoutSet.setIndex}';
+
+    if (widget.workoutSet.isRest) {
+      return const Icon(Icons.timer_rounded, color: Colors.grey, size: 20);
+    } else {
+      return Text(title, style: kBodyText1Bold);
+    }
+  }
+
+  Widget _buildWeightWidget() {
     final unit = Formatter.unitOfMass(widget.routine.initialUnitOfMass);
     final weights = widget.workoutSet.weights;
     final formattedWeights = '${Formatter.weights(weights!)} $unit';
-    final reps = '${widget.workoutSet.reps} ${S.current.x}';
-    final restTime = '${widget.workoutSet.restTime} ${S.current.seconds}';
 
-    return KeyboardActions(
-      config: _buildConfig(),
-      bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
-      disableScroll: true,
-      child: Row(
-        children: [
-          const SizedBox(width: 16, height: 56),
-          if (!widget.workoutSet.isRest) Text(title, style: kBodyText1Bold),
-          if (widget.workoutSet.isRest)
-            const Icon(Icons.timer_rounded, color: Colors.grey, size: 20),
-          const Spacer(),
+    return GestureDetector(
+      onTap: () {
+        if (widget.auth.currentUser!.uid == widget.routine.routineOwnerId &&
+            !widget.routineWorkout.isBodyWeightWorkout) {
+          setState(() {
+            _weightsTabbed = true;
+          });
+        }
+      },
+      behavior: HitTestBehavior.opaque,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          height: 36,
+          width: 128,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: kCardColorLight,
+          child: (!_weightsTabbed)
+              ? Center(
+                  child: Text(
+                    (widget.routineWorkout.isBodyWeightWorkout)
+                        ? S.current.bodyweight
+                        : formattedWeights,
+                    style: TextStyles.body1,
+                  ),
+                )
+              : TextField(
+                  autofocus: true,
+                  textAlign: TextAlign.center,
+                  textAlignVertical: TextAlignVertical.center,
+                  controller: _textController1,
+                  style: TextStyles.body1,
+                  focusNode: _focusNode1,
+                  keyboardAppearance: Brightness.dark,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  maxLength: 5,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    counterText: '',
+                    suffixText: unit,
+                    suffixStyle: TextStyles.body1,
+                  ),
+                  onSubmitted: (_) {
+                    widget.model.updateWeight(
+                      context,
+                      textEditingController: _textController1,
+                      focusNode: _focusNode1,
+                      routine: widget.routine,
+                      routineWorkout: widget.routineWorkout,
+                      workoutSet: widget.workoutSet,
+                      index: widget.index,
+                    );
 
-          /// Weights
-          if (!widget.workoutSet.isRest)
-            GestureDetector(
-              onTap: () {
-                if (widget.auth.currentUser!.uid ==
-                        widget.routine.routineOwnerId &&
-                    !widget.routineWorkout.isBodyWeightWorkout) {
-                  setState(() {
-                    weightsTabbed = true;
-                  });
-                }
-              },
-              behavior: HitTestBehavior.opaque,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  height: 36,
-                  width: 128,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  color: kCardColorLight,
-                  child: (!weightsTabbed)
-                      ? Center(
-                          child: Text(
-                            (widget.routineWorkout.isBodyWeightWorkout)
-                                ? S.current.bodyweight
-                                : formattedWeights,
-                            style: TextStyles.body1,
-                          ),
-                        )
-                      : TextField(
-                          autofocus: true,
-                          textAlign: TextAlign.center,
-                          textAlignVertical: TextAlignVertical.center,
-                          controller: _textController1,
-                          style: TextStyles.body1,
-                          focusNode: _focusNode1,
-                          keyboardAppearance: Brightness.dark,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          maxLength: 5,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            counterText: '',
-                            suffixText: unit,
-                            suffixStyle: TextStyles.body1,
-                          ),
-                          onSubmitted: (_) => updateWeight(),
-                        ),
+                    setState(() {
+                      _weightsTabbed = false;
+                    });
+                  },
                 ),
-              ),
-            ),
-          const SizedBox(width: 16),
-
-          /// Reps
-          if (!widget.workoutSet.isRest)
-            GestureDetector(
-              onTap: () {
-                if (widget.auth.currentUser!.uid ==
-                    widget.routine.routineOwnerId) {
-                  setState(() {
-                    repsTabbed = true;
-                  });
-                }
-              },
-              behavior: HitTestBehavior.opaque,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  height: 36,
-                  width: 80,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  alignment: Alignment.center,
-                  color: kPrimaryColor,
-                  child: (!repsTabbed)
-                      ? Center(child: Text(reps, style: TextStyles.body1))
-                      : TextField(
-                          autofocus: true,
-                          textAlign: TextAlign.center,
-                          controller: _textController2,
-                          style: TextStyles.body1,
-                          focusNode: _focusNode2,
-                          keyboardType: TextInputType.number,
-                          maxLength: 2,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            suffixText: S.current.x,
-                            suffixStyle: TextStyles.body1,
-                            counterText: '',
-                          ),
-                          onSubmitted: (_) => updateWeight(),
-                        ),
-                ),
-              ),
-            ),
-
-          /// Rest Time
-          if (widget.workoutSet.isRest)
-            GestureDetector(
-              onTap: () {
-                if (widget.auth.currentUser!.uid ==
-                    widget.routine.routineOwnerId) {
-                  setState(() {
-                    restTimeTabbed = true;
-                  });
-                }
-              },
-              behavior: HitTestBehavior.opaque,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  height: 36,
-                  width: 80,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  alignment: Alignment.center,
-                  color: kPrimaryColor,
-                  child: (!restTimeTabbed)
-                      ? Center(child: Text(restTime, style: TextStyles.body1))
-                      : TextField(
-                          autofocus: true,
-                          textAlign: TextAlign.center,
-                          controller: _textController3,
-                          style: TextStyles.body1,
-                          focusNode: _focusNode3,
-                          keyboardType: TextInputType.number,
-                          maxLength: 3,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            suffixText: S.current.seconds,
-                            suffixStyle: TextStyles.body1,
-                            counterText: '',
-                          ),
-                          onSubmitted: (_) => updateWeight(),
-                        ),
-                ),
-              ),
-            ),
-          const SizedBox(width: 16),
-        ],
+        ),
       ),
     );
+  }
+
+  Widget _buildActionsWidget() {
+    if (widget.workoutSet.isRest) {
+      final restTime = '${widget.workoutSet.restTime} ${S.current.seconds}';
+
+      return GestureDetector(
+        onTap: () {
+          if (widget.auth.currentUser!.uid == widget.routine.routineOwnerId) {
+            setState(() {
+              _restTimeTabbed = true;
+            });
+          }
+        },
+        behavior: HitTestBehavior.opaque,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            height: 36,
+            width: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            alignment: Alignment.center,
+            color: kPrimaryColor,
+            child: (!_restTimeTabbed)
+                ? Center(child: Text(restTime, style: TextStyles.body1))
+                : TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    controller: _textController3,
+                    style: TextStyles.body1,
+                    focusNode: _focusNode3,
+                    keyboardType: TextInputType.number,
+                    maxLength: 3,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      suffixText: S.current.seconds,
+                      suffixStyle: TextStyles.body1,
+                      counterText: '',
+                    ),
+                    onSubmitted: (_) {
+                      widget.model.updateRestTime(
+                        context,
+                        textEditingController: _textController3,
+                        focusNode: _focusNode3,
+                        routine: widget.routine,
+                        routineWorkout: widget.routineWorkout,
+                        workoutSet: widget.workoutSet,
+                        index: widget.index,
+                      );
+
+                      setState(() {
+                        _restTimeTabbed = false;
+                      });
+                    },
+                  ),
+          ),
+        ),
+      );
+    } else {
+      final reps = '${widget.workoutSet.reps} ${S.current.x}';
+
+      return GestureDetector(
+        onTap: () {
+          if (widget.auth.currentUser!.uid == widget.routine.routineOwnerId) {
+            setState(() {
+              _repsTabbed = true;
+            });
+          }
+        },
+        behavior: HitTestBehavior.opaque,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            height: 36,
+            width: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            alignment: Alignment.center,
+            color: kPrimaryColor,
+            child: (!_repsTabbed)
+                ? Center(child: Text(reps, style: TextStyles.body1))
+                : TextField(
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    controller: _textController2,
+                    style: TextStyles.body1,
+                    focusNode: _focusNode2,
+                    keyboardType: TextInputType.number,
+                    maxLength: 2,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      suffixText: S.current.x,
+                      suffixStyle: TextStyles.body1,
+                      counterText: '',
+                    ),
+                    onSubmitted: (_) {
+                      widget.model.updateReps(
+                        context,
+                        textEditingController: _textController2,
+                        focusNode: _focusNode2,
+                        routine: widget.routine,
+                        routineWorkout: widget.routineWorkout,
+                        workoutSet: widget.workoutSet,
+                        index: widget.index,
+                      );
+
+                      setState(() {
+                        _repsTabbed = false;
+                      });
+                    },
+                  ),
+          ),
+        ),
+      );
+    }
   }
 
   KeyboardActionsConfig _buildConfig() {
@@ -482,7 +331,21 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           toolbarButtons: [
             (node) {
               return InkWell(
-                onTap: updateWeight,
+                onTap: () {
+                  widget.model.updateWeight(
+                    context,
+                    textEditingController: _textController1,
+                    focusNode: _focusNode1,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
+                    workoutSet: widget.workoutSet,
+                    index: widget.index,
+                  );
+
+                  setState(() {
+                    _weightsTabbed = false;
+                  });
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -501,7 +364,21 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           toolbarButtons: [
             (node) {
               return InkWell(
-                onTap: updateReps,
+                onTap: () {
+                  widget.model.updateReps(
+                    context,
+                    textEditingController: _textController2,
+                    focusNode: _focusNode2,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
+                    workoutSet: widget.workoutSet,
+                    index: widget.index,
+                  );
+
+                  setState(() {
+                    _repsTabbed = false;
+                  });
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -520,7 +397,21 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           toolbarButtons: [
             (node) {
               return InkWell(
-                onTap: updateRestTime,
+                onTap: () {
+                  widget.model.updateRestTime(
+                    context,
+                    textEditingController: _textController3,
+                    focusNode: _focusNode3,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
+                    workoutSet: widget.workoutSet,
+                    index: widget.index,
+                  );
+
+                  setState(() {
+                    _restTimeTabbed = false;
+                  });
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,

@@ -162,6 +162,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Caneled Workout"),
         "cardio": MessageLookupByLibrary.simpleMessage("Cardio"),
         "chains": MessageLookupByLibrary.simpleMessage("Chains"),
+        "changeBackground":
+            MessageLookupByLibrary.simpleMessage("Change Your Background!"),
+        "changeBackgroundFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "You can choose different backgrounds for this tab using this button"),
         "chest": MessageLookupByLibrary.simpleMessage("Chest"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("Choose Routine to Start"),

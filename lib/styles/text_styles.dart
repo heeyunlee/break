@@ -54,6 +54,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline4_menlo_w900_primary = TextStyle(
+    fontSize: 34,
+    fontWeight: FontWeight.w900,
+    color: kPrimaryColor,
+    letterSpacing: 0.25,
+    fontFamily: menlo,
+  );
+
   static const headline5 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w400,
@@ -105,6 +113,14 @@ class TextStyles {
   static const headline5_menlo_bold_primary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
+    color: kPrimaryColor,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
+  static const headline5_menlo_w900_primary = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
     color: kPrimaryColor,
     letterSpacing: 0,
     fontFamily: menlo,

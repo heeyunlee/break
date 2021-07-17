@@ -40,10 +40,10 @@ class SetWeightGoalScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: isRoot,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => SetWeightGoalScreen(
+          builder: (context, watch, child) => SetWeightGoalScreen(
             database: database,
             auth: auth,
-            model: ref.watch(personalGoalsScreenModelProvider),
+            model: watch(personalGoalsScreenModelProvider),
             isRoot: isRoot,
             user: user,
           ),

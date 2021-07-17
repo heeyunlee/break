@@ -122,14 +122,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   // Submit data to Firestore
   Future<void> _submit(
     BuildContext context,
-    WidgetRef ref,
     MiniplayerModel model, {
     required Routine routine,
     required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
       debugPrint('submit button pressed');
-      ref.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
+      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
       /// For Routine History
       // final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
@@ -220,7 +219,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       model.setMiniplayerValuesNull();
       model.setIndexesToDefault();
 
-      ref.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
+      context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -283,18 +282,17 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               : 0,
         ),
         child: Consumer(
-          builder: (context, ref, child) {
-            final model = ref.watch(miniplayerModelProvider);
+          builder: (context, watch, child) {
+            final model = watch(miniplayerModelProvider);
 
             final isPressed =
-                ref.watch(isLogRoutineButtonPressedProvider).isButtonPressed;
+                watch(isLogRoutineButtonPressedProvider).isButtonPressed;
 
             return FloatingActionButton.extended(
               onPressed: isPressed
                   ? null
                   : () => _submit(
                         context,
-                        ref,
                         model,
                         routine: widget.routine,
                         routineWorkouts: widget.routineWorkouts,

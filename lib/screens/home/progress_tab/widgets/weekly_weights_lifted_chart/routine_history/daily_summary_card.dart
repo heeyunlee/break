@@ -30,18 +30,16 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   final int unitOfMass;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        color: cardColor,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: _buildChild(),
-        ),
+    return Card(
+      color: cardColor,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: onTap,
+        child: _buildChild(),
       ),
     );
   }

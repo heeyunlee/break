@@ -81,9 +81,9 @@ class WeeklyLiftedWeightsCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Consumer(
-                builder: (context, ref, child) => WeeklyLiftedWeightsChart(
+                builder: (context, watch, child) => WeeklyLiftedWeightsChart(
                   routineHistories: progressTabClass.routineHistories,
-                  model: ref.watch(weeklyLiftedWeightsChartModelProvider),
+                  model: watch(weeklyLiftedWeightsChartModelProvider),
                   user: progressTabClass.user,
                 ),
               ),

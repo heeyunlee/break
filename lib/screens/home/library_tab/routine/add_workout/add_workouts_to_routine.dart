@@ -38,9 +38,9 @@ class AddWorkoutsToRoutine extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => AddWorkoutsToRoutine(
+          builder: (context, watch, child) => AddWorkoutsToRoutine(
             routine: routine,
-            model: ref.watch(addWorkoutsToRoutineScreenModelProvider),
+            model: watch(addWorkoutsToRoutineScreenModelProvider),
           ),
         ),
       ),

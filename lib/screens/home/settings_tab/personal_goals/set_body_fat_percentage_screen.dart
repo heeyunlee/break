@@ -40,10 +40,10 @@ class SetBodyFatPercentageScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: isRoot,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => SetBodyFatPercentageScreen(
+          builder: (context, watch, child) => SetBodyFatPercentageScreen(
             database: database,
             auth: auth,
-            model: ref.watch(personalGoalsScreenModelProvider),
+            model: watch(personalGoalsScreenModelProvider),
             isRoot: isRoot,
             user: user,
           ),

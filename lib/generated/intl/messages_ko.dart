@@ -151,6 +151,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 종료"),
         "cardio": MessageLookupByLibrary.simpleMessage("유산소"),
         "chains": MessageLookupByLibrary.simpleMessage("짐체인"),
+        "changeBackground": MessageLookupByLibrary.simpleMessage("배경 변경"),
+        "changeBackgroundFeatureDescription":
+            MessageLookupByLibrary.simpleMessage(
+                "이 버튼을 눌러서 원하는 배경을 선택할 수 있습니다!"),
         "chest": MessageLookupByLibrary.simpleMessage("가슴"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("루틴을 골라주세요"),

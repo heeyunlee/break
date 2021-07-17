@@ -85,4 +85,11 @@ class ButtonStyles {
       borderRadius: BorderRadius.circular(10),
     ),
   );
+
+  static final elevated_blue_accent = ElevatedButton.styleFrom(
+    primary: Colors.blueAccent,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
 }

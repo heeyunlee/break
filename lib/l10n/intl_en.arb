@@ -398,5 +398,7 @@
     "recentBodyFatWidgetSubtitle": "{difference}% to your goal!",
     "deleteWorkoutSet": "Delete a set",
     "noSavedWorkoutsYet": "No saved workouts yet...",
-    "wokroutsThisWeek": "This Week's Workouts"
+    "wokroutsThisWeek": "This Week's Workouts",
+    "changeBackground": "Change Your Background!",
+    "changeBackgroundFeatureDescription": "You can choose different backgrounds for this tab using this button"
 }

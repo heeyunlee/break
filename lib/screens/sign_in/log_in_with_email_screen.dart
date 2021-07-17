@@ -25,8 +25,8 @@ class LogInWithEmailScreen extends StatefulWidget {
       MaterialPageRoute(
         fullscreenDialog: false,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => LogInWithEmailScreen(
-            model: ref.watch(signInWithEmailModelProvider),
+          builder: (context, watch, child) => LogInWithEmailScreen(
+            model: watch(signInWithEmailModelProvider),
           ),
         ),
       ),

@@ -151,15 +151,14 @@ class _StartWorkoutShortcutScreenState
                   tabNavigatorKeys[currentTab]!.currentState!.push(
                         CupertinoPageRoute(
                           builder: (context) => Consumer(
-                            builder: (context, ref, child) =>
+                            builder: (context, watch, child) =>
                                 RoutineDetailScreen(
                               database: widget.database,
                               routine: routine,
                               auth: widget.auth,
                               tag: 'startWorkoutShortcut${routine.routineId}',
                               user: widget.user,
-                              model:
-                                  ref.watch(routineDetailScreenModelProvider),
+                              model: watch(routineDetailScreenModelProvider),
                             ),
                           ),
                         ),

@@ -8,12 +8,14 @@ import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/progress_tab_class.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/latest_body_fat_widget.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/most_recent_workout_widget.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_lifted_chart/weekly_lifted_weights_card.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import 'widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
-import 'widgets/latest_weight_and_body_fat_widget.dart';
+import 'widgets/latest_weight_widget.dart';
 import 'widgets/measurement/weekly_measurements_card.dart';
 import 'widgets/nutritions_chart/weekly_nutrition_card.dart';
 import 'widgets/weekly_workout_summary/weekly_workout_summary.dart';
@@ -60,11 +62,13 @@ class ProgressTabModel with ChangeNotifier {
   List _widgetKeysList = [
     'empty2x2',
     'activityRing',
-    'latestWeightAndBodyFat',
-    'weeklyWorkoutHistorySmall',
-    'weeklyWorkoutHistoryMedium',
-    'weeklyNutritionChart',
+    'recentWorkout',
     'weeklyMeasurementsChart',
+    'weeklyNutritionChart',
+    'weeklyWorkoutHistoryMedium',
+    'weeklyWorkoutHistorySmall',
+    'latestBodyFat',
+    'latestWeight',
   ];
 
   List<DateTime> get dates => _dates;
@@ -254,10 +258,17 @@ class ProgressTabModel with ChangeNotifier {
   }) {
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;
 
-    Widget latestWeightAndBodyFat = LatestWeightAndBodyWidget(
-      key: Key('latestWeightAndBodyFat'),
-      constraints: constraints,
+    Widget latestBodyFat = LatestBodyFatWidget(
+      key: Key('latestBodyFat'),
       data: data,
+      constraints: constraints,
+    );
+
+    Widget latestWeight = LatestWeightWidget(
+      key: Key('latestWeight'),
+      constraints: constraints,
+      user: data.user,
+      measurements: data.measurements,
     );
 
     Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(
@@ -287,9 +298,15 @@ class ProgressTabModel with ChangeNotifier {
 
     Widget activityRing = DailyActivityRingWidget.create(
       context,
+      key: Key('activityRing'),
       progressTabClass: data,
       constraints: constraints,
-      key: Key('activityRing'),
+    );
+
+    Widget recentWorkout = MostRecentWorkout(
+      key: Key('recentWorkout'),
+      constraints: constraints,
+      data: data,
     );
 
     Widget empty2x2 = SizedBox(
@@ -304,6 +321,12 @@ class ProgressTabModel with ChangeNotifier {
       height: constraints.maxHeight / 4,
     );
 
+    Widget empty1x1 = SizedBox(
+      key: Key('empty1x1'),
+      width: constraints.maxWidth / 2,
+      height: constraints.maxHeight / 4,
+    );
+
     _keysAndWidgets = {
       'activityRing': activityRing,
       'empty1x2': empty1x2,
@@ -312,7 +335,10 @@ class ProgressTabModel with ChangeNotifier {
       'weeklyNutritionChart': weeklyNutritionChart,
       'weeklyWorkoutHistoryMedium': weeklyWorkoutHistoryMedium,
       'weeklyWorkoutHistorySmall': weeklyWorkoutHistorySmall,
-      'latestWeightAndBodyFat': latestWeightAndBodyFat,
+      'recentWorkout': recentWorkout,
+      'empty1x1': empty1x1,
+      'latestBodyFat': latestBodyFat,
+      'latestWeight': latestWeight,
     };
 
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;

@@ -83,10 +83,10 @@ class WeeklyNutritionCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Consumer(
-                builder: (context, ref, child) => WeeklyNutritionChart(
+                builder: (context, watch, child) => WeeklyNutritionChart(
                   nutritions: progressTabClass.nutritions,
                   user: progressTabClass.user,
-                  model: ref.watch(weeklyNutritionChartModelProvider),
+                  model: watch(weeklyNutritionChartModelProvider),
                 ),
               ),
             ],

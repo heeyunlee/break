@@ -26,8 +26,8 @@ class EmailSignUpScreen extends StatefulWidget {
       MaterialPageRoute(
         fullscreenDialog: false,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => EmailSignUpScreen(
-            model: ref.watch(signInWithEmailModelProvider),
+          builder: (context, watch, child) => EmailSignUpScreen(
+            model: watch(signInWithEmailModelProvider),
           ),
         ),
       ),

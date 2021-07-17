@@ -11,12 +11,12 @@ final weeklyLiftedWeightsChartModelProvider = ChangeNotifierProvider(
 );
 
 class WeeklyLiftedWeightsChartModel with ChangeNotifier {
-  num _maxY = 150;
+  num _weightsLiftedMaxY = 10000;
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
 
-  num get maxY => _maxY;
+  num get weightsLiftedMaxY => _weightsLiftedMaxY;
   List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   List<double> get relativeYs => _relativeYs;
@@ -38,6 +38,8 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
   }
 
   void setData(List<RoutineHistory> routineHistories, User user) {
+    debugPrint('setData method called');
+
     Map<DateTime, List<RoutineHistory>> _mapData;
     List<num> listOfYs = [];
     List<double> relatives = [];
@@ -62,24 +64,28 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
         listOfYs.add(sum);
       });
 
-      final largest =
-          [...listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
+      final largest = [
+        ...listOfYs,
+        user.dailyProteinGoal ?? 0,
+      ].reduce(math.max);
 
       if (largest == 0) {
-        _maxY = 20000;
+        _weightsLiftedMaxY = 20000;
 
         listOfYs.forEach((element) {
           relativeYs.add(0);
         });
-      } else if (user.weightGoal != null) {
+      } else {
         final roundedLargest = (largest / 1000).ceil() * 1000;
-        _maxY = roundedLargest.toDouble() + 1000;
+        _weightsLiftedMaxY = roundedLargest.toDouble() + 1000;
 
         listOfYs.forEach((element) {
-          relatives.add(element / _maxY * 10);
+          relatives.add(element / _weightsLiftedMaxY * 10);
         });
       }
       _relativeYs = relatives;
+    } else {
+      _relativeYs = [];
     }
   }
 }

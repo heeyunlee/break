@@ -21,10 +21,10 @@ import 'widgets/third_preview_widget_child.dart';
 
 class PreviewScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ScopedReader watch) {
     logger.d('Preview Screen building...');
 
-    final model = ref.watch(previewScreenModelProvider);
+    final model = watch(previewScreenModelProvider);
 
     final os = Platform.operatingSystem;
     final locale = Intl.getCurrentLocale();
@@ -73,8 +73,7 @@ class PreviewScreen extends ConsumerWidget {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.only(bottom: Platform.isIOS ? 38 : 8),
+          SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

@@ -38,10 +38,10 @@ class ReorderRoutineWorkoutsScreen extends StatefulWidget {
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
-          builder: (context, ref, child) => ReorderRoutineWorkoutsScreen(
+          builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
             routine: routine,
             routineWorkouts: routineWorkouts,
-            model: ref.watch(reorderRoutineWorkoutsScreenModelProvider),
+            model: watch(reorderRoutineWorkoutsScreenModelProvider),
           ),
         ),
       ),

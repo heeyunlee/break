@@ -30,10 +30,10 @@ class DailyActivityRingWidget extends StatelessWidget {
   }) {
     return Consumer(
       key: key,
-      builder: (context, ref, child) => DailyActivityRingWidget(
+      builder: (context, watch, child) => DailyActivityRingWidget(
         constraints: constraints,
         progressTabClass: progressTabClass,
-        model: ref.watch(progressTabModelProvider),
+        model: watch(progressTabModelProvider),
       ),
     );
   }
