@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
@@ -38,7 +39,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   num get bodyFatPercentageGoal => _bodyFatPercentageGoal;
   bool get isButtonPressed => _isButtonPressed;
 
-  // Protein Goal
+  /// Protein Goal
   Future<void> initProteinGoal() async {
     final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
     _proteinGoal = user.dailyProteinGoal ?? 150;
@@ -48,11 +49,45 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   void incrementProteinGoal() {
     _proteinGoal++;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 
   void decrementProteinGoal() {
     _proteinGoal--;
+    HapticFeedback.mediumImpact();
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartDecrementProtein(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      decrementProteinGoal();
+
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndDecrementProtein(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartIncrementProtein(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      incrementProteinGoal();
+
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndIncrementProtein(_) async {
+    _isButtonPressed = false;
+
     notifyListeners();
   }
 
@@ -75,7 +110,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     }
   }
 
-  // Lifting Goal
+  /// Lifting Goal
   Future<void> initLiftingGoal() async {
     final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
     _liftingGoal = (user.dailyWeightsGoal != null)
@@ -88,12 +123,46 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   }
 
   void incrementLiftingGoal() {
-    _liftingGoal += 500;
+    _liftingGoal += 100;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 
   void decrementLiftingGoal() {
-    _liftingGoal -= 500;
+    _liftingGoal -= 100;
+    HapticFeedback.mediumImpact();
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartDecrementLifting(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      decrementLiftingGoal();
+
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndDecrementLifting(_) async {
+    _isButtonPressed = false;
+
+    notifyListeners();
+  }
+
+  Future<void> onLongPressStartIncrementLifting(_) async {
+    _isButtonPressed = true;
+
+    while (_isButtonPressed) {
+      incrementLiftingGoal();
+
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+  }
+
+  Future<void> onLongPressEndIncrementLifting(_) async {
+    _isButtonPressed = false;
+
     notifyListeners();
   }
 
@@ -116,7 +185,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     }
   }
 
-  // WEIGHT
+  /// WEIGHT
   Future<void> initWeightGoal(BuildContext context) async {
     final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
 
@@ -131,11 +200,13 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   void incrementWeightGoal() {
     _weightGoal += 0.1;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 
   void decrementWeightGoal() {
     _weightGoal -= 0.1;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 
@@ -199,11 +270,13 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   void incrementBodyFatGoall() {
     _bodyFatPercentageGoal += 0.1;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 
   void decrementBodyFatGoal() {
     _bodyFatPercentageGoal -= 0.1;
+    HapticFeedback.mediumImpact();
     notifyListeners();
   }
 

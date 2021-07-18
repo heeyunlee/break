@@ -123,7 +123,7 @@ class _SetBodyFatPercentageScreenState
                 child: InkWell(
                   onTap: widget.model.decrementBodyFatGoal,
                   borderRadius: BorderRadius.circular(32),
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: 64,
                     height: 64,
                     child: Icon(
@@ -142,7 +142,7 @@ class _SetBodyFatPercentageScreenState
                 child: InkWell(
                   onTap: widget.model.incrementBodyFatGoall,
                   borderRadius: BorderRadius.circular(32),
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: 64,
                     height: 64,
                     child: const Icon(

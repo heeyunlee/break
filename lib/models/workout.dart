@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class Workout {
   final String workoutId;
@@ -136,5 +137,60 @@ class Workout {
       'tags': tags,
       'translatedDescription': translatedDescription,
     };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Workout &&
+        other.workoutId == workoutId &&
+        other.workoutOwnerId == workoutOwnerId &&
+        other.workoutOwnerUserName == workoutOwnerUserName &&
+        other.workoutTitle == workoutTitle &&
+        listEquals(other.mainMuscleGroup, mainMuscleGroup) &&
+        listEquals(other.secondaryMuscleGroup, secondaryMuscleGroup) &&
+        other.description == description &&
+        listEquals(other.equipmentRequired, equipmentRequired) &&
+        other.imageUrl == imageUrl &&
+        other.isBodyWeightWorkout == isBodyWeightWorkout &&
+        other.lastEditedDate == lastEditedDate &&
+        other.workoutCreatedDate == workoutCreatedDate &&
+        other.difficulty == difficulty &&
+        other.instructions == instructions &&
+        other.tips == tips &&
+        other.secondsPerRep == secondsPerRep &&
+        other.isPublic == isPublic &&
+        other.location == location &&
+        mapEquals(other.translated, translated) &&
+        other.thumbnailImageUrl == thumbnailImageUrl &&
+        listEquals(other.tags, tags) &&
+        mapEquals(other.translatedDescription, translatedDescription);
+  }
+
+  @override
+  int get hashCode {
+    return workoutId.hashCode ^
+        workoutOwnerId.hashCode ^
+        workoutOwnerUserName.hashCode ^
+        workoutTitle.hashCode ^
+        mainMuscleGroup.hashCode ^
+        secondaryMuscleGroup.hashCode ^
+        description.hashCode ^
+        equipmentRequired.hashCode ^
+        imageUrl.hashCode ^
+        isBodyWeightWorkout.hashCode ^
+        lastEditedDate.hashCode ^
+        workoutCreatedDate.hashCode ^
+        difficulty.hashCode ^
+        instructions.hashCode ^
+        tips.hashCode ^
+        secondsPerRep.hashCode ^
+        isPublic.hashCode ^
+        location.hashCode ^
+        translated.hashCode ^
+        thumbnailImageUrl.hashCode ^
+        tags.hashCode ^
+        translatedDescription.hashCode;
   }
 }

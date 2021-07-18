@@ -57,4 +57,31 @@ class Nutrition {
       'loggedDate': loggedDate,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Nutrition &&
+        other.nutritionId == nutritionId &&
+        other.userId == userId &&
+        other.username == username &&
+        other.loggedTime == loggedTime &&
+        other.loggedDate == loggedDate &&
+        other.type == type &&
+        other.proteinAmount == proteinAmount &&
+        other.notes == notes;
+  }
+
+  @override
+  int get hashCode {
+    return nutritionId.hashCode ^
+        userId.hashCode ^
+        username.hashCode ^
+        loggedTime.hashCode ^
+        loggedDate.hashCode ^
+        type.hashCode ^
+        proteinAmount.hashCode ^
+        notes.hashCode;
+  }
 }

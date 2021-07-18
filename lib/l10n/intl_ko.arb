@@ -406,5 +406,7 @@
     "previewScreenMessage1": "운동을 기록하세요",
     "previewScreenMessage2": "다양한 위젯으로 피트니스 대시보드를 \n커스터마이징 해 보세요",
     "previewScreenMessage3": "나에게 중요하고 \n필요한 목표들을 확인하세요",
-    "previewScreenMessage4": "즐거운 운동하세요!"
+    "previewScreenMessage4": "즐거운 운동하세요!",
+    "warning": "경고",
+    "addWorkoutWaningMessage": "7개 이상의 운동을 한번에 루틴에 더할 수 없습니다!"
 }

@@ -1,6 +1,6 @@
 # Change Log
 
-Hi, below is all the changes from my project, Herakles, after version 0.3.0. I didn't think of doing it before, so I have no idea what I've added/removed/changed. I regret it immensely.
+Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
 ## Unreleased (0.3.3)
 ### New Features
@@ -9,6 +9,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0. I d
 - Added Recent Workout Wiget
 - Added Recent Body Fat Widget and Bodyweight widget
 - Changed preview widget (remove pageview and use AnimatedSwitcher to automatically showcase different widgets every 4 seconds)
+- Enabled users to add multiple workouts to routine at once
 
 ### Bug Fix & Refactor
 - Refactored CreateNewRoutineScreen with ChangeNotifierProvider (riverpod)

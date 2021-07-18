@@ -115,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addWorkoutToRoutineSnackbarMessage": m0,
         "addWorkoutToRoutineSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Add Workout"),
+        "addWorkoutWaningMessage": MessageLookupByLibrary.simpleMessage(
+            "Trying to add 7 workouts at once?! Are you sure? You can\'t add more than 6 workouts at a time"),
         "addWorkoutkButtonText":
             MessageLookupByLibrary.simpleMessage("Add workout"),
         "advanced": MessageLookupByLibrary.simpleMessage("Advanced"),
@@ -677,6 +679,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "User was not found. Please check your email again."),
         "usingEquipment": m19,
+        "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "weightGoal": MessageLookupByLibrary.simpleMessage("Weight Goal"),
         "weights": MessageLookupByLibrary.simpleMessage("Weights"),
         "weightsChartMessage": MessageLookupByLibrary.simpleMessage(

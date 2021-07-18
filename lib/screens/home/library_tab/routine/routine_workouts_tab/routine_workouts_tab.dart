@@ -46,6 +46,11 @@ class RoutineWorkoutsTab extends StatelessWidget {
               onPressed: () => AddWorkoutsToRoutine.show(
                 context,
                 routine: routine,
+                routineWorkouts: list,
+                authAndDatabase: AuthAndDatabase(
+                  database: database,
+                  auth: auth,
+                ),
               ),
             ),
             const SizedBox(height: 8),

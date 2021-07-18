@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class User {
   final String userId;
@@ -113,5 +114,54 @@ class User {
     data['widgetsList'] = widgetsList;
 
     return data;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is User &&
+        other.userId == userId &&
+        other.userName == userName &&
+        other.userEmail == userEmail &&
+        other.signUpDate == signUpDate &&
+        other.signUpProvider == signUpProvider &&
+        listEquals(other.savedWorkouts, savedWorkouts) &&
+        listEquals(other.savedRoutines, savedRoutines) &&
+        other.totalWeights == totalWeights &&
+        other.totalNumberOfWorkouts == totalNumberOfWorkouts &&
+        other.unitOfMass == unitOfMass &&
+        other.lastLoginDate == lastLoginDate &&
+        other.dailyWeightsGoal == dailyWeightsGoal &&
+        other.dailyProteinGoal == dailyProteinGoal &&
+        other.displayName == displayName &&
+        other.backgroundImageIndex == backgroundImageIndex &&
+        other.lastHealthDataFetchedTime == lastHealthDataFetchedTime &&
+        other.weightGoal == weightGoal &&
+        other.bodyFatPercentageGoal == bodyFatPercentageGoal &&
+        listEquals(other.widgetsList, widgetsList);
+  }
+
+  @override
+  int get hashCode {
+    return userId.hashCode ^
+        userName.hashCode ^
+        userEmail.hashCode ^
+        signUpDate.hashCode ^
+        signUpProvider.hashCode ^
+        savedWorkouts.hashCode ^
+        savedRoutines.hashCode ^
+        totalWeights.hashCode ^
+        totalNumberOfWorkouts.hashCode ^
+        unitOfMass.hashCode ^
+        lastLoginDate.hashCode ^
+        dailyWeightsGoal.hashCode ^
+        dailyProteinGoal.hashCode ^
+        displayName.hashCode ^
+        backgroundImageIndex.hashCode ^
+        lastHealthDataFetchedTime.hashCode ^
+        weightGoal.hashCode ^
+        bodyFatPercentageGoal.hashCode ^
+        widgetsList.hashCode;
   }
 }

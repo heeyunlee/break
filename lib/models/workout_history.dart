@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import 'workout_set.dart';
 
@@ -117,5 +118,52 @@ class WorkoutHistory {
     data['workoutDate'] = workoutDate;
 
     return data;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WorkoutHistory &&
+        other.workoutHistoryId == workoutHistoryId &&
+        other.routineHistoryId == routineHistoryId &&
+        other.workoutId == workoutId &&
+        other.routineId == routineId &&
+        other.uid == uid &&
+        other.index == index &&
+        other.workoutTitle == workoutTitle &&
+        other.numberOfSets == numberOfSets &&
+        other.numberOfReps == numberOfReps &&
+        other.totalWeights == totalWeights &&
+        listEquals(other.sets, sets) &&
+        other.isBodyWeightWorkout == isBodyWeightWorkout &&
+        other.duration == duration &&
+        other.secondsPerRep == secondsPerRep &&
+        mapEquals(other.translated, translated) &&
+        other.workoutTime == workoutTime &&
+        other.workoutDate == workoutDate &&
+        other.unitOfMass == unitOfMass;
+  }
+
+  @override
+  int get hashCode {
+    return workoutHistoryId.hashCode ^
+        routineHistoryId.hashCode ^
+        workoutId.hashCode ^
+        routineId.hashCode ^
+        uid.hashCode ^
+        index.hashCode ^
+        workoutTitle.hashCode ^
+        numberOfSets.hashCode ^
+        numberOfReps.hashCode ^
+        totalWeights.hashCode ^
+        sets.hashCode ^
+        isBodyWeightWorkout.hashCode ^
+        duration.hashCode ^
+        secondsPerRep.hashCode ^
+        translated.hashCode ^
+        workoutTime.hashCode ^
+        workoutDate.hashCode ^
+        unitOfMass.hashCode;
   }
 }

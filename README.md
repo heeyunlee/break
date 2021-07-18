@@ -19,7 +19,7 @@
 - [ ] Edit Routine Screen
 - [ ] Log Routine Screen
 - [ ] Routine History Tab
-- [ ] Routine Workout Card
+- [x] Routine Workout Card
 - [ ] Workout Set Widget
 - [ ] Saved Routines Screen
 - [x] Routine Detail Screen

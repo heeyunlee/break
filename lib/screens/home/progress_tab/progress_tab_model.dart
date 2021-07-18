@@ -62,13 +62,13 @@ class ProgressTabModel with ChangeNotifier {
   List _widgetKeysList = [
     'empty2x2',
     'activityRing',
+    'weeklyWorkoutHistorySmall',
+    'latestBodyFat',
+    'latestWeight',
     'recentWorkout',
     'weeklyMeasurementsChart',
     'weeklyNutritionChart',
     'weeklyWorkoutHistoryMedium',
-    'weeklyWorkoutHistorySmall',
-    'latestBodyFat',
-    'latestWeight',
   ];
 
   List<DateTime> get dates => _dates;
@@ -267,8 +267,7 @@ class ProgressTabModel with ChangeNotifier {
     Widget latestWeight = LatestWeightWidget(
       key: Key('latestWeight'),
       constraints: constraints,
-      user: data.user,
-      measurements: data.measurements,
+      data: data,
     );
 
     Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(

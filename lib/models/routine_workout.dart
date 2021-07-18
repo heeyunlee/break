@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'workout_set.dart';
 
 class RoutineWorkout {
@@ -94,5 +96,44 @@ class RoutineWorkout {
     data['translated'] = translated;
 
     return data;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RoutineWorkout &&
+        other.routineWorkoutId == routineWorkoutId &&
+        other.routineId == routineId &&
+        other.routineWorkoutOwnerId == routineWorkoutOwnerId &&
+        other.workoutId == workoutId &&
+        other.workoutTitle == workoutTitle &&
+        other.index == index &&
+        other.numberOfSets == numberOfSets &&
+        other.numberOfReps == numberOfReps &&
+        other.totalWeights == totalWeights &&
+        listEquals(other.sets, sets) &&
+        other.isBodyWeightWorkout == isBodyWeightWorkout &&
+        other.duration == duration &&
+        other.secondsPerRep == secondsPerRep &&
+        mapEquals(other.translated, translated);
+  }
+
+  @override
+  int get hashCode {
+    return routineWorkoutId.hashCode ^
+        routineId.hashCode ^
+        routineWorkoutOwnerId.hashCode ^
+        workoutId.hashCode ^
+        workoutTitle.hashCode ^
+        index.hashCode ^
+        numberOfSets.hashCode ^
+        numberOfReps.hashCode ^
+        totalWeights.hashCode ^
+        sets.hashCode ^
+        isBodyWeightWorkout.hashCode ^
+        duration.hashCode ^
+        secondsPerRep.hashCode ^
+        translated.hashCode;
   }
 }

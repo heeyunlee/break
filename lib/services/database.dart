@@ -210,6 +210,11 @@ abstract class Database {
     required RoutineWorkout routineWorkout,
     required Map<String, dynamic> data,
   });
+  Future<void> batchWriteRoutineWorkouts(
+    Routine routine,
+    List<RoutineWorkout> routineWorkouts,
+  );
+
   Stream<RoutineWorkout?> routineWorkoutStream({
     required Routine routine,
     required RoutineWorkout routineWorkout,
@@ -775,11 +780,38 @@ class FirestoreDatabase implements Database {
     required Map<String, dynamic> data,
   }) =>
       _service.updateData<RoutineWorkout>(
-          path: APIPath.routineWorkout(
-              routine.routineId, routineWorkout.routineWorkoutId),
-          data: data,
-          fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
-          toBuilder: (model) => model.toJson());
+        path: APIPath.routineWorkout(
+            routine.routineId, routineWorkout.routineWorkoutId),
+        data: data,
+        fromBuilder: (data, id) => RoutineWorkout.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Batch Add Workout Histories
+  @override
+  Future<void> batchWriteRoutineWorkouts(
+    Routine routine,
+    List<RoutineWorkout> routineWorkouts,
+  ) async {
+    List<String> routineWorkoutsPath = <String>[];
+    List<Map<String, dynamic>> routineWorkoutsAsMap = [];
+
+    routineWorkouts.forEach((routineWorkout) {
+      Map<String, dynamic> routineWorkoutAsJson = routineWorkout.toJson();
+      String path = APIPath.routineWorkout(
+        routine.routineId,
+        routineWorkout.routineWorkoutId,
+      );
+
+      routineWorkoutsAsMap.add(routineWorkoutAsJson);
+      routineWorkoutsPath.add(path);
+    });
+
+    await _service.batchData(
+      path: routineWorkoutsPath,
+      data: routineWorkoutsAsMap,
+    );
+  }
 
   // Single Routine Workout Stream
   @override

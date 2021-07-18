@@ -128,6 +128,47 @@ class Measurement {
       platformType: platformType ?? this.platformType,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Measurement &&
+        other.measurementId == measurementId &&
+        other.userId == userId &&
+        other.username == username &&
+        other.loggedTime == loggedTime &&
+        other.loggedDate == loggedDate &&
+        other.bodyWeight == bodyWeight &&
+        other.bodyFat == bodyFat &&
+        other.skeletalMuscleMass == skeletalMuscleMass &&
+        other.bmi == bmi &&
+        other.notes == notes &&
+        other.dataSource == dataSource &&
+        other.sourceId == sourceId &&
+        other.sourceName == sourceName &&
+        other.dataType == dataType &&
+        other.platformType == platformType;
+  }
+
+  @override
+  int get hashCode {
+    return measurementId.hashCode ^
+        userId.hashCode ^
+        username.hashCode ^
+        loggedTime.hashCode ^
+        loggedDate.hashCode ^
+        bodyWeight.hashCode ^
+        bodyFat.hashCode ^
+        skeletalMuscleMass.hashCode ^
+        bmi.hashCode ^
+        notes.hashCode ^
+        dataSource.hashCode ^
+        sourceId.hashCode ^
+        sourceName.hashCode ^
+        dataType.hashCode ^
+        platformType.hashCode;
+  }
 }
 
 class LatestUserMeasurement {

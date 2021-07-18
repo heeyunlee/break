@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/models/progress_tab_class.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/measurement/measurements_screen.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 
 class LatestWeightWidget extends StatelessWidget {
-  final List<Measurement> measurements;
-  final User user;
+  final ProgressTabClass data;
   final BoxConstraints constraints;
 
   const LatestWeightWidget({
     Key? key,
-    required this.measurements,
-    required this.user,
+    required this.data,
     required this.constraints,
   }) : super(key: key);
 
@@ -24,25 +24,20 @@ class LatestWeightWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final heightFactor = (constraints.maxHeight > 600) ? 4 : 3.5;
 
-    final unit = Formatter.unitOfMass(user.unitOfMass);
-
-    final Measurement? lastMeasurement = measurements.isNotEmpty
-        ? measurements.lastWhere((element) => element.bodyWeight != null)
+    final Measurement? lastDoc = data.measurements.isNotEmpty
+        ? data.measurements.lastWhere((element) => element.bodyWeight != null)
         : null;
+
+    final bool showWidget = data.user.weightGoal != null && lastDoc != null;
 
     final date = DateFormat.MMMEd().format(
-      lastMeasurement?.loggedDate ?? DateTime.now(),
+      lastDoc?.loggedDate ?? DateTime.now(),
     );
 
-    final weight = (lastMeasurement != null)
-        ? Formatter.weights(lastMeasurement.bodyWeight!)
-        : '--.-';
+    final weight =
+        (lastDoc != null) ? Formatter.weights(lastDoc.bodyWeight!) : '--.-';
 
-    final difference = (user.weightGoal != null && lastMeasurement != null)
-        ? user.weightGoal! - lastMeasurement.bodyWeight!
-        : null;
-
-    final formattedDif = Formatter.weightsWithDecimal(difference ?? 0);
+    final unit = Formatter.unitOfMass(data.user.unitOfMass);
 
     return SizedBox(
       height: constraints.maxHeight / heightFactor,
@@ -66,18 +61,11 @@ class LatestWeightWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(S.current.bodyWeight, style: TextStyles.button1),
-                  const SizedBox(height: 4),
                   Text(
                     '$weight $unit',
                     style: TextStyles.headline5_menlo_bold_secondary,
                   ),
-                  const SizedBox(height: 4),
-                  if (difference != null)
-                    Text(
-                      S.current
-                          .recentWeightWidgetSubtitle('$formattedDif $unit'),
-                      style: TextStyles.caption1,
-                    ),
+                  if (showWidget) ..._buildProgressBar(),
                 ],
               ),
             ),
@@ -85,5 +73,70 @@ class LatestWeightWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildProgressBar() {
+    final bool goalExists = data.user.weightGoal != null;
+
+    final Measurement? lastDoc = data.measurements.lastWhereOrNull(
+      (element) => element.bodyWeight != null,
+    );
+
+    final Measurement? firstDoc = data.measurements.firstWhereOrNull(
+      (element) => element.bodyWeight != null,
+    );
+
+    final goalWeight = Formatter.percentage(data.user.weightGoal);
+
+    final startingWeight = Formatter.percentage(firstDoc?.bodyWeight);
+
+    num? initialWeightToLose = (firstDoc != null && goalExists)
+        ? firstDoc.bodyWeight! - data.user.weightGoal!
+        : null;
+
+    num? nowWeightToLose = (lastDoc != null && goalExists)
+        ? lastDoc.bodyWeight! - data.user.weightGoal!
+        : null;
+
+    double? diffPercentage =
+        (initialWeightToLose != null && nowWeightToLose != null)
+            ? nowWeightToLose / initialWeightToLose
+            : null;
+
+    double? diffPercentageFormatted =
+        ((diffPercentage ?? 0) > 1) ? 1 : diffPercentage;
+
+    return [
+      const SizedBox(height: 8),
+      Stack(
+        children: [
+          Container(
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.white24,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          FractionallySizedBox(
+            widthFactor: diffPercentageFormatted ?? 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: kSecondaryColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              height: 4,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        children: [
+          Text(goalWeight, style: TextStyles.caption1),
+          const Spacer(),
+          Text(startingWeight, style: TextStyles.caption1),
+        ],
+      ),
+    ];
   }
 }

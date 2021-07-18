@@ -109,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addWorkoutToRoutineSnackbarMessage": m0,
         "addWorkoutToRoutineSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("운동 추가"),
+        "addWorkoutWaningMessage": MessageLookupByLibrary.simpleMessage(
+            "7개 이상의 운동을 한번에 루틴에 더할 수 없습니다!"),
         "addWorkoutkButtonText": MessageLookupByLibrary.simpleMessage("운동 추가"),
         "advanced": MessageLookupByLibrary.simpleMessage("상급"),
         "afterWorkout": MessageLookupByLibrary.simpleMessage("운동 후"),
@@ -627,6 +629,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFoundMessage": MessageLookupByLibrary.simpleMessage(
             "유저를 찾을 수 없습니다. 이메일을 다시한번 확인해 주세요"),
         "usingEquipment": m19,
+        "warning": MessageLookupByLibrary.simpleMessage("경고"),
         "weightGoal": MessageLookupByLibrary.simpleMessage("몸무게 목표"),
         "weights": MessageLookupByLibrary.simpleMessage("중량"),
         "weightsChartMessage":

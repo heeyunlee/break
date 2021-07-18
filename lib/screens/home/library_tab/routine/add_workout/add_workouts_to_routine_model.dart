@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/auth_and_database.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
@@ -12,82 +13,103 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
+import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-final addWorkoutsToRoutineScreenModelProvider = ChangeNotifierProvider(
+final addWorkoutsToRoutineScreenModelProvider =
+    ChangeNotifierProvider.autoDispose(
   (ref) => AddWorkoutsToRoutineScreenModel(),
 );
 
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  AuthBase? auth;
+  Database? database;
 
   AddWorkoutsToRoutineScreenModel({
     this.auth,
     this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider3);
-    print('current uid ${auth?.currentUser?.uid}');
+  });
 
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
-  }
+  String _selectedMainMuscleGroup = 'MainMuscleGroup.abs';
+  String _selectedChipTranslated = MainMuscleGroup.abs.translation!;
+  final List<Workout> _selectedWorkouts = <Workout>[];
 
-  Workout? _selectedWorkout;
-  String _selectedMainMuscleGroup = 'All';
-  String _selectedChipTranslated = 'All';
-
-  Workout? get selectedWorkout => _selectedWorkout;
   String get selectedMainMuscleGroup => _selectedMainMuscleGroup;
   String get selectedChipTranslated => _selectedChipTranslated;
+  List<Workout> get selectedWorkouts => _selectedWorkouts;
 
-  void initSelectedChip(Routine routine) {
+  void init(Routine routine, AuthAndDatabase authAndDatabase) {
+    auth = authAndDatabase.auth;
+    database = authAndDatabase.database;
+
     _selectedMainMuscleGroup = routine.mainMuscleGroup[0];
   }
 
-  void onSelected(bool selected, String string) {
+  void onSelectChoiceChip(bool selected, String string) {
     HapticFeedback.mediumImpact();
     _selectedMainMuscleGroup = string;
     _selectedChipTranslated = MainMuscleGroup.values
         .firstWhere((e) => e.toString() == _selectedMainMuscleGroup)
         .translation!;
-    // }
 
     notifyListeners();
   }
 
-  Future<void> submitRoutineWorkoutData(
+  void selectWorkout(BuildContext context, Workout workout) async {
+    if (_selectedWorkouts.contains(workout)) {
+      _selectedWorkouts.remove(workout);
+    } else {
+      if (_selectedWorkouts.length < 6) {
+        _selectedWorkouts.add(workout);
+      } else {
+        await showAlertDialog(
+          context,
+          title: S.current.warning,
+          content: S.current.addWorkoutWaningMessage,
+          defaultActionText: S.current.ok,
+        );
+      }
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> addWorkoutsToRoutine(
     BuildContext context,
     Routine routine,
-    Workout workout,
+    List<RoutineWorkout> routineWorkouts,
   ) async {
     await HapticFeedback.mediumImpact();
 
     try {
-      _selectedWorkout = workout;
+      List<RoutineWorkout> _routineWorkouts = [];
+      int _index = routineWorkouts.length;
 
-      final routineWorkouts =
-          await database!.routineWorkoutsStream(routine.routineId).first;
-      final index = routineWorkouts.length + 1;
-      final id = Uuid().v1();
+      _selectedWorkouts.forEach((workout) {
+        final id = Uuid().v1();
+        _index += 1;
 
-      final routineWorkout = RoutineWorkout(
-        routineWorkoutId: 'RW$id',
-        workoutId: _selectedWorkout!.workoutId,
-        routineId: routine.routineId,
-        routineWorkoutOwnerId: auth!.currentUser!.uid,
-        workoutTitle: _selectedWorkout!.workoutTitle,
-        numberOfReps: 0,
-        numberOfSets: 0,
-        totalWeights: 0,
-        index: index,
-        sets: [],
-        isBodyWeightWorkout: _selectedWorkout!.isBodyWeightWorkout,
-        duration: 0,
-        secondsPerRep: _selectedWorkout!.secondsPerRep,
-        translated: _selectedWorkout!.translated,
-      );
-      await database!.setRoutineWorkout(routine, routineWorkout);
+        final routineWorkout = RoutineWorkout(
+          routineWorkoutId: 'RW$id',
+          workoutId: workout.workoutId,
+          routineId: routine.routineId,
+          routineWorkoutOwnerId: auth!.currentUser!.uid,
+          workoutTitle: workout.workoutTitle,
+          numberOfReps: 0,
+          numberOfSets: 0,
+          totalWeights: 0,
+          index: _index,
+          sets: [],
+          isBodyWeightWorkout: workout.isBodyWeightWorkout,
+          duration: 0,
+          secondsPerRep: workout.secondsPerRep,
+          translated: workout.translated,
+        );
+
+        _routineWorkouts.add(routineWorkout);
+      });
+
+      await database!.batchWriteRoutineWorkouts(routine, _routineWorkouts);
 
       Navigator.of(context).pop();
 

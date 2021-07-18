@@ -326,6 +326,8 @@ class FirestoreService {
     required List<String> path,
     required List<Map<String, dynamic>> data,
   }) async {
+    print('batch init');
+
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {

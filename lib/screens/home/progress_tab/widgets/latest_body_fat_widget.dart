@@ -61,14 +61,12 @@ class LatestBodyFatWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (showWidget) const SizedBox(height: 8),
                   Text(S.current.bodyFat, style: TextStyles.button1),
-                  const SizedBox(height: 4),
                   Text(
                     '$bodyFat %',
                     style: TextStyles.headline5_menlo_bold_secondary,
                   ),
-                  if (showWidget) ..._buildProgressBar(data),
+                  if (showWidget) ..._buildProgressBar(),
                 ],
               ),
             ),
@@ -78,7 +76,7 @@ class LatestBodyFatWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildProgressBar(ProgressTabClass data) {
+  List<Widget> _buildProgressBar() {
     final bool goalExists = data.user.bodyFatPercentageGoal != null;
 
     final Measurement? lastDoc = data.measurements.lastWhereOrNull(

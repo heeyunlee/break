@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class Routine {
   final String routineId;
@@ -111,5 +112,54 @@ class Routine {
       'location': location,
       'thumbnailImageUrl': thumbnailImageUrl,
     };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Routine &&
+        other.routineId == routineId &&
+        other.routineOwnerId == routineOwnerId &&
+        other.routineOwnerUserName == routineOwnerUserName &&
+        other.routineTitle == routineTitle &&
+        other.lastEditedDate == lastEditedDate &&
+        other.routineCreatedDate == routineCreatedDate &&
+        listEquals(other.mainMuscleGroup, mainMuscleGroup) &&
+        listEquals(other.secondMuscleGroup, secondMuscleGroup) &&
+        other.description == description &&
+        other.imageUrl == imageUrl &&
+        other.totalWeights == totalWeights &&
+        other.averageTotalCalories == averageTotalCalories &&
+        other.duration == duration &&
+        listEquals(other.equipmentRequired, equipmentRequired) &&
+        other.trainingLevel == trainingLevel &&
+        other.isPublic == isPublic &&
+        other.initialUnitOfMass == initialUnitOfMass &&
+        other.location == location &&
+        other.thumbnailImageUrl == thumbnailImageUrl;
+  }
+
+  @override
+  int get hashCode {
+    return routineId.hashCode ^
+        routineOwnerId.hashCode ^
+        routineOwnerUserName.hashCode ^
+        routineTitle.hashCode ^
+        lastEditedDate.hashCode ^
+        routineCreatedDate.hashCode ^
+        mainMuscleGroup.hashCode ^
+        secondMuscleGroup.hashCode ^
+        description.hashCode ^
+        imageUrl.hashCode ^
+        totalWeights.hashCode ^
+        averageTotalCalories.hashCode ^
+        duration.hashCode ^
+        equipmentRequired.hashCode ^
+        trainingLevel.hashCode ^
+        isPublic.hashCode ^
+        initialUnitOfMass.hashCode ^
+        location.hashCode ^
+        thumbnailImageUrl.hashCode;
   }
 }

@@ -52,4 +52,29 @@ class UserFeedback {
       'isResolved': isResolved,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is UserFeedback &&
+        other.userFeedbackId == userFeedbackId &&
+        other.userId == userId &&
+        other.username == username &&
+        other.createdDate == createdDate &&
+        other.feedback == feedback &&
+        other.userEmail == userEmail &&
+        other.isResolved == isResolved;
+  }
+
+  @override
+  int get hashCode {
+    return userFeedbackId.hashCode ^
+        userId.hashCode ^
+        username.hashCode ^
+        createdDate.hashCode ^
+        feedback.hashCode ^
+        userEmail.hashCode ^
+        isResolved.hashCode;
+  }
 }

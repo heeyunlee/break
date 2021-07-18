@@ -3,36 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/auth_and_database.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine_model.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
-import 'package:workout_player/widgets/custom_list_tile_3.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
 
+import 'workout_list_tile.dart';
+
 class AddWorkoutsToRoutine extends StatefulWidget {
   final Routine routine;
+  final List<RoutineWorkout> routineWorkouts;
   final AddWorkoutsToRoutineScreenModel model;
+  final AuthAndDatabase authAndDatabase;
 
   const AddWorkoutsToRoutine({
     Key? key,
     required this.routine,
+    required this.routineWorkouts,
     required this.model,
+    required this.authAndDatabase,
   }) : super(key: key);
 
-  static void show(BuildContext context, {required Routine routine}) async {
+  static void show(
+    BuildContext context, {
+    required Routine routine,
+    required List<RoutineWorkout> routineWorkouts,
+    required AuthAndDatabase authAndDatabase,
+  }) async {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
@@ -40,7 +51,9 @@ class AddWorkoutsToRoutine extends StatefulWidget {
         builder: (context) => Consumer(
           builder: (context, watch, child) => AddWorkoutsToRoutine(
             routine: routine,
+            routineWorkouts: routineWorkouts,
             model: watch(addWorkoutsToRoutineScreenModelProvider),
+            authAndDatabase: authAndDatabase,
           ),
         ),
       ),
@@ -55,7 +68,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   @override
   void initState() {
     super.initState();
-    widget.model.initSelectedChip(widget.routine);
+    widget.model.init(widget.routine, widget.authAndDatabase);
   }
 
   @override
@@ -65,51 +78,43 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              snap: false,
-              centerTitle: true,
-              brightness: Brightness.dark,
-              title: Text(S.current.addWorkoutkButtonText, style: kSubtitle1),
-              flexibleSpace: AppbarBlurBG(),
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              bottom: _appBarWidget(context),
-            ),
-          ];
+        headerSliverBuilder: (BuildContext context, _) {
+          return <Widget>[_appBarWidget(context)];
         },
         body: _buildBody(context),
+      ),
+      floatingActionButton: SizedBox(
+        width: size.width - 32,
+        child: FloatingActionButton.extended(
+          onPressed: () => widget.model.addWorkoutsToRoutine(
+            context,
+            widget.routine,
+            widget.routineWorkouts,
+          ),
+          backgroundColor: kPrimaryColor,
+          label: Text(
+            'Add ${widget.model.selectedWorkouts.length} Workouts',
+            style: TextStyles.button1,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: CustomStreamBuilderWidget<List<Workout>>(
-        stream: (widget.model.selectedMainMuscleGroup == 'All')
-            ? database.workoutsStream()
-            : database.workoutsSearchStream(
-                arrayContainsVariableName: 'mainMuscleGroup',
-                arrayContainsValue: widget.model.selectedMainMuscleGroup,
-              ),
+        stream: widget.authAndDatabase.database.workoutsSearchStream(
+          arrayContainsVariableName: 'mainMuscleGroup',
+          arrayContainsValue: widget.model.selectedMainMuscleGroup,
+        ),
         errorWidget: EmptyContent(),
         loadingWidget: ListViewShimmer(),
         hasDataWidget: (context, data) => ListItemBuilder<Workout>(
@@ -133,27 +138,23 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                 ? workout.translated[locale]
                 : workout.workoutTitle;
 
-            return CustomListTile3(
+            return WorkoutListTile(
               tag: 'addWorkout-tag${workout.workoutId}',
               imageUrl: workout.imageUrl,
               isLeadingDuration: false,
               leadingText: leadingText!,
               title: title,
               subtitle: '$difficulty,  ${S.current.usingEquipment(equipment!)}',
-              onTap: () => widget.model.submitRoutineWorkoutData(
-                context,
-                widget.routine,
-                workout,
-              ),
+              selected: widget.model.selectedWorkouts.contains(workout),
+              onTap: () => widget.model.selectWorkout(context, workout),
             );
           },
         ),
-        initialData: [],
       ),
     );
   }
 
-  PreferredSize _appBarWidget(BuildContext context) {
+  Widget _appBarWidget(BuildContext context) {
     final List<String> _mainMuscleGroup = MainMuscleGroup.values[0].list;
     final List<Widget> chips = _mainMuscleGroup.map(
       (e) {
@@ -177,19 +178,33 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
               ),
             ),
             selected: widget.model.selectedMainMuscleGroup == e,
-            onSelected: (selected) => widget.model.onSelected(selected, e),
+            onSelected: (selected) => widget.model.onSelectChoiceChip(
+              selected,
+              e,
+            ),
           ),
         );
       },
     ).toList();
 
-    return PreferredSize(
-      preferredSize: Size.fromHeight(60),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(children: chips),
+    return SliverAppBar(
+      floating: true,
+      pinned: true,
+      snap: false,
+      centerTitle: true,
+      brightness: Brightness.dark,
+      title: Text(S.current.addWorkoutkButtonText, style: kSubtitle1),
+      flexibleSpace: AppbarBlurBG(),
+      backgroundColor: Colors.transparent,
+      leading: AppBarCloseButton(),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(children: chips),
+          ),
         ),
       ),
     );

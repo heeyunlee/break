@@ -86,4 +86,33 @@ class WorkoutSet {
       restIndex: restIndex ?? this.restIndex,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WorkoutSet &&
+        other.workoutSetId == workoutSetId &&
+        other.isRest == isRest &&
+        other.index == index &&
+        other.setTitle == setTitle &&
+        other.weights == weights &&
+        other.reps == reps &&
+        other.restTime == restTime &&
+        other.setIndex == setIndex &&
+        other.restIndex == restIndex;
+  }
+
+  @override
+  int get hashCode {
+    return workoutSetId.hashCode ^
+        isRest.hashCode ^
+        index.hashCode ^
+        setTitle.hashCode ^
+        weights.hashCode ^
+        reps.hashCode ^
+        restTime.hashCode ^
+        setIndex.hashCode ^
+        restIndex.hashCode;
+  }
 }

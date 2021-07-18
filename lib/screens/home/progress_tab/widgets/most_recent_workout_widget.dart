@@ -50,52 +50,52 @@ class MostRecentWorkout extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Stack(
             children: [
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Text(ago, style: TextStyles.overline_grey),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(title, style: TextStyles.body1),
+                  Text(ago, style: TextStyles.overline_grey),
+                ],
               ),
-              FittedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(title, style: TextStyles.body1),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$weight $unit',
-                              style: TextStyles.headline5_menlo_w900_primary,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              S.current.liftedWeights,
-                              style: TextStyles.caption1_grey,
-                            ),
-                          ],
+                        Text(
+                          '$weight $unit',
+                          style: TextStyles.headline5_menlo_w900_primary,
                         ),
-                        Container(
-                          width: 1,
-                          height: 48,
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          color: Colors.white24,
+                        const SizedBox(height: 4),
+                        Text(
+                          S.current.liftedWeights,
+                          style: TextStyles.caption1_grey,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$time ${S.current.minutes}',
-                              style: TextStyles.headline5_menlo_w900_primary,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(S.current.time,
-                                style: TextStyles.caption1_grey),
-                          ],
+                      ],
+                    ),
+                    Container(
+                      width: 1,
+                      height: 48,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      color: Colors.white24,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '$time ${S.current.minutes}',
+                          style: TextStyles.headline5_menlo_w900_primary,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          S.current.time,
+                          style: TextStyles.caption1_grey,
                         ),
                       ],
                     ),

@@ -83,11 +83,12 @@ class PreviewScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      minimumSize: Size(size.width / 2, 48),
+                      minimumSize: Size(size.width - 32, 48),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

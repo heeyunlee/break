@@ -110,31 +110,56 @@ class _SetLiftingGoalScreenState extends State<SetLiftingGoalScreen> {
     return Stack(
       children: [
         Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: widget.model.decrementLiftingGoal,
-                icon: const Icon(
-                  Icons.remove_rounded,
-                  color: Colors.greenAccent,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onLongPressStart:
+                      widget.model.onLongPressStartDecrementLifting,
+                  onLongPressEnd: widget.model.onLongPressEndDecrementLifting,
+                  child: InkWell(
+                    onTap: widget.model.decrementLiftingGoal,
+                    borderRadius: BorderRadius.circular(32),
+                    child: const SizedBox(
+                      width: 64,
+                      height: 64,
+                      child: Icon(
+                        Icons.remove_rounded,
+                        color: Colors.greenAccent,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 32),
-              Text(
-                '$formatted $unit',
-                style: TextStyles.headline4,
-              ),
-              const SizedBox(width: 32),
-              IconButton(
-                onPressed: widget.model.incrementLiftingGoal,
-                icon: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.greenAccent,
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      '$formatted $unit',
+                      style: TextStyles.headline4,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                GestureDetector(
+                  onLongPressStart:
+                      widget.model.onLongPressStartIncrementLifting,
+                  onLongPressEnd: widget.model.onLongPressEndIncrementLifting,
+                  child: InkWell(
+                    onTap: widget.model.incrementLiftingGoal,
+                    borderRadius: BorderRadius.circular(32),
+                    child: const SizedBox(
+                      width: 64,
+                      height: 64,
+                      child: Icon(
+                        Icons.add_rounded,
+                        color: Colors.greenAccent,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         Column(
@@ -142,10 +167,7 @@ class _SetLiftingGoalScreenState extends State<SetLiftingGoalScreen> {
           children: [
             const SizedBox(height: 96),
             Center(
-              child: Text(
-                S.current.liftingGoal,
-                style: TextStyles.headline5,
-              ),
+              child: Text(S.current.liftingGoal, style: TextStyles.headline5),
             ),
           ],
         ),

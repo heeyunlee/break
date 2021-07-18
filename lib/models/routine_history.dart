@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class RoutineHistory {
   final String routineHistoryId;
@@ -122,5 +123,58 @@ class RoutineHistory {
       'equipmentRequired': equipmentRequired,
       'effort': effort,
     };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RoutineHistory &&
+        other.routineHistoryId == routineHistoryId &&
+        other.userId == userId &&
+        other.username == username &&
+        other.routineId == routineId &&
+        other.routineTitle == routineTitle &&
+        other.isPublic == isPublic &&
+        other.workoutStartTime == workoutStartTime &&
+        other.workoutEndTime == workoutEndTime &&
+        other.totalWeights == totalWeights &&
+        other.totalCalories == totalCalories &&
+        other.totalDuration == totalDuration &&
+        other.earnedBadges == earnedBadges &&
+        other.notes == notes &&
+        listEquals(other.mainMuscleGroup, mainMuscleGroup) &&
+        listEquals(other.secondMuscleGroup, secondMuscleGroup) &&
+        other.isBodyWeightWorkout == isBodyWeightWorkout &&
+        other.workoutDate == workoutDate &&
+        other.imageUrl == imageUrl &&
+        other.unitOfMass == unitOfMass &&
+        listEquals(other.equipmentRequired, equipmentRequired) &&
+        other.effort == effort;
+  }
+
+  @override
+  int get hashCode {
+    return routineHistoryId.hashCode ^
+        userId.hashCode ^
+        username.hashCode ^
+        routineId.hashCode ^
+        routineTitle.hashCode ^
+        isPublic.hashCode ^
+        workoutStartTime.hashCode ^
+        workoutEndTime.hashCode ^
+        totalWeights.hashCode ^
+        totalCalories.hashCode ^
+        totalDuration.hashCode ^
+        earnedBadges.hashCode ^
+        notes.hashCode ^
+        mainMuscleGroup.hashCode ^
+        secondMuscleGroup.hashCode ^
+        isBodyWeightWorkout.hashCode ^
+        workoutDate.hashCode ^
+        imageUrl.hashCode ^
+        unitOfMass.hashCode ^
+        equipmentRequired.hashCode ^
+        effort.hashCode;
   }
 }

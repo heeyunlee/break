@@ -406,5 +406,7 @@
     "previewScreenMessage1": "Mark Your Progress",
     "previewScreenMessage2": "Customize Your \nHealth and Fitness Dashboard",
     "previewScreenMessage3": "Keep Progress of \nWhat's Important to You",
-    "previewScreenMessage4": "Workout Seamlessly"
+    "previewScreenMessage4": "Workout Seamlessly",
+    "warning": "Warning",
+    "addWorkoutWaningMessage": "Trying to add 7 workouts at once?! Are you sure? You can't add more than 6 workouts at a time"
 }

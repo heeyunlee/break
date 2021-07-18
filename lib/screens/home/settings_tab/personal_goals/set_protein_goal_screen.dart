@@ -102,22 +102,40 @@ class _SetProteinGoalScreenState extends State<SetProteinGoalScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: widget.model.decrementProteinGoal,
-                icon: const Icon(
-                  Icons.remove_rounded,
-                  color: Colors.greenAccent,
+              GestureDetector(
+                onLongPressStart: widget.model.onLongPressStartDecrementProtein,
+                onLongPressEnd: widget.model.onLongPressEndDecrementProtein,
+                child: InkWell(
+                  onTap: widget.model.decrementProteinGoal,
+                  borderRadius: BorderRadius.circular(32),
+                  child: const SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: Icon(
+                      Icons.remove_rounded,
+                      color: Colors.greenAccent,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 32),
               Text('${widget.model.proteinGoal} g',
                   style: TextStyles.headline4),
               const SizedBox(width: 32),
-              IconButton(
-                onPressed: widget.model.incrementProteinGoal,
-                icon: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.greenAccent,
+              GestureDetector(
+                onLongPressStart: widget.model.onLongPressStartIncrementProtein,
+                onLongPressEnd: widget.model.onLongPressEndIncrementProtein,
+                child: InkWell(
+                  onTap: widget.model.incrementProteinGoal,
+                  borderRadius: BorderRadius.circular(32),
+                  child: const SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: Icon(
+                      Icons.add_rounded,
+                      color: Colors.greenAccent,
+                    ),
+                  ),
                 ),
               ),
             ],

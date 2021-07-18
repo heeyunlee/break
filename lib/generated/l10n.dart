@@ -4129,6 +4129,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message(
+      'Warning',
+      name: 'warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trying to add 7 workouts at once?! Are you sure? You can't add more than 6 workouts at a time`
+  String get addWorkoutWaningMessage {
+    return Intl.message(
+      'Trying to add 7 workouts at once?! Are you sure? You can\'t add more than 6 workouts at a time',
+      name: 'addWorkoutWaningMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
