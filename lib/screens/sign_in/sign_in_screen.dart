@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 
@@ -69,7 +70,12 @@ class SignInScreen extends ConsumerWidget {
         ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: model.isLoading ? null : () => Navigator.of(context).pop(),
+          onPressed: model.isLoading
+              ? null
+              : () {
+                  HapticFeedback.mediumImpact();
+                  Navigator.of(context).pop();
+                },
         ),
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
@@ -110,11 +116,14 @@ class SignInScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/logos/herakles_icon.png',
-                            width: size.width / 2,
+                          Hero(
+                            tag: 'logo',
+                            child: SvgPicture.asset(
+                              'assets/svgs/herakles_icon.svg',
+                              width: 72,
+                            ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 40),
                           const Text(
                             'Herakles: Workout Player',
                             style: kSubtitle1Menlo,

@@ -346,10 +346,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please Add your first name"),
         "firstSignInSnackbarMessage": m3,
         "fullBody": MessageLookupByLibrary.simpleMessage("Full Body"),
+        "getStarted": MessageLookupByLibrary.simpleMessage("GET STARTED"),
         "glutes": MessageLookupByLibrary.simpleMessage("Glutes"),
         "gym": MessageLookupByLibrary.simpleMessage("Gym"),
         "gymBall": MessageLookupByLibrary.simpleMessage("Gym Ball"),
         "hamstring": MessageLookupByLibrary.simpleMessage("Hamstring"),
+        "herakles": MessageLookupByLibrary.simpleMessage("Herakles"),
         "history": MessageLookupByLibrary.simpleMessage("History"),
         "homeTabEmptyMessage":
             MessageLookupByLibrary.simpleMessage("Nothing\'s here..."),
@@ -441,6 +443,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInformation":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
+        "previewScreenMessage1":
+            MessageLookupByLibrary.simpleMessage("Mark Your Progress"),
+        "previewScreenMessage2": MessageLookupByLibrary.simpleMessage(
+            "Customize Your \nHealth and Fitness Dashboard"),
+        "previewScreenMessage3": MessageLookupByLibrary.simpleMessage(
+            "Keep Progress of \nWhat\'s Important to You"),
+        "previewScreenMessage4":
+            MessageLookupByLibrary.simpleMessage("Workout Seamlessly"),
         "previewWidgetFirstSubtitle":
             MessageLookupByLibrary.simpleMessage("Workout, Record, and Share"),
         "previewWidgetFirstTitle":

@@ -1,34 +1,24 @@
-import 'dart:io';
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/preview/widgets/preview_widget.dart';
-import 'package:workout_player/screens/preview/preview_screen_provider.dart';
-import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/styles/button_styles.dart';
+import 'package:workout_player/screens/preview/preview_screen_model.dart';
+import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
-import 'widgets/app_preview_widget.dart';
-import 'widgets/second_preview_widget_child.dart';
-import 'widgets/third_preview_widget_child.dart';
+import 'widgets/blurred_background_preview_widget.dart';
 
 class PreviewScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('Preview Screen building...');
-
     final model = watch(previewScreenModelProvider);
 
-    final os = Platform.operatingSystem;
-    final locale = Intl.getCurrentLocale();
-    final osLocale = os + locale;
+    logger.d('Preview Screen building...');
 
     final size = MediaQuery.of(context).size;
 
@@ -39,96 +29,77 @@ class PreviewScreen extends ConsumerWidget {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          PageView(
-            controller: model.pageController,
-            onPageChanged: model.setCurrentPage,
-            children: <Widget>[
-              // First Preview
-              PreviewWidget(
-                title: S.current.previewWidgetFirstTitle,
-                subtitle: S.current.previewWidgetFirstSubtitle,
-                child: SvgPicture.asset(
-                  'assets/images/preview_screen_image_1.svg',
-                ),
-              ),
-
-              // Second Preview
-              PreviewWidget(
-                title: S.current.previewWidgetSecondTitle,
-                subtitle: S.current.previewWidgetSecondSubtitle,
-                child: SecondPreviewWidgetChild(),
-              ),
-
-              // Third Preview
-              PreviewWidget(
-                title: S.current.previewWidgetThirdTitle,
-                subtitle: S.current.previewWidgetThirdSubtitle,
-                child: ThirdPreviewWidgetChild(),
-              ),
-
-              // Last Preview: Workout Player
-              AppPreviewWidget(
-                imageRoot: PreviewScreenModel.previewImage[osLocale]![3],
-                subtitle: S.current.WorkoutSeamlesslyWithWorkoutPlayer,
-              ),
-            ],
-          ),
+          BlurredBackgroundPreviewWidget(),
           SafeArea(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            child: Column(
               children: [
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 100,
-                  child: TextButton(
-                    style: ButtonStyles.text1,
-                    onPressed: () => SignInScreen.show(context),
-                    child: Text(S.current.skip),
+                SizedBox(height: size.height / 20),
+                Hero(
+                  tag: 'logo',
+                  child: SvgPicture.asset(
+                    'assets/svgs/herakles_icon.svg',
+                    height: 40,
+                    width: 40,
                   ),
                 ),
-                SizedBox(
-                  width: size.width - 216,
-                  height: 48,
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: model.pageController,
-                      count: 4,
-                      effect: const WormEffect(
-                        activeDotColor: kPrimaryColor,
-                        dotHeight: 9,
-                        dotWidth: 9,
-                        spacing: 10,
+                SizedBox(height: size.height / 20),
+                VisibilityDetector(
+                  key: Key('preview-widgets'),
+                  onVisibilityChanged: model.onVisibilityChanged,
+                  child: SizedBox(
+                    height: size.width,
+                    width: size.width,
+                    child: AnimatedSwitcher(
+                      duration: Duration(seconds: 1),
+                      transitionBuilder: (child, animation) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
+                      child: model.currentWidget,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: size.height / 10,
+                    child: DefaultTextStyle(
+                      textAlign: TextAlign.center,
+                      style: TextStyles.headline6,
+                      child: AnimatedTextKit(
+                        repeatForever: true,
+                        animatedTexts: [
+                          RotateAnimatedText(S.current.previewScreenMessage1),
+                          RotateAnimatedText(
+                            S.current.previewScreenMessage2,
+                            textAlign: TextAlign.center,
+                          ),
+                          RotateAnimatedText(
+                            S.current.previewScreenMessage3,
+                            textAlign: TextAlign.center,
+                          ),
+                          RotateAnimatedText(S.current.previewScreenMessage4),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 100,
-                  child: TextButton(
-                    style: ButtonStyles.text1_google,
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-
-                      if (model.currentPage < 3) {
-                        model.incrementCurrentPage();
-                        model.pageController.animateToPage(
-                          model.currentPage,
-                          duration: Duration(milliseconds: 350),
-                          curve: Curves.easeInOut,
-                        );
-                      } else {
-                        SignInScreen.show(context);
-                      }
-                    },
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: Size(size.width / 2, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      side: BorderSide(width: 1.5, color: kPrimaryColor),
+                    ),
+                    onPressed: () => SignInScreen.show(context),
                     child: Text(
-                      (model.currentPage == 3)
-                          ? S.current.start
-                          : S.current.next,
+                      S.current.getStarted,
                       style: TextStyles.button1,
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
               ],
             ),
           ),

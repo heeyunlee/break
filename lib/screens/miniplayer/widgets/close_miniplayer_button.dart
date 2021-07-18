@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -27,6 +28,8 @@ class CloseMiniplayerButton extends StatelessWidget {
 
         model.setIndexesToDefault();
         model.setRestTime(null);
+
+        model.miniplayerController.animateToHeight(state: PanelState.MIN);
 
         getSnackbarWidget(
           S.current.cancelWorkoutSnackbarTitle,

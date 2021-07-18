@@ -79,6 +79,13 @@ class ButtonStyles {
     side: BorderSide(width: 2, color: kPrimaryColor),
   );
 
+  static final outlined_medium_size = OutlinedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    side: BorderSide(width: 2, color: kPrimaryColor),
+  );
+
   static final elevated1 = ElevatedButton.styleFrom(
     primary: kPrimaryColor,
     shape: RoundedRectangleBorder(

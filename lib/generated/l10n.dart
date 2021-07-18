@@ -4069,6 +4069,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Herakles`
+  String get herakles {
+    return Intl.message(
+      'Herakles',
+      name: 'herakles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GET STARTED`
+  String get getStarted {
+    return Intl.message(
+      'GET STARTED',
+      name: 'getStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark Your Progress`
+  String get previewScreenMessage1 {
+    return Intl.message(
+      'Mark Your Progress',
+      name: 'previewScreenMessage1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize Your \nHealth and Fitness Dashboard`
+  String get previewScreenMessage2 {
+    return Intl.message(
+      'Customize Your \nHealth and Fitness Dashboard',
+      name: 'previewScreenMessage2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep Progress of \nWhat's Important to You`
+  String get previewScreenMessage3 {
+    return Intl.message(
+      'Keep Progress of \nWhat\'s Important to You',
+      name: 'previewScreenMessage3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout Seamlessly`
+  String get previewScreenMessage4 {
+    return Intl.message(
+      'Workout Seamlessly',
+      name: 'previewScreenMessage4',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

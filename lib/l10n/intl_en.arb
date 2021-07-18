@@ -400,5 +400,11 @@
     "noSavedWorkoutsYet": "No saved workouts yet...",
     "wokroutsThisWeek": "This Week's Workouts",
     "changeBackground": "Change Your Background!",
-    "changeBackgroundFeatureDescription": "You can choose different backgrounds for this tab using this button"
+    "changeBackgroundFeatureDescription": "You can choose different backgrounds for this tab using this button",
+    "herakles": "Herakles",
+    "getStarted": "GET STARTED",
+    "previewScreenMessage1": "Mark Your Progress",
+    "previewScreenMessage2": "Customize Your \nHealth and Fitness Dashboard",
+    "previewScreenMessage3": "Keep Progress of \nWhat's Important to You",
+    "previewScreenMessage4": "Workout Seamlessly"
 }

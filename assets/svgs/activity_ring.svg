@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="486" height="256" viewBox="0 0 486 256">
+  <g fill="none" fill-rule="evenodd" transform="translate(8 8)">
+    <g transform="translate(280 38)">
+      <g transform="translate(0 38)">
+        <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="31" letter-spacing="1.409">
+          <tspan x="157.427" y="29">kg</tspan>
+        </text>
+        <g transform="translate(129)">
+          <rect width="24" height="36" fill="#DD4124"/>
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+            <tspan x="1.64" y="32">0</tspan>
+          </text>
+        </g>
+        <g transform="translate(101)">
+          <rect width="24" height="36" fill="#DD4124"/>
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+            <tspan x="1.64" y="32">5</tspan>
+          </text>
+        </g>
+        <g transform="translate(73)">
+          <rect width="24" height="36" fill="#DD4124"/>
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+            <tspan x="1.64" y="32">1</tspan>
+          </text>
+        </g>
+        <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="31" letter-spacing="1.409">
+          <tspan x="52.464" y="29">,</tspan>
+        </text>
+        <g transform="translate(28)">
+          <rect width="24" height="36" fill="#DD4124"/>
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+            <tspan x="1.64" y="32">0</tspan>
+          </text>
+        </g>
+        <rect width="24" height="36" fill="#DD4124"/>
+        <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+          <tspan x="1.64" y="32">1</tspan>
+        </text>
+      </g>
+      <text fill="#FFF" font-family="NanumSquareRoundR, NanumSquareRound" font-size="20" letter-spacing=".15">
+        <tspan x="0" y="17">들어올린 중량</tspan>
+      </text>
+      <g transform="translate(0 90)">
+        <g transform="translate(0 38)">
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="31" letter-spacing="1.409">
+            <tspan x="84.464" y="29">g</tspan>
+          </text>
+          <g transform="translate(56)">
+            <rect width="24" height="36" fill="#69F0AE"/>
+            <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+              <tspan x="1.64" y="32">0</tspan>
+            </text>
+          </g>
+          <g transform="translate(28)">
+            <rect width="24" height="36" fill="#69F0AE"/>
+            <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+              <tspan x="1.64" y="32">5</tspan>
+            </text>
+          </g>
+          <rect width="24" height="36" fill="#69F0AE"/>
+          <text fill="#FFF" font-family="Menlo-Regular, Menlo" font-size="34" letter-spacing=".25">
+            <tspan x="1.64" y="32">1</tspan>
+          </text>
+        </g>
+        <text fill="#FFF" font-family="NanumSquareRoundR, NanumSquareRound" font-size="20" letter-spacing=".15">
+          <tspan x="0" y="17">단백질</tspan>
+        </text>
+      </g>
+    </g>
+    <g stroke-width="16">
+      <circle cx="120" cy="120" r="120" stroke="#DD4124" opacity=".25"/>
+      <path stroke="#DD4124" stroke-linecap="round" d="M56.7282734,18.0165634 C22.672155,39.1902156 0,76.947425 0,120 C0,186.27417 53.72583,240 120,240 C186.27417,240 240,186.27417 240,120 C240,53.72583 186.27417,0 120,0"/>
+      <circle cx="119.442" cy="120.558" r="91.535" stroke="#69F0AE" opacity=".25"/>
+      <path stroke="#69F0AE" stroke-linecap="round" d="M28.0358227,115.659389 C27.9502851,117.281471 27.9069767,118.914748 27.9069767,120.55814 C27.9069767,171.11146 68.8885401,212.093023 119.44186,212.093023 C169.995181,212.093023 210.976744,171.11146 210.976744,120.55814 C210.976744,70.0048192 169.995181,29.0232558 119.44186,29.0232558"/>
+    </g>
+    <text fill="#FFF" font-family="NanumSquareRoundR, NanumSquareRound" font-size="60" letter-spacing="-.5">
+      <tspan x="92" y="138">등</tspan>
+    </text>
+  </g>
+</svg>

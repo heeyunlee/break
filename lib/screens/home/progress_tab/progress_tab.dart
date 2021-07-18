@@ -15,7 +15,6 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../../styles/constants.dart';
-import 'customize_widgets/customize_widgets_button.dart';
 import 'progress_tab_model.dart';
 import 'widgets/blurred_background.dart';
 import 'choose_background/choose_background_button.dart';

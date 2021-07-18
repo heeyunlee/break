@@ -5,8 +5,8 @@ import 'package:workout_player/screens/home/progress_tab/widgets/daily_activity_
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-class SecondPreviewWidgetChild extends StatelessWidget {
-  const SecondPreviewWidgetChild({Key? key}) : super(key: key);
+class ActivityRingPreviewWidget extends StatelessWidget {
+  const ActivityRingPreviewWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SecondPreviewWidgetChild extends StatelessWidget {
               width: size.width / 5,
               child: FittedBox(
                 alignment: Alignment.center,
-                child: const Text('가슴', style: TextStyles.headline5_w900),
+                child: Text(S.current.chest, style: TextStyles.headline5_w900),
               ),
             ),
             CircularPercentIndicator(
@@ -58,26 +58,30 @@ class SecondPreviewWidgetChild extends StatelessWidget {
             SizedBox(height: size.height / 16),
             SizedBox(
               height: size.height / 16,
-              child: DailySummaryNumbersWidget(
-                title: S.current.liftedWeights,
-                tensOfTousands: '1',
-                thousands: '2',
-                hundreds: '5',
-                tens: '9',
-                ones: '0',
-                unit: 'kg',
+              child: FittedBox(
+                child: DailySummaryNumbersWidget(
+                  title: S.current.liftedWeights,
+                  tensOfTousands: '1',
+                  thousands: '2',
+                  hundreds: '5',
+                  tens: '9',
+                  ones: '0',
+                  unit: 'kg',
+                ),
               ),
             ),
             SizedBox(
               height: size.height / 16,
-              child: DailySummaryNumbersWidget(
-                title: S.current.proteins,
-                backgroundColor: Colors.greenAccent,
-                textStyle: kBodyText1Menlo,
-                hundreds: '1',
-                tens: '3',
-                ones: '0',
-                unit: 'g',
+              child: FittedBox(
+                child: DailySummaryNumbersWidget(
+                  title: S.current.proteins,
+                  backgroundColor: Colors.greenAccent,
+                  textStyle: kBodyText1Menlo,
+                  hundreds: '1',
+                  tens: '3',
+                  ones: '0',
+                  unit: 'g',
+                ),
               ),
             ),
             SizedBox(height: size.height / 16),

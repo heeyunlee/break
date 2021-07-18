@@ -318,10 +318,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("이름을 입력해 주세요"),
         "firstSignInSnackbarMessage": m3,
         "fullBody": MessageLookupByLibrary.simpleMessage("전신"),
+        "getStarted": MessageLookupByLibrary.simpleMessage("시작하기"),
         "glutes": MessageLookupByLibrary.simpleMessage("둔근"),
         "gym": MessageLookupByLibrary.simpleMessage("헬스장"),
         "gymBall": MessageLookupByLibrary.simpleMessage("짐 볼"),
         "hamstring": MessageLookupByLibrary.simpleMessage("햄스트링"),
+        "herakles": MessageLookupByLibrary.simpleMessage("헤라클레스"),
         "history": MessageLookupByLibrary.simpleMessage("기록"),
         "homeTabEmptyMessage":
             MessageLookupByLibrary.simpleMessage("아무것도 없어요..."),
@@ -406,6 +408,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalGoals": MessageLookupByLibrary.simpleMessage("개인 목표"),
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
+        "previewScreenMessage1":
+            MessageLookupByLibrary.simpleMessage("운동을 기록하세요"),
+        "previewScreenMessage2": MessageLookupByLibrary.simpleMessage(
+            "다양한 위젯으로 피트니스 대시보드를 \n커스터마이징 해 보세요"),
+        "previewScreenMessage3":
+            MessageLookupByLibrary.simpleMessage("나에게 중요하고 \n필요한 목표들을 확인하세요"),
+        "previewScreenMessage4":
+            MessageLookupByLibrary.simpleMessage("즐거운 운동하세요!"),
         "previewWidgetFirstSubtitle":
             MessageLookupByLibrary.simpleMessage("운동하고, 기록하고, 공유하세요"),
         "previewWidgetFirstTitle":

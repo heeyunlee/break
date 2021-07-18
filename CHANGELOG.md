@@ -6,6 +6,9 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0. I d
 ### New Features
 - Added Weekly Workout Widget (smaller and simpler version than before)
 - Enabled users to reorder progress tab's widgets using reorderables package
+- Added Recent Workout Wiget
+- Added Recent Body Fat Widget and Bodyweight widget
+- Changed preview widget (remove pageview and use AnimatedSwitcher to automatically showcase different widgets every 4 seconds)
 
 ### Bug Fix & Refactor
 - Refactored CreateNewRoutineScreen with ChangeNotifierProvider (riverpod)
