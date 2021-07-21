@@ -10,6 +10,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Added Recent Body Fat Widget and Bodyweight widget
 - Changed preview widget (remove pageview and use AnimatedSwitcher to automatically showcase different widgets every 4 seconds)
 - Enabled users to add multiple workouts to routine at once
+- Enabed users to add or remove progress tab widgets
 
 ### Bug Fix & Refactor
 - Refactored CreateNewRoutineScreen with ChangeNotifierProvider (riverpod)
@@ -18,6 +19,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Stopped using implicitly_animated_reorderable_list because of an error
 - Fixed layour problems with smaller-screened phones
 - Refactored RoutineWorkoutCard and WorkoutSetWidget with ChangeNotifierProvider (riverpod)
+- Changed ui of charts when there is no data
 
 ## [0.3.2] - July 13th, 2021
 ### New Feautres

@@ -79,30 +79,6 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   Widget _buildBody() {
     final locale = Intl.getCurrentLocale();
 
-    // bool _showEmailErrorText = widget.model.isLoading &&
-    //     !widget.validator
-    //         .isEmailValid(widget.model.emailEditingController.text);
-    // String? _emailErrorText =
-    //     _showEmailErrorText ? widget.invalidEmailText : null;
-
-    // bool _showFirstNameErrorText = widget.model.isLoading &&
-    //     !widget.validator
-    //         .isFirstNameValid(widget.model.firstNameEditingController.text);
-    // String? _firstNameErrorText =
-    //     _showFirstNameErrorText ? S.current.firstNameValidationText : null;
-
-    // bool _showLastNameErrorText = widget.model.isLoading &&
-    //     !widget.validator
-    //         .isLastNameValid(widget.model.lastNameEditingController.text);
-    // String? _lastNameErrorText =
-    //     _showLastNameErrorText ? S.current.lastNameValidationText : null;
-
-    // bool _showPaswordErrorText = widget.model.isLoading &&
-    //     !widget.validator
-    //         .isPasswordValid(widget.model.passwordEditingController.text);
-    // String? _passwordErrorText =
-    //     _showPaswordErrorText ? widget.emptyPasswordText : null;
-
     return KeyboardActions(
       config: _buildConfig(),
       child: SingleChildScrollView(

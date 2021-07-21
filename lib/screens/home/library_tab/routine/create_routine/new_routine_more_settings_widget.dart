@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/classes/enum/location.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -34,7 +34,7 @@ class NewRoutineMoreSettingsWidget extends StatelessWidget {
                     size: 20,
                   ),
                   const SizedBox(width: 8),
-                  Text(S.current.location, style: kHeadline6Bold),
+                  Text(S.current.location, style: TextStyles.headline6_bold),
                 ],
               ),
             ),
@@ -83,7 +83,7 @@ class NewRoutineMoreSettingsWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 '${S.current.difficulty}: ${model.routineDifficultyLabel}',
-                style: kHeadline6Bold,
+                style: TextStyles.headline6_bold,
               ),
             ),
             Card(

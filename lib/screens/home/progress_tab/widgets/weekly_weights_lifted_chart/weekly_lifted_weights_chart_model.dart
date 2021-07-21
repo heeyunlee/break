@@ -1,10 +1,12 @@
 import 'dart:math' as math;
 
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/classes/user.dart';
 
 final weeklyLiftedWeightsChartModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyLiftedWeightsChartModel(),
@@ -15,11 +17,13 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
+  int? _touchedIndex;
 
   num get weightsLiftedMaxY => _weightsLiftedMaxY;
   List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   List<double> get relativeYs => _relativeYs;
+  int? get touchedIndex => _touchedIndex;
 
   void init() {
     DateTime now = DateTime.now();
@@ -38,8 +42,6 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
   }
 
   void setData(List<RoutineHistory> routineHistories, User user) {
-    debugPrint('setData method called');
-
     Map<DateTime, List<RoutineHistory>> _mapData;
     List<num> listOfYs = [];
     List<double> relatives = [];
@@ -87,5 +89,16 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
     } else {
       _relativeYs = [];
     }
+  }
+
+  void onTouchCallback(BarTouchResponse barTouchResponse) {
+    if (barTouchResponse.spot != null &&
+        barTouchResponse.touchInput is! PointerUpEvent &&
+        barTouchResponse.touchInput is! PointerExitEvent) {
+      _touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+    } else {
+      _touchedIndex = -1;
+    }
+    notifyListeners();
   }
 }

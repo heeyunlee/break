@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/classes/workout.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class WorkoutTitleWidget extends StatelessWidget {
   final Workout workout;
@@ -31,7 +31,7 @@ class WorkoutTitleWidget extends StatelessWidget {
     final title = workout.translated[locale] ?? workout.workoutTitle;
 
     if (isAppBarTitle) {
-      return Center(child: Text(title, style: kSubtitle1));
+      return Center(child: Text(title, style: TextStyles.subtitle1));
     } else {
       if (title.length < 21) {
         return Text(

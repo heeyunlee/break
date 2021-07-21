@@ -31,7 +31,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: const Text('Language Preference', style: kSubtitle1),
+        title: Text(S.current.languagePreference, style: TextStyles.subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

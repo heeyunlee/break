@@ -54,6 +54,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline4_w900 = TextStyle(
+    fontSize: 34,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
   static const headline4_menlo_w900_primary = TextStyle(
     fontSize: 34,
     fontWeight: FontWeight.w900,
@@ -142,10 +150,26 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline6_bold = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
   static const headline6_grey = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
     color: Colors.grey,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const headline6_w900 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
@@ -166,10 +190,31 @@ class TextStyles {
     fontFamily: menlo,
   );
 
+  /// Subtitle 1 Text Styles
+  ///
+  /// Basic Settings
+  /// `fontSize` = 16,
+  /// `letterSpacing` = 0.15
+  static const subtitle1 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
   static const subtitle2 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.white,
+    letterSpacing: 0.1,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle2_grey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey,
     letterSpacing: 0.1,
     fontFamily: defaultFontFamily,
   );
@@ -388,6 +433,14 @@ class TextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: kPrimaryColor,
+    letterSpacing: 0.4,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const caption1_black = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
     letterSpacing: 0.4,
     fontFamily: defaultFontFamily,
   );

@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -13,8 +13,8 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -207,7 +207,7 @@ class _EditRoutineMainMuscleGroupScreenState
             }
           },
         ),
-        title: Text(S.current.mainMuscleGroup, style: kSubtitle1),
+        title: Text(S.current.mainMuscleGroup, style: TextStyles.subtitle1),
         flexibleSpace: AppbarBlurBG(),
       ),
       body: SingleChildScrollView(

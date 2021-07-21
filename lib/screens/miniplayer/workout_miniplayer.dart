@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/miniplayer/widgets/empty_workout_set_widget.dart';
 import 'package:workout_player/screens/miniplayer/widgets/expanded_miniplayer_title.dart';
 import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_button.dart';

@@ -67,10 +67,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
             Navigator.of(context).pop();
             widget.model.toggleSubmitted();
           },
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
+          icon: const Icon(Icons.arrow_back_rounded),
         ),
       ),
       body: _buildBody(),

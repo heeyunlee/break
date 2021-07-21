@@ -9,8 +9,8 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 
 class EditUnitOfMassScreen extends StatefulWidget {
@@ -90,7 +90,7 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
       appBar: AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.unitOfMass, style: kSubtitle1),
+        title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

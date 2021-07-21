@@ -15,9 +15,9 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 

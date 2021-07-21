@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/workout_set.dart';
 
 final ValueNotifier<double> miniplayerExpandProgress =
     ValueNotifier(miniplayerMinHeight);

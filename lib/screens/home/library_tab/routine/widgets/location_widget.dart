@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class LocationWidget extends StatelessWidget {

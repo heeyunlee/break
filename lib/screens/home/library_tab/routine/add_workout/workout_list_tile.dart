@@ -6,30 +6,20 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class WorkoutListTile extends StatelessWidget {
-  final Object tag;
   final String imageUrl;
   final String title;
   final String leadingText;
   final String subtitle;
-  final String? kSubtitle2;
   final void Function()? onTap;
-  final void Function()? onLongTap;
-  final Widget? trailingIconButton;
-  final bool isLeadingDuration;
   final bool selected;
 
   const WorkoutListTile({
     Key? key,
-    required this.tag,
     required this.imageUrl,
     required this.title,
     required this.leadingText,
     required this.subtitle,
-    this.kSubtitle2,
     this.onTap,
-    this.onLongTap,
-    this.trailingIconButton,
-    this.isLeadingDuration = false,
     required this.selected,
   }) : super(key: key);
 
@@ -78,14 +68,6 @@ class WorkoutListTile extends StatelessWidget {
                           softWrap: false,
                         ),
                         const SizedBox(height: 4),
-                        if (kSubtitle2 != null)
-                          Text(
-                            kSubtitle2 ?? 'Subtitle 2',
-                            style: TextStyles.caption1_grey,
-                            maxLines: 1,
-                            overflow: TextOverflow.fade,
-                            softWrap: false,
-                          ),
                       ],
                     ),
                   ),
@@ -127,11 +109,6 @@ class WorkoutListTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isLeadingDuration)
-                  const Text(
-                    'min',
-                    style: TextStyles.headline6,
-                  ),
               ],
             ),
           ),

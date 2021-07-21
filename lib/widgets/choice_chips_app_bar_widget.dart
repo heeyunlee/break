@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
-import '../models/enum/main_muscle_group.dart';
+import '../classes/enum/main_muscle_group.dart';
 
 class ChoiceChipsAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {

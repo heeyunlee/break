@@ -9,7 +9,7 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -156,7 +156,10 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.editDisplayNameTitle, style: kSubtitle1),
+        title: Text(
+          S.current.editDisplayNameTitle,
+          style: TextStyles.subtitle1,
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

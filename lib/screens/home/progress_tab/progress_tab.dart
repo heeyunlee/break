@@ -7,14 +7,15 @@ import 'package:provider/provider.dart' as provider;
 import 'package:reorderables/reorderables.dart';
 
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/models/auth_and_database.dart';
-import 'package:workout_player/models/progress_tab_class.dart';
+import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/progress_tab_class.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../../styles/constants.dart';
+import 'customize_widgets/customize_widgets_button.dart';
 import 'progress_tab_model.dart';
 import 'widgets/blurred_background.dart';
 import 'choose_background/choose_background_button.dart';
@@ -97,10 +98,13 @@ class _ProgressTabState extends State<ProgressTab>
               backgroundColor: Colors.transparent,
               leading: ChooseBackgroundButton(user: progressTabClass.user),
               title: ChooseDateIconButton(model: widget.model),
-              // actions: [
-              //   CustomizeWidgetsButton(),
-              //   const SizedBox(width: 8),
-              // ],
+              actions: [
+                CustomizeWidgetsButton(
+                  user: progressTabClass.user,
+                  authAndDatabase: widget.authAndDatabase,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             body: Builder(
               builder: (context) => _buildChildWidget(

@@ -2,123 +2,119 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/progress_tab_class.dart';
+import 'package:workout_player/classes/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
-import '../../progress_tab_model.dart';
+import 'daily_activity_ring_widget_model.dart';
 import 'daily_summary_numbers_widget.dart';
 
 class DailyActivityRingWidget extends StatelessWidget {
   final BoxConstraints constraints;
   final ProgressTabClass progressTabClass;
-  final ProgressTabModel model;
 
   const DailyActivityRingWidget({
     Key? key,
     required this.constraints,
     required this.progressTabClass,
-    required this.model,
   }) : super(key: key);
-
-  static Widget create(
-    BuildContext context, {
-    Key? key,
-    required BoxConstraints constraints,
-    required ProgressTabClass progressTabClass,
-  }) {
-    return Consumer(
-      key: key,
-      builder: (context, watch, child) => DailyActivityRingWidget(
-        constraints: constraints,
-        progressTabClass: progressTabClass,
-        model: watch(progressTabModelProvider),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final heightFactor = (constraints.maxHeight > 600) ? 4 : 3.5;
 
-    model.setDailyGoal(progressTabClass.user);
-    model.setDailyTotal(
-      progressTabClass.selectedDayNutritions,
-      progressTabClass.selectedDayRoutineHistories,
-    );
-
     return SizedBox(
       width: constraints.maxWidth,
       height: constraints.maxHeight / heightFactor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: constraints.maxWidth / 2 - 16,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (model.todaysMuscleWorked == '-')
-                  Text('-', style: TextStyles.headline5_w900),
-                if (model.todaysMuscleWorked != '-')
-                  SizedBox(
-                    width: constraints.maxWidth / 5,
-                    child: FittedBox(
-                      alignment: Alignment.center,
-                      child: Text(
-                        model.todaysMuscleWorked,
-                        style: TextStyles.headline5_w900,
+      child: Consumer(
+        builder: (context, watch, child) {
+          final model = watch(dailyActivityRingWidgetModelProvider);
+
+          model.setDailyGoal(progressTabClass.user);
+          model.setDailyTotal(
+            progressTabClass.selectedDayNutritions,
+            progressTabClass.selectedDayRoutineHistories,
+          );
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: constraints.maxWidth / 2 - 16,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    _buildMuscleWorked(model),
+                    CircularPercentIndicator(
+                      radius: (constraints.maxWidth / 2 * 0.65),
+                      lineWidth: 12,
+                      percent: model.nutritionDailyProgress,
+                      backgroundColor: Colors.greenAccent.withOpacity(0.25),
+                      progressColor: Colors.greenAccent,
+                      animation: true,
+                      animationDuration: 1000,
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                    FittedBox(
+                      child: CircularPercentIndicator(
+                        radius: (constraints.maxWidth - 48) / 2,
+                        lineWidth: 12,
+                        percent: model.weightsLiftedDailyProgress,
+                        backgroundColor: kPrimaryColor.withOpacity(0.25),
+                        progressColor: kPrimaryColor,
+                        animation: true,
+                        animationDuration: 1000,
+                        circularStrokeCap: CircularStrokeCap.round,
                       ),
                     ),
-                  ),
-                CircularPercentIndicator(
-                  radius: (constraints.maxWidth / 2 * 0.65),
-                  lineWidth: 12,
-                  percent: model.nutritionDailyProgress,
-                  backgroundColor: Colors.greenAccent.withOpacity(0.25),
-                  progressColor: Colors.greenAccent,
-                  animation: true,
-                  animationDuration: 1000,
-                  circularStrokeCap: CircularStrokeCap.round,
+                  ],
                 ),
-                FittedBox(
-                  child: CircularPercentIndicator(
-                    radius: (constraints.maxWidth - 48) / 2,
-                    lineWidth: 12,
-                    percent: model.weightsLiftedDailyProgress,
-                    backgroundColor: kPrimaryColor.withOpacity(0.25),
-                    progressColor: kPrimaryColor,
-                    animation: true,
-                    animationDuration: 1000,
-                    circularStrokeCap: CircularStrokeCap.round,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: constraints.maxWidth / 2 - 16,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildTotalWeightsWidget(),
-                  const SizedBox(height: 8),
-                  _buildTotalNutritionWidget(),
-                ],
               ),
-            ),
-          ),
-        ],
+              SizedBox(
+                width: constraints.maxWidth / 2 - 16,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildTotalWeightsWidget(model),
+                      const SizedBox(height: 8),
+                      _buildTotalNutritionWidget(model),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildTotalWeightsWidget() {
+  Widget _buildMuscleWorked(DailyActivityRingWidgetModel model) {
+    if (model.todaysMuscleWorked[0].length == 1) {
+      return Text(
+        model.todaysMuscleWorked[0],
+        style: TextStyles.headline4_w900,
+      );
+    } else {
+      return SizedBox(
+        width: constraints.maxWidth / 5,
+        child: FittedBox(
+          alignment: Alignment.center,
+          child: Text(
+            model.todaysMuscleWorked[0],
+            style: TextStyles.headline5_w900,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildTotalWeightsWidget(DailyActivityRingWidgetModel model) {
     String? tensOfThousands;
     String? thousands;
     String? hundreds;
@@ -147,19 +143,17 @@ class DailyActivityRingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalNutritionWidget() {
+  Widget _buildTotalNutritionWidget(DailyActivityRingWidgetModel model) {
     String? hundreds;
     String? tens;
     String? ones;
 
-    // if (data != null) {
     int length = model.nutritionDailyTotal.toString().length - 1;
     String totalProteinsInString = model.nutritionDailyTotal.toString();
 
     ones = totalProteinsInString[length];
     tens = (length > 0) ? totalProteinsInString[length - 1] : '0';
     hundreds = (length > 1) ? totalProteinsInString[length - 2] : '0';
-    // }
 
     return DailySummaryNumbersWidget(
       title: S.current.proteins,

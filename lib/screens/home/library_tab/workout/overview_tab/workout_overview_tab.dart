@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class WorkoutOverviewTab extends StatelessWidget {

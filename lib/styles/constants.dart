@@ -37,28 +37,6 @@ const kDisabledColor = Color(0xff9A9EA6);
 const kFocusedColor = Color(0xff605350);
 const kBottomNavBarColor = Color(0xff1C1C1C);
 
-// TEXT STYLE //
-const kHeadline6Grey = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w500,
-  color: Colors.grey,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline6Bold = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
-const kHeadline6w900 = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w900,
-  color: Colors.white,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
 const kHeadline6w900Grey = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
@@ -77,13 +55,6 @@ const kHeadline6w900Red = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: Colors.red,
-  letterSpacing: 0.15,
-  fontFamily: 'NanumSquareRound',
-);
-const kSubtitle1 = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  color: Colors.white,
   letterSpacing: 0.15,
   fontFamily: 'NanumSquareRound',
 );
@@ -213,13 +184,6 @@ const kSubtitle2w900 = TextStyle(
   letterSpacing: 0.1,
   fontFamily: 'NanumSquareRound',
 );
-// const kBodyText1 = TextStyle(
-//   fontSize: 16,
-//   fontWeight: FontWeight.w400,
-//   color: Colors.white,
-//   letterSpacing: 0.50,
-//   fontFamily: 'NanumSquareRound',
-// );
 const kBodyText1Black = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

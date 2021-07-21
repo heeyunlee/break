@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 import '../generated/l10n.dart';
-import '../models/enum/difficulty.dart';
-import '../models/enum/unit_of_mass.dart';
+import '../classes/enum/difficulty.dart';
+import '../classes/enum/unit_of_mass.dart';
 
 class Formatter {
   static String weights(num weights) {

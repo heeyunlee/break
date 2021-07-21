@@ -8,7 +8,7 @@ import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 
 import '../../../../styles/constants.dart';
@@ -83,7 +83,7 @@ class DeleteAccountScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             S.current.deleteAccountTitle(user.userName),
-            style: kHeadline6w900,
+            style: TextStyles.headline6_w900,
           ),
           const SizedBox(height: 16),
           Text(S.current.byDeletingAccount, style: TextStyles.body1),

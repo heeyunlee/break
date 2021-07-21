@@ -7,8 +7,8 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/measurement.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';

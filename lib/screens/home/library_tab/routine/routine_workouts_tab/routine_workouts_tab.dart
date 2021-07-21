@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/auth_and_database.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/reorder_routine_workouts_button.dart';
 import 'package:workout_player/services/auth.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/classes/routine_workout.dart';
 
 import '../miniplayer_model.dart';
 

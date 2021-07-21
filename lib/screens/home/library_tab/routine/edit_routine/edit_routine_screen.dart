@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/difficulty.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/enum/unit_of_mass.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/enum/difficulty.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/screens/home/tab_item.dart';
 import 'package:workout_player/services/auth.dart';
@@ -215,7 +215,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   Navigator.of(context).pop();
                 },
               ),
-              title: Text(S.current.editRoutineTitle, style: kSubtitle1),
+              title: Text(
+                S.current.editRoutineTitle,
+                style: TextStyles.subtitle1,
+              ),
               actions: <Widget>[
                 TextButton(
                   onPressed: _submit,

@@ -4149,6 +4149,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Add {numberOfWorkout} Workouts`
+  String addWorkoutFABTitle(Object numberOfWorkout) {
+    return Intl.message(
+      'Add $numberOfWorkout Workouts',
+      name: 'addWorkoutFABTitle',
+      desc: '',
+      args: [numberOfWorkout],
+    );
+  }
+
+  /// `Language Preference`
+  String get languagePreference {
+    return Intl.message(
+      'Language Preference',
+      name: 'languagePreference',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize Your Widgets`
+  String get featureDiscoveryCustomizeWidgetTitle {
+    return Intl.message(
+      'Customize Your Widgets',
+      name: 'featureDiscoveryCustomizeWidgetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now you can customize progress tab's widgets. Just long press the widget to reorder or press this button to add or remove a widget!`
+  String get featureDiscoveryCustomizeWidgetMessage {
+    return Intl.message(
+      'Now you can customize progress tab\'s widgets. Just long press the widget to reorder or press this button to add or remove a widget!',
+      name: 'featureDiscoveryCustomizeWidgetMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Or Remove Widgets`
+  String get addOrRemoveWidgets {
+    return Intl.message(
+      'Add Or Remove Widgets',
+      name: 'addOrRemoveWidgets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize your progress with widgets you want`
+  String get customizeWidgetsTitle {
+    return Intl.message(
+      'Customize your progress with widgets you want',
+      name: 'customizeWidgetsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can customize by selecting widgets that are important to you, and hide other widget that you may wish not to see now`
+  String get customizeWidgetsMessage {
+    return Intl.message(
+      'You can customize by selecting widgets that are important to you, and hide other widget that you may wish not to see now',
+      name: 'customizeWidgetsMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Widgets`
+  String get updateWidgetsListSnackbarTitle {
+    return Intl.message(
+      'Update Widgets',
+      name: 'updateWidgetsListSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully updated widgets for progress tab`
+  String get updateWidgetsListSnackbarMessage {
+    return Intl.message(
+      'Successfully updated widgets for progress tab',
+      name: 'updateWidgetsListSnackbarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add More Data!`
+  String get addMoreData {
+    return Intl.message(
+      'Add More Data!',
+      name: 'addMoreData',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

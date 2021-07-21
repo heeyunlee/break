@@ -21,6 +21,8 @@ class User {
   final num? weightGoal; // Nullable
   final num? bodyFatPercentageGoal; // Nullable
   final List<dynamic>? widgetsList;
+  final Map<String, dynamic>? deviceInfo;
+  final Timestamp? lastAppOpenedTime;
 
   const User({
     required this.userId,
@@ -42,6 +44,8 @@ class User {
     this.weightGoal,
     this.bodyFatPercentageGoal,
     this.widgetsList,
+    this.deviceInfo,
+    this.lastAppOpenedTime,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -65,6 +69,8 @@ class User {
       final num? weightGoal = data['weightGoal'];
       final num? bodyFatPercentageGoal = data['bodyFatPercentageGoal'];
       final List<dynamic>? widgetsList = data['widgetsList'];
+      final Map<String, dynamic>? deviceInfo = data['deviceInfo'];
+      final Timestamp? lastAppOpenedTime = data['lastAppOpenedTime'];
 
       return User(
         userId: documentId,
@@ -86,6 +92,8 @@ class User {
         weightGoal: weightGoal,
         bodyFatPercentageGoal: bodyFatPercentageGoal,
         widgetsList: widgetsList,
+        deviceInfo: deviceInfo,
+        lastAppOpenedTime: lastAppOpenedTime,
       );
     } else {
       throw 'null';
@@ -112,6 +120,8 @@ class User {
     data['weightGoal'] = weightGoal;
     data['bodyFatPercentageGoal'] = bodyFatPercentageGoal;
     data['widgetsList'] = widgetsList;
+    data['deviceInfo'] = deviceInfo;
+    data['lastAppOpenedTime'] = lastAppOpenedTime;
 
     return data;
   }
@@ -139,7 +149,9 @@ class User {
         other.lastHealthDataFetchedTime == lastHealthDataFetchedTime &&
         other.weightGoal == weightGoal &&
         other.bodyFatPercentageGoal == bodyFatPercentageGoal &&
-        listEquals(other.widgetsList, widgetsList);
+        listEquals(other.widgetsList, widgetsList) &&
+        mapEquals(other.deviceInfo, deviceInfo) &&
+        other.lastAppOpenedTime == lastAppOpenedTime;
   }
 
   @override
@@ -162,6 +174,8 @@ class User {
         lastHealthDataFetchedTime.hashCode ^
         weightGoal.hashCode ^
         bodyFatPercentageGoal.hashCode ^
-        widgetsList.hashCode;
+        widgetsList.hashCode ^
+        deviceInfo.hashCode ^
+        lastAppOpenedTime.hashCode;
   }
 }

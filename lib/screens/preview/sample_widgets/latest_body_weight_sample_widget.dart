@@ -5,8 +5,15 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 
-class LatestBodyFatPreviewWidget extends StatelessWidget {
-  const LatestBodyFatPreviewWidget({Key? key}) : super(key: key);
+class LatestBodyWeightSampleWidget extends StatelessWidget {
+  final Color? color;
+  final double? padding;
+
+  const LatestBodyWeightSampleWidget({
+    Key? key,
+    this.color,
+    this.padding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +25,9 @@ class LatestBodyFatPreviewWidget extends StatelessWidget {
       height: 174,
       width: size.width / 2,
       child: BlurBackgroundCard(
+        color: color,
+        allPadding: padding,
+        borderRadius: 28,
         child: Stack(
           children: [
             Positioned(
@@ -35,10 +45,10 @@ class LatestBodyFatPreviewWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 8),
-                  Text(S.current.bodyFat, style: TextStyles.button1),
+                  Text(S.current.bodyWeight, style: TextStyles.button1),
                   const SizedBox(height: 4),
                   const Text(
-                    '20 %',
+                    '80 kg',
                     style: TextStyles.headline5_menlo_bold_secondary,
                   ),
                   const SizedBox(height: 8),
@@ -52,7 +62,7 @@ class LatestBodyFatPreviewWidget extends StatelessWidget {
                         ),
                       ),
                       FractionallySizedBox(
-                        widthFactor: 0.8,
+                        widthFactor: 0.5,
                         child: Container(
                           decoration: BoxDecoration(
                             color: kSecondaryColor,
@@ -66,9 +76,9 @@ class LatestBodyFatPreviewWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Text('14.5%', style: TextStyles.caption1),
+                      const Text('75 kg', style: TextStyles.caption1),
                       const Spacer(),
-                      const Text('21.4%', style: TextStyles.caption1),
+                      const Text('85 kg', style: TextStyles.caption1),
                     ],
                   ),
                 ],

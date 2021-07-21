@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/progress_tab_class.dart';
+import 'package:workout_player/classes/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
@@ -57,9 +57,7 @@ class WeeklyLiftedWeightsCard extends StatelessWidget {
                             style: kSubtitle1w900Primary,
                           ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8,
-                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 8),
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               color: kPrimaryColor,

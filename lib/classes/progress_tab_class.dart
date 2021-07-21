@@ -1,7 +1,7 @@
-import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/measurement.dart';
+import 'package:workout_player/classes/nutrition.dart';
+import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/classes/user.dart';
 
 class ProgressTabClass {
   final User user;

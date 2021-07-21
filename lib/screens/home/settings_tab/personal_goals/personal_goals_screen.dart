@@ -8,7 +8,7 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
@@ -66,7 +66,7 @@ class PersonalGoalsScreen extends StatelessWidget {
                 ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(S.current.personalGoals, style: kSubtitle1),
+        title: Text(S.current.personalGoals, style: TextStyles.subtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine_history.dart';
 
 final weeklyWorkoutSummaryModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyWorkoutSummaryModel(),

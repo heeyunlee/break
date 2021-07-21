@@ -12,9 +12,9 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../../utils/formatter.dart';
@@ -223,9 +223,7 @@ class _RoutineHistorySummaryScreenState
                           child: Text(
                             S.current.stats,
                             maxLines: 1,
-                            style: kHeadline6w900.copyWith(
-                              fontSize: size.height * 0.02,
-                            ),
+                            style: TextStyles.headline6_w900,
                           ),
                         ),
                         SizedBox(height: size.height * 0.018),
@@ -249,9 +247,7 @@ class _RoutineHistorySummaryScreenState
                           ),
                           child: Text(
                             S.current.notes,
-                            style: kHeadline6w900.copyWith(
-                              fontSize: size.height * 0.02,
-                            ),
+                            style: TextStyles.headline6_w900,
                           ),
                         ),
                         Card(
@@ -285,9 +281,7 @@ class _RoutineHistorySummaryScreenState
                           ),
                           child: Text(
                             S.current.setEffortsTitle,
-                            style: kHeadline6w900.copyWith(
-                              fontSize: size.height * 0.02,
-                            ),
+                            style: TextStyles.headline6_w900,
                           ),
                         ),
                         Card(
@@ -467,7 +461,11 @@ class _SummaryRowWidget extends StatelessWidget {
             style: TextStyles.headline5,
             children: <TextSpan>[
               TextSpan(text: title),
-              if (subtitle != null) TextSpan(text: subtitle, style: kSubtitle1)
+              if (subtitle != null)
+                TextSpan(
+                  text: subtitle,
+                  style: TextStyles.subtitle1,
+                ),
             ],
           ),
         ),

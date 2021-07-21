@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class SummaryRowWidget extends StatelessWidget {
@@ -31,7 +30,11 @@ class SummaryRowWidget extends StatelessWidget {
             style: TextStyles.headline3,
             children: <TextSpan>[
               TextSpan(text: title),
-              if (subtitle != null) TextSpan(text: subtitle, style: kSubtitle1)
+              if (subtitle != null)
+                TextSpan(
+                  text: subtitle,
+                  style: TextStyles.subtitle1,
+                ),
             ],
           ),
         ),

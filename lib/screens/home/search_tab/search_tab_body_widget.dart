@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
 
 import '../../../styles/constants.dart';
 import 'search_category/search_category_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/reorder_routine_workouts/reorder_routine_workouts_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
 

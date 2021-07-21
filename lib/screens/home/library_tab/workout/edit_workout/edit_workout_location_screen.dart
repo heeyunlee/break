@@ -9,9 +9,9 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/services/database.dart';
 
 class EditWorkoutLocationScreen extends StatefulWidget {
@@ -92,7 +92,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(S.current.location, style: kSubtitle1),
+        title: Text(S.current.location, style: TextStyles.subtitle1),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout_history.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -286,7 +286,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         centerTitle: true,
         title: Transform.translate(
           offset: _transTween.value,
-          child: Text(title, style: kSubtitle1),
+          child: Text(title, style: TextStyles.subtitle1),
         ),
         brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
@@ -360,7 +360,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 16),
-            Text(S.current.quickSummary, style: kHeadline6w900),
+            Text(S.current.quickSummary, style: TextStyles.headline6_w900),
             const SizedBox(height: 8),
             SummaryRowWidget(
               title: '$weights $unit',
@@ -385,7 +385,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.routines, style: kHeadline6w900),
+              child: Text(S.current.routines, style: TextStyles.headline6_w900),
             ),
             CustomStreamBuilderWidget<List<WorkoutHistory>>(
               stream: widget.database.workoutHistoriesStream(
@@ -411,7 +411,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.notes, style: kHeadline6w900),
+              child: Text(S.current.notes, style: TextStyles.headline6_w900),
             ),
             const SizedBox(height: 8),
             Card(

@@ -408,5 +408,15 @@
     "previewScreenMessage3": "나에게 중요하고 \n필요한 목표들을 확인하세요",
     "previewScreenMessage4": "즐거운 운동하세요!",
     "warning": "경고",
-    "addWorkoutWaningMessage": "7개 이상의 운동을 한번에 루틴에 더할 수 없습니다!"
+    "addWorkoutWaningMessage": "7개 이상의 운동을 한번에 루틴에 더할 수 없습니다!",
+    "addWorkoutFABTitle": "{numberOfWorkout} 개 운동 추가",
+    "languagePreference": "언어 변경",
+    "featureDiscoveryCustomizeWidgetTitle": "대시보드를 마음대로 꾸미세요!",
+    "featureDiscoveryCustomizeWidgetMessage": "이제 건강 대시보드를 자신이 원하는 대로 커스터마이징이 가능합니다! 위젯의 순서를 바꾸고 싶다면 위젯을 길게 누르고, 새로운 위젯을 추가하거나 삭제하고 싶다면 이 버튼을 눌러주세요!",
+    "addOrRemoveWidgets": "위젯 추가/제거",
+    "customizeWidgetsTitle": "기록 탭을 자신이 원하는 위젯으로 커스터마이징 하세요!",
+    "customizeWidgetsMessage": "보고 싶지 않은 위젯은 제거하고, 자신에게 중요한 위젯만 볼 수 있습니다!",
+    "updateWidgetsListSnackbarTitle": "위젯 수정",
+    "updateWidgetsListSnackbarMessage": "성공적으로 기록 탭의 위젯들을 수정했습니다",
+    "addMoreData": "데이터가 없어요!"
 }

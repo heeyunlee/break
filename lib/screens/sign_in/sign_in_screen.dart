@@ -52,13 +52,17 @@ class SignInScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('SignInScreen building...');
-
     final model = watch(signInScreenProvider);
+
+    logger.d('SignInScreen building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
+        brightness: Brightness.dark,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           TextButton(
             style: ButtonStyles.text1_google,
@@ -77,134 +81,123 @@ class SignInScreen extends ConsumerWidget {
                   Navigator.of(context).pop();
                 },
         ),
-        brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
-      backgroundColor: kBackgroundColor,
       body: _buildSignInScreen(context, model),
     );
   }
 
   Widget _buildSignInScreen(BuildContext context, SignInScreenModel model) {
-    final size = MediaQuery.of(context).size;
     final locale = Intl.getCurrentLocale();
 
-    return Container(
-      height: size.height,
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: model.isLoading
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(kPrimaryColor),
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: model.isLoading
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            kPrimaryColor,
                           ),
-                          const SizedBox(height: 24),
-                          Text(
-                            S.current.signingIn,
-                            style: TextStyles.body2,
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          S.current.signingIn,
+                          style: TextStyles.body2,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Hero(
+                          tag: 'logo',
+                          child: SvgPicture.asset(
+                            'assets/svgs/herakles_icon.svg',
+                            width: 72,
                           ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Hero(
-                            tag: 'logo',
-                            child: SvgPicture.asset(
-                              'assets/svgs/herakles_icon.svg',
-                              width: 72,
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          const Text(
-                            'Herakles: Workout Player',
-                            style: kSubtitle1Menlo,
-                          ),
-                        ],
-                      ),
-              ),
+                        ),
+                        const SizedBox(height: 40),
+                        const Text(
+                          'Herakles: Workout Player',
+                          style: kSubtitle1Menlo,
+                        ),
+                      ],
+                    ),
             ),
+          ),
 
-            /// Sign In With Email
-            SocialSignInButton(
-              kButtonText: S.current.signUp,
-              iconData: Icons.email_rounded,
-              color: kPrimary600Color,
-              kDisabledColor: kPrimary600Color.withOpacity(0.85),
-              textColor: Colors.white,
-              onPressed: model.isLoading
-                  ? null
-                  : () => EmailSignUpScreen.show(context),
-            ),
+          /// Sign In With Email
+          SocialSignInButton(
+            kButtonText: S.current.signUp,
+            iconData: Icons.email_rounded,
+            color: kPrimary600Color,
+            kDisabledColor: kPrimary600Color.withOpacity(0.85),
+            textColor: Colors.white,
+            onPressed:
+                model.isLoading ? null : () => EmailSignUpScreen.show(context),
+          ),
 
-            /// SIGN IN WITH GOOGLE
+          /// SIGN IN WITH GOOGLE
+          SocialSignInButton(
+            kButtonText: S.current.continueWithGoogle,
+            color: Colors.white,
+            kDisabledColor: Colors.white.withOpacity(0.85),
+            textColor: Colors.black.withOpacity(0.85),
+            logo: 'assets/logos/google_logo.png',
+            onPressed:
+                model.isLoading ? null : () => model.signInWithGoogle(context),
+          ),
+
+          /// SIGN IN WITH FACEBOOK
+          SocialSignInButton(
+            kButtonText: S.current.continueWithFacebook,
+            color: Color(0xff1877F2),
+            kDisabledColor: Color(0xff1877F2).withOpacity(0.85),
+            textColor: Colors.white.withOpacity(0.85),
+            logo: 'assets/logos/facebook_logo.png',
+            onPressed: model.isLoading
+                ? null
+                : () => model.signInWithFacebook(context),
+          ),
+
+          /// SIGN IN WITH APPLE
+          if (Platform.isIOS)
             SocialSignInButton(
-              kButtonText: S.current.continueWithGoogle,
+              kButtonText: S.current.continueWithApple,
               color: Colors.white,
-              kDisabledColor: Colors.white.withOpacity(0.85),
               textColor: Colors.black.withOpacity(0.85),
-              logo: 'assets/logos/google_logo.png',
-              onPressed: model.isLoading
-                  ? null
-                  : () => model.signInWithGoogle(context),
+              kDisabledColor: Colors.white.withOpacity(0.85),
+              logo: 'assets/logos/apple_logo.png',
+              onPressed:
+                  model.isLoading ? null : () => model.signInWithApple(context),
             ),
 
-            /// SIGN IN WITH FACEBOOK
+          /// SIGN IN WITH KAKAO
+          if (locale == 'ko')
             SocialSignInButton(
-              kButtonText: S.current.continueWithFacebook,
-              color: Color(0xff1877F2),
-              kDisabledColor: Color(0xff1877F2).withOpacity(0.85),
-              textColor: Colors.white.withOpacity(0.85),
-              logo: 'assets/logos/facebook_logo.png',
-              onPressed: model.isLoading
-                  ? null
-                  : () => model.signInWithFacebook(context),
+              kButtonText: S.current.continueWithKakao,
+              color: Color(0xffFEE500),
+              kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
+              logo: 'assets/logos/kakao_logo.png',
+              textColor: Colors.black.withOpacity(0.85),
+              onPressed:
+                  model.isLoading ? null : () => model.signInWithKakao(context),
             ),
 
-            /// SIGN IN WITH APPLE
-            if (Platform.isIOS)
-              SocialSignInButton(
-                kButtonText: S.current.continueWithApple,
-                color: Colors.white,
-                textColor: Colors.black.withOpacity(0.85),
-                kDisabledColor: Colors.white.withOpacity(0.85),
-                logo: 'assets/logos/apple_logo.png',
-                onPressed: model.isLoading
-                    ? null
-                    : () => model.signInWithApple(context),
-              ),
-
-            /// SIGN IN WITH KAKAO
-            if (locale == 'ko')
-              SocialSignInButton(
-                kButtonText: S.current.continueWithKakao,
-                color: Color(0xffFEE500),
-                kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
-                logo: 'assets/logos/kakao_logo.png',
-                textColor: Colors.black.withOpacity(0.85),
-                onPressed: model.isLoading
-                    ? null
-                    : () => model.signInWithKakao(context),
-              ),
-
-            /// LOG IN BUTTON
-            TextButton(
-              style: ButtonStyles.text1_google,
-              onPressed: model.isLoading
-                  ? null
-                  : () => LogInWithEmailScreen.show(context),
-              child: Text(S.current.logIn),
-            ),
-          ],
-        ),
+          /// LOG IN BUTTON
+          TextButton(
+            style: ButtonStyles.text1_google,
+            onPressed: model.isLoading
+                ? null
+                : () => LogInWithEmailScreen.show(context),
+            child: Text(S.current.logIn),
+          ),
+        ],
       ),
     );
   }

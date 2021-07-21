@@ -8,9 +8,6 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 
-import '../home_screen_provider.dart';
-import '../tab_item.dart';
-
 final settingsTabModelProvider = ChangeNotifierProvider(
   (ref) => SettingsTabModel(),
 );
@@ -66,8 +63,8 @@ class SettingsTabModel with ChangeNotifier {
       }
 
       Navigator.of(context).pop();
-      currentTab = CustomTabItem.progress;
-      currentTabIndex = 0;
+      // currentTab = CustomTabItem.progress;
+      // currentTabIndex = 0;
 
       getSnackbarWidget(
         S.current.signOutSnackbarTitle,
@@ -76,6 +73,7 @@ class SettingsTabModel with ChangeNotifier {
     } catch (e) {
       // TODO: SHOW DIALOG AFTER CATCHING ERROR
       // print(e.toString());
+      throw UnimplementedError();
     }
   }
 

@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/auth_and_database.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -92,14 +92,18 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       floatingActionButton: SizedBox(
         width: size.width - 32,
         child: FloatingActionButton.extended(
-          onPressed: () => widget.model.addWorkoutsToRoutine(
-            context,
-            widget.routine,
-            widget.routineWorkouts,
-          ),
-          backgroundColor: kPrimaryColor,
+          onPressed: (widget.model.selectedWorkouts.isEmpty)
+              ? null
+              : () => widget.model.addWorkoutsToRoutine(
+                    context,
+                    widget.routine,
+                    widget.routineWorkouts,
+                  ),
+          backgroundColor: (widget.model.selectedWorkouts.isEmpty)
+              ? Colors.grey
+              : kPrimaryColor,
           label: Text(
-            'Add ${widget.model.selectedWorkouts.length} Workouts',
+            S.current.addWorkoutFABTitle(widget.model.selectedWorkouts.length),
             style: TextStyles.button1,
           ),
         ),
@@ -139,9 +143,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
                 : workout.workoutTitle;
 
             return WorkoutListTile(
-              tag: 'addWorkout-tag${workout.workoutId}',
               imageUrl: workout.imageUrl,
-              isLeadingDuration: false,
               leadingText: leadingText!,
               title: title,
               subtitle: '$difficulty,  ${S.current.usingEquipment(equipment!)}',
@@ -193,7 +195,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
-      title: Text(S.current.addWorkoutkButtonText, style: kSubtitle1),
+      title: Text(S.current.addWorkoutkButtonText, style: TextStyles.subtitle1),
       flexibleSpace: AppbarBlurBG(),
       backgroundColor: Colors.transparent,
       leading: AppBarCloseButton(),

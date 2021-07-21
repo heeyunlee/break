@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import 'widgets/activity_ring_preview_widget.dart';
-import 'widgets/latest_body_fat_preview_widget.dart';
-import 'widgets/weekly_lifted_weights_preview_widget.dart';
-import 'widgets/weekly_measurement_preview_widget.dart';
-import 'widgets/weekly_nutritions_chart_preview_widget.dart';
-import 'widgets/weekly_workout_summary_preview_widget.dart';
+import 'sample_widgets/activity_ring_sample_widget.dart';
+import 'sample_widgets/latest_body_fat_sample_widget.dart';
+import 'sample_widgets/latest_body_weight_sample_widget.dart';
+import 'sample_widgets/most_recent_workout_sample_widget.dart';
+import 'sample_widgets/weekly_lifted_weights_sample_widget.dart';
+import 'sample_widgets/weekly_measurements_sample_widget.dart';
+import 'sample_widgets/weekly_protein_chart_sample_widget.dart';
+import 'sample_widgets/weekly_workout_summary_sample_widget.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => PreviewScreenModel(),
@@ -18,7 +20,10 @@ final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
 class PreviewScreenModel extends ChangeNotifier {
   int _currentWidgetIndex = 0;
   Timer? _timer;
-  Widget _currentWidget = ActivityRingPreviewWidget();
+  Widget _currentWidget = ActivityRingSampleWidget(
+    color: Colors.transparent,
+    elevation: 0,
+  );
 
   int get currentWidgetIndex => _currentWidgetIndex;
   Timer? get timer => _timer;
@@ -51,12 +56,14 @@ class PreviewScreenModel extends ChangeNotifier {
   }
 
   final List<Widget> currentPreviewWidgetList = [
-    ActivityRingPreviewWidget(),
-    WeeklyWorkoutSummaryPreviewWidget(),
-    LatestBodyFatPreviewWidget(),
-    WeeklyLiftedWeightsWidget(),
-    WeeklyMeasurementPreviewWidget(),
-    WeeklyNutritionChartPreviewWidget(),
+    ActivityRingSampleWidget(margin: 16),
+    MostRecentWorkoutSampleWidget(padding: 24),
+    WeeklyWorkoutSummarySampleWidget(padding: 24),
+    LatestBodyFatSampleWidget(padding: 16),
+    WeeklyLiftedWeightsSampleWidget(padding: 24),
+    WeeklyMeasurementsSampleWidget(padding: 24),
+    WeeklyProteinChartSampleWidget(padding: 24),
+    LatestBodyWeightSampleWidget(padding: 16),
   ];
 
   static final GlobalKey<NavigatorState> previewScreenNavigatorKey =

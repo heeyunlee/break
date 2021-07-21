@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine_and_routine_workouts.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/library_tab/routine/edit_routine/edit_routine_screen.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/styles/constants.dart';

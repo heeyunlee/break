@@ -7,10 +7,10 @@ import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/create_routine/create_new_routine_screen.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
@@ -106,6 +106,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       await widget.database.setRoutineWorkout(routine, routineWorkout);
 
       Navigator.of(context).pop();
+
       await tabNavigatorKeys[currentTab]!.currentState!.push(
             CupertinoPageRoute(
               fullscreenDialog: false,
@@ -169,7 +170,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
-        title: Text(S.current.addWorkoutToRoutine, style: kSubtitle1),
+        title: Text(S.current.addWorkoutToRoutine, style: TextStyles.subtitle1),
         leading: IconButton(
           icon: const Icon(Icons.close_rounded, color: Colors.white),
           onPressed: () {

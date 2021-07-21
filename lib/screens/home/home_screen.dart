@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +29,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  void _selectTab(CustomTabItem tabItem) {
+  void _selectTab(int index, CustomTabItem tabItem) {
+    setState(() {
+      currentTabIndex = index;
+    });
     // Navigating to original Tab Screen when you press Nav Tab
     if (tabItem == currentTab) {
       tabNavigatorKeys[tabItem]!
@@ -38,11 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void _selectTabIndex(int currentIndex) {
-    setState(() {
-      currentTabIndex = currentIndex;
-    });
-  }
+  // void _selectTabIndex(int currentIndex) {}
 
   Map<CustomTabItem, dynamic> get widgetBuilders {
     return {
@@ -53,11 +56,37 @@ class _HomeScreenState extends State<HomeScreen>
     };
   }
 
+  Future<Map<String, dynamic>?> _getDeviceInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
+      return androidInfo.toMap();
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+
+      return iosInfo.toMap();
+    }
+  }
+
+  Future<void> updateUser(Database database, AuthBase auth) async {
+    final deviceInfo = await _getDeviceInfo();
+
+    final userData = {
+      'deviceInfo': deviceInfo,
+      'lastAppOpenedTime': Timestamp.now(),
+    };
+
+    await database.updateUser(auth.currentUser!.uid, userData);
+  }
+
   @override
   Widget build(BuildContext context) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final user = database.getUserDocument(auth.currentUser!.uid);
+
+    updateUser(database, auth);
 
     return MiniplayerWillPopScope(
       onWillPop: () async {
@@ -139,9 +168,9 @@ class _HomeScreenState extends State<HomeScreen>
 
               if (model.selectedRoutine == null) {
                 return BottomNavigationTab(
-                  currentTab: currentTab,
+                  // currentTab: model2.currentTabItem,
                   onSelectTab: _selectTab,
-                  onSelectTabIndex: _selectTabIndex,
+                  // onSelectTabIndex: model2.selectTabIndex,
                 );
               } else {
                 return ValueListenableBuilder(
@@ -162,9 +191,9 @@ class _HomeScreenState extends State<HomeScreen>
                         kBottomNavigationBarHeight * value * 2,
                       ),
                       child: BottomNavigationTab(
-                        currentTab: currentTab,
+                        // currentTab: model2.currentTabItem,
                         onSelectTab: _selectTab,
-                        onSelectTabIndex: _selectTabIndex,
+                        // onSelectTabIndex: model2.selectTabIndex,
                       ),
                     );
                   },

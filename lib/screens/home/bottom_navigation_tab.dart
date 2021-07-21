@@ -6,14 +6,16 @@ import 'home_screen_provider.dart';
 import 'tab_item.dart';
 
 class BottomNavigationTab extends StatelessWidget {
-  final CustomTabItem currentTab;
-  final ValueChanged<CustomTabItem> onSelectTab;
-  final ValueChanged<int> onSelectTabIndex;
+  // final CustomTabItem currentTab;
+  // final ValueChanged<CustomTabItem> onSelectTab;
+  // final ValueChanged<int> onSelectTabIndex;
+  final void Function(int, CustomTabItem) onSelectTab;
 
   BottomNavigationTab({
-    required this.currentTab,
+    // required this.currentTab,
+    // required this.onSelectTab,
+    // required this.onSelectTabIndex,
     required this.onSelectTab,
-    required this.onSelectTabIndex,
   });
 
   @override
@@ -33,25 +35,27 @@ class BottomNavigationTab extends StatelessWidget {
           ),
         ),
         child: BottomNavigationBar(
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            unselectedItemColor: Colors.white,
-            currentIndex: currentTabIndex,
-            selectedLabelStyle: TextStyles.overline_primary,
-            unselectedLabelStyle: TextStyles.overline,
-            backgroundColor: kBottomNavBarColor,
-            selectedItemColor: kPrimaryColor,
-            type: BottomNavigationBarType.fixed,
-            items: <BottomNavigationBarItem>[
-              _buildItem(CustomTabItem.progress),
-              _buildItem(CustomTabItem.search),
-              _buildItem(CustomTabItem.library),
-              _buildItem(CustomTabItem.settings),
-            ],
-            onTap: (index) {
-              onSelectTabIndex(index);
-              onSelectTab(CustomTabItem.values[index]);
-            }),
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          unselectedItemColor: Colors.white,
+          currentIndex: currentTabIndex,
+          selectedLabelStyle: TextStyles.overline_primary,
+          unselectedLabelStyle: TextStyles.overline,
+          backgroundColor: kBottomNavBarColor,
+          selectedItemColor: kPrimaryColor,
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            _buildItem(CustomTabItem.progress),
+            _buildItem(CustomTabItem.search),
+            _buildItem(CustomTabItem.library),
+            _buildItem(CustomTabItem.settings),
+          ],
+          onTap: (index) => onSelectTab(index, CustomTabItem.values[index]),
+          // onTap: (index) {
+          //   onSelectTabIndex(index);
+          //   onSelectTab(CustomTabItem.values[index]);
+          // },
+        ),
       ),
     );
   }

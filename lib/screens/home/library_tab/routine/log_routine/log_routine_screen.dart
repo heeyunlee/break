@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/classes/workout_history.dart';
 import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/main_provider.dart';
@@ -16,10 +16,10 @@ import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -329,7 +329,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.routine.routineTitle, style: kHeadline6w900),
+                  Text(
+                    widget.routine.routineTitle,
+                    style: TextStyles.headline6_w900,
+                  ),
                   const SizedBox(height: 16),
                   // Start Time
                   Stack(

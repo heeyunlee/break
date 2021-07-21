@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class EquipmentRequiredWidget extends StatelessWidget {

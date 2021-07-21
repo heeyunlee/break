@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/unit_of_mass.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
@@ -38,7 +38,7 @@ class SettingsTab extends ConsumerWidget {
           blurSigma: 10,
         ),
         backgroundColor: Colors.transparent,
-        title: Text(S.current.settingsScreenTitle, style: kSubtitle1),
+        title: Text(S.current.settingsScreenTitle, style: TextStyles.subtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context, model),

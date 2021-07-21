@@ -7,7 +7,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/main_provider.dart';
 
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
         // statusBarIconBrightness: Brightness.dark,
       ),
     );
+
+    initLogger(Level.debug);
 
     return provider.MultiProvider(
       providers: [

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
-
-import '../../../styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class MiniplayerSubtitle extends StatelessWidget {
   final double? horizontalPadding;
@@ -32,7 +31,10 @@ class MiniplayerSubtitle extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding ?? 24),
-      child: Text(miniplayerTitle, style: textStyle ?? kHeadline6Grey),
+      child: Text(
+        miniplayerTitle,
+        style: textStyle ?? TextStyles.headline6_grey,
+      ),
     );
   }
 }

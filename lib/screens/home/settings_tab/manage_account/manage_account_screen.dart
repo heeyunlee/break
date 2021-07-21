@@ -5,7 +5,7 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -56,7 +56,7 @@ class ManageAccountScreen extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(S.current.manageAccount, style: kSubtitle1),
+        title: Text(S.current.manageAccount, style: TextStyles.subtitle1),
       ),
       body: Builder(
         builder: (BuildContext context) => _buildBody(context),

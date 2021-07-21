@@ -12,10 +12,10 @@ import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'add_workout_to_routine_screen.dart';
@@ -221,7 +221,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
         ],
         flexibleSpace: _buildFlexibleSpaceBarWidget(workout),
       ),
-      child: Text(title, style: kSubtitle1),
+      child: Text(title, style: TextStyles.subtitle1),
     );
   }
 

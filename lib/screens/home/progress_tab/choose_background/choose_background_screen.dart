@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/progress_tab/choose_background/choose_background_screen_model.dart';
 import 'package:workout_player/screens/home/progress_tab/progress_tab_model.dart';
 import 'package:provider/provider.dart' as provider;

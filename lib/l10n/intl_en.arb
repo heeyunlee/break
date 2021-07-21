@@ -408,5 +408,15 @@
     "previewScreenMessage3": "Keep Progress of \nWhat's Important to You",
     "previewScreenMessage4": "Workout Seamlessly",
     "warning": "Warning",
-    "addWorkoutWaningMessage": "Trying to add 7 workouts at once?! Are you sure? You can't add more than 6 workouts at a time"
+    "addWorkoutWaningMessage": "Trying to add 7 workouts at once?! Are you sure? You can't add more than 6 workouts at a time",
+    "addWorkoutFABTitle": "Add {numberOfWorkout} Workouts",
+    "languagePreference": "Language Preference",
+    "featureDiscoveryCustomizeWidgetTitle": "Customize Your Widgets",
+    "featureDiscoveryCustomizeWidgetMessage": "Now you can customize progress tab's widgets. Just long press the widget to reorder or press this button to add or remove a widget!",
+    "addOrRemoveWidgets": "Add Or Remove Widgets",
+    "customizeWidgetsTitle": "Customize your progress with widgets you want",
+    "customizeWidgetsMessage": "You can customize by selecting widgets that are important to you, and hide other widget that you may wish not to see now",
+    "updateWidgetsListSnackbarTitle": "Update Widgets",
+    "updateWidgetsListSnackbarMessage": "Successfully updated widgets for progress tab",
+    "addMoreData": "Add More Data!"
 }

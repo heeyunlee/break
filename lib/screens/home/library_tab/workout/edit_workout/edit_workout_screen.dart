@@ -6,12 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/difficulty.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/enum/difficulty.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -202,7 +202,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            title: Text(S.current.editWorkoutTitle, style: kSubtitle1),
+            title: Text(
+              S.current.editWorkoutTitle,
+              style: TextStyles.subtitle1,
+            ),
             flexibleSpace: AppbarBlurBG(
               blurSigma: 10,
             ),

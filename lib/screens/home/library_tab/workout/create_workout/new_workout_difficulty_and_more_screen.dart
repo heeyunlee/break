@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/difficulty.dart';
-import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/classes/enum/difficulty.dart';
+import 'package:workout_player/classes/enum/location.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -209,7 +209,10 @@ class _NewWorkoutDifficultyAndMoreScreenState
                         size: 20,
                       ),
                       const SizedBox(width: 8),
-                      Text(S.current.location, style: kHeadline6Bold),
+                      Text(
+                        S.current.location,
+                        style: TextStyles.headline6_bold,
+                      ),
                     ],
                   ),
                 ),

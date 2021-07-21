@@ -1,10 +1,12 @@
 import 'dart:math' as math;
 
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/nutrition.dart';
+import 'package:workout_player/classes/user.dart';
 
 final weeklyNutritionChartModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyNutritionChartModel(),
@@ -15,11 +17,13 @@ class WeeklyNutritionChartModel with ChangeNotifier {
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
+  int? _touchedIndex;
 
   num get nutritionMaxY => _nutritionMaxY;
   List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   List<double> get relativeYs => _relativeYs;
+  int? get touchedIndex => _touchedIndex;
 
   void init() {
     DateTime now = DateTime.now();
@@ -35,6 +39,18 @@ class WeeklyNutritionChartModel with ChangeNotifier {
       7,
       (index) => DateFormat.E().format(_dates[index]),
     );
+  }
+
+  void onTouchCallback(BarTouchResponse barTouchResponse) {
+    if (barTouchResponse.spot != null &&
+        barTouchResponse.touchInput is! PointerExitEvent &&
+        barTouchResponse.touchInput is! PointerUpEvent) {
+      _touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+    } else {
+      _touchedIndex = -1;
+    }
+
+    notifyListeners();
   }
 
   Future<void> setRelativeList(List<Nutrition>? list, User user) async {

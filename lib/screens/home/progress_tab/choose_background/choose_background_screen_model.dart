@@ -30,13 +30,13 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
   }
 
   int? _selectedImageIndex;
-  PickedFile? _pickedImageFile;
+  XFile? _pickedImageFile;
   File? _image;
   // ignore: prefer_final_fields
   List<String> _personalImagesUrls = [];
 
   int? get selectedImageIndex => _selectedImageIndex;
-  PickedFile? get pickedImageFile => _pickedImageFile;
+  XFile? get pickedImageFile => _pickedImageFile;
   File? get image => _image;
   List<String> get personalImagesUrls => _personalImagesUrls;
 
@@ -58,7 +58,7 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
   }
 
   void _openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
     _pickedImageFile = pickedFile;
@@ -72,7 +72,7 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
   }
 
   void _openCamera(BuildContext context) async {
-    final pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
     );
     _pickedImageFile = pickedFile;

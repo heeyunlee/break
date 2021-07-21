@@ -9,9 +9,9 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../routine_detail_screen.dart';

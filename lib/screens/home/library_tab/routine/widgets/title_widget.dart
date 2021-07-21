@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class TitleWidget extends StatelessWidget {
   final String title;
@@ -26,7 +26,7 @@ class TitleWidget extends StatelessWidget {
 
   Widget _buildChild() {
     if (isAppBarTitle) {
-      return Center(child: Text(title, style: kSubtitle1));
+      return Center(child: Text(title, style: TextStyles.subtitle1));
     } else {
       if (title.length < 21) {
         return Text(

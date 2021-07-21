@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/auth_and_database.dart';
+import 'package:workout_player/classes/auth_and_database.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/workout_set_widget/workout_set_widget.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/workout_set_widget/workout_set_widget_model.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -12,9 +12,9 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/workout_set.dart';
 
 import 'routine_workout_card_model.dart';
 

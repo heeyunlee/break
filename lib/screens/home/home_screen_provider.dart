@@ -27,18 +27,18 @@ int currentTabIndex = 0;
 final GlobalKey<NavigatorState> miniplayerNavigatorKey =
     GlobalKey<NavigatorState>();
 
-class HomeScreenModel with ChangeNotifier {
-  double _gridHeight = 400;
-  double _gridWidth = 200;
+// class HomeScreenModel with ChangeNotifier {
+//   double _gridHeight = 400;
+//   double _gridWidth = 200;
 
-  double get gridHeight => _gridHeight;
-  double get gridWidth => _gridWidth;
+//   double get gridHeight => _gridHeight;
+//   double get gridWidth => _gridWidth;
 
-  void setGridSize(BuildContext context) {
-    final appBarHeight = Scaffold.of(context).appBarMaxHeight!;
-    final size = MediaQuery.of(context).size;
+//   void setGridSize(BuildContext context) {
+//     final appBarHeight = Scaffold.of(context).appBarMaxHeight!;
+//     final size = MediaQuery.of(context).size;
 
-    _gridHeight = size.height - appBarHeight - 90;
-    _gridWidth = size.width - 48;
-  }
-}
+//     _gridHeight = size.height - appBarHeight - 90;
+//     _gridWidth = size.width - 48;
+//   }
+// }

@@ -6,14 +6,15 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/location.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
 import 'package:workout_player/screens/home/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -81,7 +82,7 @@ class SearchCategoryScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: Text(title!, style: kSubtitle1),
+                title: Text(title!, style: TextStyles.subtitle1),
                 flexibleSpace: const AppbarBlurBG(),
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
