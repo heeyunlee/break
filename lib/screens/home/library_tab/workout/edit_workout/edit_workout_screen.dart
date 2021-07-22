@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:provider/provider.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/difficulty.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
@@ -12,7 +12,7 @@ import 'package:workout_player/classes/enum/location.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout.dart';
-import 'package:workout_player/screens/home/home_screen_provider.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
@@ -43,9 +43,9 @@ class EditWorkoutScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required Workout workout,
+    required Database database,
+    required AuthBase auth,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -128,11 +128,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       await widget.database.deleteWorkout(workout);
 
-      // Navigation
-      while (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      }
-      tabNavigatorKeys[currentTab]!.currentState!.pop();
+      final homeScreenModel = context.read(homeScreenModelProvider);
+
+      homeScreenModel.popUntilRoot(context);
 
       getSnackbarWidget(
         S.current.deleteWorkoutkButtonText,

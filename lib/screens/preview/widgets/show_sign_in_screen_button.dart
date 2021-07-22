@@ -4,8 +4,8 @@ import 'package:workout_player/screens/sign_in/sign_in_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-class GetStartedWidget extends StatelessWidget {
-  const GetStartedWidget({Key? key}) : super(key: key);
+class ShowSignInScreenButton extends StatelessWidget {
+  const ShowSignInScreenButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -15,6 +15,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/dummy_data.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import 'edit_routine/edit_routine_screen.dart';
@@ -38,20 +40,22 @@ class RoutineDetailScreen extends StatefulWidget {
   final User user;
   final RoutineDetailScreenModel model;
 
-  RoutineDetailScreen({
+  const RoutineDetailScreen({
+    Key? key,
     required this.database,
     required this.routine,
     required this.tag,
     required this.auth,
     required this.user,
     required this.model,
-  });
+  }) : super(key: key);
 
   // For Navigation
   static Future<void> show(
     BuildContext context, {
     required Routine routine,
     required String tag,
+    bool isPushReplacement = false,
   }) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
@@ -59,21 +63,39 @@ class RoutineDetailScreen extends StatefulWidget {
 
     await HapticFeedback.mediumImpact();
 
-    await Navigator.of(context, rootNavigator: false).push(
-      CupertinoPageRoute(
-        fullscreenDialog: false,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => RoutineDetailScreen(
-            routine: routine,
-            tag: tag,
-            user: user,
-            model: watch(routineDetailScreenModelProvider),
-            auth: auth,
-            database: database,
+    if (!isPushReplacement) {
+      await Navigator.of(context, rootNavigator: false).push(
+        CupertinoPageRoute(
+          fullscreenDialog: false,
+          builder: (context) => Consumer(
+            builder: (context, watch, child) => RoutineDetailScreen(
+              routine: routine,
+              tag: tag,
+              user: user,
+              model: watch(routineDetailScreenModelProvider),
+              auth: auth,
+              database: database,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      await Navigator.of(context, rootNavigator: false).pushReplacement(
+        CupertinoPageRoute(
+          fullscreenDialog: false,
+          builder: (context) => Consumer(
+            builder: (context, watch, child) => RoutineDetailScreen(
+              routine: routine,
+              tag: tag,
+              user: user,
+              model: watch(routineDetailScreenModelProvider),
+              auth: auth,
+              database: database,
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -121,10 +143,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                     RoutineWorkoutsTab(
                       auth: widget.auth,
                       database: widget.database,
-                      routine: data.routine!,
+                      data: data,
                     ),
                     RoutineHistoryTab(
-                      routine: data.routine!,
+                      routine: data.routine ?? routineDummyData,
                       auth: widget.auth,
                       database: widget.database,
                     ),
@@ -145,17 +167,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     final height = (constraints.maxHeight > 700)
         ? constraints.maxHeight / 2 + 80
         : constraints.maxHeight / 2 + 120;
+    final routine = data.routine ?? routineDummyData;
 
     return AnimatedBuilder(
       animation: widget.model.textAnimationController,
       builder: (context, child) => SliverAppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const AppBarBackButton(),
         centerTitle: true,
         brightness: Brightness.dark,
         title: Transform.translate(
@@ -201,7 +218,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       Hero(
                         tag: widget.tag,
                         child: CachedNetworkImage(
-                          imageUrl: data.routine!.imageUrl,
+                          imageUrl: routine.imageUrl,
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                           fit: BoxFit.cover,
@@ -222,13 +239,13 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                       Positioned(
                         bottom: 16,
                         left: 16,
-                        child: TitleWidget(title: data.routine!.routineTitle),
+                        child: TitleWidget(title: routine.routineTitle),
                       ),
                       Positioned(
                         bottom: 0,
                         left: 16,
                         child: Text(
-                          data.routine!.routineOwnerUserName,
+                          routine.routineOwnerUserName,
                           style: kSubtitle2BoldGrey,
                         ),
                       ),
@@ -241,12 +258,12 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SubtitleWidget(routine: data.routine!),
-                      MainMuscleGroupWidget(routine: data.routine!),
-                      EquipmentRequiredWidget(routine: data.routine!),
-                      LocationWidget(routine: data.routine!),
+                      SubtitleWidget(routine: routine),
+                      MainMuscleGroupWidget(routine: routine),
+                      EquipmentRequiredWidget(routine: routine),
+                      LocationWidget(routine: routine),
                       DescriptionWidget(
-                        description: data.routine!.description,
+                        description: routine.description,
                       ),
                       const SizedBox(height: 24),
                       Row(
@@ -268,16 +285,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
           ),
         ),
         actions: [
-          if (widget.model.auth!.currentUser!.uid !=
-              data.routine!.routineOwnerId)
+          if (widget.model.auth!.currentUser!.uid != routine.routineOwnerId)
             SaveButtonWidget(
               user: widget.user,
               database: widget.model.database!,
               auth: widget.model.auth!,
-              routine: data.routine!,
+              routine: routine,
             ),
-          if (widget.model.auth!.currentUser!.uid ==
-              data.routine!.routineOwnerId)
+          if (widget.model.auth!.currentUser!.uid == routine.routineOwnerId)
             IconButton(
               icon: const Icon(
                 Icons.edit_rounded,
@@ -285,14 +300,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
               ),
               onPressed: () => EditRoutineScreen.show(
                 context,
-                routine: data.routine!,
+                routine: routine,
+                auth: widget.auth,
+                database: widget.database,
               ),
             ),
           const SizedBox(width: 8),
         ],
       ),
       child: TitleWidget(
-        title: data.routine!.routineTitle,
+        title: routine.routineTitle,
         isAppBarTitle: true,
       ),
     );

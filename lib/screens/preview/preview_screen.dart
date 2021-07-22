@@ -7,11 +7,13 @@ import 'package:workout_player/screens/preview/preview_screen_model.dart';
 
 import '../../styles/constants.dart';
 import 'widgets/blurred_background_preview_widget.dart';
-import 'widgets/get_started_widget.dart';
+import 'widgets/show_sign_in_screen_button.dart';
 import 'widgets/logo_widget.dart';
 import 'widgets/rotate_animated_text_widget.dart';
 
 class PreviewScreen extends StatelessWidget {
+  const PreviewScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     logger.d('Preview Screen building...');
@@ -55,7 +57,7 @@ class PreviewScreen extends StatelessWidget {
                 ),
                 const RotateAnimatedTextWidget(),
                 const Spacer(),
-                const GetStartedWidget(),
+                const ShowSignInScreenButton(),
               ],
             ),
           ),

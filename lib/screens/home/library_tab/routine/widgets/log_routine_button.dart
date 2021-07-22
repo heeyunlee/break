@@ -31,7 +31,7 @@ class LogRoutineButton extends StatelessWidget {
         database: database,
         uid: user.userId,
         user: user,
-        routineWorkouts: data.routineWorkouts,
+        routineWorkouts: data.routineWorkouts!,
       ),
       child: SizedBox(
         height: 48,

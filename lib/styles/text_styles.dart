@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_player/styles/constants.dart';
 
+/// My Custom TextStyle Convention
+///
+/// [type_scale]-[color]-[fonts]
+///
 class TextStyles {
   static const defaultFontFamily = 'NanumSquareRound';
   static const menlo = 'menlo';
@@ -158,6 +162,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline6_w900 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
   static const headline6_grey = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
@@ -166,10 +178,10 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const headline6_w900 = TextStyle(
+  static const headline6_grey_w900 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w900,
-    color: Colors.white,
+    color: Colors.grey,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );

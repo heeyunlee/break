@@ -61,7 +61,10 @@ class _CreateNewRoutineScreenState extends State<CreateNewRoutineScreen> {
   void initState() {
     super.initState();
     widget.model.init(
-      AuthAndDatabase(database: widget.database, auth: widget.auth),
+      AuthAndDatabase(
+        database: widget.database,
+        auth: widget.auth,
+      ),
     );
   }
 

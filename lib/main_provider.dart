@@ -1,6 +1,5 @@
 import 'package:logger/logger.dart';
 
-// Logger logger = Logger();
 Logger logger = Logger(
   level: Level.nothing,
   printer: PrefixPrinter(
@@ -36,5 +35,3 @@ void initLogger(Level level) {
     ),
   );
 }
-
-// String documentIdFromCurrentDate() => DateTime.now().toIso8601String();

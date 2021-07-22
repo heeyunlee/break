@@ -20,6 +20,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Fixed layour problems with smaller-screened phones
 - Refactored RoutineWorkoutCard and WorkoutSetWidget with ChangeNotifierProvider (riverpod)
 - Changed ui of charts when there is no data
+- Refactored HomeScreen with ChangeNotifierProvider (riverpod) 
 
 ## [0.3.2] - July 13th, 2021
 ### New Feautres

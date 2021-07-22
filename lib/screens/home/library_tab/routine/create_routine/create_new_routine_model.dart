@@ -13,7 +13,6 @@ import 'package:workout_player/classes/enum/difficulty.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
-import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
@@ -217,12 +216,11 @@ class CreateNewROutineModel with ChangeNotifier {
 
       await database!.setRoutine(routine);
 
-      Navigator.of(context).pop();
-
       await RoutineDetailScreen.show(
-        tabNavigatorKeys[currentTab]!.currentContext!,
+        context,
         routine: routine,
         tag: 'createRoutine${routine.routineId}',
+        isPushReplacement: true,
       );
 
       // TODO: add SnackBar

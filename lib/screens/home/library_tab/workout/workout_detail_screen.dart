@@ -48,24 +48,40 @@ class WorkoutDetailScreen extends StatefulWidget {
     Workout? workout,
     String? workoutId,
     required String tag,
+    bool isRoot = false,
   }) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: false).push(
-      CupertinoPageRoute(
-        builder: (context) => WorkoutDetailScreen(
-          workout: workout,
-          workoutId: workoutId,
-          database: database,
-          auth: auth,
-          user: user,
-          tag: tag,
+    if (!isRoot) {
+      await Navigator.of(context, rootNavigator: false).push(
+        CupertinoPageRoute(
+          builder: (context) => WorkoutDetailScreen(
+            workout: workout,
+            workoutId: workoutId,
+            database: database,
+            auth: auth,
+            user: user,
+            tag: tag,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      await Navigator.of(context, rootNavigator: false).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => WorkoutDetailScreen(
+            workout: workout,
+            workoutId: workoutId,
+            database: database,
+            auth: auth,
+            user: user,
+            tag: tag,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -215,6 +231,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
               onPressed: () => EditWorkoutScreen.show(
                 context,
                 workout: workout,
+                auth: widget.auth,
+                database: widget.database,
               ),
             ),
           const SizedBox(width: 8),

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
@@ -11,7 +12,7 @@ import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout_history.dart';
-import 'package:workout_player/screens/home/home_screen_provider.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -129,35 +130,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     BuildContext context,
     RoutineHistory routineHistory,
   ) async {
-    // final userData = await widget.user;
-
     try {
-      // // Update User Data
-      // final histories = userData!.dailyWorkoutHistories;
-      // final index = userData.dailyWorkoutHistories!.indexWhere(
-      //   (element) => element.date.toUtc() == routineHistory.workoutDate.toUtc(),
-      // );
-      // final oldHistory = histories![index];
-      // final newHistory = DailyWorkoutHistory(
-      //   date: oldHistory.date,
-      //   totalWeights: oldHistory.totalWeights - routineHistory.totalWeights,
-      // );
-      // histories[index] = newHistory;
-
-      // final user = {
-      //   'totalWeights': userData.totalWeights - routineHistory.totalWeights,
-      //   'totalNumberOfWorkouts': userData.totalNumberOfWorkouts - 1,
-      //   'dailyWorkoutHistories': histories.map((e) => e.toMap()).toList(),
-      // };
-
       await widget.database.deleteRoutineHistory(routineHistory);
       await widget.database.batchDeleteWorkoutHistories(workoutHistories);
-      // await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
-      Navigator.of(context).pop();
-      tabNavigatorKeys[currentTab]!
-          .currentState!
-          .popUntil((route) => route.isFirst);
+      final homeScreenModel = context.read(homeScreenModelProvider);
+
+      homeScreenModel.popUntilRoot(context);
 
       getSnackbarWidget(
         S.current.deleteRoutineHistorySnackbarTitle,
@@ -506,8 +485,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 color: Colors.red,
                 buttonText: S.current.delete,
                 onPressed: () async {
-                  await _showModalBottomSheet(
-                      homeScreenNavigatorKey.currentContext!);
+                  final homeScreenModel = context.read(homeScreenModelProvider);
+                  final homeContext =
+                      homeScreenModel.homeScreenNavigatorKey.currentContext!;
+
+                  await _showModalBottomSheet(homeContext);
                 },
               ),
             const SizedBox(height: 160),

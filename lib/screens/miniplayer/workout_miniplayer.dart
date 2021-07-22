@@ -3,14 +3,15 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/miniplayer/widgets/empty_workout_set_widget.dart';
 import 'package:workout_player/screens/miniplayer/widgets/expanded_miniplayer_title.dart';
 import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_button.dart';
 import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.dart';
 import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -29,12 +30,20 @@ import 'miniplayer_model.dart';
 
 class WorkoutMiniplayer extends ConsumerWidget {
   final Database database;
-  final Future<User?> user;
+  final AuthBase auth;
 
-  WorkoutMiniplayer({
+  const WorkoutMiniplayer({
+    Key? key,
     required this.database,
-    required this.user,
-  });
+    required this.auth,
+  }) : super(key: key);
+
+  static Widget create(BuildContext context) {
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+
+    return WorkoutMiniplayer(auth: auth, database: database);
+  }
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -45,32 +54,35 @@ class WorkoutMiniplayer extends ConsumerWidget {
     final model = watch(miniplayerModelProvider);
     final routine = model.selectedRoutine;
 
-    return Miniplayer(
-      controller: model.miniplayerController,
-      minHeight: miniplayerMinHeight,
-      maxHeight: size.height,
-      backgroundColor: Colors.transparent,
-      valueNotifier: miniplayerExpandProgress,
-      elevation: 6,
-      builder: (height, percentage) {
-        // debugPrint('height $height, and percentage is $percentage');
+    return Offstage(
+      offstage: model.selectedRoutine == null,
+      child: Miniplayer(
+        controller: model.miniplayerController,
+        minHeight: miniplayerMinHeight,
+        maxHeight: size.height,
+        backgroundColor: Colors.transparent,
+        valueNotifier: miniplayerExpandProgress,
+        elevation: 6,
+        builder: (height, percentage) {
+          // debugPrint('height $height, and percentage is $percentage');
 
-        if (routine == null) {
-          return const SizedBox.shrink();
-        }
+          if (routine == null) {
+            return const SizedBox.shrink();
+          }
 
-        return Container(
-          color: kBottomNavBarColor,
-          width: size.width,
-          height: miniplayerMinHeight,
-          child: Stack(
-            children: [
-              _expandedPlayer(context, percentage: percentage, model: model),
-              _collapsedPlayer(context, percentage: percentage, model: model),
-            ],
-          ),
-        );
-      },
+          return Container(
+            color: kBottomNavBarColor,
+            width: size.width,
+            height: miniplayerMinHeight,
+            child: Stack(
+              children: [
+                _expandedPlayer(context, percentage: percentage, model: model),
+                _collapsedPlayer(context, percentage: percentage, model: model),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -202,7 +214,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           _buildWorkoutController(context, model),
-          SaveAndExitButton(database: database, user: user, model: model),
+          SaveAndExitButton(database: database, model: model, auth: auth),
         ],
       ),
     );

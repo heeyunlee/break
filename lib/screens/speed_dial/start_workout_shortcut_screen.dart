@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
-import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -36,7 +33,6 @@ class StartWorkoutShortcutScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await Navigator.of(context, rootNavigator: true).push(
@@ -125,8 +121,6 @@ class _StartWorkoutShortcutScreenState
             : widget.database.routinesSearchStream(
                 arrayContainsVariableName: 'mainMuscleGroup',
                 arrayContainsValue: _selectedChip,
-                // searchCategory: 'mainMuscleGroup',
-                // arrayContains: _selectedChip,
               ),
         builder: (context, snapshot) {
           return ListItemBuilder<Routine>(
@@ -134,7 +128,6 @@ class _StartWorkoutShortcutScreenState
             emptyContentTitle: S.current.emptyroutinesContentTitle(
               _selectedChip,
             ),
-            // snapshot: snapshot,
             itemBuilder: (context, routine, index) {
               final trainingLevel = Formatter.difficulty(routine.trainingLevel);
               final weights = Formatter.weights(routine.totalWeights);
@@ -150,24 +143,12 @@ class _StartWorkoutShortcutScreenState
                 subtitle: '$trainingLevel, $weights $unit',
                 kSubtitle2: routine.routineOwnerUserName,
                 imageUrl: routine.imageUrl,
-                onTap: () {
-                  Navigator.of(context).pop();
-                  tabNavigatorKeys[currentTab]!.currentState!.push(
-                        CupertinoPageRoute(
-                          builder: (context) => Consumer(
-                            builder: (context, watch, child) =>
-                                RoutineDetailScreen(
-                              database: widget.database,
-                              routine: routine,
-                              auth: widget.auth,
-                              tag: 'startWorkoutShortcut${routine.routineId}',
-                              user: widget.user,
-                              model: watch(routineDetailScreenModelProvider),
-                            ),
-                          ),
-                        ),
-                      );
-                },
+                onTap: () => RoutineDetailScreen.show(
+                  context,
+                  routine: routine,
+                  tag: 'startWorkoutShortcut${routine.routineId}',
+                  isPushReplacement: true,
+                ),
               );
             },
           );

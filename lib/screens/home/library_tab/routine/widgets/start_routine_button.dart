@@ -17,15 +17,15 @@ class StartRoutineButton extends ConsumerWidget {
     BuildContext context,
     MiniplayerModel model,
   ) {
-    final items = data.routineWorkouts;
+    final items = data.routineWorkouts!;
 
     if (items.isNotEmpty) {
-      if (items[0]!.sets.isNotEmpty) {
+      if (items[0].sets.isNotEmpty) {
         model.setMiniplayerValues(
           routine: data.routine,
           routineWorkouts: items,
           routineWorkout: items[0],
-          workoutSet: items[0]!.sets[0],
+          workoutSet: items[0].sets[0],
         );
       } else {
         model.setMiniplayerValues(
@@ -43,7 +43,7 @@ class StartRoutineButton extends ConsumerWidget {
       for (int i = 0; i < items.length; i++) {
         int length = 0;
 
-        length = items[i]!.sets.length;
+        length = items[i].sets.length;
 
         routineLength = routineLength + length;
       }

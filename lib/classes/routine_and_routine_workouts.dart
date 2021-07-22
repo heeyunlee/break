@@ -3,7 +3,7 @@ import 'routine_workout.dart';
 
 class RoutineAndRoutineWorkouts {
   final Routine? routine;
-  final List<RoutineWorkout?> routineWorkouts;
+  final List<RoutineWorkout>? routineWorkouts;
 
   const RoutineAndRoutineWorkouts({
     required this.routine,

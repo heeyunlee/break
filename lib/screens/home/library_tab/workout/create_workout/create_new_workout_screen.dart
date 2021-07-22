@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_player/screens/home/home_screen_provider.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -74,10 +73,8 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   // Submit data to Firestore
   Future<void> _submit() async {
-    // debugPrint('_submit button pressed!');
     try {
       final id = 'WK${Uuid().v1()}';
-      // final workoutId = documentIdFromCurrentDate();
       final userId = widget.user.userId;
       final userName = widget.user.userName;
       final lastEditedDate = Timestamp.now();
@@ -122,31 +119,12 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       );
       await widget.database.setWorkout(workout);
 
-      Navigator.of(context).pop();
-      await tabNavigatorKeys[currentTab]!.currentState!.push(
-            CupertinoPageRoute(
-              builder: (context) => WorkoutDetailScreen(
-                workout: workout,
-                database: widget.database,
-                auth: widget.auth,
-                tag: 'newWorkout-${workout.workoutId}',
-                user: widget.user,
-              ),
-            ),
-          );
-
-      // TODO: add snackbar HERE
-
-      // await Navigator.of(context, rootNavigator: true).pushReplacement(
-      //   CupertinoPageRoute(
-      //     builder: (context) => WorkoutDetailScreen(
-      //       workout: workout,
-      //       database: widget.database,
-      //       tag: 'newWorkout-${workout.workoutId}',
-      //       user: widget.user,
-      //     ),
-      //   ),
-      // );
+      await WorkoutDetailScreen.show(
+        context,
+        workout: workout,
+        tag: 'newWorkout-${workout.workoutId}',
+        isRoot: true,
+      );
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -158,7 +136,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveTitle() {
-    // debugPrint('saveTitle Pressed');
     if (_workoutTitle.isNotEmpty) {
       setState(() {
         _pageIndex = 1;
@@ -174,7 +151,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveMainMuscleGroup() {
-    // debugPrint('saveMainMuscleGroup Pressed');
     if (_selectedMainMuscleGroup.isNotEmpty) {
       setState(() {
         _pageIndex = 2;
@@ -190,7 +166,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   void saveEquipmentRequired() {
-    // debugPrint('saveEquipmentRequired Pressed');
     if (_selectedEquipmentRequired.isNotEmpty) {
       setState(() {
         _pageIndex = 3;
@@ -204,16 +179,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       );
     }
   }
-
-  void saveDifficulty() {
-    // debugPrint('saveDifficulty Pressed');
-    _submit();
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
 
   @override
   void dispose() {
@@ -307,7 +272,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         icon: const Icon(Icons.done, color: Colors.white),
         backgroundColor: kPrimaryColor,
         label: Text(S.current.finish, style: TextStyles.button1),
-        onPressed: saveDifficulty,
+        onPressed: _submit,
       );
     } else {
       return FloatingActionButton(
@@ -318,7 +283,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                 ? saveMainMuscleGroup
                 : (_pageIndex == 2)
                     ? saveEquipmentRequired
-                    : saveDifficulty,
+                    : _submit,
         child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
       );
     }

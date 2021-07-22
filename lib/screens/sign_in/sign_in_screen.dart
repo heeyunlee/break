@@ -45,7 +45,7 @@ class SignInScreen extends ConsumerWidget {
         ),
         transitionsBuilder: (context, animation1, animation2, child) =>
             FadeTransition(opacity: animation1, child: child),
-        transitionDuration: Duration(milliseconds: 300),
+        transitionDuration: Duration(milliseconds: 400),
       ),
     );
   }

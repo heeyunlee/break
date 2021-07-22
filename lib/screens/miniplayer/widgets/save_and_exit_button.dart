@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:miniplayer/miniplayer.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout_history.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -14,26 +15,25 @@ import '../routine_history_summary_screen.dart';
 import '../miniplayer_model.dart';
 
 class SaveAndExitButton extends StatelessWidget {
-  final Future<User?> user;
   final Database database;
+  final AuthBase auth;
   final MiniplayerModel model;
 
   const SaveAndExitButton({
     Key? key,
-    required this.user,
     required this.database,
+    required this.auth,
     required this.model,
   }) : super(key: key);
 
   Future<void> _submit(BuildContext context) async {
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
     final routine = model.selectedRoutine!;
     final routineWorkouts = model.selectedRoutineWorkouts!;
 
     try {
       /// For Routine History
-      final userData = (await user)!;
       final _workoutStartTime = Timestamp.now();
-      // final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
       final routineHistoryId = 'RH${Uuid().v1()}';
       final workoutEndTime = Timestamp.now();
       final workoutStartDate = _workoutStartTime.toDate();
@@ -61,8 +61,8 @@ class SaveAndExitButton extends StatelessWidget {
 
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
-        userId: userData.userId,
-        username: userData.displayName,
+        userId: user.userId,
+        username: user.displayName,
         routineId: routine.routineId,
         routineTitle: routine.routineTitle,
         isPublic: true,
@@ -86,15 +86,13 @@ class SaveAndExitButton extends StatelessWidget {
       routineWorkouts.forEach(
         (rw) {
           final id = 'WH${Uuid().v1()}';
-          // final workoutHistoryId = documentIdFromCurrentDate();
-          // final uniqueId = UniqueKey().toString();
 
           final workoutHistory = WorkoutHistory(
             workoutHistoryId: id,
             routineHistoryId: routineHistoryId,
             workoutId: rw!.workoutId,
             routineId: rw.routineId,
-            uid: userData.userId,
+            uid: user.userId,
             index: rw.index,
             workoutTitle: rw.workoutTitle,
             numberOfSets: rw.numberOfSets,
@@ -116,8 +114,11 @@ class SaveAndExitButton extends StatelessWidget {
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
-      model.setMiniplayerValuesNull();
-      model.setIndexesToDefault();
+      // model.setMiniplayerValuesNull();
+      // model.setIndexesToDefault();
+      // model.setRestTime(null);
+      model.diosposeValues(null);
+      model.miniplayerController.animateToHeight(state: PanelState.MIN);
 
       RoutineHistorySummaryScreen.show(
         context,

@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/progress_tab/progress_tab_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../home_screen_provider.dart';
+import '../../home_screen_model.dart';
 
 class ChooseDateIconButton extends StatelessWidget {
   final ProgressTabModel model;
+  final User user;
 
-  const ChooseDateIconButton({Key? key, required this.model}) : super(key: key);
+  const ChooseDateIconButton({
+    Key? key,
+    required this.model,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bool enabled = user.widgetsList?.contains('activityRing') ?? true;
     return TextButton(
       style: ButtonStyles.text1,
-      onPressed: () => _showCalendar(),
+      onPressed: enabled ? () => _showCalendar(context) : null,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -25,16 +33,21 @@ class ChooseDateIconButton extends StatelessWidget {
             DateFormat.MMMEd().format(model.selectedDate),
             style: TextStyles.subtitle2,
           ),
-          const SizedBox(width: 8),
-          const Icon(Icons.arrow_drop_down),
+          if (enabled) const SizedBox(width: 8),
+          if (enabled) const Icon(Icons.arrow_drop_down),
         ],
       ),
     );
   }
 
-  Future<bool?> _showCalendar() {
+  Future<bool?> _showCalendar(BuildContext context) {
+    final homeContext = context
+        .read(homeScreenModelProvider)
+        .homeScreenNavigatorKey
+        .currentContext!;
+
     return showModalBottomSheet<bool>(
-      context: homeScreenNavigatorKey.currentContext!,
+      context: homeContext,
       builder: (context) => Container(
         color: kCardColor,
         height: 500,

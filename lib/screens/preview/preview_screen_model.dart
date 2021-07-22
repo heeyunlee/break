@@ -29,12 +29,14 @@ class PreviewScreenModel extends ChangeNotifier {
   Timer? get timer => _timer;
   Widget get currentWidget => _currentWidget;
 
-  void setCurrentWdigetIndex() {
+  void _setCurrentWdigetIndex() {
     _timer?.cancel();
 
     _timer = Timer.periodic(
       Duration(seconds: 4),
       (timer) {
+        print('timer is running');
+
         if (_currentWidgetIndex < (currentPreviewWidgetList.length - 1)) {
           _currentWidgetIndex += 1;
         } else {
@@ -51,7 +53,7 @@ class PreviewScreenModel extends ChangeNotifier {
     if (visibilityInfo.visibleFraction == 0) {
       _timer?.cancel();
     } else {
-      setCurrentWdigetIndex();
+      _setCurrentWdigetIndex();
     }
   }
 

@@ -1155,7 +1155,7 @@ class FirestoreDatabase implements Database {
     return Rx.combineLatest2(
       routineStream(routineId),
       routineWorkoutsStream(routineId),
-      (Routine? routine, List<RoutineWorkout?> routineWorkouts) {
+      (Routine? routine, List<RoutineWorkout>? routineWorkouts) {
         return RoutineAndRoutineWorkouts(
           routine: routine,
           routineWorkouts: routineWorkouts,

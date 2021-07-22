@@ -20,9 +20,11 @@ class User {
   final DateTime? lastHealthDataFetchedTime; // Nullable
   final num? weightGoal; // Nullable
   final num? bodyFatPercentageGoal; // Nullable
-  final List<dynamic>? widgetsList;
-  final Map<String, dynamic>? deviceInfo;
-  final Timestamp? lastAppOpenedTime;
+  final List<dynamic>? widgetsList; // Nullable
+  final Map<String, dynamic>? deviceInfo; // Nullable
+  final Timestamp? lastAppOpenedTime; // Nullable
+  final DateTime? creationTime; // Nullable
+  final String? profileUrl; // Nullable
 
   const User({
     required this.userId,
@@ -46,6 +48,8 @@ class User {
     this.widgetsList,
     this.deviceInfo,
     this.lastAppOpenedTime,
+    this.creationTime,
+    this.profileUrl,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -71,6 +75,8 @@ class User {
       final List<dynamic>? widgetsList = data['widgetsList'];
       final Map<String, dynamic>? deviceInfo = data['deviceInfo'];
       final Timestamp? lastAppOpenedTime = data['lastAppOpenedTime'];
+      final DateTime? creationTime = data['creationTime']?.toDate();
+      final String? profileUrl = data['profileUrl'];
 
       return User(
         userId: documentId,
@@ -94,6 +100,8 @@ class User {
         widgetsList: widgetsList,
         deviceInfo: deviceInfo,
         lastAppOpenedTime: lastAppOpenedTime,
+        creationTime: creationTime,
+        profileUrl: profileUrl,
       );
     } else {
       throw 'null';
@@ -122,6 +130,8 @@ class User {
     data['widgetsList'] = widgetsList;
     data['deviceInfo'] = deviceInfo;
     data['lastAppOpenedTime'] = lastAppOpenedTime;
+    data['creationTime'] = creationTime;
+    data['profileUrl'] = profileUrl;
 
     return data;
   }
@@ -151,7 +161,9 @@ class User {
         other.bodyFatPercentageGoal == bodyFatPercentageGoal &&
         listEquals(other.widgetsList, widgetsList) &&
         mapEquals(other.deviceInfo, deviceInfo) &&
-        other.lastAppOpenedTime == lastAppOpenedTime;
+        other.lastAppOpenedTime == lastAppOpenedTime &&
+        other.creationTime == creationTime &&
+        other.profileUrl == profileUrl;
   }
 
   @override
@@ -176,6 +188,69 @@ class User {
         bodyFatPercentageGoal.hashCode ^
         widgetsList.hashCode ^
         deviceInfo.hashCode ^
-        lastAppOpenedTime.hashCode;
+        lastAppOpenedTime.hashCode ^
+        creationTime.hashCode ^
+        profileUrl.hashCode;
   }
+
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'userId': userId,
+  //     'userName': userName,
+  //     'userEmail': userEmail,
+  //     'signUpDate': signUpDate,
+  //     'signUpProvider': signUpProvider,
+  //     'savedWorkouts': savedWorkouts,
+  //     'savedRoutines': savedRoutines,
+  //     'totalWeights': totalWeights,
+  //     'totalNumberOfWorkouts': totalNumberOfWorkouts,
+  //     'unitOfMass': unitOfMass,
+  //     'lastLoginDate': lastLoginDate,
+  //     'dailyWeightsGoal': dailyWeightsGoal,
+  //     'dailyProteinGoal': dailyProteinGoal,
+  //     'displayName': displayName,
+  //     'backgroundImageIndex': backgroundImageIndex,
+  //     'lastHealthDataFetchedTime': lastHealthDataFetchedTime,
+  //     'weightGoal': weightGoal,
+  //     'bodyFatPercentageGoal': bodyFatPercentageGoal,
+  //     'widgetsList': widgetsList,
+  //     'deviceInfo': deviceInfo,
+  //     'lastAppOpenedTime': lastAppOpenedTime,
+  //     'creationTime': creationTime,
+  //     'profileUrl': profileUrl,
+  //   };
+  // }
+
+  // factory User.fromMap(Map<String, dynamic> map) {
+  //   return User(
+  //     userId: map['userId'],
+  //     userName: map['userName'],
+  //     userEmail: map['userEmail'],
+  //     signUpDate: map['signUpDate'],
+  //     signUpProvider: map['signUpProvider'],
+  //     savedWorkouts: List<String>.from(map['savedWorkouts']),
+  //     savedRoutines: List<String>.from(map['savedRoutines']),
+  //     totalWeights: map['totalWeights'],
+  //     totalNumberOfWorkouts: map['totalNumberOfWorkouts'],
+  //     unitOfMass: map['unitOfMass'],
+  //     lastLoginDate: map['lastLoginDate'],
+  //     dailyWeightsGoal: map['dailyWeightsGoal'],
+  //     dailyProteinGoal: map['dailyProteinGoal'],
+  //     displayName: map['displayName'],
+  //     backgroundImageIndex: map['backgroundImageIndex'],
+  //     lastHealthDataFetchedTime:
+  //         DateTime.fromMillisecondsSinceEpoch(map['lastHealthDataFetchedTime']),
+  //     weightGoal: map['weightGoal'],
+  //     bodyFatPercentageGoal: map['bodyFatPercentageGoal'],
+  //     widgetsList: List<String>.from(map['widgetsList']),
+  //     deviceInfo: Map<String, dynamic>.from(map['deviceInfo']),
+  //     lastAppOpenedTime: map['lastAppOpenedTime'],
+  //     creationTime: DateTime.fromMillisecondsSinceEpoch(map['creationTime']),
+  //     profileUrl: map['profileUrl'],
+  //   );
+  // }
+
+  // Map<String, dynamic>? toJson() => toMap();
+
+  // factory User.fromJson(Map<String, dynamic>? source) => User.fromMap(source!);
 }

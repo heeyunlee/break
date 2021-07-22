@@ -166,5 +166,19 @@ class MiniplayerModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void diosposeValues(Duration? time) {
+    _selectedRoutine = null;
+    _selectedRoutineWorkouts = null;
+    _currentRoutineWorkout = null;
+    _currentWorkoutSet = null;
+    _restTime = time;
+    _currentIndex = 1;
+    _routineWorkoutIndex = 0;
+    _workoutSetIndex = 0;
+    _setsLength = 0;
+
+    notifyListeners();
+  }
+
   void startRoutine() {}
 }

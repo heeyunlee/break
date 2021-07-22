@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
@@ -9,11 +8,9 @@ import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
-import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/screens/home/library_tab/routine/create_routine/create_new_routine_screen.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
-import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
@@ -24,38 +21,36 @@ import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-import '../../home_screen_provider.dart';
-
 class AddWorkoutToRoutineScreen extends StatefulWidget {
+  final Database database;
+  final Workout workout;
+  final AuthBase auth;
+  // final User user;
+
   const AddWorkoutToRoutineScreen({
     Key? key,
     required this.database,
     required this.workout,
     required this.auth,
-    required this.user,
+    // required this.user,
   }) : super(key: key);
-
-  final Database database;
-  final Workout workout;
-  final AuthBase auth;
-  final User user;
 
   static void show(
     BuildContext context, {
     required Workout workout,
-  }) async {
+  }) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+    // final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
-    await Navigator.of(context, rootNavigator: true).push(
+    Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => AddWorkoutToRoutineScreen(
           workout: workout,
           database: database,
           auth: auth,
-          user: user,
+          // user: user,
         ),
       ),
     );
@@ -105,47 +100,14 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       );
       await widget.database.setRoutineWorkout(routine, routineWorkout);
 
-      Navigator.of(context).pop();
+      await RoutineDetailScreen.show(
+        context,
+        routine: routine,
+        tag: 'addWorkoutToRoutine${routine.routineId}',
+        isPushReplacement: true,
+      );
 
-      await tabNavigatorKeys[currentTab]!.currentState!.push(
-            CupertinoPageRoute(
-              fullscreenDialog: false,
-              builder: (context) => Consumer(
-                builder: (context, watch, child) => RoutineDetailScreen(
-                  database: widget.database,
-                  routine: routine,
-                  auth: widget.auth,
-                  tag: 'addWorkoutToRoutine${routine.routineId}',
-                  user: widget.user,
-                  model: watch(routineDetailScreenModelProvider),
-                ),
-              ),
-            ),
-          );
-      // Navigator.of(context).popUntil((route) => route.isFirst);
-      // await Navigator.of(context).pushReplacement(
-      //   CupertinoPageRoute(
-      //     fullscreenDialog: false,
-      //     builder: (context) => RoutineDetailScreen(
-      //       database: widget.database,
-      //       routine: routine,
-      //       auth: widget.auth,
-      //       tag: 'addWorkoutToRoutine${routine.routineId}',
-      //       user: widget.user,
-      //     ),
-      //   ),
-      // );
-      // await RoutineDetailScreen.show(
-      //   context,
-      //   routine: routine,
-      //   tag: '',
-      // );
-
-      // TODO: ADD snackbar here
-
-      // final locale = Intl.getCurrentLocale();
-      // final title = widget.workout.translated[locale];
-
+      // TODO: ADD SNACK BAR HERE
       // getSnackbarWidget(
       //   S.current.addWorkout,
       //   S.current.addWorkoutToRoutineSnackbarMessage(title),
@@ -213,9 +175,6 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        // final documentId = documentSnapshot.id;
-        // final data = documentSnapshot.data()!;
-        // final routine = Routine.fromJson(data, documentId);
         final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
         final routine = snapshot.data()!;
 

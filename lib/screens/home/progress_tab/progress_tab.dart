@@ -24,22 +24,16 @@ import 'widgets/logo_widget.dart';
 
 class ProgressTab extends StatefulWidget {
   final ProgressTabModel model;
-  final AuthAndDatabase authAndDatabase;
 
   const ProgressTab({
     Key? key,
     required this.model,
-    required this.authAndDatabase,
   }) : super(key: key);
 
-  static Widget create(BuildContext context) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
-
+  static Widget create() {
     return Consumer(
       builder: (context, watch, child) => ProgressTab(
         model: watch(progressTabModelProvider),
-        authAndDatabase: AuthAndDatabase(auth: auth, database: database),
       ),
     );
   }
@@ -53,10 +47,12 @@ class _ProgressTabState extends State<ProgressTab>
   @override
   void initState() {
     super.initState();
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
 
     widget.model.init(
       vsync: this,
-      authAndDatabase: widget.authAndDatabase,
+      authAndDatabase: AuthAndDatabase(database: database, auth: auth),
     );
 
     SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
@@ -86,6 +82,9 @@ class _ProgressTabState extends State<ProgressTab>
       ),
       loadingWidget: ProgressTabShimmer(),
       hasDataWidget: (context, progressTabClass) {
+        final auth = provider.Provider.of<AuthBase>(context, listen: false);
+        final database = provider.Provider.of<Database>(context, listen: false);
+
         return NotificationListener<ScrollNotification>(
           onNotification: widget.model.onNotification,
           child: Scaffold(
@@ -97,11 +96,17 @@ class _ProgressTabState extends State<ProgressTab>
               elevation: 0,
               backgroundColor: Colors.transparent,
               leading: ChooseBackgroundButton(user: progressTabClass.user),
-              title: ChooseDateIconButton(model: widget.model),
+              title: ChooseDateIconButton(
+                model: widget.model,
+                user: progressTabClass.user,
+              ),
               actions: [
                 CustomizeWidgetsButton(
                   user: progressTabClass.user,
-                  authAndDatabase: widget.authAndDatabase,
+                  authAndDatabase: AuthAndDatabase(
+                    auth: auth,
+                    database: database,
+                  ),
                 ),
                 const SizedBox(width: 8),
               ],
@@ -160,12 +165,13 @@ class _ProgressTabState extends State<ProgressTab>
           ),
         ),
 
-        /// TODO: ADD Banner here
-        // Positioned(
-        //   left: 16,
-        //   top: 104,
-        //   child: BlurredMaterialBanner(model: widget.model),
-        // ),
+        // /// TODO: ADD Banner here
+        // if (widget.model.showBanner)
+        //   Positioned(
+        //     left: 16,
+        //     top: 104,
+        //     child: BlurredMaterialBanner(model: widget.model),
+        //   ),
       ],
     );
   }

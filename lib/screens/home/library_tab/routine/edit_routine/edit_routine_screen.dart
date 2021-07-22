@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/difficulty.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
@@ -12,8 +12,7 @@ import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
-import 'package:workout_player/screens/home/home_screen_provider.dart';
-import 'package:workout_player/screens/home/tab_item.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
@@ -45,9 +44,11 @@ class EditRoutineScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required Routine routine,
+    required AuthBase auth,
+    required Database database,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
+    // final database = provider.Provider.of<Database>(context, listen: false);
+    // final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -134,10 +135,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     try {
       await widget.database.deleteRoutine(routine);
 
-      while (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      }
-      tabNavigatorKeys[CustomTabItem.library]!.currentState!.pop();
+      final homeScreenModel = context.read(homeScreenModelProvider);
+
+      homeScreenModel.popUntilRoot(context);
 
       getSnackbarWidget(
         S.current.deleteRoutineSnackbarTitle,

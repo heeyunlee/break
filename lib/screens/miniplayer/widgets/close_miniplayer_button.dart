@@ -24,10 +24,10 @@ class CloseMiniplayerButton extends StatelessWidget {
       firstActionOnPressed: () {
         Navigator.of(context).pop();
 
-        model.setMiniplayerValuesNull();
-
-        model.setIndexesToDefault();
-        model.setRestTime(null);
+        // model.setMiniplayerValuesNull();
+        // model.setIndexesToDefault();
+        // model.setRestTime(null);
+        model.diosposeValues(null);
 
         model.miniplayerController.animateToHeight(state: PanelState.MIN);
 

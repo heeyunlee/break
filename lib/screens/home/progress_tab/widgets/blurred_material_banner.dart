@@ -6,8 +6,9 @@ import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../home_screen_provider.dart';
+import '../../home_screen_model.dart';
 
 class BlurredMaterialBanner extends StatelessWidget {
   final ProgressTabModel model;
@@ -20,6 +21,10 @@ class BlurredMaterialBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final homeContext = context
+        .read(homeScreenModelProvider)
+        .homeScreenNavigatorKey
+        .currentContext!;
 
     return SizedBox(
       height: 136,
@@ -51,7 +56,7 @@ class BlurredMaterialBanner extends StatelessWidget {
             TextButton(
               style: ButtonStyles.text1_bold,
               onPressed: () => PersonalGoalsScreen.show(
-                homeScreenNavigatorKey.currentContext!,
+                homeContext,
                 isRoot: true,
               ),
               child: Text(S.current.SETNOW),

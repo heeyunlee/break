@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
+import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 
 import '../add_measurement_screen.dart';
 import '../add_protein_screen.dart';
@@ -11,12 +13,7 @@ import 'background_overlay.dart';
 import 'speed_dial_children.dart';
 
 class SpeedDialWidget extends StatefulWidget {
-  final double distance;
-
-  const SpeedDialWidget({
-    Key? key,
-    required this.distance,
-  }) : super(key: key);
+  const SpeedDialWidget({Key? key}) : super(key: key);
 
   @override
   _SpeedDialWidgetState createState() => _SpeedDialWidgetState();
@@ -66,20 +63,36 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    return ValueListenableBuilder(
+      valueListenable: miniplayerExpandProgress,
+      builder: (BuildContext context, double height, Widget? child) {
+        final size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      height: size.height,
-      width: size.width,
-      child: Stack(
-        alignment: Alignment(0, 1),
-        children: [
-          _renderOverlay(),
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
+        final value = percentageFromValueInRange(
+          min: miniplayerMinHeight,
+          max: size.height,
+          value: height,
+        );
+        return Transform.translate(
+          offset: Offset(
+            0,
+            kBottomNavigationBarHeight * value * 2,
+          ),
+          child: SizedBox(
+            height: size.height,
+            width: size.width,
+            child: Stack(
+              alignment: Alignment(0, 1),
+              children: [
+                _renderOverlay(),
+                _buildTapToCloseFab(),
+                ..._buildExpandingActionButtons(),
+                _buildTapToOpenFab(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -175,7 +188,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
       modifiedChildren.add(
         _SpeedDialChildrenWidget(
           degree: angleInDegrees,
-          distance: widget.distance,
+          distance: 136,
           progress: _childrenAnimation,
           child: _expandingChildren()[i],
         ),
