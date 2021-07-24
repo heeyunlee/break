@@ -185,8 +185,6 @@ class SignInScreenModel extends ChangeNotifier {
         };
 
         if (user.deviceInfo == null) {
-          print('device info is NULL');
-
           updatedUserData['deviceInfo'] = deviceInfo;
         }
 
@@ -227,8 +225,6 @@ class SignInScreenModel extends ChangeNotifier {
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
       final currentTime = Timestamp.now();
-
-      print('user data is ${firebaseUser.toString()}');
 
       // Create new data do NOT exist
       if (user == null) {

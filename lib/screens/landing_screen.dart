@@ -13,7 +13,7 @@ import 'splash/splash_screen.dart';
 class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    logger.d('Landing Screen building...');
+    logger.d('LandingScreen build...');
 
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
@@ -28,7 +28,7 @@ class LandingScreen extends StatelessWidget {
           } else {
             return provider.Provider<Database>(
               create: (_) => FirestoreDatabase(uid: user.uid),
-              child: const HomeScreen(),
+              child: HomeScreen.create(),
             );
           }
         }

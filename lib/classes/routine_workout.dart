@@ -49,6 +49,8 @@ class RoutineWorkout {
       final num totalWeights = data['totalWeights'];
       List<WorkoutSet> sets = <WorkoutSet>[];
       if (data['sets'] != null) {
+        // List<WorkoutSet> sets =
+        //     data['sets'].map((e) => WorkoutSet.fromJson(e)).toList();
         data['sets'].forEach((item) {
           sets.add(WorkoutSet.fromJson(item));
         });

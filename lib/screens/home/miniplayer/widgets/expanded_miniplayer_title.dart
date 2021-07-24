@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
+
+import '../miniplayer_model.dart';
 
 class ExpandedMiniplayerTitle extends StatelessWidget {
   final double? horzPadding;

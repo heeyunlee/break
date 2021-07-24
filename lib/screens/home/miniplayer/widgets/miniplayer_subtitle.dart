@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
+
+import '../miniplayer_model.dart';
 
 class MiniplayerSubtitle extends StatelessWidget {
   final double? horizontalPadding;

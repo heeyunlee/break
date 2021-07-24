@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 
-import '../../../styles/constants.dart';
-import '../../../utils/formatter.dart';
 import '../miniplayer_model.dart';
 
 class WeightsAndRepsWidget extends StatelessWidget {

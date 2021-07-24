@@ -116,8 +116,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
 
     _scrollController = ScrollController()
       ..addListener(() {
-        // debugPrint('offset is ${_scrollController.offset}');
-
         _textAnimationController
             .animateTo((_scrollController.offset - 200) / 100);
       });

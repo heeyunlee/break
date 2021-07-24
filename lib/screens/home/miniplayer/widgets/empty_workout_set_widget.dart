@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-
-import '../../../styles/constants.dart';
+import 'package:workout_player/styles/constants.dart';
 
 class EmptyWorkoutSetWidget extends StatelessWidget {
   @override

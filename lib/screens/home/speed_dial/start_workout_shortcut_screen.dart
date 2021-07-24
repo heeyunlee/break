@@ -2,21 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/main_provider.dart';
-
-import '../../widgets/appbar_blur_bg.dart';
-import '../../widgets/choice_chips_app_bar_widget.dart';
-import '../../widgets/custom_list_tile_3.dart';
-import '../../widgets/list_item_builder.dart';
-import '../../styles/constants.dart';
-import '../../classes/routine.dart';
-import '../../services/database.dart';
+import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
+import 'package:workout_player/widgets/custom_list_tile_3.dart';
+import 'package:workout_player/widgets/list_item_builder.dart';
 
 class StartWorkoutShortcutScreen extends StatefulWidget {
   final Database database;

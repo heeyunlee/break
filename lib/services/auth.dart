@@ -249,17 +249,13 @@ class AuthService implements AuthBase {
         ),
       );
 
-      // print('result is ${result.authorizationCode}');
-
       // Create a new credential
       final oAuthProvider = auth.OAuthProvider('apple.com');
-      // print('oAuthProvider is $oAuthProvider');
 
       final credential = oAuthProvider.credential(
         accessToken: result.authorizationCode,
         idToken: result.identityToken,
       );
-      // print('credential is $credential');
 
       // Using credential to get the user
       final authResult = await _auth.signInWithCredential(credential);
@@ -324,7 +320,6 @@ class AuthService implements AuthBase {
   }
 
   Future<String> _getToken() async {
-    // debugPrint('get token function triggered');
     final installed = await isKakaoTalkInstalled();
     final authCode = installed
         ? await AuthCodeClient.instance.requestWithTalk()
@@ -336,8 +331,6 @@ class AuthService implements AuthBase {
   }
 
   Future<String> _verifyToken(String kakaoToken) async {
-    // debugPrint('_verifyToken function triggered in auth');
-
     try {
       FirebaseFunctions functions = FirebaseFunctions.instance;
       HttpsCallable callable = functions.httpsCallable('verifyKakaoToken');

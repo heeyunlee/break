@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/main_provider.dart';
 
 final weeklyNutritionChartModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyNutritionChartModel(),
@@ -54,6 +54,8 @@ class WeeklyNutritionChartModel with ChangeNotifier {
   }
 
   Future<void> setRelativeList(List<Nutrition>? list, User user) async {
+    logger.d('setRelativeList in nutritionChart called');
+
     Map<DateTime, List<Nutrition>> _mapData;
     List<num> _listOfYs = [];
     List<double> _relatives = [];

@@ -45,7 +45,6 @@ class SavedWorkoutsScreen extends StatelessWidget {
   void _getDocuments(List<Future<Workout?>> workoutsFuture) {
     user.savedWorkouts!.forEach((id) {
       Future<Workout?> nextDoc = database.getWorkout(id);
-      // print(nextDoc);
       workoutsFuture.add(nextDoc);
     });
   }
@@ -57,8 +56,6 @@ class SavedWorkoutsScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     _getDocuments(workoutsFuture);
-
-    print(workoutsFuture.length);
 
     return Scaffold(
       backgroundColor: kBackgroundColor,

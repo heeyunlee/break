@@ -57,7 +57,6 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             setState(() {
               _currentLang = Intl.getCurrentLocale();
             });
-            // print(_currentLang);
           },
         ),
         ListTile(
@@ -72,7 +71,6 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             setState(() {
               _currentLang = Intl.getCurrentLocale();
             });
-            // print(_currentLang);
           },
         ),
       ],

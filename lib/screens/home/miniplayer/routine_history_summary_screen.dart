@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -16,8 +17,6 @@ import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/services/database.dart';
-
-import '../../utils/formatter.dart';
 
 class RoutineHistorySummaryScreen extends StatefulWidget {
   final RoutineHistory routineHistory;

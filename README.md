@@ -3,13 +3,26 @@
   <br>
   <br>
   Herakles: Workout Player
+  <br>
+  <br>
+
+  [![Get it from App Store](https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/README.md%2FDownload_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg?alt=media&token=8681ed8f-b1c5-417a-bb4b-338009480c2d)](https://apps.apple.com/us/app/herakles-workout-player/id1555829140) [![Get it on Google Play](https://lisk.io/sites/default/files/pictures/2020-01/download_on_the_play_store_badge.svg)](https://play.google.com/store/apps/details?id=com.healtine.playerh)
 </h1>
+
+#### Herakles is health & fitness tracking app built with Flutter and Firebase. User can make a customizable dashboard to see their progress or use YouTbe-like miniplayer to workout in real time.
+<br>
+<br>
 
 ### **Table of contents**
 - [**Introduction**](#introduction)
+- [**Preview**](#preview)
 - [**To Do**](#to-do)
 
 ## Introduction
+Herakles is a health & fitness tracking app with customizable dashboard (with iOS-like widgets) and workout player (YouTube-like miniplayer and displays your current workout)
+
+## Preview
+<img src="https://media.giphy.com/media/Hkk2m4YGv1c1mWhBRz/giphy.gif" alt="preview1" width="200"/>
 
 ## To Do
 ### Refactoring
@@ -20,7 +33,7 @@
 - [ ] Log Routine Screen
 - [ ] Routine History Tab
 - [x] Routine Workout Card
-- [ ] Workout Set Widget
+- [ ] Workout Set Widget (half way done)
 - [ ] Saved Routines Screen
 - [x] Routine Detail Screen
 - [ ] Create Workout Screen
@@ -42,7 +55,9 @@
 - [ ] Change Language Screen
 - [ ] Unit Of Mass Screen
 - [ ] User Feedback Screen
-- [ ] Home Screen
+- [x] Home Screen
 - [ ] Add Measurement Screen
 - [ ] Add Protein Screen
 - [ ] Start Workout Shortcut Screen
+- [ ] SpeedDial
+- [x] Preview Screen

@@ -67,7 +67,6 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
         'initialUnitOfMass': _unitOfMass,
       };
       await widget.database.updateRoutine(widget.routine, routine);
-      // debugPrint('Updated Unit Of Mass');
 
       getSnackbarWidget(
         S.current.unitOfMass,

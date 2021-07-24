@@ -44,8 +44,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
 
     _scrollController = ScrollController()
       ..addListener(() {
-        // debugPrint('offset is ${_scrollController.offset}');
-
         _textAnimationController
             .animateTo((_scrollController.offset - 336) / 100);
       });

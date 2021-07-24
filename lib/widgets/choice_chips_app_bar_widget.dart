@@ -61,14 +61,11 @@ class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
         backgroundColor: kAppBarColor,
         selectedColor: kPrimaryColor,
         onSelected: (bool selected) {
-          // setState(() {
           if (selected) {
             _selectedIndex = i;
             _selectedChipLabel = _mainMuscleGroup[i];
             widget.callback(_selectedChipLabel);
           }
-          // debugPrint(_selectedChipLabel);
-          // });
         },
       );
 

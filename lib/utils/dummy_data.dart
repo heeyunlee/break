@@ -3,7 +3,6 @@ import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/nutrition.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/classes/workout.dart';
@@ -139,11 +138,13 @@ final measurementDummyData = Measurement(
   loggedTime: Timestamp.now(),
   loggedDate: DateTime.now(),
 );
-final dummyProgressTabClassData = ProgressTabClass(
-  user: userDummyData,
-  routineHistories: [routineHistoryDummyData],
-  nutritions: [nutritionDummyData],
-  measurements: [measurementDummyData],
-  selectedDayRoutineHistories: [routineHistoryDummyData],
-  selectedDayNutritions: [nutritionDummyData],
-);
+
+
+// final dummyProgressTabClassData = ProgressTabClass(
+//   user: userDummyData,
+//   routineHistories: [routineHistoryDummyData],
+//   nutritions: [nutritionDummyData],
+//   measurements: [measurementDummyData],
+//   selectedDayRoutineHistories: [routineHistoryDummyData],
+//   selectedDayNutritions: [nutritionDummyData],
+// );

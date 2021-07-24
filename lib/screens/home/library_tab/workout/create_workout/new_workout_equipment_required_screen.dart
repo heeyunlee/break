@@ -22,8 +22,6 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('NewWorkoutEquipmentRequiredScreen building...');
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -61,8 +59,6 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
 
                         widget.equipmentRequiredCallback(
                             _selectedEquipmentRequired);
-
-                        debugPrint('$_selectedEquipmentRequired');
                       },
                     ),
                   ),

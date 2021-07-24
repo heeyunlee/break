@@ -2,7 +2,12 @@
 
 Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
-## Unreleased (0.3.3)
+## Unreleased [0.3.4]
+### New Features
+
+### Bug Fix & Refactor
+
+## [0.3.3] - July 22nd, 2021
 ### New Features
 - Added Weekly Workout Widget (smaller and simpler version than before)
 - Enabled users to reorder progress tab's widgets using reorderables package
@@ -51,5 +56,6 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
 
+[0.3.3]: https://github.com/heeyunlee/herakless/compare/ea1d7a2abec9c652e2e508e1326df011b1ab2e8b..054a3316c3963866a36a2a6a8ea155120acbfd78
 [0.3.2]: https://github.com/heeyunlee/herakless/compare/db5c6992dcc41fd9f5f11160333509e97fa42019..ea1d7a2abec9c652e2e508e1326df011b1ab2e8b
 [0.3.1]: https://github.com/heeyunlee/herakless/compare/42acc8b1464d163177826bd24b6bd69e9f883173..db5c6992dcc41fd9f5f11160333509e97fa42019

@@ -21,7 +21,7 @@ class EmptyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    logger.e(e);
+    logger.i(e);
 
     return Container(
       width: size.width,

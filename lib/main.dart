@@ -1,6 +1,7 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -44,7 +45,11 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    initLogger(Level.debug);
+    if (kDebugMode || kProfileMode) {
+      initLogger(Level.debug);
+    }
+
+    logger.d('Main method');
 
     return provider.MultiProvider(
       providers: [

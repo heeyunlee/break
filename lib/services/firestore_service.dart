@@ -16,6 +16,7 @@ class FirestoreService {
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
           toFirestore: (model, _) => toBuilder(model),
         );
+
     await reference.set(data);
   }
 
@@ -64,8 +65,6 @@ class FirestoreService {
     required Function(Map<String, dynamic>? data, String id) fromBuilder,
     required Function(T model) toBuilder,
   }) {
-    // print('document stream');
-
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
           toFirestore: (model, _) => toBuilder(model),
@@ -216,11 +215,7 @@ class FirestoreService {
     required Function(Map<String, dynamic>? data, String id) fromBuilder,
     required Function(T model) toBuilder,
   }) {
-    // print('date is equal to is $dateIsEqualTo');
-
     final day = dateIsEqualTo ?? DateTime.now();
-
-    // print('day is $day');
 
     final dayInUtc = DateTime.utc(day.year, day.month, day.day);
 
@@ -326,8 +321,6 @@ class FirestoreService {
     required List<String> path,
     required List<Map<String, dynamic>> data,
   }) async {
-    print('batch init');
-
     final batch = FirebaseFirestore.instance.batch();
 
     for (var i = 0; i < path.length; i++) {

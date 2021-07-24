@@ -29,9 +29,6 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
         if (snapshot.hasData) {
           return hasDataWidget(context, snapshot.data!);
         } else if (snapshot.hasError) {
-          print(snapshot.error);
-          print(snapshot.data);
-
           return errorWidget ??
               EmptyContent(
                 message: S.current.errorOccuredMessage,

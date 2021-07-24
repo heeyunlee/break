@@ -106,10 +106,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     if (_mealType != null) {
-      // debugPrint('submit Button Pressed!');
       try {
-        // Create new Nutrition Data
-        // final id = 'NUT${documentIdFromCurrentDate()}';
         final id = 'NUT${Uuid().v1()}';
 
         final nutrition = Nutrition(
@@ -403,7 +400,6 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               _selectedIndex = i;
               _mealType = _meals[i];
             }
-            // debugPrint(_mealType);
           });
         },
       );

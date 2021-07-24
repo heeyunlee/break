@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/styles/constants.dart';
 
-import '../../../styles/constants.dart';
+import '../miniplayer_model.dart';
 
 class LinearProgressIndicatorWidget extends StatelessWidget {
   final double width;

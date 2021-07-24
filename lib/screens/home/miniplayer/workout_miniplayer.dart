@@ -6,21 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:workout_player/screens/miniplayer/widgets/empty_workout_set_widget.dart';
-import 'package:workout_player/screens/miniplayer/widgets/expanded_miniplayer_title.dart';
-import 'package:workout_player/screens/miniplayer/widgets/next_routine_workout_button.dart';
-import 'package:workout_player/screens/miniplayer/widgets/pause_or_play_button.dart';
-import 'package:workout_player/screens/miniplayer/widgets/rest_timer_widget.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-import '../../styles/constants.dart';
 import 'widgets/close_miniplayer_button.dart';
 import 'widgets/collapsed_miniplayer_title.dart';
+import 'widgets/empty_workout_set_widget.dart';
+import 'widgets/expanded_miniplayer_title.dart';
 import 'widgets/linear_progress_indicator_widget.dart';
 import 'widgets/miniplayer_subtitle.dart';
+import 'widgets/next_routine_workout_button.dart';
+import 'widgets/pause_or_play_button.dart';
+import 'widgets/rest_timer_widget.dart';
 import 'widgets/weights_and_reps_widget.dart';
 import 'widgets/next_workout_set_button.dart';
 import 'widgets/previous_workout_button.dart';
@@ -64,8 +64,6 @@ class WorkoutMiniplayer extends ConsumerWidget {
         valueNotifier: miniplayerExpandProgress,
         elevation: 6,
         builder: (height, percentage) {
-          // debugPrint('height $height, and percentage is $percentage');
-
           if (routine == null) {
             return const SizedBox.shrink();
           }

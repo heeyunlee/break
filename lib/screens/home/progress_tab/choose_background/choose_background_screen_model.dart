@@ -100,19 +100,14 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
   }
 
   Future<void> showFiles() async {
-    print('show files init');
-
     ListResult result = await FirebaseStorage.instance
         .ref('users/${auth!.currentUser!.uid}/bg')
         .list();
 
     final items = result.items;
 
-    print('items are ${items.toString()}');
-
     items.forEach((element) async {
       final url = await element.getDownloadURL();
-      print('url is $url');
 
       _personalImagesUrls.add(url);
     });

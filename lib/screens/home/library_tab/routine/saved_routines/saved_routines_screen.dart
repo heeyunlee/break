@@ -48,9 +48,7 @@ class SavedRoutinesScreen extends StatelessWidget {
   void _getDocuments() {
     user.savedRoutines!.forEach((id) {
       Future<Routine?> nextDoc = database.getRoutine(id);
-      // print(nextDoc);
       routinesFuture.add(nextDoc);
-      // routinesFuture.add(nextDoc);
     });
   }
 
@@ -59,7 +57,6 @@ class SavedRoutinesScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     _getDocuments();
-    // print('doc length is ${routinesFuture[0]}');
 
     return Scaffold(
       backgroundColor: kBackgroundColor,

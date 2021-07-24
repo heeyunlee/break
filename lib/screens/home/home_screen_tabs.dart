@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'home_screen_model.dart';
 import 'library_tab/library_tab.dart';
 import 'progress_tab/progress_tab.dart';
 import 'search_tab/search_tab.dart';
 import 'settings_tab/settings_tab.dart';
-import 'tab_item.dart';
+import 'navigation_tab/tab_item.dart';
 
 class HomeScreenTabs extends StatelessWidget {
   final HomeScreenModel model;

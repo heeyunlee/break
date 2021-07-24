@@ -6,6 +6,7 @@ import 'package:workout_player/classes/auth_and_database.dart';
 import 'package:workout_player/classes/progress_tab_class.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/latest_body_fat_widget.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/most_recent_workout_widget.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/steps_widget.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_lifted_chart/weekly_lifted_weights_card.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -58,6 +59,7 @@ class ProgressTabModel with ChangeNotifier {
     'weeklyMeasurementsChart',
     'weeklyNutritionChart',
     'weeklyWorkoutHistoryMedium',
+    'stepsWidget',
   ];
 
   List<DateTime> get dates => _dates;
@@ -230,37 +232,30 @@ class ProgressTabModel with ChangeNotifier {
       progressTabClass: data,
       constraints: constraints,
     );
-
-    // Widget activityRing = DailyActivityRingWidget.create(
-    //   context,
-    //   key: Key('activityRing'),
-    //   progressTabClass: data,
-    //   constraints: constraints,
-    // );
     Widget activityRing = DailyActivityRingWidget(
       key: Key('activityRing'),
       progressTabClass: data,
       constraints: constraints,
     );
-
     Widget recentWorkout = MostRecentWorkout(
       key: Key('recentWorkout'),
       constraints: constraints,
       data: data,
     );
-
+    Widget stepsWidget = StepsWidget(
+      key: Key('stepsWidget'),
+      steps: data.steps,
+    );
     Widget empty2x2 = SizedBox(
       key: Key('empty2x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 2,
     );
-
     Widget empty1x2 = SizedBox(
       key: Key('empty1x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 4,
     );
-
     Widget empty1x1 = SizedBox(
       key: Key('empty1x1'),
       width: constraints.maxWidth / 2,
@@ -279,6 +274,7 @@ class ProgressTabModel with ChangeNotifier {
       'empty1x1': empty1x1,
       'latestBodyFat': latestBodyFat,
       'latestWeight': latestWeight,
+      'stepsWidget': stepsWidget,
     };
 
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;
@@ -288,132 +284,6 @@ class ProgressTabModel with ChangeNotifier {
           data.user.widgetsList?[index] ?? _widgetKeysList[index]]!,
     );
   }
-
-  // TODO: CONNNECT HEALTH DATA
-  // List<HealthDataPoint> _healthDataList = [];
-
-  // Future<void> _showPermission() async {
-  //   final request = Permission.activityRecognition.request();
-
-  //   if (await request.isDenied || await request.isPermanentlyDenied) {
-  //     getSnackbarWidget(
-  //       'title',
-  //       'Permission is needed',
-  //     );
-  //   }
-  // }
-
-  // Future<void> _fetchData(User user) async {
-  //   DateTime now = DateTime.now();
-  //   DateTime startDate =
-  //       user.lastHealthDataFetchedTime ?? now.subtract(Duration(days: 7));
-
-  //   HealthFactory health = HealthFactory();
-
-  //   /// Define the types to get.
-  //   List<HealthDataType> types = [
-  //     HealthDataType.WEIGHT,
-  //     HealthDataType.BODY_FAT_PERCENTAGE,
-  //     HealthDataType.BODY_MASS_INDEX,
-  //     HealthDataType.ACTIVE_ENERGY_BURNED,
-  //     HealthDataType.DISTANCE_WALKING_RUNNING,
-  //     HealthDataType.STEPS,
-  //   ];
-
-  //   /// You MUST request access to the data types before reading them
-  //   bool accessWasGranted = await health.requestAuthorization(types);
-
-  //   if (accessWasGranted) {
-  //     try {
-  //       /// Fetch new data
-  //       List<HealthDataPoint> rawHealthData =
-  //           await health.getHealthDataFromTypes(
-  //         startDate,
-  //         now,
-  //         types,
-  //       );
-
-  //       if (rawHealthData.isNotEmpty) {
-  //         print('raw data length is ${rawHealthData.length}');
-
-  //         final id = 'MS${Uuid().v1()}';
-
-  //         Measurement _measurement = Measurement(
-  //           measurementId: id,
-  //           userId: widget.auth.currentUser!.uid,
-  //           username: user.displayName,
-  //           loggedTime: Timestamp.fromDate(now),
-  //           loggedDate: DateTime.utc(now.year, now.month, now.day),
-  //         );
-
-  //         rawHealthData.forEach((element) async {
-  //           print('data is ${element.toJson()}');
-
-  //           if (element.type == HealthDataType.WEIGHT) {
-  //             _measurement = _measurement.copyWith(
-  //               bodyWeight: (user.unitOfMass == 0)
-  //                   ? element.value
-  //                   : element.value * 2.20462,
-  //               dataSource: 'appleHealthKitApi',
-  //               dataType: element.typeString,
-  //               platformType: element.platform.toString(),
-  //               sourceId: element.sourceId,
-  //               sourceName: element.sourceName,
-  //             );
-  //           } else if (element.type == HealthDataType.BODY_MASS_INDEX) {
-  //             _measurement = _measurement.copyWith(
-  //               bmi: element.value,
-  //               dataSource: 'appleHealthKitApi',
-  //               dataType: element.typeString,
-  //               platformType: element.platform.toString(),
-  //               sourceId: element.sourceId,
-  //               sourceName: element.sourceName,
-  //             );
-  //           } else if (element.type == HealthDataType.BODY_FAT_PERCENTAGE) {
-  //             _measurement = _measurement.copyWith(
-  //               bodyFat: element.value,
-  //               dataSource: 'appleHealthKitApi',
-  //               dataType: element.typeString,
-  //               platformType: element.platform.toString(),
-  //               sourceId: element.sourceId,
-  //               sourceName: element.sourceName,
-  //             );
-  //           }
-
-  //           await widget.model.database!.setMeasurement(
-  //             measurement: _measurement,
-  //           );
-
-  //           final userData = {
-  //             'lastHealthDataFetchedTime': now,
-  //           };
-
-  //           await widget.model.database!.updateUser(
-  //             // widget.model.auth!.currentUser!.uid,
-  //             widget.auth.currentUser!.uid,
-  //             userData,
-  //           );
-  //         });
-
-  //         // await batch.commit();
-
-  //         /// Save all the new data points
-  //         // _healthDataList.addAll(healthData);
-  //         print('measurement data at the end is ${_measurement.toJson()}');
-  //       } else {
-  //         debugPrint('health data do NOT exist');
-  //       }
-  //     } catch (e) {
-  //       print('Caught exception in getHealthDataFromTypes: $e');
-  //     }
-
-  //     /// Filter out duplicates
-  //     _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
-  //   } else {
-  //     // await _showPermission();
-  //     logger.d('Authorization not granted');
-  //   }
-  // }
 
   // CONST VARIABLES
   static const bgURL = [

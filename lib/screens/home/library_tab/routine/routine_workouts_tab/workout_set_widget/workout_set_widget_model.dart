@@ -123,8 +123,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
     workoutSets[index] = updatedWorkoutSet;
 
-    print(workoutSets[index].toJson());
-
     focusNode.unfocus();
 
     await _submit(context, routine, routineWorkout, workoutSets);
@@ -148,8 +146,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
     );
 
     workoutSets[index] = updatedWorkoutSet;
-
-    print(workoutSets[index].toJson());
 
     focusNode.unfocus();
 
@@ -175,8 +171,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
     workoutSets[index] = updatedWorkoutSet;
 
-    print(workoutSets[index].toJson());
-
     focusNode.unfocus();
 
     await _submit(context, routine, routineWorkout, workoutSets);
@@ -194,13 +188,11 @@ class WorkoutSetWidgetModel with ChangeNotifier {
       workoutSets.forEach((workoutSet) {
         numberOfReps += workoutSet.reps ?? 0;
       });
-      print('number of reps $numberOfReps');
 
       num totalWeights = 0;
       workoutSets.forEach((workoutSet) {
         totalWeights += (workoutSet.weights ?? 0) * (workoutSet.reps ?? 0);
       });
-      print('totalWeights is $totalWeights');
 
       int duration = 0;
       workoutSets.forEach((workoutSet) {
@@ -210,8 +202,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
         duration += rest + reps * secondsPerRep;
       });
-      print('duration is $duration');
-
       final updatedRoutineWorkout = {
         'numberOfReps': numberOfReps,
         'totalWeights': totalWeights,

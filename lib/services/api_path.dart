@@ -5,9 +5,7 @@ class APIPath {
   static String measurements(String userId) => 'users/$userId/measurements';
   static String measurement(String userId, String measurementId) =>
       'users/$userId/measurements/$measurementId';
-  static String latestUserMeasurement(
-          String userId, String latestUserMeasurementId) =>
-      'users/$userId/latestUserMeasurement/$latestUserMeasurementId';
+  static String steps(String uid) => 'users/$uid/health/STEPS';
 
   /// Nutrition
   static String nutritions() => 'nutritions';

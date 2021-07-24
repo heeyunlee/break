@@ -1,10 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
-import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/screens/home/speed_dial/speed_dial_model.dart';
 
 import '../add_measurement_screen.dart';
 import '../add_protein_screen.dart';
@@ -13,7 +14,17 @@ import 'background_overlay.dart';
 import 'speed_dial_children.dart';
 
 class SpeedDialWidget extends StatefulWidget {
-  const SpeedDialWidget({Key? key}) : super(key: key);
+  final SpeedDialModel model;
+
+  const SpeedDialWidget({Key? key, required this.model}) : super(key: key);
+
+  static Widget create() {
+    return Consumer(
+      builder: (context, watch, child) => SpeedDialWidget(
+        model: watch(speedDialModelProvider),
+      ),
+    );
+  }
 
   @override
   _SpeedDialWidgetState createState() => _SpeedDialWidgetState();
@@ -21,44 +32,16 @@ class SpeedDialWidget extends StatefulWidget {
 
 class _SpeedDialWidgetState extends State<SpeedDialWidget>
     with SingleTickerProviderStateMixin {
-  late bool _isOpen;
-  late AnimationController _controller;
-  late Animation<double> _childrenAnimation;
-
-  final Duration _duration = Duration(milliseconds: 200);
-
   @override
   void initState() {
     super.initState();
-    _isOpen = false;
-    _controller = AnimationController(
-      value: _isOpen ? 1.0 : 0.0,
-      duration: _duration,
-      vsync: this,
-    );
-
-    _childrenAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
+    widget.model.init(this);
   }
 
   @override
   void dispose() {
+    widget.model.controller.dispose();
     super.dispose();
-    _controller.dispose();
-  }
-
-  void _toggleAnimation() {
-    HapticFeedback.mediumImpact();
-    _isOpen = !_isOpen;
-    setState(() {
-      if (_isOpen) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
   }
 
   @override
@@ -73,14 +56,13 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
           max: size.height,
           value: height,
         );
+
         return Transform.translate(
           offset: Offset(
             0,
             kBottomNavigationBarHeight * value * 2,
           ),
-          child: SizedBox(
-            height: size.height,
-            width: size.width,
+          child: SizedBox.expand(
             child: Stack(
               alignment: Alignment(0, 1),
               children: [
@@ -100,12 +82,12 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
     return PositionedDirectional(
       end: 0,
       bottom: 0,
-      top: _isOpen ? 0.0 : null,
-      start: _isOpen ? 0.0 : null,
+      top: widget.model.isOpen ? 0.0 : null,
+      start: widget.model.isOpen ? 0.0 : null,
       child: GestureDetector(
-        onTap: _toggleAnimation,
+        onTap: widget.model.toggleAnimation,
         child: BackgroundOverlay(
-          animation: _controller,
+          animation: widget.model.controller,
           color: Colors.transparent,
           opacity: 0.5,
         ),
@@ -126,7 +108,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
           elevation: 4.0,
           color: Colors.transparent,
           child: InkWell(
-            onTap: _toggleAnimation,
+            onTap: widget.model.toggleAnimation,
             child: Icon(
               Icons.close,
               color: Colors.transparent,
@@ -142,7 +124,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
       SpeedDialChildren(
         label: S.current.measurements,
         onPressed: () {
-          _toggleAnimation();
+          widget.model.toggleAnimation();
           AddMeasurementScreen.show(context);
         },
         icon: const Icon(
@@ -154,7 +136,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
       SpeedDialChildren(
         label: S.current.workout,
         onPressed: () {
-          _toggleAnimation();
+          widget.model.toggleAnimation();
           StartWorkoutShortcutScreen.show(context);
         },
         icon: Icon(
@@ -166,7 +148,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
       SpeedDialChildren(
         label: S.current.nutritions,
         onPressed: () {
-          _toggleAnimation();
+          widget.model.toggleAnimation();
           AddProteinScreen.show(context);
         },
         icon: Icon(
@@ -182,6 +164,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
     final modifiedChildren = <Widget>[];
     final count = _expandingChildren().length;
     final step = 90 / (count - 1);
+
     for (var i = 0, angleInDegrees = 45.0;
         i < count;
         i++, angleInDegrees += step) {
@@ -189,7 +172,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
         _SpeedDialChildrenWidget(
           degree: angleInDegrees,
           distance: 136,
-          progress: _childrenAnimation,
+          progress: widget.model.childrenAnimation,
           child: _expandingChildren()[i],
         ),
       );
@@ -198,21 +181,19 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
   }
 
   Widget _buildTapToOpenFab() {
-    final width = MediaQuery.of(context).size.width;
-
     return IgnorePointer(
-      ignoring: _isOpen,
+      ignoring: widget.model.isOpen,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         transformAlignment: Alignment.center,
-        transform: Matrix4.rotationZ(_isOpen ? math.pi / 4 : 0),
+        transform: Matrix4.rotationZ(widget.model.isOpen ? math.pi / 4 : 0),
         child: FloatingActionButton(
-          onPressed: _toggleAnimation,
+          onPressed: widget.model.toggleAnimation,
           backgroundColor: Colors.transparent,
           elevation: 0,
           child: Icon(
             Icons.add_circle_rounded,
-            size: width / 8,
+            size: 52,
           ),
         ),
       ),

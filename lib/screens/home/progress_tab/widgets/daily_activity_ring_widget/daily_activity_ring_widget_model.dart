@@ -75,6 +75,5 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
           )
           .toList();
     }
-    print(_todaysMuscleWorked);
   }
 }

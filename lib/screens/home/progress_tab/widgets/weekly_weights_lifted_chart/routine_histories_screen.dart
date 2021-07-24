@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/screens/speed_dial/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/home/speed_dial/start_workout_shortcut_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';

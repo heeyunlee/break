@@ -55,7 +55,6 @@ class SettingsTabModel with ChangeNotifier {
     try {
       // FirebaseCrashlytics.instance.crash();
       if (auth!.currentUser!.isAnonymous) {
-        // debugPrint('signed in anonymously');
         await auth!.currentUser!.delete();
         Navigator.of(context).popUntil((route) => route.isFirst);
       } else {
@@ -63,8 +62,6 @@ class SettingsTabModel with ChangeNotifier {
       }
 
       Navigator.of(context).pop();
-      // currentTab = CustomTabItem.progress;
-      // currentTabIndex = 0;
 
       getSnackbarWidget(
         S.current.signOutSnackbarTitle,
@@ -72,7 +69,6 @@ class SettingsTabModel with ChangeNotifier {
       );
     } catch (e) {
       // TODO: SHOW DIALOG AFTER CATCHING ERROR
-      // print(e.toString());
       throw UnimplementedError();
     }
   }

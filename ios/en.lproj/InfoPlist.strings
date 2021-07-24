@@ -3,3 +3,5 @@ FacebookDisplayName = "Herakles";
 NSCameraUsageDescription = "We would like to access your camera to upload your photos as application background";
 NSMicrophoneUsageDescription = "We would like to access your microphone to upload your photos as application background";
 NSLocalNetworkUsageDescription = "Allow Flutter tools on your computer to connect and debug your application";
+NSHealthShareUsageDescription = "Herakles would like to access your health data in order to track your activities and show widgets"
+NSHealthUpdateUsageDescription = "Herakles would like to access your health data in order to track your activities and show widgets"

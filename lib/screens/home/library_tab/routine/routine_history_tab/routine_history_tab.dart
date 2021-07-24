@@ -41,7 +41,6 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
   @override
   void initState() {
     super.initState();
-    // print('weights lifted init');
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
@@ -109,39 +108,12 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
   Widget build(BuildContext context) {
     logger.d('build routine histories Tab');
 
-    // return Consumer(
-    //   builder: (context, watch, child) {
-    //     print('consumerrrr');
-
-    //     final uid = auth.currentUser!.uid;
-    //     final routineId = routine.routineId;
-
-    //     final stream = watch(rhOfThisWeekStreamProvider2([uid, routineId]));
-
-    //     return stream.when(
-    //       loading: () => Center(child: CircularProgressIndicator()),
-    //       error: (e, stack) {
-    //         logger.e(e);
-    //         return EmptyContent();
-    //       },
-    //       data: (data) {
-    //         print('data is $data');
-
-    //         return Container();
-    //       },
-    //     );
-    //   },
-    // );
-
     return CustomStreamBuilderWidget<List<RoutineHistory?>>(
       stream: widget.database.routineHistoriesThisWeekStream2(
-        // widget.auth.currentUser!.uid,
         widget.routine.routineId,
       ),
       hasDataWidget: (context, snapshot) {
         List<double> relativeYs = [];
-
-        // final data = snapshot.data!;
 
         _setData(snapshot, relativeYs);
 

@@ -187,8 +187,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('Create New Workout Screen scaffold building...');
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,

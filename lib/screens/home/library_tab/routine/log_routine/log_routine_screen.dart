@@ -6,9 +6,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/classes/workout_history.dart';
-import 'package:workout_player/screens/miniplayer/miniplayer_model.dart';
-import 'package:workout_player/screens/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/screens/home/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -127,11 +127,9 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
     required List<RoutineWorkout?> routineWorkouts,
   }) async {
     try {
-      debugPrint('submit button pressed');
       context.read(isLogRoutineButtonPressedProvider).toggleBoolValue();
 
       /// For Routine History
-      // final routineHistoryId = 'RH${documentIdFromCurrentDate()}';
       final routineHistoryId = 'RH${Uuid().v1()}';
       final _workoutStartTime = _workoutEndTime.subtract(
         Duration(minutes: _durationInMinutes),

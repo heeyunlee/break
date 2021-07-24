@@ -11,7 +11,6 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -53,8 +52,6 @@ class SignInScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final model = watch(signInScreenProvider);
-
-    logger.d('SignInScreen building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,

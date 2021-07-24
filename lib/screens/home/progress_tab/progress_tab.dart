@@ -74,7 +74,7 @@ class _ProgressTabState extends State<ProgressTab>
 
   @override
   Widget build(BuildContext context) {
-    logger.d('Progress Tab Scaffold building...');
+    logger.d('ProgressTab building...');
 
     return CustomStreamBuilderWidget<ProgressTabClass>(
       stream: widget.model.database!.progressTabStream(

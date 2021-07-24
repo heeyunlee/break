@@ -71,12 +71,8 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
               .toList()
       };
 
-      // print('map is $_mapData');
-
       _mapData.values.forEach((list) {
         if (list.isNotEmpty) {
-          // print('workout history exists');
-
           WorkoutSet? largestSet;
 
           list.forEach((history) {
@@ -92,11 +88,9 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
           });
           listOfYs.add(largestSet?.weights ?? 0);
         } else {
-          // print('workout DOES NOT history exists');
           listOfYs.add(0);
         }
       });
-      // print('list of Ys are: $listOfYs');
 
       final largestY = listOfYs.reduce(math.max);
 
@@ -135,8 +129,6 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
       ),
       hasDataWidget: (context, data) {
         List<double> relativeYs = [];
-
-        // print('this many whs: ${snapshot.data!.length}');
 
         _setData(data, relativeYs);
 

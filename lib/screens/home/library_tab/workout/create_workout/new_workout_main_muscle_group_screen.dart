@@ -22,8 +22,6 @@ class _NewWorkoutMainMuscleGroupScreenState
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('NewWorkoutMainMuscleGroupScreen building...');
-
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -61,8 +59,6 @@ class _NewWorkoutMainMuscleGroupScreenState
                         widget.mainMuscleGroupCallback(
                           _selectedMainMuscleGroup,
                         );
-
-                        // print(_selectedMainMuscleGroup);
                       },
                     ),
                   ),

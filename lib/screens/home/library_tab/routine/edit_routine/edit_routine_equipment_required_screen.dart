@@ -140,8 +140,6 @@ class _EditRoutineEquipmentRequiredScreenState
     } else {
       _selectedEquipmentRequired.remove(key);
     }
-
-    // debugPrint('$_selectedEquipmentRequired');
   }
 
   Future<void> _submit() async {

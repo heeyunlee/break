@@ -145,8 +145,6 @@ class _EditWorkoutMainMuscleGroupScreenState
     } else {
       _selectedMainMuscleGroup.remove(key);
     }
-
-    // debugPrint('$_selectedMainMuscleGroup');
   }
 
   Future<void> _submit() async {

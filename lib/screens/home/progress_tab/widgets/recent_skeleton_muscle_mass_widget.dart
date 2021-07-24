@@ -33,13 +33,6 @@ class RecentSkeletenMuscleMassWidget extends StatelessWidget {
         ? Formatter.weightsWithDecimal(lastMeasurement.skeletalMuscleMass ?? 0)
         : '--.-';
 
-    // final difference =
-    //     (user.ske != null && lastMeasurement != null)
-    //         ? user.bodyFatPercentageGoal! - lastMeasurement.bodyFat!
-    //         : null;
-
-    // final formattedDif = Formatter.weightsWithDecimal(difference ?? 0);
-
     return BlurBackgroundCard(
       child: Stack(
         children: [

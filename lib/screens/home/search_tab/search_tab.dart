@@ -140,31 +140,22 @@ class _SearchTabState extends State<SearchTab> {
             : SingleChildScrollView(
                 child: Column(
                   children: searchResults.map((e) {
-                    // TOOD: Parse data to Workout.fromJson without error
                     final data = e.data;
                     final workoutId = data['workoutId'];
 
-                    // final workout = Workout.fromJson(data, workoutId);
-
                     final title = data['translated'][locale];
-                    // final title = workout.translated[locale];
 
                     final muscle = MainMuscleGroup.values
                         .firstWhere(
                           (e) => e.toString() == data['mainMuscleGroup'][0],
-                          // (e) => e.toString() == workout.mainMuscleGroup[0],
                         )
                         .translation!;
 
                     final equipment = EquipmentRequired.values
                         .firstWhere(
                           (e) => e.toString() == data['equipmentRequired'][0],
-                          // (e) => e.toString() == workout.equipmentRequired[0],
                         )
                         .translation!;
-
-                    // final s = 2;
-                    // print(s.toInt());
 
                     return SearchResultListTile(
                       title: title,

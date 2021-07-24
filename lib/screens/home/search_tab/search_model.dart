@@ -34,7 +34,6 @@ class SearchModel extends ChangeNotifier {
       final snapshot = await algoliaIndexReference.query(query).getObjects();
       final hits = snapshot.hits;
       _searchResults = hits;
-      // print('search results are $hits');
       notifyListeners();
     }
 

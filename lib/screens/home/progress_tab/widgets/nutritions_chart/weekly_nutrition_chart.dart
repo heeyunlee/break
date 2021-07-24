@@ -27,8 +27,14 @@ class WeeklyNutritionChart extends StatefulWidget {
 
 class _WeeklyNutritionChartState extends State<WeeklyNutritionChart> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     widget.model.init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     widget.model.setRelativeList(widget.nutritions, widget.user);
 
     final _interval = (widget.user.dailyProteinGoal != null)
