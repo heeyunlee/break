@@ -425,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalGoals": MessageLookupByLibrary.simpleMessage("개인 목표"),
         "personalInformation": MessageLookupByLibrary.simpleMessage("개인 정보"),
         "plate": MessageLookupByLibrary.simpleMessage("원판"),
+        "pleaseEnderValidValue":
+            MessageLookupByLibrary.simpleMessage("올바른 숫자를 입력해 주세요"),
         "previewScreenMessage1":
             MessageLookupByLibrary.simpleMessage("운동을 기록하세요"),
         "previewScreenMessage2": MessageLookupByLibrary.simpleMessage(

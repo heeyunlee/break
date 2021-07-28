@@ -11,6 +11,7 @@ import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/home/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -260,10 +261,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-        ),
+        leading: const AppBarCloseButton(),
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         title: Text(S.current.addWorkoutLog, style: TextStyles.subtitle2),
@@ -464,7 +462,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                     decoration: InputDecoration(
                       labelText: S.current.notes,
                       hintText: S.current.addNotes,
-                      hintStyle: kBodyText1Grey,
+                      hintStyle: TextStyles.body1_grey,
                       labelStyle: TextStyles.body1,
                       contentPadding: EdgeInsets.all(16),
                       focusedBorder: const OutlineInputBorder(

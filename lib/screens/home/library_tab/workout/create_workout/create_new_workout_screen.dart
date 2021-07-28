@@ -11,6 +11,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -193,15 +194,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.close_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: const AppBarCloseButton(),
         title: Text(
           (_pageIndex == 0)
               ? S.current.workoutName

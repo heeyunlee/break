@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import 'create_new_workout_screen.dart';
 
@@ -27,7 +27,7 @@ class CreateNewWorkoutWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              Text(S.current.createNewWorkout, style: kBodyText1Bold),
+              Text(S.current.createNewWorkout, style: TextStyles.body1_bold),
             ],
           ),
         ),

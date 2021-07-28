@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -47,15 +48,7 @@ class ManageAccountScreen extends StatelessWidget {
         centerTitle: true,
         flexibleSpace: AppbarBlurBG(),
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: const AppBarBackButton(),
         title: Text(S.current.manageAccount, style: TextStyles.subtitle1),
       ),
       body: Builder(

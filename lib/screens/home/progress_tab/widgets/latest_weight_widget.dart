@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/measurement.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/measurement/measurements_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -103,8 +103,11 @@ class LatestWeightWidget extends StatelessWidget {
             ? nowWeightToLose / initialWeightToLose
             : null;
 
-    double? diffPercentageFormatted =
-        ((diffPercentage ?? 0) > 1) ? 1 : diffPercentage;
+    double? diffPercentageFormatted = ((diffPercentage ?? 0) > 1)
+        ? 1
+        : ((diffPercentage ?? 0) < 0)
+            ? 0
+            : diffPercentage;
 
     return [
       const SizedBox(height: 8),

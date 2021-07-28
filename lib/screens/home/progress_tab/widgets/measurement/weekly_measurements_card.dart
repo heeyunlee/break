@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
@@ -50,7 +50,7 @@ class WeeklyMeasurementsCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           S.current.bodyMeasurement,
-                          style: kSubtitle1w900Secondary,
+                          style: TextStyles.subtitle1_w900_secondary,
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(

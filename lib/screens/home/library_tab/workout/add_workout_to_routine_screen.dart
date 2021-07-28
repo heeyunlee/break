@@ -17,6 +17,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -133,12 +134,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         backgroundColor: Colors.transparent,
         flexibleSpace: AppbarBlurBG(),
         title: Text(S.current.addWorkoutToRoutine, style: TextStyles.subtitle1),
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: const AppBarCloseButton(),
       ),
       body: Builder(builder: (BuildContext context) => _buildBody(context)),
     );

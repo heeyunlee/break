@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -158,7 +158,7 @@ class DailyActivityRingWidget extends StatelessWidget {
     return DailySummaryNumbersWidget(
       title: S.current.proteins,
       backgroundColor: Colors.greenAccent,
-      textStyle: kBodyText1MenloBlack,
+      textStyle: TextStyles.body1_menlo_black,
       hundreds: hundreds,
       tens: tens,
       ones: ones,

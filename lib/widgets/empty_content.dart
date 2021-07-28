@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/main_provider.dart';
-
-import '../styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class EmptyContent extends StatelessWidget {
   final String? message;
@@ -30,7 +29,7 @@ class EmptyContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 36),
-          if (message != null) Text(message!, style: kSubtitle1Bold),
+          if (message != null) Text(message!, style: TextStyles.subtitle1_bold),
           Image.asset(
             'assets/images/treadmill.png',
             height: size.height / sizeFactor,

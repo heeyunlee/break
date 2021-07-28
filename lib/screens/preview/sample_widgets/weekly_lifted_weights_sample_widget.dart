@@ -54,7 +54,7 @@ class WeeklyLiftedWeightsSampleWidget extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     S.current.liftedWeights,
-                    style: kSubtitle1w900Primary,
+                    style: TextStyles.subtitle1_w900_primary,
                   ),
                 ],
               ),
@@ -81,7 +81,7 @@ class WeeklyLiftedWeightsSampleWidget extends StatelessWidget {
                         getTooltipItem: (group, groupIndex, rod, rodIndex) {
                           return BarTooltipItem(
                             '${rod.y} kg',
-                            kBodyText1Black,
+                            TextStyles.body1_black,
                           );
                         },
                       ),

@@ -19,6 +19,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_adaptive_modal_bottom_sheet.dart';
@@ -205,16 +206,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               centerTitle: true,
               brightness: Brightness.dark,
               backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  HapticFeedback.mediumImpact();
-                  Navigator.of(context).pop();
-                },
-              ),
+              leading: const AppBarCloseButton(),
+              flexibleSpace: const AppbarBlurBG(),
               title: Text(
                 S.current.editRoutineTitle,
                 style: TextStyles.subtitle1,
@@ -225,7 +218,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                   child: Text(S.current.save, style: TextStyles.button1),
                 ),
               ],
-              flexibleSpace: AppbarBlurBG(),
             ),
 
             /// Using Builder() to build Body so that _buildContents can
@@ -342,7 +334,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.routineTitleTitle, style: kBodyText1w800),
+          child: Text(
+            S.current.routineTitleTitle,
+            style: TextStyles.body1_w800,
+          ),
         ),
 
         /// Routine Title
@@ -384,7 +379,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.description, style: kBodyText1w800),
+          child: Text(S.current.description, style: TextStyles.body1_w800),
         ),
 
         /// Description
@@ -424,7 +419,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.trainingLevel, style: kBodyText1w800),
+          child: Text(S.current.trainingLevel, style: TextStyles.body1_w800),
         ),
 
         /// Training Level
@@ -474,7 +469,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.moreSettings, style: kBodyText1w800),
+          child: Text(S.current.moreSettings, style: TextStyles.body1_w800),
         ),
 
         /// Main Muscle Group

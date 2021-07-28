@@ -18,6 +18,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
@@ -256,12 +257,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     return AnimatedBuilder(
       animation: _colorAnimationController,
       builder: (context, child) => SliverAppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: const AppBarBackButton(),
         centerTitle: true,
         title: Transform.translate(
           offset: _transTween.value,
@@ -301,7 +297,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(date, style: kSubtitle1Bold),
+                    Text(date, style: TextStyles.subtitle1_bold),
                     Text(
                       widget.routineHistory.routineTitle,
                       maxLines: 1,
@@ -489,7 +485,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   final homeContext =
                       homeScreenModel.homeScreenNavigatorKey.currentContext!;
 
-                  await _showModalBottomSheet(homeContext);
+                  await _showModalBottomSheet(
+                    homeContext,
+                    // HomeScreenModel.homeScreenNavigatorKey.currentContext!,
+                  );
                 },
               ),
             const SizedBox(height: 160),

@@ -34,9 +34,7 @@ class SettingsTab extends ConsumerWidget {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
-        flexibleSpace: AppbarBlurBG(
-          blurSigma: 10,
-        ),
+        flexibleSpace: const AppbarBlurBG(blurSigma: 10),
         backgroundColor: Colors.transparent,
         title: Text(S.current.settingsScreenTitle, style: TextStyles.subtitle1),
       ),

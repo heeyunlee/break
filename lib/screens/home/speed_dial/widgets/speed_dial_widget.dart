@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
+import 'package:workout_player/screens/home/speed_dial/add_measurements/add_measurements_model.dart';
 import 'package:workout_player/screens/home/speed_dial/speed_dial_model.dart';
 
-import '../add_measurement_screen.dart';
 import '../add_protein_screen.dart';
 import '../start_workout_shortcut_screen.dart';
 import 'background_overlay.dart';
@@ -68,7 +68,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
               children: [
                 _renderOverlay(),
                 _buildTapToCloseFab(),
-                ..._buildExpandingActionButtons(),
+                ..._buildExpandingActionButtons(context),
                 _buildTapToOpenFab(),
               ],
             ),
@@ -119,19 +119,18 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
     );
   }
 
-  List<Widget> _expandingChildren() {
+  List<Widget> _expandingChildren(BuildContext context) {
     return [
       SpeedDialChildren(
         label: S.current.measurements,
         onPressed: () {
           widget.model.toggleAnimation();
-          AddMeasurementScreen.show(context);
+
+          AddMeasurementsModel.show(context);
+
+          // AddMeasurementsScreen.show(context);
         },
-        icon: const Icon(
-          Icons.monitor_weight_rounded,
-          color: Colors.white,
-          size: 20,
-        ),
+        icon: const Icon(Icons.monitor_weight_rounded, size: 20),
       ),
       SpeedDialChildren(
         label: S.current.workout,
@@ -160,9 +159,9 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
     ];
   }
 
-  List<Widget> _buildExpandingActionButtons() {
+  List<Widget> _buildExpandingActionButtons(BuildContext context) {
     final modifiedChildren = <Widget>[];
-    final count = _expandingChildren().length;
+    final count = _expandingChildren(context).length;
     final step = 90 / (count - 1);
 
     for (var i = 0, angleInDegrees = 45.0;
@@ -173,7 +172,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
           degree: angleInDegrees,
           distance: 136,
           progress: widget.model.childrenAnimation,
-          child: _expandingChildren()[i],
+          child: _expandingChildren(context)[i],
         ),
       );
     }

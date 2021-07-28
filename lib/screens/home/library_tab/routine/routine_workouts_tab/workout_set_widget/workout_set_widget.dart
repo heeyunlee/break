@@ -129,7 +129,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     if (widget.workoutSet.isRest) {
       return const Icon(Icons.timer_rounded, color: Colors.grey, size: 20);
     } else {
-      return Text(title, style: kBodyText1Bold);
+      return Text(title, style: TextStyles.body1_bold);
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
 
-import 'steps.dart';
+import '../steps.dart';
 
 class ProgressTabClass {
   final User user;

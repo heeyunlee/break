@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
             const SizedBox(height: 8),
             const Text(
               'wokrout. share. and gain.',
-              style: kSubtitle2Menlo,
+              style: TextStyles.subtitle2_menlo,
             ),
             const SizedBox(height: 104),
           ],

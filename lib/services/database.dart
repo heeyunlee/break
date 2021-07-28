@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/nutrition.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/classes/routine.dart';
-import 'package:workout_player/classes/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/combined/routine_and_routine_workouts.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/classes/steps.dart';
@@ -1189,6 +1189,8 @@ class FirestoreDatabase implements Database {
         fromBuilder: (data, id) => WorkoutHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );
+
+  /// RxDart
 
   @override
   Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(

@@ -11,20 +11,7 @@ import 'package:workout_player/services/database.dart';
 import 'saved_routines_screen.dart';
 
 class SavedRoutinesTileWidget extends StatelessWidget {
-  String _getSubtitle(User user) {
-    if (user.savedRoutines != null) {
-      if (user.savedRoutines!.isNotEmpty) {
-        if (user.savedRoutines!.length == 1) {
-          return '1 ${S.current.routine}';
-        }
-        return '${user.savedRoutines!.length} ${S.current.routinesLowerCase}';
-      } else {
-        return '0 ${S.current.routine}';
-      }
-    } else {
-      return '0 ${S.current.routine}';
-    }
-  }
+  const SavedRoutinesTileWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +22,12 @@ class SavedRoutinesTileWidget extends StatelessWidget {
       stream: database.userStream(),
       errorWidget: ListTile(
         leading: Icon(Icons.error, color: Colors.white),
-        title: Text(S.current.errorOccuredMessage, style: kBodyText1Bold),
+        title: Text(
+          S.current.errorOccuredMessage,
+          style: TextStyles.body1_bold,
+        ),
       ),
       hasDataWidget: (context, data) {
-        // final User user = snapshot.data!;
-
         return InkWell(
           onTap: () => SavedRoutinesScreen.show(context, user: data!),
           child: Padding(
@@ -65,7 +53,10 @@ class SavedRoutinesTileWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(S.current.savedRoutines, style: kBodyText1Bold),
+                      Text(
+                        S.current.savedRoutines,
+                        style: TextStyles.body1_bold,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         _getSubtitle(data!),
@@ -80,5 +71,20 @@ class SavedRoutinesTileWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _getSubtitle(User user) {
+    if (user.savedRoutines != null) {
+      if (user.savedRoutines!.isNotEmpty) {
+        if (user.savedRoutines!.length == 1) {
+          return '1 ${S.current.routine}';
+        }
+        return '${user.savedRoutines!.length} ${S.current.routinesLowerCase}';
+      } else {
+        return '0 ${S.current.routine}';
+      }
+    } else {
+      return '0 ${S.current.routine}';
+    }
   }
 }

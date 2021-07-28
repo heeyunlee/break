@@ -15,6 +15,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -74,13 +75,7 @@ class MeasurementsScreen extends StatelessWidget {
         brightness: Brightness.dark,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-        ),
+        leading: const AppBarBackButton(),
       ),
       body: PaginateFirestore(
         shrinkWrap: true,
@@ -121,7 +116,7 @@ class MeasurementsScreen extends StatelessWidget {
                 '${measurement.bodyWeight}$unit',
                 style: TextStyles.body1,
               ),
-              trailing: Text(date, style: kBodyText1Grey),
+              trailing: Text(date, style: TextStyles.body1_grey),
             ),
           );
         },

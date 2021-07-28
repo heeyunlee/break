@@ -56,7 +56,7 @@ Herakles is a health & fitness tracking app with customizable dashboard (with iO
 - [ ] Unit Of Mass Screen
 - [ ] User Feedback Screen
 - [x] Home Screen
-- [ ] Add Measurement Screen
+- [x] Add Measurement Screen
 - [ ] Add Protein Screen
 - [ ] Start Workout Shortcut Screen
 - [ ] SpeedDial

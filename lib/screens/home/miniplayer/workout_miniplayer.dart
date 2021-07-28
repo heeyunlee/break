@@ -109,7 +109,7 @@ class WorkoutMiniplayer extends ConsumerWidget {
                   CollapsedMiniplayerTitle(
                     horzPadding: 16,
                     vertPadding: 4,
-                    textStyle: kBodyText1Bold,
+                    textStyle: TextStyles.body1_bold,
                     model: model,
                   ),
                   MiniplayerSubtitle(

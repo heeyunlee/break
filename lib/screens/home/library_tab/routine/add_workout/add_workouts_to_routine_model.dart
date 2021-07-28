@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/classes/auth_and_database.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
@@ -22,14 +22,6 @@ final addWorkoutsToRoutineScreenModelProvider =
 );
 
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
-
-  AddWorkoutsToRoutineScreenModel({
-    this.auth,
-    this.database,
-  });
-
   String _selectedMainMuscleGroup = 'MainMuscleGroup.abs';
   String _selectedChipTranslated = MainMuscleGroup.abs.translation!;
   final List<Workout> _selectedWorkouts = <Workout>[];
@@ -38,10 +30,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   String get selectedChipTranslated => _selectedChipTranslated;
   List<Workout> get selectedWorkouts => _selectedWorkouts;
 
-  void init(Routine routine, AuthAndDatabase authAndDatabase) {
-    auth = authAndDatabase.auth;
-    database = authAndDatabase.database;
-
+  void init(Routine routine) {
     _selectedMainMuscleGroup = routine.mainMuscleGroup[0];
   }
 
@@ -79,6 +68,9 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     Routine routine,
     List<RoutineWorkout> routineWorkouts,
   ) async {
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+
     await HapticFeedback.mediumImpact();
 
     try {
@@ -93,7 +85,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
           routineWorkoutId: 'RW$id',
           workoutId: workout.workoutId,
           routineId: routine.routineId,
-          routineWorkoutOwnerId: auth!.currentUser!.uid,
+          routineWorkoutOwnerId: auth.currentUser!.uid,
           workoutTitle: workout.workoutTitle,
           numberOfReps: 0,
           numberOfSets: 0,
@@ -109,7 +101,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
         _routineWorkouts.add(routineWorkout);
       });
 
-      await database!.batchWriteRoutineWorkouts(routine, _routineWorkouts);
+      await database.batchWriteRoutineWorkouts(routine, _routineWorkouts);
 
       Navigator.of(context).pop();
 

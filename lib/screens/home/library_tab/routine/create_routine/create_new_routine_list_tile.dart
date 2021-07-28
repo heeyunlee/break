@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import 'create_new_routine_screen.dart';
 
-class CreateNewRoutineWidget extends StatelessWidget {
+class CreateNewRoutineListTile extends StatelessWidget {
+  const CreateNewRoutineListTile({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -19,14 +21,10 @@ class CreateNewRoutineWidget extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                child: const Icon(
-                  Icons.add_rounded,
-                  color: Colors.white,
-                  size: 32,
-                ),
+                child: const Icon(Icons.add_rounded, size: 32),
               ),
               const SizedBox(width: 16),
-              Text(S.current.createNewRoutine, style: kBodyText1Bold),
+              Text(S.current.createNewRoutine, style: TextStyles.body1_bold),
             ],
           ),
         ),

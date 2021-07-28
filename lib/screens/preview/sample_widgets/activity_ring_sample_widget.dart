@@ -102,7 +102,7 @@ class ActivityRingSampleWidget extends StatelessWidget {
                     child: DailySummaryNumbersWidget(
                       title: S.current.proteins,
                       backgroundColor: Colors.greenAccent,
-                      textStyle: kBodyText1Menlo,
+                      textStyle: TextStyles.body1_menlo,
                       hundreds: '1',
                       tens: '3',
                       ones: '0',

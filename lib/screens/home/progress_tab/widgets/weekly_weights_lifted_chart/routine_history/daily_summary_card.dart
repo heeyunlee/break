@@ -75,7 +75,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           title: Text(formattedDate, style: TextStyles.subtitle2),
           subtitle: Text(
             '$workoutTitle',
-            style: kSubtitle1w900,
+            style: TextStyles.subtitle1_w900,
             maxLines: 1,
             softWrap: false,
             overflow: TextOverflow.fade,
@@ -165,7 +165,7 @@ class _DailySummaryRowWidget extends StatelessWidget {
           height: 48,
         ),
         const SizedBox(height: 16),
-        Text(title, style: kSubtitle1w900),
+        Text(title, style: TextStyles.subtitle1_w900),
         const SizedBox(height: 4),
         Text(subtitle, style: TextStyles.body2_light),
       ],

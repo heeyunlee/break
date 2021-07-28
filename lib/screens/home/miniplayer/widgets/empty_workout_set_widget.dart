@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 class EmptyWorkoutSetWidget extends StatelessWidget {
   @override
@@ -26,7 +26,10 @@ class EmptyWorkoutSetWidget extends StatelessWidget {
                   height: size.width / 1.5,
                   width: size.width / 1.5,
                 ),
-                Text(S.current.addSetsToWorkout, style: kSubtitle1Bold),
+                Text(
+                  S.current.addSetsToWorkout,
+                  style: TextStyles.subtitle1_bold,
+                ),
               ],
             ),
           ),

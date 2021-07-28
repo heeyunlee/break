@@ -1,6 +1,6 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';

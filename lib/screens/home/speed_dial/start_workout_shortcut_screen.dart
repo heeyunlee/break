@@ -13,6 +13,7 @@ import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
@@ -87,15 +88,7 @@ class _StartWorkoutShortcutScreenState
               ),
               flexibleSpace: const AppbarBlurBG(),
               backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              leading: const AppBarCloseButton(),
               bottom: ChoiceChipsAppBarWidget(
                 callback: (value) {
                   setState(() {

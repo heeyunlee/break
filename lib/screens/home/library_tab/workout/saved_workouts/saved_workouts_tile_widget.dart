@@ -35,7 +35,10 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
       stream: database.userStream(),
       errorWidget: ListTile(
         leading: Icon(Icons.error, color: Colors.white),
-        title: Text(S.current.errorOccuredMessage, style: kBodyText1Bold),
+        title: Text(
+          S.current.errorOccuredMessage,
+          style: TextStyles.body1_bold,
+        ),
       ),
       hasDataWidget: (context, data) {
         // final User user = snapshot.data!;
@@ -65,7 +68,10 @@ class SavedWorkoutsTileWidget extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(S.current.savedWorkouts, style: kBodyText1Bold),
+                      Text(
+                        S.current.savedWorkouts,
+                        style: TextStyles.body1_bold,
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         _getSubtitle(data!),

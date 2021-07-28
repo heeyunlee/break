@@ -89,7 +89,7 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                     const SizedBox(width: 8),
                     Text(
                       S.current.wokroutsThisWeek,
-                      style: kSubtitle1w900Primary,
+                      style: TextStyles.subtitle1_w900_primary,
                     ),
                     const SizedBox(width: 8),
                     const Icon(

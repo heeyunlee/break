@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
@@ -68,7 +68,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   @override
   void initState() {
     super.initState();
-    widget.model.init(widget.routine, widget.authAndDatabase);
+    widget.model.init(widget.routine);
   }
 
   @override
@@ -196,9 +196,9 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       centerTitle: true,
       brightness: Brightness.dark,
       title: Text(S.current.addWorkoutkButtonText, style: TextStyles.subtitle1),
-      flexibleSpace: AppbarBlurBG(),
+      flexibleSpace: const AppbarBlurBG(),
       backgroundColor: Colors.transparent,
-      leading: AppBarCloseButton(),
+      leading: const AppBarCloseButton(),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: SingleChildScrollView(

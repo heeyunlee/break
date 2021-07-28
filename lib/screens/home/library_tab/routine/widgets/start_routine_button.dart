@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/combined/routine_and_routine_workouts.dart';
 import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';

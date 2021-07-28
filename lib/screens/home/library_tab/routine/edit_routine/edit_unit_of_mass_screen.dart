@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -90,11 +91,8 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        flexibleSpace: AppbarBlurBG(),
+        leading: const AppBarBackButton(),
+        flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),
     );

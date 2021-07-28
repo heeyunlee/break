@@ -42,9 +42,7 @@ class LibraryTab extends StatelessWidget {
       snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
-      flexibleSpace: const AppbarBlurBG(
-        blurSigma: 10,
-      ),
+      flexibleSpace: const AppbarBlurBG(blurSigma: 10),
       backgroundColor: kAppBarColor,
       elevation: 0,
       bottom: TabBar(

@@ -48,7 +48,7 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       S.current.bodyMeasurement,
-                      style: kSubtitle1w900Secondary,
+                      style: TextStyles.subtitle1_w900_secondary,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(

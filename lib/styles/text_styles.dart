@@ -4,7 +4,6 @@ import 'package:workout_player/styles/constants.dart';
 
 /// My Custom TextStyle Convention
 ///
-/// [type_scale]-[color]-[fonts]
 ///
 class TextStyles {
   static const defaultFontFamily = 'NanumSquareRound';
@@ -215,6 +214,78 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const subtitle1_light = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_bold = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_w900 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_w900_primary = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: kPrimaryColor,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_w900_secondary = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: kSecondaryColor,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_w900_greenAccent = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: Colors.greenAccent,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_light_grey = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
+    color: Colors.grey,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_grey = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle1_menlo = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    letterSpacing: 0.15,
+    fontFamily: menlo,
+  );
+
   static const subtitle2 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -227,6 +298,30 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.grey,
+    letterSpacing: 0.1,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle2_menlo = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    letterSpacing: 0.1,
+    fontFamily: menlo,
+  );
+
+  static const subtitle2_bold_grey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.grey,
+    letterSpacing: 0.1,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const subtitle2_w900 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
     letterSpacing: 0.1,
     fontFamily: defaultFontFamily,
   );
@@ -244,10 +339,27 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const body1_w800 = TextStyle(
+  static const body1_heighted = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w800,
+    fontWeight: FontWeight.w400,
     color: Colors.white,
+    letterSpacing: 0.5,
+    height: 1.5,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body1_grey = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+    letterSpacing: 0.50,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body1_black = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
     letterSpacing: 0.50,
     fontFamily: defaultFontFamily,
   );
@@ -260,6 +372,14 @@ class TextStyles {
     fontFamily: menlo,
   );
 
+  static const body1_menlo_black = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.black,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
   static const body1_menlo_white54 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
@@ -267,6 +387,30 @@ class TextStyles {
     letterSpacing: 0,
     fontFamily: menlo,
     height: 1.5,
+  );
+
+  static const body1_bold = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.50,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body1_w800 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w800,
+    color: Colors.white,
+    letterSpacing: 0.50,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body1_w900_menlo = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: menlo,
   );
 
   /// Body 2 Text Styles
@@ -342,14 +486,6 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.red,
-    letterSpacing: 0.25,
-    fontFamily: defaultFontFamily,
-  );
-
-  static const body2_primary = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: kPrimaryColor,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
   );

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/classes/auth_and_database.dart';
+import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/workout_set_widget/workout_set_widget.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/workout_set_widget/workout_set_widget_model.dart';
 import 'package:workout_player/styles/constants.dart';

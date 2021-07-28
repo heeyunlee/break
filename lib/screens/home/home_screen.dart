@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 
-import 'navigation_tab/bottom_navigation_tab.dart';
 import 'home_screen_model.dart';
 import 'home_screen_tabs.dart';
 import 'miniplayer/workout_miniplayer.dart';
+import 'navigation_tab/bottom_navigation_tab.dart';
 import 'speed_dial/widgets/speed_dial_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     widget.model.updateUser(context);
   }
 

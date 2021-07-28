@@ -9,6 +9,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -90,10 +91,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const AppBarBackButton(),
         flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),

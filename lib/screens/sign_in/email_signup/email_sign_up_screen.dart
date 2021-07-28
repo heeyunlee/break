@@ -121,7 +121,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     errorText: widget.model.emailErrorText,
                     // errorText: _emailErrorText,
                     hintText: 'JohnDoe@abc.com',
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode1.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -136,7 +136,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signUpScreenValidate,
                 ),
                 const SizedBox(height: 8),
@@ -169,7 +169,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: widget.model.firstNameErrorText,
                     hintText: S.current.firstNameHintText,
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode2.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -184,7 +184,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signUpScreenValidate,
                 ),
                 const SizedBox(height: 8),
@@ -217,7 +217,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: widget.model.lastNameErrorText,
                     hintText: S.current.lastNameHintText,
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode3.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -232,7 +232,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signUpScreenValidate,
                 ),
                 const SizedBox(height: 8),
@@ -269,7 +269,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                     ),
                     errorText: widget.model.passwordErrorText,
                     hintText: S.current.passwordHintText,
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode4.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -284,7 +284,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signUpScreenValidate,
                 ),
 

@@ -159,7 +159,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
                               return BarTooltipItem(
                                 '$formattedWeights $unit',
-                                kBodyText1Black,
+                                TextStyles.body1_black,
                               );
                             },
                           ),

@@ -462,6 +462,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalInformation":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
+        "pleaseEnderValidValue":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid value"),
         "previewScreenMessage1":
             MessageLookupByLibrary.simpleMessage("Mark Your Progress"),
         "previewScreenMessage2": MessageLookupByLibrary.simpleMessage(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -32,10 +33,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(S.current.languagePreference, style: TextStyles.subtitle1),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const AppBarBackButton(),
         flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),

@@ -400,7 +400,7 @@ class _RoutineHistorySummaryScreenState
         children: <Widget>[
           Text(
             S.current.todaysWorkoutSummary,
-            style: kSubtitle1Grey,
+            style: TextStyles.subtitle1_grey,
           ),
           Text(
             _title,

@@ -1,5 +1,5 @@
-import 'routine.dart';
-import 'routine_workout.dart';
+import '../routine.dart';
+import '../routine_workout.dart';
 
 class RoutineAndRoutineWorkouts {
   final Routine? routine;

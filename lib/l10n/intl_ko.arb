@@ -418,5 +418,6 @@
     "customizeWidgetsMessage": "보고 싶지 않은 위젯은 제거하고, 자신에게 중요한 위젯만 볼 수 있습니다!",
     "updateWidgetsListSnackbarTitle": "위젯 수정",
     "updateWidgetsListSnackbarMessage": "성공적으로 기록 탭의 위젯들을 수정했습니다",
-    "addMoreData": "데이터가 없어요!"
+    "addMoreData": "데이터가 없어요!",
+    "pleaseEnderValidValue": "올바른 숫자를 입력해 주세요"
 }

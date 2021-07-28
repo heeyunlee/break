@@ -79,7 +79,10 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 // Description
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(S.current.description, style: kBodyText1w800),
+                  child: Text(
+                    S.current.description,
+                    style: TextStyles.body1_w800,
+                  ),
                 ),
                 Card(
                   color: kCardColor,
@@ -121,7 +124,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.workoutDifficultySliderText}: $_difficultySliderLabel',
-                    style: kBodyText1w800,
+                    style: TextStyles.body1_w800,
                   ),
                 ),
                 Card(
@@ -156,7 +159,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-                    style: kBodyText1w800,
+                    style: TextStyles.body1_w800,
                   ),
                 ),
                 Card(

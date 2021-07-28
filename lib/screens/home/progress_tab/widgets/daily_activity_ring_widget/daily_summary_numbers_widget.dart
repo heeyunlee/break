@@ -17,7 +17,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
   const DailySummaryNumbersWidget({
     Key? key,
     required this.title,
-    this.textStyle = kBodyText1Menlo,
+    this.textStyle = TextStyles.body1_menlo,
     this.backgroundColor = kPrimaryColor,
     this.ones = '0',
     this.tens = '0',
@@ -53,7 +53,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
                 color: backgroundColor,
                 child: Center(child: Text(thousands!, style: textStyle)),
               ),
-            if (thousands != null) Text(',', style: kBodyText1Menlo),
+            if (thousands != null) Text(',', style: TextStyles.body1_menlo),
             Container(
               width: 16,
               height: 24,
@@ -76,7 +76,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
               child: Center(child: Text(ones!, style: textStyle)),
             ),
             const SizedBox(width: 4),
-            Text(unit, style: kBodyText1Menlo),
+            Text(unit, style: TextStyles.body1_menlo),
           ],
         ),
       ],

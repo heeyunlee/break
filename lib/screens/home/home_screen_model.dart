@@ -44,6 +44,14 @@ class HomeScreenModel with ChangeNotifier {
     TabItem.settings: GlobalKey<NavigatorState>(),
   };
 
+  // Home Screen Navigator Key
+  final GlobalKey<NavigatorState> homeScreenNavigatorKey =
+      GlobalKey<NavigatorState>();
+
+  // Miniplayer navigator key
+  final GlobalKey<NavigatorState> miniplayerNavigatorKey =
+      GlobalKey<NavigatorState>();
+
   TabItem get currentTab => _currentTab;
   int get currentTabIndex => _currentTabIndex;
   Map<TabItem, GlobalKey<NavigatorState>> get tabNavigatorKeys =>
@@ -71,7 +79,7 @@ class HomeScreenModel with ChangeNotifier {
     final tabItem = TabItem.values[index];
 
     if (tabItem == currentTab) {
-      _tabNavigatorKeys[tabItem]!
+      tabNavigatorKeys[tabItem]!
           .currentState!
           .popUntil((route) => route.isFirst);
     } else {
@@ -84,10 +92,10 @@ class HomeScreenModel with ChangeNotifier {
   Future<void> updateUser(BuildContext context) async {
     logger.d('HomeScreenModel updateUser() function called');
 
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    database = provider.Provider.of<Database>(context, listen: false);
+    auth = provider.Provider.of<AuthBase>(context, listen: false);
 
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    final user = await database!.getUserDocument(auth!.currentUser!.uid);
     final now = Timestamp.now();
 
     try {
@@ -95,7 +103,7 @@ class HomeScreenModel with ChangeNotifier {
         'lastAppOpenedTime': now,
       };
 
-      await database.updateUser(auth.currentUser!.uid, userData);
+      await database!.updateUser(auth!.currentUser!.uid, userData);
 
       await fetchData(user!, context);
 
@@ -112,9 +120,9 @@ class HomeScreenModel with ChangeNotifier {
   Future<void> fetchData(User user, BuildContext context) async {
     logger.d('fetching health data function called');
 
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final uid = auth.currentUser!.uid;
+    // final database = provider.Provider.of<Database>(context, listen: false);
+    // final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final uid = auth!.currentUser!.uid;
 
     HealthFactory health = HealthFactory();
 
@@ -138,7 +146,7 @@ class HomeScreenModel with ChangeNotifier {
     if (accessWasGranted) {
       try {
         // Get steps data that are already on firestores
-        final stepsDataFromFirestore = await database.getSteps(uid);
+        final stepsDataFromFirestore = await database!.getSteps(uid);
 
         final endDate = DateTime.now();
         final startDate = stepsDataFromFirestore?.lastUpdateTime.toDate() ??
@@ -179,10 +187,7 @@ class HomeScreenModel with ChangeNotifier {
                   'lastUpdateTime': Timestamp.now(),
                 };
 
-                await database.updateSteps(
-                  auth.currentUser!.uid,
-                  updatedStepsData,
-                );
+                await database!.updateSteps(uid, updatedStepsData);
 
                 print('updated');
               } else {
@@ -192,7 +197,7 @@ class HomeScreenModel with ChangeNotifier {
                   ownerId: user.userId,
                 );
 
-                await database.setSetps(step);
+                await database!.setSetps(step);
                 print('created');
               }
             } else {
@@ -223,7 +228,7 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   void popUntilRoot(BuildContext context) {
-    final currentState = _tabNavigatorKeys[_currentTab]!.currentState;
+    final currentState = tabNavigatorKeys[_currentTab]!.currentState;
 
     Navigator.of(context).popUntil((route) => route.isFirst);
     currentState?.popUntil((route) => route.isFirst);
@@ -239,12 +244,4 @@ class HomeScreenModel with ChangeNotifier {
       );
     }
   }
-
-  // Home Screen Navigator Key
-  final GlobalKey<NavigatorState> homeScreenNavigatorKey =
-      GlobalKey<NavigatorState>();
-
-  // Miniplayer navigator key
-  final GlobalKey<NavigatorState> miniplayerNavigatorKey =
-      GlobalKey<NavigatorState>();
 }

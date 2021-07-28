@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -212,12 +213,9 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-        ),
-        backgroundColor: kAppBarColor,
+        leading: const AppBarCloseButton(),
         flexibleSpace: const AppbarBlurBG(),
+        backgroundColor: kAppBarColor,
         title: Text(S.current.addProteins, style: TextStyles.subtitle2),
       ),
       body: _buildBody(),
@@ -251,7 +249,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(S.current.time, style: kBodyText1w800),
+                child: Text(S.current.time, style: TextStyles.body1_w800),
               ),
               GestureDetector(
                 onTap: () => _showDatePicker(context),
@@ -279,7 +277,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.amount, style: kBodyText1w800),
+                child: Text(S.current.amount, style: TextStyles.body1_w800),
               ),
               Card(
                 color: kCardColor,
@@ -333,7 +331,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.mealType, style: kBodyText1w800),
+                child: Text(S.current.mealType, style: TextStyles.body1_w800),
               ),
               _buildType(),
               const SizedBox(height: 16),
@@ -342,7 +340,7 @@ class _AddProteinScreenState extends State<AddProteinScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(S.current.notes, style: kBodyText1w800),
+                child: Text(S.current.notes, style: TextStyles.body1_w800),
               ),
               Card(
                 color: kCardColor,

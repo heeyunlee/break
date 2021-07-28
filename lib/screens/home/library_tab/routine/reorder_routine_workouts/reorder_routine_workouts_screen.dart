@@ -12,6 +12,7 @@ import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
 import 'reorder_routine_workouts_screen_model.dart';
@@ -77,10 +78,7 @@ class _ReorderRoutineWorkoutsScreenState
           S.current.editRoutineWorkoutOrder,
           style: TextStyles.subtitle2,
         ),
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close_rounded),
-        ),
+        leading: const AppBarCloseButton(),
       ),
       body: _buildBody(),
       floatingActionButton: SizedBox(

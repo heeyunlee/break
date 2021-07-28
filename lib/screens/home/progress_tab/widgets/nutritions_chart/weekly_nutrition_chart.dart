@@ -68,7 +68,7 @@ class _WeeklyNutritionChartState extends State<WeeklyNutritionChart> {
 
                       return BarTooltipItem(
                         '$formattedAmount g',
-                        kBodyText1Black,
+                        TextStyles.body1_black,
                       );
                     },
                   ),

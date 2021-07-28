@@ -66,7 +66,7 @@ class _WeeklyLiftedWeightsChartState extends State<WeeklyLiftedWeightsChart> {
 
                       return BarTooltipItem(
                         '$formattedWeights $unit',
-                        kBodyText1Black,
+                        TextStyles.body1_black,
                       );
                     },
                   ),

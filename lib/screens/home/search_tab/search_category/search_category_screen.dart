@@ -15,6 +15,7 @@ import 'package:workout_player/screens/home/library_tab/routine/routine_detail_s
 import 'package:workout_player/screens/home/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -78,12 +79,9 @@ class SearchCategoryScreen extends StatelessWidget {
                 snap: false,
                 centerTitle: true,
                 brightness: Brightness.dark,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                title: Text(title!, style: TextStyles.subtitle1),
+                leading: const AppBarBackButton(),
                 flexibleSpace: const AppbarBlurBG(),
+                title: Text(title!, style: TextStyles.subtitle1),
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
                   labelColor: Colors.white,

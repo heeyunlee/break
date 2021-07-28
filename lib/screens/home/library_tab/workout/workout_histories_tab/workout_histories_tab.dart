@@ -178,7 +178,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
                     return BarTooltipItem(
                       '$formattedWeights $unit',
-                      kBodyText1Black,
+                      TextStyles.body1_black,
                     );
                   },
                 ),

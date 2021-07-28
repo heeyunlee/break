@@ -3,6 +3,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/location.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../../styles/constants.dart';
 import 'search_category/search_category_screen.dart';
@@ -21,7 +22,7 @@ class SearchTabBodyWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byMuscleGroup,
-              style: kBodyText1Menlow900,
+              style: TextStyles.body1_w900_menlo,
             ),
           ),
           _MainMuscleGroupGridWidget(),
@@ -30,7 +31,7 @@ class SearchTabBodyWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byEquipment,
-              style: kBodyText1Menlow900,
+              style: TextStyles.body1_w900_menlo,
             ),
           ),
           _EquipmentRequiredGridWidget(),
@@ -39,7 +40,7 @@ class SearchTabBodyWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byLocation,
-              style: kBodyText1Menlow900,
+              style: TextStyles.body1_w900_menlo,
             ),
           ),
           _LocationGridWidget(),

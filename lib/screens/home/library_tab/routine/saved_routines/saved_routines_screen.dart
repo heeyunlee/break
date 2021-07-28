@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -66,13 +67,7 @@ class SavedRoutinesScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-        ),
+        leading: const AppBarBackButton(),
       ),
       body: (user.savedRoutines!.isEmpty)
           ? EmptyContent(message: S.current.noSavedRoutinesYet)

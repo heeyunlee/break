@@ -58,7 +58,7 @@ class WeeklyProteinChartSampleWidget extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     S.current.addProteins,
-                    style: kSubtitle1w900GreenAc,
+                    style: TextStyles.subtitle1_w900_greenAccent,
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(
@@ -106,7 +106,7 @@ class WeeklyProteinChartSampleWidget extends StatelessWidget {
 
                           return BarTooltipItem(
                             '$formattedAmount g',
-                            kBodyText1Black,
+                            TextStyles.body1_black,
                           );
                         },
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/text_styles.dart';
 
 import '../../../../styles/constants.dart';
 
@@ -36,10 +37,7 @@ class SearchCategoryWidget extends StatelessWidget {
               ),
             ),
             child: Center(
-              child: Text(
-                text,
-                style: kSubtitle2w900,
-              ),
+              child: Text(text, style: TextStyles.subtitle2_w900),
             ),
           ),
         ),

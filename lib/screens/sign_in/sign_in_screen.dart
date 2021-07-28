@@ -121,7 +121,7 @@ class SignInScreen extends ConsumerWidget {
                         const SizedBox(height: 40),
                         const Text(
                           'Herakles: Workout Player',
-                          style: kSubtitle1Menlo,
+                          style: TextStyles.subtitle1_menlo,
                         ),
                       ],
                     ),

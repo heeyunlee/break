@@ -58,7 +58,7 @@ class CustomListTile3 extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: kBodyText1Bold,
+                        style: TextStyles.body1_bold,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,

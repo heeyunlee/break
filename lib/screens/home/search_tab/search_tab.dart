@@ -70,7 +70,7 @@ class _SearchTabState extends State<SearchTab> {
           backgroundColor: kAppBarColor,
           brightness: Brightness.dark,
           elevation: 0,
-          flexibleSpace: AppbarBlurBG(),
+          flexibleSpace: const AppbarBlurBG(),
         ),
       ),
       backgroundColor: kBackgroundColor,

@@ -63,7 +63,7 @@ dependencies:
   fl_chart: ^0.36.2
   smooth_page_indicator: ^0.3.0-nullsafety.0
   circular_countdown_timer: ^0.2.0
-  keyboard_actions: ^3.4.0
+  keyboard_actions: ^3.4.3
   flutter_rating_bar: ^4.0.0
   confetti: ^0.6.0-nullsafety
   numberpicker: ^2.1.1

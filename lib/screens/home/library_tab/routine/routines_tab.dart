@@ -11,7 +11,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 
 import 'create_routine/create_new_routine_screen.dart';
-import 'create_routine/create_new_routine_widget.dart';
+import 'create_routine/create_new_routine_list_tile.dart';
 import 'routine_detail_screen.dart';
 import 'saved_routines/saved_routines_tile_widget.dart';
 
@@ -45,8 +45,7 @@ class RoutinesTab extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 8),
-            // if (query.snapshots() != null) CreateNewRoutineWidget(),
-            CreateNewRoutineWidget(),
+            const CreateNewRoutineListTile(),
             SavedRoutinesTileWidget(),
           ],
         ),
@@ -56,12 +55,6 @@ class RoutinesTab extends StatelessWidget {
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        // final documentId = documentSnapshot.id;
-        // final data = documentSnapshot.data();
-        // final routine = Routine.fromJson(data!, documentId);
-
-        // final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
-        // final routine = snapshot.data()!;
         final routine = documentSnapshot.data() as Routine;
 
         final subtitle = MainMuscleGroup.values

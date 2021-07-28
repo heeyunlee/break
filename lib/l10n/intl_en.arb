@@ -418,5 +418,6 @@
     "customizeWidgetsMessage": "You can customize by selecting widgets that are important to you, and hide other widget that you may wish not to see now",
     "updateWidgetsListSnackbarTitle": "Update Widgets",
     "updateWidgetsListSnackbarMessage": "Successfully updated widgets for progress tab",
-    "addMoreData": "Add More Data!"
+    "addMoreData": "Add More Data!",
+    "pleaseEnderValidValue": "Please enter a valid value"
 }

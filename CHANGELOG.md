@@ -6,6 +6,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 ### New Features
 
 ### Bug Fix & Refactor
+- Refactored AddMeasurementsScreen with ChangeNotifierProvider (riverpod)
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features

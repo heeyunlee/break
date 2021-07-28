@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -180,15 +181,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
       builder: (context, child) => SliverAppBar(
         forceElevated: innerBoxIsScrolled,
         brightness: Brightness.dark,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: const AppBarBackButton(),
         title: Transform.translate(
           offset: _transTween.value,
           child: Opacity(

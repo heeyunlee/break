@@ -13,6 +13,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 class ChooseBackgroundScreen extends StatefulWidget {
@@ -72,11 +73,8 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        flexibleSpace: AppbarBlurBG(blurSigma: 10),
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.close_rounded),
-        ),
+        flexibleSpace: const AppbarBlurBG(blurSigma: 10),
+        leading: const AppBarCloseButton(),
         title: Text(S.current.chooseWallpaper, style: TextStyles.subtitle2),
       ),
       body: CustomStreamBuilderWidget<User?>(

@@ -7,8 +7,8 @@ import 'package:provider/provider.dart' as provider;
 import 'package:reorderables/reorderables.dart';
 
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/classes/auth_and_database.dart';
-import 'package:workout_player/classes/progress_tab_class.dart';
+import 'package:workout_player/classes/combined/auth_and_database.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';

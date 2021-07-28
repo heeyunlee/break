@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/combined/routine_and_routine_workouts.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/library_tab/routine/log_routine/log_routine_screen.dart';
 import 'package:workout_player/services/database.dart';

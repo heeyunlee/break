@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -106,11 +107,8 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        flexibleSpace: AppbarBlurBG(),
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        flexibleSpace: const AppbarBlurBG(),
+        leading: const AppBarCloseButton(),
         title: Text(S.current.yourFeedbackMatters, style: TextStyles.subtitle2),
         actions: [
           TextButton(
@@ -134,11 +132,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           controller: _textController1,
           maxLines: 20,
           autofocus: true,
-          style: kBodyText1Height,
+          style: TextStyles.body1_heighted,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: S.current.feedbackHintText,
-            hintStyle: kBodyText1Grey,
+            hintStyle: TextStyles.body1_grey,
           ),
           onChanged: (value) {
             setState(() {

@@ -184,10 +184,7 @@ class _EditRoutineEquipmentRequiredScreenState
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
+          icon: const Icon(Icons.arrow_back_rounded),
           onPressed: _submit,
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.subtitle1),

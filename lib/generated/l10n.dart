@@ -4249,6 +4249,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter a valid value`
+  String get pleaseEnderValidValue {
+    return Intl.message(
+      'Please enter a valid value',
+      name: 'pleaseEnderValidValue',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

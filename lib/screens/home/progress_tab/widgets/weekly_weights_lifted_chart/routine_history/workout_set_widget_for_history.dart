@@ -34,7 +34,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
     return Row(
       children: [
         const SizedBox(width: 16, height: 56),
-        if (!workoutSet.isRest) Text(title, style: kBodyText1Bold),
+        if (!workoutSet.isRest) Text(title, style: TextStyles.body1_bold),
 
         if (workoutSet.isRest)
           const Icon(Icons.timer_rounded, color: Colors.grey, size: 20),

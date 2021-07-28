@@ -113,7 +113,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                     ),
                     errorText: widget.model.emailErrorText,
                     hintText: 'JohnDoe@abc.com',
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode1.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -128,7 +128,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signInScreenValidate,
                 ),
                 const SizedBox(height: 8),
@@ -162,7 +162,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                     ),
                     errorText: widget.model.passwordErrorText,
                     hintText: S.current.passwordHintText,
-                    hintStyle: kBodyText1Grey,
+                    hintStyle: TextStyles.body1_grey,
                     suffixIcon: widget.model.focusNode2.hasFocus
                         ? GestureDetector(
                             onTap: () {
@@ -177,7 +177,7 @@ class _LogInWithEmailScreenState extends State<LogInWithEmailScreen> {
                           )
                         : null,
                   ),
-                  style: kBodyText1Bold,
+                  style: TextStyles.body1_bold,
                   onChanged: widget.model.signInScreenValidate,
                 ),
 
