@@ -20,8 +20,8 @@ class AppbarBlurBG extends StatelessWidget {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: blurSigma ?? 25.0,
-          sigmaY: blurSigma ?? 25.0,
+          sigmaX: blurSigma ?? 15.0,
+          sigmaY: blurSigma ?? 15.0,
         ),
         child: Container(
           decoration: BoxDecoration(

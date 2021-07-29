@@ -419,5 +419,9 @@
     "updateWidgetsListSnackbarTitle": "Update Widgets",
     "updateWidgetsListSnackbarMessage": "Successfully updated widgets for progress tab",
     "addMoreData": "Add More Data!",
-    "pleaseEnderValidValue": "Please enter a valid value"
+    "pleaseEnderValidValue": "Please enter a number",
+    "calories": "Calories",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "addNutritions": "Add Nutritions"
 }

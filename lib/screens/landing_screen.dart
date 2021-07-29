@@ -11,6 +11,8 @@ import 'preview/preview_screen.dart';
 import 'splash/splash_screen.dart';
 
 class LandingScreen extends StatelessWidget {
+  const LandingScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     logger.d('LandingScreen build...');

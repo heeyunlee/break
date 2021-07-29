@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
@@ -48,11 +50,13 @@ class UnitOfMassScreen extends StatefulWidget {
 
 class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
   late int _unitOfMass;
+  late UnitOfMass? _unitOfMassEnum;
 
   @override
   void initState() {
     super.initState();
     _unitOfMass = widget.user.unitOfMass;
+    _unitOfMassEnum = widget.user.unitOfMassEnum;
   }
 
   @override
@@ -65,6 +69,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
     try {
       final user = {
         'unitOfMass': _unitOfMass,
+        'unitOfMassEnum': EnumToString.convertToString(_unitOfMassEnum),
       };
       await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
@@ -110,6 +115,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
           onTap: () {
             setState(() {
               _unitOfMass = 0;
+              _unitOfMassEnum = UnitOfMass.kilograms;
             });
             _updateUnitOfMass();
           },
@@ -123,6 +129,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
           onTap: () {
             setState(() {
               _unitOfMass = 1;
+              _unitOfMassEnum = UnitOfMass.pounds;
             });
             _updateUnitOfMass();
           },

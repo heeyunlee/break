@@ -3,13 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
-import 'package:workout_player/widgets/empty_content.dart';
+import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -133,33 +132,24 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: Consumer(
-        builder: (context, watch, child) {
-          final workoutId = widget.workout?.workoutId ?? widget.workoutId!;
-          final workoutStream = watch(workoutStreamProvider(workoutId));
-
-          return workoutStream.when(
-            loading: () => Center(child: CircularProgressIndicator()),
-            error: (e, _) => EmptyContent(
-              message: S.current.somethingWentWrong,
-              e: e,
-            ),
-            data: (data) => DefaultTabController(
-              length: 2,
-              child: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return [
-                    _buildSliverAppBar(
-                      context,
-                      data!,
-                      innerBoxIsScrolled,
-                    ),
-                  ];
-                },
-                body: _buildTabBarView(data!),
-              ),
+      body: CustomStreamBuilderWidget<Workout?>(
+        stream: widget.database.workoutStream(widget.workout!.workoutId),
+        hasDataWidget: (context, data) {
+          return DefaultTabController(
+            length: 2,
+            child: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  _buildSliverAppBar(
+                    context,
+                    data!,
+                    innerBoxIsScrolled,
+                  ),
+                ];
+              },
+              body: _buildTabBarView(data!),
             ),
           );
         },

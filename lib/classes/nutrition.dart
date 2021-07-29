@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:workout_player/classes/enum/meal.dart';
 
 class Nutrition {
   final String nutritionId;
@@ -6,9 +8,12 @@ class Nutrition {
   final String username;
   final Timestamp loggedTime;
   final DateTime loggedDate;
-  final String type;
+  final Meal type;
   final num proteinAmount;
   final String? notes; // Nullable
+  final num? calories; // Nullable
+  final num? carbs; // Nullable
+  final num? fat; // Nullable
 
   const Nutrition({
     required this.nutritionId,
@@ -19,6 +24,9 @@ class Nutrition {
     required this.type,
     required this.proteinAmount,
     this.notes,
+    this.calories,
+    this.carbs,
+    this.fat,
   });
 
   factory Nutrition.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -27,9 +35,18 @@ class Nutrition {
       final String username = data['username'];
       final Timestamp loggedTime = data['loggedTime'];
       final DateTime loggedDate = data['loggedDate'].toDate();
-      final String type = data['type'];
+
+      final Meal type = EnumToString.fromString<Meal>(
+        Meal.values,
+        data['type'],
+        camelCase: true,
+      )!;
+
       final num proteinAmount = data['proteinAmount'];
       final String? notes = data['notes'];
+      final num? calories = data['calories'];
+      final num? carbs = data['carbs'];
+      final num? fat = data['fat'];
 
       return Nutrition(
         nutritionId: documentId,
@@ -40,6 +57,9 @@ class Nutrition {
         notes: notes,
         proteinAmount: proteinAmount,
         loggedDate: loggedDate,
+        calories: calories,
+        carbs: carbs,
+        fat: fat,
       );
     } else {
       throw 'null';
@@ -51,37 +71,13 @@ class Nutrition {
       'loggedTime': loggedTime,
       'userId': userId,
       'username': username,
-      'type': type,
+      'type': EnumToString.convertToString(type, camelCase: true),
       'notes': notes,
       'proteinAmount': proteinAmount,
       'loggedDate': loggedDate,
+      'calories': calories,
+      'carbs': carbs,
+      'fat': fat,
     };
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Nutrition &&
-        other.nutritionId == nutritionId &&
-        other.userId == userId &&
-        other.username == username &&
-        other.loggedTime == loggedTime &&
-        other.loggedDate == loggedDate &&
-        other.type == type &&
-        other.proteinAmount == proteinAmount &&
-        other.notes == notes;
-  }
-
-  @override
-  int get hashCode {
-    return nutritionId.hashCode ^
-        userId.hashCode ^
-        username.hashCode ^
-        loggedTime.hashCode ^
-        loggedDate.hashCode ^
-        type.hashCode ^
-        proteinAmount.hashCode ^
-        notes.hashCode;
   }
 }

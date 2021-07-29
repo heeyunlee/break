@@ -10,7 +10,7 @@ import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../sign_in_with_email_model.dart';
+import 'sign_in_with_email_model.dart';
 
 class EmailSignUpScreen extends StatefulWidget {
   final SignInWithEmailModel model;

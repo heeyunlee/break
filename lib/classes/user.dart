@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 class User {
   final String userId;
@@ -25,6 +28,7 @@ class User {
   final Timestamp? lastAppOpenedTime; // Nullable
   final DateTime? creationTime; // Nullable
   final String? profileUrl; // Nullable
+  final UnitOfMass? unitOfMassEnum; // Nullable
 
   const User({
     required this.userId,
@@ -50,6 +54,7 @@ class User {
     this.lastAppOpenedTime,
     this.creationTime,
     this.profileUrl,
+    this.unitOfMassEnum,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -77,6 +82,12 @@ class User {
       final Timestamp? lastAppOpenedTime = data['lastAppOpenedTime'];
       final DateTime? creationTime = data['creationTime']?.toDate();
       final String? profileUrl = data['profileUrl'];
+      final UnitOfMass? unitOfMassEnum = (data['unitOfMassEnum'] != null)
+          ? EnumToString.fromString<UnitOfMass>(
+              UnitOfMass.values,
+              data['unitOfMassEnum'],
+            )
+          : null;
 
       return User(
         userId: documentId,
@@ -102,6 +113,7 @@ class User {
         lastAppOpenedTime: lastAppOpenedTime,
         creationTime: creationTime,
         profileUrl: profileUrl,
+        unitOfMassEnum: unitOfMassEnum,
       );
     } else {
       throw 'null';
@@ -132,6 +144,7 @@ class User {
     data['lastAppOpenedTime'] = lastAppOpenedTime;
     data['creationTime'] = creationTime;
     data['profileUrl'] = profileUrl;
+    data['unitOfMassEnum'] = EnumToString.convertToString(unitOfMassEnum);
 
     return data;
   }
@@ -163,7 +176,8 @@ class User {
         mapEquals(other.deviceInfo, deviceInfo) &&
         other.lastAppOpenedTime == lastAppOpenedTime &&
         other.creationTime == creationTime &&
-        other.profileUrl == profileUrl;
+        other.profileUrl == profileUrl &&
+        other.unitOfMassEnum == unitOfMassEnum;
   }
 
   @override
@@ -190,67 +204,7 @@ class User {
         deviceInfo.hashCode ^
         lastAppOpenedTime.hashCode ^
         creationTime.hashCode ^
-        profileUrl.hashCode;
+        profileUrl.hashCode ^
+        unitOfMassEnum.hashCode;
   }
-
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'userId': userId,
-  //     'userName': userName,
-  //     'userEmail': userEmail,
-  //     'signUpDate': signUpDate,
-  //     'signUpProvider': signUpProvider,
-  //     'savedWorkouts': savedWorkouts,
-  //     'savedRoutines': savedRoutines,
-  //     'totalWeights': totalWeights,
-  //     'totalNumberOfWorkouts': totalNumberOfWorkouts,
-  //     'unitOfMass': unitOfMass,
-  //     'lastLoginDate': lastLoginDate,
-  //     'dailyWeightsGoal': dailyWeightsGoal,
-  //     'dailyProteinGoal': dailyProteinGoal,
-  //     'displayName': displayName,
-  //     'backgroundImageIndex': backgroundImageIndex,
-  //     'lastHealthDataFetchedTime': lastHealthDataFetchedTime,
-  //     'weightGoal': weightGoal,
-  //     'bodyFatPercentageGoal': bodyFatPercentageGoal,
-  //     'widgetsList': widgetsList,
-  //     'deviceInfo': deviceInfo,
-  //     'lastAppOpenedTime': lastAppOpenedTime,
-  //     'creationTime': creationTime,
-  //     'profileUrl': profileUrl,
-  //   };
-  // }
-
-  // factory User.fromMap(Map<String, dynamic> map) {
-  //   return User(
-  //     userId: map['userId'],
-  //     userName: map['userName'],
-  //     userEmail: map['userEmail'],
-  //     signUpDate: map['signUpDate'],
-  //     signUpProvider: map['signUpProvider'],
-  //     savedWorkouts: List<String>.from(map['savedWorkouts']),
-  //     savedRoutines: List<String>.from(map['savedRoutines']),
-  //     totalWeights: map['totalWeights'],
-  //     totalNumberOfWorkouts: map['totalNumberOfWorkouts'],
-  //     unitOfMass: map['unitOfMass'],
-  //     lastLoginDate: map['lastLoginDate'],
-  //     dailyWeightsGoal: map['dailyWeightsGoal'],
-  //     dailyProteinGoal: map['dailyProteinGoal'],
-  //     displayName: map['displayName'],
-  //     backgroundImageIndex: map['backgroundImageIndex'],
-  //     lastHealthDataFetchedTime:
-  //         DateTime.fromMillisecondsSinceEpoch(map['lastHealthDataFetchedTime']),
-  //     weightGoal: map['weightGoal'],
-  //     bodyFatPercentageGoal: map['bodyFatPercentageGoal'],
-  //     widgetsList: List<String>.from(map['widgetsList']),
-  //     deviceInfo: Map<String, dynamic>.from(map['deviceInfo']),
-  //     lastAppOpenedTime: map['lastAppOpenedTime'],
-  //     creationTime: DateTime.fromMillisecondsSinceEpoch(map['creationTime']),
-  //     profileUrl: map['profileUrl'],
-  //   );
-  // }
-
-  // Map<String, dynamic>? toJson() => toMap();
-
-  // factory User.fromJson(Map<String, dynamic>? source) => User.fromMap(source!);
 }

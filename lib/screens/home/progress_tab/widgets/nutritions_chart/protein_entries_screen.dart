@@ -96,16 +96,11 @@ class ProteinEntriesScreen extends StatelessWidget {
           message: '${S.current.somethingWentWrong}: $error',
         ),
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (index, context, documentSnapshot) {
-          // final documentId = documentSnapshot.id;
-          // final data = documentSnapshot.data();
-          // final nutrition = Nutrition.fromJson(data!, documentId);
-          final snapshot = documentSnapshot as DocumentSnapshot<Nutrition?>;
-          final nutrition = snapshot.data()!;
+        itemBuilder: (index, context, snapshot) {
+          final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
 
           return Slidable(
-            // startActionPane: const SlidableDrawerActionPane(),
             endActionPane: ActionPane(
               motion: ScrollMotion(),
               children: [

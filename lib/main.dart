@@ -73,11 +73,11 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: 'NanumSquareRound',
             primaryColorBrightness: Brightness.dark,
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.white,
             ),
           ),
-          home: LandingScreen(),
+          home: const LandingScreen(),
         ),
       ),
     );

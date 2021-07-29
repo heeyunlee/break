@@ -2,9 +2,13 @@ class APIPath {
   /// Users
   static String user(String userId) => 'users/$userId';
   static String users() => 'users';
+
+  /// Measurements
   static String measurements(String userId) => 'users/$userId/measurements';
   static String measurement(String userId, String measurementId) =>
       'users/$userId/measurements/$measurementId';
+
+  /// Steps
   static String steps(String uid) => 'users/$uid/health/STEPS';
 
   /// Nutrition

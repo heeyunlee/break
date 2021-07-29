@@ -33,6 +33,12 @@ class Formatter {
     return UnitOfMass.values[unitOfMassNotNull].label!;
   }
 
+  static String unitOfMassGram(int unitOfMass) {
+    final unitOfMassNotNull = unitOfMass;
+
+    return UnitOfMass.values[unitOfMassNotNull].gram!;
+  }
+
   static String? difficulty(int? difficulty) {
     final difficultyNotNull = difficulty ?? 2;
 

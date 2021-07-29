@@ -22,7 +22,6 @@
 Herakles is a health & fitness tracking app with customizable dashboard (with iOS-like widgets) and workout player (YouTube-like miniplayer and displays your current workout)
 
 ## Preview
-<img src="https://media.giphy.com/media/Hkk2m4YGv1c1mWhBRz/giphy.gif" alt="preview1" width="200"/>
 
 ## To Do
 ### Refactoring
@@ -57,7 +56,7 @@ Herakles is a health & fitness tracking app with customizable dashboard (with iO
 - [ ] User Feedback Screen
 - [x] Home Screen
 - [x] Add Measurement Screen
-- [ ] Add Protein Screen
+- [x] Add Nutrition Screen
 - [ ] Start Workout Shortcut Screen
 - [ ] SpeedDial
 - [x] Preview Screen

@@ -419,5 +419,9 @@
     "updateWidgetsListSnackbarTitle": "위젯 수정",
     "updateWidgetsListSnackbarMessage": "성공적으로 기록 탭의 위젯들을 수정했습니다",
     "addMoreData": "데이터가 없어요!",
-    "pleaseEnderValidValue": "올바른 숫자를 입력해 주세요"
+    "pleaseEnderValidValue": "올바른 숫자를 입력해 주세요",
+    "calories": "칼로리",
+    "carbs": "탄수화물",
+    "fat": "지방",
+    "addNutritions": "영양소 섭취 추가"
 }

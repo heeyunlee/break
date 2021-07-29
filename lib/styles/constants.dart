@@ -41,9 +41,15 @@ const kBottomNavBarColor = Color(0xff1C1C1C);
 // OTHERS //
 const kCustomDivider = Divider(
   color: kGrey700,
+  height: 48,
+);
+
+const kCustomDividerIndent = Divider(
+  color: kGrey700,
   indent: 16,
   endIndent: 16,
 );
+
 const kBicepEmojiUrl =
     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
 

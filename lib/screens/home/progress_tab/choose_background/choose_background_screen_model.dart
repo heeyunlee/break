@@ -25,8 +25,8 @@ class ChooseBackgroundScreenModel with ChangeNotifier {
     this.database,
   }) {
     final container = ProviderContainer();
-    auth = container.read(authServiceProvider2);
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
   int? _selectedImageIndex;

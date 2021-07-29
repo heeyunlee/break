@@ -13,8 +13,8 @@ import 'add_measurements_model.dart';
 import 'widgets/bmi_text_field_widget.dart';
 import 'widgets/body_fat_text_field_widget.dart';
 import 'widgets/body_weight_text_field_widget.dart';
-import 'widgets/notes_text_field_widget.dart';
-import 'widgets/select_dates_widget.dart';
+import '../widgets/notes_text_field_widget.dart';
+import '../widgets/select_dates_widget.dart';
 import 'widgets/skeleton_muscle_mass_text_field_widget.dart';
 
 class AddMeasurementsBodyWidget extends StatefulWidget {
@@ -65,7 +65,6 @@ class _AddMeasurementsBodyWidgetState extends State<AddMeasurementsBodyWidget> {
       ),
       child: KeyboardActions(
         config: _buildConfig(),
-        isDialog: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -73,7 +72,13 @@ class _AddMeasurementsBodyWidgetState extends State<AddMeasurementsBodyWidget> {
               key: AddMeasurementsModel.formKey,
               child: Column(
                 children: [
-                  SelectDatesWidget(model: widget.model),
+                  SelectDatesWidget(
+                    borderColor: widget.model.borderColor,
+                    onVisibilityChanged: widget.model.onVisibilityChanged,
+                    timeInString: widget.model.loggedTimeInString,
+                    initialDateTime: widget.model.loggedTime.toDate(),
+                    onDateTimeChanged: widget.model.onDateTimeChanged,
+                  ),
                   BodyWeightTextFieldWidget(model: widget.model, unit: unit),
                   BodyFatTextFieldWidget(model: widget.model),
                   SkeletonMuscleMassTextFieldWidget(
@@ -81,7 +86,12 @@ class _AddMeasurementsBodyWidgetState extends State<AddMeasurementsBodyWidget> {
                     unit: unit,
                   ),
                   BMITextFieldWidget(model: widget.model),
-                  NotesTextFieldWidget(model: widget.model),
+                  NotesTextFieldWidget(
+                    focusNode: widget.model.focusNode5,
+                    controller: widget.model.notesController,
+                    onChanged: widget.model.onChanged,
+                    onFieldSubmitted: widget.model.onFieldSubmitted,
+                  ),
                   const SizedBox(height: 96),
                 ],
               ),

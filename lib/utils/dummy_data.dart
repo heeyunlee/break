@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/enum/meal.dart';
 import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/routine_history.dart';
@@ -127,7 +128,7 @@ final nutritionDummyData = Nutrition(
   username: 'username',
   loggedTime: Timestamp.now(),
   loggedDate: DateTime.now(),
-  type: 'type',
+  type: Meal.AfterWorkout,
   proteinAmount: 100,
 );
 

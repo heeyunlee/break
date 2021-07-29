@@ -7,11 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
-import 'package:workout_player/screens/sign_in/string_validator.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
+
+import 'string_validator.dart';
 
 final signInWithEmailModelProvider =
     ChangeNotifierProvider((ref) => SignInWithEmailModel());
@@ -26,8 +27,8 @@ class SignInWithEmailModel extends ChangeNotifier
     this.database,
   }) {
     final container = ProviderContainer();
-    auth = container.read(authServiceProvider2);
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
   bool _isLoading = false;

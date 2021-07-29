@@ -93,6 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("메모를 추가하세요"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("간단한 메모를 감겨주세요!"),
+        "addNutritions": MessageLookupByLibrary.simpleMessage("영양소 섭취 추가"),
         "addOrRemoveWidgets": MessageLookupByLibrary.simpleMessage("위젯 추가/제거"),
         "addPhotos": MessageLookupByLibrary.simpleMessage("사진 선택"),
         "addProteinEntrySnackbar":
@@ -151,11 +152,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "byLocation": MessageLookupByLibrary.simpleMessage("운동 장소"),
         "byMuscleGroup": MessageLookupByLibrary.simpleMessage("운동 부위"),
         "cable": MessageLookupByLibrary.simpleMessage("케이블"),
+        "calories": MessageLookupByLibrary.simpleMessage("칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "cancelWorkoutSnackbarMessage":
             MessageLookupByLibrary.simpleMessage("운동을 그만뒀습니다"),
         "cancelWorkoutSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("운동 종료"),
+        "carbs": MessageLookupByLibrary.simpleMessage("탄수화물"),
         "cardio": MessageLookupByLibrary.simpleMessage("유산소"),
         "chains": MessageLookupByLibrary.simpleMessage("짐체인"),
         "changeBackground": MessageLookupByLibrary.simpleMessage("배경 변경"),
@@ -320,6 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("오류가 났어요.."),
         "etc": MessageLookupByLibrary.simpleMessage("등등"),
         "everyone": MessageLookupByLibrary.simpleMessage("모두에게"),
+        "fat": MessageLookupByLibrary.simpleMessage("지방"),
         "featureDiscoveryCustomizeWidgetMessage":
             MessageLookupByLibrary.simpleMessage(
                 "이제 건강 대시보드를 자신이 원하는 대로 커스터마이징이 가능합니다! 위젯의 순서를 바꾸고 싶다면 위젯을 길게 누르고, 새로운 위젯을 추가하거나 삭제하고 싶다면 이 버튼을 눌러주세요!"),

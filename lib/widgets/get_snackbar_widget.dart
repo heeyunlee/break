@@ -8,7 +8,7 @@ void getSnackbarWidget(String title, String message, {int? duration}) {
     message,
     animationDuration: Duration(milliseconds: 500),
     backgroundColor: Colors.grey[700]!.withOpacity(0.75),
-    snackPosition: SnackPosition.BOTTOM,
+    snackPosition: SnackPosition.TOP,
     titleText: Text(title, style: TextStyles.body2_grey),
     messageText: Text(message, style: TextStyles.body2),
     borderRadius: 8,

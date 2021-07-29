@@ -5,14 +5,18 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-import '../add_measurements_model.dart';
-
 class NotesTextFieldWidget extends StatelessWidget {
-  final AddMeasurementsModel model;
+  final FocusNode focusNode;
+  final TextEditingController controller;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
 
   const NotesTextFieldWidget({
     Key? key,
-    required this.model,
+    required this.focusNode,
+    required this.controller,
+    this.onChanged,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -22,8 +26,8 @@ class NotesTextFieldWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: TextFormField(
-        focusNode: model.focusNode5,
-        controller: model.notesController,
+        focusNode: focusNode,
+        controller: controller,
         maxLines: 5,
         decoration: InputDecoration(
           labelText: S.current.notes,
@@ -43,8 +47,8 @@ class NotesTextFieldWidget extends StatelessWidget {
           ),
         ),
         style: TextStyles.body1,
-        onChanged: model.onChanged,
-        onFieldSubmitted: model.onFieldSubmitted,
+        onChanged: onChanged,
+        onFieldSubmitted: onFieldSubmitted,
       ),
     );
   }

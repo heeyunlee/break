@@ -4250,11 +4250,51 @@ class S {
     );
   }
 
-  /// `Please enter a valid value`
+  /// `Please enter a number`
   String get pleaseEnderValidValue {
     return Intl.message(
-      'Please enter a valid value',
+      'Please enter a number',
       name: 'pleaseEnderValidValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calories`
+  String get calories {
+    return Intl.message(
+      'Calories',
+      name: 'calories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carbs`
+  String get carbs {
+    return Intl.message(
+      'Carbs',
+      name: 'carbs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fat`
+  String get fat {
+    return Intl.message(
+      'Fat',
+      name: 'fat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Nutritions`
+  String get addNutritions {
+    return Intl.message(
+      'Add Nutritions',
+      name: 'addNutritions',
       desc: '',
       args: [],
     );

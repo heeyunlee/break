@@ -6,9 +6,9 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/home/speed_dial/add_measurements/add_measurements_model.dart';
+import 'package:workout_player/screens/home/speed_dial/add_nutritions/add_nutrition_screen_model.dart';
 import 'package:workout_player/screens/home/speed_dial/speed_dial_model.dart';
 
-import '../add_protein_screen.dart';
 import '../start_workout_shortcut_screen.dart';
 import 'background_overlay.dart';
 import 'speed_dial_children.dart';
@@ -148,7 +148,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget>
         label: S.current.nutritions,
         onPressed: () {
           widget.model.toggleAnimation();
-          AddProteinScreen.show(context);
+          AddNutritionScreenModel.show(context);
         },
         icon: Icon(
           Icons.restaurant_menu_rounded,

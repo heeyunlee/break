@@ -98,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNotes": MessageLookupByLibrary.simpleMessage("Add notes"),
         "addNotesHintText":
             MessageLookupByLibrary.simpleMessage("How do you feel? Add Notes"),
+        "addNutritions": MessageLookupByLibrary.simpleMessage("Add Nutritions"),
         "addOrRemoveWidgets":
             MessageLookupByLibrary.simpleMessage("Add Or Remove Widgets"),
         "addPhotos": MessageLookupByLibrary.simpleMessage("Add Photos"),
@@ -163,11 +164,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "byMuscleGroup":
             MessageLookupByLibrary.simpleMessage("By Muscle Group"),
         "cable": MessageLookupByLibrary.simpleMessage("Cable"),
+        "calories": MessageLookupByLibrary.simpleMessage("Calories"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelWorkoutSnackbarMessage":
             MessageLookupByLibrary.simpleMessage("Caneled the current workout"),
         "cancelWorkoutSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Caneled Workout"),
+        "carbs": MessageLookupByLibrary.simpleMessage("Carbs"),
         "cardio": MessageLookupByLibrary.simpleMessage("Cardio"),
         "chains": MessageLookupByLibrary.simpleMessage("Chains"),
         "changeBackground":
@@ -349,6 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("An error has occured"),
         "etc": MessageLookupByLibrary.simpleMessage("etc."),
         "everyone": MessageLookupByLibrary.simpleMessage("Everyone"),
+        "fat": MessageLookupByLibrary.simpleMessage("Fat"),
         "featureDiscoveryCustomizeWidgetMessage":
             MessageLookupByLibrary.simpleMessage(
                 "Now you can customize progress tab\'s widgets. Just long press the widget to reorder or press this button to add or remove a widget!"),
@@ -463,7 +467,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "plate": MessageLookupByLibrary.simpleMessage("Plate"),
         "pleaseEnderValidValue":
-            MessageLookupByLibrary.simpleMessage("Please enter a valid value"),
+            MessageLookupByLibrary.simpleMessage("Please enter a number"),
         "previewScreenMessage1":
             MessageLookupByLibrary.simpleMessage("Mark Your Progress"),
         "previewScreenMessage2": MessageLookupByLibrary.simpleMessage(

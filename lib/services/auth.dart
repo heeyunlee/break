@@ -9,28 +9,9 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../main_provider.dart';
 
-final authServiceProvider3 = Provider<AuthService>((ref) {
-  return AuthService();
-});
-
-final authServiceProvider2 = Provider<AuthService>(
+final authServiceProvider = Provider<AuthService>(
   (ref) => AuthService(read: ref.read),
 );
-
-// final authStateChangeProvider2 = StreamProvider<auth.User?>((ref) {
-//   final auth = AuthService();
-
-//   return auth.authStateChanges();
-// });
-
-final authServiceProvider = Provider<AuthBase>((ref) {
-  return AuthService();
-});
-
-final authStateChangeProvider = StreamProvider<auth.User?>((ref) {
-  final authService = ref.watch(authServiceProvider);
-  return authService.idTokenChanges();
-});
 
 abstract class AuthBase {
   auth.User? get currentUser;
@@ -83,8 +64,7 @@ class AuthService implements AuthBase {
     logger.d('signInAnonymously triggered in auth');
 
     try {
-      final userCredential =
-          await auth.FirebaseAuth.instance.signInAnonymously();
+      final userCredential = await _auth.signInAnonymously();
       final user = userCredential.user;
 
       final currentUser = _auth.currentUser;
@@ -110,11 +90,11 @@ class AuthService implements AuthBase {
     logger.d('signInWithEmailWithPassword triggered in auth');
 
     try {
-      final userCredential =
-          await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       final user = userCredential.user;
 
       final currentUser = _auth.currentUser;
@@ -137,11 +117,11 @@ class AuthService implements AuthBase {
       String email, String password) async {
     logger.d('createUserWithEmailAndPassword triggered in auth');
 
-    var userCredential =
-        await auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
+    final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+
     final user = userCredential.user;
 
     final currentUser = _auth.currentUser;

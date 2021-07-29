@@ -1,18 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-import '../add_measurements_model.dart';
-
 class SelectDatesWidget extends StatelessWidget {
-  final AddMeasurementsModel model;
+  final String timeInString;
+  final DateTime initialDateTime;
+  final void Function(DateTime) onDateTimeChanged;
+  final void Function(VisibilityInfo) onVisibilityChanged;
+  final Color borderColor;
 
   const SelectDatesWidget({
     Key? key,
-    required this.model,
+    required this.timeInString,
+    required this.initialDateTime,
+    required this.onDateTimeChanged,
+    required this.onVisibilityChanged,
+    required this.borderColor,
   }) : super(key: key);
 
   @override
@@ -30,15 +37,14 @@ class SelectDatesWidget extends StatelessWidget {
               height: 56,
               width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(color: kPrimaryGrey),
+                border: Border.all(color: borderColor),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child:
-                      Text(model.loggedTimeInString, style: TextStyles.body1),
+                  child: Text(timeInString, style: TextStyles.body1),
                 ),
               ),
             ),
@@ -65,14 +71,18 @@ class SelectDatesWidget extends StatelessWidget {
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
-        return Container(
-          color: kCardColorLight,
-          height: size.height / 3,
-          child: CupertinoTheme(
-            data: CupertinoThemeData(brightness: Brightness.dark),
-            child: CupertinoDatePicker(
-              initialDateTime: model.loggedTime.toDate(),
-              onDateTimeChanged: model.onDateTimeChanged,
+        return VisibilityDetector(
+          key: Key('DatePicker'),
+          onVisibilityChanged: onVisibilityChanged,
+          child: Container(
+            color: kCardColorLight,
+            height: size.height / 3,
+            child: CupertinoTheme(
+              data: CupertinoThemeData(brightness: Brightness.dark),
+              child: CupertinoDatePicker(
+                initialDateTime: initialDateTime,
+                onDateTimeChanged: onDateTimeChanged,
+              ),
             ),
           ),
         );

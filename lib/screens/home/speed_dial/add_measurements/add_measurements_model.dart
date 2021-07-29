@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -30,6 +32,7 @@ class AddMeasurementsModel with ChangeNotifier {
   late Timestamp _loggedTime;
   late String _loggedTimeInString;
   late DateTime _loggedDate;
+  Color _borderColor = Colors.grey;
 
   late FocusNode _focusNode1;
   late FocusNode _focusNode2;
@@ -45,6 +48,7 @@ class AddMeasurementsModel with ChangeNotifier {
   Timestamp get loggedTime => _loggedTime;
   String get loggedTimeInString => _loggedTimeInString;
   DateTime get loggedDate => _loggedDate;
+  Color get borderColor => _borderColor;
 
   TextEditingController get bodyweightController => _bodyweightController;
   TextEditingController get bodyFatController => _bodyFatController;
@@ -151,6 +155,16 @@ class AddMeasurementsModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void onVisibilityChanged(VisibilityInfo info) {
+    if (info.visibleFraction >= 0.85) {
+      _borderColor = kSecondaryColor;
+    } else {
+      _borderColor = Colors.grey;
+    }
+
+    notifyListeners();
+  }
+
   /// Submit data to Firestore
   bool _validateAndSaveForm() {
     final form = formKey.currentState;
@@ -203,6 +217,7 @@ class AddMeasurementsModel with ChangeNotifier {
     }
   }
 
+  //// STATIC
   /// FORM KEY
   static final formKey = GlobalKey<FormState>();
 

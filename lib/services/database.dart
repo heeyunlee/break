@@ -23,82 +23,10 @@ import 'package:workout_player/services/firestore_service.dart';
 /// `riverpod`
 ///
 ///
-final databaseProvider2 = Provider.family<FirestoreDatabase, String?>(
+final databaseProvider = Provider.family<FirestoreDatabase, String?>(
   (ref, uid) => FirestoreDatabase(reader: ref.read, uid: uid),
 );
 
-final databaseProvider = Provider.family<FirestoreDatabase, String>(
-  (ref, uid) => FirestoreDatabase(),
-);
-
-final userStreamProvider = StreamProvider.family<User?, String>((ref, uid) {
-  final database = ref.watch(databaseProvider(uid));
-  return database.userStream();
-});
-
-final todaysNutritionStreamProvider =
-    StreamProvider.family<List<Nutrition>?, String>((ref, uid) {
-  final database = ref.watch(databaseProvider(uid));
-  return database.todaysNutritionStream();
-});
-
-final nutritionSelectedDayStreamProvider =
-    StreamProvider.family<List<Nutrition>?, List<dynamic>>((ref, ids) {
-  final database = ref.watch(databaseProvider2(ids[0]));
-  return database.nutritionsSelectedDayStream(ids[1]);
-});
-
-final thisWeeksNutritionsStreamProvider =
-    StreamProvider.family<List<Nutrition>, String>((ref, uid) {
-  final database = ref.watch(databaseProvider(uid));
-  return database.thisWeeksNutritionsStream();
-});
-
-final workoutStreamProvider = StreamProvider.family<Workout?, String>(
-  (ref, id) {
-    final database = ref.watch(databaseProvider(id));
-    return database.workoutStream(id);
-  },
-);
-
-final routineStreamProvider = StreamProvider.family<Routine?, String>(
-  (ref, id) {
-    final database = ref.watch(databaseProvider(id));
-    return database.routineStream(id);
-  },
-);
-
-final routineWorkoutsStreamProvider =
-    StreamProvider.family<List<RoutineWorkout?>, String>((ref, id) {
-  final database = ref.watch(databaseProvider(id));
-  return database.routineWorkoutsStream(id);
-});
-
-final todaysRHStreamProvider =
-    StreamProvider.family<List<RoutineHistory>?, String>((ref, uid) {
-  final database = ref.watch(databaseProvider(uid));
-  return database.routineHistoryTodayStream();
-});
-
-final rhOfThisWeekStreamProvider =
-    StreamProvider.autoDispose.family<List<RoutineHistory>, String>(
-  (ref, uid) {
-    final database = ref.watch(databaseProvider(uid));
-    return database.routineHistoriesThisWeekStream();
-  },
-);
-
-final rhOfThisWeekStreamProvider2 =
-    StreamProvider.autoDispose.family<List<RoutineHistory?>, List<String>>(
-  (ref, IDs) {
-    final database = ref.watch(databaseProvider(IDs[0]));
-    return database.routineHistoriesThisWeekStream2(IDs[0]);
-  },
-);
-
-///
-///
-///
 ///
 /// `Abstract class Database`
 ///
@@ -112,7 +40,9 @@ abstract class Database {
   // Stream
   Stream<User?> userStream();
 
-  /// HEALTH DATA
+  ///
+  ///////////// `HEALTH DATA` ///////////////////
+  ///
   Future<void> setSetps(Steps steps);
   Future<void> updateSteps(String uid, Map<String, dynamic> data);
   Future<Steps?> getSteps(String uid);

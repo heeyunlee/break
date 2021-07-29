@@ -4,21 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/text_styles.dart';
 
-import 'email_signup/email_sign_up_screen.dart';
-import 'log_in_with_email_screen.dart';
 import 'sign_in_screen_model.dart';
+import 'widgets/logo_widget.dart';
 import 'widgets/social_sign_in_button.dart';
+import 'with_email/email_sign_up_screen.dart';
+import 'with_email/log_in_with_email_screen.dart';
 
 class SignInScreen extends ConsumerWidget {
   final Database database;
@@ -29,25 +26,6 @@ class SignInScreen extends ConsumerWidget {
     required this.database,
     required this.auth,
   }) : super(key: key);
-
-  static void show(BuildContext context) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
-
-    HapticFeedback.mediumImpact();
-
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => SignInScreen(
-          auth: auth,
-          database: database,
-        ),
-        transitionsBuilder: (context, animation1, animation2, child) =>
-            FadeTransition(opacity: animation1, child: child),
-        transitionDuration: Duration(milliseconds: 400),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -79,54 +57,15 @@ class SignInScreen extends ConsumerWidget {
                 },
         ),
       ),
-      body: _buildSignInScreen(context, model),
+      body: _buildBody(context, model),
     );
   }
 
-  Widget _buildSignInScreen(BuildContext context, SignInScreenModel model) {
-    final locale = Intl.getCurrentLocale();
-
+  Widget _buildBody(BuildContext context, SignInScreenModel model) {
     return SafeArea(
       child: Column(
         children: <Widget>[
-          Expanded(
-            child: Center(
-              child: model.isLoading
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            kPrimaryColor,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          S.current.signingIn,
-                          style: TextStyles.body2,
-                        ),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Hero(
-                          tag: 'logo',
-                          child: SvgPicture.asset(
-                            'assets/svgs/herakles_icon.svg',
-                            width: 72,
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Herakles: Workout Player',
-                          style: TextStyles.subtitle1_menlo,
-                        ),
-                      ],
-                    ),
-            ),
-          ),
+          LogoWidget(model: model),
 
           /// Sign In With Email
           SocialSignInButton(
@@ -175,16 +114,15 @@ class SignInScreen extends ConsumerWidget {
             ),
 
           /// SIGN IN WITH KAKAO
-          if (locale == 'ko')
-            SocialSignInButton(
-              kButtonText: S.current.continueWithKakao,
-              color: Color(0xffFEE500),
-              kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
-              logo: 'assets/logos/kakao_logo.png',
-              textColor: Colors.black.withOpacity(0.85),
-              onPressed:
-                  model.isLoading ? null : () => model.signInWithKakao(context),
-            ),
+          SocialSignInButton(
+            kButtonText: S.current.continueWithKakao,
+            color: Color(0xffFEE500),
+            kDisabledColor: Color(0xffFEE500).withOpacity(0.85),
+            logo: 'assets/logos/kakao_logo.png',
+            textColor: Colors.black.withOpacity(0.85),
+            onPressed:
+                model.isLoading ? null : () => model.signInWithKakao(context),
+          ),
 
           /// LOG IN BUTTON
           TextButton(

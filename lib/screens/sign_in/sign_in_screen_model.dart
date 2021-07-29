@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:provider/provider.dart' as provider;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
@@ -16,6 +19,8 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
+
+import 'sign_in_screen.dart';
 
 final signInScreenProvider =
     ChangeNotifierProvider((ref) => SignInScreenModel());
@@ -29,8 +34,8 @@ class SignInScreenModel extends ChangeNotifier {
     this.database,
   }) {
     final container = ProviderContainer();
-    auth = container.read(authServiceProvider2);
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
   bool _isLoading = false;
@@ -87,6 +92,8 @@ class SignInScreenModel extends ChangeNotifier {
           backgroundImageIndex: randomNumber,
           deviceInfo: deviceInfo,
           creationTime: firebaseUser.metadata.creationTime,
+          unitOfMassEnum:
+              (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
         await database!.setUser(userData);
 
@@ -169,6 +176,8 @@ class SignInScreenModel extends ChangeNotifier {
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
           deviceInfo: deviceInfo,
+          unitOfMassEnum:
+              (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
         await database!.setUser(userData);
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -252,6 +261,8 @@ class SignInScreenModel extends ChangeNotifier {
           deviceInfo: deviceInfo,
           creationTime: firebaseUser.metadata.creationTime,
           profileUrl: firebaseUser.photoURL,
+          unitOfMassEnum:
+              (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
         await database!.setUser(userData);
 
@@ -334,6 +345,8 @@ class SignInScreenModel extends ChangeNotifier {
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
           deviceInfo: deviceInfo,
+          unitOfMassEnum:
+              (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
 
         await database!.setUser(userData);
@@ -409,6 +422,8 @@ class SignInScreenModel extends ChangeNotifier {
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
           deviceInfo: deviceInfo,
+          unitOfMassEnum:
+              (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
 
         await database!.setUser(userData);
@@ -479,5 +494,25 @@ class SignInScreenModel extends ChangeNotifier {
 
       return iosInfo.toMap();
     }
+  }
+
+  /// STATIC
+  static void show(BuildContext context) {
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+
+    HapticFeedback.mediumImpact();
+
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => SignInScreen(
+          auth: auth,
+          database: database,
+        ),
+        transitionsBuilder: (context, animation1, animation2, child) =>
+            FadeTransition(opacity: animation1, child: child),
+        transitionDuration: Duration(milliseconds: 500),
+      ),
+    );
   }
 }

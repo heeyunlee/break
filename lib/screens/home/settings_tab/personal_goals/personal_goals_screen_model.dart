@@ -23,8 +23,8 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     this.database,
   }) {
     final container = ProviderContainer();
-    auth = container.read(authServiceProvider2);
-    database = container.read(databaseProvider2(auth!.currentUser?.uid));
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
   num _proteinGoal = 150.0;
