@@ -8,7 +8,7 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 
-import 'weekly_weights_lifted_chart/routine_histories_screen.dart';
+import 'weekly_weights_bar_chart/routine_histories_screen.dart';
 
 class MostRecentWorkout extends StatelessWidget {
   final BoxConstraints constraints;

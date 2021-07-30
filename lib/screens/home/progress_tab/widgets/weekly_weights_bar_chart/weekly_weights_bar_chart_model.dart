@@ -5,27 +5,48 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
-final weeklyLiftedWeightsChartModelProvider = ChangeNotifierProvider(
-  (ref) => WeeklyLiftedWeightsChartModel(),
+final weeklyWeightsBarChartModelProvider =
+    ChangeNotifierProvider.family<WeeklyWeightsBarChartModel, ProgressTabClass>(
+  (ref, data) => WeeklyWeightsBarChartModel(
+    routineHistories: data.routineHistories,
+    user: data.user,
+  ),
 );
 
-class WeeklyLiftedWeightsChartModel with ChangeNotifier {
+class WeeklyWeightsBarChartModel with ChangeNotifier {
+  final List<RoutineHistory> routineHistories;
+  final User user;
+
+  WeeklyWeightsBarChartModel({
+    required this.routineHistories,
+    required this.user,
+  });
+
   num _weightsLiftedMaxY = 10000;
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
   int? _touchedIndex;
+  double? _interval = 1;
+  bool _goalExists = false;
 
-  num get weightsLiftedMaxY => _weightsLiftedMaxY;
-  List<DateTime> get dates => _dates;
+  // num get weightsLiftedMaxY => _weightsLiftedMaxY;
+  // List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   List<double> get relativeYs => _relativeYs;
   int? get touchedIndex => _touchedIndex;
+  double? get interval => _interval;
+  bool get goalExists => _goalExists;
+  List<double> get randomListOfYs => [7, 8, 10, 5.6, 9, 10, 8.5];
 
   void init() {
+    /// SET DATES
     DateTime now = DateTime.now();
 
     // Create list of 7 days
@@ -39,9 +60,8 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
       7,
       (index) => DateFormat.E().format(_dates[index]),
     );
-  }
 
-  void setData(List<RoutineHistory> routineHistories, User user) {
+    /// Set Ys
     Map<DateTime, List<RoutineHistory>> _mapData;
     List<num> listOfYs = [];
     List<double> relatives = [];
@@ -86,9 +106,38 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
         });
       }
       _relativeYs = relatives;
+
+      /// Set Interval
+      if (user.dailyWeightsGoal != null) {
+        _interval = user.dailyWeightsGoal! / _weightsLiftedMaxY * 10;
+      } else {
+        _interval = 1.00;
+      }
     } else {
       _relativeYs = [];
     }
+
+    _goalExists = user.dailyWeightsGoal != null;
+  }
+
+  String getTooltipText(double y) {
+    final weights = (y / 1.05 / 10 * _weightsLiftedMaxY).round();
+    final formattedWeights = Formatter.weights(weights);
+    final unit = (user.unitOfMassEnum != null)
+        ? user.unitOfMassEnum!.label
+        : Formatter.unitOfMass(user.unitOfMass);
+
+    return '$formattedWeights $unit';
+  }
+
+  String getSideTiles(double value) {
+    final toOriginalNumber = (value / 10 * _weightsLiftedMaxY).round();
+    final formatted = NumberFormat.compact().format(toOriginalNumber);
+    final unit = (user.unitOfMassEnum != null)
+        ? user.unitOfMassEnum!.label
+        : Formatter.unitOfMass(user.unitOfMass);
+
+    return '$formatted $unit';
   }
 
   void onTouchCallback(BarTouchResponse barTouchResponse) {
@@ -101,4 +150,8 @@ class WeeklyLiftedWeightsChartModel with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // bool hasData() {
+  //   return _relativeYs.isNotEmpty;
+  // }
 }

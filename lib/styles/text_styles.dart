@@ -262,6 +262,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const subtitle1_w900_lightGreenAccent = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    color: Colors.lightGreenAccent,
+    letterSpacing: 0.15,
+    fontFamily: defaultFontFamily,
+  );
+
   static const subtitle1_light_grey = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w300,

@@ -7,14 +7,15 @@ import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/latest_body_fat_widget.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/most_recent_workout_widget.dart';
 import 'package:workout_player/screens/home/progress_tab/widgets/steps_widget.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_lifted_chart/weekly_lifted_weights_card.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_bar_chart/weekly_weights_bar_chart.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 import 'widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
 import 'widgets/latest_weight_widget.dart';
 import 'widgets/measurement/weekly_measurements_card.dart';
-import 'widgets/nutritions_chart/weekly_nutrition_card.dart';
+import 'widgets/weekly_carbs_bar_chart/weekly_carbs_bar_chart.dart';
+import 'widgets/weekly_protein_bar_chart/weekly_proteins_bar_chart.dart';
 import 'widgets/weekly_workout_summary/weekly_workout_summary.dart';
 
 final progressTabModelProvider2 =
@@ -215,13 +216,13 @@ class ProgressTabModel with ChangeNotifier {
       constraints: constraints,
     );
 
-    Widget weeklyWorkoutHistoryMedium = WeeklyLiftedWeightsCard(
+    Widget weeklyWorkoutHistoryMedium = WeeklyWeightsBarChart(
       key: Key('weeklyWorkoutHistoryMedium'),
       progressTabClass: data,
       constraints: constraints,
     );
 
-    Widget weeklyNutritionChart = WeeklyNutritionCard(
+    Widget weeklyNutritionChart = WeeklyProteinsBarChart(
       key: Key('weeklyNutritionChart'),
       progressTabClass: data,
       constraints: constraints,
@@ -232,34 +233,45 @@ class ProgressTabModel with ChangeNotifier {
       progressTabClass: data,
       constraints: constraints,
     );
+
     Widget activityRing = DailyActivityRingWidget(
       key: Key('activityRing'),
       progressTabClass: data,
       constraints: constraints,
     );
+
     Widget recentWorkout = MostRecentWorkout(
       key: Key('recentWorkout'),
       constraints: constraints,
       data: data,
     );
+
     Widget stepsWidget = StepsWidget(
       key: Key('stepsWidget'),
       steps: data.steps,
     );
+
     Widget empty2x2 = SizedBox(
       key: Key('empty2x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 2,
     );
+
     Widget empty1x2 = SizedBox(
       key: Key('empty1x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 4,
     );
+
     Widget empty1x1 = SizedBox(
       key: Key('empty1x1'),
       width: constraints.maxWidth / 2,
       height: constraints.maxHeight / 4,
+    );
+
+    Widget weeklyCarbsBarChart = WeeklyCarbsBarChart(
+      constraints: constraints,
+      progressTabClass: data,
     );
 
     _keysAndWidgets = {
@@ -275,6 +287,7 @@ class ProgressTabModel with ChangeNotifier {
       'latestBodyFat': latestBodyFat,
       'latestWeight': latestWeight,
       'stepsWidget': stepsWidget,
+      'weeklyCarbsBarChart': weeklyCarbsBarChart,
     };
 
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;

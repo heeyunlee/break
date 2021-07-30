@@ -6,15 +6,15 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
 
+import '../weekly_bar_chart.dart';
 import 'routine_histories_screen.dart';
-import 'weekly_lifted_weights_chart.dart';
-import 'weekly_lifted_weights_chart_model.dart';
+import 'weekly_weights_bar_chart_model.dart';
 
-class WeeklyLiftedWeightsCard extends StatelessWidget {
+class WeeklyWeightsBarChart extends StatelessWidget {
   final ProgressTabClass progressTabClass;
   final BoxConstraints constraints;
 
-  const WeeklyLiftedWeightsCard({
+  const WeeklyWeightsBarChart({
     Key? key,
     required this.progressTabClass,
     required this.constraints,
@@ -29,10 +29,7 @@ class WeeklyLiftedWeightsCard extends StatelessWidget {
       height: constraints.maxHeight / heightFactor,
       child: BlurBackgroundCard(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 16,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -51,7 +48,7 @@ class WeeklyLiftedWeightsCard extends StatelessWidget {
                             color: kPrimaryColor,
                             size: 16,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 16),
                           Text(
                             S.current.liftedWeights,
                             style: TextStyles.subtitle1_w900_primary,
@@ -78,11 +75,15 @@ class WeeklyLiftedWeightsCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
+
+              /// Chart
               Consumer(
-                builder: (context, watch, child) => WeeklyLiftedWeightsChart(
-                  routineHistories: progressTabClass.routineHistories,
-                  model: watch(weeklyLiftedWeightsChartModelProvider),
-                  user: progressTabClass.user,
+                builder: (context, watch, child) => WeeklyBarChart(
+                  defaultColor: kPrimaryColor,
+                  touchedColor: kPrimary700Color,
+                  model: watch(
+                    weeklyWeightsBarChartModelProvider(progressTabClass),
+                  ),
                 ),
               ),
             ],

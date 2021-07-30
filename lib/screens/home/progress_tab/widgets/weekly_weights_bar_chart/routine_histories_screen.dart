@@ -16,8 +16,8 @@ import 'package:workout_player/widgets/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
 
-import 'routine_history/daily_summary_card.dart';
-import 'routine_history/routine_history_detail_screen.dart';
+import '../../routine_history/daily_summary_card.dart';
+import '../../routine_history/routine_history_detail_screen.dart';
 
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;

@@ -145,7 +145,7 @@ class _SetBodyFatPercentageScreenState
                   child: const SizedBox(
                     width: 64,
                     height: 64,
-                    child: const Icon(
+                    child: Icon(
                       Icons.add_rounded,
                       color: Colors.greenAccent,
                     ),

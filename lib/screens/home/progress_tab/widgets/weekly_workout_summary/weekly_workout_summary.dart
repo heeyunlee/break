@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_lifted_chart/routine_histories_screen.dart';
+import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_bar_chart/routine_histories_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';

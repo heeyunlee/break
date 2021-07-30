@@ -19,8 +19,8 @@ class NoDataInChartMessageWidget extends StatelessWidget {
     return Align(
       alignment: Alignment(0.2, -0.1),
       child: Container(
-        width: 104,
-        height: 24,
+        width: 120,
+        height: 28,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(4),
