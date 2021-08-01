@@ -10,9 +10,8 @@ import 'package:workout_player/screens/preview/sample_widgets/activity_ring_samp
 import 'package:workout_player/screens/preview/sample_widgets/latest_body_fat_sample_widget.dart';
 import 'package:workout_player/screens/preview/sample_widgets/latest_body_weight_sample_widget.dart';
 import 'package:workout_player/screens/preview/sample_widgets/most_recent_workout_sample_widget.dart';
-import 'package:workout_player/screens/preview/sample_widgets/weekly_lifted_weights_sample_widget.dart';
+import 'package:workout_player/screens/preview/sample_widgets/sample_widgets.dart';
 import 'package:workout_player/screens/preview/sample_widgets/weekly_measurements_sample_widget.dart';
-import 'package:workout_player/screens/preview/sample_widgets/weekly_protein_chart_sample_widget.dart';
 import 'package:workout_player/screens/preview/sample_widgets/weekly_workout_summary_sample_widget.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -105,21 +104,16 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
       padding: 4,
       key: Key('latestBodyFat'),
     ),
-    WeeklyLiftedWeightsSampleWidget(
-      color: kCardColor,
-      padding: 4,
-      key: Key('weeklyWorkoutHistoryMedium'),
-    ),
     WeeklyMeasurementsSampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('weeklyMeasurementsChart'),
     ),
-    WeeklyProteinChartSampleWidget(
-      color: kCardColor,
-      padding: 4,
-      key: Key('weeklyNutritionChart'),
-    ),
+    SampleWidgets().weeklyWeightsBarChart,
+    SampleWidgets().weeklyProteinsBarChart,
+    SampleWidgets().weeklyCarbsBarChart,
+    SampleWidgets().weeklyFatBarChart,
+    SampleWidgets().weeklyCaloriesChart,
     LatestBodyWeightSampleWidget(
       color: kCardColor,
       padding: 4,

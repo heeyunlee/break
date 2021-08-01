@@ -5,12 +5,15 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 ## Unreleased [0.3.4]
 ### New Features
 - Added features to add calories, carbs, fat amount in AddNutritionScreen
+- Added more widgets to progressTab: WeeklyCarbsChart, WeeklyFatChart, WeeklyCaloriesChart
 
 ### Bug Fix & Refactor
 - Refactored AddMeasurementsScreen with ChangeNotifierProvider (riverpod)
 - Refactored AddNutritionScreen with ChangeNotifierProvider (riverpod)
 - Added unitOfMassEnum to User class
 - Refactoed some logic for Nutrition class to take mealType as enum rather than string
+- Refactored weeklyBarChart and personalGoalScreen to act as templates so that I can easily add new screen/widgets
+- Changed the way user select goals in personalGoalScreen
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features

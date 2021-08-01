@@ -4,11 +4,12 @@ import 'package:collection/collection.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/measurement/measurements_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
+
+import 'measurement/measurements_screen.dart';
 
 class LatestWeightWidget extends StatelessWidget {
   final ProgressTabClass data;

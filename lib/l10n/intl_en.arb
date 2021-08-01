@@ -423,5 +423,15 @@
     "calories": "Calories",
     "carbs": "Carbs",
     "fat": "Fat",
-    "addNutritions": "Add Nutritions"
+    "addNutritions": "Add Nutritions",
+    "carbsGoal": "Carbs Goal",
+    "setFatGoalSnackbarTitle": "Fat Consumption Goal",
+    "setFatGoalSnackbarBody": "You've successfully set a daily fat consumption goal!",
+    "setCarbsGoalSnackbarTitle": "Carbohydrate Goal",
+    "setCarbsGoalSnackbarBody": "You've successfully set a daily carbohydrate consumption goal!",
+    "fatGoal": "Fat Consumption Goal",
+    "setCalorieGoalSnackbarTitle": "Calorie Consumption Goal",
+    "setCalorieGoalSnackbarBody": "You've successfully set a daily calorie consumption goal!",
+    "calorieGoal": "Calorie Consumption Goal",
+    "consumedCalorie": "Consumed Calories"
 }

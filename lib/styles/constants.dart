@@ -44,7 +44,7 @@ const kCustomDivider = Divider(
   height: 48,
 );
 
-const kCustomDividerIndent = Divider(
+const kCustomDividerIndent16 = Divider(
   color: kGrey700,
   indent: 16,
   endIndent: 16,

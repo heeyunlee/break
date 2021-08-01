@@ -152,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "byLocation": MessageLookupByLibrary.simpleMessage("운동 장소"),
         "byMuscleGroup": MessageLookupByLibrary.simpleMessage("운동 부위"),
         "cable": MessageLookupByLibrary.simpleMessage("케이블"),
+        "calorieGoal": MessageLookupByLibrary.simpleMessage("칼로리 섭취 목표"),
         "calories": MessageLookupByLibrary.simpleMessage("칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "cancelWorkoutSnackbarMessage":
@@ -159,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelWorkoutSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("운동 종료"),
         "carbs": MessageLookupByLibrary.simpleMessage("탄수화물"),
+        "carbsGoal": MessageLookupByLibrary.simpleMessage("탄수화물 목표"),
         "cardio": MessageLookupByLibrary.simpleMessage("유산소"),
         "chains": MessageLookupByLibrary.simpleMessage("짐체인"),
         "changeBackground": MessageLookupByLibrary.simpleMessage("배경 변경"),
@@ -174,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
         "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
             "정말로 로그아웃 할까요? 익명으로 로그인 하셨다면 데이터는 다시 복구할 수 없습니다"),
+        "consumedCalorie": MessageLookupByLibrary.simpleMessage("칼로리 섭취"),
         "continueAnonymously": MessageLookupByLibrary.simpleMessage("둘러보기"),
         "continueButton": MessageLookupByLibrary.simpleMessage("계속"),
         "continueWithApple":
@@ -324,6 +327,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "etc": MessageLookupByLibrary.simpleMessage("등등"),
         "everyone": MessageLookupByLibrary.simpleMessage("모두에게"),
         "fat": MessageLookupByLibrary.simpleMessage("지방"),
+        "fatGoal": MessageLookupByLibrary.simpleMessage("지방 섭취 목표"),
         "featureDiscoveryCustomizeWidgetMessage":
             MessageLookupByLibrary.simpleMessage(
                 "이제 건강 대시보드를 자신이 원하는 대로 커스터마이징이 가능합니다! 위젯의 순서를 바꾸고 싶다면 위젯을 길게 누르고, 새로운 위젯을 추가하거나 삭제하고 싶다면 이 버튼을 눌러주세요!"),
@@ -463,7 +467,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteinEntriesTitle":
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록"),
         "proteins": MessageLookupByLibrary.simpleMessage("단백질"),
-        "proteinsGoal": MessageLookupByLibrary.simpleMessage("영양소 목표"),
+        "proteinsGoal": MessageLookupByLibrary.simpleMessage("단백질 목표"),
         "publicRoutine": MessageLookupByLibrary.simpleMessage("루틴 공개"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "루틴을 공개하시면 다른 유저들과 공유할 수 있습니다"),
@@ -533,7 +537,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("성공적으로 체지방률 목표를 설정했습니다"),
         "setBodyFatPercentageGoalSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("체지방률 설정"),
+        "setCalorieGoalSnackbarBody":
+            MessageLookupByLibrary.simpleMessage("성공적으로 칼로리 섭취 목표를 설정했습니다!"),
+        "setCalorieGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("칼로리 섭취 목표"),
+        "setCarbsGoalSnackbarBody":
+            MessageLookupByLibrary.simpleMessage("성공적으로 탄수화물 섭취 목표를 설정했습니다!"),
+        "setCarbsGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("탄수화물 목표"),
         "setEffortsTitle": MessageLookupByLibrary.simpleMessage("오늘 운동은 어땠나요?"),
+        "setFatGoalSnackbarBody":
+            MessageLookupByLibrary.simpleMessage("성공적으로 지방 섭취 목표를 설정했습니다!"),
+        "setFatGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("지방 섭취 목표"),
         "setGoal": MessageLookupByLibrary.simpleMessage("목표 설정"),
         "setLiftingGoalSnackbarBody":
             MessageLookupByLibrary.simpleMessage("성공적으로 중량 목표를 설정했습니다!!"),

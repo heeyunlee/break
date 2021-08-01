@@ -9,9 +9,8 @@ import 'sample_widgets/activity_ring_sample_widget.dart';
 import 'sample_widgets/latest_body_fat_sample_widget.dart';
 import 'sample_widgets/latest_body_weight_sample_widget.dart';
 import 'sample_widgets/most_recent_workout_sample_widget.dart';
-import 'sample_widgets/weekly_lifted_weights_sample_widget.dart';
+import 'sample_widgets/sample_widgets.dart';
 import 'sample_widgets/weekly_measurements_sample_widget.dart';
-import 'sample_widgets/weekly_protein_chart_sample_widget.dart';
 import 'sample_widgets/weekly_workout_summary_sample_widget.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -62,13 +61,16 @@ class PreviewScreenModel extends ChangeNotifier {
 
   final List<Widget> currentPreviewWidgetList = [
     ActivityRingSampleWidget(margin: 16),
-    MostRecentWorkoutSampleWidget(padding: 24),
+    SampleWidgets().weeklyWeightsBarChartPreview,
     WeeklyWorkoutSummarySampleWidget(padding: 24),
+    SampleWidgets().weeklyProteinsBarChartPreview,
+    SampleWidgets().weeklyFatBarChartPreview,
+    MostRecentWorkoutSampleWidget(padding: 24),
     LatestBodyFatSampleWidget(padding: 16),
-    WeeklyLiftedWeightsSampleWidget(padding: 24),
     WeeklyMeasurementsSampleWidget(padding: 24),
-    WeeklyProteinChartSampleWidget(padding: 24),
+    SampleWidgets().weeklyCarbsBarChartPreview,
     LatestBodyWeightSampleWidget(padding: 16),
+    SampleWidgets().weeklyCaloriesChartPreview,
   ];
 
   static final GlobalKey<NavigatorState> previewScreenNavigatorKey =

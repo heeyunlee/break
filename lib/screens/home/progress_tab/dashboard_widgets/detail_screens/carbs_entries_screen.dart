@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -17,34 +16,23 @@ import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/nutrition.dart';
-import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 
-class ProteinEntriesScreen extends StatelessWidget {
+class CarbsEntriesScreen extends StatelessWidget {
   final Database database;
-  final User user;
-  final AuthBase auth;
 
-  const ProteinEntriesScreen({
+  const CarbsEntriesScreen({
     Key? key,
     required this.database,
-    required this.user,
-    required this.auth,
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => ProteinEntriesScreen(
-          database: database,
-          user: user,
-          auth: auth,
-        ),
+        builder: (context) => CarbsEntriesScreen(database: database),
       ),
     );
   }
@@ -70,8 +58,6 @@ class ProteinEntriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -85,7 +71,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       body: PaginateFirestore(
         shrinkWrap: true,
         itemsPerPage: 10,
-        query: database.nutritionsPaginatedUserQuery(),
+        query: database.carbsPaginatedUserQuery(),
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContent(
           message: S.current.proteinEntriesEmptyMessage,
@@ -114,7 +100,7 @@ class ProteinEntriesScreen extends StatelessWidget {
             ),
             child: ListTile(
               leading: Text(
-                '${nutrition.proteinAmount}g',
+                '${nutrition.carbs}g',
                 style: TextStyles.body1,
               ),
               trailing: Text(date, style: TextStyles.body1_grey),

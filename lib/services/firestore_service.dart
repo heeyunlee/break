@@ -400,4 +400,27 @@ class FirestoreService {
 
     return query;
   }
+
+  Query<T> whereNotNullAndOrderByQuery<T>({
+    required String path,
+    required String where,
+    required dynamic isEqualTo,
+    required String whereNotNull,
+    required String orderBy,
+    required bool descending,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final query = FirebaseFirestore.instance
+        .collection(path)
+        .where(where, isEqualTo: isEqualTo)
+        .where(whereNotNull, isNull: false)
+        .orderBy(orderBy, descending: descending)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    return query;
+  }
 }

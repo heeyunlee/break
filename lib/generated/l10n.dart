@@ -4299,6 +4299,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Carbs Goal`
+  String get carbsGoal {
+    return Intl.message(
+      'Carbs Goal',
+      name: 'carbsGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fat Consumption Goal`
+  String get setFatGoalSnackbarTitle {
+    return Intl.message(
+      'Fat Consumption Goal',
+      name: 'setFatGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set a daily fat consumption goal!`
+  String get setFatGoalSnackbarBody {
+    return Intl.message(
+      'You\'ve successfully set a daily fat consumption goal!',
+      name: 'setFatGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carbohydrate Goal`
+  String get setCarbsGoalSnackbarTitle {
+    return Intl.message(
+      'Carbohydrate Goal',
+      name: 'setCarbsGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set a daily carbohydrate consumption goal!`
+  String get setCarbsGoalSnackbarBody {
+    return Intl.message(
+      'You\'ve successfully set a daily carbohydrate consumption goal!',
+      name: 'setCarbsGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fat Consumption Goal`
+  String get fatGoal {
+    return Intl.message(
+      'Fat Consumption Goal',
+      name: 'fatGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calorie Consumption Goal`
+  String get setCalorieGoalSnackbarTitle {
+    return Intl.message(
+      'Calorie Consumption Goal',
+      name: 'setCalorieGoalSnackbarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully set a daily calorie consumption goal!`
+  String get setCalorieGoalSnackbarBody {
+    return Intl.message(
+      'You\'ve successfully set a daily calorie consumption goal!',
+      name: 'setCalorieGoalSnackbarBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calorie Consumption Goal`
+  String get calorieGoal {
+    return Intl.message(
+      'Calorie Consumption Goal',
+      name: 'calorieGoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consumed Calories`
+  String get consumedCalorie {
+    return Intl.message(
+      'Consumed Calories',
+      name: 'consumedCalorie',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

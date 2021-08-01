@@ -49,19 +49,12 @@ abstract class Database {
   Stream<Steps?> stepsStream();
 
   //////////////////// `Body Measurement` //////////////////////
-  Future<void> setMeasurement({
-    // required String uid,
-    required Measurement measurement,
-  });
+  Future<void> setMeasurement({required Measurement measurement});
   Future<void> updateMeasurement({
-    // required String uid,
     required String measurementId,
     required Map<String, dynamic> data,
   });
-  Future<void> deleteMeasurement({
-    // required String uid,
-    required Measurement measurement,
-  });
+  Future<void> deleteMeasurement({required Measurement measurement});
   Stream<List<Measurement>> measurementsStream({int? limit});
   Stream<List<Measurement>> measurementsStreamThisWeek();
 
@@ -84,7 +77,8 @@ abstract class Database {
   Stream<List<Nutrition>> thisWeeksNutritionsStream();
 
   // Query
-  Query<Nutrition> nutritionsPaginatedUserQuery();
+  Query<Nutrition> proteinsPaginatedUserQuery();
+  Query<Nutrition> carbsPaginatedUserQuery();
 
   /////////////////// `User Feedback` /////////////////////
   Future<void> setUserFeedback(UserFeedback userFeedback);
@@ -458,13 +452,27 @@ class FirestoreDatabase implements Database {
         toBuilder: (model) => model.toJson(),
       );
 
-  // Nutrition Query for specfic User
+  // Proteins Query for specfic User
   @override
-  Query<Nutrition> nutritionsPaginatedUserQuery() =>
+  Query<Nutrition> proteinsPaginatedUserQuery() =>
       _service.whereAndOrderByQuery<Nutrition>(
         path: APIPath.nutritions(),
         where: 'userId',
         isEqualTo: uid!,
+        orderBy: 'loggedTime',
+        descending: true,
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model.toJson(),
+      );
+
+  // Carbs Query for specfic User
+  @override
+  Query<Nutrition> carbsPaginatedUserQuery() =>
+      _service.whereNotNullAndOrderByQuery<Nutrition>(
+        path: APIPath.nutritions(),
+        where: 'userId',
+        isEqualTo: uid!,
+        whereNotNull: 'carbs',
         orderBy: 'loggedTime',
         descending: true,
         fromBuilder: (data, id) => Nutrition.fromJson(data, id),

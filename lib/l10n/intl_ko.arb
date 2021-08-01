@@ -357,7 +357,7 @@
     "overview": "설명",
     "firstSignInSnackbarMessage": "반가워요, {name}님! 오늘도 득근하세요!",
     "personalGoals": "개인 목표",
-    "proteinsGoal": "영양소 목표",
+    "proteinsGoal": "단백질 목표",
     "setGoal": "목표 설정",
     "progressTabBannerTitle": "다양한 운동 및 건강 목표를 설정하세요!",
     "DISMISS": "나중에",
@@ -423,5 +423,15 @@
     "calories": "칼로리",
     "carbs": "탄수화물",
     "fat": "지방",
-    "addNutritions": "영양소 섭취 추가"
+    "addNutritions": "영양소 섭취 추가",
+    "carbsGoal": "탄수화물 목표",
+    "setFatGoalSnackbarTitle": "지방 섭취 목표",
+    "setFatGoalSnackbarBody": "성공적으로 지방 섭취 목표를 설정했습니다!",
+    "setCarbsGoalSnackbarTitle": "탄수화물 목표",
+    "setCarbsGoalSnackbarBody": "성공적으로 탄수화물 섭취 목표를 설정했습니다!",
+    "fatGoal": "지방 섭취 목표",
+    "setCalorieGoalSnackbarTitle": "칼로리 섭취 목표",
+    "setCalorieGoalSnackbarBody": "성공적으로 칼로리 섭취 목표를 설정했습니다!",
+    "calorieGoal": "칼로리 섭취 목표",
+    "consumedCalorie": "칼로리 섭취"
 }

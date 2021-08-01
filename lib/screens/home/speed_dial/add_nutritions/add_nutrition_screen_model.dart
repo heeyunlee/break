@@ -102,8 +102,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   bool hasFocus() {
-    print('hasFocus');
-
     return _caloriesFocusNode.hasFocus ||
         _carbsFocusNode.hasFocus ||
         _fatFocusNode.hasFocus ||
@@ -111,8 +109,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   bool validate() {
-    print('validated');
-
     return _mealType != null;
   }
 

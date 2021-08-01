@@ -29,6 +29,9 @@ class User {
   final DateTime? creationTime; // Nullable
   final String? profileUrl; // Nullable
   final UnitOfMass? unitOfMassEnum; // Nullable
+  final num? dailyCarbsGoal; // Nullable
+  final num? dailyFatGoal; // Nullable
+  final num? dailyCalorieConsumptionGoal; // Nullable
 
   const User({
     required this.userId,
@@ -55,6 +58,9 @@ class User {
     this.creationTime,
     this.profileUrl,
     this.unitOfMassEnum,
+    this.dailyCarbsGoal,
+    this.dailyFatGoal,
+    this.dailyCalorieConsumptionGoal,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -88,6 +94,10 @@ class User {
               data['unitOfMassEnum'],
             )
           : null;
+      final num? dailyCarbsGoal = data['dailyCarbsGoal'];
+      final num? dailyFatGoal = data['dailyFatGoal'];
+      final num? dailyCalorieConsumptionGoal =
+          data['dailyCalorieConsumptionGoal'];
 
       return User(
         userId: documentId,
@@ -114,6 +124,9 @@ class User {
         creationTime: creationTime,
         profileUrl: profileUrl,
         unitOfMassEnum: unitOfMassEnum,
+        dailyCarbsGoal: dailyCarbsGoal,
+        dailyFatGoal: dailyFatGoal,
+        dailyCalorieConsumptionGoal: dailyCalorieConsumptionGoal,
       );
     } else {
       throw 'null';
@@ -145,6 +158,9 @@ class User {
     data['creationTime'] = creationTime;
     data['profileUrl'] = profileUrl;
     data['unitOfMassEnum'] = EnumToString.convertToString(unitOfMassEnum);
+    data['dailyCarbsGoal'] = dailyCarbsGoal;
+    data['dailyFatGoal'] = dailyFatGoal;
+    data['dailyCalorieConsumptionGoal'] = dailyCalorieConsumptionGoal;
 
     return data;
   }
@@ -177,7 +193,10 @@ class User {
         other.lastAppOpenedTime == lastAppOpenedTime &&
         other.creationTime == creationTime &&
         other.profileUrl == profileUrl &&
-        other.unitOfMassEnum == unitOfMassEnum;
+        other.unitOfMassEnum == unitOfMassEnum &&
+        other.dailyCarbsGoal == dailyCarbsGoal &&
+        other.dailyFatGoal == dailyFatGoal &&
+        other.dailyCalorieConsumptionGoal == dailyCalorieConsumptionGoal;
   }
 
   @override
@@ -205,6 +224,9 @@ class User {
         lastAppOpenedTime.hashCode ^
         creationTime.hashCode ^
         profileUrl.hashCode ^
-        unitOfMassEnum.hashCode;
+        unitOfMassEnum.hashCode ^
+        dailyCarbsGoal.hashCode ^
+        dailyFatGoal.hashCode ^
+        dailyCalorieConsumptionGoal.hashCode;
   }
 }

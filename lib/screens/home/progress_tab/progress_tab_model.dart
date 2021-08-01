@@ -4,19 +4,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/latest_body_fat_widget.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/most_recent_workout_widget.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/steps_widget.dart';
-import 'package:workout_player/screens/home/progress_tab/widgets/weekly_weights_bar_chart/weekly_weights_bar_chart.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/detail_screens/carbs_entries_screen.dart';
+import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/models/weekly_fat_bar_chart_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
 
-import 'widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
-import 'widgets/latest_weight_widget.dart';
-import 'widgets/measurement/weekly_measurements_card.dart';
-import 'widgets/weekly_carbs_bar_chart/weekly_carbs_bar_chart.dart';
-import 'widgets/weekly_protein_bar_chart/weekly_proteins_bar_chart.dart';
-import 'widgets/weekly_workout_summary/weekly_workout_summary.dart';
+import 'dashboard_widgets/daily_activity_ring_widget/daily_activty_ring_widget.dart';
+import 'dashboard_widgets/latest_body_fat_widget.dart';
+import 'dashboard_widgets/latest_weight_widget.dart';
+import 'dashboard_widgets/measurement/weekly_measurements_card.dart';
+import 'dashboard_widgets/models/weekly_calories_bar_chart_model.dart';
+import 'dashboard_widgets/models/weekly_carbs_bar_chart_model.dart';
+import 'dashboard_widgets/models/weekly_proteins_bar_chart_model.dart';
+import 'dashboard_widgets/models/weekly_weights_bar_chart_model.dart';
+import 'dashboard_widgets/most_recent_workout_widget.dart';
+import 'dashboard_widgets/steps_widget.dart';
+import 'dashboard_widgets/weekly_bar_chart_card_template.dart';
+import 'dashboard_widgets/weekly_workout_summary/weekly_workout_summary.dart';
+import 'dashboard_widgets/detail_screens/protein_entries_screen.dart';
+import 'dashboard_widgets/detail_screens/routine_histories_screen.dart';
 
 final progressTabModelProvider2 =
     ChangeNotifierProvider.family<ProgressTabModel, AuthAndDatabase>(
@@ -37,7 +45,11 @@ class ProgressTabModel with ChangeNotifier {
   ProgressTabModel({
     this.auth,
     this.database,
-  });
+  }) {
+    final container = ProviderContainer();
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
+  }
 
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
@@ -60,7 +72,10 @@ class ProgressTabModel with ChangeNotifier {
     'weeklyMeasurementsChart',
     'weeklyNutritionChart',
     'weeklyWorkoutHistoryMedium',
-    'stepsWidget',
+    // 'stepsWidget',
+    'weeklyCarbsBarChart',
+    'weeklyFatBarChart',
+    'weeklyCalorieBarChart',
   ];
 
   List<DateTime> get dates => _dates;
@@ -107,14 +122,9 @@ class ProgressTabModel with ChangeNotifier {
     );
   }
 
-  Future<void> init({
+  void init({
     required TickerProvider vsync,
-    required AuthAndDatabase authAndDatabase,
-  }) async {
-    // INIT Auth and Database
-    auth = authAndDatabase.auth;
-    database = authAndDatabase.database;
-
+  }) {
     // INIT Background Blur Animation
     _animationController = AnimationController(
       vsync: vsync,
@@ -135,18 +145,6 @@ class ProgressTabModel with ChangeNotifier {
       }
       return false;
     };
-
-    // // // INIT show banner
-    // final uid = auth!.currentUser!.uid;
-    // final user = await database!.getUserDocument(uid);
-    // if (user!.dailyProteinGoal == null ||
-    //     user.dailyWeightsGoal == null ||
-    //     user.weightGoal == null ||
-    //     user.bodyFatPercentageGoal == null) {
-    //   _showBanner = true;
-    // } else {
-    //   _showBanner = false;
-    // }
   }
 
   Widget buildDraggableFeedback(context, constraints, child) {
@@ -216,16 +214,30 @@ class ProgressTabModel with ChangeNotifier {
       constraints: constraints,
     );
 
-    Widget weeklyWorkoutHistoryMedium = WeeklyWeightsBarChart(
+    Widget weeklyWorkoutHistoryMedium = WeeklyBarChartCardTemplate(
       key: Key('weeklyWorkoutHistoryMedium'),
       progressTabClass: data,
       constraints: constraints,
+      defaultColor: kPrimaryColor,
+      touchedColor: kPrimary700Color,
+      model: weeklyWeightsBarChartModelProvider,
+      onTap: () => RoutineHistoriesScreen.show(context),
+      titleIcon: Icons.fitness_center_rounded,
+      title: S.current.liftedWeights,
+      subtitle: S.current.weightsChartMessage,
     );
 
-    Widget weeklyNutritionChart = WeeklyProteinsBarChart(
+    Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
       key: Key('weeklyNutritionChart'),
       progressTabClass: data,
       constraints: constraints,
+      defaultColor: Colors.greenAccent,
+      touchedColor: Colors.green,
+      onTap: () => ProteinEntriesScreen.show(context),
+      model: weeklyProteinsBarChartModelProvider,
+      titleIcon: Icons.restaurant_menu_rounded,
+      title: S.current.addProteins,
+      subtitle: S.current.proteinChartContentText,
     );
 
     Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
@@ -269,9 +281,38 @@ class ProgressTabModel with ChangeNotifier {
       height: constraints.maxHeight / 4,
     );
 
-    Widget weeklyCarbsBarChart = WeeklyCarbsBarChart(
+    Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
+      key: Key('weeklyCarbsBarChart'),
+      onTap: () => CarbsEntriesScreen.show(context),
       constraints: constraints,
       progressTabClass: data,
+      defaultColor: Colors.greenAccent,
+      touchedColor: Colors.green,
+      title: S.current.carbs,
+      titleIcon: Icons.restaurant_menu_rounded,
+      model: weeklyCarbsBarChartModelProvider,
+    );
+
+    Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
+      key: Key('weeklyFatBarChart'),
+      constraints: constraints,
+      progressTabClass: data,
+      defaultColor: Colors.greenAccent,
+      touchedColor: Colors.green,
+      title: S.current.fat,
+      titleIcon: Icons.restaurant_menu_rounded,
+      model: weeklyFatBarChartModelProvider,
+    );
+
+    Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
+      key: Key('weeklyCalorieBarChart'),
+      constraints: constraints,
+      progressTabClass: data,
+      defaultColor: Colors.greenAccent,
+      touchedColor: Colors.green,
+      title: S.current.consumedCalorie,
+      titleIcon: Icons.local_fire_department_rounded,
+      model: weeklyCaloriesBarChartModelProvider,
     );
 
     _keysAndWidgets = {
@@ -288,6 +329,8 @@ class ProgressTabModel with ChangeNotifier {
       'latestWeight': latestWeight,
       'stepsWidget': stepsWidget,
       'weeklyCarbsBarChart': weeklyCarbsBarChart,
+      'weeklyFatBarChart': weeklyFatBarChart,
+      'weeklyCalorieBarChart': weeklyCalorieBarChart,
     };
 
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;

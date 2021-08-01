@@ -164,6 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "byMuscleGroup":
             MessageLookupByLibrary.simpleMessage("By Muscle Group"),
         "cable": MessageLookupByLibrary.simpleMessage("Cable"),
+        "calorieGoal":
+            MessageLookupByLibrary.simpleMessage("Calorie Consumption Goal"),
         "calories": MessageLookupByLibrary.simpleMessage("Calories"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelWorkoutSnackbarMessage":
@@ -171,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelWorkoutSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Caneled Workout"),
         "carbs": MessageLookupByLibrary.simpleMessage("Carbs"),
+        "carbsGoal": MessageLookupByLibrary.simpleMessage("Carbs Goal"),
         "cardio": MessageLookupByLibrary.simpleMessage("Cardio"),
         "chains": MessageLookupByLibrary.simpleMessage("Chains"),
         "changeBackground":
@@ -188,6 +191,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm your password"),
         "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data"),
+        "consumedCalorie":
+            MessageLookupByLibrary.simpleMessage("Consumed Calories"),
         "continueAnonymously":
             MessageLookupByLibrary.simpleMessage("Continue Anonymously"),
         "continueButton": MessageLookupByLibrary.simpleMessage("CONTINUE"),
@@ -353,6 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "etc": MessageLookupByLibrary.simpleMessage("etc."),
         "everyone": MessageLookupByLibrary.simpleMessage("Everyone"),
         "fat": MessageLookupByLibrary.simpleMessage("Fat"),
+        "fatGoal": MessageLookupByLibrary.simpleMessage("Fat Consumption Goal"),
         "featureDiscoveryCustomizeWidgetMessage":
             MessageLookupByLibrary.simpleMessage(
                 "Now you can customize progress tab\'s widgets. Just long press the widget to reorder or press this button to add or remove a widget!"),
@@ -575,8 +581,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "setBodyFatPercentageGoalSnackbarTitle":
             MessageLookupByLibrary.simpleMessage(
                 "Set Body Fat Percentage Goal"),
+        "setCalorieGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
+            "You\'ve successfully set a daily calorie consumption goal!"),
+        "setCalorieGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Calorie Consumption Goal"),
+        "setCarbsGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
+            "You\'ve successfully set a daily carbohydrate consumption goal!"),
+        "setCarbsGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Carbohydrate Goal"),
         "setEffortsTitle":
             MessageLookupByLibrary.simpleMessage("How was your workout?"),
+        "setFatGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
+            "You\'ve successfully set a daily fat consumption goal!"),
+        "setFatGoalSnackbarTitle":
+            MessageLookupByLibrary.simpleMessage("Fat Consumption Goal"),
         "setGoal": MessageLookupByLibrary.simpleMessage("Set Goal"),
         "setLiftingGoalSnackbarBody": MessageLookupByLibrary.simpleMessage(
             "You\'ve successfully set a daily lifting goal!"),

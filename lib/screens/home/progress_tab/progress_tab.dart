@@ -47,13 +47,8 @@ class _ProgressTabState extends State<ProgressTab>
   @override
   void initState() {
     super.initState();
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
 
-    widget.model.init(
-      vsync: this,
-      authAndDatabase: AuthAndDatabase(database: database, auth: auth),
-    );
+    widget.model.init(vsync: this);
 
     SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
       FeatureDiscovery.discoverFeatures(

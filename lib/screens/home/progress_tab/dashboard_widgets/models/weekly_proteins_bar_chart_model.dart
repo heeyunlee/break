@@ -1,39 +1,41 @@
 import 'dart:math' as math;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
-final weeklyCarbsBarChartModelProvider =
-    ChangeNotifierProvider.family<WeeklyCarbsBarChartModel, ProgressTabClass>(
-  (ref, data) => WeeklyCarbsBarChartModel(
+final weeklyProteinsBarChartModelProvider = ChangeNotifierProvider.family<
+    WeeklyProteinsBarChartModel, ProgressTabClass>(
+  (ref, data) => WeeklyProteinsBarChartModel(
     nutritions: data.nutritions,
     user: data.user,
   ),
 );
 
-class WeeklyCarbsBarChartModel with ChangeNotifier {
+class WeeklyProteinsBarChartModel with ChangeNotifier {
   final List<Nutrition> nutritions;
   final User user;
 
-  WeeklyCarbsBarChartModel({
+  WeeklyProteinsBarChartModel({
     required this.nutritions,
     required this.user,
   });
 
-  num _carbsMaxY = 200;
+  num _nutritionMaxY = 150;
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
   int? _touchedIndex;
-  double? _interval = 1;
+  double? _interval = 10.0;
   bool _goalExists = false;
 
   List<String> get daysOfTheWeek => _daysOfTheWeek;
@@ -41,7 +43,7 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
   int? get touchedIndex => _touchedIndex;
   double? get interval => _interval;
   bool get goalExists => _goalExists;
-  List<double> get randomListOfYs => [6.5, 10, 5.3, 10, 2, 5, 8.2];
+  List<double> get randomListOfYs => [10, 5, 9.7, 8.8, 9, 5, 10];
 
   void init() {
     logger.d('init in nutritionChart called');
@@ -66,13 +68,10 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
     List<num> _listOfYs = [];
     List<double> _relatives = [];
 
-    List<Nutrition> carbsList =
-        nutritions.where((e) => e.carbs != null).toList();
-
-    if (carbsList.isNotEmpty) {
+    if (nutritions.isNotEmpty) {
       _mapData = {
         for (var item in _dates)
-          item: carbsList.where((e) => e.loggedDate.toUtc() == item).toList()
+          item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
       _mapData.values.forEach((list) {
@@ -80,7 +79,7 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
 
         if (list.isNotEmpty) {
           list.forEach((nutrition) {
-            sum += nutrition.carbs!;
+            sum += nutrition.proteinAmount;
           });
         }
 
@@ -90,7 +89,7 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
           [..._listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
 
       if (largest == 0) {
-        _carbsMaxY = 200;
+        _nutritionMaxY = 150;
 
         _listOfYs.forEach((element) {
           _relatives.add(0);
@@ -98,29 +97,29 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
       } else {
         final roundedLargest = (largest / 10).ceil() * 10;
 
-        _carbsMaxY = roundedLargest.toDouble() + 10;
+        _nutritionMaxY = roundedLargest.toDouble() + 10;
 
         _listOfYs.forEach((element) {
-          _relatives.add(element / _carbsMaxY * 10);
+          _relatives.add(element / _nutritionMaxY * 10);
         });
       }
       _relativeYs = _relatives;
 
-      // /// Set Interval
-      // if (user.dailyProteinGoal != null) {
-      //   _interval = user.dailyProteinGoal! / _carbsMaxY * 10;
-      // } else {
-      //   _interval = 1.00;
-      // }
+      /// Set Interval
+      if (user.dailyProteinGoal != null) {
+        _interval = user.dailyProteinGoal! / _nutritionMaxY * 10;
+      } else {
+        _interval = 10.00;
+      }
     } else {
       _relativeYs = [];
     }
 
-    _goalExists = false;
+    _goalExists = user.dailyProteinGoal != null;
   }
 
   String getTooltipText(double y) {
-    final amount = (y / 1.05 / 10 * _carbsMaxY).round();
+    final amount = (y / 1.05 / 10 * _nutritionMaxY).round();
     final formattedWeights = Formatter.proteins(amount);
     final unit = (user.unitOfMassEnum != null)
         ? user.unitOfMassEnum!.gram
@@ -130,7 +129,7 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
   }
 
   String getSideTiles(double value) {
-    final toOriginalNumber = (value / 10 * _carbsMaxY).round();
+    final toOriginalNumber = (value / 10 * _nutritionMaxY).round();
     final unit = (user.unitOfMassEnum != null)
         ? user.unitOfMassEnum!.gram
         : Formatter.unitOfMass(user.unitOfMass);

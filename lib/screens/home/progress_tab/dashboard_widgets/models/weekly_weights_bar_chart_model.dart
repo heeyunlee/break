@@ -5,11 +5,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 final weeklyWeightsBarChartModelProvider =
     ChangeNotifierProvider.family<WeeklyWeightsBarChartModel, ProgressTabClass>(
@@ -33,11 +34,9 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
   List<String> _daysOfTheWeek = [];
   List<double> _relativeYs = [];
   int? _touchedIndex;
-  double? _interval = 1;
+  double? _interval = 10.0;
   bool _goalExists = false;
 
-  // num get weightsLiftedMaxY => _weightsLiftedMaxY;
-  // List<DateTime> get dates => _dates;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   List<double> get relativeYs => _relativeYs;
   int? get touchedIndex => _touchedIndex;
@@ -111,7 +110,7 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
       if (user.dailyWeightsGoal != null) {
         _interval = user.dailyWeightsGoal! / _weightsLiftedMaxY * 10;
       } else {
-        _interval = 1.00;
+        _interval = 10.00;
       }
     } else {
       _relativeYs = [];
@@ -150,8 +149,4 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
     }
     notifyListeners();
   }
-
-  // bool hasData() {
-  //   return _relativeYs.isNotEmpty;
-  // }
 }

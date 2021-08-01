@@ -27,6 +27,38 @@ class Formatter {
     return formatter.format(weightsNotNull);
   }
 
+  static String noDecimal(num? value) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,###');
+
+      return formatter.format(value);
+    } else {
+      return '-';
+    }
+  }
+
+  static String noDecimalWithString(String? value) {
+    if (value != null) {
+      final valueToNum = double.parse(value);
+
+      final formatter = NumberFormat(',###,###');
+
+      return formatter.format(valueToNum);
+    } else {
+      return '-';
+    }
+  }
+
+  static String withDecimal(num? value) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,###.0');
+
+      return formatter.format(value);
+    } else {
+      return '-';
+    }
+  }
+
   static String unitOfMass(int unitOfMass) {
     final unitOfMassNotNull = unitOfMass;
 
