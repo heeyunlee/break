@@ -18,13 +18,12 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
-class ProteinEntriesScreen extends StatelessWidget {
+class CaloriesEntriesScreen extends StatelessWidget {
   final Database database;
   final User user;
 
-  const ProteinEntriesScreen({
+  const CaloriesEntriesScreen({
     Key? key,
     required this.database,
     required this.user,
@@ -36,7 +35,7 @@ class ProteinEntriesScreen extends StatelessWidget {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => ProteinEntriesScreen(
+        builder: (context) => CaloriesEntriesScreen(
           database: database,
           user: user,
         ),
@@ -78,7 +77,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       body: PaginateFirestore(
         shrinkWrap: true,
         itemsPerPage: 10,
-        query: database.proteinsPaginatedUserQuery(),
+        query: database.carbsPaginatedUserQuery(),
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContent(
           message: S.current.proteinEntriesEmptyMessage,
@@ -92,11 +91,7 @@ class ProteinEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, snapshot) {
           final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
-          final title = Formatter.withDecimal(nutrition.proteinAmount);
-
-          final unit = (user.unitOfMassEnum != null)
-              ? user.unitOfMassEnum!.gram
-              : Formatter.unitOfMass(user.unitOfMass);
+          final title = Formatter.withDecimal(nutrition.calories);
 
           return Slidable(
             endActionPane: ActionPane(
@@ -112,7 +107,7 @@ class ProteinEntriesScreen extends StatelessWidget {
             ),
             child: ListTile(
               leading: Text(
-                '$title $unit',
+                '$title Cal',
                 style: TextStyles.body1,
               ),
               trailing: Text(date, style: TextStyles.body1_grey),

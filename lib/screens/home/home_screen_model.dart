@@ -22,7 +22,7 @@ double percentageFromValueInRange({required final double min, max, value}) {
   return (value - min) / (max - min);
 }
 
-final homeScreenModelProvider = ChangeNotifierProvider(
+final homeScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => HomeScreenModel(),
 );
 

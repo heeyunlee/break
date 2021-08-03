@@ -306,7 +306,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Calories
   String getCalorieGoalPreview() {
-    final formatted = Formatter.withDecimal(_calorieConsumptionGoal);
+    final formatted = Formatter.noDecimal(_calorieConsumptionGoal);
 
     return '$formatted Cal';
   }

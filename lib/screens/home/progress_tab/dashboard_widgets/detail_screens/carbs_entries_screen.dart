@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -17,22 +18,28 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 class CarbsEntriesScreen extends StatelessWidget {
   final Database database;
+  final User user;
 
   const CarbsEntriesScreen({
     Key? key,
     required this.database,
+    required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => CarbsEntriesScreen(database: database),
+        builder: (context) => CarbsEntriesScreen(
+          database: database,
+          user: user,
+        ),
       ),
     );
   }
@@ -85,6 +92,10 @@ class CarbsEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, snapshot) {
           final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
+          final title = Formatter.withDecimal(nutrition.carbs);
+          final unit = (user.unitOfMassEnum != null)
+              ? user.unitOfMassEnum!.gram
+              : Formatter.unitOfMass(user.unitOfMass);
 
           return Slidable(
             endActionPane: ActionPane(
@@ -100,7 +111,7 @@ class CarbsEntriesScreen extends StatelessWidget {
             ),
             child: ListTile(
               leading: Text(
-                '${nutrition.carbs}g',
+                '$title $unit',
                 style: TextStyles.body1,
               ),
               trailing: Text(date, style: TextStyles.body1_grey),

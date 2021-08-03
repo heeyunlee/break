@@ -122,13 +122,13 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
     final amount = (y / 1.05 / 10 * _caloriesMaxY).round();
     final formattedWeights = Formatter.noDecimal(amount);
 
-    return '$formattedWeights Cal';
+    return '$formattedWeights kcal';
   }
 
   String getSideTiles(double value) {
     final toOriginalNumber = (value / 10 * _caloriesMaxY).round();
 
-    return '$toOriginalNumber Cal';
+    return '$toOriginalNumber kcal';
   }
 
   void onTouchCallback(BarTouchResponse barTouchResponse) {

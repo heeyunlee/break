@@ -55,7 +55,7 @@ class Formatter {
 
       return formatter.format(value);
     } else {
-      return '-';
+      return '0';
     }
   }
 

@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/detail_screens/calories_entries_screen.dart';
 import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/detail_screens/carbs_entries_screen.dart';
+import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/detail_screens/fat_entries_screen.dart';
 import 'package:workout_player/screens/home/progress_tab/dashboard_widgets/models/weekly_fat_bar_chart_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -34,7 +36,7 @@ final progressTabModelProvider2 =
   ),
 );
 
-final progressTabModelProvider = ChangeNotifierProvider(
+final progressTabModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => ProgressTabModel(),
 );
 
@@ -233,7 +235,7 @@ class ProgressTabModel with ChangeNotifier {
       constraints: constraints,
       defaultColor: Colors.greenAccent,
       touchedColor: Colors.green,
-      onTap: () => ProteinEntriesScreen.show(context),
+      onTap: () => ProteinEntriesScreen.show(context, user: data.user),
       model: weeklyProteinsBarChartModelProvider,
       titleIcon: Icons.restaurant_menu_rounded,
       title: S.current.addProteins,
@@ -283,7 +285,7 @@ class ProgressTabModel with ChangeNotifier {
 
     Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
       key: Key('weeklyCarbsBarChart'),
-      onTap: () => CarbsEntriesScreen.show(context),
+      onTap: () => CarbsEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,
       defaultColor: Colors.greenAccent,
@@ -295,6 +297,7 @@ class ProgressTabModel with ChangeNotifier {
 
     Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
       key: Key('weeklyFatBarChart'),
+      onTap: () => FatEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,
       defaultColor: Colors.greenAccent,
@@ -306,6 +309,7 @@ class ProgressTabModel with ChangeNotifier {
 
     Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
       key: Key('weeklyCalorieBarChart'),
+      onTap: () => CaloriesEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,
       defaultColor: Colors.greenAccent,

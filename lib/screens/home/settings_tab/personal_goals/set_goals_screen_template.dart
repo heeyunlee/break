@@ -92,16 +92,25 @@ class SetGoalsScreenTemplate extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Align(
-              alignment: const Alignment(0, -1),
-              child: Text(title, style: TextStyles.headline5),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Positioned(
+            top: 104,
+            child: Text(title, style: TextStyles.headline5),
+          ),
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black38,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              width: size.width - 32,
+              height: 56,
             ),
-            _buildNumberPicker(size),
-          ],
-        ),
+          ),
+          _buildNumberPicker(size),
+        ],
       ),
       floatingActionButton: SizedBox(
         width: size.width - 32,

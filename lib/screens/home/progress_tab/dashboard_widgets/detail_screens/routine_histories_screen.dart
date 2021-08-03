@@ -42,7 +42,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = database.getUserDocument(auth.currentUser!.uid);
+    // final user = database.getUserDocument(auth.currentUser!.uid);
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -86,7 +86,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
               routineHistory: routineHistory,
               database: database,
               auth: auth,
-              user: user,
+              // user: user,
             ),
           );
         },

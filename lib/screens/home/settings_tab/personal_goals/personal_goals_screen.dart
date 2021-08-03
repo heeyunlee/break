@@ -307,11 +307,11 @@ class PersonalGoalsScreen extends StatelessWidget {
           isRoot: !isRoot,
           fabOnPressed: model.setCalorieGoal,
           color: Colors.redAccent,
-          title: S.current.calories,
+          title: S.current.calorieGoal,
           intMinValue: 0,
           intMaxValue: 5000,
           intStep: 5,
-          unit: 'Cal',
+          unit: 'kcal',
           isDouble: false,
         );
       },

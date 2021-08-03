@@ -505,13 +505,18 @@ class SignInScreenModel extends ChangeNotifier {
 
     Navigator.of(context).push(
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => SignInScreen(
-          auth: auth,
-          database: database,
-        ),
-        transitionsBuilder: (context, animation1, animation2, child) =>
-            FadeTransition(opacity: animation1, child: child),
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: Duration(milliseconds: 600),
+        transitionsBuilder: (_, animation, __, child) =>
+            FadeTransition(opacity: animation, child: child),
+        pageBuilder: (context, animation, secondAnimation) {
+          return provider.ListenableProvider(
+            create: (cintext) => animation,
+            child: SignInScreen(
+              auth: auth,
+              database: database,
+            ),
+          );
+        },
       ),
     );
   }

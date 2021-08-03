@@ -10,6 +10,7 @@ import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -114,15 +115,19 @@ class AddMeasurementsModel with ChangeNotifier {
         _focusNode5.hasFocus;
   }
 
-  void onChanged(String value) {
-    formKey.currentState!.validate();
-    notifyListeners();
+  bool validate() {
+    return _bodyweightController.text.isNotEmpty;
   }
 
-  void onFieldSubmitted(String value) {
-    formKey.currentState!.validate();
-    notifyListeners();
-  }
+  // void onChanged(String value) {
+  //   formKey.currentState!.validate();
+  //   notifyListeners();
+  // }
+
+  // void onFieldSubmitted(String value) {
+  //   formKey.currentState!.validate();
+  //   notifyListeners();
+  // }
 
   String? weightInputValidator(String? value) {
     final tryParsing = num.tryParse(value!);
@@ -236,6 +241,8 @@ class AddMeasurementsModel with ChangeNotifier {
           builder: (context, watch, child) => AddMeasurementsScreen(
             user: user,
             database: database,
+            model: watch(addMeasurementsModelProvider),
+            textFieldModel: watch(textFieldModelProvider),
           ),
         ),
       ),

@@ -27,7 +27,7 @@ class SelectDatesWidget extends StatelessWidget {
     logger.d('Select Dates Widget building...');
 
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 12),
+      padding: const EdgeInsets.only(top: 16),
       child: Stack(
         clipBehavior: Clip.none,
         children: [

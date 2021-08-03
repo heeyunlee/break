@@ -20,11 +20,11 @@ import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
-class ProteinEntriesScreen extends StatelessWidget {
+class FatEntriesScreen extends StatelessWidget {
   final Database database;
   final User user;
 
-  const ProteinEntriesScreen({
+  const FatEntriesScreen({
     Key? key,
     required this.database,
     required this.user,
@@ -36,10 +36,7 @@ class ProteinEntriesScreen extends StatelessWidget {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => ProteinEntriesScreen(
-          database: database,
-          user: user,
-        ),
+        builder: (context) => FatEntriesScreen(database: database, user: user),
       ),
     );
   }
@@ -78,7 +75,7 @@ class ProteinEntriesScreen extends StatelessWidget {
       body: PaginateFirestore(
         shrinkWrap: true,
         itemsPerPage: 10,
-        query: database.proteinsPaginatedUserQuery(),
+        query: database.carbsPaginatedUserQuery(),
         itemBuilderType: PaginateBuilderType.listView,
         emptyDisplay: EmptyContent(
           message: S.current.proteinEntriesEmptyMessage,
@@ -92,8 +89,7 @@ class ProteinEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, snapshot) {
           final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
-          final title = Formatter.withDecimal(nutrition.proteinAmount);
-
+          final title = Formatter.withDecimal(nutrition.fat);
           final unit = (user.unitOfMassEnum != null)
               ? user.unitOfMassEnum!.gram
               : Formatter.unitOfMass(user.unitOfMass);

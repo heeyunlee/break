@@ -11,6 +11,7 @@ import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -73,6 +74,8 @@ class AddNutritionScreenModel with ChangeNotifier {
   TextEditingController get notesController => _notesController;
 
   void init() {
+    print('init');
+
     _caloriesFocusNode = FocusNode();
     _carbsFocusNode = FocusNode();
     _fatFocusNode = FocusNode();
@@ -265,6 +268,7 @@ class AddNutritionScreenModel with ChangeNotifier {
             database: database,
             auth: auth,
             model: watch(addNutritionScreenModelProvider),
+            textFieldModel: watch(textFieldModelProvider),
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/screens/sign_in/sign_in_screen_model.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class ShowSignInScreenButton extends StatelessWidget {
@@ -9,18 +9,10 @@ class ShowSignInScreenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          minimumSize: Size(size.width - 32, 48),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          side: BorderSide(width: 1.5, color: kPrimaryColor),
-        ),
+        style: ButtonStyles.elevated_full_width,
         onPressed: () => SignInScreenModel.show(context),
         child: Text(
           S.current.getStarted,

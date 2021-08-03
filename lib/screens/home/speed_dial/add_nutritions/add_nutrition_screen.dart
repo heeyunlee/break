@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
-import 'package:workout_player/screens/home/speed_dial/widgets/notes_text_field_widget.dart';
+import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/screens/home/speed_dial/widgets/select_dates_widget.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -14,10 +14,11 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/text_field/outlined_number_text_field_widget.dart';
+import 'package:workout_player/widgets/text_field/outlined_text_text_field_widget.dart';
 
 import 'add_nutrition_screen_model.dart';
 import 'widgets/choose_meal_type_widget.dart';
-import 'widgets/nutritions_text_field_widget.dart';
 import 'widgets/set_protein_amount_widget.dart';
 
 class AddNutritionScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class AddNutritionScreen extends StatefulWidget {
   final Database database;
   final AuthBase auth;
   final AddNutritionScreenModel model;
+  final TextFieldModel textFieldModel;
 
   const AddNutritionScreen({
     Key? key,
@@ -32,6 +34,7 @@ class AddNutritionScreen extends StatefulWidget {
     required this.database,
     required this.auth,
     required this.model,
+    required this.textFieldModel,
   }) : super(key: key);
 
   @override
@@ -47,7 +50,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
   @override
   void dispose() {
-    widget.model.disposeController();
+    // widget.model.disposeController();
     super.dispose();
   }
 
@@ -97,48 +100,52 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                     initialDateTime: widget.model.loggedTime.toDate(),
                     onDateTimeChanged: widget.model.onDateTimeChanged,
                   ),
+                  kCustomDivider,
                   SetProteinAmountWidget(model: widget.model, unit: unit),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: NutritionTextFieldWidget(
-                            model: widget.model,
-                            focusNode: widget.model.caloriesFocusNode,
-                            controller: widget.model.caloriesController,
-                            suffixText: 'Cal',
-                            labelText: S.current.calories,
-                          ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: OutlinedNumberTextFieldWidget(
+                          focusNode: widget.model.caloriesFocusNode,
+                          controller: widget.model.caloriesController,
+                          suffixText: 'kcal',
+                          labelText: S.current.calories,
+                          model: widget.textFieldModel,
+                          formKey: AddNutritionScreenModel.formKey,
                         ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: NutritionTextFieldWidget(
-                            model: widget.model,
-                            focusNode: widget.model.carbsFocusNode,
-                            controller: widget.model.carbsController,
-                            suffixText: unit,
-                            labelText: S.current.carbs,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 2 - 24,
-                      child: NutritionTextFieldWidget(
-                        model: widget.model,
-                        focusNode: widget.model.fatFocusNode,
-                        controller: widget.model.fatController,
-                        suffixText: unit,
-                        labelText: S.current.fat,
                       ),
+                      const SizedBox(width: 16),
+                      Flexible(
+                        child: OutlinedNumberTextFieldWidget(
+                          focusNode: widget.model.carbsFocusNode,
+                          controller: widget.model.carbsController,
+                          suffixText: unit,
+                          labelText: S.current.carbs,
+                          model: widget.textFieldModel,
+                          formKey: AddNutritionScreenModel.formKey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2 - 24,
+                    child: OutlinedNumberTextFieldWidget(
+                      focusNode: widget.model.fatFocusNode,
+                      controller: widget.model.fatController,
+                      suffixText: unit,
+                      labelText: S.current.fat,
+                      model: widget.textFieldModel,
+                      formKey: AddNutritionScreenModel.formKey,
                     ),
                   ),
                   kCustomDivider,
-                  NotesTextFieldWidget(
+                  OutlinedTextTextFieldWidget(
+                    maxLines: 5,
+                    model: widget.textFieldModel,
+                    formKey: AddNutritionScreenModel.formKey,
+                    labelText: S.current.notes,
                     focusNode: widget.model.notesFocusNode,
                     controller: widget.model.notesController,
                   ),

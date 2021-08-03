@@ -2,12 +2,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 enum Meal {
-  @JsonValue('Before Workout')
-  BeforeWorkout,
-
-  @JsonValue('After Workout')
-  AfterWorkout,
-
   @JsonValue('Breakfast')
   Breakfast,
 
@@ -21,7 +15,13 @@ enum Meal {
   Snack,
 
   @JsonValue('Supplement')
-  Supplement
+  Supplement,
+
+  @JsonValue('Before Workout')
+  BeforeWorkout,
+
+  @JsonValue('After Workout')
+  AfterWorkout,
 }
 
 extension MealLabelExtension on Meal {

@@ -414,7 +414,6 @@ class FirestoreService {
     final query = FirebaseFirestore.instance
         .collection(path)
         .where(where, isEqualTo: isEqualTo)
-        .where(whereNotNull, isNull: false)
         .orderBy(orderBy, descending: descending)
         .withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),

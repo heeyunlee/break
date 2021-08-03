@@ -1,59 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/widgets/sliding_opacity_container.dart';
 
 class SocialSignInButton extends StatelessWidget {
+  final Offset beginOffset;
+  final double beginInterval;
+  final double endInterval;
   final Color color;
   final String kButtonText;
   final String? logo;
   final Color textColor;
   final void Function()? onPressed;
   final IconData? iconData;
-  final double? width;
-  final Color? kDisabledColor;
-  final bool isLogoSVG;
 
   const SocialSignInButton({
     Key? key,
+    required this.beginOffset,
+    required this.beginInterval,
+    required this.endInterval,
     required this.color,
     required this.kButtonText,
     this.logo,
     this.textColor = Colors.black,
     this.onPressed,
     this.iconData,
-    this.width,
-    this.kDisabledColor,
-    this.isLogoSVG = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: SizedBox(
-        width: size.width - 64,
-        height: 48,
+    return SlidingOpacityContainer(
+      beginOffset: beginOffset,
+      beginInterval: beginInterval,
+      endInterval: endInterval,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: ElevatedButton(
           onPressed: onPressed,
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.disabled)) {
-                  return kDisabledColor ?? color.withOpacity(0.5);
+                  return color.withOpacity(0.75);
                 } else {
                   return color;
                 }
               },
             ),
             minimumSize: MaterialStateProperty.resolveWith<Size>(
-              (_) => Size(width ?? size.width, 48),
+              (_) => Size(size.width, 48),
             ),
-            shape: MaterialStateProperty.resolveWith(
-              (_) => RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-            ),
+            shape: MaterialStateProperty.resolveWith((_) => StadiumBorder()),
           ),
           child: Stack(
             alignment: Alignment.centerLeft,

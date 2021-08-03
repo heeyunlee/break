@@ -4,6 +4,10 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'constants.dart';
 
 class ButtonStyles {
+  final BuildContext context;
+
+  ButtonStyles(this.context);
+
   static final text1 = ButtonStyle(
     foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
       if (states.contains(MaterialState.disabled)) return kGrey600;
@@ -91,6 +95,12 @@ class ButtonStyles {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
+  );
+
+  static final elevated_full_width = ElevatedButton.styleFrom(
+    primary: kPrimaryColor,
+    minimumSize: Size(double.maxFinite, 48),
+    shape: StadiumBorder(),
   );
 
   static final elevated_blue_accent = ElevatedButton.styleFrom(

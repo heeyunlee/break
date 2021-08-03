@@ -15,13 +15,31 @@
 
 ### **Table of contents**
 - [**Introduction**](#introduction)
-- [**Preview**](#preview)
+- [**Preview & Sign In Screen**](#preview--sign-in-screen)
 - [**To Do**](#to-do)
+
+<br>
+<br>
 
 ## Introduction
 Herakles is a health & fitness tracking app with customizable dashboard (with iOS-like widgets) and workout player (YouTube-like miniplayer and displays your current workout)
 
-## Preview
+<br>
+<br>
+
+## Preview & Sign In Screen
+The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `Kakao`.  
+
+For transition between PreviewScreen and SignInScreen, I made a custom `PageRouteBuilder()` and `AnimatedBuilder()` to create staggered animation effects for sign-in buttons and fading effects for all the other widgets.
+
+### Preview Screen & Transition Between Preview Screen and Sign In Screen
+<p align="left">
+    <img src="previews/preview_screen_ios.gif" alt="Assessment 1, Android" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="previews/sign_in_screen_ios.gif" alt="Assessment 1, iOS" width="200"/>
+</p>
 
 ## To Do
 ### Refactoring

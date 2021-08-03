@@ -10,7 +10,6 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout_history.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
@@ -36,21 +35,21 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
     Key? key,
     required this.database,
     required this.auth,
-    required this.user,
+    // required this.user,
     required this.routineHistory,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
   final Database database;
   final AuthBase auth;
-  final Future<User?> user;
+  // final User user;
 
   static void show(
     context, {
     required RoutineHistory routineHistory,
     required Database database,
     required AuthBase auth,
-    required Future<User?> user,
+    // required User user,
   }) async {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -59,7 +58,7 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
           routineHistory: routineHistory,
           database: database,
           auth: auth,
-          user: user,
+          // user: user,
         ),
       ),
     );

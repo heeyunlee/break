@@ -14,6 +14,9 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Refactoed some logic for Nutrition class to take mealType as enum rather than string
 - Refactored weeklyBarChart and personalGoalScreen to act as templates so that I can easily add new screen/widgets
 - Changed the way user select goals in personalGoalScreen
+- Implemented staggered transition to signInScreen using SlideAnimation and Opacity
+- Updated README.md
+- Created reusable TextFieldWidget and TextFieldModel
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features
