@@ -32,6 +32,13 @@ class TextFieldModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void onSaved(GlobalKey<FormState> formKey, String? value) {
+    final form = formKey.currentState!;
+    form.validate();
+
+    notifyListeners();
+  }
+
   void onFieldSubmitted(GlobalKey<FormState> formKey, String value) {
     final form = formKey.currentState!;
     form.validate();

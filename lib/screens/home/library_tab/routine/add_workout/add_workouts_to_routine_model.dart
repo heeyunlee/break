@@ -31,15 +31,21 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   List<Workout> get selectedWorkouts => _selectedWorkouts;
 
   void init(Routine routine) {
-    _selectedMainMuscleGroup = routine.mainMuscleGroup[0];
+    _selectedMainMuscleGroup = routine.mainMuscleGroup?[0] ??
+        routine.mainMuscleGroupEnum?[0].toString() ??
+        'MainMuscleGroup.abs';
   }
 
   void onSelectChoiceChip(bool selected, String string) {
     HapticFeedback.mediumImpact();
     _selectedMainMuscleGroup = string;
-    _selectedChipTranslated = MainMuscleGroup.values
-        .firstWhere((e) => e.toString() == _selectedMainMuscleGroup)
-        .translation!;
+    _selectedChipTranslated = (string == 'Saved')
+        ? S.current.saved
+        : (string == 'All')
+            ? S.current.all
+            : MainMuscleGroup.values
+                .firstWhere((e) => e.toString() == _selectedMainMuscleGroup)
+                .translation!;
 
     notifyListeners();
   }
@@ -61,6 +67,19 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Stream<List<Workout>> workoutsStream(Database database) {
+    if (_selectedMainMuscleGroup == 'Saved') {
+      return database.workoutsStream();
+    } else if (_selectedMainMuscleGroup == 'All') {
+      return database.workoutsStream();
+    } else {
+      return database.workoutsSearchStream(
+        arrayContainsVariableName: 'mainMuscleGroup',
+        arrayContainsValue: _selectedMainMuscleGroup,
+      );
+    }
   }
 
   Future<void> addWorkoutsToRoutine(

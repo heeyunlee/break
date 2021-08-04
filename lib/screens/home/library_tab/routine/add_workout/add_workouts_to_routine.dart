@@ -11,17 +11,18 @@ import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/classes/workout.dart';
-import 'package:workout_player/screens/home/library_tab/routine/add_workout/add_workouts_to_routine_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
+import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/widgets/shimmer/list_view_shimmer.dart';
 
+import 'add_workouts_to_routine_model.dart';
 import 'workout_list_tile.dart';
 
 class AddWorkoutsToRoutine extends StatefulWidget {
@@ -115,10 +116,7 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: CustomStreamBuilderWidget<List<Workout>>(
-        stream: widget.authAndDatabase.database.workoutsSearchStream(
-          arrayContainsVariableName: 'mainMuscleGroup',
-          arrayContainsValue: widget.model.selectedMainMuscleGroup,
-        ),
+        stream: widget.model.workoutsStream(widget.authAndDatabase.database),
         errorWidget: EmptyContent(),
         loadingWidget: ListViewShimmer(),
         hasDataWidget: (context, data) => ListItemBuilder<Workout>(
@@ -157,38 +155,6 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
   }
 
   Widget _appBarWidget(BuildContext context) {
-    final List<String> _mainMuscleGroup = MainMuscleGroup.values[0].list;
-    final List<Widget> chips = _mainMuscleGroup.map(
-      (e) {
-        final label = MainMuscleGroup.values
-            .firstWhere((element) => element.toString() == e)
-            .translation!;
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: ChoiceChip(
-            backgroundColor: kAppBarColor,
-            selectedColor: kPrimaryColor,
-            label: Text(label, style: TextStyles.button1),
-            labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            shape: StadiumBorder(
-              side: BorderSide(
-                color: (widget.model.selectedMainMuscleGroup == e)
-                    ? kPrimary300Color
-                    : Colors.grey,
-                width: 1,
-              ),
-            ),
-            selected: widget.model.selectedMainMuscleGroup == e,
-            onSelected: (selected) => widget.model.onSelectChoiceChip(
-              selected,
-              e,
-            ),
-          ),
-        );
-      },
-    ).toList();
-
     return SliverAppBar(
       floating: true,
       pinned: true,
@@ -199,15 +165,9 @@ class _AddWorkoutsToRoutineState extends State<AddWorkoutsToRoutine> {
       flexibleSpace: const AppbarBlurBG(),
       backgroundColor: Colors.transparent,
       leading: const AppBarCloseButton(),
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(children: chips),
-          ),
-        ),
+      bottom: ChoiceChipsAppBarWidget(
+        selectedChip: widget.model.selectedMainMuscleGroup,
+        onSelected: widget.model.onSelectChoiceChip,
       ),
     );
   }

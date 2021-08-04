@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,36 +9,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/enum/difficulty.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
+import 'package:workout_player/screens/home/library_tab/routine/create_routine/choose_equipment_required_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/create_routine/choose_main_muscle_group_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 import '../routine_detail_screen.dart';
+import 'choose_more_settings_screen.dart';
 
 final createNewROutineModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => CreateNewROutineModel(),
+  (ref) => CreateNewRoutineModel(),
 );
 
-class CreateNewROutineModel with ChangeNotifier {
+class CreateNewRoutineModel with ChangeNotifier {
   late AuthBase? auth;
   late Database? database;
 
-  CreateNewROutineModel({
+  CreateNewRoutineModel({
     this.auth,
     this.database,
-  });
+  }) {
+    final container = ProviderContainer();
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
+  }
 
-  int _pageIndex = 0;
-  String _routineTitle = '';
   late TextEditingController _textEditingController;
-  final List<String> _selectedMainMuscleGroup = [];
-  final List<String> _selectedEquipmentRequired = [];
   bool _isButtonPressed = false;
   String _location = 'Location.gym';
   double _routineDifficulty = 0;
@@ -45,11 +49,10 @@ class CreateNewROutineModel with ChangeNotifier {
   final Map<String, bool> _mainMuscleGroupMap = MainMuscleGroup.values[0].map;
   final Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
 
-  int get pageIndex => _pageIndex;
-  String? get routineTitle => _routineTitle;
+  final List<MainMuscleGroup> _selectedMainMuscleGroupEnum = [];
+  final List<EquipmentRequired> _selectedEquipmentRequiredEnum = [];
+
   TextEditingController get textEditingController => _textEditingController;
-  List<String> get selectedMainMuscleGroup => _selectedMainMuscleGroup;
-  List<String> get selectedEquipmentRequired => _selectedEquipmentRequired;
   bool get isButtonPressed => _isButtonPressed;
   String get location => _location;
   double get routineDifficulty => _routineDifficulty;
@@ -57,46 +60,49 @@ class CreateNewROutineModel with ChangeNotifier {
   Map<String, bool> get mainMuscleGroupMap => _mainMuscleGroupMap;
   Map<String, bool> get equipmentRequired => _equipmentRequired;
 
-  void init(AuthAndDatabase authAndDatabase) {
+  List<MainMuscleGroup> get selectedMainMuscleGroupEnum =>
+      _selectedMainMuscleGroupEnum;
+  List<EquipmentRequired> get selectedEquipmentRequiredEnum =>
+      _selectedEquipmentRequiredEnum;
+
+  void init() {
     _textEditingController = TextEditingController();
-    auth = authAndDatabase.auth;
-    database = authAndDatabase.database;
   }
 
-  void onChanged(String value) {
-    _routineTitle = _textEditingController.text;
+  /// Submit data to Firestore
+  bool _validateAndSaveForm() {
+    final form = formKey.currentState;
+
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 
-  void onSaved(String? value) {
-    _routineTitle = _textEditingController.text;
+  String? validator(String? value) {
+    if (value == null) {
+      return S.current.emptyRoutineTitleWarningMessage;
+    } else if (value.isEmpty) {
+      return S.current.emptyRoutineTitleWarningMessage;
+    }
+    return null;
   }
 
-  void onFieldSubmitted(String value) {
-    _routineTitle = _textEditingController.text;
-
-    _pageIndex = 1;
-
-    notifyListeners();
-  }
-
-  void onChangedMainMuscle(bool? value, String key) {
-    _mainMuscleGroupMap[key] = value!;
-
-    if (_mainMuscleGroupMap[key]!) {
-      _selectedMainMuscleGroup.add(key);
+  void onChangedMuscleGroup(bool? value, MainMuscleGroup muscle) {
+    if (value!) {
+      _selectedMainMuscleGroupEnum.add(muscle);
     } else {
-      _selectedMainMuscleGroup.remove(key);
+      _selectedMainMuscleGroupEnum.remove(muscle);
     }
     notifyListeners();
   }
 
-  void onChangedEquipmentRequired(bool? value, String key) {
-    _equipmentRequired[key] = value!;
-
-    if (_equipmentRequired[key]!) {
-      _selectedEquipmentRequired.add(key);
+  void onChangedEquipment(bool? value, EquipmentRequired muscle) {
+    if (value!) {
+      _selectedEquipmentRequiredEnum.add(muscle);
     } else {
-      _selectedEquipmentRequired.remove(key);
+      _selectedEquipmentRequiredEnum.remove(muscle);
     }
     notifyListeners();
   }
@@ -115,23 +121,9 @@ class CreateNewROutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // Submit data to Firestore
-  Future<void> submit(BuildContext context) async {
-    switch (_pageIndex) {
-      case 0:
-        return _saveTitle(context);
-      case 1:
-        return _saveMainMuscleGroup(context);
-      case 2:
-        return _saveEquipmentRequired(context);
-      case 3:
-        return _submitToFirestore(context);
-    }
-  }
-
-  void _saveTitle(BuildContext context) {
-    if (_routineTitle.isNotEmpty) {
-      _pageIndex = 1;
+  void saveTitle(BuildContext context, CreateNewRoutineModel model) {
+    if (_validateAndSaveForm()) {
+      ChooseMainMuscleGroupScreen.showMainMuscleGroup(context, model: model);
     } else {
       showAlertDialog(
         context,
@@ -143,9 +135,10 @@ class CreateNewROutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _saveMainMuscleGroup(BuildContext context) {
-    if (_selectedMainMuscleGroup.isNotEmpty) {
-      _pageIndex = 2;
+  void saveMainMuscleGroup(BuildContext context, CreateNewRoutineModel model) {
+    if (_selectedMainMuscleGroupEnum.isNotEmpty) {
+      ChooseEquipmentRequiredScreen.showEquipmentRequired(context,
+          model: model);
     } else {
       showAlertDialog(
         context,
@@ -157,9 +150,10 @@ class CreateNewROutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _saveEquipmentRequired(BuildContext context) {
-    if (_selectedEquipmentRequired.isNotEmpty) {
-      _pageIndex = 3;
+  void saveEquipmentRequired(
+      BuildContext context, CreateNewRoutineModel model) {
+    if (_selectedEquipmentRequiredEnum.isNotEmpty) {
+      ChooseMoreSettingsScreen.showMoreSettings(context, model: model);
     } else {
       showAlertDialog(
         context,
@@ -171,39 +165,41 @@ class CreateNewROutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _submitToFirestore(BuildContext context) async {
-    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
-
-    final id = Uuid().v1();
-    final userId = user.userId;
-    final displayName = user.displayName;
-    final initialUnitOfMass = user.unitOfMass;
-    final lastEditedDate = Timestamp.now();
-    final routineCreatedDate = Timestamp.now();
-
+  Future<void> submitToFirestore(BuildContext context) async {
     _isButtonPressed = true;
 
+    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+
     try {
+      final id = Uuid().v1();
+      final userId = user.userId;
+      final displayName = user.displayName;
+      final initialUnitOfMass = user.unitOfMass;
+      final lastEditedDate = Timestamp.now();
+      final routineCreatedDate = Timestamp.now();
+
       // Get Image Url
-      final ref = FirebaseStorage.instance.ref().child(
+      final bucket = FirebaseStorage.instance.ref().child(
             'workout-pictures/800by800',
           );
       final imageIndex = Random().nextInt(2);
-      final imageUrl = await ref
-          .child('${_selectedMainMuscleGroup[0]}${imageIndex}_800x800.jpeg')
-          .getDownloadURL();
+      final enumToString = EnumToString.convertToString(
+        _selectedMainMuscleGroupEnum[0],
+      );
+      final ref = bucket.child('$enumToString$imageIndex.jpeg');
+      final imageUrl = await ref.getDownloadURL();
 
       // Create New Routine
       final routine = Routine(
         routineId: 'RT$id',
         routineOwnerId: userId,
         routineOwnerUserName: displayName,
-        routineTitle: _routineTitle,
+        routineTitle: _textEditingController.text,
         lastEditedDate: lastEditedDate,
         routineCreatedDate: routineCreatedDate,
-        mainMuscleGroup: _selectedMainMuscleGroup,
+        mainMuscleGroup: null,
         secondMuscleGroup: null,
-        equipmentRequired: _selectedEquipmentRequired,
+        equipmentRequired: null,
         imageUrl: imageUrl,
         trainingLevel: _routineDifficulty.toInt(),
         duration: 0,
@@ -212,15 +208,23 @@ class CreateNewROutineModel with ChangeNotifier {
         isPublic: true,
         initialUnitOfMass: initialUnitOfMass,
         location: _location,
+        mainMuscleGroupEnum: _selectedMainMuscleGroupEnum,
+        equipmentRequiredEnum: _selectedEquipmentRequiredEnum,
       );
 
       await database!.setRoutine(routine);
 
+      final model = context.read(homeScreenModelProvider);
+      final currentContext =
+          model.tabNavigatorKeys[model.currentTab]!.currentContext!;
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
       await RoutineDetailScreen.show(
-        context,
+        currentContext,
         routine: routine,
         tag: 'createRoutine${routine.routineId}',
-        isPushReplacement: true,
+        isPushReplacement: false,
       );
 
       // TODO: add SnackBar
@@ -239,4 +243,7 @@ class CreateNewROutineModel with ChangeNotifier {
     }
     _isButtonPressed = false;
   }
+
+  // FORM KEY
+  static final formKey = GlobalKey<FormState>();
 }

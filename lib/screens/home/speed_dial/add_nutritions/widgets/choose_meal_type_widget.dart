@@ -21,10 +21,7 @@ class ChooseMealTypeWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(S.current.mealType, style: TextStyles.caption1),
         ),
         SingleChildScrollView(

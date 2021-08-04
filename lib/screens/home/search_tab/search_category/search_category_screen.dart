@@ -16,7 +16,7 @@ import 'package:workout_player/screens/home/library_tab/workout/workout_detail_s
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 

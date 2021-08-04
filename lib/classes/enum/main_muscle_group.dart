@@ -1,20 +1,50 @@
 import 'package:workout_player/generated/l10n.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 enum MainMuscleGroup {
+  @JsonValue('abs')
   abs,
+
+  @JsonValue('arms')
   arms,
+
+  @JsonValue('back')
   back,
+
+  @JsonValue('cardio')
   cardio,
+
+  @JsonValue('chest')
   chest,
+
+  @JsonValue('fullBody')
   fullBody,
+
+  @JsonValue('glutes')
   glutes,
+
+  @JsonValue('hamstring')
   hamstring,
+
+  @JsonValue('lats')
   lats,
+
+  @JsonValue('lowerBody')
   lowerBody,
+
+  @JsonValue('lowerBack')
   lowerBack,
+
+  @JsonValue('quads')
   quads,
+
+  @JsonValue('shoulder')
   shoulder,
+
+  @JsonValue('stretch')
   stretch,
+
+  @JsonValue('traps')
   traps,
 }
 

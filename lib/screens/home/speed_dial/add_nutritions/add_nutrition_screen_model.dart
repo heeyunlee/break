@@ -15,7 +15,6 @@ import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -27,9 +26,7 @@ final addNutritionScreenModelProvider = ChangeNotifierProvider.autoDispose(
 );
 
 class AddNutritionScreenModel with ChangeNotifier {
-  late Timestamp _loggedTime;
-  late String _loggedTimeInString;
-  late DateTime _loggedDate;
+  Timestamp _loggedTime = Timestamp.now();
   Color _borderColor = Colors.grey;
   int _intValue = 25;
   int _decimalValue = 0;
@@ -48,8 +45,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   late TextEditingController _notesController;
 
   Timestamp get loggedTime => _loggedTime;
-  String get loggedTimeInString => _loggedTimeInString;
-  DateTime get loggedDate => _loggedDate;
   Color get borderColor => _borderColor;
   int get intValue => _intValue;
   int get decimalValue => _decimalValue;
@@ -85,11 +80,6 @@ class AddNutritionScreenModel with ChangeNotifier {
     _carbsController = TextEditingController();
     _fatController = TextEditingController();
     _notesController = TextEditingController();
-
-    _loggedTime = Timestamp.now();
-    _loggedTimeInString = Formatter.yMdjmInDateTime(_loggedTime.toDate());
-    final nowInDate = _loggedTime.toDate();
-    _loggedDate = DateTime.utc(nowInDate.year, nowInDate.month, nowInDate.day);
   }
 
   void disposeController() {
@@ -116,9 +106,9 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   void onDateTimeChanged(DateTime date) {
+    logger.d('onDateTimeChanged in AddNutritionScreenModel called');
+
     _loggedTime = Timestamp.fromDate(date);
-    _loggedTimeInString = Formatter.yMdjmInDateTime(_loggedTime.toDate());
-    _loggedDate = DateTime.utc(date.year, date.month, date.day);
 
     notifyListeners();
   }
@@ -148,39 +138,13 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   void onVisibilityChanged(VisibilityInfo info) {
+    logger.d('onVisibilityChanged in AddNutritionScreenModel called');
+
     if (info.visibleFraction >= 0.5) {
       _borderColor = kSecondaryColor;
     } else {
       _borderColor = Colors.grey;
     }
-
-    notifyListeners();
-  }
-
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return null;
-    } else {
-      final tryParse = num.tryParse(value);
-
-      if (tryParse == null) {
-        return S.current.pleaseEnderValidValue;
-      } else {
-        return null;
-      }
-    }
-  }
-
-  void onChanged(String value) {
-    final form = formKey.currentState!;
-    form.validate();
-
-    notifyListeners();
-  }
-
-  void onFieldSubmitted(String value) {
-    final form = formKey.currentState!;
-    form.validate();
 
     notifyListeners();
   }
@@ -205,13 +169,19 @@ class AddNutritionScreenModel with ChangeNotifier {
       if (_validateAndSaveForm()) {
         try {
           final id = 'NUT${Uuid().v1()}';
+          final timeInDate = _loggedTime.toDate();
+          final loggedDate = DateTime.utc(
+            timeInDate.year,
+            timeInDate.month,
+            timeInDate.day,
+          );
 
           final nutrition = Nutrition(
             nutritionId: id,
             userId: user.userId,
             username: user.userName,
             loggedTime: _loggedTime,
-            loggedDate: _loggedDate,
+            loggedDate: loggedDate,
             proteinAmount: _proteinAmount,
             type: _mealType!,
             notes: _notesController.text,

@@ -8,10 +8,10 @@ import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/widgets/reusable_screens/choose_title_screen.dart';
 
-import 'create_routine/create_new_routine_screen.dart';
 import 'create_routine/create_new_routine_list_tile.dart';
+import 'create_routine/create_new_routine_model.dart';
 import 'routine_detail_screen.dart';
 import 'saved_routines/saved_routines_tile_widget.dart';
 
@@ -34,7 +34,13 @@ class RoutinesTab extends StatelessWidget {
             EmptyContentWidget(
               imageUrl: 'assets/images/saved_routines_empty_bg.png',
               bodyText: S.current.savedRoutineEmptyText,
-              onPressed: () => CreateNewRoutineScreen.show(context),
+              onPressed: () => ChooseTitleScreen.show<CreateNewRoutineModel>(
+                context,
+                formKey: CreateNewRoutineModel.formKey,
+                provider: createNewROutineModelProvider,
+                appBarTitle: S.current.routineTitleTitle,
+                hintText: S.current.routineTitleHintText,
+              ),
             ),
           ],
         ),
@@ -56,14 +62,12 @@ class RoutinesTab extends StatelessWidget {
       ),
       itemBuilder: (index, context, documentSnapshot) {
         final routine = documentSnapshot.data() as Routine;
+        final model = RoutineModel();
 
-        final subtitle = MainMuscleGroup.values
-            .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
-            .translation!;
         return CustomListTile64(
           tag: 'savedRoutines-${routine.routineId}',
           title: routine.routineTitle,
-          subtitle: subtitle,
+          subtitle: model.getFirstMainMuscleGroup(routine),
           imageUrl: routine.imageUrl,
           onTap: () => RoutineDetailScreen.show(
             context,

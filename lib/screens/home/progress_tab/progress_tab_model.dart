@@ -134,7 +134,7 @@ class ProgressTabModel with ChangeNotifier {
     );
 
     _blurTween = Tween<double>(begin: 0, end: 20).animate(animationController);
-    _brightnessTween = Tween<double>(begin: 1, end: 0.0).animate(
+    _brightnessTween = Tween<double>(begin: 0.0, end: 0.5).animate(
       animationController,
     );
     _onNotification = (ScrollNotification scrollInfo) {
@@ -353,5 +353,14 @@ class ProgressTabModel with ChangeNotifier {
     'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/home_tab_bg%2Fbg004_1000x1000.jpeg?alt=media&token=592ae255-735c-4c94-9b04-a00ae743047c',
     'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/home_tab_bg%2Fbg005_1000x1000.jpeg?alt=media&token=16aea7d3-596c-4e80-92e8-acd4c2d4d3b7',
     'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/home_tab_bg%2Fbg006_1000x1000.jpeg?alt=media&token=2f95cfc4-38c9-4105-b0f8-150c94758d3a',
+  ];
+
+  static const bgPlaceholderHash = [
+    'DFEMI3~B5rpx%M_3s8M{xuaK',
+    'M1AAExAB00-q~V1SDk0000?vn#~p?vxU4n',
+    'M267}#01t7^j0MS}n%j[bajF02~BRjIp={',
+    'MvPF1H4.XnaKV[?^n4WFW.aeNHf+VtkWoe',
+    'MCI;^i~p004n4o4oD%%M%Mae01WBt8kC%M',
+    'MVE{kN~q?b-;xu%MWBIUIUM{%M%MofWBRj',
   ];
 }

@@ -10,7 +10,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/screens/home/miniplayer/miniplayer_model.dart';
 import 'package:workout_player/screens/home/miniplayer/routine_history_summary_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -152,7 +152,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         routineId: routine.routineId,
         routineTitle: routine.routineTitle,
         isPublic: true,
-        mainMuscleGroup: routine.mainMuscleGroup,
+        mainMuscleGroup: routine.mainMuscleGroup ?? [],
         secondMuscleGroup: routine.secondMuscleGroup,
         workoutEndTime: Timestamp.fromDate(_workoutEndTime),
         workoutStartTime: Timestamp.fromDate(_workoutStartTime),
@@ -164,7 +164,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         workoutDate: workoutDate,
         imageUrl: routine.imageUrl,
         unitOfMass: routine.initialUnitOfMass,
-        equipmentRequired: routine.equipmentRequired,
+        equipmentRequired: routine.equipmentRequired ?? [],
       );
 
       /// For Workout Histories

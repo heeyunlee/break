@@ -41,6 +41,19 @@ For transition between PreviewScreen and SignInScreen, I made a custom `PageRout
     <img src="previews/sign_in_screen_ios.gif" alt="Assessment 1, iOS" width="200"/>
 </p>
 
+<br>
+<br>
+
+## Progress Tab
+Progress tab displays various widgets that highlight user's health & fitness data.
+
+<p align="left">
+    <img src="previews/progress_tab_1_ios.gif" alt="Assessment 1, Android" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</p>
+
 ## To Do
 ### Refactoring
 #### This project is always-changing and always-improving. As I learn more about Flutter, and especially more about better factoring, I need to refactor old codes to make them better. Below are my refactoring to-do lists
@@ -75,6 +88,7 @@ For transition between PreviewScreen and SignInScreen, I made a custom `PageRout
 - [x] Home Screen
 - [x] Add Measurement Screen
 - [x] Add Nutrition Screen
-- [ ] Start Workout Shortcut Screen
+- [x] ~~Start Workout Shortcut Screen~~ Choose Routine Screeen
 - [ ] SpeedDial
 - [x] Preview Screen
+- [ ] Miniplayer

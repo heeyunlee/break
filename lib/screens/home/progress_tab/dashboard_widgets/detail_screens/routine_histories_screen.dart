@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/screens/home/speed_dial/start_workout_shortcut_screen.dart';
+import 'package:workout_player/screens/home/speed_dial/choose_routine/choose_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
 
@@ -62,7 +62,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
         emptyDisplay: EmptyContentWidget(
           imageUrl: 'assets/images/routine_history_empty_bg.png',
           bodyText: S.current.routineHistoyEmptyMessage,
-          onPressed: () => StartWorkoutShortcutScreen.show(context),
+          onPressed: () => ChooseRoutineScreen.show(context),
         ),
         header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
         footer: const SliverToBoxAdapter(child: SizedBox(height: 120)),

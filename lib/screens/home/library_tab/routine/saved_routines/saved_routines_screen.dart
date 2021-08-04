@@ -6,7 +6,7 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -85,17 +85,18 @@ class SavedRoutinesScreen extends StatelessWidget {
                           if (snapshot.hasData) {
                             Routine routine = snapshot.data!;
                             final subtitle = MainMuscleGroup.values
-                                .firstWhere(
-                                  (e) =>
-                                      e.toString() ==
-                                      routine.mainMuscleGroup[0],
-                                )
-                                .translation;
+                                    .firstWhere(
+                                      (e) =>
+                                          e.toString() ==
+                                          routine.mainMuscleGroup?[0],
+                                    )
+                                    .translation ??
+                                S.current.mainMuscleGroup;
 
                             return CustomListTile64(
                               tag: 'savedRoutiness-${routine.routineId}',
                               title: routine.routineTitle,
-                              subtitle: subtitle!,
+                              subtitle: subtitle,
                               imageUrl: routine.imageUrl,
                               onTap: () => RoutineDetailScreen.show(
                                 context,

@@ -14,7 +14,6 @@ import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -30,10 +29,6 @@ class AddMeasurementsModel with ChangeNotifier {
   late TextEditingController _smmController;
   late TextEditingController _bmiController;
   late TextEditingController _notesController;
-  late Timestamp _loggedTime;
-  late String _loggedTimeInString;
-  late DateTime _loggedDate;
-  Color _borderColor = Colors.grey;
 
   late FocusNode _focusNode1;
   late FocusNode _focusNode2;
@@ -41,15 +36,8 @@ class AddMeasurementsModel with ChangeNotifier {
   late FocusNode _focusNode4;
   late FocusNode _focusNode5;
 
-  num get bodyWeight => num.parse(_bodyweightController.text);
-  num? get bodyFat => num.tryParse(_bodyFatController.text);
-  num? get skeletalMuscleMass => num.tryParse(_smmController.text);
-  num? get bmi => num.tryParse(_bmiController.text);
-  String? get notes => _notesController.text;
-  Timestamp get loggedTime => _loggedTime;
-  String get loggedTimeInString => _loggedTimeInString;
-  DateTime get loggedDate => _loggedDate;
-  Color get borderColor => _borderColor;
+  Timestamp _loggedTime = Timestamp.now();
+  Color _borderColor = Colors.grey;
 
   TextEditingController get bodyweightController => _bodyweightController;
   TextEditingController get bodyFatController => _bodyFatController;
@@ -62,6 +50,14 @@ class AddMeasurementsModel with ChangeNotifier {
   FocusNode get focusNode3 => _focusNode3;
   FocusNode get focusNode4 => _focusNode4;
   FocusNode get focusNode5 => _focusNode5;
+
+  num get bodyWeight => num.parse(_bodyweightController.text);
+  num? get bodyFat => num.tryParse(_bodyFatController.text);
+  num? get skeletalMuscleMass => num.tryParse(_smmController.text);
+  num? get bmi => num.tryParse(_bmiController.text);
+  String? get notes => _notesController.text;
+  Timestamp get loggedTime => _loggedTime;
+  Color get borderColor => _borderColor;
 
   List<FocusNode> get focusNodes => [
         _focusNode1,
@@ -83,11 +79,6 @@ class AddMeasurementsModel with ChangeNotifier {
     _focusNode3 = FocusNode();
     _focusNode4 = FocusNode();
     _focusNode5 = FocusNode();
-
-    _loggedTime = Timestamp.now();
-    _loggedTimeInString = Formatter.yMdjmInDateTime(_loggedTime.toDate());
-    final nowInDate = _loggedTime.toDate();
-    _loggedDate = DateTime.utc(nowInDate.year, nowInDate.month, nowInDate.day);
   }
 
   @override
@@ -119,16 +110,6 @@ class AddMeasurementsModel with ChangeNotifier {
     return _bodyweightController.text.isNotEmpty;
   }
 
-  // void onChanged(String value) {
-  //   formKey.currentState!.validate();
-  //   notifyListeners();
-  // }
-
-  // void onFieldSubmitted(String value) {
-  //   formKey.currentState!.validate();
-  //   notifyListeners();
-  // }
-
   String? weightInputValidator(String? value) {
     final tryParsing = num.tryParse(value!);
 
@@ -154,8 +135,6 @@ class AddMeasurementsModel with ChangeNotifier {
 
   void onDateTimeChanged(DateTime date) {
     _loggedTime = Timestamp.fromDate(date);
-    _loggedTimeInString = Formatter.yMdjmInDateTime(_loggedTime.toDate());
-    _loggedDate = DateTime.utc(date.year, date.month, date.day);
 
     notifyListeners();
   }
@@ -189,13 +168,19 @@ class AddMeasurementsModel with ChangeNotifier {
     if (_validateAndSaveForm()) {
       try {
         final id = 'MS${Uuid().v1()}';
+        final loggedTimeInDate = _loggedTime.toDate();
+        final loggedDate = DateTime.utc(
+          loggedTimeInDate.year,
+          loggedTimeInDate.month,
+          loggedTimeInDate.day,
+        );
 
         final measurement = Measurement(
           measurementId: id,
           userId: user.userId,
           username: user.userName,
           loggedTime: _loggedTime,
-          loggedDate: _loggedDate,
+          loggedDate: loggedDate,
           bodyWeight: bodyWeight,
           bodyFat: bodyFat,
           skeletalMuscleMass: skeletalMuscleMass,

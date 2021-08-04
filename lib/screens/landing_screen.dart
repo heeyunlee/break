@@ -15,7 +15,7 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('LandingScreen build...');
+    logger.d('[LandingScreen] building...');
 
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
@@ -26,14 +26,20 @@ class LandingScreen extends StatelessWidget {
           final user = snapshot.data;
 
           if (user == null) {
+            logger.d('user does NOT exist');
+
             return const PreviewScreen();
           } else {
+            logger.d('user does exist ${user.toString()}');
+
             return provider.Provider<Database>(
               create: (_) => FirestoreDatabase(uid: user.uid),
               child: HomeScreen.create(),
             );
           }
         }
+        logger.d('waiting for the connection to Firebase');
+
         return const SplashScreen();
       },
     );

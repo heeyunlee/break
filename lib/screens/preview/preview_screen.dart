@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:workout_player/main_provider.dart';
 
 import 'package:workout_player/screens/preview/preview_screen_model.dart';
 
@@ -15,6 +16,8 @@ class PreviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('[PreviewScreen] building...');
+
     return Scaffold(
       key: PreviewScreenModel.previewScreenNavigatorKey,
       extendBodyBehindAppBar: true,

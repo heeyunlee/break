@@ -532,7 +532,7 @@ packages:
     source: hosted
     version: "7.0.1"
   flutter_blurhash:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_blurhash
       url: "https://pub.dartlang.org"

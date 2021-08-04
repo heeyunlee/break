@@ -130,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "afterWorkout": MessageLookupByLibrary.simpleMessage("After Workout"),
         "afterWorkoutSnackbar": MessageLookupByLibrary.simpleMessage(
             "You\'ve finished your workout! \nKeep Lifting! 🎉"),
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "alreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
@@ -154,8 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Body Measurement"),
         "bodyWeight": MessageLookupByLibrary.simpleMessage("Weights"),
         "bodyweight": MessageLookupByLibrary.simpleMessage("Bodyweight"),
-        "bodyweightMeasurement":
-            MessageLookupByLibrary.simpleMessage("Body weight"),
+        "bodyweightMeasurement": MessageLookupByLibrary.simpleMessage("Weight"),
         "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "byDeletingAccount":
             MessageLookupByLibrary.simpleMessage("By deleting the account:"),
@@ -181,6 +181,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "changeBackgroundFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "You can choose different backgrounds for this tab using this button"),
         "chest": MessageLookupByLibrary.simpleMessage("Chest"),
+        "chooseEquipmentRequiredMessage": MessageLookupByLibrary.simpleMessage(
+            "Please select equipment(s) required for this routine"),
+        "chooseMainMuscleGroupMessage": MessageLookupByLibrary.simpleMessage(
+            "Please select muscle group(s) worked for this routine"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("Choose Routine to Start"),
         "chooseWallpaper":
@@ -343,6 +347,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Routine is empty!"),
         "emptyRoutineMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t created routines yet"),
+        "emptyRoutineTitleWarningMessage": MessageLookupByLibrary.simpleMessage(
+            "Please enter a routine title"),
         "emptyroutinesContentTitle": m3,
         "endMiniplayerButtonText": MessageLookupByLibrary.simpleMessage("END"),
         "endWorkoutWarningMessage": MessageLookupByLibrary.simpleMessage(
@@ -353,6 +359,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please Select at least one equipment required"),
         "equipmentRequiredAlertTitle": MessageLookupByLibrary.simpleMessage(
             "No Equipment Required Selected"),
+        "errorAbortedByUser":
+            MessageLookupByLibrary.simpleMessage("Sign In was aborted by user"),
         "errorOccuredMessage":
             MessageLookupByLibrary.simpleMessage("An error has occured"),
         "etc": MessageLookupByLibrary.simpleMessage("etc."),
@@ -531,7 +539,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "routineTitleHintText":
             MessageLookupByLibrary.simpleMessage("\'Chest Routine\'"),
         "routineTitleTitle":
-            MessageLookupByLibrary.simpleMessage("Routine Title"),
+            MessageLookupByLibrary.simpleMessage("Routine Name"),
         "routineTitleValidatorText":
             MessageLookupByLibrary.simpleMessage("Give your routine a name!"),
         "routineWorkoutEmptyText": MessageLookupByLibrary.simpleMessage(
@@ -541,6 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("SAVE"),
         "saveAndEndWorkout":
             MessageLookupByLibrary.simpleMessage("SAVE & END WORKOUT"),
+        "saved": MessageLookupByLibrary.simpleMessage("Saved"),
         "savedRoutineEmptyText": MessageLookupByLibrary.simpleMessage(
             "You\'re one step away from creating your own routine!"),
         "savedRoutineSnackBarTitle":

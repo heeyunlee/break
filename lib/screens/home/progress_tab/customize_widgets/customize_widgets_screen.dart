@@ -8,7 +8,7 @@ import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 
 import 'customize_widgets_screen_model.dart';

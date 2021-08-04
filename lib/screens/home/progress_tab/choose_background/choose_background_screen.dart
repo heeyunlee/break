@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
@@ -12,7 +13,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
@@ -126,6 +127,9 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
                       children: [
                         CachedNetworkImage(
                           imageUrl: ProgressTabModel.bgURL[index],
+                          placeholder: (context, _) => BlurHash(
+                            hash: ProgressTabModel.bgPlaceholderHash[index],
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ],

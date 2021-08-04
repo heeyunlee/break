@@ -22,8 +22,9 @@ import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
 import 'sign_in_screen.dart';
 
-final signInScreenProvider =
-    ChangeNotifierProvider((ref) => SignInScreenModel());
+final signInScreenProvider = ChangeNotifierProvider(
+  (ref) => SignInScreenModel(),
+);
 
 class SignInScreenModel extends ChangeNotifier {
   AuthService? auth;
@@ -43,18 +44,13 @@ class SignInScreenModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   final locale = Intl.getCurrentLocale();
-
-  void toggleIsLoading() {
-    _isLoading = !_isLoading;
-    notifyListeners();
-  }
+  final randomNumber = Random().nextInt(6);
+  final now = Timestamp.now();
 
   void setIsLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
-
-  final randomNumber = Random().nextInt(6);
 
   // SIGN IN ANONYMOUSLY
   Future<void> signInAnonymously(BuildContext context) async {
@@ -69,7 +65,6 @@ class SignInScreenModel extends ChangeNotifier {
       final firebaseUser = auth!.currentUser!;
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
-      final currentTime = Timestamp.now();
 
       // Create new data if it does NOT exist
       if (user == null) {
@@ -81,12 +76,12 @@ class SignInScreenModel extends ChangeNotifier {
           displayName: id,
           userName: id,
           userEmail: null,
-          signUpDate: currentTime,
+          signUpDate: now,
           signUpProvider: 'Anonymous',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
+          lastLoginDate: now,
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
@@ -107,7 +102,7 @@ class SignInScreenModel extends ChangeNotifier {
       } else {
         // Update Data if exist
         final Map<String, dynamic> updatedUserData = {
-          'lastLoginDate': currentTime,
+          'lastLoginDate': now,
         };
 
         if (user.deviceInfo == null) {
@@ -150,7 +145,6 @@ class SignInScreenModel extends ChangeNotifier {
       final firebaseUser = auth!.currentUser!;
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
-      final currentTime = Timestamp.now();
 
       // Create new data if it does NOT exist
       if (user == null) {
@@ -166,12 +160,12 @@ class SignInScreenModel extends ChangeNotifier {
           displayName: displayName,
           userName: displayName,
           userEmail: email,
-          signUpDate: currentTime,
+          signUpDate: now,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
+          lastLoginDate: now,
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
@@ -190,7 +184,7 @@ class SignInScreenModel extends ChangeNotifier {
       } else {
         // Update Data if exist
         final Map<String, dynamic> updatedUserData = {
-          'lastLoginDate': currentTime,
+          'lastLoginDate': now,
         };
 
         if (user.deviceInfo == null) {
@@ -233,7 +227,6 @@ class SignInScreenModel extends ChangeNotifier {
       final firebaseUser = auth!.currentUser!;
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
-      final currentTime = Timestamp.now();
 
       // Create new data do NOT exist
       if (user == null) {
@@ -249,12 +242,12 @@ class SignInScreenModel extends ChangeNotifier {
           displayName: displayName,
           userName: displayName,
           userEmail: email,
-          signUpDate: currentTime,
+          signUpDate: now,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
+          lastLoginDate: now,
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
@@ -276,7 +269,7 @@ class SignInScreenModel extends ChangeNotifier {
       } else {
         // Update Data if exist
         final Map<String, dynamic> updatedUserData = {
-          'lastLoginDate': currentTime,
+          'lastLoginDate': now,
         };
 
         if (user.deviceInfo == null) {
@@ -319,7 +312,6 @@ class SignInScreenModel extends ChangeNotifier {
       final firebaseUser = auth!.currentUser!;
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
-      final currentTime = Timestamp.now();
 
       // Create new data do NOT exist
       if (user == null) {
@@ -335,12 +327,12 @@ class SignInScreenModel extends ChangeNotifier {
               firebaseUser.displayName ??
               id,
           userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
-          signUpDate: currentTime,
+          signUpDate: now,
           signUpProvider: firebaseUser.providerData[0].providerId,
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: (locale == 'ko') ? 0 : 1,
-          lastLoginDate: currentTime,
+          lastLoginDate: now,
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
@@ -361,7 +353,7 @@ class SignInScreenModel extends ChangeNotifier {
       } else {
         // Update Data if exist
         final Map<String, dynamic> updatedUserData = {
-          'lastLoginDate': currentTime,
+          'lastLoginDate': now,
         };
 
         if (user.deviceInfo == null) {
@@ -401,7 +393,6 @@ class SignInScreenModel extends ChangeNotifier {
       final firebaseUser = auth!.currentUser!;
       final User? user = await database!.getUserDocument(firebaseUser.uid);
       final deviceInfo = await _getDeviceInfo();
-      final currentTime = Timestamp.now();
 
       // Create new data do NOT exist
       if (user == null) {
@@ -412,12 +403,12 @@ class SignInScreenModel extends ChangeNotifier {
           userName: firebaseUser.displayName ?? 'Herakles $uniqueId',
           displayName: firebaseUser.displayName ?? 'Herakles $uniqueId',
           userEmail: firebaseUser.email,
-          signUpDate: currentTime,
+          signUpDate: now,
           signUpProvider: 'kakao',
           totalWeights: 0,
           totalNumberOfWorkouts: 0,
           unitOfMass: 1,
-          lastLoginDate: currentTime,
+          lastLoginDate: now,
           savedRoutines: [],
           savedWorkouts: [],
           backgroundImageIndex: randomNumber,
@@ -438,7 +429,7 @@ class SignInScreenModel extends ChangeNotifier {
       } else {
         // Update Data if exist
         final Map<String, dynamic> updatedUserData = {
-          'lastLoginDate': currentTime,
+          'lastLoginDate': now,
         };
 
         if (user.deviceInfo == null) {
@@ -477,9 +468,9 @@ class SignInScreenModel extends ChangeNotifier {
   String _getExceptionMessage(FirebaseException exception) {
     switch (exception.code) {
       case 'ERROR_ABORTED_BY_USER':
-        return 'Sign In Was Aborted by User';
+        return S.current.errorAbortedByUser;
       default:
-        return 'Sign In Failed';
+        return S.current.signInFailed;
     }
   }
 
@@ -497,6 +488,7 @@ class SignInScreenModel extends ChangeNotifier {
   }
 
   /// STATIC
+  // Navigation
   static void show(BuildContext context) {
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final database = provider.Provider.of<Database>(context, listen: false);
@@ -505,10 +497,10 @@ class SignInScreenModel extends ChangeNotifier {
 
     Navigator.of(context).push(
       PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: 600),
-        transitionsBuilder: (_, animation, __, child) =>
+        transitionDuration: Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(opacity: animation, child: child),
-        pageBuilder: (context, animation, secondAnimation) {
+        pageBuilder: (context, animation, secondaryAnimation) {
           return provider.ListenableProvider(
             create: (cintext) => animation,
             child: SignInScreen(

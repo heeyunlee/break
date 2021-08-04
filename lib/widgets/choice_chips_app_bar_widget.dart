@@ -1,89 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../styles/constants.dart';
 import '../classes/enum/main_muscle_group.dart';
 
-class ChoiceChipsAppBarWidget extends StatefulWidget
+class ChoiceChipsAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  final StringCallback callback;
+  final String selectedChip;
+  final void Function(bool selected, String string) onSelected;
 
   const ChoiceChipsAppBarWidget({
     Key? key,
-    required this.callback,
+    required this.selectedChip,
+    required this.onSelected,
   }) : super(key: key);
 
   @override
-  _ChoiceChipsAppBarWidgetState createState() =>
-      _ChoiceChipsAppBarWidgetState();
-
-  @override
   Size get preferredSize {
-    return Size.fromHeight(48.0);
-  }
-}
-
-class _ChoiceChipsAppBarWidgetState extends State<ChoiceChipsAppBarWidget> {
-  final List<String> _mainMuscleGroup =
-      ['All'] + MainMuscleGroup.values[0].list;
-  final List<String> _mainMuscleGroupTranslated =
-      ['All'] + MainMuscleGroup.values[0].translatedList;
-
-  // TODO: CHANGE SELECTED INDEX BASED ON DIFFERENT MUSCLE
-  int _selectedIndex = 0;
-  late String _selectedChipLabel;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    return Size.fromHeight(64.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> chips = [];
+    final List<String> _mainMuscleGroup = [
+      // 'Saved',
+      'All',
+      ...MainMuscleGroup.values[0].list,
+    ];
 
-    chips.add(SizedBox(width: 12));
-    for (var i = 0; i < _mainMuscleGroup.length; i++) {
-      var choiceChip = ChoiceChip(
-        labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        shape: StadiumBorder(
-          side: BorderSide(
-              color: (_selectedIndex == i) ? kPrimary300Color : Colors.grey,
-              width: 1),
-        ),
-        label: Text(_mainMuscleGroupTranslated[i], style: TextStyles.button1),
-        selected: _selectedIndex == i,
-        backgroundColor: kAppBarColor,
-        selectedColor: kPrimaryColor,
-        onSelected: (bool selected) {
-          if (selected) {
-            _selectedIndex = i;
-            _selectedChipLabel = _mainMuscleGroup[i];
-            widget.callback(_selectedChipLabel);
-          }
-        },
-      );
+    final List<Widget> chips = _mainMuscleGroup.map((string) {
+      final label = (string == 'All')
+          ? S.current.all
+          : MainMuscleGroup.values
+              .firstWhere((element) => element.toString() == string)
+              .translation!;
 
-      chips.add(
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4),
-          child: choiceChip,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        child: ChoiceChip(
+          backgroundColor: kAppBarColor,
+          selectedColor: kPrimaryColor,
+          label: Text(label, style: TextStyles.button1),
+          labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          shape: StadiumBorder(
+            side: BorderSide(
+              color: (selectedChip == string) ? kPrimary300Color : Colors.grey,
+              width: 1,
+            ),
+          ),
+          selected: selectedChip == string,
+          onSelected: (bool selected) => onSelected(selected, string),
         ),
       );
-    }
-    chips.add(SizedBox(width: 12));
+    }).toList();
 
     return PreferredSize(
-      preferredSize: Size.fromHeight(32),
+      preferredSize: Size.fromHeight(64),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: chips,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(children: chips),
         ),
       ),
     );

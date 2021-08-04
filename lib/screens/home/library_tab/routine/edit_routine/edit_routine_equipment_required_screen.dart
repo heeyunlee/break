@@ -6,7 +6,7 @@ import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
@@ -61,60 +61,39 @@ class _EditRoutineEquipmentRequiredScreenState
   void initState() {
     super.initState();
     // TODO: MAKE THIS BETTER
+    final list = widget.routine.equipmentRequired ?? [];
 
     var equipmentRequired = <String, bool>{
-      EquipmentRequired.band.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.band.toString()))
-          ? true
-          : false,
-      EquipmentRequired.barbell.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.barbell.toString()))
-          ? true
-          : false,
-      EquipmentRequired.bench.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.bench.toString()))
-          ? true
-          : false,
-      EquipmentRequired.bodyweight.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.bodyweight.toString()))
-          ? true
-          : false,
-      EquipmentRequired.cable.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.cable.toString()))
-          ? true
-          : false,
-      EquipmentRequired.chains.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.chains.toString()))
-          ? true
-          : false,
-      EquipmentRequired.dumbbell.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.dumbbell.toString()))
-          ? true
-          : false,
-      EquipmentRequired.eZBar.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.eZBar.toString()))
-          ? true
-          : false,
-      EquipmentRequired.gymBall.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.gymBall.toString()))
-          ? true
-          : false,
-      EquipmentRequired.kettlebell.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.kettlebell.toString()))
-          ? true
-          : false,
-      EquipmentRequired.machine.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.machine.toString()))
-          ? true
-          : false,
-      EquipmentRequired.plate.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.plate.toString()))
-          ? true
-          : false,
-      EquipmentRequired.other.toString(): (widget.routine.equipmentRequired
-              .contains(EquipmentRequired.other.toString()))
-          ? true
-          : false,
+      EquipmentRequired.band.toString():
+          (list.contains(EquipmentRequired.band.toString())) ? true : false,
+      EquipmentRequired.barbell.toString():
+          (list.contains(EquipmentRequired.barbell.toString())) ? true : false,
+      EquipmentRequired.bench.toString():
+          (list.contains(EquipmentRequired.bench.toString())) ? true : false,
+      EquipmentRequired.bodyweight.toString():
+          (list.contains(EquipmentRequired.bodyweight.toString()))
+              ? true
+              : false,
+      EquipmentRequired.cable.toString():
+          (list.contains(EquipmentRequired.cable.toString())) ? true : false,
+      EquipmentRequired.chains.toString():
+          (list.contains(EquipmentRequired.chains.toString())) ? true : false,
+      EquipmentRequired.dumbbell.toString():
+          (list.contains(EquipmentRequired.dumbbell.toString())) ? true : false,
+      EquipmentRequired.eZBar.toString():
+          (list.contains(EquipmentRequired.eZBar.toString())) ? true : false,
+      EquipmentRequired.gymBall.toString():
+          (list.contains(EquipmentRequired.gymBall.toString())) ? true : false,
+      EquipmentRequired.kettlebell.toString():
+          (list.contains(EquipmentRequired.kettlebell.toString()))
+              ? true
+              : false,
+      EquipmentRequired.machine.toString():
+          (list.contains(EquipmentRequired.machine.toString())) ? true : false,
+      EquipmentRequired.plate.toString():
+          (list.contains(EquipmentRequired.plate.toString())) ? true : false,
+      EquipmentRequired.other.toString():
+          (list.contains(EquipmentRequired.other.toString())) ? true : false,
     };
     _equipmentRequired = equipmentRequired;
     _equipmentRequired.forEach((key, value) {

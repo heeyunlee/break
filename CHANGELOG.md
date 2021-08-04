@@ -16,7 +16,9 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Changed the way user select goals in personalGoalScreen
 - Implemented staggered transition to signInScreen using SlideAnimation and Opacity
 - Updated README.md
-- Created reusable TextFieldWidget and TextFieldModel
+- Created reusable TextFieldWidget and TextFieldModels
+- Refactored and added some animation to CreateRoutineScreen
+- Created resuable `OffsetOpacityAnimatedContainer` and `AnimatedListViewBuilder` widgets
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features

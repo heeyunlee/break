@@ -122,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "afterWorkout": MessageLookupByLibrary.simpleMessage("운동 후"),
         "afterWorkoutSnackbar":
             MessageLookupByLibrary.simpleMessage("운동을 완료 했습니다!! 🎉"),
+        "all": MessageLookupByLibrary.simpleMessage("전체"),
         "alreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("이미 회원가입을 하셨나요?"),
         "amount": MessageLookupByLibrary.simpleMessage("양"),
@@ -144,7 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "bodyMeasurement": MessageLookupByLibrary.simpleMessage("신체 정보"),
         "bodyWeight": MessageLookupByLibrary.simpleMessage("체중"),
         "bodyweight": MessageLookupByLibrary.simpleMessage("맨몸"),
-        "bodyweightMeasurement": MessageLookupByLibrary.simpleMessage("체중"),
+        "bodyweightMeasurement": MessageLookupByLibrary.simpleMessage("몸무게"),
         "breakfast": MessageLookupByLibrary.simpleMessage("아침"),
         "byDeletingAccount":
             MessageLookupByLibrary.simpleMessage("계정을 삭제하는 경우:"),
@@ -168,6 +169,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "이 버튼을 눌러서 원하는 배경을 선택할 수 있습니다!"),
         "chest": MessageLookupByLibrary.simpleMessage("가슴"),
+        "chooseEquipmentRequiredMessage":
+            MessageLookupByLibrary.simpleMessage("이 루틴에서 필요한 운동 기구들을 설정해 주세요"),
+        "chooseMainMuscleGroupMessage": MessageLookupByLibrary.simpleMessage(
+            "이 루틴에서 운동하게 될 주요 근육 부위를 설정해 주세요"),
         "chooseRoutineToStart":
             MessageLookupByLibrary.simpleMessage("루틴을 골라주세요"),
         "chooseWallpaper": MessageLookupByLibrary.simpleMessage("배경 선택"),
@@ -313,6 +318,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("루틴이 비었습니다!"),
         "emptyRoutineMessage":
             MessageLookupByLibrary.simpleMessage("아직 커스텀 루틴을 만드시지 않았어요"),
+        "emptyRoutineTitleWarningMessage":
+            MessageLookupByLibrary.simpleMessage("루틴의 이름을 정해주세요"),
         "emptyroutinesContentTitle": m3,
         "endMiniplayerButtonText": MessageLookupByLibrary.simpleMessage("종료"),
         "endWorkoutWarningMessage":
@@ -322,6 +329,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("적어도 1개 이상의 필요 운동기구를 정해주세요!"),
         "equipmentRequiredAlertTitle":
             MessageLookupByLibrary.simpleMessage("필요 운동기구가 선택되지 않았습니다"),
+        "errorAbortedByUser":
+            MessageLookupByLibrary.simpleMessage("로그인을 취소했습니다"),
         "errorOccuredMessage":
             MessageLookupByLibrary.simpleMessage("오류가 났어요.."),
         "etc": MessageLookupByLibrary.simpleMessage("등등"),
@@ -490,7 +499,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("커스텀 루틴을 이용하여 운동하고 기록해보세요!"),
         "routineTitleHintText":
             MessageLookupByLibrary.simpleMessage("오늘은 가슴 DAY DAY"),
-        "routineTitleTitle": MessageLookupByLibrary.simpleMessage("루틴 제목"),
+        "routineTitleTitle": MessageLookupByLibrary.simpleMessage("루틴 이름"),
         "routineTitleValidatorText":
             MessageLookupByLibrary.simpleMessage("루틴에 이름을 지어주세요!"),
         "routineWorkoutEmptyText":
@@ -500,6 +509,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("저장"),
         "saveAndEndWorkout":
             MessageLookupByLibrary.simpleMessage("운동 저장 & 종료하기"),
+        "saved": MessageLookupByLibrary.simpleMessage("북마크"),
         "savedRoutineEmptyText":
             MessageLookupByLibrary.simpleMessage("자신만의 루틴을 만들어 보세요!"),
         "savedRoutineSnackBarTitle":

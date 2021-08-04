@@ -35,10 +35,13 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /// disable Landscape mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    /// Make Android status bar transparent
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
       initLogger(Level.debug);
     }
 
-    logger.d('Main method');
+    logger.d('In [Main] method');
 
     return provider.MultiProvider(
       providers: [

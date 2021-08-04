@@ -6,9 +6,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/difficulty.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/location.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
@@ -18,7 +16,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
@@ -459,9 +457,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildMainMuscleGroupForm(Routine routine) {
-    final mainMuscleGroup = MainMuscleGroup.values
-        .firstWhere((e) => e.toString() == routine.mainMuscleGroup[0])
-        .translation;
+    final model = RoutineModel();
+
+    // final mainMuscleGroup = MainMuscleGroup.values
+    //         .firstWhere((e) => e.toString() == routine.mainMuscleGroup?[0])
+    //         .translation ??
+    //     S.current.mainMuscleGroup;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,7 +481,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             title: Text(S.current.mainMuscleGroup, style: TextStyles.button1),
-            subtitle: Text(mainMuscleGroup!, style: TextStyles.body2_grey),
+            subtitle: Text(
+              model.getJoinedMainMuscleGroups(routine),
+              style: TextStyles.body2_grey,
+            ),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               color: kPrimaryGrey,
@@ -497,9 +501,12 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildEquipmentRequiredForm(Routine routine) {
-    final equipmentRequired = EquipmentRequired.values
-        .firstWhere((e) => e.toString() == routine.equipmentRequired[0])
-        .translation;
+    final model = RoutineModel();
+
+    // final equipmentRequired = EquipmentRequired.values
+    //         .firstWhere((e) => e.toString() == routine.equipmentRequired?[0])
+    //         .translation ??
+    //     S.current.equipmentRequired;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -509,7 +516,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.button1),
         subtitle: Text(
-          equipmentRequired!,
+          // equipmentRequired,
+          model.getJoinedEquipmentsRequired(routine),
           style: TextStyles.body2_grey,
         ),
         trailing: const Icon(

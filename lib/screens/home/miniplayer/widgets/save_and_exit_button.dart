@@ -66,7 +66,7 @@ class SaveAndExitButton extends StatelessWidget {
         routineId: routine.routineId,
         routineTitle: routine.routineTitle,
         isPublic: true,
-        mainMuscleGroup: routine.mainMuscleGroup,
+        mainMuscleGroup: routine.mainMuscleGroup ?? [],
         secondMuscleGroup: routine.secondMuscleGroup,
         workoutStartTime: _workoutStartTime,
         workoutEndTime: workoutEndTime,
@@ -78,7 +78,7 @@ class SaveAndExitButton extends StatelessWidget {
         workoutDate: workoutDate,
         imageUrl: routine.imageUrl,
         unitOfMass: routine.initialUnitOfMass,
-        equipmentRequired: routine.equipmentRequired,
+        equipmentRequired: routine.equipmentRequired ?? [],
       );
 
       /// For Workout Histories

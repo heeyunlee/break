@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/models/text_field_model.dart';
-import 'package:workout_player/screens/home/speed_dial/widgets/select_dates_widget.dart';
+import 'package:workout_player/widgets/select_dates_widget.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -50,7 +50,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
   @override
   void dispose() {
-    // widget.model.disposeController();
     super.dispose();
   }
 
@@ -62,19 +61,20 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
+        backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),
         flexibleSpace: const AppbarBlurBG(),
-        backgroundColor: Colors.transparent,
         title: Text(S.current.addNutritions, style: TextStyles.subtitle2),
       ),
-      body: Builder(builder: (context) => _buildBody(context)),
+      body: Builder(builder: _buildBody),
       floatingActionButton: _buildFAB(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    final String unit = widget.user.unitOfMassEnum?.gram ??
+    final unit = widget.user.unitOfMassEnum?.gram ??
         Formatter.unitOfMassGram(widget.user.unitOfMass);
+    final formKey = AddNutritionScreenModel.formKey;
 
     return Theme(
       data: ThemeData(
@@ -87,7 +87,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
-              key: AddNutritionScreenModel.formKey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -96,7 +96,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                   SelectDatesWidget(
                     borderColor: widget.model.borderColor,
                     onVisibilityChanged: widget.model.onVisibilityChanged,
-                    timeInString: widget.model.loggedTimeInString,
                     initialDateTime: widget.model.loggedTime.toDate(),
                     onDateTimeChanged: widget.model.onDateTimeChanged,
                   ),
@@ -107,23 +106,23 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                     children: [
                       Flexible(
                         child: OutlinedNumberTextFieldWidget(
+                          formKey: formKey,
                           focusNode: widget.model.caloriesFocusNode,
                           controller: widget.model.caloriesController,
                           suffixText: 'kcal',
                           labelText: S.current.calories,
                           model: widget.textFieldModel,
-                          formKey: AddNutritionScreenModel.formKey,
                         ),
                       ),
                       const SizedBox(width: 16),
                       Flexible(
                         child: OutlinedNumberTextFieldWidget(
+                          formKey: formKey,
                           focusNode: widget.model.carbsFocusNode,
                           controller: widget.model.carbsController,
                           suffixText: unit,
                           labelText: S.current.carbs,
                           model: widget.textFieldModel,
-                          formKey: AddNutritionScreenModel.formKey,
                         ),
                       ),
                     ],
@@ -132,20 +131,20 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2 - 24,
                     child: OutlinedNumberTextFieldWidget(
+                      formKey: formKey,
                       focusNode: widget.model.fatFocusNode,
                       controller: widget.model.fatController,
                       suffixText: unit,
                       labelText: S.current.fat,
                       model: widget.textFieldModel,
-                      formKey: AddNutritionScreenModel.formKey,
                     ),
                   ),
                   kCustomDivider,
                   OutlinedTextTextFieldWidget(
                     maxLines: 5,
-                    model: widget.textFieldModel,
-                    formKey: AddNutritionScreenModel.formKey,
+                    formKey: formKey,
                     labelText: S.current.notes,
+                    model: widget.textFieldModel,
                     focusNode: widget.model.notesFocusNode,
                     controller: widget.model.notesController,
                   ),

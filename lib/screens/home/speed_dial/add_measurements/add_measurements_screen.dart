@@ -7,12 +7,12 @@ import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/models/text_field_model.dart';
-import 'package:workout_player/screens/home/speed_dial/widgets/select_dates_widget.dart';
+import 'package:workout_player/widgets/select_dates_widget.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/widgets/appbar_blur_bg.dart';
+import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/widgets/text_field/outlined_number_text_field_widget.dart';
@@ -94,7 +94,6 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                 SelectDatesWidget(
                   borderColor: widget.model.borderColor,
                   onVisibilityChanged: widget.model.onVisibilityChanged,
-                  timeInString: widget.model.loggedTimeInString,
                   initialDateTime: widget.model.loggedTime.toDate(),
                   onDateTimeChanged: widget.model.onDateTimeChanged,
                 ),

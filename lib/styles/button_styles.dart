@@ -4,10 +4,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'constants.dart';
 
 class ButtonStyles {
-  final BuildContext context;
-
-  ButtonStyles(this.context);
-
   static final text1 = ButtonStyle(
     foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
       if (states.contains(MaterialState.disabled)) return kGrey600;

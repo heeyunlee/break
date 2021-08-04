@@ -860,10 +860,10 @@ class S {
     );
   }
 
-  /// `Routine Title`
+  /// `Routine Name`
   String get routineTitleTitle {
     return Intl.message(
-      'Routine Title',
+      'Routine Name',
       name: 'routineTitleTitle',
       desc: '',
       args: [],
@@ -1910,10 +1910,10 @@ class S {
     );
   }
 
-  /// `Body weight`
+  /// `Weight`
   String get bodyweightMeasurement {
     return Intl.message(
-      'Body weight',
+      'Weight',
       name: 'bodyweightMeasurement',
       desc: '',
       args: [],
@@ -4395,6 +4395,66 @@ class S {
     return Intl.message(
       'Consumed Calories',
       name: 'consumedCalorie',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved`
+  String get saved {
+    return Intl.message(
+      'Saved',
+      name: 'saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select muscle group(s) worked for this routine`
+  String get chooseMainMuscleGroupMessage {
+    return Intl.message(
+      'Please select muscle group(s) worked for this routine',
+      name: 'chooseMainMuscleGroupMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select equipment(s) required for this routine`
+  String get chooseEquipmentRequiredMessage {
+    return Intl.message(
+      'Please select equipment(s) required for this routine',
+      name: 'chooseEquipmentRequiredMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a routine title`
+  String get emptyRoutineTitleWarningMessage {
+    return Intl.message(
+      'Please enter a routine title',
+      name: 'emptyRoutineTitleWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In was aborted by user`
+  String get errorAbortedByUser {
+    return Intl.message(
+      'Sign In was aborted by user',
+      name: 'errorAbortedByUser',
       desc: '',
       args: [],
     );

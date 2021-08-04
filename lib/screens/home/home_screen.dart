@@ -7,7 +7,7 @@ import 'home_screen_model.dart';
 import 'home_screen_tabs.dart';
 import 'miniplayer/workout_miniplayer.dart';
 import 'navigation_tab/bottom_navigation_tab.dart';
-import 'speed_dial/widgets/speed_dial_widget.dart';
+import 'speed_dial/speed_dial.dart';
 
 class HomeScreen extends StatefulWidget {
   final HomeScreenModel model;
@@ -43,24 +43,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MiniplayerWillPopScope(
       onWillPop: widget.model.onWillPopMiniplayer,
-      child: WillPopScope(
-        onWillPop: widget.model.onWillPopHomeScreen,
-        child: Scaffold(
-          key: widget.model.homeScreenNavigatorKey,
-          extendBody: true,
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              HomeScreenTabs(model: widget.model),
-              WorkoutMiniplayer.create(context),
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: SpeedDialWidget.create(),
-          bottomNavigationBar: const BottomNavigationTab(),
+      // child: WillPopScope(
+      //   onWillPop: widget.model.onWillPopHomeScreen,
+      //   child: Scaffold(
+      child: Scaffold(
+        key: widget.model.homeScreenNavigatorKey,
+        extendBody: true,
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            HomeScreenTabs(model: widget.model),
+            WorkoutMiniplayer.create(context),
+          ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: SpeedDial.create(),
+        bottomNavigationBar: const BottomNavigationTab(),
       ),
+      // ),
     );
   }
 }

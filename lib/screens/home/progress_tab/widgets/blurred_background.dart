@@ -40,7 +40,7 @@ class BlurredBackground extends StatelessWidget {
                 end: Alignment(0, 1),
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(model.brightnessTween.value),
+                  Colors.white.withOpacity(model.brightnessTween.value),
                 ],
               ),
             ),

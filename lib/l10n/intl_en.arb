@@ -80,7 +80,7 @@
     "save": "SAVE",
     "publicRoutine": "Public Routine",
     "publicRoutineDescription": "Make your routine either just for yourself or sharable with other users",
-    "routineTitleTitle": "Routine Title",
+    "routineTitleTitle": "Routine Name",
     "routineTitleHintText": "'Chest Routine'",
     "routineTitleValidatorText": "Give your routine a name!",
     "description": "Description",
@@ -185,7 +185,7 @@
     "machine": "Machine",
     "other": "Other",
     "addMeasurement": "Add Measurement",
-    "bodyweightMeasurement": "Body weight",
+    "bodyweightMeasurement": "Weight",
     "weightsHintText": "Please add weight data",
     "bodyFat": "Body Fat",
     "skeletalMuscleMass": "Skeletal Muscle Mass",
@@ -433,5 +433,11 @@
     "setCalorieGoalSnackbarTitle": "Calorie Consumption Goal",
     "setCalorieGoalSnackbarBody": "You've successfully set a daily calorie consumption goal!",
     "calorieGoal": "Calorie Consumption Goal",
-    "consumedCalorie": "Consumed Calories"
+    "consumedCalorie": "Consumed Calories",
+    "saved": "Saved",
+    "all": "All",
+    "chooseMainMuscleGroupMessage": "Please select muscle group(s) worked for this routine",
+    "chooseEquipmentRequiredMessage": "Please select equipment(s) required for this routine",
+    "emptyRoutineTitleWarningMessage": "Please enter a routine title",
+    "errorAbortedByUser": "Sign In was aborted by user"
 }
