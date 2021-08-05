@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,13 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
       _selectedMainMuscleGroupEnum;
 
   void init(Routine routine) {
-    _selectedMainMuscleGroupEnum = routine.mainMuscleGroupEnum ?? [];
+    List<MainMuscleGroup?>? musclesFromString = routine.mainMuscleGroup
+        ?.map((string) =>
+            MainMuscleGroup.values.firstWhere((e) => e.toString() == string))
+        .toList();
+
+    _selectedMainMuscleGroupEnum =
+        routine.mainMuscleGroupEnum ?? musclesFromString ?? [];
   }
 
   bool selected(MainMuscleGroup muscle) {
@@ -48,58 +53,48 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
     required Database database,
     required Routine routine,
   }) async {
-    final listEqual = ListEquality().equals(
-      routine.mainMuscleGroupEnum,
-      _selectedMainMuscleGroupEnum,
-    );
+    if (_selectedMainMuscleGroupEnum.isNotEmpty) {
+      try {
+        // Get Image Url
+        final bucket = FirebaseStorage.instance.ref().child(
+              'workout-pictures/800by800',
+            );
+        final imageIndex = Random().nextInt(2);
+        final enumToString = EnumToString.convertToString(
+          _selectedMainMuscleGroupEnum[0],
+        );
+        final ref = bucket.child('$enumToString$imageIndex.jpeg');
+        final imageUrl = await ref.getDownloadURL();
 
-    if (listEqual) {
-      Navigator.of(context).pop();
-    } else {
-      if (_selectedMainMuscleGroupEnum.isNotEmpty) {
-        try {
-          // Get Image Url
-          final bucket = FirebaseStorage.instance.ref().child(
-                'workout-pictures/800by800',
-              );
-          final imageIndex = Random().nextInt(2);
-          final enumToString = EnumToString.convertToString(
-            _selectedMainMuscleGroupEnum[0],
-          );
-          final ref = bucket.child('$enumToString$imageIndex.jpeg');
-          final imageUrl = await ref.getDownloadURL();
+        final enumToStrings = EnumToString.toList(_selectedMainMuscleGroupEnum);
 
-          final enumToStrings =
-              EnumToString.toList(_selectedMainMuscleGroupEnum);
+        final updatedRoutine = {
+          'imageUrl': imageUrl,
+          'mainMuscleGroupEnum': enumToStrings,
+        };
+        await database.updateRoutine(routine, updatedRoutine);
 
-          final updatedRoutine = {
-            'imageUrl': imageUrl,
-            'mainMuscleGroupEnum': enumToStrings,
-          };
-          await database.updateRoutine(routine, updatedRoutine);
+        Navigator.of(context).pop();
 
-          Navigator.of(context).pop();
-
-          getSnackbarWidget(
-            S.current.updateMainMuscleGroupTitle,
-            S.current.updateMainMuscleGroupMessage(S.current.routine),
-          );
-        } on Exception catch (e) {
-          logger.e(e);
-          await showExceptionAlertDialog(
-            context,
-            title: S.current.operationFailed,
-            exception: e.toString(),
-          );
-        }
-      } else {
-        await showAlertDialog(
+        getSnackbarWidget(
+          S.current.updateMainMuscleGroupTitle,
+          S.current.updateMainMuscleGroupMessage(S.current.routine),
+        );
+      } on Exception catch (e) {
+        logger.e(e);
+        await showExceptionAlertDialog(
           context,
-          title: S.current.mainMuscleGroupAlertTitle,
-          content: S.current.mainMuscleGroupAlertContent,
-          defaultActionText: S.current.ok,
+          title: S.current.operationFailed,
+          exception: e.toString(),
         );
       }
+    } else {
+      await showAlertDialog(
+        context,
+        title: S.current.mainMuscleGroupAlertTitle,
+        content: S.current.mainMuscleGroupAlertContent,
+        defaultActionText: S.current.ok,
+      );
     }
   }
 }

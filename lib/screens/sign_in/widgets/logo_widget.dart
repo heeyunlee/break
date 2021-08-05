@@ -16,15 +16,29 @@ class LogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _loadingWidget = [
+    return Expanded(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: model.isLoading ? _loadingWidget() : _logoWidget(),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _loadingWidget() {
+    return [
       const CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
       ),
       const SizedBox(height: 24),
       Text(S.current.signingIn, style: TextStyles.body2),
     ];
+  }
 
-    final List<Widget> _logoWidget = [
+  List<Widget> _logoWidget() {
+    return [
       Hero(
         tag: 'logo',
         child: SvgPicture.asset(
@@ -35,15 +49,5 @@ class LogoWidget extends StatelessWidget {
       const SizedBox(height: 40),
       const Text('Herakles: Workout Player', style: TextStyles.subtitle1_menlo),
     ];
-
-    return Expanded(
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: model.isLoading ? _loadingWidget : _logoWidget,
-        ),
-      ),
-    );
   }
 }

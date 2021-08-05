@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/utils/string_validator.dart';
 
 final textFieldModelProvider = ChangeNotifierProvider(
   (ref) => TextFieldModel(),
@@ -23,6 +24,82 @@ class TextFieldModel with ChangeNotifier {
 
   String? stringValidator(String? value) {
     return null;
+  }
+
+  String? emailValidator(String? value) {
+    if (value != null) {
+      final validator = StringValidatorBase();
+      final isEmailValid = validator.isEmailValid(value);
+
+      if (!isEmailValid) {
+        return S.current.invalidEmailValidationText;
+      }
+    }
+  }
+
+  String? firstNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return S.current.emptyFirstNameText;
+    }
+  }
+
+  String? lastNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return S.current.emptyLastNameText;
+    }
+  }
+
+  String? passwordValidator(String? value) {
+    if (value != null) {
+      final validator = StringValidatorBase();
+      final isPasswordValid = validator.isPasswordValid(value);
+
+      if (!isPasswordValid) {
+        return S.current.emptyConfirmPasswordValidationtext;
+      }
+    }
+  }
+
+  String? emailValidatorWithBool(String? value, bool submitted) {
+    if (submitted) {
+      if (value != null) {
+        final validator = StringValidatorBase();
+        final isEmailValid = validator.isEmailValid(value);
+
+        if (!isEmailValid) {
+          return S.current.invalidEmailValidationText;
+        }
+      }
+    }
+  }
+
+  String? firstNameValidatorWithBool(String? value, bool submitted) {
+    if (submitted) {
+      if (value == null || value.isEmpty) {
+        return S.current.emptyFirstNameText;
+      }
+    }
+  }
+
+  String? lastNameValidatorWithBool(String? value, bool submitted) {
+    if (submitted) {
+      if (value == null || value.isEmpty) {
+        return S.current.emptyLastNameText;
+      }
+    }
+  }
+
+  String? passwordValidatorWithBool(String? value, bool submitted) {
+    if (submitted) {
+      if (value != null) {
+        final validator = StringValidatorBase();
+        final isPasswordValid = validator.isPasswordValid(value);
+
+        if (!isPasswordValid) {
+          return S.current.emptyConfirmPasswordValidationtext;
+        }
+      }
+    }
   }
 
   void onChanged(GlobalKey<FormState> formKey, String value) {

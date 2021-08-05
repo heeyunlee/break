@@ -64,6 +64,8 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
+    print(data);
+
     if (data != null) {
       final String userName = data['userName'];
       final String? userEmail = data['userEmail'];
@@ -129,7 +131,7 @@ class User {
         dailyCalorieConsumptionGoal: dailyCalorieConsumptionGoal,
       );
     } else {
-      throw 'null';
+      throw UnimplementedError();
     }
   }
 

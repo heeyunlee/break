@@ -2,10 +2,16 @@ import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import 'package:workout_player/screens/home/progress_tab/progress_tab_model.dart';
 
 class BlurredBackgroundPreviewWidget extends StatelessWidget {
-  const BlurredBackgroundPreviewWidget({Key? key}) : super(key: key);
+  final double? blur;
+
+  const BlurredBackgroundPreviewWidget({
+    Key? key,
+    this.blur = 10,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class BlurredBackgroundPreviewWidget extends StatelessWidget {
         ),
       ),
       child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ui.ImageFilter.blur(sigmaX: blur!, sigmaY: blur!),
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(

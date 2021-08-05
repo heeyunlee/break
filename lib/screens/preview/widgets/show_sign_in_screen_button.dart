@@ -14,10 +14,7 @@ class ShowSignInScreenButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyles.elevated_full_width,
         onPressed: () => SignInScreenModel.show(context),
-        child: Text(
-          S.current.getStarted,
-          style: TextStyles.button1,
-        ),
+        child: Text(S.current.getStarted, style: TextStyles.button1),
       ),
     );
   }

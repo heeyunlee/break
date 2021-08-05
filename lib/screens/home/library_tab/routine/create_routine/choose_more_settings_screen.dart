@@ -22,7 +22,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
 
     Navigator.of(context).push(
       PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: 600),
+        transitionDuration: Duration(milliseconds: 500),
         transitionsBuilder: (_, animation, __, child) =>
             FadeTransition(opacity: animation, child: child),
         pageBuilder: (context, animation, secondAnimation) {

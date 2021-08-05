@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/screens/preview/widgets/blurred_background_preview_widget.dart';
+import 'package:workout_player/screens/sign_in/with_email/sign_in_with_email_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
@@ -18,8 +19,6 @@ import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'sign_in_screen_model.dart';
 import 'widgets/logo_widget.dart';
 import 'widgets/social_sign_in_button.dart';
-import 'with_email/email_sign_up_screen.dart';
-import 'with_email/log_in_with_email_screen.dart';
 
 class SignInScreen extends ConsumerWidget {
   final Database database;
@@ -38,32 +37,24 @@ class SignInScreen extends ConsumerWidget {
     final model = watch(signInScreenProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
       appBar: AppBar(
+        elevation: 0,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          TextButton(
-            style: ButtonStyles.text1_google,
-            onPressed:
-                model.isLoading ? null : () => model.signInAnonymously(context),
-            child: Text(S.current.takeALook),
-          ),
-          const SizedBox(width: 16),
-        ],
+        actions: _appBarActionWidgets(context, model),
         leading: AppBarBackButton(pressed: model.isLoading),
       ),
       body: Stack(
         children: [
-          const BlurredBackgroundPreviewWidget(),
+          const BlurredBackgroundPreviewWidget(blur: 15),
           SafeArea(
             child: Column(
               children: <Widget>[
                 LogoWidget(model: model),
                 AnimatedListViewBuilder(
-                  beginOffset: const Offset(0, 0.35),
+                  beginOffset: Offset(0.25, 0),
                   offsetStartInterval: 0.25,
                   offsetDelay: 0.05,
                   offsetDuration: 0.5,
@@ -77,6 +68,21 @@ class SignInScreen extends ConsumerWidget {
     );
   }
 
+  List<Widget> _appBarActionWidgets(
+    BuildContext context,
+    SignInScreenModel model,
+  ) {
+    return [
+      TextButton(
+        style: ButtonStyles.text1_google,
+        onPressed:
+            model.isLoading ? null : () => model.signInAnonymously(context),
+        child: Text(S.current.takeALook),
+      ),
+      const SizedBox(width: 16),
+    ];
+  }
+
   List<Widget> _signInButtons(BuildContext context, SignInScreenModel model) {
     return [
       SocialSignInButton(
@@ -84,8 +90,9 @@ class SignInScreen extends ConsumerWidget {
         iconData: Icons.email_rounded,
         color: kPrimary600Color,
         textColor: Colors.white,
-        onPressed:
-            model.isLoading ? null : () => EmailSignUpScreen.show(context),
+        onPressed: model.isLoading
+            ? null
+            : () => SignInWithEmailModel.showSignUpScreen(context),
       ),
       SocialSignInButton(
         kButtonText: S.current.continueWithGoogle,
@@ -122,8 +129,9 @@ class SignInScreen extends ConsumerWidget {
       ),
       TextButton(
         style: ButtonStyles.text1_google,
-        onPressed:
-            model.isLoading ? null : () => LogInWithEmailScreen.show(context),
+        onPressed: model.isLoading
+            ? null
+            : () => SignInWithEmailModel.showSignInScreen(context),
         child: Text(S.current.logIn),
       ),
     ];

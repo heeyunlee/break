@@ -7,6 +7,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
   final Widget? icon;
   final void Function()? onPressed;
   final double? width;
+  final double? radius;
 
   const MaxWidthRaisedButton({
     Key? key,
@@ -15,6 +16,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
     this.icon,
     this.onPressed,
     this.width,
+    this.radius = 10,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class MaxWidthRaisedButton extends StatelessWidget {
         ),
         shape: MaterialStateProperty.resolveWith(
           (_) => RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(radius!),
           ),
         ),
       ),

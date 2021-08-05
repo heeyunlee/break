@@ -73,6 +73,6 @@ class PreviewScreenModel extends ChangeNotifier {
     SampleWidgets().weeklyCaloriesChartPreview,
   ];
 
-  static final GlobalKey<NavigatorState> previewScreenNavigatorKey =
-      GlobalKey<NavigatorState>();
+  // static final GlobalKey<NavigatorState> previewScreenNavigatorKey =
+  //     GlobalKey<NavigatorState>();
 }

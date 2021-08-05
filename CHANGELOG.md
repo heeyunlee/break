@@ -19,6 +19,8 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Created reusable TextFieldWidget and TextFieldModels
 - Refactored and added some animation to CreateRoutineScreen
 - Created resuable `OffsetOpacityAnimatedContainer` and `AnimatedListViewBuilder` widgets
+- Build custom fade route transition
+- Changed ui and refactored email signin/signUp page
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features
