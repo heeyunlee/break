@@ -9,36 +9,38 @@
   [![Get it from App Store](https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/README.md%2FDownload_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg?alt=media&token=8681ed8f-b1c5-417a-bb4b-338009480c2d)](https://apps.apple.com/us/app/herakles-workout-player/id1555829140) [![Get it on Google Play](https://lisk.io/sites/default/files/pictures/2020-01/download_on_the_play_store_badge.svg)](https://play.google.com/store/apps/details?id=com.healtine.playerh)
 </h1>
 
-#### Herakles is health & fitness tracking app built with Flutter and Firebase. User can make a customizable dashboard to see their progress or use YouTbe-like miniplayer to workout in real time.
+#### Herakles is health & fitness tracking app built with Flutter and Firebase. Users can log their body measurements, nutritions consumed, and workout data, and these data are transformed into customizable and easy-to-look dashboard.
+
 <br>
 <br>
 
 ### **Table of contents**
-- [**Introduction**](#introduction)
 - [**Preview & Sign In Screen**](#preview--sign-in-screen)
 - [**To Do**](#to-do)
 
 <br>
 <br>
 
-## Introduction
-Herakles is a health & fitness tracking app with customizable dashboard (with iOS-like widgets) and workout player (YouTube-like miniplayer and displays your current workout)
-
-<br>
-<br>
-
 ## Preview & Sign In Screen
-The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `Kakao`.  
+The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `KakaoTalk`.  
 
-For transition between PreviewScreen and SignInScreen, I made a custom `PageRouteBuilder()` and `AnimatedBuilder()` to create staggered animation effects for sign-in buttons and fading effects for all the other widgets.
+For transition between PreviewScreen and SignInScreen, I made a custom `PageRouteBuilder()` using `FadeTransition()`, `ListenableProvider()`, and `AnimatedBuilder()` to create staggered animation / fading effects.
 
 ### Preview Screen & Transition Between Preview Screen and Sign In Screen
 <p align="left">
-    <img src="previews/preview_screen_ios.gif" alt="Assessment 1, Android" width="200"/>
+    <img src="previews/preview_screen_ios.gif" alt="preview screen" width="200"/>
     &nbsp;
     &nbsp;
     &nbsp;
-    <img src="previews/sign_in_screen_ios.gif" alt="Assessment 1, iOS" width="200"/>
+    <img src="previews/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="previews/sign_in_screen_transition_2.gif" alt="sign in screen transition 2" width="200"/>  
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="previews/sign_in_screen_transition_3.gif" alt="sign in screen transition 3" width="200"/> 
 </p>
 
 <br>

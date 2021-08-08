@@ -14,21 +14,9 @@ bool? custmFadeTransition(
     PageRouteBuilder(
       fullscreenDialog: isRoot,
       transitionDuration: Duration(milliseconds: duration),
-      transitionsBuilder: (_, animation, __, child) => GestureDetector(
-        onPanUpdate: (details) {
-          print('asda');
-
-          // Swiping in right direction.
-          if (details.delta.dx < 0) {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            }
-          }
-        },
-        child: FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
+      transitionsBuilder: (_, animation, __, child) => FadeTransition(
+        opacity: animation,
+        child: child,
       ),
       pageBuilder: (context, animation, secondaryAnimation) {
         return ListenableProvider(

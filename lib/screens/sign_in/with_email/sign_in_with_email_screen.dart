@@ -99,6 +99,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
+      // keyboardBarColor: Colors.transparent,
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: true,
       actions: List.generate(
