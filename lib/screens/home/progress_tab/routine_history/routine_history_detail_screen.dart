@@ -7,8 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/workout_history.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
@@ -77,9 +75,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   late String _notes;
   late bool _isPublic;
 
-  final List<dynamic> _translatedMuscleGroup = [];
-  final List<dynamic> _translatedEquipments = [];
-  late List<dynamic> _musclesAndEquipment;
+  // final List<dynamic> _translatedMuscleGroup = [];
+  // final List<dynamic> _translatedEquipments = [];
+  late List<String> _musclesAndEquipment;
 
   // For SliverApp to Work
   late AnimationController _colorAnimationController;
@@ -205,26 +203,29 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   }
 
   void dataFormat(RoutineHistory routineHistory) {
-    final _mainMuscleGroups = routineHistory.mainMuscleGroup;
-    _mainMuscleGroups.forEach(
-      (element) {
-        var translated = MainMuscleGroup.values
-            .firstWhere((e) => e.toString() == element)
-            .translation;
-        _translatedMuscleGroup.add(translated);
-      },
-    );
-    final _equipments = routineHistory.equipmentRequired;
-    _equipments.forEach(
-      (element) {
-        var translated = EquipmentRequired.values
-            .firstWhere((e) => e.toString() == element)
-            .translation;
-        _translatedEquipments.add(translated);
-      },
-    );
+    final model = RoutineHistoryModel();
+    // final _mainMuscleGroups = routineHistory.mainMuscleGroup;
+    // _mainMuscleGroups.forEach(
+    //   (element) {
+    //     var translated = MainMuscleGroup.values
+    //         .firstWhere((e) => e.toString() == element)
+    //         .translation;
+    //     _translatedMuscleGroup.add(translated);
+    //   },
+    // );
+    // final _equipments = routineHistory.equipmentRequired;
+    // _equipments.forEach(
+    //   (element) {
+    //     var translated = EquipmentRequired.values
+    //         .firstWhere((e) => e.toString() == element)
+    //         .translation;
+    //     _translatedEquipments.add(translated);
+    //   },
+    // );
 
-    _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
+    // _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
+    _musclesAndEquipment = model.getListOfEquipments(routineHistory) +
+        model.getListOfMailMuscleGroup(routineHistory);
   }
 
   @override

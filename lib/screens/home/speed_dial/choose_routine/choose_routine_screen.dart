@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/classes/routine.dart';
-import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/screens/home/speed_dial/choose_routine/choose_routine_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -22,13 +22,11 @@ import 'package:workout_player/widgets/list_item_builder.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
   final Database database;
-  // final AuthBase auth;
   final User user;
 
   const ChooseRoutineScreen({
     Key? key,
     required this.database,
-    // required this.auth,
     required this.user,
   }) : super(key: key);
 
@@ -115,7 +113,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
                 subtitle: '$trainingLevel, $weights $unit',
                 kSubtitle2: routine.routineOwnerUserName,
                 imageUrl: routine.imageUrl,
-                onTap: () => RoutineDetailScreen.show(
+                onTap: () => RoutineDetailScreenModel.show(
                   context,
                   routine: routine,
                   tag: 'startWorkoutShortcut${routine.routineId}',

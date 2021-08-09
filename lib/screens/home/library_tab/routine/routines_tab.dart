@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
@@ -12,7 +13,6 @@ import 'package:workout_player/widgets/reusable_screens/choose_title_screen.dart
 
 import 'create_routine/create_new_routine_list_tile.dart';
 import 'create_routine/create_new_routine_model.dart';
-import 'routine_detail_screen.dart';
 import 'saved_routines/saved_routines_tile_widget.dart';
 
 class RoutinesTab extends StatelessWidget {
@@ -69,7 +69,7 @@ class RoutinesTab extends StatelessWidget {
           title: routine.routineTitle,
           subtitle: model.getFirstMainMuscleGroup(routine),
           imageUrl: routine.imageUrl,
-          onTap: () => RoutineDetailScreen.show(
+          onTap: () => RoutineDetailScreenModel.show(
             context,
             routine: routine,
             tag: 'savedRoutines-${routine.routineId}',

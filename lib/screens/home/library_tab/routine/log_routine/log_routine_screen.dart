@@ -153,7 +153,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         routineTitle: routine.routineTitle,
         isPublic: true,
         mainMuscleGroup: routine.mainMuscleGroup ?? [],
-        secondMuscleGroup: routine.secondMuscleGroup,
+        // secondMuscleGroup: routine.secondMuscleGroup,
         workoutEndTime: Timestamp.fromDate(_workoutEndTime),
         workoutStartTime: Timestamp.fromDate(_workoutStartTime),
         notes: '',
@@ -165,6 +165,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
         imageUrl: routine.imageUrl,
         unitOfMass: routine.initialUnitOfMass,
         equipmentRequired: routine.equipmentRequired ?? [],
+        mainMuscleGroupEnum: routine.mainMuscleGroupEnum,
+        equipmentRequiredEnum: routine.equipmentRequiredEnum,
       );
 
       /// For Workout Histories

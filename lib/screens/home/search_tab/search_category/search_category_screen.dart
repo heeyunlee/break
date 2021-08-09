@@ -11,7 +11,8 @@ import 'package:workout_player/classes/enum/location.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/workout.dart';
-import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+// import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/screens/home/library_tab/workout/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -196,7 +197,7 @@ class SearchCategoryScreen extends StatelessWidget {
           title: routine.routineTitle,
           subtitle: routine.routineOwnerUserName,
           tag: 'MoreScreen-${routine.routineId}',
-          onTap: () => RoutineDetailScreen.show(
+          onTap: () => RoutineDetailScreenModel.show(
             context,
             routine: routine,
             tag: 'MoreScreen-${routine.routineId}',

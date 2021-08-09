@@ -10,8 +10,8 @@ class User {
   final String? userEmail; // Nullable
   final Timestamp signUpDate;
   final String signUpProvider;
-  final List<dynamic>? savedWorkouts; // Nullable
-  final List<dynamic>? savedRoutines; // Nullable
+  final List<String>? savedWorkouts; // Nullable
+  final List<String>? savedRoutines; // Nullable
   final num totalWeights;
   final int totalNumberOfWorkouts;
   final int unitOfMass;
@@ -64,15 +64,15 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
-    print(data);
-
     if (data != null) {
       final String userName = data['userName'];
       final String? userEmail = data['userEmail'];
       final Timestamp signUpDate = data['signUpDate'];
       final String signUpProvider = data['signUpProvider'];
-      final List<dynamic>? savedWorkouts = data['savedWorkouts'];
-      final List<dynamic>? savedRoutines = data['savedRoutines'];
+      final List<String>? savedWorkouts =
+          data['savedWorkouts'].map<String>((e) => e.toString()).toList();
+      final List<String>? savedRoutines =
+          data['savedRoutines'].map<String>((e) => e.toString()).toList();
       final num totalWeights = data['totalWeights'];
       final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
       final int unitOfMass = data['unitOfMass'];

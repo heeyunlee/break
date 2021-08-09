@@ -52,14 +52,6 @@ class Routine {
     this.equipmentRequiredEnum,
   });
 
-  // factory Routine.fromJson(Map<String, dynamic> json) =>
-  //     _$RoutineFromJson(json);
-  // Map<String, dynamic> toJson() => _$RoutineToJson(this);
-
-  // static DateTime _fromJson(int int) =>
-  //     DateTime.fromMillisecondsSinceEpoch(int);
-  // static int _toJson(DateTime time) => time.millisecondsSinceEpoch;
-
   factory Routine.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
       final String routineOwnerId = data['routineOwnerId'];
@@ -145,10 +137,10 @@ class Routine {
       'location': location,
       'thumbnailImageUrl': thumbnailImageUrl,
       'mainMuscleGroupEnum': mainMuscleGroupEnum
-          ?.map((e) => EnumToString.convertToString(e, camelCase: true))
+          ?.map((e) => EnumToString.convertToString(e))
           .toList(),
       'equipmentRequiredEnum': equipmentRequiredEnum
-          ?.map((e) => EnumToString.convertToString(e, camelCase: true))
+          ?.map((e) => EnumToString.convertToString(e))
           .toList()
     };
   }

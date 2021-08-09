@@ -15,7 +15,7 @@ import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 
-import '../routine_detail_screen.dart';
+import '../routine_detail_screen_model.dart';
 
 // ignore: must_be_immutable
 class SavedRoutinesScreen extends StatelessWidget {
@@ -98,7 +98,7 @@ class SavedRoutinesScreen extends StatelessWidget {
                               title: routine.routineTitle,
                               subtitle: subtitle,
                               imageUrl: routine.imageUrl,
-                              onTap: () => RoutineDetailScreen.show(
+                              onTap: () => RoutineDetailScreenModel.show(
                                 context,
                                 routine: routine,
                                 tag: 'savedRoutiness-${routine.routineId}',

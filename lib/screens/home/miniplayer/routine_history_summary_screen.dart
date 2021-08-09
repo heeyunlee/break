@@ -13,8 +13,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/services/database.dart';
 
@@ -57,8 +55,8 @@ class _RoutineHistorySummaryScreenState
   num? _effort = 3;
 
   late String _title = widget.routineHistory.routineTitle;
-  final List<dynamic> _translatedMuscleGroup = [];
-  final List<dynamic> _translatedEquipments = [];
+  // final List<dynamic> _translatedMuscleGroup = [];
+  // final List<dynamic> _translatedEquipments = [];
   late List<dynamic> _musclesAndEquipment;
 
   late String _formattedUnit;
@@ -112,27 +110,12 @@ class _RoutineHistorySummaryScreenState
   }
 
   void dataFormat(RoutineHistory routineHistory) {
-    _title = routineHistory.routineTitle;
-    final _mainMuscleGroups = routineHistory.mainMuscleGroup;
-    _mainMuscleGroups.forEach(
-      (element) {
-        var translated = MainMuscleGroup.values
-            .firstWhere((e) => e.toString() == element)
-            .translation;
-        _translatedMuscleGroup.add(translated);
-      },
-    );
-    final _equipments = routineHistory.equipmentRequired;
-    _equipments.forEach(
-      (element) {
-        var translated = EquipmentRequired.values
-            .firstWhere((e) => e.toString() == element)
-            .translation;
-        _translatedEquipments.add(translated);
-      },
-    );
+    final model = RoutineHistoryModel();
 
-    _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
+    _title = routineHistory.routineTitle;
+
+    _musclesAndEquipment = model.getListOfEquipments(routineHistory) +
+        model.getListOfMailMuscleGroup(routineHistory);
 
     // Unit Of Mass
     final _unit = routineHistory.unitOfMass;
@@ -322,7 +305,7 @@ class _RoutineHistorySummaryScreenState
                             ),
                           ),
                         ),
-                        Spacer(),
+                        const SizedBox(height: 32),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -359,7 +342,8 @@ class _RoutineHistorySummaryScreenState
                             ),
                           ],
                         ),
-                        const SizedBox(height: 40),
+                        Spacer(),
+                        // const SizedBox(height: 40),
                       ],
                     ),
                   ),

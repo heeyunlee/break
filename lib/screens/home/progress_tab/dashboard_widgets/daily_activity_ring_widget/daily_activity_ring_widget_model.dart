@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
@@ -16,7 +15,8 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
   num _liftingDailyGoal = 10000;
   num _weightsLiftedDailyTotal = 0;
   double _weightsLiftedDailyProgress = 0.0;
-  List<String> _todaysMuscleWorked = ['-'];
+  // List<String> _todaysMuscleWorked = ['-'];
+  String _todaysMuscleWorked = '-';
 
   num get nutritionDailyGoal => _nutritionDailyGoal;
   num get nutritionDailyTotal => _nutritionDailyTotal;
@@ -24,7 +24,8 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
   num get liftingDailyGoal => _liftingDailyGoal;
   num get weightsLiftedDailyTotal => _weightsLiftedDailyTotal;
   double get weightsLiftedDailyProgress => _weightsLiftedDailyProgress;
-  List<String> get todaysMuscleWorked => _todaysMuscleWorked;
+  // List<String> get todaysMuscleWorked => _todaysMuscleWorked;
+  String get todaysMuscleWorked => _todaysMuscleWorked;
 
   void setDailyGoal(User user) {
     _nutritionDailyGoal = user.dailyProteinGoal ?? 150.0;
@@ -39,7 +40,8 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
     _nutritionDailyProgress = 0;
     _weightsLiftedDailyTotal = 0;
     _weightsLiftedDailyProgress = 0;
-    _todaysMuscleWorked = ['-'];
+    // _todaysMuscleWorked = ['-'];
+    _todaysMuscleWorked = '-';
 
     if (nutritions.isNotEmpty) {
       nutritions.forEach((e) {
@@ -65,15 +67,9 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
       }
 
       final latest = routineHistories.last;
+      final model = RoutineHistoryModel();
 
-      _todaysMuscleWorked = latest.mainMuscleGroup
-          .map(
-            (muscle) => MainMuscleGroup.values
-                .firstWhere((e) => e.toString() == muscle)
-                .translation
-                .toString(),
-          )
-          .toList();
+      _todaysMuscleWorked = model.getFirstMainMuscleGroup(latest);
     }
   }
 }

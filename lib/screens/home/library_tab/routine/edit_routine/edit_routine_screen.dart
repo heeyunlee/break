@@ -459,11 +459,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Widget _buildMainMuscleGroupForm(Routine routine) {
     final model = RoutineModel();
 
-    // final mainMuscleGroup = MainMuscleGroup.values
-    //         .firstWhere((e) => e.toString() == routine.mainMuscleGroup?[0])
-    //         .translation ??
-    //     S.current.mainMuscleGroup;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -484,6 +479,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             subtitle: Text(
               model.getJoinedMainMuscleGroups(routine),
               style: TextStyles.body2_grey,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
@@ -503,11 +500,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Widget _buildEquipmentRequiredForm(Routine routine) {
     final model = RoutineModel();
 
-    // final equipmentRequired = EquipmentRequired.values
-    //         .firstWhere((e) => e.toString() == routine.equipmentRequired?[0])
-    //         .translation ??
-    //     S.current.equipmentRequired;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
@@ -516,9 +508,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.button1),
         subtitle: Text(
-          // equipmentRequired,
           model.getJoinedEquipmentsRequired(routine),
           style: TextStyles.body2_grey,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
@@ -591,7 +584,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
-      title: Text('Delete Routine'),
+      title: Text(S.current.deleteRoutinekButtonText),
       message: Text(
         S.current.deleteRoutineWarningMessage,
         textAlign: TextAlign.center,

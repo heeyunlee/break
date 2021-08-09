@@ -24,7 +24,7 @@
 ## Preview & Sign In Screen
 The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `KakaoTalk`.  
 
-For transition between PreviewScreen and SignInScreen, I made a custom `PageRouteBuilder()` using `FadeTransition()`, `ListenableProvider()`, and `AnimatedBuilder()` to create staggered animation / fading effects.
+For transitions between screens in PreviewScreen and SignInScreen, I made a reusable custom `PageRouteBuilder()` using `FadeTransition()` and `AnimatedBuilder()` to create staggered and fading animation effects that is showcased below. I used [cookbook] from official Flutter Doc as a reference to create this widget, but used `ListenableProvider()` to create more readable and reusable widget.
 
 ### Preview Screen & Transition Between Preview Screen and Sign In Screen
 <p align="left">
@@ -55,6 +55,14 @@ Progress tab displays various widgets that highlight user's health & fitness dat
     &nbsp;
     &nbsp;
 </p>
+
+## Speed Dial
+
+## Search Tab
+
+## Library Tab
+
+## Settings Tab
 
 ## To Do
 ### Refactoring
@@ -94,3 +102,5 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 - [ ] SpeedDial
 - [x] Preview Screen
 - [ ] Miniplayer
+
+[cookbook]: https://flutter.dev/docs/cookbook/effects/staggered-menu-animation

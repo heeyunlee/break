@@ -77,6 +77,7 @@ class LatestWeightWidget extends StatelessWidget {
   }
 
   List<Widget> _buildProgressBar() {
+    final unit = Formatter.unitOfMass(data.user.unitOfMass);
     final bool goalExists = data.user.weightGoal != null;
 
     final Measurement? lastDoc = data.measurements.lastWhereOrNull(
@@ -87,9 +88,9 @@ class LatestWeightWidget extends StatelessWidget {
       (element) => element.bodyWeight != null,
     );
 
-    final goalWeight = Formatter.percentage(data.user.weightGoal);
+    final goalWeight = Formatter.withDecimal(data.user.weightGoal);
 
-    final startingWeight = Formatter.percentage(firstDoc?.bodyWeight);
+    final startingWeight = Formatter.withDecimal(firstDoc?.bodyWeight);
 
     num? initialWeightToLose = (firstDoc != null && goalExists)
         ? firstDoc.bodyWeight! - data.user.weightGoal!
@@ -136,9 +137,9 @@ class LatestWeightWidget extends StatelessWidget {
       const SizedBox(height: 8),
       Row(
         children: [
-          Text(goalWeight, style: TextStyles.caption1),
+          Text('$goalWeight $unit', style: TextStyles.caption1),
           const Spacer(),
-          Text(startingWeight, style: TextStyles.caption1),
+          Text('$startingWeight $unit', style: TextStyles.caption1),
         ],
       ),
     ];

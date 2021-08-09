@@ -78,7 +78,7 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.3',
+      applicationVersion: 'v.0.3.4',
       applicationIcon: Container(
         decoration: BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/herakles_icon.png',

@@ -1,7 +1,4 @@
-import 'package:feature_discovery/feature_discovery.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:reorderables/reorderables.dart';
@@ -50,15 +47,15 @@ class _ProgressTabState extends State<ProgressTab>
 
     widget.model.init(vsync: this);
 
-    SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-      FeatureDiscovery.discoverFeatures(
-        context,
-        const <String>{
-          'choose_background',
-          'customize_widgets',
-        },
-      );
-    });
+    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
+    //   FeatureDiscovery.discoverFeatures(
+    //     context,
+    //     const <String>{
+    //       'choose_background',
+    //       'customize_widgets',
+    //     },
+    //   );
+    // });
   }
 
   @override

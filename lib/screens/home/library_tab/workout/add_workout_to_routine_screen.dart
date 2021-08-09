@@ -9,7 +9,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/classes/workout.dart';
-import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
@@ -100,7 +100,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       );
       await widget.database.setRoutineWorkout(routine, routineWorkout);
 
-      await RoutineDetailScreen.show(
+      await RoutineDetailScreenModel.show(
         context,
         routine: routine,
         tag: 'addWorkoutToRoutine${routine.routineId}',

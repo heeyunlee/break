@@ -69,8 +69,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   TextEditingController get notesController => _notesController;
 
   void init() {
-    print('init');
-
     _caloriesFocusNode = FocusNode();
     _carbsFocusNode = FocusNode();
     _fatFocusNode = FocusNode();

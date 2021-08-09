@@ -5,7 +5,7 @@ import 'package:workout_player/classes/measurement.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
 import 'package:workout_player/classes/routine.dart';
-import 'package:workout_player/classes/combined/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/routine_workout.dart';
 import 'package:workout_player/classes/steps.dart';
@@ -203,9 +203,7 @@ abstract class Database {
       String workoutId);
 
   // RxDart CombinedLists
-  Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
-    String routineId,
-  );
+  Stream<RoutineDetailScreenClass> routineDetailScreenStream(String routineId);
   Stream<ProgressTabClass> progressTabStream(DateTime? day);
 }
 
@@ -1131,14 +1129,14 @@ class FirestoreDatabase implements Database {
   /// RxDart
 
   @override
-  Stream<RoutineAndRoutineWorkouts> routineRoutineWorkoutsStream(
-    String routineId,
-  ) {
-    return Rx.combineLatest2(
+  Stream<RoutineDetailScreenClass> routineDetailScreenStream(String routineId) {
+    return Rx.combineLatest3(
+      userStream(),
       routineStream(routineId),
       routineWorkoutsStream(routineId),
-      (Routine? routine, List<RoutineWorkout>? routineWorkouts) {
-        return RoutineAndRoutineWorkouts(
+      (User? user, Routine? routine, List<RoutineWorkout>? routineWorkouts) {
+        return RoutineDetailScreenClass(
+          user: user,
           routine: routine,
           routineWorkouts: routineWorkouts,
         );

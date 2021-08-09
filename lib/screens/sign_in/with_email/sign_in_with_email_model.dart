@@ -260,6 +260,7 @@ class SignInWithEmailModel extends ChangeNotifier {
   static void showSignUpScreen(BuildContext context) {
     custmFadeTransition(
       context,
+      duration: 500,
       screen: Consumer(
         builder: (context, watch, child) => SignUpWithEmailScreen(
           model: watch(signInWithEmailModelProvider),
@@ -272,6 +273,7 @@ class SignInWithEmailModel extends ChangeNotifier {
   static void showSignInScreen(BuildContext context) {
     custmFadeTransition(
       context,
+      duration: 500,
       screen: Consumer(
         builder: (context, watch, child) => SignInWithEmailScreen(
           model: watch(signInWithEmailModelProvider),

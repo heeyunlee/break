@@ -8,7 +8,7 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/check_box_list_view.dart';
-import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/widgets/custom_fade_transition.dart';
 
 import 'create_new_routine_model.dart';
 
@@ -19,20 +19,10 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
     BuildContext context, {
     required CreateNewRoutineModel model,
   }) {
-    HapticFeedback.mediumImpact();
-
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: 500),
-        transitionsBuilder: (_, animation, __, child) =>
-            FadeTransition(opacity: animation, child: child),
-        pageBuilder: (context, animation, secondAnimation) {
-          return provider.ListenableProvider(
-            create: (cintext) => animation,
-            child: ChooseMainMuscleGroupScreen(),
-          );
-        },
-      ),
+    custmFadeTransition(
+      context,
+      duration: 500,
+      screen: ChooseMainMuscleGroupScreen(),
     );
   }
 

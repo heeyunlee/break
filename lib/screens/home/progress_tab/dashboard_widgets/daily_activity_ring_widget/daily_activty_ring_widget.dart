@@ -95,9 +95,9 @@ class DailyActivityRingWidget extends StatelessWidget {
   }
 
   Widget _buildMuscleWorked(DailyActivityRingWidgetModel model) {
-    if (model.todaysMuscleWorked[0].length == 1) {
+    if (model.todaysMuscleWorked.length == 1) {
       return Text(
-        model.todaysMuscleWorked[0],
+        model.todaysMuscleWorked,
         style: TextStyles.headline4_w900,
       );
     } else {
@@ -106,7 +106,7 @@ class DailyActivityRingWidget extends StatelessWidget {
         child: FittedBox(
           alignment: Alignment.center,
           child: Text(
-            model.todaysMuscleWorked[0],
+            model.todaysMuscleWorked,
             style: TextStyles.headline5_w900,
           ),
         ),

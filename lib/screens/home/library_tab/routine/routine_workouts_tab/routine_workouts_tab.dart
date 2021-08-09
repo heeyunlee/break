@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/classes/combined/routine_and_routine_workouts.dart';
+import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/classes/routine_workout.dart';
@@ -15,7 +15,7 @@ import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'routine_workout_card/routine_workout_card.dart';
 
 class RoutineWorkoutsTab extends StatelessWidget {
-  final RoutineAndRoutineWorkouts data;
+  final RoutineDetailScreenClass data;
   final AuthBase auth;
   final Database database;
 

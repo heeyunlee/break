@@ -21,7 +21,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/show_alert_dialog.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-import '../routine_detail_screen.dart';
+import '../routine_detail_screen_model.dart';
 import 'choose_more_settings_screen.dart';
 
 final createNewROutineModelProvider = ChangeNotifierProvider.autoDispose(
@@ -220,7 +220,7 @@ class CreateNewRoutineModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      await RoutineDetailScreen.show(
+      await RoutineDetailScreenModel.show(
         currentContext,
         routine: routine,
         tag: 'createRoutine${routine.routineId}',

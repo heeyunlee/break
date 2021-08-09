@@ -17,6 +17,7 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
+import 'package:workout_player/widgets/custom_fade_transition.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -495,21 +496,10 @@ class SignInScreenModel extends ChangeNotifier {
 
     HapticFeedback.mediumImpact();
 
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: 400),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeTransition(opacity: animation, child: child),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return provider.ListenableProvider(
-            create: (cintext) => animation,
-            child: SignInScreen(
-              auth: auth,
-              database: database,
-            ),
-          );
-        },
-      ),
+    custmFadeTransition(
+      context,
+      duration: 500,
+      screen: SignInScreen(auth: auth, database: database),
     );
   }
 }

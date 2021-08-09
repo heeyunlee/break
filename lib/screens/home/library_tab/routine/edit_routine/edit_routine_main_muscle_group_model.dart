@@ -44,7 +44,6 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
       _selectedMainMuscleGroupEnum.remove(muscle);
     }
 
-    print(_selectedMainMuscleGroupEnum);
     notifyListeners();
   }
 

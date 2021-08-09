@@ -95,7 +95,7 @@ class HomeScreenModel with ChangeNotifier {
     database = provider.Provider.of<Database>(context, listen: false);
     auth = provider.Provider.of<AuthBase>(context, listen: false);
 
-    final user = await database!.getUserDocument(auth!.currentUser!.uid);
+    // final user = await database!.getUserDocument(auth!.currentUser!.uid);
     final now = Timestamp.now();
 
     try {
@@ -105,11 +105,11 @@ class HomeScreenModel with ChangeNotifier {
 
       await database!.updateUser(auth!.currentUser!.uid, userData);
 
-      await fetchData(user!, context);
+      // await fetchData(user!, context);
 
-      final now2 = Timestamp.now().toDate();
-      final diff = now.toDate().difference(now2);
-      print('execution time is $diff');
+      // final now2 = Timestamp.now().toDate();
+      // final diff = now.toDate().difference(now2);
+      // print('execution time is $diff');
     } on FirebaseException catch (e) {
       logger.e(e.message);
 

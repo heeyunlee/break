@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:workout_player/generated/l10n.dart';
+
+import 'enum/equipment_required.dart';
+import 'enum/main_muscle_group.dart';
 
 class RoutineHistory {
   final String routineHistoryId;
@@ -15,14 +19,16 @@ class RoutineHistory {
   final int totalDuration;
   final bool? earnedBadges; // Nullable
   final String? notes; // Nullable
-  final List<dynamic> mainMuscleGroup;
+  final List<dynamic>? mainMuscleGroup;
   final List<dynamic>? secondMuscleGroup; // Nullable
   final bool isBodyWeightWorkout;
   final DateTime workoutDate;
   final String imageUrl;
   final int unitOfMass;
-  final List<dynamic> equipmentRequired;
+  final List<dynamic>? equipmentRequired;
   final num? effort; // Nullable
+  final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
+  final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
 
   const RoutineHistory({
     required this.routineHistoryId,
@@ -46,6 +52,8 @@ class RoutineHistory {
     required this.unitOfMass,
     required this.equipmentRequired,
     this.effort,
+    this.mainMuscleGroupEnum,
+    this.equipmentRequiredEnum,
   });
 
   factory RoutineHistory.fromJson(
@@ -71,6 +79,21 @@ class RoutineHistory {
       final int unitOfMass = data['unitOfMass'];
       final List<dynamic> equipmentRequired = data['equipmentRequired'];
       final num? effort = data['effort'];
+      final List<MainMuscleGroup?>? mainMuscleGroupEnum =
+          (data['mainMuscleGroupEnum'] != null)
+              ? EnumToString.fromList(
+                  MainMuscleGroup.values,
+                  data['mainMuscleGroupEnum'],
+                )
+              : null;
+
+      final List<EquipmentRequired?>? equipmentRequiredEnum =
+          (data['equipmentRequiredEnum'] != null)
+              ? EnumToString.fromList(
+                  EquipmentRequired.values,
+                  data['equipmentRequiredEnum'],
+                )
+              : null;
 
       return RoutineHistory(
         routineHistoryId: documentId,
@@ -94,6 +117,8 @@ class RoutineHistory {
         unitOfMass: unitOfMass,
         equipmentRequired: equipmentRequired,
         effort: effort,
+        mainMuscleGroupEnum: mainMuscleGroupEnum,
+        equipmentRequiredEnum: equipmentRequiredEnum,
       );
     } else {
       throw 'null';
@@ -122,59 +147,102 @@ class RoutineHistory {
       'unitOfMass': unitOfMass,
       'equipmentRequired': equipmentRequired,
       'effort': effort,
+      'mainMuscleGroupEnum': mainMuscleGroupEnum
+          ?.map((e) => EnumToString.convertToString(e))
+          .toList(),
+      'equipmentRequiredEnum': equipmentRequiredEnum
+          ?.map((e) => EnumToString.convertToString(e))
+          .toList()
     };
   }
+}
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is RoutineHistory &&
-        other.routineHistoryId == routineHistoryId &&
-        other.userId == userId &&
-        other.username == username &&
-        other.routineId == routineId &&
-        other.routineTitle == routineTitle &&
-        other.isPublic == isPublic &&
-        other.workoutStartTime == workoutStartTime &&
-        other.workoutEndTime == workoutEndTime &&
-        other.totalWeights == totalWeights &&
-        other.totalCalories == totalCalories &&
-        other.totalDuration == totalDuration &&
-        other.earnedBadges == earnedBadges &&
-        other.notes == notes &&
-        listEquals(other.mainMuscleGroup, mainMuscleGroup) &&
-        listEquals(other.secondMuscleGroup, secondMuscleGroup) &&
-        other.isBodyWeightWorkout == isBodyWeightWorkout &&
-        other.workoutDate == workoutDate &&
-        other.imageUrl == imageUrl &&
-        other.unitOfMass == unitOfMass &&
-        listEquals(other.equipmentRequired, equipmentRequired) &&
-        other.effort == effort;
+class RoutineHistoryModel {
+  String getFirstMainMuscleGroup(RoutineHistory routineHistory) {
+    if (routineHistory.mainMuscleGroupEnum != null) {
+      return routineHistory.mainMuscleGroupEnum![0]!.translation!;
+    } else if (routineHistory.mainMuscleGroup != null) {
+      return MainMuscleGroup.values
+          .firstWhere((e) => e.toString() == routineHistory.mainMuscleGroup![0])
+          .translation!;
+    } else {
+      return S.current.mainMuscleGroup;
+    }
   }
 
-  @override
-  int get hashCode {
-    return routineHistoryId.hashCode ^
-        userId.hashCode ^
-        username.hashCode ^
-        routineId.hashCode ^
-        routineTitle.hashCode ^
-        isPublic.hashCode ^
-        workoutStartTime.hashCode ^
-        workoutEndTime.hashCode ^
-        totalWeights.hashCode ^
-        totalCalories.hashCode ^
-        totalDuration.hashCode ^
-        earnedBadges.hashCode ^
-        notes.hashCode ^
-        mainMuscleGroup.hashCode ^
-        secondMuscleGroup.hashCode ^
-        isBodyWeightWorkout.hashCode ^
-        workoutDate.hashCode ^
-        imageUrl.hashCode ^
-        unitOfMass.hashCode ^
-        equipmentRequired.hashCode ^
-        effort.hashCode;
+  String getJoinedMainMuscleGroups(RoutineHistory routineHistory) {
+    final enums = routineHistory.mainMuscleGroupEnum;
+    final strings = routineHistory.mainMuscleGroup;
+
+    if (enums != null) {
+      final list = enums.map((muscle) => muscle!.translation!).toList();
+
+      return list.join(', ');
+    } else if (strings != null) {
+      final list = strings
+          .map((muscle) => MainMuscleGroup.values
+              .firstWhere((e) => e.toString() == muscle)
+              .translation!)
+          .toList();
+
+      return list.join(', ');
+    } else {
+      return S.current.mainMuscleGroup;
+    }
+  }
+
+  List<String> getListOfMailMuscleGroup(RoutineHistory routineHistory) {
+    final enums = routineHistory.mainMuscleGroupEnum;
+    final strings = routineHistory.mainMuscleGroup;
+
+    if (enums != null) {
+      return enums.map((muscle) => muscle!.translation!).toList();
+    } else if (strings != null) {
+      return strings
+          .map((muscle) => MainMuscleGroup.values
+              .firstWhere((e) => e.toString() == muscle)
+              .translation!)
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  String getJoinedEquipmentsRequired(RoutineHistory routineHistory) {
+    final enums = routineHistory.equipmentRequiredEnum;
+    final strings = routineHistory.equipmentRequired;
+
+    if (enums != null) {
+      final list = enums.map((equipment) => equipment!.translation!).toList();
+
+      return list.join(', ');
+    } else if (strings != null) {
+      final list = strings
+          .map((equipment) => EquipmentRequired.values
+              .firstWhere((e) => e.toString() == equipment)
+              .translation!)
+          .toList();
+
+      return list.join(', ');
+    } else {
+      return S.current.equipmentRequired;
+    }
+  }
+
+  List<String> getListOfEquipments(RoutineHistory routineHistory) {
+    final enums = routineHistory.equipmentRequiredEnum;
+    final strings = routineHistory.equipmentRequired;
+
+    if (enums != null) {
+      return enums.map((equipment) => equipment!.translation!).toList();
+    } else if (strings != null) {
+      return strings
+          .map((equipment) => EquipmentRequired.values
+              .firstWhere((e) => e.toString() == equipment)
+              .translation!)
+          .toList();
+    } else {
+      return [];
+    }
   }
 }
