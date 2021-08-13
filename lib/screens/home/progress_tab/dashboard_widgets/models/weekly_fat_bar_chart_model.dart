@@ -9,7 +9,6 @@ import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 final weeklyFatBarChartModelProvider =
     ChangeNotifierProvider.family<WeeklyFatBarChartModel, ProgressTabClass>(
@@ -115,19 +114,21 @@ class WeeklyFatBarChartModel with ChangeNotifier {
 
   String getTooltipText(double y) {
     final amount = (y / 1.05 / 10 * _fatMaxY).round();
-    final formattedWeights = Formatter.proteins(amount);
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.gram
-        : Formatter.unitOfMassGram(user.unitOfMass);
+    final formattedWeights = Formatter.numWithDecimal(amount);
+    final unit = Formatter.unitOfMassGram(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$formattedWeights $unit';
   }
 
   String getSideTiles(double value) {
     final toOriginalNumber = (value / 10 * _fatMaxY).round();
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.gram
-        : Formatter.unitOfMass(user.unitOfMass);
+    final unit = Formatter.unitOfMassGram(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$toOriginalNumber $unit';
   }

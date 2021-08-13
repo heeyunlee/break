@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
@@ -24,7 +24,7 @@ import 'user_feedback_screen.dart';
 class SettingsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('Settings Tab scaffold building...');
+    logger.d('[SettingsTab] building...');
 
     final model = watch(settingsTabModelProvider);
 
@@ -34,12 +34,12 @@ class SettingsTab extends ConsumerWidget {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
-        flexibleSpace: const AppbarBlurBG(blurSigma: 10),
+        flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,
-        title: Text(S.current.settingsScreenTitle, style: TextStyles.subtitle1),
+        title: Text(S.current.settingsScreenTitle, style: TextStyles.subtitle2),
       ),
       body: Builder(
-        builder: (BuildContext context) => _buildBody(context, model),
+        builder: (context) => _buildBody(context, model),
       ),
     );
   }
@@ -49,20 +49,9 @@ class SettingsTab extends ConsumerWidget {
 
     return CustomStreamBuilderWidget<User?>(
       stream: database.userStream(),
-      // errorWidget: EmptyContent(),
-      // loadingWidget: Container(
-      //   child: Center(
-      //     child: ListTile(
-      //       onTap: () => model.confirmSignOut(context),
-      //       leading: const Icon(Icons.logout, color: Colors.white),
-      //       title: Text(S.current.logout, style: TextStyles.body2),
-      //     ),
-      //   ),
-      // ),
       hasDataWidget: (context, user) => SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
             Padding(
@@ -101,7 +90,7 @@ class SettingsTab extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    UnitOfMass.values[user!.unitOfMass].label!,
+                    Formatter.unitOfMass(user!.unitOfMass, user.unitOfMassEnum),
                     style: TextStyles.body2_grey,
                   ),
                   const SizedBox(width: 16),
@@ -161,7 +150,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: () => PersonalGoalsScreen.show(context, isRoot: false),
+              onTap: () => PersonalGoalsScreen.show(context),
             ),
 
             // SUPPORT

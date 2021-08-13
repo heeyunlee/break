@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/difficulty.dart';
 import 'package:workout_player/classes/enum/location.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/screens/home/home_screen_model.dart';
@@ -16,6 +15,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
@@ -46,8 +46,6 @@ class EditRoutineScreen extends StatefulWidget {
     required AuthBase auth,
     required Database database,
   }) async {
-    // final database = provider.Provider.of<Database>(context, listen: false);
-    // final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
@@ -457,8 +455,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildMainMuscleGroupForm(Routine routine) {
-    final model = RoutineModel();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -477,7 +473,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             ),
             title: Text(S.current.mainMuscleGroup, style: TextStyles.button1),
             subtitle: Text(
-              model.getJoinedMainMuscleGroups(routine),
+              Formatter.getJoinedMainMuscleGroups(
+                routine.mainMuscleGroup,
+                routine.mainMuscleGroupEnum,
+              ),
               style: TextStyles.body2_grey,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -498,8 +497,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   }
 
   Widget _buildEquipmentRequiredForm(Routine routine) {
-    final model = RoutineModel();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
@@ -508,7 +505,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.button1),
         subtitle: Text(
-          model.getJoinedEquipmentsRequired(routine),
+          Formatter.getJoinedEquipmentsRequired(
+            routine.equipmentRequired,
+            routine.equipmentRequiredEnum,
+          ),
           style: TextStyles.body2_grey,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -535,7 +535,10 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         ),
         title: Text(S.current.unitOfMass, style: TextStyles.button1),
         subtitle: Text(
-          UnitOfMass.values[routine.initialUnitOfMass].label!,
+          Formatter.unitOfMass(
+            routine.initialUnitOfMass,
+            routine.unitOfMassEnum,
+          ),
           style: TextStyles.body2_grey,
         ),
         trailing: const Icon(

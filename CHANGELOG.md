@@ -21,6 +21,9 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Created resuable `OffsetOpacityAnimatedContainer` and `AnimatedListViewBuilder` widgets
 - Build custom fade route transition
 - Changed ui and refactored email signin/signUp page
+- Delete health package and HealthKit related configs from the project
+- Refactor LogRoutineScreen
+- Create Formatter for routine, unitOfMass related stuff
 
 ## [0.3.3] - July 22nd, 2021
 ### New Features

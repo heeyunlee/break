@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-// import 'package:workout_player/classes/enum/main_muscle_group.dart';
-// import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 final weeklyWorkoutSummaryModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyWorkoutSummaryModel(),
@@ -51,14 +50,10 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
 
       _mapData.values.forEach((list) {
         if (list.isNotEmpty) {
-          final routineModel = RoutineHistoryModel();
-          final _todaysMuscleWorked = routineModel.getFirstMainMuscleGroup(
-            list.last!,
+          final _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
+            list.last!.mainMuscleGroup,
+            list.last!.mainMuscleGroupEnum,
           );
-
-          // final _todaysMuscleWorked = MainMuscleGroup.values
-          //     .firstWhere((e) => e.toString() == list.last!.mainMuscleGroup[0])
-          //     .broadGroup!;
 
           _muscleWorked.add(_todaysMuscleWorked);
         } else {

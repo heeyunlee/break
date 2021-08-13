@@ -10,18 +10,21 @@ class SubtitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FORMATTING
-    final trainingLevel = Formatter.difficulty(routine.trainingLevel)!;
+    final unit = Formatter.unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
+
+    final weights = Formatter.numWithoutDecimal(routine.totalWeights);
     final duration = Formatter.durationInMin(routine.duration);
-    final weights = Formatter.weights(routine.totalWeights);
-    final unitOfMass = Formatter.unitOfMass(routine.initialUnitOfMass);
+    final trainingLevel = Formatter.difficulty(routine.trainingLevel)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
           Text(
-            weights + ' ' + unitOfMass,
+            weights + ' ' + unit,
             style: TextStyles.body2_light,
           ),
           const Text('   \u2022   ', style: TextStyles.caption1),

@@ -130,7 +130,10 @@ class DailyActivityRingWidget extends StatelessWidget {
     thousands = (length > 2) ? totalWeightsInString[length - 3] : '0';
     tensOfThousands = (length > 3) ? totalWeightsInString[length - 4] : '0';
 
-    final unit = Formatter.unitOfMass(progressTabClass.user.unitOfMass);
+    final unit = Formatter.unitOfMass(
+      progressTabClass.user.unitOfMass,
+      progressTabClass.user.unitOfMassEnum,
+    );
 
     return DailySummaryNumbersWidget(
       title: S.current.liftedWeights,

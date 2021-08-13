@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OffsetOpacityAnimatedContainer extends StatelessWidget {
+/// A customizable transition builder that fades and slides the `child` widget,
+/// using the `CurvedAnimation`,
+///
+/// This can be used as a item transition in an [AnimatedListViewBuilder].
+class FadeSlideTransition extends StatelessWidget {
+  final Animation<double>? animation;
   final Offset? beginOffset;
   final Offset? endOffset;
   final double? offsetBeginInterval;
@@ -12,8 +17,9 @@ class OffsetOpacityAnimatedContainer extends StatelessWidget {
   final Curve? opacityCurves;
   final Widget child;
 
-  const OffsetOpacityAnimatedContainer({
+  const FadeSlideTransition({
     Key? key,
+    this.animation,
     this.beginOffset = const Offset(0, 1),
     this.endOffset = const Offset(0, 0),
     this.offsetBeginInterval = 0.0,
@@ -27,14 +33,15 @@ class OffsetOpacityAnimatedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animation = Provider.of<Animation<double>>(context, listen: false);
+    final animationProvider =
+        animation ?? Provider.of<Animation<double>>(context, listen: false);
     final offsetTween = Tween<Offset>(begin: beginOffset!, end: endOffset!);
 
     return AnimatedBuilder(
-      animation: animation,
+      animation: animationProvider,
       builder: (context, child) {
         final opacityAnimation = CurvedAnimation(
-          parent: animation,
+          parent: animationProvider,
           curve: Interval(
             opacityBeginInterval!,
             opacityEndInterval!,
@@ -43,7 +50,7 @@ class OffsetOpacityAnimatedContainer extends StatelessWidget {
         );
 
         final offsetAnimation = CurvedAnimation(
-          parent: animation,
+          parent: animationProvider,
           curve: Interval(
             offsetBeginInterval!,
             offsetEndInterval!,
@@ -51,8 +58,8 @@ class OffsetOpacityAnimatedContainer extends StatelessWidget {
           ),
         );
 
-        return Opacity(
-          opacity: opacityAnimation.value,
+        return FadeTransition(
+          opacity: opacityAnimation,
           child: SlideTransition(
             position: offsetTween.animate(offsetAnimation),
             child: child,

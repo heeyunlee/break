@@ -97,7 +97,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
                     barTouchData: BarTouchData(
                       touchTooltipData: BarTouchTooltipData(
                         getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                          final formatted = Formatter.noDecimal(rod.y);
+                          final formatted = Formatter.numWithoutDecimal(rod.y);
 
                           return BarTooltipItem(
                             '$formatted $unit',

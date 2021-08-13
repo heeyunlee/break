@@ -82,8 +82,8 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
                         // ),
                         AnimatedListViewBuilder(
                           beginOffset: Offset(0.25, 0),
-                          offsetStartInterval: 0.25,
-                          offsetDelay: 0.05,
+                          offsetInitialDelayTime: 0.25,
+                          offsetStaggerTime: 0.05,
                           offsetDuration: 0.5,
                           items: _widgets(),
                         ),
@@ -134,7 +134,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           formKey: formKey,
           focusNode: widget.model.focusNode1,
           controller: widget.model.emailEditingController,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           suffixIcon: widget.model.focusNode1.hasFocus
               ? GestureDetector(
                   onTap: () {
@@ -161,7 +161,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         child: OutlinedTextTextFieldWidget(
           autocorrect: false,
           enableSuggestions: true,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           formKey: formKey,
           focusNode: widget.model.focusNode2,
           controller: widget.model.firstNameEditingController,
@@ -197,7 +197,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           enableSuggestions: true,
           focusNode: widget.model.focusNode3,
           controller: widget.model.lastNameEditingController,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           formKey: formKey,
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
@@ -235,7 +235,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           controller: widget.model.passwordEditingController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           formKey: formKey,
           labelText: S.current.password,
           hintText: S.current.passwordHintText,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 class MainMuscleGroupWidget extends StatelessWidget {
   final Routine routine;
@@ -15,8 +16,10 @@ class MainMuscleGroupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final model = RoutineModel();
-    final mainMuscleGroupList = model.getJoinedMainMuscleGroups(routine);
+    final mainMuscleGroupList = Formatter.getJoinedMainMuscleGroups(
+      routine.mainMuscleGroup,
+      routine.mainMuscleGroupEnum,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),

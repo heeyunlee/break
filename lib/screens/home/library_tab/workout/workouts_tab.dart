@@ -9,7 +9,7 @@ import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/widgets/custom_list_tile_64.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 
 import 'create_workout/create_new_workout_screen.dart';
@@ -18,6 +18,8 @@ import 'saved_workouts/saved_workouts_tile_widget.dart';
 import 'workout_detail_screen.dart';
 
 class WorkoutsTab extends StatelessWidget {
+  const WorkoutsTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
@@ -87,7 +89,7 @@ class WorkoutsTab extends StatelessWidget {
             .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
             .translation!;
 
-        return CustomListTile64(
+        return LibraryListTile(
           tag: 'savedWorkout${workout.workoutId}',
           title: title,
           subtitle: subtitle,
@@ -95,6 +97,7 @@ class WorkoutsTab extends StatelessWidget {
           onTap: () => WorkoutDetailScreen.show(
             context,
             workout: workout,
+            workoutId: workout.workoutId,
             tag: 'savedWorkout${workout.workoutId}',
           ),
         );

@@ -3,7 +3,8 @@ import 'package:enum_to_string/enum_to_string.dart';
 
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
-import 'package:workout_player/generated/l10n.dart';
+
+import 'enum/unit_of_mass.dart';
 
 class Routine {
   final String routineId;
@@ -22,11 +23,12 @@ class Routine {
   final List<dynamic>? equipmentRequired;
   final int trainingLevel;
   final bool isPublic;
-  final int initialUnitOfMass;
+  final int? initialUnitOfMass;
   final String location;
   final String? thumbnailImageUrl; // Nullable
   final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
   final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
+  final UnitOfMass? unitOfMassEnum; // Nullable
 
   const Routine({
     required this.routineId,
@@ -50,6 +52,7 @@ class Routine {
     this.thumbnailImageUrl,
     this.mainMuscleGroupEnum,
     this.equipmentRequiredEnum,
+    this.unitOfMassEnum,
   });
 
   factory Routine.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -69,7 +72,7 @@ class Routine {
       final List<dynamic>? equipmentRequired = data['equipmentRequired'];
       final int trainingLevel = data['trainingLevel'];
       final bool isPublic = data['isPublic'];
-      final int initialUnitOfMass = data['initialUnitOfMass'];
+      final int? initialUnitOfMass = data['initialUnitOfMass'];
       final String location = data['location'];
       final String? thumbnailImageUrl = data['thumbnailImageUrl'];
       final List<MainMuscleGroup?>? mainMuscleGroupEnum =
@@ -87,6 +90,13 @@ class Routine {
                   data['equipmentRequiredEnum'],
                 )
               : null;
+
+      final UnitOfMass? unitOfMassEnum = (data['unitOfMassEnum'] != null)
+          ? EnumToString.fromString<UnitOfMass>(
+              UnitOfMass.values,
+              data['unitOfMassEnum'],
+            )
+          : null;
 
       return Routine(
         routineId: documentId,
@@ -110,6 +120,7 @@ class Routine {
         thumbnailImageUrl: thumbnailImageUrl,
         mainMuscleGroupEnum: mainMuscleGroupEnum,
         equipmentRequiredEnum: equipmentRequiredEnum,
+        unitOfMassEnum: unitOfMassEnum,
       );
     } else {
       throw 'null';
@@ -141,63 +152,8 @@ class Routine {
           .toList(),
       'equipmentRequiredEnum': equipmentRequiredEnum
           ?.map((e) => EnumToString.convertToString(e))
-          .toList()
+          .toList(),
+      'unitOfMassEnum': EnumToString.convertToString(unitOfMassEnum),
     };
-  }
-}
-
-class RoutineModel {
-  String getFirstMainMuscleGroup(Routine routine) {
-    if (routine.mainMuscleGroupEnum != null) {
-      return routine.mainMuscleGroupEnum![0]!.translation!;
-    } else if (routine.mainMuscleGroup != null) {
-      return MainMuscleGroup.values
-          .firstWhere((e) => e.toString() == routine.mainMuscleGroup![0])
-          .translation!;
-    } else {
-      return S.current.mainMuscleGroup;
-    }
-  }
-
-  String getJoinedMainMuscleGroups(Routine routine) {
-    final enums = routine.mainMuscleGroupEnum;
-    final strings = routine.mainMuscleGroup;
-
-    if (enums != null) {
-      final list = enums.map((muscle) => muscle!.translation!).toList();
-
-      return list.join(', ');
-    } else if (strings != null) {
-      final list = strings
-          .map((muscle) => MainMuscleGroup.values
-              .firstWhere((e) => e.toString() == muscle)
-              .translation!)
-          .toList();
-
-      return list.join(', ');
-    } else {
-      return S.current.mainMuscleGroup;
-    }
-  }
-
-  String getJoinedEquipmentsRequired(Routine routine) {
-    final enums = routine.equipmentRequiredEnum;
-    final strings = routine.equipmentRequired;
-
-    if (enums != null) {
-      final list = enums.map((equipment) => equipment!.translation!).toList();
-
-      return list.join(', ');
-    } else if (strings != null) {
-      final list = strings
-          .map((equipment) => EquipmentRequired.values
-              .firstWhere((e) => e.toString() == equipment)
-              .translation!)
-          .toList();
-
-      return list.join(', ');
-    } else {
-      return S.current.equipmentRequired;
-    }
   }
 }

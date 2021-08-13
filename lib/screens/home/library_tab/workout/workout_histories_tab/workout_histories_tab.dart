@@ -153,6 +153,11 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
   }
 
   Widget _buildChartWidget(List<double> relativeYs) {
+    final unit = Formatter.unitOfMass(
+      widget.user.unitOfMass,
+      widget.user.unitOfMassEnum,
+    );
+
     return Card(
       color: kCardColor,
       margin: EdgeInsets.all(16),
@@ -173,8 +178,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
                 touchTooltipData: BarTouchTooltipData(
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     final weights = (rod.y / 1.05 / 10 * _maxY).round();
-                    final formattedWeights = Formatter.weights(weights);
-                    final unit = Formatter.unitOfMass(widget.user.unitOfMass);
+                    final formattedWeights = Formatter.numWithDecimal(weights);
 
                     return BarTooltipItem(
                       '$formattedWeights $unit',
@@ -230,7 +234,6 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
                     final toOriginalNumber = (value / 10 * _maxY).round();
                     final formatted =
                         NumberFormat.compact().format(toOriginalNumber);
-                    final unit = Formatter.unitOfMass(widget.user.unitOfMass);
 
                     switch (value.toInt()) {
                       case 0:

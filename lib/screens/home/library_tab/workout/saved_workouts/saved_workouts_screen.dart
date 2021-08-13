@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/widgets/custom_list_tile_64.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
@@ -91,7 +91,7 @@ class SavedWorkoutsScreen extends StatelessWidget {
                                 )
                                 .translation;
 
-                            return CustomListTile64(
+                            return LibraryListTile(
                               tag: 'savedWorkout-${workout.workoutId}',
                               title: workout.workoutTitle,
                               subtitle: subtitle!,

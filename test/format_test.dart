@@ -2,52 +2,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 void main() {
-  group('weights', () {
+  group('numWithoutDecimal', () {
     test('3digit', () {
-      expect(Formatter.weights(123), '123');
+      expect(Formatter.numWithoutDecimal(123), '123');
     });
     test('6digit', () {
-      expect(Formatter.weights(123456), '123,456');
+      expect(Formatter.numWithoutDecimal(123456), '123,456');
     });
     test('9digit', () {
-      expect(Formatter.weights(123456789), '123,456,789');
+      expect(Formatter.numWithoutDecimal(123456789), '123,456,789');
     });
     test('12digit', () {
-      expect(Formatter.weights(123456789123), '123,456,789,123');
+      expect(Formatter.numWithoutDecimal(123456789123), '123,456,789,123');
     });
     test('decimal', () {
-      expect(Formatter.weights(123.123), '123.1');
+      expect(Formatter.numWithoutDecimal(123.123), '123');
     });
   });
-
-  // group('time difference', () {
-  //   test('seconds', () {
-  //     expect(
-  //       Format.timeDifference(
-  //           Timestamp.now().toDate().subtract(Duration(seconds: 5))),
-  //       '5초 전',
-  //     );
-  //   });
-
-  //   test('minutes', () {
-  //     expect(
-  //         Format.timeDifference(
-  //             Timestamp.now().toDate().subtract(Duration(minutes: 5))),
-  //         '5분 전');
-  //   });
-
-  //   test('hours', () {
-  //     expect(
-  //         Format.timeDifference(
-  //             Timestamp.now().toDate().subtract(Duration(hours: 5))),
-  //         '5시간 전');
-  //   });
-
-  //   test('days', () {
-  //     expect(
-  //         Format.timeDifference(
-  //             Timestamp.now().toDate().subtract(Duration(days: 5))),
-  //         '5일 전');
-  //   });
-  // });
 }

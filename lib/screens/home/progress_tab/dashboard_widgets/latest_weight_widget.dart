@@ -35,10 +35,14 @@ class LatestWeightWidget extends StatelessWidget {
       lastDoc?.loggedDate ?? DateTime.now(),
     );
 
-    final weight =
-        (lastDoc != null) ? Formatter.weights(lastDoc.bodyWeight!) : '--.-';
+    final weight = (lastDoc != null)
+        ? Formatter.numWithDecimal(lastDoc.bodyWeight!)
+        : '--.-';
 
-    final unit = Formatter.unitOfMass(data.user.unitOfMass);
+    final unit = Formatter.unitOfMass(
+      data.user.unitOfMass,
+      data.user.unitOfMassEnum,
+    );
 
     return SizedBox(
       height: constraints.maxHeight / heightFactor,
@@ -77,7 +81,10 @@ class LatestWeightWidget extends StatelessWidget {
   }
 
   List<Widget> _buildProgressBar() {
-    final unit = Formatter.unitOfMass(data.user.unitOfMass);
+    final unit = Formatter.unitOfMass(
+      data.user.unitOfMass,
+      data.user.unitOfMassEnum,
+    );
     final bool goalExists = data.user.weightGoal != null;
 
     final Measurement? lastDoc = data.measurements.lastWhereOrNull(
@@ -88,9 +95,9 @@ class LatestWeightWidget extends StatelessWidget {
       (element) => element.bodyWeight != null,
     );
 
-    final goalWeight = Formatter.withDecimal(data.user.weightGoal);
+    final goalWeight = Formatter.numWithDecimal(data.user.weightGoal);
 
-    final startingWeight = Formatter.withDecimal(firstDoc?.bodyWeight);
+    final startingWeight = Formatter.numWithDecimal(firstDoc?.bodyWeight);
 
     num? initialWeightToLose = (firstDoc != null && goalExists)
         ? firstDoc.bodyWeight! - data.user.weightGoal!

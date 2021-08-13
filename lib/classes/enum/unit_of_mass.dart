@@ -7,8 +7,8 @@ enum UnitOfMass {
   @JsonValue('pounds')
   pounds,
 
-  @JsonValue('stones')
-  stones,
+  // @JsonValue('stones')
+  // stones,
 }
 
 extension UnitOfMassExtension on UnitOfMass {
@@ -18,8 +18,8 @@ extension UnitOfMassExtension on UnitOfMass {
         return 'kg';
       case UnitOfMass.pounds:
         return 'lbs';
-      case UnitOfMass.stones:
-        return 'st';
+      // case UnitOfMass.stones:
+      //   return 'st';
       default:
         return null;
     }
@@ -33,8 +33,8 @@ extension UnitOfMassGramLabelExtension on UnitOfMass {
         return 'g';
       case UnitOfMass.pounds:
         return 'lbs';
-      case UnitOfMass.stones:
-        return 'lb';
+      // case UnitOfMass.stones:
+      //   return 'lb';
       default:
         return null;
     }
@@ -48,8 +48,8 @@ extension UnitOfMassTonLabelExtension on UnitOfMass {
         return 't';
       case UnitOfMass.pounds:
         return 'lbs';
-      case UnitOfMass.stones:
-        return 'st';
+      // case UnitOfMass.stones:
+      //   return 'st';
       default:
         return null;
     }

@@ -33,21 +33,18 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
     Key? key,
     required this.database,
     required this.auth,
-    // required this.user,
     required this.routineHistory,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
   final Database database;
   final AuthBase auth;
-  // final User user;
 
   static void show(
     context, {
     required RoutineHistory routineHistory,
     required Database database,
     required AuthBase auth,
-    // required User user,
   }) async {
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -56,7 +53,6 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
           routineHistory: routineHistory,
           database: database,
           auth: auth,
-          // user: user,
         ),
       ),
     );
@@ -75,8 +71,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   late String _notes;
   late bool _isPublic;
 
-  // final List<dynamic> _translatedMuscleGroup = [];
-  // final List<dynamic> _translatedEquipments = [];
   late List<String> _musclesAndEquipment;
 
   // For SliverApp to Work
@@ -203,29 +197,14 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   }
 
   void dataFormat(RoutineHistory routineHistory) {
-    final model = RoutineHistoryModel();
-    // final _mainMuscleGroups = routineHistory.mainMuscleGroup;
-    // _mainMuscleGroups.forEach(
-    //   (element) {
-    //     var translated = MainMuscleGroup.values
-    //         .firstWhere((e) => e.toString() == element)
-    //         .translation;
-    //     _translatedMuscleGroup.add(translated);
-    //   },
-    // );
-    // final _equipments = routineHistory.equipmentRequired;
-    // _equipments.forEach(
-    //   (element) {
-    //     var translated = EquipmentRequired.values
-    //         .firstWhere((e) => e.toString() == element)
-    //         .translation;
-    //     _translatedEquipments.add(translated);
-    //   },
-    // );
-
-    // _musclesAndEquipment = _translatedMuscleGroup + _translatedEquipments;
-    _musclesAndEquipment = model.getListOfEquipments(routineHistory) +
-        model.getListOfMailMuscleGroup(routineHistory);
+    _musclesAndEquipment = Formatter.getListOfEquipments(
+          routineHistory.equipmentRequired,
+          routineHistory.equipmentRequiredEnum,
+        ) +
+        Formatter.getListOfMainMuscleGroup(
+          routineHistory.mainMuscleGroup,
+          routineHistory.mainMuscleGroupEnum,
+        );
   }
 
   @override
@@ -318,14 +297,16 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   }
 
   Widget _buildSliverBody() {
-    // final database = Provider.of<Database>(context);
     final routineHistory = widget.routineHistory;
 
     final notes = widget.routineHistory.notes ?? S.current.notesHintText;
 
     // FORMATTING
-    final weights = Formatter.weights(routineHistory.totalWeights);
-    final unit = Formatter.unitOfMass(routineHistory.unitOfMass);
+    final weights = Formatter.numWithDecimal(routineHistory.totalWeights);
+    final unit = Formatter.unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
     final duration = Formatter.durationInMin(routineHistory.totalDuration);
 
     return SliverToBoxAdapter(
@@ -369,7 +350,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               hasDataWidget: (context, snapshot) {
                 return ListItemBuilder<WorkoutHistory>(
                   items: snapshot,
-                  // snapshot: snapshot,
                   itemBuilder: (context, workoutHistory, index) {
                     workoutHistories = snapshot;
 

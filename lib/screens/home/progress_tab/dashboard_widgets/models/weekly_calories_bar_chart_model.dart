@@ -120,7 +120,7 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
 
   String getTooltipText(double y) {
     final amount = (y / 1.05 / 10 * _caloriesMaxY).round();
-    final formattedWeights = Formatter.noDecimal(amount);
+    final formattedWeights = Formatter.numWithoutDecimal(amount);
 
     return '$formattedWeights kcal';
   }

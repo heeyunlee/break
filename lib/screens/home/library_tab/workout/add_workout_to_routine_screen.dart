@@ -17,7 +17,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
-import 'package:workout_player/widgets/custom_list_tile_64.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -25,14 +25,12 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
   final Database database;
   final Workout workout;
   final AuthBase auth;
-  // final User user;
 
   const AddWorkoutToRoutineScreen({
     Key? key,
     required this.database,
     required this.workout,
     required this.auth,
-    // required this.user,
   }) : super(key: key);
 
   static void show(
@@ -41,7 +39,6 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
   }) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    // final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
@@ -50,22 +47,9 @@ class AddWorkoutToRoutineScreen extends StatefulWidget {
           workout: workout,
           database: database,
           auth: auth,
-          // user: user,
         ),
       ),
     );
-
-    // await pushNewScreen(
-    //   context,
-    //   pageTransitionAnimation: PageTransitionAnimation.slideUp,
-    //   withNavBar: false,
-    //   screen: AddWorkoutToRoutineScreen(
-    //     workout: workout,
-    //     database: database,
-    //     auth: auth,
-    //     user: user,
-    //   ),
-    // );
   }
 
   @override
@@ -147,20 +131,6 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
       itemBuilderType: PaginateBuilderType.listView,
       emptyDisplay: EmptyContent(
         message: S.current.emptyRoutineMessage,
-        button: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: kPrimaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-
-            // CreateNewRoutineScreen.show(context);
-          },
-          child: Text(S.current.createNewRoutine, style: TextStyles.button1),
-        ),
       ),
       itemsPerPage: 10,
       header: SliverToBoxAdapter(
@@ -174,7 +144,7 @@ class _AddWorkoutToRoutineScreenState extends State<AddWorkoutToRoutineScreen> {
         final snapshot = documentSnapshot as DocumentSnapshot<Routine?>;
         final routine = snapshot.data()!;
 
-        return CustomListTile64(
+        return LibraryListTile(
           tag: 'routine${routine.routineId}',
           title: routine.routineTitle,
           subtitle: routine.routineOwnerUserName,

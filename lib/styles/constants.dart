@@ -50,6 +50,12 @@ const kCustomDividerIndent16 = Divider(
   endIndent: 16,
 );
 
+const kCustomDividerIndent8 = Divider(
+  color: kGrey700,
+  indent: 8,
+  endIndent: 8,
+);
+
 const kBicepEmojiUrl =
     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
 

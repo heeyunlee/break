@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 final dailyActivityRingWidgetModelProvider = ChangeNotifierProvider(
   (ref) => DailyActivityRingWidgetModel(),
@@ -15,7 +16,6 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
   num _liftingDailyGoal = 10000;
   num _weightsLiftedDailyTotal = 0;
   double _weightsLiftedDailyProgress = 0.0;
-  // List<String> _todaysMuscleWorked = ['-'];
   String _todaysMuscleWorked = '-';
 
   num get nutritionDailyGoal => _nutritionDailyGoal;
@@ -24,7 +24,6 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
   num get liftingDailyGoal => _liftingDailyGoal;
   num get weightsLiftedDailyTotal => _weightsLiftedDailyTotal;
   double get weightsLiftedDailyProgress => _weightsLiftedDailyProgress;
-  // List<String> get todaysMuscleWorked => _todaysMuscleWorked;
   String get todaysMuscleWorked => _todaysMuscleWorked;
 
   void setDailyGoal(User user) {
@@ -40,7 +39,6 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
     _nutritionDailyProgress = 0;
     _weightsLiftedDailyTotal = 0;
     _weightsLiftedDailyProgress = 0;
-    // _todaysMuscleWorked = ['-'];
     _todaysMuscleWorked = '-';
 
     if (nutritions.isNotEmpty) {
@@ -67,9 +65,11 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
       }
 
       final latest = routineHistories.last;
-      final model = RoutineHistoryModel();
 
-      _todaysMuscleWorked = model.getFirstMainMuscleGroup(latest);
+      _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
+        latest.mainMuscleGroup,
+        latest.mainMuscleGroupEnum,
+      );
     }
   }
 }

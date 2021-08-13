@@ -4,11 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OutlinedNumberTextFieldWidget extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
-  final TextFieldModel model;
+  // final TextFieldModel model;
   final GlobalKey<FormState> formKey;
   final int? maxLength;
   final String? suffixText;
@@ -21,7 +22,7 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
     Key? key,
     required this.focusNode,
     required this.controller,
-    required this.model,
+    // required this.model,
     required this.formKey,
     this.maxLength,
     this.suffixText,
@@ -33,6 +34,8 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read(textFieldModelProvider);
+
     return TextFormField(
       maxLength: maxLength ?? 8,
       focusNode: focusNode,

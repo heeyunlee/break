@@ -117,6 +117,11 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
         _setData(snapshot, relativeYs);
 
+        final unit = Formatter.unitOfMass(
+          widget.routine.initialUnitOfMass,
+          widget.routine.unitOfMassEnum,
+        );
+
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
@@ -153,9 +158,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                               final weights =
                                   (rod.y / 1.05 / 10 * _maxY).round();
                               final formattedWeights =
-                                  Formatter.weights(weights);
-                              final unit = Formatter.unitOfMass(
-                                  widget.routine.initialUnitOfMass);
+                                  Formatter.numWithDecimal(weights);
 
                               return BarTooltipItem(
                                 '$formattedWeights $unit',
@@ -214,8 +217,8 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                                   (value / 10 * _maxY).round();
                               final formatted = NumberFormat.compact()
                                   .format(toOriginalNumber);
-                              final unit = Formatter.unitOfMass(
-                                  widget.routine.initialUnitOfMass);
+                              // final unit = Formatter.unitOfMass(
+                              //     widget.routine.initialUnitOfMass);
 
                               switch (value.toInt()) {
                                 case 0:

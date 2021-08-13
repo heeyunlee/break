@@ -91,7 +91,7 @@ class CaloriesEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, snapshot) {
           final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
-          final title = Formatter.withDecimal(nutrition.calories);
+          final title = Formatter.numWithDecimal(nutrition.calories);
 
           return Slidable(
             endActionPane: ActionPane(

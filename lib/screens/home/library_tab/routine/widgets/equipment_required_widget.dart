@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 class EquipmentRequiredWidget extends StatelessWidget {
   final Routine routine;
@@ -13,8 +14,10 @@ class EquipmentRequiredWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final model = RoutineModel();
-    final equipments = model.getJoinedEquipmentsRequired(routine);
+    final equipments = Formatter.getJoinedEquipmentsRequired(
+      routine.equipmentRequired,
+      routine.equipmentRequiredEnum,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),

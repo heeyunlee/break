@@ -55,7 +55,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
   @override
   void initState() {
     super.initState();
-    _unitOfMass = widget.user.unitOfMass;
+    _unitOfMass = widget.user.unitOfMass ?? 0;
     _unitOfMassEnum = widget.user.unitOfMassEnum;
   }
 

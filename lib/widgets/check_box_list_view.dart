@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-import 'offset_opacity_animated_container.dart';
+import 'fade_slide_transition.dart';
 
 class CheckboxListView extends StatelessWidget {
   final List<dynamic> items;
@@ -59,7 +59,7 @@ class CheckboxListView extends StatelessWidget {
 
         assert(opacityEnd <= 1);
 
-        return OffsetOpacityAnimatedContainer(
+        return FadeSlideTransition(
           beginOffset: Offset(0.75, 0),
           endOffset: Offset(0, 0),
           offsetBeginInterval: offsetBegin,

@@ -10,6 +10,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 
 import '../../../../styles/constants.dart';
@@ -19,25 +20,23 @@ import 'set_goals_screen_template.dart';
 class PersonalGoalsScreen extends StatelessWidget {
   final Database database;
   final AuthBase auth;
-  final bool isRoot;
 
   const PersonalGoalsScreen({
     Key? key,
     required this.database,
     required this.auth,
-    required this.isRoot,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required bool isRoot}) async {
+  static void show(BuildContext context) {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context, rootNavigator: isRoot).push(
+
+    Navigator.of(context, rootNavigator: false).push(
       CupertinoPageRoute(
-        fullscreenDialog: isRoot,
+        fullscreenDialog: false,
         builder: (context) => PersonalGoalsScreen(
           database: database,
           auth: auth,
-          isRoot: isRoot,
         ),
       ),
     );
@@ -53,19 +52,12 @@ class PersonalGoalsScreen extends StatelessWidget {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
-        flexibleSpace: AppbarBlurBG(),
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: (isRoot)
-              ? const Icon(Icons.close_rounded, color: Colors.white)
-              : const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        flexibleSpace: const AppbarBlurBG(),
+        leading: const AppBarBackButton(),
         title: Text(S.current.personalGoals, style: TextStyles.subtitle1),
       ),
-      body: Builder(
-        builder: (BuildContext context) => _buildBody(context),
-      ),
+      body: Builder(builder: _buildBody),
     );
   }
 
@@ -112,12 +104,11 @@ class PersonalGoalsScreen extends StatelessWidget {
       iconData: Icons.fitness_center_rounded,
       title: S.current.liftingGoal,
       onTap: () {
-        model.setInitialValue(model.liftingGoal);
+        // model.setInitialValue(model.liftingGoal);
 
         SetGoalsScreenTemplate.show(
           context,
           model: model,
-          isRoot: !isRoot,
           user: user,
           fabOnPressed: model.setLiftingGoal,
           color: kPrimaryColor,
@@ -127,6 +118,8 @@ class PersonalGoalsScreen extends StatelessWidget {
           intStep: 50,
           unit: model.kilogramUnit,
           isDouble: false,
+          initValue: model.setInitialValue,
+          initialValue: model.liftingGoal,
         );
       },
     );
@@ -143,13 +136,12 @@ class PersonalGoalsScreen extends StatelessWidget {
       trailingText: model.getBodyWeightGoalPreview(),
       showTrailingText: user.weightGoal != null,
       onTap: () {
-        model.setInitialValue(model.weightGoal);
+        // model.setInitialValue(model.weightGoal);
 
         SetGoalsScreenTemplate.show(
           context,
           model: model,
           user: user,
-          isRoot: !isRoot,
           fabOnPressed: model.setWeightGoal,
           color: kSecondaryColor,
           title: S.current.weightGoal,
@@ -158,6 +150,8 @@ class PersonalGoalsScreen extends StatelessWidget {
           intStep: 1,
           unit: model.kilogramUnit,
           isDouble: true,
+          initValue: model.setInitialValue,
+          initialValue: model.weightGoal,
         );
       },
     );
@@ -174,13 +168,12 @@ class PersonalGoalsScreen extends StatelessWidget {
       iconData: Icons.monitor_weight_outlined,
       trailingText: model.getBodyFatGoalsPreview(),
       onTap: () {
-        model.setInitialValue(model.bodyFatPercentageGoal);
+        // model.setInitialValue(model.bodyFatPercentageGoal);
 
         SetGoalsScreenTemplate.show(
           context,
           model: model,
           user: user,
-          isRoot: !isRoot,
           fabOnPressed: model.setBodyFatPercentageGoal,
           color: kSecondaryColor,
           title: S.current.bodyFatGoal,
@@ -189,99 +182,8 @@ class PersonalGoalsScreen extends StatelessWidget {
           intStep: 1,
           unit: '%',
           isDouble: true,
-        );
-      },
-    );
-  }
-
-  ListTile _buildProteinGoalListTile(
-    BuildContext context,
-    User user,
-    PersonalGoalsScreenModel model,
-  ) {
-    return _buildListTile(
-      showTrailingText: user.dailyProteinGoal != null,
-      iconData: Icons.restaurant_menu_rounded,
-      title: S.current.proteinsGoal,
-      trailingText: model.getProteinGoalPreview(),
-      onTap: () {
-        model.setInitialValue(model.proteinGoal);
-
-        SetGoalsScreenTemplate.show(
-          context,
-          model: model,
-          user: user,
-          isRoot: !isRoot,
-          fabOnPressed: model.setProteinGoal,
-          color: Colors.greenAccent,
-          title: S.current.proteins,
-          intMinValue: 0,
-          intMaxValue: 500,
-          intStep: 1,
-          unit: model.gramUnit,
-          isDouble: true,
-        );
-      },
-    );
-  }
-
-  ListTile _buildCarbsGoalListTile(
-    BuildContext context,
-    User user,
-    PersonalGoalsScreenModel model,
-  ) {
-    return _buildListTile(
-      title: S.current.carbsGoal,
-      showTrailingText: user.dailyCarbsGoal != null,
-      iconData: Icons.restaurant_menu_rounded,
-      trailingText: model.getCarbsGoalPreview(),
-      onTap: () {
-        model.setInitialValue(model.carbsGoal);
-
-        SetGoalsScreenTemplate.show(
-          context,
-          model: model,
-          user: user,
-          isRoot: !isRoot,
-          fabOnPressed: model.setCarbsGoal,
-          color: Colors.greenAccent,
-          title: S.current.carbs,
-          intMinValue: 0,
-          intMaxValue: 500,
-          intStep: 1,
-          unit: model.gramUnit,
-          isDouble: true,
-        );
-      },
-    );
-  }
-
-  ListTile _buildFatGoalListTile(
-    BuildContext context,
-    User user,
-    PersonalGoalsScreenModel model,
-  ) {
-    return _buildListTile(
-      title: S.current.fatGoal,
-      showTrailingText: user.dailyFatGoal != null,
-      iconData: Icons.restaurant_menu_rounded,
-      trailingText: model.getFatsGoalPreview(),
-      onTap: () {
-        model.setInitialValue(model.fatGoal);
-
-        SetGoalsScreenTemplate.show(
-          context,
-          model: model,
-          user: user,
-          isRoot: !isRoot,
-          fabOnPressed: model.setFatGoal,
-          color: Colors.greenAccent,
-          title: S.current.fat,
-          intMinValue: 0,
-          intMaxValue: 200,
-          intStep: 1,
-          unit: model.gramUnit,
-          isDouble: true,
+          initValue: model.setInitialValue,
+          initialValue: model.bodyFatPercentageGoal,
         );
       },
     );
@@ -298,13 +200,12 @@ class PersonalGoalsScreen extends StatelessWidget {
       iconData: Icons.local_fire_department_rounded,
       trailingText: model.getCalorieGoalPreview(),
       onTap: () {
-        model.setInitialValue(model.calorieConsumptionGoal);
+        // model.setInitialValue(model.calorieConsumptionGoal);
 
         SetGoalsScreenTemplate.show(
           context,
           model: model,
           user: user,
-          isRoot: !isRoot,
           fabOnPressed: model.setCalorieGoal,
           color: Colors.redAccent,
           title: S.current.calorieGoal,
@@ -313,8 +214,102 @@ class PersonalGoalsScreen extends StatelessWidget {
           intStep: 5,
           unit: 'kcal',
           isDouble: false,
+          initValue: model.setInitialValue,
+          initialValue: model.calorieConsumptionGoal,
         );
       },
+    );
+  }
+
+  ListTile _buildProteinGoalListTile(
+    BuildContext context,
+    User user,
+    PersonalGoalsScreenModel model,
+  ) {
+    return _buildListTile(
+      showTrailingText: user.dailyProteinGoal != null,
+      iconData: Icons.restaurant_menu_rounded,
+      title: S.current.proteinsGoal,
+      trailingText: model.getProteinGoalPreview(),
+      onTap: () {
+        // model.setInitialValue(model.proteinGoal);
+
+        SetGoalsScreenTemplate.show(
+          context,
+          model: model,
+          user: user,
+          fabOnPressed: model.setProteinGoal,
+          color: Colors.greenAccent,
+          title: S.current.proteins,
+          intMinValue: 0,
+          intMaxValue: 500,
+          intStep: 1,
+          unit: model.gramUnit,
+          isDouble: true,
+          initValue: model.setInitialValue,
+          initialValue: model.proteinGoal,
+        );
+      },
+    );
+  }
+
+  ListTile _buildCarbsGoalListTile(
+    BuildContext context,
+    User user,
+    PersonalGoalsScreenModel model,
+  ) {
+    return _buildListTile(
+      title: S.current.carbsGoal,
+      showTrailingText: user.dailyCarbsGoal != null,
+      iconData: Icons.restaurant_menu_rounded,
+      trailingText: model.getCarbsGoalPreview(),
+      onTap: () {
+        // model.setInitialValue(model.carbsGoal);
+
+        SetGoalsScreenTemplate.show(
+          context,
+          model: model,
+          user: user,
+          fabOnPressed: model.setCarbsGoal,
+          color: Colors.greenAccent,
+          title: S.current.carbs,
+          intMinValue: 0,
+          intMaxValue: 500,
+          intStep: 1,
+          unit: model.gramUnit,
+          isDouble: true,
+          initValue: model.setInitialValue,
+          initialValue: model.carbsGoal,
+        );
+      },
+    );
+  }
+
+  ListTile _buildFatGoalListTile(
+    BuildContext context,
+    User user,
+    PersonalGoalsScreenModel model,
+  ) {
+    return _buildListTile(
+      title: S.current.fatGoal,
+      showTrailingText: user.dailyFatGoal != null,
+      iconData: Icons.restaurant_menu_rounded,
+      trailingText: model.getFatsGoalPreview(),
+      onTap: () => SetGoalsScreenTemplate.show(
+        context,
+        model: model,
+        user: user,
+        fabOnPressed: model.setFatGoal,
+        color: Colors.greenAccent,
+        title: S.current.fat,
+        intMinValue: 0,
+        intMaxValue: 200,
+        intStep: 1,
+        unit: model.gramUnit,
+        isDouble: true,
+        initValue: model.setInitialValue,
+        initialValue: model.fatGoal,
+      ),
     );
   }
 

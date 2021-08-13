@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/classes/combined/auth_and_database.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_workouts_tab/workout_set_widget/workout_set_widget.dart';
@@ -10,7 +12,6 @@ import 'package:workout_player/screens/home/library_tab/routine/routine_workouts
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/widgets/list_item_builder.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_workout.dart';
@@ -19,11 +20,13 @@ import 'package:workout_player/classes/workout_set.dart';
 import 'routine_workout_card_model.dart';
 
 class RoutineWorkoutCard extends ConsumerWidget {
+  final int index;
   final Routine routine;
   final RoutineWorkout routineWorkout;
   final AuthAndDatabase authAndDatabase;
 
   const RoutineWorkoutCard({
+    required this.index,
     required this.routine,
     required this.routineWorkout,
     required this.authAndDatabase,
@@ -36,14 +39,23 @@ class RoutineWorkoutCard extends ConsumerWidget {
       workoutSetWidgetModelProvider(authAndDatabase),
     );
 
+    final bool isOwner =
+        authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId;
+
     // FORMATTING
     final numberOfSets = routineWorkout.numberOfSets;
     final formattedNumberOfSets = (numberOfSets > 1)
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Formatter.weights(routineWorkout.totalWeights);
-    final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
+    final weights = Formatter.numWithOrWithoutDecimal(
+      routineWorkout.totalWeights,
+    );
+
+    final unit = Formatter.unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
 
     final formattedTotalWeights =
         (routineWorkout.isBodyWeightWorkout && routineWorkout.totalWeights == 0)
@@ -64,12 +76,12 @@ class RoutineWorkoutCard extends ConsumerWidget {
           width: 48,
           child: Center(
             child: Text(
-              routineWorkout.index.toString(),
+              (index + 1).toString(),
               style: TextStyles.blackHans1,
             ),
           ),
         ),
-        initiallyExpanded: true,
+        initiallyExpanded: false,
         title: _buildTitle(),
         subtitle: Row(
           children: <Widget>[
@@ -81,10 +93,36 @@ class RoutineWorkoutCard extends ConsumerWidget {
         childrenPadding: const EdgeInsets.all(0),
         maintainState: true,
         children: [
-          const Divider(endIndent: 8, indent: 8, color: kGrey700),
-          ListItemBuilder<WorkoutSet>(
-            items: routineWorkout.sets,
-            emptyContentWidget: Column(
+          kCustomDividerIndent8,
+          // ListItemBuilder<WorkoutSet>(
+          //   items: routineWorkout.sets,
+          //   emptyContentWidget: Column(
+          //     children: [
+          //       Container(
+          //         height: 80,
+          //         child: Center(
+          //           child: Text(S.current.addASet, style: TextStyles.body2),
+          //         ),
+          //       ),
+          //       kCustomDividerIndent8,
+          //     ],
+          //   ),
+          //   itemBuilder: (context, item, index) {
+          //     return WorkoutSetWidget(
+          //       database: authAndDatabase.database,
+          //       routine: routine,
+          //       routineWorkout: routineWorkout,
+          //       workoutSet: item,
+          //       index: index,
+          //       auth: authAndDatabase.auth,
+          //       model: workoutSetModel,
+          //     );
+          //   },
+          // ),
+
+          // TODO: ADD Implicitily Animated List
+          if (routineWorkout.sets.isEmpty)
+            Column(
               children: [
                 Container(
                   height: 80,
@@ -92,54 +130,39 @@ class RoutineWorkoutCard extends ConsumerWidget {
                     child: Text(S.current.addASet, style: TextStyles.body2),
                   ),
                 ),
-                const Divider(endIndent: 8, indent: 8, color: kGrey700),
+                kCustomDividerIndent8,
               ],
             ),
-            itemBuilder: (context, item, index) {
-              return WorkoutSetWidget(
-                database: authAndDatabase.database,
-                routine: routine,
-                routineWorkout: routineWorkout,
-                workoutSet: item,
-                index: index,
-                auth: authAndDatabase.auth,
-                model: workoutSetModel,
-              );
-            },
-          ),
+          if (routineWorkout.sets.isNotEmpty)
+            ImplicitlyAnimatedList<WorkoutSet>(
+              items: routineWorkout.sets,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              areItemsTheSame: (a, b) => a.workoutSetId == b.workoutSetId,
+              removeDuration: Duration(milliseconds: 200),
+              insertDuration: Duration(milliseconds: 200),
+              itemBuilder: (context, animation, item, index) {
+                print('index is $index');
 
-          /// TODO: ADD Implicitily Animated List
-          // if (routineWorkout.sets.isNotEmpty)
-          //   ImplicitlyAnimatedList<WorkoutSet>(
-          //     items: routineWorkout.sets,
-          //     shrinkWrap: true,
-          //     physics: NeverScrollableScrollPhysics(),
-          //     areItemsTheSame: (a, b) => a.workoutSetId == b.workoutSetId,
-          //     removeDuration: Duration(milliseconds: 200),
-          //     insertDuration: Duration(milliseconds: 200),
-          //     itemBuilder: (context, animation, item, index) {
-          //       print('index is $index');
-
-          //       return SizeFadeTransition(
-          //         sizeFraction: 0.7,
-          //         curve: Curves.easeInOut,
-          //         animation: animation,
-          //         child: WorkoutSetWidget(
-          //           database: authAndDatabase.database,
-          //           routine: routine,
-          //           routineWorkout: routineWorkout,
-          //           workoutSet: item,
-          //           index: index,
-          //           auth: authAndDatabase.auth,
-          //           model: workoutSetModel,
-          //         ),
-          //       );
-          //     },
-          //   ),
-          if (routineWorkout.sets.isNotEmpty == true &&
-              authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId)
-            const Divider(endIndent: 8, indent: 8, color: kGrey700),
-          if (authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId)
+                return SizeFadeTransition(
+                  sizeFraction: 0.7,
+                  curve: Curves.easeInOut,
+                  animation: animation,
+                  child: WorkoutSetWidget(
+                    database: authAndDatabase.database,
+                    routine: routine,
+                    routineWorkout: routineWorkout,
+                    workoutSet: item,
+                    index: index,
+                    auth: authAndDatabase.auth,
+                    model: workoutSetModel,
+                  ),
+                );
+              },
+            ),
+          if (routineWorkout.sets.isNotEmpty == true && isOwner)
+            kCustomDividerIndent8,
+          if (isOwner)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

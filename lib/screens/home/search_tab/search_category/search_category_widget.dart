@@ -33,7 +33,7 @@ class SearchCategoryWidget extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 right: BorderSide(color: color, width: 2),
-                bottom: BorderSide(color: color, width: 2),
+                bottom: BorderSide(color: color, width: 3),
               ),
             ),
             child: Center(

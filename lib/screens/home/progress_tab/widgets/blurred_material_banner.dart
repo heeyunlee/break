@@ -57,7 +57,6 @@ class BlurredMaterialBanner extends StatelessWidget {
               style: ButtonStyles.text1_bold,
               onPressed: () => PersonalGoalsScreen.show(
                 homeContext,
-                isRoot: true,
               ),
               child: Text(S.current.SETNOW),
             ),

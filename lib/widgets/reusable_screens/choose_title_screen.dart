@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/models/text_field_model.dart';
+// import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
@@ -11,7 +11,7 @@ import 'package:workout_player/widgets/text_field/full_screen_text_text_field_wi
 
 class ChooseTitleScreen<T> extends StatefulWidget {
   final T model;
-  final TextFieldModel textFieldModel;
+  // final TextFieldModel textFieldModel;
   final GlobalKey<FormState> formKey;
   final String appBarTitle;
   final String hintText;
@@ -19,7 +19,7 @@ class ChooseTitleScreen<T> extends StatefulWidget {
   const ChooseTitleScreen({
     Key? key,
     required this.model,
-    required this.textFieldModel,
+    // required this.textFieldModel,
     required this.formKey,
     required this.appBarTitle,
     required this.hintText,
@@ -41,7 +41,7 @@ class ChooseTitleScreen<T> extends StatefulWidget {
           builder: (context, watch, child) => ChooseTitleScreen<T>(
             formKey: formKey,
             model: watch(provider),
-            textFieldModel: watch(textFieldModelProvider),
+            // textFieldModel: watch(textFieldModelProvider),
             appBarTitle: appBarTitle,
             hintText: hintText,
           ),
@@ -86,7 +86,7 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
         child: FullScreenTextTextFieldWidget(
           controller: widget.model.textEditingController,
           formKey: widget.formKey,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           hintText: widget.hintText,
           customValidator: widget.model.validator,
           maxLength: 45,

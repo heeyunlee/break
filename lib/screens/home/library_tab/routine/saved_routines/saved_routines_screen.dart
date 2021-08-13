@@ -2,27 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/widgets/custom_list_tile_64.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
+import 'package:workout_player/widgets/custom_future_builder_widget.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/services/database.dart';
 
 import '../routine_detail_screen_model.dart';
 
-// ignore: must_be_immutable
 class SavedRoutinesScreen extends StatelessWidget {
   final Database database;
   final User user;
 
-  SavedRoutinesScreen({
+  const SavedRoutinesScreen({
     Key? key,
     required this.database,
     required this.user,
@@ -30,8 +29,6 @@ class SavedRoutinesScreen extends StatelessWidget {
 
   static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-    // final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
@@ -44,20 +41,9 @@ class SavedRoutinesScreen extends StatelessWidget {
     );
   }
 
-  List<Future<Routine?>> routinesFuture = [];
-
-  void _getDocuments() {
-    user.savedRoutines!.forEach((id) {
-      Future<Routine?> nextDoc = database.getRoutine(id);
-      routinesFuture.add(nextDoc);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    _getDocuments();
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -78,55 +64,41 @@ class SavedRoutinesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
-                    children: routinesFuture.map((element) {
-                      return FutureBuilder<Routine?>(
-                        future: element,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            Routine routine = snapshot.data!;
-                            final subtitle = MainMuscleGroup.values
-                                    .firstWhere(
-                                      (e) =>
-                                          e.toString() ==
-                                          routine.mainMuscleGroup?[0],
-                                    )
-                                    .translation ??
-                                S.current.mainMuscleGroup;
-
-                            return CustomListTile64(
-                              tag: 'savedRoutiness-${routine.routineId}',
-                              title: routine.routineTitle,
-                              subtitle: subtitle,
-                              imageUrl: routine.imageUrl,
-                              onTap: () => RoutineDetailScreenModel.show(
-                                context,
-                                routine: routine,
-                                tag: 'savedRoutiness-${routine.routineId}',
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            logger.e(snapshot.error);
-                            return const ListTile(
-                              leading: Icon(
-                                Icons.error_outline_outlined,
-                                color: Colors.white,
-                              ),
-                            );
-                          } else if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: const CircularProgressIndicator(),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      );
-                    }).toList(),
+                    children: _list(),
                   ),
                 ),
               ),
             ),
     );
+  }
+
+  List<Widget> _list() {
+    return user.savedRoutines!.map((id) {
+      Future<Routine?> future = database.getRoutine(id);
+
+      return CustomFutureBuilderWidget<Routine?>(
+        future: future,
+        hasDataWidget: (context, routine) {
+          if (routine != null) {
+            return LibraryListTile(
+              tag: 'savedRoutiness-${routine.routineId}',
+              title: routine.routineTitle,
+              subtitle: Formatter.getJoinedMainMuscleGroups(
+                routine.mainMuscleGroup,
+                routine.mainMuscleGroupEnum,
+              ),
+              imageUrl: routine.imageUrl,
+              onTap: () => RoutineDetailScreenModel.show(
+                context,
+                routine: routine,
+                tag: 'savedRoutiness-${routine.routineId}',
+              ),
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
+    }).toList();
   }
 }

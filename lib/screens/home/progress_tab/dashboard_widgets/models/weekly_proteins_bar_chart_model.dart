@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/main_provider.dart';
@@ -120,19 +119,21 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
 
   String getTooltipText(double y) {
     final amount = (y / 1.05 / 10 * _nutritionMaxY).round();
-    final formattedWeights = Formatter.proteins(amount);
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.gram
-        : Formatter.unitOfMassGram(user.unitOfMass);
+    final formattedWeights = Formatter.numWithDecimal(amount);
+    final unit = Formatter.unitOfMassGram(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$formattedWeights $unit';
   }
 
   String getSideTiles(double value) {
     final toOriginalNumber = (value / 10 * _nutritionMaxY).round();
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.gram
-        : Formatter.unitOfMass(user.unitOfMass);
+    final unit = Formatter.unitOfMassGram(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$toOriginalNumber $unit';
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/classes/user.dart';
-import 'package:workout_player/screens/home/library_tab/routine/log_routine/log_routine_screen.dart';
+import 'package:workout_player/screens/home/library_tab/routine/log_routine/log_routine_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -25,13 +25,10 @@ class LogRoutineButton extends StatelessWidget {
 
     return OutlinedButton(
       style: ButtonStyles.outlined1,
-      onPressed: () => LogRoutineScreen.show(
+      onPressed: () => LogRoutineModel.show(
         context,
-        routine: data.routine!,
         database: database,
-        uid: user.userId,
-        user: user,
-        routineWorkouts: data.routineWorkouts!,
+        data: data,
       ),
       child: SizedBox(
         height: 48,

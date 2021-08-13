@@ -11,7 +11,7 @@ final chooseRoutineScreenModelProvider = ChangeNotifierProvider(
 );
 
 class ChooseRoutineScreenModel with ChangeNotifier {
-  String _selectedChip = 'All';
+  String _selectedChip = 'Saved';
   String _selectedChipTranslation = S.current.saved;
 
   String get selectedChip => _selectedChip;
@@ -32,9 +32,9 @@ class ChooseRoutineScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<List<Routine>> stream(Database database) {
+  Stream<List<Routine>>? stream(Database database) {
     if (_selectedChip == 'Saved') {
-      return database.routinesStream();
+      return null;
     } else if (_selectedChip == 'All') {
       return database.routinesStream();
     } else {

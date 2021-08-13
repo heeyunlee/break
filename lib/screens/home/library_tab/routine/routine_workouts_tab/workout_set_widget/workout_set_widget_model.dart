@@ -118,7 +118,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
     List<WorkoutSet> workoutSets = routineWorkout.sets;
 
     final updatedWorkoutSet = workoutSet.copyWith(
-      weights: int.tryParse(textEditingController.text),
+      weights: num.tryParse(textEditingController.text),
     );
 
     workoutSets[index] = updatedWorkoutSet;

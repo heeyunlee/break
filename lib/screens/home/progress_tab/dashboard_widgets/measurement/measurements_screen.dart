@@ -96,7 +96,10 @@ class MeasurementsScreen extends StatelessWidget {
 
           final date = Formatter.yMdjm(measurement.loggedTime);
 
-          final unit = Formatter.unitOfMass(user.unitOfMass);
+          final unit = Formatter.unitOfMass(
+            user.unitOfMass,
+            user.unitOfMassEnum,
+          );
 
           return Slidable(
             // startActionPane: const SlidableDrawerActionPane(),

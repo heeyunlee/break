@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/styles/constants.dart';
-
-import 'empty_content.dart';
 
 class CustomFutureBuilderWidget<T> extends StatelessWidget {
   final Future<T> future;
@@ -22,17 +20,26 @@ class CustomFutureBuilderWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<T>(
       future: future,
-      builder: (BuildContext context, AsyncSnapshot<T> future) {
-        if (future.hasData) {
-          return hasDataWidget(context, future.data!);
-        } else if (future.hasError) {
+      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+        if (snapshot.hasData) {
+          return hasDataWidget(context, snapshot.data!);
+        } else if (snapshot.hasError) {
+          logger.e(snapshot.error);
+
           return errorWidget ??
-              EmptyContent(
-                message: S.current.errorOccuredMessage,
-                e: future.error,
+              const ListTile(
+                leading: Icon(
+                  Icons.error_outline_outlined,
+                  color: Colors.white,
+                ),
               );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: const CircularProgressIndicator(),
+          );
+        } else {
+          return Container();
         }
-        return loadingWidget ?? Center(child: CircularProgressIndicator());
       },
     );
   }

@@ -24,7 +24,7 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     final List<String> _mainMuscleGroup = [
-      // 'Saved',
+      'Saved',
       'All',
       ...MainMuscleGroup.values[0].list,
     ];
@@ -32,9 +32,11 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
     final List<Widget> chips = _mainMuscleGroup.map((string) {
       final label = (string == 'All')
           ? S.current.all
-          : MainMuscleGroup.values
-              .firstWhere((element) => element.toString() == string)
-              .translation!;
+          : (string == 'Saved')
+              ? S.current.saved
+              : MainMuscleGroup.values
+                  .firstWhere((element) => element.toString() == string)
+                  .translation!;
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),

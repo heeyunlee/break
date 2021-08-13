@@ -95,6 +95,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                       getTitles: (value) {
                         final unit = Formatter.unitOfMass(
                           widget.user.unitOfMass,
+                          widget.user.unitOfMassEnum,
                         );
                         final maxY = widget.model.maxY;
                         final minY = widget.model.minY;

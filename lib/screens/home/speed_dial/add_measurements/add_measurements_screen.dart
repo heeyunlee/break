@@ -6,7 +6,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/models/text_field_model.dart';
+// import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/widgets/select_dates_widget.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -14,7 +14,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/widgets/text_field/outlined_number_text_field_widget.dart';
 import 'package:workout_player/widgets/text_field/outlined_text_text_field_widget.dart';
 
@@ -24,14 +23,14 @@ class AddMeasurementsScreen extends StatefulWidget {
   final User user;
   final Database database;
   final AddMeasurementsModel model;
-  final TextFieldModel textFieldModel;
+  // final TextFieldModel textFieldModel;
 
   const AddMeasurementsScreen({
     Key? key,
     required this.user,
     required this.database,
     required this.model,
-    required this.textFieldModel,
+    // required this.textFieldModel,
   }) : super(key: key);
 
   @override
@@ -78,8 +77,10 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    final unit = widget.user.unitOfMassEnum?.label ??
-        Formatter.unitOfMass(widget.user.unitOfMass);
+    final unit = Formatter.unitOfMass(
+      widget.user.unitOfMass,
+      widget.user.unitOfMassEnum,
+    );
 
     return KeyboardActions(
       config: _buildConfig(),
@@ -104,7 +105,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   controller: widget.model.bodyweightController,
                   suffixText: unit,
                   labelText: S.current.bodyweightMeasurement,
-                  model: widget.textFieldModel,
+                  // model: widget.textFieldModel,
                   customValidator: widget.model.weightInputValidator,
                 ),
                 const SizedBox(height: 16),
@@ -114,7 +115,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   controller: widget.model.bodyFatController,
                   suffixText: '%',
                   labelText: S.current.bodyFat,
-                  model: widget.textFieldModel,
+                  // model: widget.textFieldModel,
                 ),
                 const SizedBox(height: 16),
                 OutlinedNumberTextFieldWidget(
@@ -123,7 +124,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   controller: widget.model.bmiController,
                   suffixText: 'kg/m²',
                   labelText: 'BMI',
-                  model: widget.textFieldModel,
+                  // model: widget.textFieldModel,
                 ),
                 const SizedBox(height: 16),
                 OutlinedNumberTextFieldWidget(
@@ -132,7 +133,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   controller: widget.model.smmController,
                   suffixText: unit,
                   labelText: S.current.skeletalMuscleMass,
-                  model: widget.textFieldModel,
+                  // model: widget.textFieldModel,
                 ),
                 kCustomDivider,
                 OutlinedTextTextFieldWidget(
@@ -140,7 +141,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   formKey: AddMeasurementsModel.formKey,
                   focusNode: widget.model.focusNode5,
                   controller: widget.model.notesController,
-                  model: widget.textFieldModel,
+                  // model: widget.textFieldModel,
                   labelText: S.current.notes,
                 ),
                 const SizedBox(height: 96),

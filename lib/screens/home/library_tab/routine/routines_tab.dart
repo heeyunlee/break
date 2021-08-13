@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/widgets/custom_list_tile_64.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/empty_content_widget.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -16,6 +17,8 @@ import 'create_routine/create_new_routine_model.dart';
 import 'saved_routines/saved_routines_tile_widget.dart';
 
 class RoutinesTab extends StatelessWidget {
+  const RoutinesTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
@@ -60,14 +63,16 @@ class RoutinesTab extends StatelessWidget {
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong} \n error message: $error',
       ),
-      itemBuilder: (index, context, documentSnapshot) {
-        final routine = documentSnapshot.data() as Routine;
-        final model = RoutineModel();
+      itemBuilder: (index, context, snapshot) {
+        final routine = snapshot.data() as Routine;
 
-        return CustomListTile64(
+        return LibraryListTile(
           tag: 'savedRoutines-${routine.routineId}',
           title: routine.routineTitle,
-          subtitle: model.getFirstMainMuscleGroup(routine),
+          subtitle: Formatter.getJoinedMainMuscleGroups(
+            routine.mainMuscleGroup,
+            routine.mainMuscleGroupEnum,
+          ),
           imageUrl: routine.imageUrl,
           onTap: () => RoutineDetailScreenModel.show(
             context,

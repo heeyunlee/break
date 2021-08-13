@@ -27,7 +27,7 @@ import 'workout_histories_tab/workout_histories_tab.dart';
 
 class WorkoutDetailScreen extends StatefulWidget {
   final Workout? workout;
-  final String? workoutId;
+  final String workoutId;
   final Database database;
   final AuthBase auth;
   final User user;
@@ -35,7 +35,7 @@ class WorkoutDetailScreen extends StatefulWidget {
 
   const WorkoutDetailScreen({
     this.workout,
-    this.workoutId,
+    required this.workoutId,
     required this.database,
     required this.auth,
     required this.user,
@@ -46,7 +46,7 @@ class WorkoutDetailScreen extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     Workout? workout,
-    String? workoutId,
+    required String workoutId,
     required String tag,
     bool isRoot = false,
   }) async {
@@ -133,7 +133,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: CustomStreamBuilderWidget<Workout?>(
-        stream: widget.database.workoutStream(widget.workout!.workoutId),
+        stream: widget.database.workoutStream(widget.workoutId),
         hasDataWidget: (context, data) {
           return DefaultTabController(
             length: 2,

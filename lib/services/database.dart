@@ -8,7 +8,7 @@ import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/routine_workout.dart';
-import 'package:workout_player/classes/steps.dart';
+// import 'package:workout_player/classes/steps.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/user_feedback.dart';
 import 'package:workout_player/classes/workout.dart';
@@ -41,12 +41,12 @@ abstract class Database {
   Stream<User?> userStream();
 
   ///
-  ///////////// `HEALTH DATA` ///////////////////
-  ///
-  Future<void> setSetps(Steps steps);
-  Future<void> updateSteps(String uid, Map<String, dynamic> data);
-  Future<Steps?> getSteps(String uid);
-  Stream<Steps?> stepsStream();
+  // ///////////// `HEALTH DATA` ///////////////////
+  // ///
+  // Future<void> setSetps(Steps steps);
+  // Future<void> updateSteps(String uid, Map<String, dynamic> data);
+  // Future<Steps?> getSteps(String uid);
+  // Stream<Steps?> stepsStream();
 
   //////////////////// `Body Measurement` //////////////////////
   Future<void> setMeasurement({required Measurement measurement});
@@ -263,40 +263,40 @@ class FirestoreDatabase implements Database {
         toBuilder: (model) => model!.toJson(),
       );
 
-  @override
-  Future<void> setSetps(Steps steps) {
-    return _service.setData<Steps>(
-      path: APIPath.steps(uid!),
-      data: steps,
-      fromBuilder: (data, id) => Steps.fromMap(data!),
-      toBuilder: (model) => model.toMap(),
-    );
-  }
+  // @override
+  // Future<void> setSetps(Steps steps) {
+  //   return _service.setData<Steps>(
+  //     path: APIPath.steps(uid!),
+  //     data: steps,
+  //     fromBuilder: (data, id) => Steps.fromMap(data!),
+  //     toBuilder: (model) => model.toMap(),
+  //   );
+  // }
 
-  // Update User Data
-  @override
-  Future<void> updateSteps(String uid, Map<String, dynamic> data) =>
-      _service.updateData<Steps>(
-        path: APIPath.steps(uid),
-        data: data,
-        fromBuilder: (data, id) => Steps.fromMap(data!),
-        toBuilder: (model) => model.toMap(),
-      );
+  // // Update User Data
+  // @override
+  // Future<void> updateSteps(String uid, Map<String, dynamic> data) =>
+  //     _service.updateData<Steps>(
+  //       path: APIPath.steps(uid),
+  //       data: data,
+  //       fromBuilder: (data, id) => Steps.fromMap(data!),
+  //       toBuilder: (model) => model.toMap(),
+  //     );
 
-  // Single User Data
-  @override
-  Future<Steps?> getSteps(String uid) => _service.getDocument<Steps>(
-        path: APIPath.steps(uid),
-        fromBuilder: (data, id) => Steps.fromMap(data!),
-        toBuilder: (model) => model.toMap(),
-      );
+  // // Single User Data
+  // @override
+  // Future<Steps?> getSteps(String uid) => _service.getDocument<Steps>(
+  //       path: APIPath.steps(uid),
+  //       fromBuilder: (data, id) => Steps.fromMap(data!),
+  //       toBuilder: (model) => model.toMap(),
+  //     );
 
-  @override
-  Stream<Steps?> stepsStream() => _service.documentStream<Steps?>(
-        path: APIPath.steps(uid!),
-        fromBuilder: (data, id) => Steps.fromMap(data!),
-        toBuilder: (model) => model!.toMap(),
-      );
+  // @override
+  // Stream<Steps?> stepsStream() => _service.documentStream<Steps?>(
+  //       path: APIPath.steps(uid!),
+  //       fromBuilder: (data, id) => Steps.fromMap(data!),
+  //       toBuilder: (model) => model!.toMap(),
+  //     );
 
   //////////////////////// `Body Measurement` ///////////////////////////
   // Add or edit Body Measurement Data
@@ -1146,14 +1146,14 @@ class FirestoreDatabase implements Database {
 
   @override
   Stream<ProgressTabClass> progressTabStream(DateTime? day) {
-    return Rx.combineLatest7(
+    return Rx.combineLatest6(
       userStream(),
       measurementsStreamThisWeek(),
       thisWeeksNutritionsStream(),
       routineHistoriesThisWeekStream(),
       routineHistorySelectedDayStream(day),
       nutritionsSelectedDayStream(day),
-      stepsStream(),
+      // stepsStream(),
       (
         User? user,
         List<Measurement> measurements,
@@ -1161,7 +1161,7 @@ class FirestoreDatabase implements Database {
         List<RoutineHistory> routineHistories,
         List<RoutineHistory> selectedDayRoutineHistories,
         List<Nutrition> selectedDayNutritions,
-        Steps? steps,
+        // Steps? steps,
       ) {
         final aLength = (user != null) ? 1 : 0;
         final bLength = measurements.length;
@@ -1169,10 +1169,10 @@ class FirestoreDatabase implements Database {
         final dLength = routineHistories.length;
         final eLength = selectedDayRoutineHistories.length;
         final fLength = selectedDayNutritions.length;
-        final gLength = (steps != null) ? 1 : 0;
+        // final gLength = (steps != null) ? 1 : 0;
 
         final entireLength =
-            aLength + bLength + cLength + dLength + eLength + fLength + gLength;
+            aLength + bLength + cLength + dLength + eLength + fLength;
 
         logger.d('Rx stream read $entireLength documents');
 
@@ -1183,7 +1183,7 @@ class FirestoreDatabase implements Database {
           measurements: measurements,
           selectedDayRoutineHistories: selectedDayRoutineHistories,
           selectedDayNutritions: selectedDayNutritions,
-          steps: steps,
+          // steps: steps,
         );
       },
     );

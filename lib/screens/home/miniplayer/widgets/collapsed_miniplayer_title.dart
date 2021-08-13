@@ -35,9 +35,12 @@ class CollapsedMiniplayerTitle extends StatelessWidget {
           child: Text(title, style: textStyle),
         );
       } else {
-        final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
+        final unit = Formatter.unitOfMass(
+          routine.initialUnitOfMass,
+          routine.unitOfMassEnum,
+        );
         final formattedWeights =
-            '${Formatter.weights(workoutSet.weights!)} $unit';
+            '${Formatter.numWithDecimal(workoutSet.weights!)} $unit';
         final reps = '${workoutSet.reps} ${S.current.x}';
         final title = '$formattedWeights   •   $reps';
 

@@ -37,7 +37,7 @@ class LatestBodyFatWidget extends StatelessWidget {
     );
 
     final bodyFat = (lastDoc != null)
-        ? Formatter.weightsWithDecimal(lastDoc.bodyFat ?? 0)
+        ? Formatter.numWithDecimal(lastDoc.bodyFat ?? 0)
         : '--.-';
 
     return SizedBox(

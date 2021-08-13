@@ -159,9 +159,9 @@ class _SearchTabState extends State<SearchTab> {
                       title: title,
                       subtitle:
                           S.current.searchResultSubtitle(muscle, equipment),
-                      onTap: () {
-                        _controller.close();
-                        return WorkoutDetailScreen.show(
+                      onTap: () async {
+                        // _controller.close();
+                        await WorkoutDetailScreen.show(
                           context,
                           workoutId: workoutId,
                           tag: 'workoutSearchTag$workoutId',

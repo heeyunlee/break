@@ -74,13 +74,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
           final routineHistory = documentSnapshot.data()! as RoutineHistory;
 
           return RoutineHistorySummaryCard(
-            date: routineHistory.workoutStartTime,
-            workoutTitle: routineHistory.routineTitle,
-            totalWeights: routineHistory.totalWeights,
-            caloriesBurnt: routineHistory.totalCalories,
-            totalDuration: routineHistory.totalDuration,
-            earnedBadges: routineHistory.earnedBadges,
-            unitOfMass: routineHistory.unitOfMass,
+            routineHistory: routineHistory,
             onTap: () => RoutineHistoryDetailScreen.show(
               context,
               routineHistory: routineHistory,

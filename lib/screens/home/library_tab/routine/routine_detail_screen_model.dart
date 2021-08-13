@@ -27,12 +27,12 @@ class RoutineDetailScreenModel with ChangeNotifier {
   }
 
   late AnimationController _textAnimationController;
-  late Animation<Offset> _transTween;
+  late Animation<Offset> _offsetTween;
   late Animation<double> _opacityTween;
   late ScrollController _scrollController;
 
   AnimationController get textAnimationController => _textAnimationController;
-  Animation<Offset> get transTween => _transTween;
+  Animation<Offset> get offsetTween => _offsetTween;
   Animation<double> get opacityTween => _opacityTween;
   ScrollController get scrollController => _scrollController;
 
@@ -42,11 +42,12 @@ class RoutineDetailScreenModel with ChangeNotifier {
       duration: Duration(seconds: 0),
     );
 
-    _transTween = Tween(begin: Offset(0, 24), end: Offset(0, 0))
+    _offsetTween = Tween<Offset>(begin: Offset(0, 16), end: Offset(0, 0))
         .animate(_textAnimationController);
 
-    _opacityTween =
-        Tween<double>(begin: 0, end: 1).animate(_textAnimationController);
+    _opacityTween = Tween<double>(begin: 0, end: 1).animate(
+      _textAnimationController,
+    );
 
     _scrollController = ScrollController()
       ..addListener(() {
@@ -83,7 +84,7 @@ class RoutineDetailScreenModel with ChangeNotifier {
         ),
       );
     } else {
-      await Navigator.of(context, rootNavigator: false).pushReplacement(
+      await Navigator.of(context, rootNavigator: false).push(
         CupertinoPageRoute(
           fullscreenDialog: false,
           builder: (context) => Consumer(

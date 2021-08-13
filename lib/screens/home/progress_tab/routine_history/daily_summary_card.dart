@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -8,30 +8,17 @@ import 'package:workout_player/generated/l10n.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
   RoutineHistorySummaryCard({
-    this.cardColor = kCardColorLight,
-    required this.date,
-    required this.workoutTitle,
-    required this.totalWeights,
-    required this.caloriesBurnt,
-    required this.totalDuration,
-    this.earnedBadges,
-    this.onTap,
-    required this.unitOfMass,
+    required this.onTap,
+    required this.routineHistory,
   });
 
-  final Color cardColor;
-  final Timestamp date;
-  final String workoutTitle;
-  final num totalWeights;
-  final num? caloriesBurnt;
-  final int totalDuration;
-  final bool? earnedBadges;
-  final onTap;
-  final int unitOfMass;
+  final void Function() onTap;
+  final RoutineHistory routineHistory;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: cardColor,
+      color: kCardColor,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -45,10 +32,15 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   }
 
   Widget _buildChild() {
-    final formattedDate = Formatter.date(date);
-    final weights = Formatter.weights(totalWeights);
-    final unit = Formatter.unitOfMass(unitOfMass);
-    final durationInMinutes = Formatter.durationInMin(totalDuration);
+    final formattedDate = Formatter.date(routineHistory.workoutStartTime);
+    final weights = Formatter.numWithDecimal(routineHistory.totalWeights);
+    final unit = Formatter.unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
+    final durationInMinutes = Formatter.durationInMin(
+      routineHistory.totalDuration,
+    );
 
     return Column(
       children: <Widget>[
@@ -74,7 +66,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           ),
           title: Text(formattedDate, style: TextStyles.subtitle2),
           subtitle: Text(
-            '$workoutTitle',
+            '${routineHistory.routineTitle}',
             style: TextStyles.subtitle1_w900,
             maxLines: 1,
             softWrap: false,
@@ -86,13 +78,13 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         const SizedBox(height: 16),
         _DailySummaryRowWidget(
           formattedWeights: '$weights $unit',
-          caloriesBurnt: caloriesBurnt,
+          caloriesBurnt: routineHistory.totalCalories,
           totalDuration: durationInMinutes,
         ),
         const SizedBox(height: 16),
-        if (earnedBadges == true)
+        if (routineHistory.earnedBadges == true)
           const Divider(indent: 8, endIndent: 8, color: kGrey800),
-        if (earnedBadges == true)
+        if (routineHistory.earnedBadges == true)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -24,8 +23,11 @@ class WeightsAndRepsWidget extends StatelessWidget {
     final routineWorkout = model.currentRoutineWorkout!;
     final workoutSet = model.currentWorkoutSet!;
 
-    final weights = Formatter.weights(workoutSet.weights!);
-    final unit = UnitOfMass.values[routine.initialUnitOfMass].label;
+    final weights = Formatter.numWithDecimal(workoutSet.weights!);
+    final unit = Formatter.unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
 
     return Center(
       child: Card(

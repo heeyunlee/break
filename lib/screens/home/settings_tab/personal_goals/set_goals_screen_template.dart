@@ -6,16 +6,19 @@ import 'package:workout_player/classes/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/main_provider.dart';
-import 'package:workout_player/screens/home/settings_tab/personal_goals/personal_goals_screen_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/widgets/appbar_close_button.dart';
+
+import 'personal_goals_screen_model.dart';
 
 class SetGoalsScreenTemplate extends StatelessWidget {
   final PersonalGoalsScreenModel model;
   final User user;
-  final bool isRoot;
   final void Function(BuildContext context) fabOnPressed;
+  final void Function(num) initValue;
+  final num initialValue;
   final Color color;
   final String title;
   final int intMinValue;
@@ -28,8 +31,9 @@ class SetGoalsScreenTemplate extends StatelessWidget {
     Key? key,
     required this.model,
     required this.user,
-    required this.isRoot,
     required this.fabOnPressed,
+    required this.initValue,
+    required this.initialValue,
     required this.color,
     required this.title,
     required this.intMinValue,
@@ -41,10 +45,11 @@ class SetGoalsScreenTemplate extends StatelessWidget {
 
   static void show(
     BuildContext context, {
-    required bool isRoot,
     required PersonalGoalsScreenModel model,
     required User user,
-    required void Function(BuildContext context) fabOnPressed,
+    required void Function(BuildContext) fabOnPressed,
+    required void Function(num) initValue,
+    required num initialValue,
     required Color color,
     required String title,
     required int intMinValue,
@@ -53,14 +58,15 @@ class SetGoalsScreenTemplate extends StatelessWidget {
     required String unit,
     required bool isDouble,
   }) {
-    Navigator.of(context, rootNavigator: isRoot).push(
+    Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
-        fullscreenDialog: isRoot,
+        fullscreenDialog: true,
         builder: (context) => SetGoalsScreenTemplate(
           model: model,
           user: user,
-          isRoot: isRoot,
           fabOnPressed: fabOnPressed,
+          initValue: initValue,
+          initialValue: initialValue,
           color: color,
           title: title,
           intMinValue: intMinValue,
@@ -75,6 +81,8 @@ class SetGoalsScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initValue(initialValue);
+
     logger.d('SetWeightGoalScreen scaffold building...');
     final size = MediaQuery.of(context).size;
 
@@ -85,12 +93,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
         brightness: Brightness.dark,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: (!isRoot)
-              ? const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)
-              : const Icon(Icons.close_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const AppBarCloseButton(),
       ),
       body: Stack(
         alignment: Alignment.topCenter,
@@ -143,7 +146,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
                 value: model.intValue,
                 itemWidth: (isDouble) ? (size.width * 0.4) : (size.width * 0.6),
                 onChanged: model.onIntChanged,
-                textMapper: Formatter.noDecimalWithString,
+                textMapper: (str) => Formatter.numWithoutDecimal(null, str),
               ),
               if (isDouble) const Text('.', style: TextStyles.headline4),
               if (isDouble)

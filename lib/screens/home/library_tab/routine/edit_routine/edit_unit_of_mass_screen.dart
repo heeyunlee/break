@@ -1,14 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:workout_player/main_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
+import 'package:workout_player/screens/home/library_tab/routine/edit_routine/edit_unit_of_mass_screen_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/widgets/appbar_back_button.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/user.dart';
@@ -20,24 +20,29 @@ class EditUnitOfMassScreen extends StatefulWidget {
     required this.routine,
     required this.database,
     required this.user,
+    required this.model,
   }) : super(key: key);
 
   final Routine routine;
   final Database database;
   final User user;
+  final EditUnitOfMassModel model;
 
   static Future<void> show(
     BuildContext context, {
     required User user,
     required Routine routine,
   }) async {
-    final database = Provider.of<Database>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => EditUnitOfMassScreen(
-          database: database,
-          user: user,
-          routine: routine,
+        builder: (context) => Consumer(
+          builder: (context, watch, child) => EditUnitOfMassScreen(
+            database: database,
+            user: user,
+            routine: routine,
+            model: watch(editUnitOfMassModelProvider),
+          ),
         ),
       ),
     );
@@ -48,12 +53,10 @@ class EditUnitOfMassScreen extends StatefulWidget {
 }
 
 class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
-  late int _unitOfMass;
-
   @override
   void initState() {
-    _unitOfMass = widget.routine.initialUnitOfMass;
     super.initState();
+    widget.model.init(widget.routine);
   }
 
   @override
@@ -61,31 +64,10 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
     super.dispose();
   }
 
-  // Submit data to Firestore
-  Future<void> _updateUnitOfMass() async {
-    try {
-      final routine = {
-        'initialUnitOfMass': _unitOfMass,
-      };
-      await widget.database.updateRoutine(widget.routine, routine);
-
-      getSnackbarWidget(
-        S.current.unitOfMass,
-        S.current.updateUnitOfMassMessage(S.current.routine),
-      );
-    } on FirebaseException catch (e) {
-      logger.e(e);
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -94,40 +76,48 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
         leading: const AppBarBackButton(),
         flexibleSpace: const AppbarBlurBG(),
       ),
-      body: _buildBody(),
+      body: Builder(builder: _buildBody),
     );
   }
 
-  Widget _buildBody() {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          tileColor: (_unitOfMass == 0) ? kPrimary600Color : Colors.transparent,
-          title: const Text('kg', style: TextStyles.body1),
-          trailing: (_unitOfMass == 0)
-              ? Icon(Icons.check, color: Colors.white)
-              : null,
-          onTap: () {
-            setState(() {
-              _unitOfMass = 0;
-            });
-            _updateUnitOfMass();
-          },
-        ),
-        ListTile(
-          tileColor: (_unitOfMass == 1) ? kPrimary600Color : Colors.transparent,
-          title: const Text('lbs', style: TextStyles.body1),
-          trailing: (_unitOfMass == 1)
-              ? Icon(Icons.check, color: Colors.white)
-              : null,
-          onTap: () {
-            setState(() {
-              _unitOfMass = 1;
-            });
-            _updateUnitOfMass();
-          },
-        ),
-      ],
+  Widget _buildBody(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.only(
+        top: Scaffold.of(context).appBarMaxHeight! + 16,
+        bottom: 8,
+      ),
+      itemCount: UnitOfMass.values.length,
+      physics: const AlwaysScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final unit = UnitOfMass.values[index];
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color:
+                  widget.model.selected(unit) ? kPrimaryColor : kCardColorLight,
+              child: CheckboxListTile(
+                activeColor: kPrimary700Color,
+                title: Text(
+                  EnumToString.convertToString(unit),
+                  style: TextStyles.button1,
+                ),
+                controlAffinity: ListTileControlAffinity.trailing,
+                value: widget.model.selected(unit),
+                selected: widget.model.selected(unit),
+                onChanged: (bool? checked) => widget.model.onChanged(
+                  context,
+                  checked,
+                  unit,
+                  widget.routine,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

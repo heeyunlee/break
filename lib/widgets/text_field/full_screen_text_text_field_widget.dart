@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class FullScreenTextTextFieldWidget extends StatelessWidget {
-  final TextFieldModel model;
+  // final TextFieldModel model;
   final TextEditingController controller;
   final GlobalKey<FormState> formKey;
   final int? maxLength;
@@ -15,7 +15,7 @@ class FullScreenTextTextFieldWidget extends StatelessWidget {
 
   const FullScreenTextTextFieldWidget({
     Key? key,
-    required this.model,
+    // required this.model,
     required this.controller,
     required this.formKey,
     this.maxLength = 45,
@@ -26,6 +26,8 @@ class FullScreenTextTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read(textFieldModelProvider);
+
     return Center(
       child: Container(
         height: 104,

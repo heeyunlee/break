@@ -14,7 +14,7 @@ class User {
   final List<String>? savedRoutines; // Nullable
   final num totalWeights;
   final int totalNumberOfWorkouts;
-  final int unitOfMass;
+  final int? unitOfMass;
   final Timestamp lastLoginDate;
   final num? dailyWeightsGoal; // Nullable
   final num? dailyProteinGoal; // Nullable
@@ -43,7 +43,7 @@ class User {
     required this.savedRoutines,
     required this.totalWeights,
     required this.totalNumberOfWorkouts,
-    required this.unitOfMass,
+    this.unitOfMass,
     required this.lastLoginDate,
     this.dailyWeightsGoal,
     this.dailyProteinGoal,
@@ -75,7 +75,7 @@ class User {
           data['savedRoutines'].map<String>((e) => e.toString()).toList();
       final num totalWeights = data['totalWeights'];
       final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
-      final int unitOfMass = data['unitOfMass'];
+      final int? unitOfMass = data['unitOfMass'];
       final Timestamp lastLoginDate = data['lastLoginDate'];
       final num? dailyWeightsGoal = data['dailyWeightsGoal'];
       final num? dailyProteinGoal = data['dailyProteinGoal'];
@@ -230,5 +230,69 @@ class User {
         dailyCarbsGoal.hashCode ^
         dailyFatGoal.hashCode ^
         dailyCalorieConsumptionGoal.hashCode;
+  }
+
+  User copyWith({
+    String? userId,
+    String? userName,
+    String? userEmail,
+    Timestamp? signUpDate,
+    String? signUpProvider,
+    List<String>? savedWorkouts,
+    List<String>? savedRoutines,
+    num? totalWeights,
+    int? totalNumberOfWorkouts,
+    int? unitOfMass,
+    Timestamp? lastLoginDate,
+    num? dailyWeightsGoal,
+    num? dailyProteinGoal,
+    String? displayName,
+    int? backgroundImageIndex,
+    DateTime? lastHealthDataFetchedTime,
+    num? weightGoal,
+    num? bodyFatPercentageGoal,
+    List<dynamic>? widgetsList,
+    Map<String, dynamic>? deviceInfo,
+    Timestamp? lastAppOpenedTime,
+    DateTime? creationTime,
+    String? profileUrl,
+    UnitOfMass? unitOfMassEnum,
+    num? dailyCarbsGoal,
+    num? dailyFatGoal,
+    num? dailyCalorieConsumptionGoal,
+  }) {
+    return User(
+      userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
+      userEmail: userEmail ?? this.userEmail,
+      signUpDate: signUpDate ?? this.signUpDate,
+      signUpProvider: signUpProvider ?? this.signUpProvider,
+      savedWorkouts: savedWorkouts ?? this.savedWorkouts,
+      savedRoutines: savedRoutines ?? this.savedRoutines,
+      totalWeights: totalWeights ?? this.totalWeights,
+      totalNumberOfWorkouts:
+          totalNumberOfWorkouts ?? this.totalNumberOfWorkouts,
+      unitOfMass: unitOfMass ?? this.unitOfMass,
+      lastLoginDate: lastLoginDate ?? this.lastLoginDate,
+      dailyWeightsGoal: dailyWeightsGoal ?? this.dailyWeightsGoal,
+      dailyProteinGoal: dailyProteinGoal ?? this.dailyProteinGoal,
+      displayName: displayName ?? this.displayName,
+      backgroundImageIndex: backgroundImageIndex ?? this.backgroundImageIndex,
+      lastHealthDataFetchedTime:
+          lastHealthDataFetchedTime ?? this.lastHealthDataFetchedTime,
+      weightGoal: weightGoal ?? this.weightGoal,
+      bodyFatPercentageGoal:
+          bodyFatPercentageGoal ?? this.bodyFatPercentageGoal,
+      widgetsList: widgetsList ?? this.widgetsList,
+      deviceInfo: deviceInfo ?? this.deviceInfo,
+      lastAppOpenedTime: lastAppOpenedTime ?? this.lastAppOpenedTime,
+      creationTime: creationTime ?? this.creationTime,
+      profileUrl: profileUrl ?? this.profileUrl,
+      unitOfMassEnum: unitOfMassEnum ?? this.unitOfMassEnum,
+      dailyCarbsGoal: dailyCarbsGoal ?? this.dailyCarbsGoal,
+      dailyFatGoal: dailyFatGoal ?? this.dailyFatGoal,
+      dailyCalorieConsumptionGoal:
+          dailyCalorieConsumptionGoal ?? this.dailyCalorieConsumptionGoal,
+    );
   }
 }

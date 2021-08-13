@@ -28,8 +28,11 @@ class WorkoutHistoryCard extends StatelessWidget {
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Formatter.weights(workoutHistory.totalWeights);
-    final unit = Formatter.unitOfMass(routineHistory.unitOfMass);
+    final weights = Formatter.numWithDecimal(workoutHistory.totalWeights);
+    final unit = Formatter.unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
 
     final formattedTotalWeights =
         (workoutHistory.isBodyWeightWorkout && workoutHistory.totalWeights == 0)

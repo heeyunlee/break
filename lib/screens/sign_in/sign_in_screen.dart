@@ -55,8 +55,8 @@ class SignInScreen extends ConsumerWidget {
                 LogoWidget(model: model),
                 AnimatedListViewBuilder(
                   beginOffset: Offset(0.25, 0),
-                  offsetStartInterval: 0.25,
-                  offsetDelay: 0.05,
+                  offsetInitialDelayTime: 0.25,
+                  offsetStaggerTime: 0.05,
                   offsetDuration: 0.5,
                   items: _signInButtons(context, model),
                 ),

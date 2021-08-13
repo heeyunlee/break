@@ -11,7 +11,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 final personalGoalsScreenModelProvider =
     ChangeNotifierProvider.autoDispose.family<PersonalGoalsScreenModel, User>(
@@ -65,6 +64,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
     _intValue = int.parse(parsed[0]);
     _doubleValue = int.parse(parsed[1]);
+    _currentlyEditingValue = _intValue + _doubleValue / 10;
   }
 
   void onIntChanged(int value) {
@@ -100,15 +100,20 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     _fatGoal = user.dailyFatGoal ?? ((user.unitOfMass == 0) ? 50 : 100);
     _calorieConsumptionGoal = user.dailyCalorieConsumptionGoal ?? 2000;
 
-    _kilogramUnit =
-        user.unitOfMassEnum?.label ?? Formatter.unitOfMass(user.unitOfMass);
-    _gramUnit =
-        user.unitOfMassEnum?.gram ?? Formatter.unitOfMassGram(user.unitOfMass);
+    _kilogramUnit = Formatter.unitOfMass(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
+
+    _gramUnit = Formatter.unitOfMassGram(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
   }
 
   /// Lifting
   String getLiftingGoalPreview() {
-    final formatted = Formatter.weights(_liftingGoal);
+    final formatted = Formatter.numWithDecimal(_liftingGoal);
 
     return '$formatted $_kilogramUnit';
   }
@@ -134,7 +139,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Body Weight
   String getBodyWeightGoalPreview() {
-    final formatted = Formatter.withDecimal(_weightGoal);
+    final formatted = Formatter.numWithDecimal(_weightGoal);
 
     return '$formatted $_kilogramUnit';
   }
@@ -160,7 +165,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// BodyFat
   String getBodyFatGoalsPreview() {
-    final formatted = Formatter.withDecimal(_bodyFatPercentageGoal);
+    final formatted = Formatter.numWithDecimal(_bodyFatPercentageGoal);
 
     return '$formatted %';
   }
@@ -228,7 +233,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// PROTEINS
   String getProteinGoalPreview() {
-    final formatted = Formatter.withDecimal(_proteinGoal);
+    final formatted = Formatter.numWithDecimal(_proteinGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -254,7 +259,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Carbs
   String getCarbsGoalPreview() {
-    final formatted = Formatter.withDecimal(_carbsGoal);
+    final formatted = Formatter.numWithDecimal(_carbsGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -280,7 +285,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Fat
   String getFatsGoalPreview() {
-    final formatted = Formatter.withDecimal(_fatGoal);
+    final formatted = Formatter.numWithDecimal(_fatGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -306,7 +311,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Calories
   String getCalorieGoalPreview() {
-    final formatted = Formatter.noDecimal(_calorieConsumptionGoal);
+    final formatted = Formatter.numWithoutDecimal(_calorieConsumptionGoal);
 
     return '$formatted Cal';
   }

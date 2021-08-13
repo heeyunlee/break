@@ -123,6 +123,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       await WorkoutDetailScreen.show(
         context,
         workout: workout,
+        workoutId: workout.workoutId,
         tag: 'newWorkout-${workout.workoutId}',
         isRoot: true,
       );

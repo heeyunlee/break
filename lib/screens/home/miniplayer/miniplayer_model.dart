@@ -14,7 +14,7 @@ final ValueNotifier<double> miniplayerExpandProgress =
 
 final double miniplayerMinHeight = Platform.isIOS ? 152 : 120;
 
-final miniplayerModelProvider = ChangeNotifierProvider(
+final miniplayerModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => MiniplayerModel(),
 );
 

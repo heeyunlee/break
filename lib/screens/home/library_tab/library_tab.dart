@@ -23,7 +23,7 @@ class LibraryTab extends StatelessWidget {
               _buildSliverAppBar(context),
             ];
           },
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               RoutinesTab(),
               WorkoutsTab(),
@@ -36,16 +36,17 @@ class LibraryTab extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
-      title: Text(S.current.library, style: TextStyles.subtitle2),
+      // elevation: 0,
       floating: true,
       pinned: true,
       snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
-      flexibleSpace: const AppbarBlurBG(blurSigma: 10),
-      backgroundColor: kAppBarColor,
-      elevation: 0,
+      backgroundColor: Colors.transparent,
+      flexibleSpace: const AppbarBlurBG(),
+      title: Text(S.current.library, style: TextStyles.subtitle2),
       bottom: TabBar(
+        indicatorSize: TabBarIndicatorSize.label,
         unselectedLabelColor: Colors.white,
         labelColor: kPrimaryColor,
         indicatorColor: kPrimaryColor,

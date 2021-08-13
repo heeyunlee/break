@@ -153,6 +153,7 @@ class SearchCategoryScreen extends StatelessWidget {
           tag: 'MoreScreen-${workout.workoutId}',
           onTap: () => WorkoutDetailScreen.show(
             context,
+            workoutId: workout.workoutId,
             workout: workout,
             tag: 'MoreScreen-${workout.workoutId}',
           ),

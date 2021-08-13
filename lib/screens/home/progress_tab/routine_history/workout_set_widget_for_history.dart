@@ -25,9 +25,14 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String title = '${S.current.set} ${workoutSet.setIndex}';
-    final String unit = Formatter.unitOfMass(routineHistory.unitOfMass);
+    final String unit = Formatter.unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
+
     final num weights = workoutSet.weights!;
-    final String formattedWeights = '${Formatter.weights(weights)} $unit';
+    final String formattedWeights =
+        '${Formatter.numWithDecimal(weights)} $unit';
     final String reps = '${workoutSet.reps} ${S.current.x}';
     final String restTime = '${workoutSet.restTime} ${S.current.seconds}';
 

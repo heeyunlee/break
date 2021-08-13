@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
-import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/widgets/select_dates_widget.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -26,7 +24,6 @@ class AddNutritionScreen extends StatefulWidget {
   final Database database;
   final AuthBase auth;
   final AddNutritionScreenModel model;
-  final TextFieldModel textFieldModel;
 
   const AddNutritionScreen({
     Key? key,
@@ -34,7 +31,6 @@ class AddNutritionScreen extends StatefulWidget {
     required this.database,
     required this.auth,
     required this.model,
-    required this.textFieldModel,
   }) : super(key: key);
 
   @override
@@ -72,8 +68,10 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    final unit = widget.user.unitOfMassEnum?.gram ??
-        Formatter.unitOfMassGram(widget.user.unitOfMass);
+    final unit = Formatter.unitOfMassGram(
+      widget.user.unitOfMass,
+      widget.user.unitOfMassEnum,
+    );
     final formKey = AddNutritionScreenModel.formKey;
 
     return Theme(
@@ -111,7 +109,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                           controller: widget.model.caloriesController,
                           suffixText: 'kcal',
                           labelText: S.current.calories,
-                          model: widget.textFieldModel,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -122,7 +119,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                           controller: widget.model.carbsController,
                           suffixText: unit,
                           labelText: S.current.carbs,
-                          model: widget.textFieldModel,
                         ),
                       ),
                     ],
@@ -136,7 +132,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                       controller: widget.model.fatController,
                       suffixText: unit,
                       labelText: S.current.fat,
-                      model: widget.textFieldModel,
                     ),
                   ),
                   kCustomDivider,
@@ -144,7 +139,6 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                     maxLines: 5,
                     formKey: formKey,
                     labelText: S.current.notes,
-                    model: widget.textFieldModel,
                     focusNode: widget.model.notesFocusNode,
                     controller: widget.model.notesController,
                   ),

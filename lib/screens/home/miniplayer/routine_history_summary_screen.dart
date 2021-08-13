@@ -55,8 +55,6 @@ class _RoutineHistorySummaryScreenState
   num? _effort = 3;
 
   late String _title = widget.routineHistory.routineTitle;
-  // final List<dynamic> _translatedMuscleGroup = [];
-  // final List<dynamic> _translatedEquipments = [];
   late List<dynamic> _musclesAndEquipment;
 
   late String _formattedUnit;
@@ -110,20 +108,26 @@ class _RoutineHistorySummaryScreenState
   }
 
   void dataFormat(RoutineHistory routineHistory) {
-    final model = RoutineHistoryModel();
-
     _title = routineHistory.routineTitle;
 
-    _musclesAndEquipment = model.getListOfEquipments(routineHistory) +
-        model.getListOfMailMuscleGroup(routineHistory);
+    _musclesAndEquipment = Formatter.getListOfEquipments(
+          routineHistory.equipmentRequired,
+          routineHistory.equipmentRequiredEnum,
+        ) +
+        Formatter.getListOfMainMuscleGroup(
+          routineHistory.mainMuscleGroup,
+          routineHistory.mainMuscleGroupEnum,
+        );
 
     // Unit Of Mass
-    final _unit = routineHistory.unitOfMass;
-    _formattedUnit = Formatter.unitOfMass(_unit);
+    _formattedUnit = Formatter.unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
 
     // Number Formatting
     final _weights = routineHistory.totalWeights;
-    _formattedWeight = Formatter.weights(_weights);
+    _formattedWeight = Formatter.numWithOrWithoutDecimal(_weights);
 
     // Date / Time
     final startTime = routineHistory.workoutStartTime;

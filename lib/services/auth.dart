@@ -19,10 +19,7 @@ abstract class AuthBase {
   Stream<auth.User?> idTokenChanges();
   Future<auth.User?> signInAnonymously();
   Future<auth.User?> signInWithEmailWithPassword(String email, String password);
-  Future<auth.User?> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  );
+  Future<auth.User?> signUpWithEmailAndPassword(String email, String password);
   Future<auth.User?> signInWithGoogle();
   Future<auth.User?> signInWithFacebook();
   Future<auth.User?> signInWithApple();
@@ -47,7 +44,6 @@ class AuthService implements AuthBase {
   @override
   auth.User? get currentUser => _auth.currentUser;
 
-  // Firebase user
   auth.User? _user;
 
   auth.User? getUser() {
@@ -58,7 +54,7 @@ class AuthService implements AuthBase {
     _user = value;
   }
 
-  ///////// Sign In Anonymously
+  /// Sign In Anonymously with Firebase
   @override
   Future<auth.User?> signInAnonymously() async {
     logger.d('signInAnonymously triggered in auth');
@@ -66,9 +62,10 @@ class AuthService implements AuthBase {
     try {
       final userCredential = await _auth.signInAnonymously();
       final user = userCredential.user;
-
       final currentUser = _auth.currentUser;
+
       assert(user!.uid == currentUser!.uid);
+
       setUser(user!);
 
       return user;
@@ -81,7 +78,7 @@ class AuthService implements AuthBase {
     }
   }
 
-  ///////// Sign In With Email and Password
+  /// Sign In With Email and Password with Firebase
   @override
   Future<auth.User?> signInWithEmailWithPassword(
     String email,
@@ -96,9 +93,10 @@ class AuthService implements AuthBase {
       );
 
       final user = userCredential.user;
-
       final currentUser = _auth.currentUser;
+
       assert(user!.uid == currentUser!.uid);
+
       setUser(user!);
 
       return user;
@@ -113,22 +111,32 @@ class AuthService implements AuthBase {
 
   ///////// Create User With Email And Password
   @override
-  Future<auth.User?> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<auth.User?> signUpWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     logger.d('createUserWithEmailAndPassword triggered in auth');
 
-    final userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    final user = userCredential.user;
+      final user = userCredential.user;
+      final currentUser = _auth.currentUser;
 
-    final currentUser = _auth.currentUser;
-    assert(user!.uid == currentUser!.uid);
-    setUser(user!);
+      assert(user!.uid == currentUser!.uid);
+      setUser(user!);
 
-    return user;
+      return user;
+    } on auth.FirebaseAuthException catch (e) {
+      logger.e(e);
+      throw auth.FirebaseAuthException(
+        code: S.current.errorOccuredMessage,
+        message: e.toString(),
+      );
+    }
   }
 
   /// SIGN IN WITH GOOGLE

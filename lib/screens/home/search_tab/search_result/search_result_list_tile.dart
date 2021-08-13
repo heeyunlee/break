@@ -6,7 +6,7 @@ class SearchResultListTile extends StatelessWidget {
   final String? subtitle;
   final Widget? leading;
   final Widget? trailing;
-  final Future<void> Function()? onTap;
+  final void Function()? onTap;
 
   const SearchResultListTile({
     Key? key,

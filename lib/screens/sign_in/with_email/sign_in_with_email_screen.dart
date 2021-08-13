@@ -79,8 +79,8 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
                       SizedBox(height: Scaffold.of(context).appBarMaxHeight!),
                       AnimatedListViewBuilder(
                         beginOffset: Offset(0.25, 0),
-                        offsetStartInterval: 0.25,
-                        offsetDelay: 0.05,
+                        offsetInitialDelayTime: 0.25,
+                        offsetStaggerTime: 0.05,
                         offsetDuration: 0.5,
                         items: _widgets(),
                       ),
@@ -119,7 +119,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
       Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           formKey: SignInWithEmailModel.formKey,
           autofocus: true,
           enableSuggestions: false,
@@ -161,7 +161,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
           controller: widget.model.passwordEditingController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          model: widget.textFieldModel,
+          // model: widget.textFieldModel,
           formKey: SignInWithEmailModel.formKey,
           labelText: S.current.password,
           suffixIcon: widget.model.focusNode2.hasFocus

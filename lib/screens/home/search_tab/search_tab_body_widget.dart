@@ -54,40 +54,31 @@ class SearchTabBodyWidget extends StatelessWidget {
 class _MainMuscleGroupGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var _mainMuscleGroup = MainMuscleGroup.values[0].list;
-    var _mainMuscleGroupTranslated = MainMuscleGroup.values[0].translatedList;
-
-    var gridTiles = <Widget>[];
-
-    for (var i = 0; i < _mainMuscleGroup.length; i++) {
-      Widget card = SearchCategoryWidget(
-        color: kPrimaryColor,
-        text: _mainMuscleGroupTranslated[i],
-        onTap: () => SearchCategoryScreen.show(
-          context,
-          arrayContains: _mainMuscleGroup[i],
-          searchCategory: 'mainMuscleGroup',
-        ),
-      );
-
-      gridTiles.add(card);
-    }
-
     final size = MediaQuery.of(context).size;
-
     final itemWidth = size.width / 2;
     final itemHeight = size.width / 5.5;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        childAspectRatio: (itemWidth / itemHeight),
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(0),
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        children: gridTiles,
-      ),
+    final List<Widget> _cards = MainMuscleGroup.values.map(
+      (muscle) {
+        return SearchCategoryWidget(
+          color: kPrimaryColor,
+          text: muscle.translation!,
+          onTap: () => SearchCategoryScreen.show(
+            context,
+            arrayContains: muscle.toString(),
+            searchCategory: 'mainMuscleGroup',
+          ),
+        );
+      },
+    ).toList();
+
+    return GridView.count(
+      childAspectRatio: (itemWidth / itemHeight),
+      crossAxisCount: 2,
+      padding: const EdgeInsets.all(8),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: _cards,
     );
   }
 }
@@ -95,30 +86,23 @@ class _MainMuscleGroupGridWidget extends StatelessWidget {
 class _EquipmentRequiredGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var _equipmentRequired = EquipmentRequired.values[0].list;
-    var _equipmentRequiredTranslated =
-        EquipmentRequired.values[0].translatedList;
-
-    var gridTiles = <Widget>[];
-
-    for (var i = 0; i < _equipmentRequired.length; i++) {
-      Widget card = SearchCategoryWidget(
-        color: kSecondaryColor,
-        text: _equipmentRequiredTranslated[i],
-        onTap: () => SearchCategoryScreen.show(
-          context,
-          arrayContains: _equipmentRequired[i],
-          searchCategory: 'equipmentRequired',
-        ),
-      );
-
-      gridTiles.add(card);
-    }
-
     final size = MediaQuery.of(context).size;
-
     final itemWidth = size.width / 2;
     final itemHeight = size.width / 5.5;
+
+    final List<Widget> _cards = EquipmentRequired.values.map(
+      (equipment) {
+        return SearchCategoryWidget(
+          color: kSecondaryColor,
+          text: equipment.translation!,
+          onTap: () => SearchCategoryScreen.show(
+            context,
+            arrayContains: equipment.toString(),
+            searchCategory: 'equipmentRequired',
+          ),
+        );
+      },
+    ).toList();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -128,7 +112,7 @@ class _EquipmentRequiredGridWidget extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        children: gridTiles,
+        children: _cards,
       ),
     );
   }
@@ -137,29 +121,23 @@ class _EquipmentRequiredGridWidget extends StatelessWidget {
 class _LocationGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var _location = Location.values[0].list;
-    var _locationTranslated = Location.values[0].translatedList;
-
-    var gridTiles = <Widget>[];
-
-    for (var i = 0; i < _location.length; i++) {
-      Widget card = SearchCategoryWidget(
-        color: Colors.amber,
-        text: _locationTranslated[i],
-        onTap: () => SearchCategoryScreen.show(
-          context,
-          isEqualTo: _location[i],
-          searchCategory: 'location',
-        ),
-      );
-
-      gridTiles.add(card);
-    }
-
     final size = MediaQuery.of(context).size;
-
     final itemWidth = size.width / 2;
     final itemHeight = size.width / 5.5;
+
+    final List<Widget> _cards = Location.values.map(
+      (location) {
+        return SearchCategoryWidget(
+          color: Colors.amber,
+          text: location.translation!,
+          onTap: () => SearchCategoryScreen.show(
+            context,
+            searchCategory: 'location',
+            isEqualTo: location.toString(),
+          ),
+        );
+      },
+    ).toList();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -169,7 +147,7 @@ class _LocationGridWidget extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        children: gridTiles,
+        children: _cards,
       ),
     );
   }

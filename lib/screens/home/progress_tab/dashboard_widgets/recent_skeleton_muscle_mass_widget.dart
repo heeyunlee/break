@@ -20,7 +20,7 @@ class RecentSkeletenMuscleMassWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final unit = Formatter.unitOfMass(user.unitOfMass);
+    final unit = Formatter.unitOfMass(user.unitOfMass, user.unitOfMassEnum);
 
     final Measurement? lastMeasurement = measurements.isNotEmpty
         ? measurements
@@ -30,7 +30,7 @@ class RecentSkeletenMuscleMassWidget extends StatelessWidget {
       lastMeasurement?.loggedDate ?? DateTime.now(),
     );
     final skeletenMuscleMass = (lastMeasurement != null)
-        ? Formatter.weightsWithDecimal(lastMeasurement.skeletalMuscleMass ?? 0)
+        ? Formatter.numWithDecimal(lastMeasurement.skeletalMuscleMass ?? 0)
         : '--.-';
 
     return BlurBackgroundCard(

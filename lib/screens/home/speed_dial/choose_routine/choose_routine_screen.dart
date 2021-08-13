@@ -4,11 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/screens/home/home_screen_model.dart';
 import 'package:workout_player/screens/home/library_tab/routine/routine_detail_screen_model.dart';
+import 'package:workout_player/screens/home/library_tab/widgets/library_list_tile.dart';
 import 'package:workout_player/screens/home/speed_dial/choose_routine/choose_routine_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/user.dart';
@@ -17,7 +20,9 @@ import 'package:workout_player/main_provider.dart';
 import 'package:workout_player/widgets/app_bar/appbar_blur_bg.dart';
 import 'package:workout_player/widgets/appbar_close_button.dart';
 import 'package:workout_player/widgets/choice_chips_app_bar_widget.dart';
+import 'package:workout_player/widgets/custom_future_builder_widget.dart';
 import 'package:workout_player/widgets/custom_list_tile_3.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/list_item_builder.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
@@ -50,6 +55,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final model = watch(chooseRoutineScreenModelProvider);
+    final homeModel = watch(homeScreenModelProvider);
     logger.d('StartWorkoutShortcutScreen scaffold building...');
 
     return Scaffold(
@@ -61,7 +67,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
             _buildSliverApp(model),
           ];
         },
-        body: _buildBody(model),
+        body: _buildBody(model, homeModel),
       ),
     );
   }
@@ -87,43 +93,110 @@ class ChooseRoutineScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBody(ChooseRoutineScreenModel model) {
+  Widget _buildBody(ChooseRoutineScreenModel model, HomeScreenModel homeModel) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: StreamBuilder<List<Routine>>(
-        stream: model.stream(database),
-        builder: (context, snapshot) {
-          return ListItemBuilder<Routine>(
-            items: snapshot.data!,
-            emptyContentTitle: S.current.emptyroutinesContentTitle(
-              model.selectedChipTranslation,
-            ),
-            itemBuilder: (context, routine, index) {
-              final trainingLevel = Formatter.difficulty(routine.trainingLevel);
-              final weights = Formatter.weights(routine.totalWeights);
-              final unit = Formatter.unitOfMass(routine.initialUnitOfMass);
+      child: (model.stream(database) == null)
+          ? _savedWidget(homeModel)
+          : _streamWidget(model, homeModel),
+    );
+  }
 
-              final duration = Duration(seconds: routine.duration).inMinutes;
+  StreamBuilder<List<Routine>> _streamWidget(
+    ChooseRoutineScreenModel model,
+    HomeScreenModel homeScreenModel,
+  ) {
+    return StreamBuilder<List<Routine>>(
+      stream: model.stream(database),
+      builder: (context, snapshot) {
+        return ListItemBuilder<Routine>(
+          items: snapshot.data ?? [routineDummyData],
+          emptyContentTitle: S.current.emptyroutinesContentTitle(
+            model.selectedChipTranslation,
+          ),
+          itemBuilder: (context, routine, index) {
+            final trainingLevel = Formatter.difficulty(routine.trainingLevel);
+            final weights = Formatter.numWithDecimal(routine.totalWeights);
+            final unit = Formatter.unitOfMass(
+              routine.initialUnitOfMass,
+              routine.unitOfMassEnum,
+            );
 
-              return CustomListTile3(
-                isLeadingDuration: true,
-                tag: 'startShortcut-${routine.routineId}',
-                title: routine.routineTitle,
-                leadingText: '$duration',
-                subtitle: '$trainingLevel, $weights $unit',
-                kSubtitle2: routine.routineOwnerUserName,
-                imageUrl: routine.imageUrl,
-                onTap: () => RoutineDetailScreenModel.show(
-                  context,
+            final duration = Duration(seconds: routine.duration).inMinutes;
+
+            return CustomListTile3(
+              isLeadingDuration: true,
+              tag: 'startShortcut-${routine.routineId}',
+              title: routine.routineTitle,
+              leadingText: '$duration',
+              subtitle: '$trainingLevel, $weights $unit',
+              kSubtitle2: routine.routineOwnerUserName,
+              imageUrl: routine.imageUrl,
+              onTap: () {
+                final currentContext = homeScreenModel
+                    .tabNavigatorKeys[homeScreenModel.currentTab]!
+                    .currentContext!;
+
+                Navigator.of(context).pop();
+
+                RoutineDetailScreenModel.show(
+                  currentContext,
                   routine: routine,
                   tag: 'startWorkoutShortcut${routine.routineId}',
-                  isPushReplacement: true,
-                ),
-              );
-            },
-          );
-        },
-      ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
+  }
+
+  Widget _savedWidget(HomeScreenModel homeScreenModel) {
+    if (user.savedRoutines!.isEmpty) {
+      return EmptyContent(
+        message: S.current.savedRoutineEmptyText,
+      );
+    } else {
+      return Column(
+        children: [
+          ...user.savedRoutines!.map<Widget>((id) {
+            Future<Routine?> future = database.getRoutine(id);
+
+            return CustomFutureBuilderWidget<Routine?>(
+              future: future,
+              hasDataWidget: (context, routine) {
+                if (routine != null) {
+                  return LibraryListTile(
+                    tag: 'savedRoutiness-${routine.routineId}',
+                    title: routine.routineTitle,
+                    subtitle: Formatter.getJoinedMainMuscleGroups(
+                      routine.mainMuscleGroup,
+                      routine.mainMuscleGroupEnum,
+                    ),
+                    imageUrl: routine.imageUrl,
+                    onTap: () {
+                      final currentContext = homeScreenModel
+                          .tabNavigatorKeys[homeScreenModel.currentTab]!
+                          .currentContext!;
+
+                      Navigator.of(context).pop();
+
+                      RoutineDetailScreenModel.show(
+                        currentContext,
+                        routine: routine,
+                        tag: 'savedRoutiness-${routine.routineId}',
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            );
+          }).toList(),
+        ],
+      );
+    }
   }
 }

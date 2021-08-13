@@ -118,7 +118,7 @@ class SignInWithEmailModel extends ChangeNotifier {
       _submitted = true;
 
       try {
-        await auth!.createUserWithEmailAndPassword(
+        await auth!.signUpWithEmailAndPassword(
           _emailEditingController.text,
           _passwordEditingController.text,
         );

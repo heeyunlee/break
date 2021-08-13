@@ -22,7 +22,7 @@ import 'dashboard_widgets/models/weekly_carbs_bar_chart_model.dart';
 import 'dashboard_widgets/models/weekly_proteins_bar_chart_model.dart';
 import 'dashboard_widgets/models/weekly_weights_bar_chart_model.dart';
 import 'dashboard_widgets/most_recent_workout_widget.dart';
-import 'dashboard_widgets/steps_widget.dart';
+// import 'dashboard_widgets/steps_widget.dart';
 import 'dashboard_widgets/weekly_bar_chart_card_template.dart';
 import 'dashboard_widgets/weekly_workout_summary/weekly_workout_summary.dart';
 import 'dashboard_widgets/detail_screens/protein_entries_screen.dart';
@@ -260,10 +260,10 @@ class ProgressTabModel with ChangeNotifier {
       data: data,
     );
 
-    Widget stepsWidget = StepsWidget(
-      key: Key('stepsWidget'),
-      steps: data.steps,
-    );
+    // Widget stepsWidget = StepsWidget(
+    //   key: Key('stepsWidget'),
+    //   steps: data.steps,
+    // );
 
     Widget empty2x2 = SizedBox(
       key: Key('empty2x2'),
@@ -331,7 +331,7 @@ class ProgressTabModel with ChangeNotifier {
       'empty1x1': empty1x1,
       'latestBodyFat': latestBodyFat,
       'latestWeight': latestWeight,
-      'stepsWidget': stepsWidget,
+      // 'stepsWidget': stepsWidget,
       'weeklyCarbsBarChart': weeklyCarbsBarChart,
       'weeklyFatBarChart': weeklyFatBarChart,
       'weeklyCalorieBarChart': weeklyCalorieBarChart,

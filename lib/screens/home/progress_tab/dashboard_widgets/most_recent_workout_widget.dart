@@ -31,8 +31,11 @@ class MostRecentWorkout extends StatelessWidget {
     RoutineHistory? last =
         data.routineHistories.isEmpty ? null : data.routineHistories.last;
 
-    final weight = Formatter.weights(last?.totalWeights ?? 0);
-    final unit = Formatter.unitOfMass(last?.unitOfMass ?? 0);
+    final weight = Formatter.numWithDecimal(last?.totalWeights ?? 0);
+    final unit = Formatter.unitOfMass(
+      last?.unitOfMass,
+      last?.unitOfMassEnum,
+    );
     final time = Formatter.durationInMin(last?.totalDuration ?? 0);
 
     String ago = (last != null)

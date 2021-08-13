@@ -58,7 +58,9 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     _focusNode2 = FocusNode();
     _focusNode3 = FocusNode();
 
-    final weights = Formatter.weights(widget.workoutSet.weights!);
+    final weights = Formatter.numWithOrWithoutDecimal(
+      widget.workoutSet.weights,
+    );
     _textController1 = TextEditingController(text: weights);
 
     final reps = widget.workoutSet.reps.toString();
@@ -134,9 +136,15 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   }
 
   Widget _buildWeightWidget() {
-    final unit = Formatter.unitOfMass(widget.routine.initialUnitOfMass);
-    final weights = widget.workoutSet.weights;
-    final formattedWeights = '${Formatter.weights(weights!)} $unit';
+    final unit = Formatter.unitOfMass(
+      widget.routine.initialUnitOfMass,
+      widget.routine.unitOfMassEnum,
+    );
+    final weights = Formatter.numWithOrWithoutDecimal(
+      widget.workoutSet.weights,
+    );
+
+    final formattedWeights = '$weights $unit';
 
     return GestureDetector(
       onTap: () {

@@ -80,13 +80,14 @@ class BottomNavigationTab extends StatelessWidget {
 
     return BottomNavigationBarItem(
       // ignore: deprecated_member_use
-      title: Padding(
-        padding: EdgeInsets.only(
-          left: itemData.leftPadding,
-          right: itemData.rightPadding,
-        ),
-        child: Text(itemData.label),
-      ),
+      // title: Padding(
+      //   padding: EdgeInsets.only(
+      //     left: itemData.leftPadding,
+      //     right: itemData.rightPadding,
+      //   ),
+      //   child: Text(itemData.label),
+      // ),
+      label: '',
       icon: Padding(
         padding: EdgeInsets.only(
           left: itemData.leftPadding,

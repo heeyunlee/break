@@ -18,7 +18,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/nutrition.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 
 class ProteinEntriesScreen extends StatelessWidget {
   final Database database;
@@ -92,11 +91,12 @@ class ProteinEntriesScreen extends StatelessWidget {
         itemBuilder: (index, context, snapshot) {
           final nutrition = snapshot.data() as Nutrition;
           final date = Formatter.yMdjm(nutrition.loggedTime);
-          final title = Formatter.withDecimal(nutrition.proteinAmount);
+          final title = Formatter.numWithDecimal(nutrition.proteinAmount);
 
-          final unit = (user.unitOfMassEnum != null)
-              ? user.unitOfMassEnum!.gram
-              : Formatter.unitOfMass(user.unitOfMass);
+          final unit = Formatter.unitOfMass(
+            user.unitOfMass,
+            user.unitOfMassEnum,
+          );
 
           return Slidable(
             endActionPane: ActionPane(

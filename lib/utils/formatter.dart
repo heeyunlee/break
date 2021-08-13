@@ -1,76 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:workout_player/classes/enum/equipment_required.dart';
+import 'package:workout_player/classes/enum/main_muscle_group.dart';
 
 import '../generated/l10n.dart';
 import '../classes/enum/difficulty.dart';
 import '../classes/enum/unit_of_mass.dart';
 
 class Formatter {
-  static String weights(num weights) {
-    final weightsNotNull = weights;
-    final formatter = NumberFormat(',###.#');
-
-    return formatter.format(weightsNotNull);
-  }
-
-  static String weightsWithDecimal(num weights) {
-    final weightsNotNull = weights;
-    final formatter = NumberFormat(',##0.0');
-
-    return formatter.format(weightsNotNull);
-  }
-
-  static String proteins(num weights) {
-    final weightsNotNull = weights;
-    final formatter = NumberFormat(',###,###.0');
-
-    return formatter.format(weightsNotNull);
-  }
-
-  static String noDecimal(num? value) {
-    if (value != null) {
-      final formatter = NumberFormat(',###,###');
-
-      return formatter.format(value);
-    } else {
-      return '-';
-    }
-  }
-
-  static String noDecimalWithString(String? value) {
-    if (value != null) {
-      final valueToNum = double.parse(value);
-
-      final formatter = NumberFormat(',###,###');
-
-      return formatter.format(valueToNum);
-    } else {
-      return '-';
-    }
-  }
-
-  static String withDecimal(num? value) {
-    if (value != null) {
-      final formatter = NumberFormat(',###,###.0');
-
-      return formatter.format(value);
-    } else {
-      return '0';
-    }
-  }
-
-  static String unitOfMass(int unitOfMass) {
-    final unitOfMassNotNull = unitOfMass;
-
-    return UnitOfMass.values[unitOfMassNotNull].label!;
-  }
-
-  static String unitOfMassGram(int unitOfMass) {
-    final unitOfMassNotNull = unitOfMass;
-
-    return UnitOfMass.values[unitOfMassNotNull].gram!;
-  }
-
   static String? difficulty(int? difficulty) {
     final difficultyNotNull = difficulty ?? 2;
 
@@ -112,32 +49,6 @@ class Formatter {
     return formatted;
   }
 
-  static String timeDifference(DateTime date) {
-    final now = Timestamp.now().toDate();
-    final differenceInSeconds = now.difference(date).inSeconds;
-    final differenceInMinutes = now.difference(date).inMinutes;
-    final differenceInHours = now.difference(date).inHours;
-    final differenceInDays = now.difference(date).inDays;
-
-    if (differenceInSeconds < 60) {
-      return S.current.timeDifferenceInSeconds(differenceInSeconds);
-    } else if (differenceInMinutes < 60) {
-      return S.current.timeDifferenceInMinutes(differenceInMinutes);
-    } else if (differenceInHours < 24) {
-      return S.current.timeDifferenceInHours(differenceInHours);
-    } else {
-      return S.current.timeDifferenceInDays(differenceInDays);
-    }
-  }
-
-  static String currency(double pay) {
-    if (pay != 0.0) {
-      final formatter = NumberFormat.simpleCurrency(decimalDigits: 0);
-      return formatter.format(pay);
-    }
-    return '';
-  }
-
   static String timeInHM(Timestamp timestamp) {
     final time = timestamp.toDate();
     final formattedTime = DateFormat.jm().format(time);
@@ -145,6 +56,58 @@ class Formatter {
     return formattedTime;
   }
 
+  /// Returns a formatted number with first decimal point from either `num` or
+  /// `string` data type
+  static String numWithDecimal([num? value, String? valueInString]) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,##0.0');
+
+      return formatter.format(value);
+    } else if (valueInString != null) {
+      final valueToNum = num.parse(valueInString);
+      final formatter = NumberFormat(',###,##0.0');
+
+      return formatter.format(valueToNum);
+    } else {
+      return '-';
+    }
+  }
+
+  /// Returns a formatted number without decimal point from either `num` or
+  /// `string` data type
+  static String numWithoutDecimal([num? value, String? valueInString]) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,##0');
+
+      return formatter.format(value);
+    } else if (valueInString != null) {
+      final valueToNum = num.parse(valueInString);
+      final formatter = NumberFormat(',###,##0');
+
+      return formatter.format(valueToNum);
+    } else {
+      return '-';
+    }
+  }
+
+  /// Returns a formatted number with or without first decimal point from either
+  /// `num` or `string` data type
+  static String numWithOrWithoutDecimal([num? value, String? valueInString]) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,###.#');
+
+      return formatter.format(value);
+    } else if (valueInString != null) {
+      final valueToNum = num.parse(valueInString);
+      final formatter = NumberFormat(',###,###.#');
+
+      return formatter.format(valueToNum);
+    } else {
+      return '-';
+    }
+  }
+
+  /// Returns a string of pertange point with decimal point and % sign
   static String percentage(num? value) {
     if (value != null) {
       final formatter = NumberFormat('##.0');
@@ -153,6 +116,137 @@ class Formatter {
       return '$formattedNum %';
     } else {
       return '';
+    }
+  }
+
+  /// Returns a string, which is a [UnitOfMass]'s kilogram level unit, either
+  /// 'kg' or 'lbs', from `int` or `UnitOfMass`
+  static String unitOfMass([int? unitOfMassInt, UnitOfMass? unitOfMassEnum]) {
+    if (unitOfMassEnum != null) {
+      return unitOfMassEnum.label!;
+    } else if (unitOfMassInt != null) {
+      return UnitOfMass.values[unitOfMassInt].label!;
+    } else {
+      return 'unit';
+    }
+  }
+
+  /// Returns a string, which is a [UnitOfMass]'s gram level unit, either
+  /// 'g' or 'lbs', from `int` or `UnitOfMass`
+  static String unitOfMassGram([
+    int? unitOfMassInt,
+    UnitOfMass? unitOfMassEnum,
+  ]) {
+    if (unitOfMassEnum != null) {
+      return unitOfMassEnum.gram!;
+    } else if (unitOfMassInt != null) {
+      return UnitOfMass.values[unitOfMassInt].gram!;
+    } else {
+      return 'unit';
+    }
+  }
+
+  /// Returns a string, which is a translation of first [MainMuscleGroup]
+  /// from either `List<dynamic>` or `List<MainMuscleGroup?>`
+  static String getFirstMainMuscleGroup([
+    List<dynamic>? musclesAsString,
+    List<MainMuscleGroup?>? musclesAsEnum,
+  ]) {
+    if (musclesAsEnum != null) {
+      return musclesAsEnum[0]!.translation!;
+    } else if (musclesAsString != null) {
+      return MainMuscleGroup.values
+          .firstWhere((e) => e.toString() == musclesAsString[0])
+          .translation!;
+    } else {
+      return S.current.mainMuscleGroup;
+    }
+  }
+
+  /// Returns a joined string, which is a combination of each [MainMuscleGroup]'s
+  /// translation from either `List<dynamic>` or `List<MainMuscleGroup?>`
+  static String getJoinedMainMuscleGroups([
+    List<dynamic>? musclesAsString,
+    List<MainMuscleGroup?>? musclesAsEnum,
+  ]) {
+    if (musclesAsEnum != null) {
+      final list = musclesAsEnum.map((muscle) => muscle!.translation!).toList();
+
+      return list.join(', ');
+    } else if (musclesAsString != null) {
+      final list = musclesAsString
+          .map((muscle) => MainMuscleGroup.values
+              .firstWhere((e) => e.toString() == muscle)
+              .translation!)
+          .toList();
+
+      return list.join(', ');
+    } else {
+      return S.current.mainMuscleGroup;
+    }
+  }
+
+  /// Returns a list of strings, which is a list of translation of [MainMuscleGroup]
+  /// from either `List<dynamic>` or `List<MainMuscleGroup?>`
+  static List<String> getListOfMainMuscleGroup([
+    List<dynamic>? musclesAsString,
+    List<MainMuscleGroup?>? musclesAsEnum,
+  ]) {
+    if (musclesAsEnum != null) {
+      return musclesAsEnum.map((muscle) => muscle!.translation!).toList();
+    } else if (musclesAsString != null) {
+      return musclesAsString
+          .map((muscle) => MainMuscleGroup.values
+              .firstWhere((e) => e.toString() == muscle)
+              .translation!)
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  /// Returns a joined string, which is a combination of each [EquipmentRequired]'s
+  /// translation from either `List<dynamic>` or `List<EquipmentRequired?>`
+  static String getJoinedEquipmentsRequired([
+    List<dynamic>? equipmentsAsString,
+    List<EquipmentRequired?>? equipmentsAsEnum,
+  ]) {
+    if (equipmentsAsEnum != null) {
+      final list =
+          equipmentsAsEnum.map((equipment) => equipment!.translation!).toList();
+
+      return list.join(', ');
+    } else if (equipmentsAsString != null) {
+      final list = equipmentsAsString
+          .map((equipment) => EquipmentRequired.values
+              .firstWhere((e) => e.toString() == equipment)
+              .translation!)
+          .toList();
+
+      return list.join(', ');
+    } else {
+      return S.current.equipmentRequired;
+    }
+  }
+
+  /// Returns a list of strings, which is a list of translation of [EquipmentRequired]
+  /// from either `List<dynamic>` or `List<EquipmentRequired?>`
+  static List<String> getListOfEquipments([
+    List<dynamic>? equipmentsAsString,
+    List<EquipmentRequired?>? equipmentsAsEnum,
+  ]) {
+    if (equipmentsAsEnum != null) {
+      return equipmentsAsEnum
+          .map((equipment) => equipment!.translation!)
+          .toList();
+    } else if (equipmentsAsString != null) {
+      return equipmentsAsString
+          .map((equipment) => EquipmentRequired.values
+              .firstWhere((e) => e.toString() == equipment)
+              .translation!)
+          .toList();
+    } else {
+      return [];
     }
   }
 }

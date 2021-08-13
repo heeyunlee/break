@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/combined/auth_and_database.dart';
@@ -8,8 +10,7 @@ import 'package:workout_player/screens/home/library_tab/routine/routine_workouts
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/utils/dummy_data.dart';
-import 'package:workout_player/widgets/list_item_builder.dart';
+import 'package:workout_player/widgets/empty_content.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 
 import 'routine_workout_card/routine_workout_card.dart';
@@ -32,18 +33,15 @@ class RoutineWorkoutsTab extends StatelessWidget {
 
     // Widgets to show only if one's routine's owner
     final List<Widget> routineOwnerWidgets = [
-      const Divider(endIndent: 8, indent: 8, color: Colors.white12),
+      kCustomDividerIndent8,
       const SizedBox(height: 16),
       MaxWidthRaisedButton(
-        icon: const Icon(
-          Icons.add_rounded,
-          color: Colors.white,
-        ),
+        icon: const Icon(Icons.add_rounded, color: Colors.white),
         buttonText: S.current.addWorkoutkButtonText,
         color: kCardColor,
         onPressed: () => AddWorkoutsToRoutine.show(
           context,
-          routine: data.routine ?? routineDummyData,
+          routine: data.routine!,
           routineWorkouts: data.routineWorkouts!,
           authAndDatabase: AuthAndDatabase(
             database: database,
@@ -64,47 +62,32 @@ class RoutineWorkoutsTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // if (list.isEmpty)
-            //   EmptyContent(message: S.current.routineWorkoutEmptyText),
+            if (data.routineWorkouts!.isEmpty)
+              EmptyContent(message: S.current.routineWorkoutEmptyText),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              // child: ImplicitlyAnimatedList<RoutineWorkout>(
-              //   shrinkWrap: true,
-              //   items: list,
-              //   physics: NeverScrollableScrollPhysics(),
-              //   areItemsTheSame: (a, b) => false,
-              //   // areItemsTheSame: (a, b) =>
-              //   //     a.routineWorkoutId == b.routineWorkoutId,
-              //   removeDuration: Duration(milliseconds: 200),
-              //   insertDuration: Duration(milliseconds: 200),
-              //   itemBuilder: (context, animation, item, index) {
-              //     return SizeFadeTransition(
-              //       sizeFraction: 0.7,
-              //       curve: Curves.easeInOut,
-              //       animation: animation,
-              //       child: RoutineWorkoutCard(
-              //         database: database,
-              //         routine: routine,
-              //         routineWorkout: item,
-              //         auth: auth,
-              //         // key: UniqueKey(),
-              //         // model: RoutineWorkoutCardModel(),
-              //       ),
-              //     );
-              //   },
-              // ),
-
-              child: ListItemBuilder<RoutineWorkout?>(
+              child: ImplicitlyAnimatedList<RoutineWorkout>(
+                shrinkWrap: true,
                 items: data.routineWorkouts!,
-                emptyContentTitle: S.current.routineWorkoutEmptyText,
-                itemBuilder: (context, routineWorkout, index) {
-                  return RoutineWorkoutCard(
-                    authAndDatabase: AuthAndDatabase(
-                      auth: auth,
-                      database: database,
+                physics: NeverScrollableScrollPhysics(),
+                areItemsTheSame: (a, b) =>
+                    a.routineWorkoutId == b.routineWorkoutId,
+                removeDuration: Duration(milliseconds: 200),
+                insertDuration: Duration(milliseconds: 200),
+                itemBuilder: (context, animation, item, index) {
+                  return SizeFadeTransition(
+                    sizeFraction: 0.7,
+                    curve: Curves.easeInOut,
+                    animation: animation,
+                    child: RoutineWorkoutCard(
+                      index: index,
+                      authAndDatabase: AuthAndDatabase(
+                        auth: auth,
+                        database: database,
+                      ),
+                      routine: data.routine!,
+                      routineWorkout: item,
                     ),
-                    routine: data.routine!,
-                    routineWorkout: routineWorkout!,
                   );
                 },
               ),

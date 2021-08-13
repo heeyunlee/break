@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class DescriptionWidget extends StatelessWidget {
-  final String? description;
+  final Routine routine;
 
   const DescriptionWidget({
     Key? key,
-    required this.description,
+    required this.routine,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    if (description != null) {
-      if (description!.isNotEmpty) {
+    if (routine.description != null) {
+      if (routine.description!.isNotEmpty) {
         return Text(
-          description!,
+          routine.description!,
           style: TextStyles.body2_light_grey,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,

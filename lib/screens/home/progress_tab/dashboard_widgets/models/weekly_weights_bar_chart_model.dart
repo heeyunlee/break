@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:workout_player/classes/combined/progress_tab_class.dart';
-import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -121,10 +120,11 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
 
   String getTooltipText(double y) {
     final weights = (y / 1.05 / 10 * _weightsLiftedMaxY).round();
-    final formattedWeights = Formatter.weights(weights);
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.label
-        : Formatter.unitOfMass(user.unitOfMass);
+    final formattedWeights = Formatter.numWithDecimal(weights);
+    final unit = Formatter.unitOfMass(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$formattedWeights $unit';
   }
@@ -132,9 +132,10 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
   String getSideTiles(double value) {
     final toOriginalNumber = (value / 10 * _weightsLiftedMaxY).round();
     final formatted = NumberFormat.compact().format(toOriginalNumber);
-    final unit = (user.unitOfMassEnum != null)
-        ? user.unitOfMassEnum!.label
-        : Formatter.unitOfMass(user.unitOfMass);
+    final unit = Formatter.unitOfMass(
+      user.unitOfMass,
+      user.unitOfMassEnum,
+    );
 
     return '$formatted $unit';
   }
