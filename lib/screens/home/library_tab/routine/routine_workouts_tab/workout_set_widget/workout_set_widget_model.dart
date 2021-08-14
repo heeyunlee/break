@@ -12,8 +12,8 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/widgets/get_snackbar_widget.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
-final workoutSetWidgetModelProvider =
-    ChangeNotifierProvider.family<WorkoutSetWidgetModel, AuthAndDatabase>(
+final workoutSetWidgetModelProvider = ChangeNotifierProvider.autoDispose
+    .family<WorkoutSetWidgetModel, AuthAndDatabase>(
   (_, authAndDatabase) => WorkoutSetWidgetModel(
     auth: authAndDatabase.auth,
     database: authAndDatabase.database,

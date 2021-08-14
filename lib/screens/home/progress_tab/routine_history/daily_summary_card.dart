@@ -7,7 +7,7 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
-  RoutineHistorySummaryCard({
+  const RoutineHistorySummaryCard({
     required this.onTap,
     required this.routineHistory,
   });
@@ -32,22 +32,12 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   }
 
   Widget _buildChild() {
-    final formattedDate = Formatter.date(routineHistory.workoutStartTime);
-    final weights = Formatter.numWithDecimal(routineHistory.totalWeights);
-    final unit = Formatter.unitOfMass(
-      routineHistory.unitOfMass,
-      routineHistory.unitOfMassEnum,
-    );
-    final durationInMinutes = Formatter.durationInMin(
-      routineHistory.totalDuration,
-    );
-
     return Column(
       children: <Widget>[
         const SizedBox(height: 8),
         ListTile(
           leading: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(4),
             child: Container(
               height: 56,
               width: 56,
@@ -64,9 +54,12 @@ class RoutineHistorySummaryCard extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(formattedDate, style: TextStyles.subtitle2),
+          title: Text(
+            Formatter.date(routineHistory.workoutStartTime),
+            style: TextStyles.subtitle2,
+          ),
           subtitle: Text(
-            '${routineHistory.routineTitle}',
+            routineHistory.routineTitle,
             style: TextStyles.subtitle1_w900,
             maxLines: 1,
             softWrap: false,
@@ -77,9 +70,9 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         const Divider(indent: 8, endIndent: 8, color: kGrey800),
         const SizedBox(height: 16),
         _DailySummaryRowWidget(
-          formattedWeights: '$weights $unit',
+          formattedWeights: Formatter.routineHistoryWeights(routineHistory),
           caloriesBurnt: routineHistory.totalCalories,
-          totalDuration: durationInMinutes,
+          totalDuration: Formatter.durationInMin(routineHistory.totalDuration),
         ),
         const SizedBox(height: 16),
         if (routineHistory.earnedBadges == true)
@@ -110,14 +103,13 @@ class _DailySummaryRowWidget extends StatelessWidget {
 
   final String formattedWeights;
   final num? caloriesBurnt;
-  final int totalDuration;
+  final String totalDuration;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        // weights lifted
         _buildRowChildren(
           emojiUrl:
               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
@@ -125,7 +117,6 @@ class _DailySummaryRowWidget extends StatelessWidget {
           subtitle: S.current.lifted,
         ),
 
-        // // calories burned
         // _buildRowChildren(
         //   emojiUrl:
         //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
@@ -133,11 +124,10 @@ class _DailySummaryRowWidget extends StatelessWidget {
         //   subtitle: 'Burnt',
         // ),
 
-        // minutes worked out
         _buildRowChildren(
           emojiUrl:
               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
-          title: '$totalDuration ${S.current.minutes}',
+          title: totalDuration,
           subtitle: S.current.spent,
         ),
       ],

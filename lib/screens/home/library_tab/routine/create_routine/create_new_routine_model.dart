@@ -175,7 +175,6 @@ class CreateNewRoutineModel with ChangeNotifier {
       final id = Uuid().v1();
       final userId = user.userId;
       final displayName = user.displayName;
-      final initialUnitOfMass = user.unitOfMass;
       final unitOfMassEnum =
           user.unitOfMassEnum ?? UnitOfMass.values[user.unitOfMass ?? 0];
       final lastEditedDate = Timestamp.now();
@@ -200,16 +199,12 @@ class CreateNewRoutineModel with ChangeNotifier {
         routineTitle: _textEditingController.text,
         lastEditedDate: lastEditedDate,
         routineCreatedDate: routineCreatedDate,
-        mainMuscleGroup: null,
-        secondMuscleGroup: null,
-        equipmentRequired: null,
         imageUrl: imageUrl,
         trainingLevel: _routineDifficulty.toInt(),
         duration: 0,
         totalWeights: 0,
         averageTotalCalories: 0,
         isPublic: true,
-        initialUnitOfMass: initialUnitOfMass,
         location: _location,
         mainMuscleGroupEnum: _selectedMainMuscleGroupEnum,
         equipmentRequiredEnum: _selectedEquipmentRequiredEnum,

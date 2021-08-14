@@ -6,6 +6,33 @@ import 'enum/main_muscle_group.dart';
 import 'enum/unit_of_mass.dart';
 
 class RoutineHistory {
+  const RoutineHistory({
+    required this.routineHistoryId,
+    required this.userId,
+    required this.username,
+    required this.routineId,
+    required this.routineTitle,
+    required this.isPublic,
+    required this.workoutStartTime,
+    required this.workoutEndTime,
+    required this.totalWeights,
+    this.totalCalories,
+    required this.totalDuration,
+    this.earnedBadges,
+    this.notes,
+    this.mainMuscleGroup,
+    this.secondMuscleGroup,
+    required this.isBodyWeightWorkout,
+    required this.workoutDate,
+    required this.imageUrl,
+    this.unitOfMass,
+    this.equipmentRequired,
+    this.effort,
+    this.mainMuscleGroupEnum,
+    this.equipmentRequiredEnum,
+    this.unitOfMassEnum,
+  });
+
   final String routineHistoryId;
   final String userId;
   final String username;
@@ -30,33 +57,6 @@ class RoutineHistory {
   final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
   final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
   final UnitOfMass? unitOfMassEnum; // Nullable
-
-  const RoutineHistory({
-    required this.routineHistoryId,
-    required this.userId,
-    required this.username,
-    required this.routineId,
-    required this.routineTitle,
-    required this.isPublic,
-    required this.workoutStartTime,
-    required this.workoutEndTime,
-    required this.totalWeights,
-    this.totalCalories,
-    required this.totalDuration,
-    this.earnedBadges,
-    this.notes,
-    required this.mainMuscleGroup,
-    this.secondMuscleGroup,
-    required this.isBodyWeightWorkout,
-    required this.workoutDate,
-    required this.imageUrl,
-    required this.unitOfMass,
-    required this.equipmentRequired,
-    this.effort,
-    this.mainMuscleGroupEnum,
-    this.equipmentRequiredEnum,
-    this.unitOfMassEnum,
-  });
 
   factory RoutineHistory.fromJson(
       Map<String, dynamic>? data, String documentId) {

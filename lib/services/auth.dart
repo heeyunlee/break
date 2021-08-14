@@ -68,6 +68,8 @@ class AuthService implements AuthBase {
 
       setUser(user!);
 
+      logger.d(user.toString());
+
       return user;
     } on auth.FirebaseAuthException catch (e) {
       logger.e(e);
@@ -99,6 +101,8 @@ class AuthService implements AuthBase {
 
       setUser(user!);
 
+      logger.d(user.toString());
+
       return user;
     } on auth.FirebaseAuthException catch (e) {
       logger.e(e);
@@ -128,6 +132,8 @@ class AuthService implements AuthBase {
 
       assert(user!.uid == currentUser!.uid);
       setUser(user!);
+
+      logger.d(user.toString());
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
@@ -165,6 +171,8 @@ class AuthService implements AuthBase {
         assert(user!.uid == currentUser!.uid);
         setUser(user!);
 
+        logger.d(user.toString());
+
         return user;
       } else {
         throw auth.FirebaseAuthException(
@@ -197,6 +205,8 @@ class AuthService implements AuthBase {
       final currentUser = _auth.currentUser;
       assert(user!.uid == currentUser!.uid);
       setUser(user!);
+
+      logger.d(user.toString());
 
       return user;
     } else if (facebookLogin.status == LoginStatus.cancelled) {
@@ -253,6 +263,8 @@ class AuthService implements AuthBase {
       assert(user!.uid == currentUser!.uid);
       setUser(user!);
 
+      logger.d(user.toString());
+
       return user;
     } on SignInWithAppleException catch (e) {
       logger.e(e);
@@ -285,6 +297,8 @@ class AuthService implements AuthBase {
       final currentUser = _auth.currentUser;
       assert(user!.uid == currentUser!.uid);
       setUser(user!);
+
+      logger.d(user.toString());
 
       return user;
     } on KakaoAuthException catch (e) {

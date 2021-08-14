@@ -113,7 +113,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Lifting
   String getLiftingGoalPreview() {
-    final formatted = Formatter.numWithDecimal(_liftingGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(_liftingGoal);
 
     return '$formatted $_kilogramUnit';
   }
@@ -165,52 +165,52 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// BodyFat
   String getBodyFatGoalsPreview() {
-    final formatted = Formatter.numWithDecimal(_bodyFatPercentageGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(_bodyFatPercentageGoal);
 
     return '$formatted %';
   }
 
-  void incrementBodyFatGoal() {
-    _bodyFatPercentageGoal += 0.1;
-    HapticFeedback.mediumImpact();
-    notifyListeners();
-  }
+  // void incrementBodyFatGoal() {
+  //   _bodyFatPercentageGoal += 0.1;
+  //   HapticFeedback.mediumImpact();
+  //   notifyListeners();
+  // }
 
-  void decrementBodyFatGoal() {
-    _bodyFatPercentageGoal -= 0.1;
-    HapticFeedback.mediumImpact();
-    notifyListeners();
-  }
+  // void decrementBodyFatGoal() {
+  //   _bodyFatPercentageGoal -= 0.1;
+  //   HapticFeedback.mediumImpact();
+  //   notifyListeners();
+  // }
 
-  Future<void> onLongPressStartDecrementBodyFat(_) async {
-    _isButtonPressed = true;
+  // Future<void> onLongPressStartDecrementBodyFat(_) async {
+  //   _isButtonPressed = true;
 
-    while (_isButtonPressed) {
-      decrementBodyFatGoal();
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-  }
+  //   while (_isButtonPressed) {
+  //     decrementBodyFatGoal();
+  //     await Future.delayed(Duration(milliseconds: 100));
+  //   }
+  // }
 
-  Future<void> onLongPressEndDecrementBodyFat(_) async {
-    _isButtonPressed = false;
+  // Future<void> onLongPressEndDecrementBodyFat(_) async {
+  //   _isButtonPressed = false;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
-  Future<void> onLongPressStartIncrementBodyFat(_) async {
-    _isButtonPressed = true;
+  // Future<void> onLongPressStartIncrementBodyFat(_) async {
+  //   _isButtonPressed = true;
 
-    while (_isButtonPressed) {
-      incrementBodyFatGoal();
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-  }
+  //   while (_isButtonPressed) {
+  //     incrementBodyFatGoal();
+  //     await Future.delayed(Duration(milliseconds: 100));
+  //   }
+  // }
 
-  Future<void> onLongPressEndIncrementBodyFat(_) async {
-    _isButtonPressed = false;
+  // Future<void> onLongPressEndIncrementBodyFat(_) async {
+  //   _isButtonPressed = false;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   Future<void> setBodyFatPercentageGoal(BuildContext context) async {
     try {
@@ -233,7 +233,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// PROTEINS
   String getProteinGoalPreview() {
-    final formatted = Formatter.numWithDecimal(_proteinGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(_proteinGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -259,7 +259,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Carbs
   String getCarbsGoalPreview() {
-    final formatted = Formatter.numWithDecimal(_carbsGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(_carbsGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -285,7 +285,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Fat
   String getFatsGoalPreview() {
-    final formatted = Formatter.numWithDecimal(_fatGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(_fatGoal);
 
     return '$formatted $_gramUnit';
   }
@@ -311,7 +311,9 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
   /// Calories
   String getCalorieGoalPreview() {
-    final formatted = Formatter.numWithoutDecimal(_calorieConsumptionGoal);
+    final formatted = Formatter.numWithOrWithoutDecimal(
+      _calorieConsumptionGoal,
+    );
 
     return '$formatted Cal';
   }
@@ -351,47 +353,47 @@ class PersonalGoalsScreenModel with ChangeNotifier {
     );
   }
 
-  void incrementCalorieGoal() {
-    _calorieConsumptionGoal += 100;
-    HapticFeedback.mediumImpact();
-    notifyListeners();
-  }
+  // void incrementCalorieGoal() {
+  //   _calorieConsumptionGoal += 100;
+  //   HapticFeedback.mediumImpact();
+  //   notifyListeners();
+  // }
 
-  void decrementCalorieGoal() {
-    _calorieConsumptionGoal -= 100;
-    HapticFeedback.mediumImpact();
-    notifyListeners();
-  }
+  // void decrementCalorieGoal() {
+  //   _calorieConsumptionGoal -= 100;
+  //   HapticFeedback.mediumImpact();
+  //   notifyListeners();
+  // }
 
-  Future<void> onLongPressStartDecrementCalorie(_) async {
-    _isButtonPressed = true;
+  // Future<void> onLongPressStartDecrementCalorie(_) async {
+  //   _isButtonPressed = true;
 
-    while (_isButtonPressed) {
-      decrementCalorieGoal();
+  //   while (_isButtonPressed) {
+  //     decrementCalorieGoal();
 
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-  }
+  //     await Future.delayed(Duration(milliseconds: 100));
+  //   }
+  // }
 
-  Future<void> onLongPressEndDecrementCalorie(_) async {
-    _isButtonPressed = false;
+  // Future<void> onLongPressEndDecrementCalorie(_) async {
+  //   _isButtonPressed = false;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
-  Future<void> onLongPressStartIncrementCalorie(_) async {
-    _isButtonPressed = true;
+  // Future<void> onLongPressStartIncrementCalorie(_) async {
+  //   _isButtonPressed = true;
 
-    while (_isButtonPressed) {
-      incrementCalorieGoal();
+  //   while (_isButtonPressed) {
+  //     incrementCalorieGoal();
 
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-  }
+  //     await Future.delayed(Duration(milliseconds: 100));
+  //   }
+  // }
 
-  Future<void> onLongPressEndIncrementCalorie(_) async {
-    _isButtonPressed = false;
+  // Future<void> onLongPressEndIncrementCalorie(_) async {
+  //   _isButtonPressed = false;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }

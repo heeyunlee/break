@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class OutlinedNumberTextFieldWidget extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController controller;
-  // final TextFieldModel model;
   final GlobalKey<FormState> formKey;
   final int? maxLength;
   final String? suffixText;
@@ -22,7 +21,6 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
     Key? key,
     required this.focusNode,
     required this.controller,
-    // required this.model,
     required this.formKey,
     this.maxLength,
     this.suffixText,

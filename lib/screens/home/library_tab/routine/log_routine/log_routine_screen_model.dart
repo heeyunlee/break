@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/classes/combined/routine_detail_screen_class.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/classes/routine.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/routine_workout.dart';
@@ -79,7 +80,8 @@ class LogRoutineModel with ChangeNotifier {
   void init(Routine routine) {
     _titleEditingController = TextEditingController(text: routine.routineTitle);
 
-    final durationInMinutes = Formatter.durationInMin(routine.duration);
+    final secondsNotNegative = routine.duration < 0 ? 0 : routine.duration;
+    final durationInMinutes = Duration(seconds: secondsNotNegative).inMinutes;
     _durationEditingController = TextEditingController(
       text: durationInMinutes.toString(),
     );
@@ -160,6 +162,14 @@ class LogRoutineModel with ChangeNotifier {
         _loggedTime.toDate().day,
       );
 
+      final muscleGroup = routine.mainMuscleGroupEnum ??
+          Formatter.getListOfMainMuscleGroupFromStrings(
+              routine.mainMuscleGroup);
+      final equipments = routine.equipmentRequiredEnum ??
+          Formatter.getListOfEquipmentsFromStrings(routine.equipmentRequired);
+      final unitOfMass = routine.unitOfMassEnum ??
+          UnitOfMass.values[routine.initialUnitOfMass ?? 0];
+
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
         userId: user.userId,
@@ -167,7 +177,6 @@ class LogRoutineModel with ChangeNotifier {
         routineId: routine.routineId,
         routineTitle: _titleEditingController.text,
         isPublic: _isPublic,
-        mainMuscleGroup: routine.mainMuscleGroup,
         workoutEndTime: _loggedTime,
         workoutStartTime: Timestamp.fromDate(_workoutStartTime),
         notes: _notesEditingController.text,
@@ -177,12 +186,10 @@ class LogRoutineModel with ChangeNotifier {
         isBodyWeightWorkout: isBodyWeightWorkout,
         workoutDate: workoutDate,
         imageUrl: routine.imageUrl,
-        unitOfMass: routine.initialUnitOfMass,
-        equipmentRequired: routine.equipmentRequired,
-        mainMuscleGroupEnum: routine.mainMuscleGroupEnum,
-        equipmentRequiredEnum: routine.equipmentRequiredEnum,
+        mainMuscleGroupEnum: muscleGroup,
+        equipmentRequiredEnum: equipments,
         effort: _effort,
-        unitOfMassEnum: routine.unitOfMassEnum,
+        unitOfMassEnum: unitOfMass,
       );
 
       /// For Workout Histories

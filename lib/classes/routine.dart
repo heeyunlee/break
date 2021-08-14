@@ -6,30 +6,26 @@ import 'package:workout_player/classes/enum/main_muscle_group.dart';
 
 import 'enum/unit_of_mass.dart';
 
+/// Class of a `Routine` is a collection of [Workout]s with some customizable
+/// fields such as [MainMuscleGroup], [EquipmentRequired], and [Location] to
+/// make it more personalized.
+///
+/// In a nutshell, it is a same concept as a playlist in a music or video player,
+/// where playlist (`Routine`) is a collection of music/videos (`Workouts`) with
+/// specific genre (`MainMuscleGroup`, `EquipmentRequired`, etc.).
+///
+/// It contains a list of [RoutineWorkout]s, which is a extension of [Workout]s
+/// but refactored for Routine.
+///
+/// ## Roadmap
+///
+/// ### Refactoring
+/// * TODO: create enum value for trainingLevel (difficulty)
+/// * TODO: create enum value for location
+///
+/// ### Enhancement
+///
 class Routine {
-  final String routineId;
-  final String routineOwnerId;
-  final String routineOwnerUserName;
-  final String routineTitle;
-  final Timestamp lastEditedDate;
-  final Timestamp routineCreatedDate;
-  final List<dynamic>? mainMuscleGroup;
-  final List<dynamic>? secondMuscleGroup; // Nullable
-  final String? description; // Nullable
-  final String imageUrl;
-  final num totalWeights;
-  final int? averageTotalCalories; // Nullable
-  final int duration;
-  final List<dynamic>? equipmentRequired;
-  final int trainingLevel;
-  final bool isPublic;
-  final int? initialUnitOfMass;
-  final String location;
-  final String? thumbnailImageUrl; // Nullable
-  final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
-  final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
-  final UnitOfMass? unitOfMassEnum; // Nullable
-
   const Routine({
     required this.routineId,
     required this.routineOwnerId,
@@ -37,23 +33,46 @@ class Routine {
     required this.routineTitle,
     required this.lastEditedDate,
     required this.routineCreatedDate,
-    required this.mainMuscleGroup,
-    this.secondMuscleGroup,
-    this.description,
     required this.imageUrl,
     required this.totalWeights,
-    this.averageTotalCalories,
     required this.duration,
-    required this.equipmentRequired,
     required this.trainingLevel,
     required this.isPublic,
-    required this.initialUnitOfMass,
     required this.location,
+    this.mainMuscleGroup,
+    this.secondMuscleGroup,
+    this.description,
+    this.averageTotalCalories,
+    this.equipmentRequired,
+    this.initialUnitOfMass,
     this.thumbnailImageUrl,
     this.mainMuscleGroupEnum,
     this.equipmentRequiredEnum,
     this.unitOfMassEnum,
   });
+
+  final String routineId;
+  final String routineOwnerId;
+  final String routineOwnerUserName;
+  final String routineTitle;
+  final Timestamp lastEditedDate;
+  final Timestamp routineCreatedDate;
+  final String imageUrl;
+  final num totalWeights;
+  final int duration;
+  final int trainingLevel;
+  final bool isPublic;
+  final String location;
+  final List<dynamic>? mainMuscleGroup; // depreciated
+  final List<dynamic>? secondMuscleGroup; // depreciated
+  final String? description; // Nullable
+  final int? averageTotalCalories; // Nullable
+  final List<dynamic>? equipmentRequired; // depreciated
+  final int? initialUnitOfMass; // depreciated
+  final String? thumbnailImageUrl; // Nullable
+  final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
+  final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
+  final UnitOfMass? unitOfMassEnum; // Nullable
 
   factory Routine.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {

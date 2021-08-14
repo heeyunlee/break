@@ -28,19 +28,6 @@ class WorkoutHistoryCard extends StatelessWidget {
         ? '$numberOfSets ${S.current.sets}'
         : '$numberOfSets ${S.current.set}';
 
-    final weights = Formatter.numWithDecimal(workoutHistory.totalWeights);
-    final unit = Formatter.unitOfMass(
-      routineHistory.unitOfMass,
-      routineHistory.unitOfMassEnum,
-    );
-
-    final formattedTotalWeights =
-        (workoutHistory.isBodyWeightWorkout && workoutHistory.totalWeights == 0)
-            ? S.current.bodyweight
-            : (workoutHistory.isBodyWeightWorkout)
-                ? '${S.current.bodyweight} + $weights $unit'
-                : '$weights $unit';
-
     final locale = Intl.getCurrentLocale();
     final translation = workoutHistory.translated;
     final title = (translation.isEmpty)
@@ -59,6 +46,8 @@ class WorkoutHistoryCard extends StatelessWidget {
           unselectedWidgetColor: Colors.white,
         ),
         child: ExpansionTile(
+          collapsedIconColor: Colors.white,
+          iconColor: Colors.white,
           leading: Container(
             height: 48,
             width: 24,
@@ -92,7 +81,13 @@ class WorkoutHistoryCard extends StatelessWidget {
             children: <Widget>[
               Text(formattedNumberOfSets, style: TextStyles.subtitle2),
               const Text('   |   ', style: TextStyles.subtitle2),
-              Text(formattedTotalWeights, style: TextStyles.subtitle2),
+              Text(
+                Formatter.workoutHistoryTotalWeights(
+                  routineHistory,
+                  workoutHistory,
+                ),
+                style: TextStyles.subtitle2,
+              ),
             ],
           ),
           childrenPadding: const EdgeInsets.all(0),

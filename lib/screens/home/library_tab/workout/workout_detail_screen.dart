@@ -12,8 +12,6 @@ import 'package:workout_player/widgets/custom_stream_builder_widget.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
 import 'package:workout_player/classes/user.dart';
 import 'package:workout_player/classes/workout.dart';
 import 'package:workout_player/services/auth.dart';
@@ -226,13 +224,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
 
   Widget _buildFlexibleSpaceBarWidget(Workout workout) {
     final size = MediaQuery.of(context).size;
-    final mainMuscleGroup = MainMuscleGroup.values
-        .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
-        .translation!;
-    final equipmentRequired = EquipmentRequired.values
-        .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
-        .translation!;
-    final difficulty = Formatter.difficulty(workout.difficulty)!;
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -280,7 +271,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            mainMuscleGroup,
+                            Formatter.getFirstMainMuscleGroup(
+                              workout.mainMuscleGroup,
+                            ),
                             style: TextStyles.subtitle2,
                           ),
                         ],
@@ -304,7 +297,12 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                             style: TextStyles.caption1_grey,
                           ),
                           const SizedBox(height: 8),
-                          Text(equipmentRequired, style: TextStyles.subtitle2),
+                          Text(
+                            Formatter.getFirstEquipmentRequired(
+                              workout.equipmentRequired,
+                            ),
+                            style: TextStyles.subtitle2,
+                          ),
                         ],
                       ),
                     ),
@@ -326,7 +324,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                             style: TextStyles.caption1,
                           ),
                           const SizedBox(height: 8),
-                          Text(difficulty, style: TextStyles.subtitle2),
+                          Text(
+                            Formatter.difficulty(workout.difficulty),
+                            style: TextStyles.subtitle2,
+                          ),
                         ],
                       ),
                     ),

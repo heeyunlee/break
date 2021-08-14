@@ -140,11 +140,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       widget.routine.initialUnitOfMass,
       widget.routine.unitOfMassEnum,
     );
-    final weights = Formatter.numWithOrWithoutDecimal(
-      widget.workoutSet.weights,
-    );
-
-    final formattedWeights = '$weights $unit';
 
     return GestureDetector(
       onTap: () {
@@ -166,9 +161,11 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           child: (!_weightsTabbed)
               ? Center(
                   child: Text(
-                    (widget.routineWorkout.isBodyWeightWorkout)
-                        ? S.current.bodyweight
-                        : formattedWeights,
+                    Formatter.workoutSetWeights(
+                      widget.routine,
+                      widget.routineWorkout,
+                      widget.workoutSet,
+                    ),
                     style: TextStyles.body1,
                   ),
                 )

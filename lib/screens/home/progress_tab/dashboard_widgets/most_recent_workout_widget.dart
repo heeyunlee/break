@@ -7,6 +7,7 @@ import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/blur_background_card.dart';
+import 'package:collection/collection.dart';
 
 import 'detail_screens/routine_histories_screen.dart';
 
@@ -28,15 +29,7 @@ class MostRecentWorkout extends StatelessWidget {
     timeago.setLocaleMessages('ko', timeago.KoMessages());
     final locale = Intl.getCurrentLocale();
 
-    RoutineHistory? last =
-        data.routineHistories.isEmpty ? null : data.routineHistories.last;
-
-    final weight = Formatter.numWithDecimal(last?.totalWeights ?? 0);
-    final unit = Formatter.unitOfMass(
-      last?.unitOfMass,
-      last?.unitOfMassEnum,
-    );
-    final time = Formatter.durationInMin(last?.totalDuration ?? 0);
+    RoutineHistory? last = data.routineHistories.lastOrNull;
 
     String ago = (last != null)
         ? timeago.format(last.workoutEndTime.toDate(), locale: locale)
@@ -71,7 +64,7 @@ class MostRecentWorkout extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$weight $unit',
+                          Formatter.routineHistoryWeights(last),
                           style: TextStyles.headline5_menlo_w900_primary,
                         ),
                         const SizedBox(height: 4),
@@ -92,7 +85,7 @@ class MostRecentWorkout extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$time ${S.current.minutes}',
+                          Formatter.durationInMin(last?.totalDuration),
                           style: TextStyles.headline5_menlo_w900_primary,
                         ),
                         const SizedBox(height: 4),

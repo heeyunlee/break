@@ -142,8 +142,6 @@ class RoutineWorkoutCard extends ConsumerWidget {
               removeDuration: Duration(milliseconds: 200),
               insertDuration: Duration(milliseconds: 200),
               itemBuilder: (context, animation, item, index) {
-                print('index is $index');
-
                 return SizeFadeTransition(
                   sizeFraction: 0.7,
                   curve: Curves.easeInOut,

@@ -104,8 +104,6 @@ class PersonalGoalsScreen extends StatelessWidget {
       iconData: Icons.fitness_center_rounded,
       title: S.current.liftingGoal,
       onTap: () {
-        // model.setInitialValue(model.liftingGoal);
-
         SetGoalsScreenTemplate.show(
           context,
           model: model,

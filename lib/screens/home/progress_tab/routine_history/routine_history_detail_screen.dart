@@ -209,7 +209,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    logger.d('dailySummaryDetail screen scaffold building...');
+    logger.d('[RoutineHistoryDetailScreen] screen scaffold building...');
     dataFormat(widget.routineHistory);
 
     return Scaffold(
@@ -229,10 +229,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   Widget _buildSliverAppBar(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // Data Formatting
-    final date = Formatter.date(widget.routineHistory.workoutStartTime);
-    final title = widget.routineHistory.routineTitle;
-
     return AnimatedBuilder(
       animation: _colorAnimationController,
       builder: (context, child) => SliverAppBar(
@@ -240,7 +236,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         centerTitle: true,
         title: Transform.translate(
           offset: _transTween.value,
-          child: Text(title, style: TextStyles.subtitle1),
+          child: Text(
+            widget.routineHistory.routineTitle,
+            style: TextStyles.subtitle1,
+          ),
         ),
         brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
@@ -276,7 +275,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text(date, style: TextStyles.subtitle1_bold),
+                    Text(
+                      Formatter.date(widget.routineHistory.workoutStartTime),
+                      style: TextStyles.subtitle1_bold,
+                    ),
                     Text(
                       widget.routineHistory.routineTitle,
                       maxLines: 1,
@@ -301,14 +303,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
     final notes = widget.routineHistory.notes ?? S.current.notesHintText;
 
-    // FORMATTING
-    final weights = Formatter.numWithDecimal(routineHistory.totalWeights);
-    final unit = Formatter.unitOfMass(
-      routineHistory.unitOfMass,
-      routineHistory.unitOfMassEnum,
-    );
-    final duration = Formatter.durationInMin(routineHistory.totalDuration);
-
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -319,13 +313,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             Text(S.current.quickSummary, style: TextStyles.headline6_w900),
             const SizedBox(height: 8),
             SummaryRowWidget(
-              title: '$weights $unit',
+              title: Formatter.routineHistoryWeights(routineHistory),
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
             ),
             const SizedBox(height: 16),
             SummaryRowWidget(
-              title: '$duration ${S.current.minutes}',
+              title: Formatter.durationInMin(routineHistory.totalDuration),
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
             ),

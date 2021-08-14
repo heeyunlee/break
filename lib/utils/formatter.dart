@@ -2,18 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/classes/enum/equipment_required.dart';
 import 'package:workout_player/classes/enum/main_muscle_group.dart';
+import 'package:workout_player/classes/routine.dart';
+import 'package:workout_player/classes/routine_history.dart';
+import 'package:workout_player/classes/routine_workout.dart';
+import 'package:workout_player/classes/workout_history.dart';
+import 'package:workout_player/classes/workout_set.dart';
 
 import '../generated/l10n.dart';
 import '../classes/enum/difficulty.dart';
 import '../classes/enum/unit_of_mass.dart';
 
 class Formatter {
-  static String? difficulty(int? difficulty) {
-    final difficultyNotNull = difficulty ?? 2;
-
-    return Difficulty.values[difficultyNotNull].translation;
-  }
-
   static String date(Timestamp date) {
     final dateInDateTime = date.toDate();
 
@@ -36,12 +35,6 @@ class Formatter {
     return DateFormat.yMd().add_jm().format(date);
   }
 
-  static int durationInMin(int seconds) {
-    final secondsNotNegative = seconds < 0 ? 0 : seconds;
-    final minutes = Duration(seconds: secondsNotNegative).inMinutes;
-    return minutes;
-  }
-
   static String hours(double hours) {
     final hoursNotNegative = hours < 0.0 ? 0.0 : hours;
     final formatter = NumberFormat.decimalPattern();
@@ -54,6 +47,30 @@ class Formatter {
     final formattedTime = DateFormat.jm().format(time);
 
     return formattedTime;
+  }
+
+  /// Returns a translated [Difficulty] from either int or enum
+  static String difficulty([int? difficulty, Difficulty? difficultyEnum]) {
+    if (difficulty != null) {
+      return Difficulty.values[difficulty].translation!;
+    } else if (difficultyEnum != null) {
+      return difficultyEnum.translation!;
+    } else {
+      return S.current.difficulty;
+    }
+  }
+
+  /// Returns a duration in minutes and localized `minutes` as string from
+  /// seconds
+  static String durationInMin(int? seconds) {
+    if (seconds != null) {
+      final secondsNotNegative = seconds < 0 ? 0 : seconds;
+      final minutes = Duration(seconds: secondsNotNegative).inMinutes;
+
+      return '$minutes ${S.current.minutes}';
+    } else {
+      return '- ${S.current.minutes}';
+    }
   }
 
   /// Returns a formatted number with first decimal point from either `num` or
@@ -205,6 +222,37 @@ class Formatter {
     }
   }
 
+  /// Returns a list of [MainMuscleGroup] from `List<dynamic>`
+  static List<MainMuscleGroup> getListOfMainMuscleGroupFromStrings(
+    List<dynamic>? musclesAsString,
+  ) {
+    if (musclesAsString != null) {
+      return musclesAsString
+          .map((muscle) =>
+              MainMuscleGroup.values.firstWhere((e) => e.toString() == muscle))
+          .toList();
+    } else {
+      return <MainMuscleGroup>[];
+    }
+  }
+
+  /// Returns a string, which is a translation of first [EquipmentRequired]
+  /// from either `List<dynamic>` or `List<EquipmentRequired?>`
+  static String getFirstEquipmentRequired([
+    List<dynamic>? equipmentRequiredString,
+    List<EquipmentRequired?>? equipmentRequiredEnum,
+  ]) {
+    if (equipmentRequiredEnum != null) {
+      return equipmentRequiredEnum[0]!.translation!;
+    } else if (equipmentRequiredString != null) {
+      return EquipmentRequired.values
+          .firstWhere((e) => e.toString() == equipmentRequiredString[0])
+          .translation!;
+    } else {
+      return S.current.equipmentRequired;
+    }
+  }
+
   /// Returns a joined string, which is a combination of each [EquipmentRequired]'s
   /// translation from either `List<dynamic>` or `List<EquipmentRequired?>`
   static String getJoinedEquipmentsRequired([
@@ -247,6 +295,118 @@ class Formatter {
           .toList();
     } else {
       return [];
+    }
+  }
+
+  /// Returns a list of [EquipmentRequired] from `List<dynamic>`
+  static List<EquipmentRequired> getListOfEquipmentsFromStrings(
+    List<dynamic>? equipments,
+  ) {
+    if (equipments != null) {
+      return equipments
+          .map((equipment) => EquipmentRequired.values
+              .firstWhere((e) => e.toString() == equipment))
+          .toList();
+    } else {
+      return <EquipmentRequired>[];
+    }
+  }
+
+  /// Returns a formatted weights and a unit as a string from a [RoutineHistory]
+  static String routineHistoryWeights(RoutineHistory? routineHistory) {
+    if (routineHistory != null) {
+      final formatter = NumberFormat(',###,###.#');
+      final formattedWeight = formatter.format(routineHistory.totalWeights);
+      final unit = unitOfMass(
+        routineHistory.unitOfMass,
+        routineHistory.unitOfMassEnum,
+      );
+      return '$formattedWeight $unit';
+    } else {
+      return '-,--- kg';
+    }
+  }
+
+  /// Returns a formatted weights and a unit as a string from a [Routine],
+  ///  [RoutineWorkout], and [WorkoutSet].
+  ///
+  /// Returns `bodyweight` when [RoutineWorkout] is `isBodyWeightWorkout`
+  static String workoutSetWeights(
+    Routine routine,
+    RoutineWorkout routineWorkout,
+    WorkoutSet workoutSet,
+  ) {
+    if (routineWorkout.isBodyWeightWorkout) {
+      return S.current.bodyweight;
+    } else {
+      final formatter = NumberFormat(',###,###.#');
+      final formattedWeight = formatter.format(workoutSet.weights);
+      final unit = unitOfMass(
+        routine.initialUnitOfMass,
+        routine.unitOfMassEnum,
+      );
+
+      return '$formattedWeight $unit';
+    }
+  }
+
+  /// Returns a formatted weights and a unit as a string from a [RoutineHistory],
+  ///  [WorkoutHistory], and [WorkoutSet].
+  ///
+  /// Returns `bodyweight` when [WorkoutHistory] is `isBodyWeightWorkout`
+  static String workoutSetWeightsFromHistory(
+    RoutineHistory routineHistory,
+    WorkoutHistory workoutHistory,
+    WorkoutSet workoutSet,
+  ) {
+    if (workoutHistory.isBodyWeightWorkout) {
+      return S.current.bodyweight;
+    } else {
+      final formatter = NumberFormat(',###,###.#');
+      final formattedWeight = formatter.format(workoutSet.weights);
+      final unit = unitOfMass(
+        routineHistory.unitOfMass,
+        routineHistory.unitOfMassEnum,
+      );
+
+      return '$formattedWeight $unit';
+    }
+  }
+
+  /// Returns a formatted weights and a unit as a string from a [Routine]
+  static String routineTotalWeights(Routine routine) {
+    final formatter = NumberFormat(',###,###.#');
+    final formattedWeight = formatter.format(routine.totalWeights);
+    final unit = unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
+
+    return '$formattedWeight $unit';
+  }
+
+  /// Returns a formatted weights and a unit as a string from a [RoutineHistory]
+  ///  and [WorkoutHistory], but returns `bodyweight` when the [WorkoutHistory] is
+  /// `isBodyWeightWorkout`
+  static String workoutHistoryTotalWeights(
+    RoutineHistory routineHistory,
+    WorkoutHistory workoutHistory,
+  ) {
+    final bool isBodyWorkout = workoutHistory.isBodyWeightWorkout;
+    final bool isZero = workoutHistory.totalWeights == 0;
+    final unit = unitOfMass(
+      routineHistory.unitOfMass,
+      routineHistory.unitOfMassEnum,
+    );
+    final formatter = NumberFormat(',###,###.#');
+    final formattedWeight = formatter.format(workoutHistory.totalWeights);
+
+    if (isBodyWorkout && isZero) {
+      return S.current.bodyweight;
+    } else if (isBodyWorkout && !isZero) {
+      return '${S.current.bodyweight} + $formattedWeight $unit';
+    } else {
+      return '$formattedWeight $unit';
     }
   }
 }

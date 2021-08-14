@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:uuid/uuid.dart';
+import 'package:workout_player/classes/enum/unit_of_mass.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/classes/routine_history.dart';
 import 'package:workout_player/classes/workout_history.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/main_provider.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/widgets/max_width_raised_button.dart';
 import 'package:workout_player/widgets/show_exception_alert_dialog.dart';
 
@@ -59,6 +61,14 @@ class SaveAndExitButton extends StatelessWidget {
         weightsCalculated = true;
       }
 
+      final muscleGroup = routine.mainMuscleGroupEnum ??
+          Formatter.getListOfMainMuscleGroupFromStrings(
+              routine.mainMuscleGroup);
+      final equipments = routine.equipmentRequiredEnum ??
+          Formatter.getListOfEquipmentsFromStrings(routine.equipmentRequired);
+      final unitOfMass = routine.unitOfMassEnum ??
+          UnitOfMass.values[routine.initialUnitOfMass ?? 0];
+
       final routineHistory = RoutineHistory(
         routineHistoryId: routineHistoryId,
         userId: user.userId,
@@ -66,7 +76,6 @@ class SaveAndExitButton extends StatelessWidget {
         routineId: routine.routineId,
         routineTitle: routine.routineTitle,
         isPublic: true,
-        mainMuscleGroup: routine.mainMuscleGroup ?? [],
         secondMuscleGroup: routine.secondMuscleGroup,
         workoutStartTime: _workoutStartTime,
         workoutEndTime: workoutEndTime,
@@ -77,8 +86,9 @@ class SaveAndExitButton extends StatelessWidget {
         isBodyWeightWorkout: isBodyWeightWorkout,
         workoutDate: workoutDate,
         imageUrl: routine.imageUrl,
-        unitOfMass: routine.initialUnitOfMass,
-        equipmentRequired: routine.equipmentRequired ?? [],
+        mainMuscleGroupEnum: muscleGroup,
+        equipmentRequiredEnum: equipments,
+        unitOfMassEnum: unitOfMass,
       );
 
       /// For Workout Histories

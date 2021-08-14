@@ -14,7 +14,7 @@ class User {
   final List<String>? savedRoutines; // Nullable
   final num totalWeights;
   final int totalNumberOfWorkouts;
-  final int? unitOfMass;
+  final int? unitOfMass; // Nullable
   final Timestamp lastLoginDate;
   final num? dailyWeightsGoal; // Nullable
   final num? dailyProteinGoal; // Nullable
@@ -70,9 +70,9 @@ class User {
       final Timestamp signUpDate = data['signUpDate'];
       final String signUpProvider = data['signUpProvider'];
       final List<String>? savedWorkouts =
-          data['savedWorkouts'].map<String>((e) => e.toString()).toList();
+          data['savedWorkouts']?.map<String>((e) => e.toString()).toList();
       final List<String>? savedRoutines =
-          data['savedRoutines'].map<String>((e) => e.toString()).toList();
+          data['savedRoutines']?.map<String>((e) => e.toString()).toList();
       final num totalWeights = data['totalWeights'];
       final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
       final int? unitOfMass = data['unitOfMass'];

@@ -53,42 +53,6 @@ class SignInScreenModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Return Base user data
-  Future<User> _fetchBaseUserData() async {
-    final firebaseUser = auth!.currentUser!;
-
-    final deviceInfo = await _getDeviceInfo();
-    final uniqueId = UniqueKey().toString();
-    final displayName = firebaseUser.providerData[0].displayName ??
-        firebaseUser.displayName ??
-        'Herakles $uniqueId';
-    final email = firebaseUser.providerData[0].email ?? firebaseUser.email;
-    final unitOfMassEnum =
-        (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
-
-    final user = User(
-      userId: firebaseUser.uid,
-      userName: displayName,
-      displayName: displayName,
-      userEmail: email,
-      signUpDate: now,
-      signUpProvider: '',
-      savedWorkouts: [],
-      savedRoutines: [],
-      totalWeights: 0,
-      totalNumberOfWorkouts: 0,
-      lastLoginDate: now,
-      backgroundImageIndex: randomNumber,
-      unitOfMassEnum: unitOfMassEnum,
-      deviceInfo: deviceInfo,
-      lastAppOpenedTime: now,
-      creationTime: firebaseUser.metadata.creationTime,
-      profileUrl: firebaseUser.photoURL,
-    );
-
-    return user;
-  }
-
   // SIGN IN ANONYMOUSLY
   Future<void> signInAnonymously(BuildContext context) async {
     logger.d('sign in with Anonymously pressed');
@@ -104,36 +68,45 @@ class SignInScreenModel extends ChangeNotifier {
 
       // Create new data if it does NOT exist
       if (user == null) {
-        User userData = await _fetchBaseUserData();
-        userData = userData.copyWith(
-          signUpProvider: 'Anonymous',
-        );
-
-        // final deviceInfo = await _getDeviceInfo();
-        // final uniqueId = UniqueKey().toString();
-        // final id = 'Herakles $uniqueId';
-        // final unitOfMass =
-        //     (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
-
-        // final userData = User(
-        //   userId: firebaseUser.uid,
-        //   displayName: id,
-        //   userName: id,
-        //   userEmail: null,
-        //   signUpDate: now,
+        // User userData = await _fetchBaseUserData();
+        // userData = userData.copyWith(
         //   signUpProvider: 'Anonymous',
-        //   totalWeights: 0,
-        //   totalNumberOfWorkouts: 0,
-        //   unitOfMass: (locale == 'ko') ? 0 : 1,
-        //   lastLoginDate: now,
-        //   savedRoutines: [],
-        //   savedWorkouts: [],
-        //   backgroundImageIndex: randomNumber,
-        //   deviceInfo: deviceInfo,
-        //   creationTime: firebaseUser.metadata.creationTime,
-        //   unitOfMassEnum: unitOfMass,
-        //   lastAppOpenedTime: now,
         // );
+
+        final deviceInfo = await _getDeviceInfo();
+        final uniqueId = UniqueKey().toString();
+
+        String? displayName = firebaseUser.displayName ?? 'Herakles $uniqueId';
+        String? email = firebaseUser.email;
+
+        if (firebaseUser.providerData.isNotEmpty) {
+          displayName =
+              firebaseUser.providerData[0].displayName ?? 'Herakles $uniqueId';
+          email = firebaseUser.providerData[0].email;
+        }
+
+        final unitOfMassEnum =
+            (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
+
+        final userData = User(
+          userId: firebaseUser.uid,
+          userName: displayName,
+          displayName: displayName,
+          userEmail: email,
+          signUpDate: now,
+          signUpProvider: '',
+          savedWorkouts: [],
+          savedRoutines: [],
+          totalWeights: 0,
+          totalNumberOfWorkouts: 0,
+          lastLoginDate: now,
+          backgroundImageIndex: randomNumber,
+          unitOfMassEnum: unitOfMassEnum,
+          deviceInfo: deviceInfo,
+          lastAppOpenedTime: now,
+          creationTime: firebaseUser.metadata.creationTime,
+          profileUrl: firebaseUser.photoURL,
+        );
 
         await database!.setUser(userData);
 
@@ -397,6 +370,48 @@ class SignInScreenModel extends ChangeNotifier {
     }
     setIsLoading(false);
   }
+
+  // /// Return Base user data
+  // Future<User> _fetchBaseUserData() async {
+  //   final firebaseUser = auth!.currentUser!;
+
+  //   final deviceInfo = await _getDeviceInfo();
+  //   final uniqueId = UniqueKey().toString();
+
+  //   String? displayName = firebaseUser.displayName ?? 'Herakles $uniqueId';
+  //   String? email = firebaseUser.email;
+
+  //   if (firebaseUser.providerData.isNotEmpty) {
+  //     displayName =
+  //         firebaseUser.providerData[0].displayName ?? 'Herakles $uniqueId';
+  //     email = firebaseUser.providerData[0].email;
+  //   }
+
+  //   final unitOfMassEnum =
+  //       (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
+
+  //   final user = User(
+  //     userId: firebaseUser.uid,
+  //     userName: displayName,
+  //     displayName: displayName,
+  //     userEmail: email,
+  //     signUpDate: now,
+  //     signUpProvider: '',
+  //     savedWorkouts: [],
+  //     savedRoutines: [],
+  //     totalWeights: 0,
+  //     totalNumberOfWorkouts: 0,
+  //     lastLoginDate: now,
+  //     backgroundImageIndex: randomNumber,
+  //     unitOfMassEnum: unitOfMassEnum,
+  //     deviceInfo: deviceInfo,
+  //     lastAppOpenedTime: now,
+  //     creationTime: firebaseUser.metadata.creationTime,
+  //     profileUrl: firebaseUser.photoURL,
+  //   );
+
+  //   return user;
+  // }
 
   Future<void> _updateUserData(BuildContext context, User user) async {
     final firebaseUser = auth!.currentUser!;

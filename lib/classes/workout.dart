@@ -60,19 +60,10 @@ class Workout {
       final String description = data['description'];
       final List<dynamic> equipmentRequired = data['equipmentRequired'];
       final String imageUrl = data['imageUrl'];
-      // final bool isBodyWeightWorkout =
-      //     (data['isBodyWeightWorkout'].runtimeType == bool)
-      //         ? data['isBodyWeightWorkout']
-      //         : data['isBodyWeightWorkout'].parseBool();
       final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-
       final Timestamp lastEditedDate = data['lastEditedDate'];
       final Timestamp workoutCreatedDate = data['workoutCreatedDate'];
       final int difficulty = data['difficulty'];
-      // final int difficulty = (data['difficulty'].runtimeType == int)
-      //     ? data['difficulty']
-      //     : int.parse(data['difficulty']);
-
       final String? instructions = data['instructions'];
       final String? tips = data['tips'];
       final int secondsPerRep = data['secondsPerRep'];
