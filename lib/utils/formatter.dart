@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
-import 'package:workout_player/classes/routine.dart';
-import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/classes/routine_workout.dart';
-import 'package:workout_player/classes/workout_history.dart';
-import 'package:workout_player/classes/workout_set.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/workout_history.dart';
+import 'package:workout_player/models/workout_set.dart';
 
 import '../generated/l10n.dart';
-import '../classes/enum/difficulty.dart';
-import '../classes/enum/unit_of_mass.dart';
+import '../models/enum/difficulty.dart';
+import '../models/enum/unit_of_mass.dart';
 
 class Formatter {
   static String date(Timestamp date) {

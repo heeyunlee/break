@@ -10,16 +10,16 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/main_provider.dart';
 
+import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
 import 'package:workout_player/services/private_keys.dart';
 
 import 'generated/l10n.dart';
-import 'screens/landing_screen.dart';
 import 'services/algolia_manager.dart';
 import 'services/database.dart';
+import 'view/screens/landing_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

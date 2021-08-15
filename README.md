@@ -28,19 +28,19 @@ For transitions between screens in PreviewScreen and SignInScreen, I made a reus
 
 ### Preview Screen & Transition Between Preview Screen and Sign In Screen
 <p align="left">
-    <img src="previews/preview_screen_ios.gif" alt="preview screen" width="200"/>
+    <img src="readme_assets/preview_screen_ios.gif" alt="preview screen" width="200"/>
     &nbsp;
     &nbsp;
     &nbsp;
-    <img src="previews/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>
+    <img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>
     &nbsp;
     &nbsp;
     &nbsp;
-    <img src="previews/sign_in_screen_transition_2.gif" alt="sign in screen transition 2" width="200"/>  
+    <img src="readme_assets/sign_in_screen_transition_2.gif" alt="sign in screen transition 2" width="200"/>  
     &nbsp;
     &nbsp;
     &nbsp;
-    <img src="previews/sign_in_screen_transition_3.gif" alt="sign in screen transition 3" width="200"/> 
+    <img src="readme_assets/sign_in_screen_transition_3.gif" alt="sign in screen transition 3" width="200"/> 
 </p>
 
 <br>
@@ -50,7 +50,7 @@ For transitions between screens in PreviewScreen and SignInScreen, I made a reus
 Progress tab displays various widgets that highlight user's health & fitness data.
 
 <p align="left">
-    <img src="previews/progress_tab_1_ios.gif" alt="Assessment 1, Android" width="200"/>
+    <img src="readme_assets/progress_tab_1_ios.gif" alt="Assessment 1, Android" width="200"/>
     &nbsp;
     &nbsp;
     &nbsp;

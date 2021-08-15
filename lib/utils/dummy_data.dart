@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:workout_player/classes/enum/equipment_required.dart';
-import 'package:workout_player/classes/enum/main_muscle_group.dart';
-import 'package:workout_player/classes/enum/meal.dart';
-import 'package:workout_player/classes/measurement.dart';
-import 'package:workout_player/classes/nutrition.dart';
-import 'package:workout_player/classes/routine_history.dart';
-import 'package:workout_player/classes/routine_workout.dart';
-import 'package:workout_player/classes/workout.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/enum/meal.dart';
+import 'package:workout_player/models/measurement.dart';
+import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/workout.dart';
 
-import '../classes/routine.dart';
-import '../classes/user.dart';
+import '../models/routine.dart';
+import '../models/user.dart';
 
 final workoutDummyData = Workout(
   workoutId: 'workoutId',
