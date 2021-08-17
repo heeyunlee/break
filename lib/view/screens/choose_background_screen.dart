@@ -8,14 +8,13 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/view_models/choose_background_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
+import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
 
 class ChooseBackgroundScreen extends StatefulWidget {
   final Database database;
@@ -32,8 +31,9 @@ class ChooseBackgroundScreen extends StatefulWidget {
   }) : super(key: key);
 
   static Future<void> show(BuildContext context, {required User user}) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final container = ProviderContainer();
+    final auth = container.read(authServiceProvider);
+    final database = container.read(databaseProvider(auth.currentUser?.uid));
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context, rootNavigator: true).push(

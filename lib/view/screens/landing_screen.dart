@@ -25,17 +25,18 @@ class LandingScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final user = snapshot.data;
 
-          if (user == null) {
-            logger.d('user does NOT exist');
-
-            return const PreviewScreen();
-          } else {
+          if (user != null) {
             logger.d('user does exist ${user.toString()}');
 
             return provider.Provider<Database>(
               create: (_) => FirestoreDatabase(uid: user.uid),
-              child: HomeScreen.create(),
+              // child: HomeScreen.create(context),
+              child: HomeScreen(),
             );
+          } else {
+            logger.d('user does NOT exist');
+
+            return const PreviewScreen();
           }
         }
         logger.d('waiting for the connection to Firebase');

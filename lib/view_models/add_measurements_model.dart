@@ -9,12 +9,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-// import 'package:workout_player/models/text_field_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/add_measurements_screen.dart';
 import 'main_model.dart';
@@ -227,7 +225,6 @@ class AddMeasurementsModel with ChangeNotifier {
             user: user,
             database: database,
             model: watch(addMeasurementsModelProvider),
-            // textFieldModel: watch(textFieldModelProvider),
           ),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -10,12 +9,10 @@ import '../../screens/customize_widgets_screen.dart';
 
 class CustomizeWidgetsButton extends StatelessWidget {
   final User user;
-  final AuthAndDatabase authAndDatabase;
 
   const CustomizeWidgetsButton({
     Key? key,
     required this.user,
-    required this.authAndDatabase,
   }) : super(key: key);
 
   @override
@@ -38,7 +35,6 @@ class CustomizeWidgetsButton extends StatelessWidget {
         onPressed: () => CustomizeWidgetsScreen.show(
           context,
           user: user,
-          authAndDatabase: authAndDatabase,
         ),
         icon: const Icon(Icons.dashboard_customize_rounded),
       ),

@@ -1,21 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/view/widgets/add_nutritions/choose_meal_type_widget.dart';
-import 'package:workout_player/view/widgets/add_nutritions/set_protein_amount_widget.dart';
-import 'package:workout_player/view/widgets/select_dates_widget.dart';
-import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/scaffolds/custom_scaffold.dart';
+import 'package:workout_player/view/widgets/speed_dial/select_dates_widget.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/text_field/outlined_number_text_field_widget.dart';
-import 'package:workout_player/view/widgets/text_field/outlined_text_text_field_widget.dart';
+import 'package:workout_player/view/widgets/speed_dial/choose_meal_type_widget.dart';
+import 'package:workout_player/view/widgets/speed_dial/set_protein_amount_widget.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../../view_models/add_nutrition_screen_model.dart';
 
@@ -51,19 +47,11 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
-        brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
-        leading: const AppBarCloseButton(),
-        flexibleSpace: const AppbarBlurBG(),
-        title: Text(S.current.addNutritions, style: TextStyles.subtitle2),
-      ),
-      body: Builder(builder: _buildBody),
-      floatingActionButton: _buildFAB(context),
+    return CustomScaffold(
+      appBarLeading: const AppBarCloseButton(),
+      appBarTitle: S.current.addNutritions,
+      buildBody: _buildBody,
+      fabWidget: _buildFAB(context),
     );
   }
 
@@ -164,16 +152,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
               focusNode: focusNode,
               displayDoneButton: false,
               toolbarButtons: [
-                (node) => InkWell(
-                      onTap: node.unfocus,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        child: Text(S.current.done, style: TextStyles.button1),
-                      ),
-                    ),
+                (node) => KeyboardActionsDoneButton(onTap: node.unfocus),
               ],
             ),
           )

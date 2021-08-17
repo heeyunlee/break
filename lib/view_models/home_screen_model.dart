@@ -4,18 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart' as provider;
 // import 'package:workout_player/models/custom_health_data_point.dart';
 // import 'package:workout_player/models/steps.dart';
 // import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/home/tab_item.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/navigation_tab/tab_item.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 double percentageFromValueInRange({required final double min, max, value}) {
   return (value - min) / (max - min);
@@ -32,29 +30,19 @@ class HomeScreenModel with ChangeNotifier {
   HomeScreenModel({
     this.auth,
     this.database,
-  });
+  }) {
+    final container = ProviderContainer();
+    auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth!.currentUser?.uid));
+  }
 
   TabItem _currentTab = TabItem.progress;
   int _currentTabIndex = 0;
-  final Map<TabItem, GlobalKey<NavigatorState>> _tabNavigatorKeys = {
-    TabItem.library: GlobalKey<NavigatorState>(),
-    TabItem.search: GlobalKey<NavigatorState>(),
-    TabItem.progress: GlobalKey<NavigatorState>(),
-    TabItem.settings: GlobalKey<NavigatorState>(),
-  };
-
-  // Home Screen Navigator Key
-  final GlobalKey<NavigatorState> homeScreenNavigatorKey =
-      GlobalKey<NavigatorState>();
-
-  // Miniplayer navigator key
-  final GlobalKey<NavigatorState> miniplayerNavigatorKey =
-      GlobalKey<NavigatorState>();
+  bool _isFirstStartup = true;
 
   TabItem get currentTab => _currentTab;
   int get currentTabIndex => _currentTabIndex;
-  Map<TabItem, GlobalKey<NavigatorState>> get tabNavigatorKeys =>
-      _tabNavigatorKeys;
+  bool get isFirstStartup => _isFirstStartup;
 
   Future<bool> onWillPopMiniplayer() async {
     final state = miniplayerNavigatorKey.currentState!;
@@ -74,25 +62,27 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   void onSelectTab(int index) {
-    _currentTabIndex = index;
-    final tabItem = TabItem.values[index];
+    final TabItem tabItem = TabItem.values[index];
+    final NavigatorState state = tabNavigatorKeys[tabItem]!.currentState!;
 
-    if (tabItem == currentTab) {
-      tabNavigatorKeys[tabItem]!
-          .currentState!
-          .popUntil((route) => route.isFirst);
+    _currentTabIndex = index;
+
+    if (tabItem == _currentTab) {
+      if (state.canPop()) {
+        state.popUntil((route) => route.isFirst);
+        notifyListeners();
+      }
     } else {
       _currentTab = tabItem;
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   Future<void> updateUser(BuildContext context) async {
-    logger.d('HomeScreenModel updateUser() function called');
+    logger.d('[HomeScreenModel] `updateUser()` function called');
 
-    database = provider.Provider.of<Database>(context, listen: false);
-    auth = provider.Provider.of<AuthBase>(context, listen: false);
+    // database = provider.Provider.of<Database>(context, listen: false);
+    // auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     // final user = await database!.getUserDocument(auth!.currentUser!.uid);
     final now = Timestamp.now();
@@ -216,6 +206,10 @@ class HomeScreenModel with ChangeNotifier {
   //   }
   // }
 
+  void toggleIsFirstStartup() {
+    _isFirstStartup = !_isFirstStartup;
+  }
+
   void _showErrorDialog(FirebaseException exception, BuildContext context) {
     logger.e(exception);
 
@@ -243,4 +237,19 @@ class HomeScreenModel with ChangeNotifier {
       );
     }
   }
+
+  static final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
+    TabItem.library: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
+    TabItem.progress: GlobalKey<NavigatorState>(),
+    TabItem.settings: GlobalKey<NavigatorState>(),
+  };
+
+  // Home Screen Navigator Key
+  static final GlobalKey<NavigatorState> homeScreenNavigatorKey =
+      GlobalKey<NavigatorState>();
+
+  // Miniplayer navigator key
+  static final GlobalKey<NavigatorState> miniplayerNavigatorKey =
+      GlobalKey<NavigatorState>();
 }

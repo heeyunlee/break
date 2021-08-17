@@ -3,14 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/activity_ring_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/latest_body_fat_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/latest_body_weight_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/most_recent_workout_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/sample_widgets.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/weekly_measurements_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/weekly_workout_summary_sample_widget.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => PreviewScreenModel(),

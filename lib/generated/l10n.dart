@@ -710,10 +710,10 @@ class S {
     );
   }
 
-  /// `You're one step away from creating your own routine!`
+  /// `This place looks quite empty...`
   String get savedRoutineEmptyText {
     return Intl.message(
-      'You\'re one step away from creating your own routine!',
+      'This place looks quite empty...',
       name: 'savedRoutineEmptyText',
       desc: '',
       args: [],
@@ -4457,6 +4457,16 @@ class S {
       name: 'errorAbortedByUser',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Using {equipments}`
+  String workoutsTabSubtitle(Object equipments) {
+    return Intl.message(
+      'Using $equipments',
+      name: 'workoutsTabSubtitle',
+      desc: '',
+      args: [equipments],
     );
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/blur_background_card.dart';
-import 'package:workout_player/view/widgets/no_data_in_chart_message_widget.dart';
+import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
+import 'package:workout_player/view/widgets/charts/no_data_in_chart_message_widget.dart';
 
 class WeeklyBarChartCardTemplate extends StatelessWidget {
   final ProgressTabClass progressTabClass;

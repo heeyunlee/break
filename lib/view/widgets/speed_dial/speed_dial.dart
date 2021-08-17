@@ -3,15 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/miniplayer_model.dart';
+import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/view_models/add_measurements_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
+import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:workout_player/view_models/speed_dial_model.dart';
-import 'package:workout_player/view/screens/choose_routine_screen.dart';
 
-import 'background_overlay.dart';
-import 'speed_dial_children.dart';
+import '../speed_dial.dart';
 
 class SpeedDial extends StatefulWidget {
   final SpeedDialModel model;

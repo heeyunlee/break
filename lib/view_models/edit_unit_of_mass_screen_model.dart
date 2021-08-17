@@ -5,11 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 final editUnitOfMassModelProvider = ChangeNotifierProvider(
   (ref) => EditUnitOfMassModel(),

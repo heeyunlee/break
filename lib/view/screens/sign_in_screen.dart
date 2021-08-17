@@ -6,19 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/preview/blurred_background_preview_widget.dart';
-import 'package:workout_player/view/widgets/sign_in/social_sign_in_button.dart';
-import 'package:workout_player/view/widgets/animated_list_view_builder.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-
-import '../../view_models/sign_in_screen_model.dart';
-import '../widgets/sign_in/logo_widget.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
+import 'package:workout_player/view_models/sign_in_screen_model.dart';
+import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 
 class SignInScreen extends ConsumerWidget {
   final Database database;
@@ -52,7 +47,7 @@ class SignInScreen extends ConsumerWidget {
           SafeArea(
             child: Column(
               children: <Widget>[
-                LogoWidget(model: model),
+                SignInLogoWidget(model: model),
                 AnimatedListViewBuilder(
                   beginOffset: Offset(0.25, 0),
                   offsetInitialDelayTime: 0.25,

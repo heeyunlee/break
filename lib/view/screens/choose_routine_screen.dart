@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
@@ -17,13 +16,13 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
+import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/choice_chips_app_bar_widget.dart';
-import 'package:workout_player/view/widgets/custom_future_builder_widget.dart';
+import 'package:workout_player/view/widgets/scaffolds/choice_chips_app_bar_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_future_builder_widget.dart';
 import 'package:workout_player/view/widgets/custom_list_tile_3.dart';
 import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/list_item_builder.dart';
+import 'package:workout_player/view/widgets/list_views/custom_list_view_builder.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
   final Database database;
@@ -36,8 +35,9 @@ class ChooseRoutineScreen extends ConsumerWidget {
   }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final container = ProviderContainer();
+    final auth = container.read(authServiceProvider);
+    final database = container.read(databaseProvider(auth.currentUser?.uid));
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
     await Navigator.of(context, rootNavigator: true).push(
@@ -45,7 +45,6 @@ class ChooseRoutineScreen extends ConsumerWidget {
         fullscreenDialog: true,
         builder: (context) => ChooseRoutineScreen(
           database: database,
-          // auth: auth,
           user: user,
         ),
       ),
@@ -109,7 +108,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
     return StreamBuilder<List<Routine>>(
       stream: model.stream(database),
       builder: (context, snapshot) {
-        return ListItemBuilder<Routine>(
+        return CustomListViewBuilder<Routine>(
           items: snapshot.data ?? [routineDummyData],
           emptyContentTitle: S.current.emptyroutinesContentTitle(
             model.selectedChipTranslation,
@@ -133,7 +132,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
               kSubtitle2: routine.routineOwnerUserName,
               imageUrl: routine.imageUrl,
               onTap: () {
-                final currentContext = homeScreenModel
+                final currentContext = HomeScreenModel
                     .tabNavigatorKeys[homeScreenModel.currentTab]!
                     .currentContext!;
 
@@ -176,7 +175,11 @@ class ChooseRoutineScreen extends ConsumerWidget {
                     ),
                     imageUrl: routine.imageUrl,
                     onTap: () {
-                      final currentContext = homeScreenModel
+                      // final currentContext = homeScreenModel
+                      //     .tabNavigatorKeys[homeScreenModel.currentTab]!
+                      //     .currentContext!;
+
+                      final currentContext = HomeScreenModel
                           .tabNavigatorKeys[homeScreenModel.currentTab]!
                           .currentContext!;
 

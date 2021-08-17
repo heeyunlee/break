@@ -439,5 +439,6 @@
     "chooseMainMuscleGroupMessage" : "이 루틴에서 운동하게 될 주요 근육 부위를 설정해 주세요",
     "chooseEquipmentRequiredMessage" : "이 루틴에서 필요한 운동 기구들을 설정해 주세요",
     "emptyRoutineTitleWarningMessage": "루틴의 이름을 정해주세요",
-    "errorAbortedByUser": "로그인을 취소했습니다"
+    "errorAbortedByUser": "로그인을 취소했습니다",
+    "workoutsTabSubtitle": "{equipments}를 이용"
 }

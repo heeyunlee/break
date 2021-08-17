@@ -7,7 +7,7 @@ import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/blur_background_card.dart';
+import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 import '../../../../view/screens/measurements_screen.dart';
 

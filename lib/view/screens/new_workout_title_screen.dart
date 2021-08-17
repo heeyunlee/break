@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/dialogs.dart';
 
 class NewWorkoutTitleScreen extends StatefulWidget {
   final StringCallback titleCallback;

@@ -13,13 +13,12 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/view/screens/routine_history_summary_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 import '../view/screens/log_routine_screen.dart';
 import 'miniplayer_model.dart';

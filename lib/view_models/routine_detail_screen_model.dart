@@ -6,7 +6,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/view/screens/routine_detail_screen.dart';
+import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
 
 final routineDetailScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => RoutineDetailScreenModel(),

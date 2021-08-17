@@ -13,7 +13,7 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
 
 class RoutineHistoryTab extends StatefulWidget {
   final Routine routine;

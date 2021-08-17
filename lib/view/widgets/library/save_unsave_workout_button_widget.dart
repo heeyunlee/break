@@ -6,9 +6,8 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
+
+import '../widgets.dart';
 
 class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
   final User user;

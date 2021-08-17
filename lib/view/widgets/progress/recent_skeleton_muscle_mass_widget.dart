@@ -6,7 +6,7 @@ import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/blur_background_card.dart';
+import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 class RecentSkeletenMuscleMassWidget extends StatelessWidget {
   final List<Measurement> measurements;

@@ -1,32 +1,18 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:intl/intl.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:provider/provider.dart' as provider;
+
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/miniplayer/close_miniplayer_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/collapsed_miniplayer_title.dart';
-import 'package:workout_player/view/widgets/miniplayer/empty_workout_set_widget.dart';
-import 'package:workout_player/view/widgets/miniplayer/expanded_miniplayer_title.dart';
-import 'package:workout_player/view/widgets/miniplayer/linear_progress_indicator_widget.dart';
-import 'package:workout_player/view/widgets/miniplayer/miniplayer_subtitle.dart';
-import 'package:workout_player/view/widgets/miniplayer/next_routine_workout_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/next_workout_set_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/pause_or_play_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/previous_workout_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/previous_workout_set_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/rest_timer_widget.dart';
-import 'package:workout_player/view/widgets/miniplayer/save_and_exit_button.dart';
-import 'package:workout_player/view/widgets/miniplayer/weights_and_reps_widget.dart';
-
-import '../../view_models/miniplayer_model.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
+import 'package:workout_player/view_models/miniplayer_model.dart';
 
 class WorkoutMiniplayer extends ConsumerWidget {
   final Database database;

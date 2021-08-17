@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
-import 'package:workout_player/view/widgets/navigation_tab/tab_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../view_models/home_screen_model.dart';
-import '../../screens/library_tab.dart';
+import '../../screens/library/library_tab.dart';
 import '../../screens/progress_tab.dart';
 import '../../screens/search_tab.dart';
 import '../../screens/settings_tab.dart';
+import 'tab_item.dart';
 
 class HomeScreenTabs extends StatelessWidget {
-  final HomeScreenModel model;
+  // final HomeScreenModel model;
 
-  const HomeScreenTabs({Key? key, required this.model}) : super(key: key);
+  const HomeScreenTabs({
+    Key? key,
+    // required this.model,
+  }) : super(key: key);
 
   Map<TabItem, dynamic> get widgetBuilders {
     return {
@@ -23,21 +27,22 @@ class HomeScreenTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return IndexedStack(
+      index: context.read(homeScreenModelProvider).currentTabIndex,
       children: [
-        _buildOffstageNavigator(TabItem.progress, model),
-        _buildOffstageNavigator(TabItem.search, model),
-        _buildOffstageNavigator(TabItem.library, model),
-        _buildOffstageNavigator(TabItem.settings, model),
+        _buildOffstageNavigator(context, TabItem.progress),
+        _buildOffstageNavigator(context, TabItem.search),
+        _buildOffstageNavigator(context, TabItem.library),
+        _buildOffstageNavigator(context, TabItem.settings),
       ],
     );
   }
 
-  Widget _buildOffstageNavigator(TabItem tabItem, HomeScreenModel model) {
+  Widget _buildOffstageNavigator(BuildContext context, TabItem tabItem) {
     return Offstage(
-      offstage: model.currentTab != tabItem,
+      offstage: context.read(homeScreenModelProvider).currentTab != tabItem,
       child: CupertinoTabView(
-        navigatorKey: model.tabNavigatorKeys[tabItem],
+        navigatorKey: HomeScreenModel.tabNavigatorKeys[tabItem],
         builder: (context) => widgetBuilders[tabItem](context),
       ),
     );

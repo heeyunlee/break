@@ -6,18 +6,17 @@ import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/view/screens/personal_goals_screen.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
+import 'package:workout_player/view_models/settings_tab_model.dart';
 
 import 'change_language_screen.dart';
 import 'manage_account_screen.dart';
-import '../../view_models/settings_tab_model.dart';
+import 'personal_goals_screen.dart';
 import 'unit_of_mass_screen.dart';
 import 'user_feedback_screen.dart';
 

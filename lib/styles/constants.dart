@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 
 // COLOR //
 // Primary
@@ -56,6 +58,10 @@ const kCustomDividerIndent8 = Divider(
   endIndent: 8,
 );
 
+const kPrimaryColorCircularProgressIndicator = CircularProgressIndicator(
+  valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+);
+
 const kBicepEmojiUrl =
     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
 
@@ -69,3 +75,15 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 typedef ItemWidgetBuilder2<T> = Widget Function(
     BuildContext context, T item, int index);
 typedef HasDataWidget<T> = Widget Function(BuildContext context, T data);
+
+typedef CustomNavigatorBuilder = Widget Function(
+  BuildContext context,
+  AuthBase auth,
+  Database database,
+);
+
+typedef AuthAndDatabaseWidget = Widget Function(
+  AuthBase auth,
+  Database database,
+  Widget child,
+);

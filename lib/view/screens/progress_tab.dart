@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/services/database.dart';
+import 'package:workout_player/utils/dummy_data.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/progress/progress_tab_widgets_builder.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:reorderables/reorderables.dart';
 
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/progress/blurred_background.dart';
 import 'package:workout_player/view/widgets/progress/choose_date_icon_button.dart';
-import 'package:workout_player/view/widgets/progress/logo_widget.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/view/widgets/shimmer/progress_tab_shimmer.dart';
 
 import '../../styles/constants.dart';
 import '../widgets/progress/customize_widgets_button.dart';
@@ -40,22 +38,12 @@ class ProgressTab extends StatefulWidget {
 }
 
 class _ProgressTabState extends State<ProgressTab>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
 
     widget.model.init(vsync: this);
-
-    // SchedulerBinding.instance!.addPostFrameCallback((Duration duration) {
-    //   FeatureDiscovery.discoverFeatures(
-    //     context,
-    //     const <String>{
-    //       'choose_background',
-    //       'customize_widgets',
-    //     },
-    //   );
-    // });
   }
 
   @override
@@ -66,17 +54,20 @@ class _ProgressTabState extends State<ProgressTab>
 
   @override
   Widget build(BuildContext context) {
-    logger.d('ProgressTab building...');
+    final database = provider.Provider.of<Database>(context, listen: false);
 
-    return CustomStreamBuilderWidget<ProgressTabClass>(
-      stream: widget.model.database!.progressTabStream(
-        widget.model.selectedDate,
+    logger.d('[ProgressTab] building...');
+
+    return CustomStreamBuilderWidget<User?>(
+      initialData: userDummyData,
+      stream: database.userStream(),
+      loadingWidget: Container(
+        color: kBackgroundColor,
+        child: Center(
+          child: kPrimaryColorCircularProgressIndicator,
+        ),
       ),
-      loadingWidget: ProgressTabShimmer(),
-      hasDataWidget: (context, progressTabClass) {
-        final auth = provider.Provider.of<AuthBase>(context, listen: false);
-        final database = provider.Provider.of<Database>(context, listen: false);
-
+      hasDataWidget: (context, user) {
         return NotificationListener<ScrollNotification>(
           onNotification: widget.model.onNotification,
           child: Scaffold(
@@ -87,27 +78,15 @@ class _ProgressTabState extends State<ProgressTab>
               brightness: Brightness.dark,
               elevation: 0,
               backgroundColor: Colors.transparent,
-              leading: ChooseBackgroundButton(user: progressTabClass.user),
-              title: ChooseDateIconButton(
-                model: widget.model,
-                user: progressTabClass.user,
-              ),
+              leading: ChooseBackgroundButton(user: user!),
+              title: ChooseDateIconButton(model: widget.model, user: user),
               actions: [
-                CustomizeWidgetsButton(
-                  user: progressTabClass.user,
-                  authAndDatabase: AuthAndDatabase(
-                    auth: auth,
-                    database: database,
-                  ),
-                ),
+                CustomizeWidgetsButton(user: user),
                 const SizedBox(width: 8),
               ],
             ),
             body: Builder(
-              builder: (context) => _buildChildWidget(
-                context,
-                progressTabClass,
-              ),
+              builder: (context) => _buildBody(context, user),
             ),
           ),
         );
@@ -115,12 +94,12 @@ class _ProgressTabState extends State<ProgressTab>
     );
   }
 
-  Widget _buildChildWidget(BuildContext context, ProgressTabClass data) {
+  Widget _buildBody(BuildContext context, User user) {
     return Stack(
       children: [
         BlurredBackground(
           model: widget.model,
-          imageIndex: data.user.backgroundImageIndex,
+          imageIndex: user.backgroundImageIndex,
         ),
         Container(
           decoration: BoxDecoration(
@@ -134,36 +113,23 @@ class _ProgressTabState extends State<ProgressTab>
             ),
           ),
         ),
-        SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              widget.model.initWidgets(
-                context,
-                data: data,
-                constraints: constraints,
-              );
-
-              return ReorderableWrap(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                buildDraggableFeedback: widget.model.buildDraggableFeedback,
-                onReorder: widget.model.onReorder,
-                footer: LogoWidget(
-                  gridHeight: constraints.maxHeight / 4,
-                  gridWidth: constraints.maxWidth,
-                ),
-                children: widget.model.widgets,
-              );
-            },
+        CustomStreamBuilderWidget<ProgressTabClass>(
+          stream: widget.model.database!.progressTabStream(
+            widget.model.selectedDate,
+          ),
+          hasDataWidget: (context, data) => SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return ProgressTabWidgetsBuilder.create(
+                  context,
+                  data: data,
+                  constraints: constraints,
+                  vsync: this,
+                );
+              },
+            ),
           ),
         ),
-
-        // /// TODO: ADD Banner here
-        // if (widget.model.showBanner)
-        //   Positioned(
-        //     left: 16,
-        //     top: 104,
-        //     child: BlurredMaterialBanner(model: widget.model),
-        //   ),
       ],
     );
   }

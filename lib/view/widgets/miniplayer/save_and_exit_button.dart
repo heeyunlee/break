@@ -10,11 +10,10 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/max_width_raised_button.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 import '../../../../view/screens/routine_history_summary_screen.dart';
 import '../../../../view_models/miniplayer_model.dart';
+import '../widgets.dart';
 
 class SaveAndExitButton extends StatelessWidget {
   final Database database;

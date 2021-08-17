@@ -3,18 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/user_feedback.dart';
+import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 class UserFeedbackScreen extends StatefulWidget {
   final User user;

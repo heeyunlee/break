@@ -11,9 +11,7 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
@@ -23,18 +21,35 @@ final addWorkoutsToRoutineScreenModelProvider =
 );
 
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
+  Database? database;
+
+  AddWorkoutsToRoutineScreenModel({
+    this.database,
+  }) {
+    final container = ProviderContainer();
+    final auth = container.read(authServiceProvider);
+    database = container.read(databaseProvider(auth.currentUser?.uid));
+  }
+
   String _selectedMainMuscleGroup = 'MainMuscleGroup.abs';
   String _selectedChipTranslated = MainMuscleGroup.abs.translation!;
   final List<Workout> _selectedWorkouts = <Workout>[];
+  late Stream<List<Workout>> _stream;
 
   String get selectedMainMuscleGroup => _selectedMainMuscleGroup;
   String get selectedChipTranslated => _selectedChipTranslated;
   List<Workout> get selectedWorkouts => _selectedWorkouts;
+  Stream<List<Workout>> get stream => _stream;
 
   void init(Routine routine) {
     _selectedMainMuscleGroup = routine.mainMuscleGroup?[0] ??
         routine.mainMuscleGroupEnum?[0].toString() ??
         'MainMuscleGroup.abs';
+
+    _stream = database!.workoutsSearchStream(
+      arrayContainsVariableName: 'mainMuscleGroup',
+      arrayContainsValue: _selectedMainMuscleGroup,
+    );
   }
 
   void onSelectChoiceChip(bool selected, String string) {
@@ -47,6 +62,17 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
             : MainMuscleGroup.values
                 .firstWhere((e) => e.toString() == _selectedMainMuscleGroup)
                 .translation!;
+
+    if (_selectedMainMuscleGroup == 'Saved') {
+      _stream = database!.workoutsStream();
+    } else if (_selectedMainMuscleGroup == 'All') {
+      _stream = database!.workoutsStream();
+    } else {
+      _stream = database!.workoutsSearchStream(
+        arrayContainsVariableName: 'mainMuscleGroup',
+        arrayContainsValue: _selectedMainMuscleGroup,
+      );
+    }
 
     notifyListeners();
   }
@@ -70,18 +96,20 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<List<Workout>> workoutsStream(Database database) {
-    if (_selectedMainMuscleGroup == 'Saved') {
-      return database.workoutsStream();
-    } else if (_selectedMainMuscleGroup == 'All') {
-      return database.workoutsStream();
-    } else {
-      return database.workoutsSearchStream(
-        arrayContainsVariableName: 'mainMuscleGroup',
-        arrayContainsValue: _selectedMainMuscleGroup,
-      );
-    }
-  }
+  // Stream<List<Workout>> getWorkoutsStream() {
+  //   logger.d('`getWorkoutsStream()` function called');
+
+  //   if (_selectedMainMuscleGroup == 'Saved') {
+  //     return database!.workoutsStream();
+  //   } else if (_selectedMainMuscleGroup == 'All') {
+  //     return database!.workoutsStream();
+  //   } else {
+  //     return database!.workoutsSearchStream(
+  //       arrayContainsVariableName: 'mainMuscleGroup',
+  //       arrayContainsValue: _selectedMainMuscleGroup,
+  //     );
+  //   }
+  // }
 
   Future<void> addWorkoutsToRoutine(
     BuildContext context,

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
@@ -13,8 +14,6 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 import 'package:collection/collection.dart';
 
 final routineWorkoutCardModelProvider =

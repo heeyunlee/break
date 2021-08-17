@@ -2,19 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/view_models/text_field_model.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/preview/blurred_background_preview_widget.dart';
-import 'package:workout_player/view/widgets/animated_list_view_builder.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-import 'package:workout_player/view/widgets/keyboard_actions_done_button.dart';
-import 'package:workout_player/view/widgets/max_width_raised_button.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/text_field/outlined_text_text_field_widget.dart';
 
-import '../../view_models/sign_in_with_email_screen_model.dart';
-import '../widgets/sign_up_with_email/terms_and_privacy_policy_widget.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
+import 'package:workout_player/view_models/text_field_model.dart';
 
 class SignUpWithEmailScreen extends StatefulWidget {
   final SignInWithEmailModel model;

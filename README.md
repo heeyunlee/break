@@ -67,7 +67,18 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 ## To Do
 ### Refactoring
 #### This project is always-changing and always-improving. As I learn more about Flutter, and especially more about better factoring, I need to refactor old codes to make them better. Below are my refactoring to-do lists
-- [x] Add Workout To Routine Screen
+
+#### Library Tab
+- [x] `library_tab`
+- [x] `routines_tab`
+- [x] `workouts_tab`
+- [x] `choose_title_screen`
+- [x] `choose_equipment_required_screen`
+
+
+- [x] add_measurements_screen
+- [x] add_nutrition_screen
+- [ ] add_workout_to_routine_screen
 - [x] Create Routine Screen
 - [ ] Edit Routine Screen
 - [ ] Log Routine Screen
@@ -96,8 +107,6 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 - [ ] Unit Of Mass Screen
 - [ ] User Feedback Screen
 - [x] Home Screen
-- [x] Add Measurement Screen
-- [x] Add Nutrition Screen
 - [x] ~~Start Workout Shortcut Screen~~ Choose Routine Screeen
 - [ ] SpeedDial
 - [x] Preview Screen

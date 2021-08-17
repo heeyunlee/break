@@ -5,8 +5,7 @@ import 'package:workout_player/view/screens/personal_goals_screen.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/blur_background_card.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 import '../../../../view_models/home_screen_model.dart';
 
@@ -21,10 +20,7 @@ class BlurredMaterialBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final homeContext = context
-        .read(homeScreenModelProvider)
-        .homeScreenNavigatorKey
-        .currentContext!;
+    final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     return SizedBox(
       height: 136,

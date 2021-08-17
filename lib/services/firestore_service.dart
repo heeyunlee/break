@@ -93,7 +93,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   Stream<List<T>> collectionStreamWithWhereIsNull<T>({
@@ -116,7 +120,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   Stream<List<T>> collectionStreamOfThisWeek<T>({
@@ -149,7 +157,11 @@ class FirestoreService {
             );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   Stream<List<T>> collectionStreamOfThisWeek2<T>({
@@ -176,7 +188,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   Stream<List<T>> collectionStreamOfToday<T>({
@@ -202,7 +218,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   Stream<List<T>> collectionStreamOfSelectedDay<T>({
@@ -230,7 +250,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   // isEqualTo And OrderBy Stream
@@ -255,7 +279,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   // Two Is Equal To Collection Stream
@@ -283,7 +311,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   // Is Equal To And Array Contains Collection Stream
@@ -311,7 +343,11 @@ class FirestoreService {
         );
 
     final snapshots = reference.snapshots();
-    return snapshots.map((event) => event.docs.map((e) => e.data()).toList());
+    final list = snapshots.map(
+      (event) => event.docs.map((snapshot) => snapshot.data()).toList(),
+    );
+
+    return list;
   }
 
   ///////// `BATCH` ////////////

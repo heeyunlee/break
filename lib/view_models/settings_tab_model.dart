@@ -5,8 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 final settingsTabModelProvider = ChangeNotifierProvider(
   (ref) => SettingsTabModel(),

@@ -65,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m21(mainMuscleGroup) => " worked out ${mainMuscleGroup}";
 
+  static String m22(equipments) => "Using ${equipments}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "DISMISS": MessageLookupByLibrary.simpleMessage("DISMISS"),
@@ -551,7 +553,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("SAVE & END WORKOUT"),
         "saved": MessageLookupByLibrary.simpleMessage("Saved"),
         "savedRoutineEmptyText": MessageLookupByLibrary.simpleMessage(
-            "You\'re one step away from creating your own routine!"),
+            "This place looks quite empty..."),
         "savedRoutineSnackBarTitle":
             MessageLookupByLibrary.simpleMessage("Saved Routine"),
         "savedRoutineSnackbar": MessageLookupByLibrary.simpleMessage(
@@ -755,6 +757,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("No workout name"),
         "workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
+        "workoutsTabSubtitle": m22,
         "workoutsUpperCase": MessageLookupByLibrary.simpleMessage("Workouts"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("Wrong Password"),
         "wrongPasswordMessage": MessageLookupByLibrary.simpleMessage(

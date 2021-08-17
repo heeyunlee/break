@@ -4,11 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 final editRoutineEquipmentRequiredModelProvider = ChangeNotifierProvider(
   (ref) => EditRoutineEquipmentRequiredModel(),

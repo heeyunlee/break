@@ -63,6 +63,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m21(mainMuscleGroup) => "님이 ${mainMuscleGroup} 운동을 했습니다";
 
+  static String m22(equipments) => "${equipments}를 이용";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "DISMISS": MessageLookupByLibrary.simpleMessage("나중에"),
@@ -699,6 +701,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("운동에 이름이 없습니다"),
         "workouts": MessageLookupByLibrary.simpleMessage("운동"),
+        "workoutsTabSubtitle": m22,
         "workoutsUpperCase": MessageLookupByLibrary.simpleMessage("운동"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("비밀번호 오류"),
         "wrongPasswordMessage": MessageLookupByLibrary.simpleMessage(

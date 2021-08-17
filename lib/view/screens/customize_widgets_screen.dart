@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
+import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/appbar_close_button.dart';
 
 import '../../view_models/customize_widgets_screen_model.dart';
@@ -28,8 +31,10 @@ class CustomizeWidgetsScreen extends StatefulWidget {
   static void show(
     BuildContext context, {
     required User user,
-    required AuthAndDatabase authAndDatabase,
   }) {
+    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+    final database = provider.Provider.of<Database>(context, listen: false);
+
     Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
@@ -37,7 +42,7 @@ class CustomizeWidgetsScreen extends StatefulWidget {
           builder: (context, watch, child) => CustomizeWidgetsScreen(
             user: user,
             model: watch(customizeWidgetsScreenModelProvider),
-            authAndDatabase: authAndDatabase,
+            authAndDatabase: AuthAndDatabase(auth: auth, database: database),
           ),
         ),
       ),

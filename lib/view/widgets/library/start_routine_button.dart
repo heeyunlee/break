@@ -6,7 +6,8 @@ import 'package:workout_player/models/combined/routine_detail_screen_class.dart'
 import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
+
+import '../widgets.dart';
 
 class StartRoutineButton extends ConsumerWidget {
   final RoutineDetailScreenClass data;

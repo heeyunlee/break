@@ -4,13 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/screens/edit_routine_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
+import 'package:workout_player/view/screens/library/edit_routine_screen.dart';
+import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
-import '../../../../../view_models/routine_detail_screen_model.dart';
+import '../widgets.dart';
 import 'description_widget.dart';
 import 'equipment_required_widget.dart';
 import 'location_widget.dart';

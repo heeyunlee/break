@@ -2,51 +2,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
-import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
+import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/view/widgets/choice_chips_app_bar_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/scaffolds/choice_chips_app_bar_widget.dart';
 import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/list_item_builder.dart';
+import 'package:workout_player/view/widgets/library/library_list_tile.dart';
+import 'package:workout_player/view/widgets/list_views/custom_list_view_builder.dart';
 import 'package:workout_player/view/widgets/shimmer/list_view_shimmer.dart';
 
 import '../../view_models/add_workouts_to_routine_model.dart';
-import '../widgets/library/workout_list_tile.dart';
 
 class AddWorkoutsToRoutineScreen extends StatefulWidget {
   final Routine routine;
   final List<RoutineWorkout> routineWorkouts;
   final AddWorkoutsToRoutineScreenModel model;
-  final AuthAndDatabase authAndDatabase;
 
   const AddWorkoutsToRoutineScreen({
     Key? key,
     required this.routine,
     required this.routineWorkouts,
     required this.model,
-    required this.authAndDatabase,
   }) : super(key: key);
 
   static void show(
     BuildContext context, {
     required Routine routine,
     required List<RoutineWorkout> routineWorkouts,
-    required AuthAndDatabase authAndDatabase,
-  }) async {
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
+  }) {
+    HapticFeedback.mediumImpact();
+    Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => Consumer(
@@ -54,7 +46,6 @@ class AddWorkoutsToRoutineScreen extends StatefulWidget {
             routine: routine,
             routineWorkouts: routineWorkouts,
             model: watch(addWorkoutsToRoutineScreenModelProvider),
-            authAndDatabase: authAndDatabase,
           ),
         ),
       ),
@@ -117,41 +108,38 @@ class _AddWorkoutsToRoutineScreenState
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: CustomStreamBuilderWidget<List<Workout>>(
-        stream: widget.model.workoutsStream(widget.authAndDatabase.database),
-        errorWidget: EmptyContent(),
-        loadingWidget: ListViewShimmer(),
-        hasDataWidget: (context, data) => ListItemBuilder<Workout>(
-          items: data,
-          emptyContentTitle: S.current.noWorkoutEmptyContent(
-            widget.model.selectedChipTranslated,
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          CustomStreamBuilderWidget<List<Workout>>(
+            stream: widget.model.stream,
+            errorWidget: EmptyContent(),
+            loadingWidget: ListViewShimmer(),
+            hasDataWidget: (context, data) => CustomListViewBuilder<Workout>(
+              items: data,
+              emptyContentTitle: S.current.noWorkoutEmptyContent(
+                widget.model.selectedChipTranslated,
+              ),
+              itemBuilder: (context, workout, index) {
+                return LibraryListTile(
+                  tag: UniqueKey().toString(),
+                  selected: widget.model.selectedWorkouts.contains(workout),
+                  leadingString: Formatter.difficulty(workout.difficulty),
+                  title: Formatter.localizedTitle(
+                    workout.workoutTitle,
+                    workout.translated,
+                  ),
+                  imageUrl: workout.imageUrl,
+                  subtitle: Formatter.getJoinedEquipmentsRequired(
+                    workout.equipmentRequired,
+                  ),
+                  onTap: () => widget.model.selectWorkout(context, workout),
+                );
+              },
+            ),
           ),
-          itemBuilder: (context, workout, index) {
-            final locale = Intl.getCurrentLocale();
-
-            final difficulty = Formatter.difficulty(workout.difficulty);
-            final leadingText = MainMuscleGroup.values
-                .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
-                .translation;
-
-            final equipment = EquipmentRequired.values
-                .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
-                .translation;
-
-            final title = (locale == 'ko' || locale == 'en')
-                ? workout.translated[locale]
-                : workout.workoutTitle;
-
-            return WorkoutListTile(
-              imageUrl: workout.imageUrl,
-              leadingText: leadingText!,
-              title: title,
-              subtitle: '$difficulty,  ${S.current.usingEquipment(equipment!)}',
-              selected: widget.model.selectedWorkouts.contains(workout),
-              onTap: () => widget.model.selectWorkout(context, workout),
-            );
-          },
-        ),
+          const SizedBox(height: kBottomNavigationBarHeight + 48),
+        ],
       ),
     );
   }

@@ -10,11 +10,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 class RoutineHistorySummaryScreen extends StatefulWidget {
   final RoutineHistory routineHistory;

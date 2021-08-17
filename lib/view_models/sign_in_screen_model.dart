@@ -15,11 +15,11 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:workout_player/view/widgets/navigator/custom_fade_transition.dart';
 import 'main_model.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
-import 'package:workout_player/view/widgets/custom_fade_transition.dart';
 import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 import '../view/screens/sign_in_screen.dart';
 

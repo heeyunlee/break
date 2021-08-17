@@ -6,7 +6,6 @@ import 'package:workout_player/view_models/progress_tab_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../view_models/home_screen_model.dart';
 
@@ -23,6 +22,7 @@ class ChooseDateIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool enabled = user.widgetsList?.contains('activityRing') ?? true;
+
     return TextButton(
       style: ButtonStyles.text1,
       onPressed: enabled ? () => _showCalendar(context) : null,
@@ -41,14 +41,10 @@ class ChooseDateIconButton extends StatelessWidget {
   }
 
   Future<bool?> _showCalendar(BuildContext context) {
-    final homeContext = context
-        .read(homeScreenModelProvider)
-        .homeScreenNavigatorKey
-        .currentContext!;
+    final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     return showModalBottomSheet<bool>(
       context: homeContext,
-      // context: .homeScreenNavigatorKey.currentContext!,
       builder: (context) => Container(
         color: kCardColor,
         height: 500,

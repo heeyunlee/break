@@ -9,12 +9,9 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/library/set_efforts_widget.dart';
 import 'package:workout_player/view/widgets/library/toggle_is_public_widget.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/custom_scaffold.dart';
-import 'package:workout_player/view/widgets/keyboard_actions_done_button.dart';
-import 'package:workout_player/view/widgets/select_dates_widget.dart';
-import 'package:workout_player/view/widgets/text_field/outlined_number_text_field_widget.dart';
-import 'package:workout_player/view/widgets/text_field/outlined_text_text_field_widget.dart';
+import 'package:workout_player/view/widgets/scaffolds/custom_scaffold.dart';
+import 'package:workout_player/view/widgets/speed_dial/select_dates_widget.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../../view_models/log_routine_screen_model.dart';
 
@@ -51,7 +48,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
     return CustomScaffold(
       appBarTitle: S.current.addWorkoutLog,
       appBarLeading: AppBarCloseButton(),
-      bodyWidget: _buildBody,
+      buildBody: _buildBody,
       fabWidget: _buildFAB(context),
     );
   }

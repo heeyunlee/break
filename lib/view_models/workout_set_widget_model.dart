@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/dialogs.dart';
 import 'main_model.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
@@ -10,7 +11,6 @@ import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 final workoutSetWidgetModelProvider = ChangeNotifierProvider.autoDispose
     .family<WorkoutSetWidgetModel, AuthAndDatabase>(

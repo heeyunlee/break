@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/view/screens/workout_detail_screen.dart';
 import 'package:workout_player/services/algolia_manager.dart';
-import 'package:workout_player/view_models/main_model.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
-import '../../styles/constants.dart';
-import '../widgets/search/search_result_list_tile.dart';
-import '../widgets/search/search_tab_body_widget.dart';
+import 'library/workout_detail_screen.dart';
 
 class SearchTab extends StatefulWidget {
   @override
@@ -118,7 +118,7 @@ class _SearchTabState extends State<SearchTab> {
         physics: BouncingScrollPhysics(),
         onQueryChanged: onQueryChanged,
         onSubmitted: onQueryChanged,
-        body: _buildBody(),
+        body: FloatingSearchBarScrollNotifier(child: _buildBody()),
         // body: FloatingSearchBarScrollNotifier(child: SearchTabBodyWidget()),
         builder: (context, transition) => (searchResults.isEmpty)
             ? Column(

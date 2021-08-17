@@ -3,7 +3,7 @@ import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_adaptive_modal_bottom_sheet.dart';
+import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
 
 import '../../../../view_models/miniplayer_model.dart';
 

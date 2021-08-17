@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'home_screen_model.dart';
 import 'main_model.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
@@ -17,11 +18,9 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/screens/choose_equipment_required_screen.dart';
-import 'package:workout_player/view/screens/choose_main_muscle_group_screen.dart';
-import 'package:workout_player/view/screens/choose_more_settings_screen.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
+import 'package:workout_player/view/screens/library/choose_equipment_required_screen.dart';
+import 'package:workout_player/view/screens/library/choose_main_muscle_group_screen.dart';
+import 'package:workout_player/view/screens/library/choose_more_settings_screen.dart';
 
 import 'routine_detail_screen_model.dart';
 
@@ -217,7 +216,7 @@ class CreateNewRoutineModel with ChangeNotifier {
 
       final model = context.read(homeScreenModelProvider);
       final currentContext =
-          model.tabNavigatorKeys[model.currentTab]!.currentContext!;
+          HomeScreenModel.tabNavigatorKeys[model.currentTab]!.currentContext!;
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 

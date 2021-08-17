@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/show_alert_dialog.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
@@ -29,10 +25,13 @@ class ChangeDisplayNameScreen extends StatefulWidget {
   final AuthBase auth;
 
   static Future<void> show(BuildContext context, {required User user}) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context).push(
+    final container = ProviderContainer();
+    final auth = container.read(authServiceProvider);
+    final database = container.read(databaseProvider(auth.currentUser?.uid));
+
+    await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
+        fullscreenDialog: true,
         builder: (context) => ChangeDisplayNameScreen(
           database: database,
           user: user,
@@ -161,7 +160,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
           S.current.editDisplayNameTitle,
           style: TextStyles.subtitle1,
         ),
-        leading: const AppBarBackButton(),
+        leading: const AppBarCloseButton(),
         flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),

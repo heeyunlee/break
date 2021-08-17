@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -12,27 +12,31 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/progress/daily_summary_card.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/empty_content_widget.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'routine_history_detail_screen.dart';
 
 class RoutineHistoriesScreen extends StatelessWidget {
   final Database database;
+  final AuthBase auth;
 
-  const RoutineHistoriesScreen({Key? key, required this.database})
-      : super(key: key);
+  const RoutineHistoriesScreen({
+    Key? key,
+    required this.database,
+    required this.auth,
+  }) : super(key: key);
 
   static Future<void> show(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
+    final container = ProviderContainer();
+    final auth = container.read(authServiceProvider);
+    final database = container.read(databaseProvider(auth.currentUser?.uid));
 
     await HapticFeedback.mediumImpact();
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => RoutineHistoriesScreen(
           database: database,
+          auth: auth,
         ),
       ),
     );
@@ -40,10 +44,6 @@ class RoutineHistoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    // final user = database.getUserDocument(auth.currentUser!.uid);
-
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(

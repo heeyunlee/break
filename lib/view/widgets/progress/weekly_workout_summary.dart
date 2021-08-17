@@ -7,7 +7,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/blur_background_card.dart';
+import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 import '../../../../view_models/weekly_workout_summary_model.dart';
 

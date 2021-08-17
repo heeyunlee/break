@@ -54,6 +54,7 @@ final userDummyData = User(
   savedRoutines: [],
   savedWorkouts: [],
   displayName: 'John Doe',
+  backgroundImageIndex: 0,
 );
 
 final routineDummyData = Routine(

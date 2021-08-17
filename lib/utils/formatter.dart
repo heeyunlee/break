@@ -136,6 +136,16 @@ class Formatter {
     }
   }
 
+  static String localizedTitle([String? string, Map<String, dynamic>? map]) {
+    final locale = Intl.getCurrentLocale();
+
+    if (map != null && (locale == 'ko' || locale == 'en')) {
+      return map[locale];
+    } else {
+      return string ?? 'Title is null';
+    }
+  }
+
   /// Returns a string, which is a [UnitOfMass]'s kilogram level unit, either
   /// 'kg' or 'lbs', from `int` or `UnitOfMass`
   static String unitOfMass([int? unitOfMassInt, UnitOfMass? unitOfMassEnum]) {
@@ -262,8 +272,9 @@ class Formatter {
     if (equipmentsAsEnum != null) {
       final list =
           equipmentsAsEnum.map((equipment) => equipment!.translation!).toList();
+      final lowerCased = list.join(', ').toLowerCase();
 
-      return list.join(', ');
+      return lowerCased;
     } else if (equipmentsAsString != null) {
       final list = equipmentsAsString
           .map((equipment) => EquipmentRequired.values
@@ -271,7 +282,9 @@ class Formatter {
               .translation!)
           .toList();
 
-      return list.join(', ');
+      final lowerCased = list.join(', ').toLowerCase();
+
+      return lowerCased;
     } else {
       return S.current.equipmentRequired;
     }

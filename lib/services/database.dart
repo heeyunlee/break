@@ -1,22 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
-import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/models/routine_workout.dart';
-// import 'package:workout_player/models/steps.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/user_feedback.dart';
-import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/models/workout_set.dart';
+
+import 'package:workout_player/models/combined/combined_models.dart';
+import 'package:workout_player/models/models.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/services/api_path.dart';
-import 'package:workout_player/services/firestore_service.dart';
+
+import 'api_path.dart';
+import 'firestore_service.dart';
 
 ///
 ///

@@ -5,21 +5,13 @@ import 'package:workout_player/models/combined/auth_and_database.dart';
 
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/activity_ring_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/latest_body_fat_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/latest_body_weight_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/most_recent_workout_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/sample_widgets.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/weekly_measurements_sample_widget.dart';
-import 'package:workout_player/view/widgets/preview_sample_widgets/weekly_workout_summary_sample_widget.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
-import 'progress_tab_model.dart';
+import 'progress_tab_widgets_model.dart';
 
 final customizeWidgetsScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => CustomizeWidgetsScreenModel(),
@@ -39,7 +31,8 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   List<dynamic> get widgetKeysList => _widgetKeysList;
 
   void init(AuthAndDatabase authAndDatabase, User user) {
-    _widgetKeysList = user.widgetsList ?? ProgressTabModel().widgetKeysList;
+    _widgetKeysList =
+        user.widgetsList ?? ProgressTabWidgetsModel().widgetKeysList;
     auth = authAndDatabase.auth;
     database = authAndDatabase.database;
   }

@@ -11,16 +11,13 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
-import 'package:workout_player/view/screens/workout_detail_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-import 'package:workout_player/view/widgets/app_bar/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/custom_list_tile_3.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
 
 import '../../styles/constants.dart';
+import 'library/workout_detail_screen.dart';
 
 class SearchCategoryScreen extends StatelessWidget {
   const SearchCategoryScreen({

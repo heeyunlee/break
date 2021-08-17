@@ -2,6 +2,13 @@
 
 Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
+## Unrelreased (0.3.5)
+### New Features
+
+### Bug Fix & Refactor
+- Rearchitectured the entire project to implement (kind of?) MVVM architecture.
+- Created exports to simplify imports list
+
 ## [0.3.4] - August 8th, 2021
 ### New Features
 - Added features to add calories, carbs, fat amount in AddNutritionScreen

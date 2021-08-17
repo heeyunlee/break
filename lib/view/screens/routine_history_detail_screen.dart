@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
@@ -17,13 +18,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/progress/summary_row_widget.dart';
 import 'package:workout_player/view/widgets/progress/workout_history_card.dart';
-import 'package:workout_player/view/widgets/appbar_back_button.dart';
-import 'package:workout_player/view/widgets/custom_stream_builder_widget.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/list_item_builder.dart';
-import 'package:workout_player/view/widgets/max_width_raised_button.dart';
-import 'package:workout_player/view/widgets/show_adaptive_modal_bottom_sheet.dart';
-import 'package:workout_player/view/widgets/show_exception_alert_dialog.dart';
 
 List<WorkoutHistory> workoutHistories = [];
 
@@ -341,7 +335,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 widget.routineHistory.routineHistoryId,
               ),
               hasDataWidget: (context, snapshot) {
-                return ListItemBuilder<WorkoutHistory>(
+                return CustomListViewBuilder<WorkoutHistory>(
                   items: snapshot,
                   itemBuilder: (context, workoutHistory, index) {
                     workoutHistories = snapshot;
@@ -454,13 +448,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 color: Colors.red,
                 buttonText: S.current.delete,
                 onPressed: () async {
-                  final homeScreenModel = context.read(homeScreenModelProvider);
-                  final homeContext =
-                      homeScreenModel.homeScreenNavigatorKey.currentContext!;
-
                   await _showModalBottomSheet(
-                    homeContext,
-                    // HomeScreenModel.homeScreenNavigatorKey.currentContext!,
+                    HomeScreenModel.homeScreenNavigatorKey.currentContext!,
                   );
                 },
               ),

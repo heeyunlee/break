@@ -65,7 +65,7 @@
     "deleteRoutineWorkoutSnakbarMessage": "Deleted a Workout!",
     "deleteRoutineWorkoutButton": "Delete Workout",
     "somethingWentWrong": "Something went wrong...",
-    "savedRoutineEmptyText": "You're one step away from creating your own routine!",
+    "savedRoutineEmptyText": "This place looks quite empty...",
     "loggedRoutineHistorySnackbar": "Logged an activity",
     "addWorkoutLog": "Add Log Workout",
     "startTime": "Start Time",
@@ -439,5 +439,6 @@
     "chooseMainMuscleGroupMessage": "Please select muscle group(s) worked for this routine",
     "chooseEquipmentRequiredMessage": "Please select equipment(s) required for this routine",
     "emptyRoutineTitleWarningMessage": "Please enter a routine title",
-    "errorAbortedByUser": "Sign In was aborted by user"
+    "errorAbortedByUser": "Sign In was aborted by user",
+    "workoutsTabSubtitle": "Using {equipments}"
 }
