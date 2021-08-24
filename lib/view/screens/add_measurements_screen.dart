@@ -4,16 +4,14 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/scaffolds/custom_scaffold.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/add_measurements_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/speed_dial/select_dates_widget.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 
-import '../../view_models/add_measurements_model.dart';
-
+/// Screen where users can input their [Measurement] data.
 class AddMeasurementsScreen extends StatefulWidget {
   final User user;
   final Database database;
@@ -123,7 +121,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                     controller: widget.model.notesController,
                     labelText: S.current.notes,
                   ),
-                  const SizedBox(height: 96),
+                  const SizedBox(height: kBottomNavigationBarHeight + 64),
                 ],
               ),
             ),

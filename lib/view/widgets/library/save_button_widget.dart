@@ -7,7 +7,8 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
+
+import '../basic.dart';
 
 class SaveButtonWidget extends StatelessWidget {
   final User user;

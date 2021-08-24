@@ -5,11 +5,11 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/buttons/appbar_close_button.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
 
 import '../../../view_models/personal_goals_screen_model.dart';
 

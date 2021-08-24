@@ -657,4 +657,9 @@ class TextStyles {
     color: Colors.white,
     fontSize: 24,
   );
+
+  static final blackHans2 = GoogleFonts.blackHanSans(
+    color: Colors.white,
+    fontSize: 20,
+  );
 }

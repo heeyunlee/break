@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 
-class CustomFutureBuilderWidget<T> extends StatelessWidget {
+class CustomFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;
-  final HasDataWidget<T> hasDataWidget;
+  final SnapshotActiveBuilder<T> builder;
   final Widget? errorWidget;
   final Widget? loadingWidget;
 
-  const CustomFutureBuilderWidget({
+  const CustomFutureBuilder({
     Key? key,
     required this.future,
-    required this.hasDataWidget,
+    required this.builder,
     this.errorWidget,
     this.loadingWidget,
   }) : super(key: key);
@@ -22,7 +22,7 @@ class CustomFutureBuilderWidget<T> extends StatelessWidget {
       future: future,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasData) {
-          return hasDataWidget(context, snapshot.data!);
+          return builder(context, snapshot.data!);
         } else if (snapshot.hasError) {
           logger.e(snapshot.error);
 

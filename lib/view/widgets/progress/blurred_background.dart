@@ -2,21 +2,27 @@ import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../view_models/progress_tab_model.dart';
+import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/view_models/miniplayer_model.dart';
+import 'package:workout_player/view_models/progress_tab_model.dart';
 
 class BlurredBackground extends StatelessWidget {
   final ProgressTabModel model;
+  final MiniplayerModel miniplayerModel;
   final int? imageIndex;
 
   const BlurredBackground({
     Key? key,
     required this.model,
+    required this.miniplayerModel,
     required this.imageIndex,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bool isRoutineOrNull = miniplayerModel.currentWorkout == null ||
+        miniplayerModel.currentWorkout.runtimeType == Routine;
+
     return AnimatedBuilder(
       animation: model.animationController,
       builder: (context, child) => Container(
@@ -28,20 +34,22 @@ class BlurredBackground extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(
-            sigmaX: model.blurTween.value,
-            sigmaY: model.blurTween.value,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0, -0.5),
-                end: Alignment(0, 1),
-                colors: [
-                  Colors.transparent,
-                  Colors.white.withOpacity(model.brightnessTween.value),
-                ],
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ui.ImageFilter.blur(
+              sigmaX: isRoutineOrNull ? model.blurTween.value : 0,
+              sigmaY: isRoutineOrNull ? model.blurTween.value : 0,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0, -0.5),
+                  end: Alignment(0, 1),
+                  colors: [
+                    Colors.transparent,
+                    Colors.white.withOpacity(model.brightnessTween.value),
+                  ],
+                ),
               ),
             ),
           ),

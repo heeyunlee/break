@@ -16,6 +16,8 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'library/workout_detail_screen.dart';
 
 class SearchTab extends StatefulWidget {
+  const SearchTab({Key? key}) : super(key: key);
+
   @override
   _SearchTabState createState() => _SearchTabState();
 }

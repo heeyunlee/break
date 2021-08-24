@@ -11,5 +11,7 @@ export 'steps.dart';
 export 'user.dart';
 export 'user_feedback.dart';
 export 'workout.dart';
+export 'workout_for_youtube.dart';
 export 'workout_history.dart';
 export 'workout_set.dart';
+export 'youtube_video.dart';

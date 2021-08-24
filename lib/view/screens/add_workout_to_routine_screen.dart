@@ -8,13 +8,9 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-
-import '../widgets/appbar_close_button.dart';
-import '../widgets/scaffolds/custom_scaffold.dart';
-import '../widgets/empty_content.dart';
-import '../widgets/library/library_list_tile.dart';
 
 /// Screen that pushes when user presses `AddWorkoutToRoutine` button.
 /// It lists the custom routines made by the user, and when the user presses the

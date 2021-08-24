@@ -43,6 +43,8 @@ dependencies:
   google_fonts: ^2.1.0
   pedantic: ^1.11.1
   paginate_firestore: ^1.0.0
+  googleapis: ^4.0.0
+  extension_google_sign_in_as_googleapis_auth: ^2.0.2
 
   # Authentication
   google_sign_in: ^5.0.4
@@ -74,7 +76,6 @@ dependencies:
   percent_indicator: ^3.3.0-nullsafety.1
   # timer_count_down: ^2.0.1
   # convex_bottom_bar: ^3.0.0
-  # youtube_player_flutter: ^8.0.0
   table_calendar: ^3.0.0
   material_floating_search_bar: ^0.3.4
   # implicitly_animated_reorderable_list: ^0.4.0
@@ -88,6 +89,9 @@ dependencies:
   flutter_staggered_grid_view: ^0.4.0
   animated_text_kit: ^4.2.1
   visibility_detector: ^0.2.0
+  # youtube_player_flutter: ^8.0.0
+  youtube_plyr_iframe: ^2.0.7
+  blurhash_dart: ^1.0.2
   flutter_blurhash: ^0.6.0
 
   # Others
@@ -142,5 +146,6 @@ flutter:
     - assets/images/
     - assets/emojis/
     - assets/svgs/
+    - assets/test/
 flutter_intl:
   enabled: true

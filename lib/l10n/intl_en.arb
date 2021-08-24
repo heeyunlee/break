@@ -294,7 +294,7 @@
     "measurements": "Body",
     "emptyRoutineAlertTitle": "Routine is empty!",
     "endMiniplayerButtonText": "END",
-    "noWorkoutSetTitle": "Add sets to your workout",
+    "noWorkoutSetTitle": "No current set",
     "errorOccuredMessage": "An error has occured",
     "savedWorkouts": "Saved Workouts",
     "progressTabIntroduction": "Hello,\n{displayName}",

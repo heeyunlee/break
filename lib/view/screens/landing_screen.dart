@@ -30,8 +30,7 @@ class LandingScreen extends StatelessWidget {
 
             return provider.Provider<Database>(
               create: (_) => FirestoreDatabase(uid: user.uid),
-              // child: HomeScreen.create(context),
-              child: HomeScreen(),
+              child: const HomeScreen(),
             );
           } else {
             logger.d('user does NOT exist');

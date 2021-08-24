@@ -458,7 +458,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No saved workouts yet..."),
         "noWorkoutEmptyContent": m5,
         "noWorkoutSetTitle":
-            MessageLookupByLibrary.simpleMessage("Add sets to your workout"),
+            MessageLookupByLibrary.simpleMessage("No current set"),
         "noWorkoutsWereAddedYet":
             MessageLookupByLibrary.simpleMessage("No workouts were added yet"),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),

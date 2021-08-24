@@ -7,18 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
-import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 import 'library/workout_detail_screen.dart';
 import 'new_workout_difficulty_and_more_screen.dart';

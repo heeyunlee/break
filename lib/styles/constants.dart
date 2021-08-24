@@ -74,7 +74,9 @@ typedef BoolCallback = void Function(bool value);
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 typedef ItemWidgetBuilder2<T> = Widget Function(
     BuildContext context, T item, int index);
-typedef HasDataWidget<T> = Widget Function(BuildContext context, T data);
+
+typedef SnapshotActiveBuilder<T> = Widget Function(
+    BuildContext context, T data);
 
 typedef CustomNavigatorBuilder = Widget Function(
   BuildContext context,

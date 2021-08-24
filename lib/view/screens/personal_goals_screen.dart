@@ -11,7 +11,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
 import '../../styles/constants.dart';
 import '../../view_models/personal_goals_screen_model.dart';
@@ -62,10 +62,10 @@ class PersonalGoalsScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return CustomStreamBuilderWidget<User?>(
+    return CustomStreamBuilder<User?>(
       initialData: userDummyData,
       stream: database.userStream(),
-      hasDataWidget: (context, user) => Consumer(
+      builder: (context, user) => Consumer(
         builder: (context, watch, child) {
           final model = watch(personalGoalsScreenModelProvider(user!));
           model.init();

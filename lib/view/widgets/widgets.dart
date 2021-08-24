@@ -21,3 +21,4 @@ export 'shimmers.dart';
 export 'sign_in.dart';
 export 'speed_dial.dart';
 export 'text_form_fields.dart';
+export 'watch.dart';

@@ -416,6 +416,26 @@ class FirestoreService {
     return query;
   }
 
+  Query<T> paginatedPublicCollectionQuery<T>({
+    required String path,
+    required String orderBy,
+    required bool descending,
+    required String isPublicName,
+    required Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Function(T model) toBuilder,
+  }) {
+    final query = FirebaseFirestore.instance
+        .collection(path)
+        .orderBy(orderBy, descending: descending)
+        .where(isPublicName, isEqualTo: true)
+        .withConverter<T>(
+          fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
+          toFirestore: (model, _) => toBuilder(model),
+        );
+
+    return query;
+  }
+
   Query<T> whereAndOrderByQuery<T>({
     required String path,
     required String where,

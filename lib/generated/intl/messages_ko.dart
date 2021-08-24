@@ -421,7 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("저장한 운동이 없습니다..."),
         "noWorkoutEmptyContent": m5,
         "noWorkoutSetTitle":
-            MessageLookupByLibrary.simpleMessage("운동에 세트를 추가해주세요"),
+            MessageLookupByLibrary.simpleMessage("현재 운동 세트가 없습니다"),
         "noWorkoutsWereAddedYet":
             MessageLookupByLibrary.simpleMessage("루틴에 아직 운동이 추가되지 않았어요"),
         "notes": MessageLookupByLibrary.simpleMessage("메모"),

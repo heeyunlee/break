@@ -6,13 +6,10 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/view/screens/add_workouts_to_routine_screen.dart';
-import 'package:workout_player/view/widgets/library.dart';
-import 'package:workout_player/view/widgets/library/reorder_routine_workouts_button.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/max_width_raised_button.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 class RoutineWorkoutsTab extends StatelessWidget {
   final RoutineDetailScreenClass data;

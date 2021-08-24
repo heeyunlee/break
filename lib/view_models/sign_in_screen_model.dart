@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:provider/provider.dart' as provider;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,19 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/enum/unit_of_mass.dart';
+import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
-import 'package:workout_player/view/widgets/navigator/custom_fade_transition.dart';
-import 'main_model.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
+import 'package:workout_player/view/screens/sign_in_screen.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
-import '../view/screens/sign_in_screen.dart';
+import 'main_model.dart';
 
 final signInScreenProvider = ChangeNotifierProvider(
   (ref) => SignInScreenModel(),

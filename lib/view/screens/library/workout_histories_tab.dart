@@ -14,7 +14,7 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
 class WorkoutHistoriesTab extends StatefulWidget {
   final User user;
@@ -123,11 +123,11 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
   Widget build(BuildContext context) {
     logger.d('build routine histories Tab');
 
-    return CustomStreamBuilderWidget<List<WorkoutHistory?>>(
+    return CustomStreamBuilder<List<WorkoutHistory?>>(
       stream: widget.database.workoutHistoriesThisWeekStream(
         widget.workout.workoutId,
       ),
-      hasDataWidget: (context, data) {
+      builder: (context, data) {
         List<double> relativeYs = [];
 
         _setData(data, relativeYs);

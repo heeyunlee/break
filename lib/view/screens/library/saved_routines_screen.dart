@@ -72,9 +72,10 @@ class SavedRoutinesScreen extends StatelessWidget {
     return user.savedRoutines!.map((id) {
       Future<Routine?> future = database.getRoutine(id);
 
-      return CustomFutureBuilderWidget<Routine?>(
+      return CustomFutureBuilder<Routine?>(
         future: future,
-        hasDataWidget: (context, routine) {
+        errorWidget: Container(),
+        builder: (context, routine) {
           if (routine != null) {
             return LibraryListTile(
               tag: 'savedRoutiness-${routine.routineId}',

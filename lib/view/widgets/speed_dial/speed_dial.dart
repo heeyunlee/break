@@ -6,7 +6,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/view_models/add_measurements_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:workout_player/view_models/speed_dial_model.dart';
 
@@ -45,21 +44,23 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: miniplayerExpandProgress,
-      builder: (BuildContext context, double height, Widget? child) {
+    return Consumer(
+      builder: (context, watch, child) {
+        final model = watch(miniplayerModelProvider);
         final size = MediaQuery.of(context).size;
 
-        final value = percentageFromValueInRange(
-          min: miniplayerMinHeight,
-          max: size.height,
-          value: height,
-        );
-
-        return Transform.translate(
-          offset: Offset(
-            0,
-            kBottomNavigationBarHeight * value * 2,
+        return ValueListenableBuilder<double>(
+          valueListenable: model.valueNotifier,
+          builder: (context, height, child) => Transform.translate(
+            offset: Offset(
+              0,
+              model.getYOffset(
+                min: miniplayerMinHeight,
+                max: size.height,
+                value: height,
+              ),
+            ),
+            child: child,
           ),
           child: SizedBox.expand(
             child: Stack(

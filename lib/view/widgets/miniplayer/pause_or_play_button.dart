@@ -3,7 +3,7 @@ import 'package:workout_player/generated/l10n.dart';
 
 import '../../../../view_models/miniplayer_model.dart';
 
-class PauseOrPlayButton extends StatelessWidget {
+class PauseOrPlayButton extends StatefulWidget {
   final double? iconSize;
   final MiniplayerModel model;
 
@@ -12,34 +12,33 @@ class PauseOrPlayButton extends StatelessWidget {
     required this.model,
   });
 
-  Future<void> _pausePlay(BuildContext context) async {
-    final workoutSet = model.currentWorkoutSet;
+  @override
+  _PauseOrPlayButtonState createState() => _PauseOrPlayButtonState();
+}
 
-    if (workoutSet != null) {
-      if (!model.isWorkoutPaused) {
-        model.toggleIsWorkoutPaused();
-        if (workoutSet.isRest) model.countDownController.pause();
-      } else {
-        model.toggleIsWorkoutPaused();
-        if (workoutSet.isRest) model.countDownController.resume();
-      }
-    }
+class _PauseOrPlayButtonState extends State<PauseOrPlayButton>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    widget.model.init(this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
       verticalOffset: -56,
-      message: (model.isWorkoutPaused)
+      message: (widget.model.isWorkoutPaused)
           ? S.current.pauseWorkout
           : S.current.resumeWorkout,
       child: IconButton(
         color: Colors.white,
-        onPressed: () => _pausePlay(context),
-        iconSize: iconSize!,
-        icon: (!model.isWorkoutPaused)
-            ? Icon(Icons.pause_rounded)
-            : Icon(Icons.play_arrow_rounded),
+        onPressed: widget.model.pauseOrPlay,
+        iconSize: widget.iconSize!,
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.pause_play,
+          progress: widget.model.animationController,
+        ),
       ),
     );
   }

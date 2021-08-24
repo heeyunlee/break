@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../fade_slide_transition.dart';
+import 'package:workout_player/view/widgets/animations/fade_slide_transition.dart';
 
 class CheckboxListView extends StatelessWidget {
   final List<dynamic> items;

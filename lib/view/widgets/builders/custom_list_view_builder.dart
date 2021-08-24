@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
+
+import '../basic.dart';
 
 class CustomListViewBuilder<T> extends StatelessWidget {
   const CustomListViewBuilder({

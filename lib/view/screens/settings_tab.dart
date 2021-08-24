@@ -21,6 +21,16 @@ import 'unit_of_mass_screen.dart';
 import 'user_feedback_screen.dart';
 
 class SettingsTab extends ConsumerWidget {
+  const SettingsTab({Key? key}) : super(key: key);
+
+  static void show(BuildContext context) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => const SettingsTab(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     logger.d('[SettingsTab] building...');
@@ -46,9 +56,9 @@ class SettingsTab extends ConsumerWidget {
   Widget _buildBody(BuildContext context, SettingsTabModel model) {
     final database = provider.Provider.of<Database>(context, listen: false);
 
-    return CustomStreamBuilderWidget<User?>(
+    return CustomStreamBuilder<User?>(
       stream: database.userStream(),
-      hasDataWidget: (context, user) => SingleChildScrollView(
+      builder: (context, user) => SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

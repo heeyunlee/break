@@ -3,6 +3,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class ProgressTabShimmer extends StatelessWidget {
+  const ProgressTabShimmer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

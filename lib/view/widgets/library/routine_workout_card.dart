@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
-import 'package:intl/intl.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/view/widgets/library/workout_set_widget.dart';
 import 'package:workout_player/view_models/workout_set_widget_model.dart';
@@ -204,13 +203,10 @@ class RoutineWorkoutCard extends ConsumerWidget {
   }
 
   Widget _buildTitle() {
-    final locale = Intl.getCurrentLocale();
-    final translation = routineWorkout.translated;
-    final title = translation.isEmpty
-        ? routineWorkout.workoutTitle
-        : (locale == 'ko' || locale == 'en')
-            ? routineWorkout.translated[locale]
-            : routineWorkout.workoutTitle;
+    final title = Formatter.localizedTitle(
+      routineWorkout.workoutTitle,
+      routineWorkout.translated,
+    );
 
     if (title.length > 24) {
       return FittedBox(

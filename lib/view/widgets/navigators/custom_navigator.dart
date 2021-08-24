@@ -8,6 +8,7 @@ import 'package:workout_player/styles/constants.dart';
 
 bool? customPush(
   BuildContext context, {
+  required bool rootNavigator,
   required CustomNavigatorBuilder builder,
 }) {
   final container = ProviderContainer();
@@ -15,9 +16,9 @@ bool? customPush(
   final database = container.read(databaseProvider(auth.currentUser?.uid));
 
   HapticFeedback.mediumImpact();
-  Navigator.of(context, rootNavigator: true).push(
+  Navigator.of(context, rootNavigator: rootNavigator).push(
     CupertinoPageRoute(
-      fullscreenDialog: true,
+      fullscreenDialog: rootNavigator,
       builder: (context) => builder(context, auth, database),
     ),
   );

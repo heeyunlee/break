@@ -17,27 +17,27 @@ class AppbarBlurBG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: blurSigma ?? 15.0,
-          sigmaY: blurSigma ?? 15.0,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   begin: Alignment.topCenter,
-            //   end: Alignment.bottomCenter,
-            //   colors: [
-            //     color ?? kAppBarColor.withOpacity(0.5),
-            //     Colors.transparent,
-            //   ],
-            // ),
-            color: color ?? kAppBarColor.withOpacity(0.5),
-          ),
-          child: childWidget,
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: color ?? kAppBarColor,
       ),
+      child: childWidget,
     );
+    // return ClipRect(
+    //   clipBehavior: Clip.antiAlias,
+    //   child: BackdropFilter(
+    //     filter: ImageFilter.blur(
+    //       sigmaX: blurSigma ?? 15,
+    //       sigmaY: blurSigma ?? 15,
+    //     ),
+    //     child: Container(
+    //       decoration: BoxDecoration(
+    //         // color: color ?? kAppBarColor.withOpacity(0.5),
+    //         color: color ?? kAppBarColor,
+    //       ),
+    //       child: childWidget,
+    //     ),
+    //   ),
+    // );
   }
 }

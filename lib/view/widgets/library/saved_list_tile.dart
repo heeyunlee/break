@@ -1,63 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 class SavedListTile<T> extends StatelessWidget {
   const SavedListTile({
     Key? key,
-    required this.user,
     required this.onTap,
     required this.title,
   }) : super(key: key);
 
-  final User user;
-  final void Function() onTap;
+  final void Function(User) onTap;
   final String title;
 
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<Database>(context, listen: false);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(4),
-        child: Card(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: kGrey800,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: const Icon(
-                  Icons.bookmark_border_rounded,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyles.body1_bold,
+      child: CustomStreamBuilder<User?>(
+        stream: database.userStream(),
+        builder: (context, data) => InkWell(
+          onTap: () => onTap(data!),
+          borderRadius: BorderRadius.circular(4),
+          child: Card(
+            color: Colors.transparent,
+            elevation: 0,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: kGrey800,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _getSubtitle(user),
-                    style: TextStyles.body2_grey,
+                  child: const Icon(
+                    Icons.bookmark_border_rounded,
+                    color: Colors.white,
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyles.body1_bold,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _getSubtitle(data!),
+                      style: TextStyles.body2_grey,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

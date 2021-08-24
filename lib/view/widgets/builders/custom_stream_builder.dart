@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';
 
-import '../empty_content.dart';
+import '../basic.dart';
 
-class CustomStreamBuilderWidget<T> extends StatelessWidget {
+class CustomStreamBuilder<T> extends StatelessWidget {
   final Stream<T> stream;
   final T? initialData;
-  final HasDataWidget<T> hasDataWidget;
+  final SnapshotActiveBuilder<T> builder;
   final Widget? errorWidget;
   final Widget? loadingWidget;
 
-  const CustomStreamBuilderWidget({
+  const CustomStreamBuilder({
     Key? key,
     required this.stream,
-    required this.hasDataWidget,
+    required this.builder,
     this.errorWidget,
     this.initialData,
     this.loadingWidget,
@@ -40,7 +40,7 @@ class CustomStreamBuilderWidget<T> extends StatelessWidget {
               return loadingWidget ??
                   Center(child: kPrimaryColorCircularProgressIndicator);
             case ConnectionState.active:
-              return hasDataWidget(context, snapshot.data!);
+              return builder(context, snapshot.data!);
           }
         }
       },

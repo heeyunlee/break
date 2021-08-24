@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
 
@@ -66,20 +64,30 @@ class BlurBackgroundCard extends StatelessWidget {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(borderRadius! - 4),
-          child: BackdropFilter(
-            filter: ui.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-            child: Material(
-              color: color ?? Colors.black38,
-              child: InkWell(
-                onLongPress: onLongPress,
-                onTap: onTap,
-                child: child,
-              ),
-            ),
+        child: Material(
+          borderRadius: BorderRadius.circular(24),
+          color: color ?? kCardColor.withOpacity(0.85),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(24),
+            onLongPress: onLongPress,
+            onTap: onTap,
+            child: child,
           ),
         ),
+        // child: ClipRRect(
+        //   borderRadius: BorderRadius.circular(borderRadius! - 4),
+        //   child: BackdropFilter(
+        //     filter: ui.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        //     child: Material(
+        //       color: color ?? Colors.black38,
+        //       child: InkWell(
+        //         onLongPress: onLongPress,
+        //         onTap: onTap,
+        //         child: child,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

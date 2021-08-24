@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 import 'package:workout_player/view/widgets/library.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -128,9 +128,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: CustomStreamBuilderWidget<Workout?>(
+      body: CustomStreamBuilder<Workout?>(
         stream: widget.database.workoutStream(widget.workoutId),
-        hasDataWidget: (context, data) {
+        builder: (context, data) {
           return DefaultTabController(
             length: 2,
             child: NestedScrollView(

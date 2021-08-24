@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/library.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import '../create_new_workout_screen.dart';
@@ -26,9 +24,7 @@ import 'workout_detail_screen.dart';
 /// ### Enhancement
 ///
 class WorkoutsTab extends StatelessWidget {
-  const WorkoutsTab({Key? key, required this.user}) : super(key: key);
-
-  final User user;
+  const WorkoutsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +84,7 @@ class WorkoutsTab extends StatelessWidget {
           onTap: () => CreateNewWorkoutScreen.show(context),
         ),
         SavedListTile<Workout>(
-          user: user,
-          onTap: () => SavedWorkoutsScreen.show(context, user: user),
+          onTap: (user) => SavedWorkoutsScreen.show(context, user: user),
           title: S.current.savedWorkouts,
         ),
         if (!isHeader)

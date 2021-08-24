@@ -1,53 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:miniplayer/miniplayer.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/get_snackbar_widget.dart';
-import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/view_models/miniplayer_model.dart';
 
-import '../../../../view_models/miniplayer_model.dart';
-
-class CloseMiniplayerButton extends StatelessWidget {
-  final MiniplayerModel model;
-
-  const CloseMiniplayerButton({Key? key, required this.model})
-      : super(key: key);
-
-  Future<bool?> _closeModalBottomSheet(BuildContext context) {
-    return showAdaptiveModalBottomSheet(
-      context,
-      title: Text(
-        S.current.endWorkoutWarningMessage,
-        textAlign: TextAlign.center,
-      ),
-      firstActionText: S.current.stopTheWorkout,
-      isFirstActionDefault: false,
-      firstActionOnPressed: () {
-        Navigator.of(context).pop();
-
-        // model.setMiniplayerValuesNull();
-        // model.setIndexesToDefault();
-        // model.setRestTime(null);
-        model.diosposeValues(null);
-
-        model.miniplayerController.animateToHeight(state: PanelState.MIN);
-
-        getSnackbarWidget(
-          S.current.cancelWorkoutSnackbarTitle,
-          S.current.cancelWorkoutSnackbarMessage,
-        );
-      },
-      cancelText: S.current.cancel,
-      isCancelDefault: true,
-    );
-  }
+class CloseMiniplayerButton extends ConsumerWidget {
+  const CloseMiniplayerButton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     return SizedBox(
       height: 32,
       child: ElevatedButton(
-        onPressed: () => _closeModalBottomSheet(context),
+        onPressed: () => watch(miniplayerModelProvider).endWorkout(context),
         style: ElevatedButton.styleFrom(
           primary: Colors.red,
           shape: RoundedRectangleBorder(

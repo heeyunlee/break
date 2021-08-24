@@ -23,18 +23,30 @@ import '../widgets.dart';
 ///
 /// AppBar's title Style
 class CustomScaffold extends StatelessWidget {
-  final Widget? appBarLeading;
-  final String? appBarTitle;
-  final Widget Function(BuildContext) buildBody;
-  final Widget? fabWidget;
-
   const CustomScaffold({
     Key? key,
     this.appBarLeading,
+    this.appBarActions,
     this.appBarTitle,
     required this.buildBody,
     this.fabWidget,
   }) : super(key: key);
+
+  /// AppBar's leading widget. Default is [AppBarBackButton]
+  final Widget? appBarLeading;
+
+  /// AppBar's Title String. Default is '' with the style of [TextStyles.subtitle2]
+  final String? appBarTitle;
+
+  /// AppBar's Action widgets. Default is `null`
+  final List<Widget>? appBarActions;
+
+  /// builder for body widget. Used [Builder] function so that the scaffold can
+  /// be extended behind AppBar and body can access `Scaffold.of(context)`
+  final Widget Function(BuildContext) buildBody;
+
+  /// FAB for the scaffold. Default is `null`
+  final Widget? fabWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +57,8 @@ class CustomScaffold extends StatelessWidget {
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
-        leading: appBarLeading ?? const AppBarBackButton(),
+        leading: appBarLeading ?? AppBarBackButton(),
+        actions: appBarActions,
         flexibleSpace: const AppbarBlurBG(),
         title: Text(appBarTitle ?? '', style: TextStyles.subtitle2),
       ),

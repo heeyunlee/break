@@ -330,11 +330,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(S.current.routines, style: TextStyles.headline6_w900),
             ),
-            CustomStreamBuilderWidget<List<WorkoutHistory>>(
+            CustomStreamBuilder<List<WorkoutHistory>>(
               stream: widget.database.workoutHistoriesStream(
                 widget.routineHistory.routineHistoryId,
               ),
-              hasDataWidget: (context, snapshot) {
+              builder: (context, snapshot) {
                 return CustomListViewBuilder<WorkoutHistory>(
                   items: snapshot,
                   itemBuilder: (context, workoutHistory, index) {

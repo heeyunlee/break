@@ -238,7 +238,9 @@ class LogRoutineModel with ChangeNotifier {
         S.current.afterWorkoutSnackbar,
       );
 
-      context.read(miniplayerModelProvider).setRoutine(null);
+      context.read(miniplayerModelProvider).diosposeValues();
+
+      // context.read(miniplayerModelProvider).setRoutine(null);
 
       _toggleBoolValue();
     } on FirebaseException catch (e) {
@@ -249,6 +251,8 @@ class LogRoutineModel with ChangeNotifier {
         exception: e.toString(),
       );
     }
+
+    notifyListeners();
   }
 
   /// STATIC

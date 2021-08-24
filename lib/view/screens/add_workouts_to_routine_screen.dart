@@ -9,14 +9,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
-import 'package:workout_player/view/widgets/scaffolds/choice_chips_app_bar_widget.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/library/library_list_tile.dart';
-import 'package:workout_player/view/widgets/list_views/custom_list_view_builder.dart';
-import 'package:workout_player/view/widgets/shimmer/list_view_shimmer.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../../view_models/add_workouts_to_routine_model.dart';
 
@@ -111,11 +104,11 @@ class _AddWorkoutsToRoutineScreenState
       child: Column(
         children: [
           const SizedBox(height: 8),
-          CustomStreamBuilderWidget<List<Workout>>(
+          CustomStreamBuilder<List<Workout>>(
             stream: widget.model.stream,
             errorWidget: EmptyContent(),
             loadingWidget: ListViewShimmer(),
-            hasDataWidget: (context, data) => CustomListViewBuilder<Workout>(
+            builder: (context, data) => CustomListViewBuilder<Workout>(
               items: data,
               emptyContentTitle: S.current.noWorkoutEmptyContent(
                 widget.model.selectedChipTranslated,

@@ -8,18 +8,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
-import 'package:workout_player/view/widgets/navigator/custom_fade_transition.dart';
-import 'main_model.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/sign_in_with_email_screen.dart';
 import '../view/screens/sign_up_with_email_screen.dart';
+import 'main_model.dart';
 import 'text_field_model.dart';
 
 final signInWithEmailModelProvider = ChangeNotifierProvider.autoDispose(

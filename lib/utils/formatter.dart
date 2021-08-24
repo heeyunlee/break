@@ -422,4 +422,54 @@ class Formatter {
       return '$formattedWeight $unit';
     }
   }
+
+  static String formattedWorkoutSetTitle(WorkoutSet? workoutSet) {
+    if (workoutSet != null) {
+      if (workoutSet.isRest) {
+        return '${S.current.rest} ${workoutSet.restIndex}';
+      } else {
+        return '${S.current.set} ${workoutSet.setIndex}';
+      }
+    } else {
+      return S.current.noWorkoutSetTitle;
+    }
+  }
+
+  static String workoutSetWeightAndReps(
+    Routine routine,
+    RoutineWorkout? routineWorkout,
+    WorkoutSet? workoutSet,
+  ) {
+    if (workoutSet != null && routineWorkout != null) {
+      if (workoutSet.isRest) {
+        final restTime = workoutSet.restTime;
+
+        return '${S.current.rest}: $restTime ${S.current.seconds}';
+      } else {
+        final reps = '${workoutSet.reps} ${S.current.x}';
+
+        if (routineWorkout.isBodyWeightWorkout) {
+          return '${S.current.bodyweight}   •   $reps';
+        } else {
+          final unit = Formatter.unitOfMass(
+            routine.initialUnitOfMass,
+            routine.unitOfMassEnum,
+          );
+          final formattedWeight = numWithOrWithoutDecimal(workoutSet.weights!);
+
+          return '$formattedWeight $unit   •   $reps';
+        }
+      }
+    } else {
+      return S.current.noWorkoutSetTitle;
+    }
+  }
+
+  static String durationInMMSS(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+
+    return '$twoDigitMinutes:$twoDigitSeconds';
+  }
 }

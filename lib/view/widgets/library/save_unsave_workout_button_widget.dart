@@ -25,10 +25,10 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomStreamBuilderWidget<User?>(
+    return CustomStreamBuilder<User?>(
       initialData: user,
       stream: database.userStream(),
-      hasDataWidget: (context, data) {
+      builder: (context, data) {
         // final User user = snapshot.data!;
 
         if (data!.savedWorkouts != null) {

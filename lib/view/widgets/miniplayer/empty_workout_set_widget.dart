@@ -7,12 +7,13 @@ class EmptyWorkoutSetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
       child: Card(
         color: Colors.grey[800],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 6,
-        child: Container(
+        child: SizedBox(
           width: size.width - 56,
           height: size.width - 56,
           child: Padding(

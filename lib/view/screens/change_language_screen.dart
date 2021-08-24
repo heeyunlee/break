@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
-import '../../styles/constants.dart';
+import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   static Future<void> show(BuildContext context) async {

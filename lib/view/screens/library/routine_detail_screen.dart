@@ -13,7 +13,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/widgets/library/routine_detail_screen_sliver_widget.dart';
 import 'package:workout_player/view/widgets/library/routine_history_tab.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
+import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
   final Database database;
@@ -55,11 +55,11 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
-      body: CustomStreamBuilderWidget<RoutineDetailScreenClass>(
+      body: CustomStreamBuilder<RoutineDetailScreenClass>(
         stream: widget.model.database!.routineDetailScreenStream(
           widget.routine.routineId,
         ),
-        hasDataWidget: (context, data) => LayoutBuilder(
+        builder: (context, data) => LayoutBuilder(
           builder: (context, constraints) {
             return DefaultTabController(
               length: 2,

@@ -72,7 +72,7 @@ class AuthService implements AuthBase {
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
-      logger.e(e);
+      logger.e('FirebaseAuthException caught $e');
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: e.toString(),
@@ -151,7 +151,10 @@ class AuthService implements AuthBase {
     logger.d('signInWithGoogle triggered in auth');
 
     // Trigger Authentication flow
-    final googleSignIn = GoogleSignIn();
+    final googleSignIn = GoogleSignIn(
+        // scopes: [YouTubeApi.youtubeReadonlyScope],
+        );
+
     final googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {

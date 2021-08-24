@@ -2,27 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/routine_detail_screen_model.dart';
-import 'package:workout_player/view/widgets/library/library_list_tile.dart';
-import 'package:workout_player/view_models/choose_routine_screen_model.dart';
+import 'package:workout_player/models/user.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/choose_routine_screen_model.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/scaffolds/choice_chips_app_bar_widget.dart';
-import 'package:workout_player/view/widgets/builders/custom_future_builder_widget.dart';
-import 'package:workout_player/view/widgets/custom_list_tile_3.dart';
-import 'package:workout_player/view/widgets/empty_content.dart';
-import 'package:workout_player/view/widgets/list_views/custom_list_view_builder.dart';
+import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
   final Database database;
@@ -162,9 +156,9 @@ class ChooseRoutineScreen extends ConsumerWidget {
           ...user.savedRoutines!.map<Widget>((id) {
             Future<Routine?> future = database.getRoutine(id);
 
-            return CustomFutureBuilderWidget<Routine?>(
+            return CustomFutureBuilder<Routine?>(
               future: future,
-              hasDataWidget: (context, routine) {
+              builder: (context, routine) {
                 if (routine != null) {
                   return LibraryListTile(
                     tag: 'savedRoutiness-${routine.routineId}',
@@ -175,10 +169,6 @@ class ChooseRoutineScreen extends ConsumerWidget {
                     ),
                     imageUrl: routine.imageUrl,
                     onTap: () {
-                      // final currentContext = homeScreenModel
-                      //     .tabNavigatorKeys[homeScreenModel.currentTab]!
-                      //     .currentContext!;
-
                       final currentContext = HomeScreenModel
                           .tabNavigatorKeys[homeScreenModel.currentTab]!
                           .currentContext!;

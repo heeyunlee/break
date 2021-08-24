@@ -11,10 +11,8 @@ import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-
-import '../../view_models/customize_widgets_screen_model.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
 
 class CustomizeWidgetsScreen extends StatefulWidget {
   final User user;

@@ -584,10 +584,12 @@ class FirestoreDatabase implements Database {
 
   // Paginated Routines Query for specific user
   @override
-  Query<Workout> workoutsSearchQuery() => _service.paginatedCollectionQuery(
+  Query<Workout> workoutsSearchQuery() =>
+      _service.paginatedPublicCollectionQuery(
         path: APIPath.workouts(),
         orderBy: 'workoutTitle',
         descending: false,
+        isPublicName: 'isPublic',
         fromBuilder: (data, id) => Workout.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );
@@ -834,10 +836,11 @@ class FirestoreDatabase implements Database {
   // Paginated Routines Query for specific user
   @override
   Query<Routine> routinesSearchQuery() =>
-      _service.paginatedCollectionQuery<Routine>(
+      _service.paginatedPublicCollectionQuery<Routine>(
         path: APIPath.routines(),
         orderBy: 'routineTitle',
         descending: false,
+        isPublicName: 'isPublic',
         fromBuilder: (data, id) => Routine.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );

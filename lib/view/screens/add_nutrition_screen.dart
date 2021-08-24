@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/view/widgets/scaffolds/custom_scaffold.dart';
-import 'package:workout_player/view/widgets/speed_dial/select_dates_widget.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/speed_dial/choose_meal_type_widget.dart';
-import 'package:workout_player/view/widgets/speed_dial/set_protein_amount_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-
-import '../../view_models/add_nutrition_screen_model.dart';
+import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 
 class AddNutritionScreen extends StatefulWidget {
   final User user;

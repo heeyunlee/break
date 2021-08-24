@@ -75,9 +75,12 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 - [x] `choose_title_screen`
 - [x] `choose_equipment_required_screen`
 
+#### Speed Dial
+- [x] `add_measurements_screen`
+- [x] `add_nutrition_screen`
+- [x] ~~Start Workout Shortcut Screen~~ `choose_routine_screen`
 
-- [x] add_measurements_screen
-- [x] add_nutrition_screen
+
 - [ ] add_workout_to_routine_screen
 - [x] Create Routine Screen
 - [ ] Edit Routine Screen
@@ -107,7 +110,6 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 - [ ] Unit Of Mass Screen
 - [ ] User Feedback Screen
 - [x] Home Screen
-- [x] ~~Start Workout Shortcut Screen~~ Choose Routine Screeen
 - [ ] SpeedDial
 - [x] Preview Screen
 - [ ] Miniplayer

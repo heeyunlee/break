@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/screens/library/choose_title_screen.dart';
-
-import '../../../view_models/create_new_routine_model.dart';
 
 class CreateListTile extends StatelessWidget {
   const CreateListTile({
@@ -24,13 +20,7 @@ class CreateListTile extends StatelessWidget {
         // splashColor: kPrimaryColor.withOpacity(0.2),
         // highlightColor: kPrimaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
-        onTap: () => ChooseTitleScreen.show<CreateNewRoutineModel>(
-          context,
-          formKey: CreateNewRoutineModel.formKey,
-          provider: createNewROutineModelProvider,
-          appBarTitle: S.current.routineTitleTitle,
-          hintText: S.current.routineTitleHintText,
-        ),
+        onTap: onTap,
         child: Card(
           color: Colors.transparent,
           elevation: 0,

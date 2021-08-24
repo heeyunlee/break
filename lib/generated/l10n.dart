@@ -3000,10 +3000,10 @@ class S {
     );
   }
 
-  /// `Add sets to your workout`
+  /// `No current set`
   String get noWorkoutSetTitle {
     return Intl.message(
-      'Add sets to your workout',
+      'No current set',
       name: 'noWorkoutSetTitle',
       desc: '',
       args: [],

@@ -104,7 +104,6 @@ class ProgressTabWidgetsModel with ChangeNotifier {
 
   void onReorder(int oldIndex, int newIndex) {
     // if (newIndex > oldIndex) {
-    //   print('new index is > than old index');
     //   newIndex -= 1;
     // }
 

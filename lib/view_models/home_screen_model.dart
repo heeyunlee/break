@@ -15,10 +15,6 @@ import 'main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-double percentageFromValueInRange({required final double min, max, value}) {
-  return (value - min) / (max - min);
-}
-
 final homeScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => HomeScreenModel(),
 );
@@ -85,23 +81,26 @@ class HomeScreenModel with ChangeNotifier {
     // auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     // final user = await database!.getUserDocument(auth!.currentUser!.uid);
-    final now = Timestamp.now();
 
     try {
-      final userData = {
-        'lastAppOpenedTime': now,
-      };
+      final user = await database!.getUserDocument(auth!.currentUser!.uid);
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      if (user != null) {
+        final now = Timestamp.now();
 
-      // await fetchData(user!, context);
+        final userData = {
+          'lastAppOpenedTime': now,
+        };
 
-      // final now2 = Timestamp.now().toDate();
-      // final diff = now.toDate().difference(now2);
-      // print('execution time is $diff');
+        await database!.updateUser(auth!.currentUser!.uid, userData);
+
+        // await fetchData(user!, context);
+
+        // final now2 = Timestamp.now().toDate();
+        // final diff = now.toDate().difference(now2);
+        // print('execution time is $diff');
+      }
     } on FirebaseException catch (e) {
-      logger.e(e.message);
-
       _showErrorDialog(e, context);
     }
   }
@@ -239,10 +238,11 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   static final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-    TabItem.library: GlobalKey<NavigatorState>(),
-    TabItem.search: GlobalKey<NavigatorState>(),
     TabItem.progress: GlobalKey<NavigatorState>(),
-    TabItem.settings: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
+    TabItem.watch: GlobalKey<NavigatorState>(),
+    TabItem.library: GlobalKey<NavigatorState>(),
+    // TabItem.settings: GlobalKey<NavigatorState>(),
   };
 
   // Home Screen Navigator Key

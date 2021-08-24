@@ -6,15 +6,13 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/choose_background_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
-import 'package:workout_player/view/widgets/appbar_close_button.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder_widget.dart';
 
 class ChooseBackgroundScreen extends StatefulWidget {
   final Database database;
@@ -68,6 +66,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         elevation: 0,
@@ -78,93 +77,99 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
         leading: const AppBarCloseButton(),
         title: Text(S.current.chooseWallpaper, style: TextStyles.subtitle2),
       ),
-      body: CustomStreamBuilderWidget<User?>(
-        stream: widget.database.userStream(),
-        hasDataWidget: (context, data) {
-          return GridView.count(
-            childAspectRatio: (2 / 3),
-            crossAxisCount: 2,
-            padding: const EdgeInsets.all(16),
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: [
-              // Card(
-              //   color: kCardColor,
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(12),
-              //   ),
-              //   child: InkWell(
-              //     onTap: () => widget.model.showModalBottomSheet(context),
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Text(S.current.addPhotos, style: TextStyles.body2),
-              //         const SizedBox(height: 8),
-              //         Icon(
-              //           Icons.add_rounded,
-              //           color: Colors.white,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              ...List.generate(
-                ProgressTabModel.bgURL.length,
-                (index) => GestureDetector(
-                  onTap: () => widget.model.setselectedImageIndex(index),
-                  child: Card(
-                    color: Colors.transparent,
+      body: Builder(
+        builder: (context) => GridView.count(
+          childAspectRatio: (2 / 3),
+          crossAxisCount: 2,
+          padding: EdgeInsets.only(
+            top: Scaffold.of(context).appBarMaxHeight! + 16,
+            bottom: kBottomNavigationBarHeight + 48,
+            left: 16,
+            right: 16,
+          ),
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            // Card(
+            //   color: kCardColor,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   child: InkWell(
+            //     onTap: () => widget.model.showModalBottomSheet(context),
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Text(S.current.addPhotos, style: TextStyles.body2),
+            //         const SizedBox(height: 8),
+            //         Icon(
+            //           Icons.add_rounded,
+            //           color: Colors.white,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            ...List.generate(
+              ProgressTabModel.bgURL.length,
+              (index) => GestureDetector(
+                onTap: () => widget.model.setselectedImageIndex(index),
+                child: Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 8,
+                  ),
+                  color: Colors.transparent,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    side: index == widget.model.selectedImageIndex
+                        ? BorderSide(color: Colors.white, width: 2)
+                        : BorderSide.none,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Stack(
                     clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      side: index == widget.model.selectedImageIndex
-                          ? BorderSide(color: Colors.white, width: 2)
-                          : BorderSide.none,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.antiAlias,
-                      fit: StackFit.passthrough,
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: ProgressTabModel.bgURL[index],
-                          placeholder: (context, _) => BlurHash(
-                            hash: ProgressTabModel.bgPlaceholderHash[index],
-                          ),
-                          fit: BoxFit.cover,
+                    fit: StackFit.passthrough,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: ProgressTabModel.bgURL[index],
+                        placeholder: (context, _) => BlurHash(
+                          hash: ProgressTabModel.bgPlaceholderHash[index],
                         ),
-                      ],
-                    ),
+                        fit: BoxFit.cover,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              // ...List.generate(
-              //   widget.model.personalImagesUrls.length,
-              //   (index) {
-              //     print('${widget.model.personalImagesUrls.length}');
-              //     return GestureDetector(
-              //       child: Card(
-              //         color: Colors.transparent,
-              //         clipBehavior: Clip.antiAlias,
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(12),
-              //         ),
-              //         child: Stack(
-              //           clipBehavior: Clip.antiAlias,
-              //           fit: StackFit.passthrough,
-              //           children: [
-              //             CachedNetworkImage(
-              //               imageUrl: widget.model.personalImagesUrls[index],
-              //               fit: BoxFit.cover,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
-            ],
-          );
-        },
+            ),
+            // ...List.generate(
+            //   widget.model.personalImagesUrls.length,
+            //   (index) {
+            //     print('${widget.model.personalImagesUrls.length}');
+            //     return GestureDetector(
+            //       child: Card(
+            //         color: Colors.transparent,
+            //         clipBehavior: Clip.antiAlias,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //         ),
+            //         child: Stack(
+            //           clipBehavior: Clip.antiAlias,
+            //           fit: StackFit.passthrough,
+            //           children: [
+            //             CachedNetworkImage(
+            //               imageUrl: widget.model.personalImagesUrls[index],
+            //               fit: BoxFit.cover,
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+          ],
+        ),
       ),
       floatingActionButton: SizedBox(
         width: size.width - 32,
