@@ -196,6 +196,9 @@ abstract class Database {
   // RxDart CombinedLists
   Stream<RoutineDetailScreenClass> routineDetailScreenStream(String routineId);
   Stream<ProgressTabClass> progressTabStream(DateTime? day);
+
+  /// Youtube Videos
+  Stream<List<YoutubeVideo>> youtubeVideosStream({int? limit});
 }
 
 ///
@@ -394,7 +397,7 @@ class FirestoreDatabase implements Database {
       _service.isEqualToOrderByCollectionStream<Nutrition>(
         path: APIPath.nutritions(),
         whereVariableName: 'userId',
-        isEqualToValue: uid!,
+        isEqualToValue: uid,
         orderByVariable: 'loggedTime',
         isDescending: true,
         limit: limit,
@@ -447,7 +450,7 @@ class FirestoreDatabase implements Database {
       _service.whereAndOrderByQuery<Nutrition>(
         path: APIPath.nutritions(),
         where: 'userId',
-        isEqualTo: uid!,
+        isEqualTo: uid,
         orderBy: 'loggedTime',
         descending: true,
         fromBuilder: (data, id) => Nutrition.fromJson(data, id),
@@ -460,7 +463,7 @@ class FirestoreDatabase implements Database {
       _service.whereNotNullAndOrderByQuery<Nutrition>(
         path: APIPath.nutritions(),
         where: 'userId',
-        isEqualTo: uid!,
+        isEqualTo: uid,
         whereNotNull: 'carbs',
         orderBy: 'loggedTime',
         descending: true,
@@ -575,7 +578,7 @@ class FirestoreDatabase implements Database {
       _service.whereAndOrderByQuery<Workout>(
         path: APIPath.workouts(),
         where: 'workoutOwnerId',
-        isEqualTo: uid!,
+        isEqualTo: uid,
         orderBy: 'workoutTitle',
         descending: false,
         fromBuilder: (data, id) => Workout.fromJson(data, id),
@@ -600,15 +603,19 @@ class FirestoreDatabase implements Database {
   Future<void> batchUpdateWorkouts(
     List<Map<String, dynamic>> workouts,
   ) async {
-    final workoutId = <String>[];
+    // final workoutId = <String>[];
 
-    workouts.forEach((element) {
-      var id = APIPath.workout(element['workoutId']);
-      workoutId.add(id);
-    });
+    // workouts.forEach((element) {
+    //   var id = APIPath.workout(element['workoutId']);
+    //   workoutId.add(id);
+    // });
+
+    final List<String> workoutIds = workouts
+        .map((map) => APIPath.workout(map['workoutId'].toString()))
+        .toList();
 
     await _service.batchUpdateData(
-      path: workoutId,
+      path: workoutIds,
       data: workouts,
     );
   }
@@ -676,7 +683,7 @@ class FirestoreDatabase implements Database {
       _service.isEqualToOrderByCollectionStream<Routine>(
         path: APIPath.routines(),
         whereVariableName: 'routineOwnerId',
-        isEqualToValue: uid!,
+        isEqualToValue: uid,
         orderByVariable: 'routineTitle',
         isDescending: false,
         fromBuilder: (data, id) => Routine.fromJson(data, id),
@@ -708,15 +715,19 @@ class FirestoreDatabase implements Database {
   Future<void> batchUpdateRoutines(
     List<Map<String, dynamic>> routines,
   ) async {
-    final routineId = <String>[];
+    final List<String> routineIds = routines
+        .map((map) => APIPath.routine(map['routineId'].toString()))
+        .toList();
 
-    routines.forEach((element) {
-      var id = APIPath.routine(element['routineId']);
-      routineId.add(id);
-    });
+    // final routineId = <String>[];
+
+    // routines.forEach((element) {
+    //   var id = APIPath.routine(element['routineId']);
+    //   routineId.add(id);
+    // });
 
     await _service.batchUpdateData(
-      path: routineId,
+      path: routineIds,
       data: routines,
     );
   }
@@ -764,19 +775,30 @@ class FirestoreDatabase implements Database {
     Routine routine,
     List<RoutineWorkout> routineWorkouts,
   ) async {
-    List<String> routineWorkoutsPath = <String>[];
-    List<Map<String, dynamic>> routineWorkoutsAsMap = [];
+    final List<String> routineWorkoutsPath = <String>[];
+    final List<Map<String, dynamic>> routineWorkoutsAsMap = [];
 
-    routineWorkouts.forEach((routineWorkout) {
-      Map<String, dynamic> routineWorkoutAsJson = routineWorkout.toJson();
-      String path = APIPath.routineWorkout(
+    for (final routineWorkout in routineWorkouts) {
+      final Map<String, dynamic> routineWorkoutAsJson = routineWorkout.toJson();
+      final String path = APIPath.routineWorkout(
         routine.routineId,
         routineWorkout.routineWorkoutId,
       );
 
       routineWorkoutsAsMap.add(routineWorkoutAsJson);
       routineWorkoutsPath.add(path);
-    });
+    }
+
+    // routineWorkouts.forEach((routineWorkout) {
+    //   Map<String, dynamic> routineWorkoutAsJson = routineWorkout.toJson();
+    //   String path = APIPath.routineWorkout(
+    //     routine.routineId,
+    //     routineWorkout.routineWorkoutId,
+    //   );
+
+    //   routineWorkoutsAsMap.add(routineWorkoutAsJson);
+    //   routineWorkoutsPath.add(path);
+    // });
 
     await _service.batchData(
       path: routineWorkoutsPath,
@@ -828,7 +850,7 @@ class FirestoreDatabase implements Database {
         orderBy: 'routineTitle',
         descending: false,
         where: 'routineOwnerId',
-        isEqualTo: uid!,
+        isEqualTo: uid,
         fromBuilder: (data, id) => Routine.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );
@@ -907,7 +929,7 @@ class FirestoreDatabase implements Database {
       _service.isEqualToOrderByCollectionStream<RoutineHistory>(
         path: APIPath.routineHistories(),
         whereVariableName: 'userId',
-        isEqualToValue: uid!,
+        isEqualToValue: uid,
         orderByVariable: 'workoutEndTime',
         isDescending: true,
         fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
@@ -947,7 +969,7 @@ class FirestoreDatabase implements Database {
   Stream<List<RoutineHistory>> routineHistoriesThisWeekStream() =>
       _service.collectionStreamOfThisWeek<RoutineHistory>(
         path: APIPath.routineHistories(),
-        uid: uid!,
+        uid: uid,
         uidVariableName: 'userId',
         dateVariableName: 'workoutEndTime',
         fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
@@ -998,7 +1020,7 @@ class FirestoreDatabase implements Database {
         orderBy: 'workoutEndTime',
         descending: true,
         where: 'userId',
-        isEqualTo: uid!,
+        isEqualTo: uid,
         fromBuilder: (data, id) => RoutineHistory.fromJson(data, id),
         toBuilder: (model) => model.toJson(),
       );
@@ -1008,15 +1030,21 @@ class FirestoreDatabase implements Database {
   Future<void> batchUpdateRoutineHistories(
     List<Map<String, dynamic>> routineHistories,
   ) async {
-    final routineHistoriesId = <String>[];
+    // final routineHistoriesId = <String>[];
 
-    routineHistories.forEach((routineHistory) {
-      var id = APIPath.routineHistory(routineHistory['routineHistoryId']);
-      routineHistoriesId.add(id);
-    });
+    // routineHistories.forEach((routineHistory) {
+    //   var id = APIPath.routineHistory(routineHistory['routineHistoryId']);
+    //   routineHistoriesId.add(id);
+    // });
+
+    final List<String> ids = routineHistories
+        .map(
+          (map) => APIPath.routineHistory(map['routineHistoryId'].toString()),
+        )
+        .toList();
 
     await _service.batchUpdateData(
-      path: routineHistoriesId,
+      path: ids,
       data: routineHistories,
     );
   }
@@ -1057,15 +1085,25 @@ class FirestoreDatabase implements Database {
   Future<void> batchWriteWorkoutHistories(
     List<WorkoutHistory> workoutHistories,
   ) async {
-    List<String> workoutHistoryPaths = <String>[];
-    List<Map<String, dynamic>> workoutHistoriesAsMap = [];
+    final List<String> workoutHistoryPaths = <String>[];
+    final List<Map<String, dynamic>> workoutHistoriesAsMap = [];
 
-    workoutHistories.forEach((workoutHistory) {
-      Map<String, dynamic> workoutHistoryAsJson = workoutHistory.toJson();
-      String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
+    for (final workoutHistory in workoutHistories) {
+      final Map<String, dynamic> workoutHistoryAsJson = workoutHistory.toJson();
+      final String path = APIPath.workoutHistory(
+        workoutHistory.workoutHistoryId,
+      );
+
       workoutHistoriesAsMap.add(workoutHistoryAsJson);
       workoutHistoryPaths.add(path);
-    });
+    }
+
+    // workoutHistories.forEach((workoutHistory) {
+    //   Map<String, dynamic> workoutHistoryAsJson = workoutHistory.toJson();
+    //   String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
+    //   workoutHistoriesAsMap.add(workoutHistoryAsJson);
+    //   workoutHistoryPaths.add(path);
+    // });
 
     await _service.batchData(
       path: workoutHistoryPaths,
@@ -1078,15 +1116,19 @@ class FirestoreDatabase implements Database {
   Future<void> batchDeleteWorkoutHistories(
     List<WorkoutHistory> workoutHistories,
   ) async {
-    List<String> workoutHistoryPaths = <String>[];
+    // List<String> workoutHistoryPaths = <String>[];
 
-    workoutHistories.forEach((workoutHistory) {
-      String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
-      workoutHistoryPaths.add(path);
-    });
+    // workoutHistories.forEach((workoutHistory) {
+    //   String path = APIPath.workoutHistory(workoutHistory.workoutHistoryId);
+    //   workoutHistoryPaths.add(path);
+    // });
+
+    final List<String> paths = workoutHistories
+        .map((history) => APIPath.workoutHistory(history.workoutHistoryId))
+        .toList();
 
     await _service.batchDelete(
-      path: workoutHistoryPaths,
+      path: paths,
     );
   }
 
@@ -1121,7 +1163,6 @@ class FirestoreDatabase implements Database {
       );
 
   /// RxDart
-
   @override
   Stream<RoutineDetailScreenClass> routineDetailScreenStream(String routineId) {
     return Rx.combineLatest3(
@@ -1182,4 +1223,16 @@ class FirestoreDatabase implements Database {
       },
     );
   }
+
+  // All Public Routines Stream
+  @override
+  Stream<List<YoutubeVideo>> youtubeVideosStream({int? limit}) =>
+      _service.collectionStream<YoutubeVideo>(
+        path: APIPath.youtubeVideos(),
+        order: 'title',
+        descending: true,
+        limit: limit,
+        fromBuilder: (data, id) => YoutubeVideo.fromMap(data, id),
+        toBuilder: (model) => model.toMap(),
+      );
 }

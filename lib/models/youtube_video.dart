@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/workout_for_youtube.dart';
+import 'package:workout_player/utils/formatter.dart';
 
 class YoutubeVideo {
   const YoutubeVideo({
@@ -21,6 +21,9 @@ class YoutubeVideo {
     required this.videoUrl,
     required this.blurHash,
     required this.workouts,
+    required this.equipmentsRequired,
+    required this.caloriesBurnt,
+    required this.totalWeights,
   });
 
   final String youtubeVideoId;
@@ -35,6 +38,9 @@ class YoutubeVideo {
   final String videoUrl;
   final String blurHash;
   final List<WorkoutForYoutube> workouts;
+  final List<EquipmentRequired?> equipmentsRequired;
+  final num caloriesBurnt;
+  final num totalWeights;
 
   YoutubeVideo copyWith({
     String? youtubeVideoId,
@@ -49,6 +55,9 @@ class YoutubeVideo {
     String? videoUrl,
     String? blurHash,
     List<WorkoutForYoutube>? workouts,
+    List<EquipmentRequired?>? equipmentsRequired,
+    num? caloriesBurnt,
+    num? totalWeights,
   }) {
     return YoutubeVideo(
       youtubeVideoId: youtubeVideoId ?? this.youtubeVideoId,
@@ -63,6 +72,9 @@ class YoutubeVideo {
       videoUrl: videoUrl ?? this.videoUrl,
       blurHash: blurHash ?? this.blurHash,
       workouts: workouts ?? this.workouts,
+      equipmentsRequired: equipmentsRequired ?? this.equipmentsRequired,
+      caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
+      totalWeights: totalWeights ?? this.totalWeights,
     );
   }
 
@@ -73,58 +85,73 @@ class YoutubeVideo {
       'thumnail': thumnail,
       'title': title,
       'mainMuscleGroups': EnumToString.toList(mainMuscleGroups),
-      'duration': duration,
+      'duration': duration.toString(),
       'location': EnumToString.convertToString(location),
       'authorName': authorName,
       'authorProfilePicture': authorProfilePicture,
       'videoUrl': videoUrl,
       'blurHash': blurHash,
-      'workouts': workouts.map((workout) => workout.toMap()).toList(),
+      'workouts': workouts
+          .map<Map<String, dynamic>>((workout) => workout.toMap())
+          .toList(),
+      'equipmentsRequired': EnumToString.toList(equipmentsRequired),
+      'caloriesBurnt': caloriesBurnt,
+      'totalWeights': totalWeights,
     };
   }
 
-  factory YoutubeVideo.fromMap(Map<String, dynamic> map) {
-    final String id = map['youtubeVideoId'];
-    final String videoId = map['videoId'];
-    final String thumnail = map['thumnail'];
-    final String title = map['title'];
-    final List<MainMuscleGroup?> mainMuscleGroups =
-        EnumToString.fromList(MainMuscleGroup.values, map['mainMuscleGroups']);
-    final Duration duration = map['duration'];
-    final Location location =
-        EnumToString.fromString(Location.values, map['location'])!;
-    final String authorName = map['authorName'];
-    final String authorProfilePicture = map['authorProfilePicture'];
-    final String videoUrl = map['videoUrl'];
-    final String blurHash = map['blurHash'];
-    final List<WorkoutForYoutube> workouts =
-        map['workouts']?.map((workout) => workout.toMap()).toList();
+  factory YoutubeVideo.fromMap(Map<String, dynamic>? map, String id) {
+    if (map != null) {
+      final String videoId = map['videoId'].toString();
+      final String thumnail = map['thumnail'].toString();
+      final String title = map['title'].toString();
+      final List<MainMuscleGroup?> mainMuscleGroups = EnumToString.fromList(
+          MainMuscleGroup.values, map['mainMuscleGroups'] as List<dynamic>);
+      final Duration duration =
+          Formatter.stringToDuration(map['duration'].toString());
+      final Location location =
+          EnumToString.fromString(Location.values, map['location'].toString())!;
+      final String authorName = map['authorName'].toString();
+      final String authorProfilePicture =
+          map['authorProfilePicture'].toString();
+      final String videoUrl = map['videoUrl'].toString();
+      final String blurHash = map['blurHash'].toString();
+      final List<WorkoutForYoutube> workouts =
+          (map['workouts'] as List<dynamic>)
+              .map<WorkoutForYoutube>((workout) =>
+                  WorkoutForYoutube.fromMap(workout as Map<String, dynamic>))
+              .toList();
+      final List<EquipmentRequired?> equipmentsRequired = EnumToString.fromList(
+          EquipmentRequired.values, map['equipmentsRequired'] as List<dynamic>);
+      final num caloriesBurnt = num.parse(map['caloriesBurnt'].toString());
+      final num totalWeights = num.parse(map['totalWeights'].toString());
 
-    return YoutubeVideo(
-      youtubeVideoId: id,
-      videoId: videoId,
-      thumnail: thumnail,
-      title: title,
-      mainMuscleGroups: mainMuscleGroups,
-      duration: duration,
-      location: location,
-      authorName: authorName,
-      authorProfilePicture: authorProfilePicture,
-      videoUrl: videoUrl,
-      blurHash: blurHash,
-      workouts: workouts,
-    );
+      return YoutubeVideo(
+        youtubeVideoId: id,
+        videoId: videoId,
+        thumnail: thumnail,
+        title: title,
+        mainMuscleGroups: mainMuscleGroups,
+        duration: duration,
+        location: location,
+        authorName: authorName,
+        authorProfilePicture: authorProfilePicture,
+        videoUrl: videoUrl,
+        blurHash: blurHash,
+        workouts: workouts,
+        equipmentsRequired: equipmentsRequired,
+        caloriesBurnt: caloriesBurnt,
+        totalWeights: totalWeights,
+      );
+    } else {
+      throw '';
+    }
   }
 
-  String toJson() => json.encode(toMap());
+  // String toJson() => json.encode(toMap());
 
-  factory YoutubeVideo.fromJson(String source) =>
-      YoutubeVideo.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'YoutubeVideo(youtubeVideoId: $youtubeVideoId, videoId: $videoId, thumnail: $thumnail, title: $title, mainMuscleGroups: $mainMuscleGroups, duration: $duration, location: $location, authorName: $authorName, authorProfilePicture: $authorProfilePicture, videoUrl: $videoUrl, blurHash: $blurHash, workouts: $workouts)';
-  }
+  // factory YoutubeVideo.fromJson(String source) =>
+  //     YoutubeVideo.fromMap(json.decode(source));
 
   @override
   bool operator ==(Object other) {
@@ -142,7 +169,10 @@ class YoutubeVideo {
         other.authorProfilePicture == authorProfilePicture &&
         other.videoUrl == videoUrl &&
         other.blurHash == blurHash &&
-        listEquals(other.workouts, workouts);
+        listEquals(other.workouts, workouts) &&
+        listEquals(other.equipmentsRequired, equipmentsRequired) &&
+        other.caloriesBurnt == caloriesBurnt &&
+        other.totalWeights == totalWeights;
   }
 
   @override
@@ -158,6 +188,14 @@ class YoutubeVideo {
         authorProfilePicture.hashCode ^
         videoUrl.hashCode ^
         blurHash.hashCode ^
-        workouts.hashCode;
+        workouts.hashCode ^
+        equipmentsRequired.hashCode ^
+        caloriesBurnt.hashCode ^
+        totalWeights.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'YoutubeVideo(youtubeVideoId: $youtubeVideoId, videoId: $videoId, thumnail: $thumnail, title: $title, mainMuscleGroups: $mainMuscleGroups, duration: $duration, location: $location, authorName: $authorName, authorProfilePicture: $authorProfilePicture, videoUrl: $videoUrl, blurHash: $blurHash, workouts: $workouts, equipmentsRequired: $equipmentsRequired, caloriesBurnt: $caloriesBurnt, totalWeights: $totalWeights)';
   }
 }

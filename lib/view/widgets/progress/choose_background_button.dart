@@ -22,7 +22,8 @@ class ChooseBackgroundButton extends StatelessWidget {
       description: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          // TODO: localize here
+          const Text(
             'You can choose different backgrounds for this tab using this button',
             style: TextStyles.body2,
           ),
@@ -38,7 +39,7 @@ class ChooseBackgroundButton extends StatelessWidget {
       overflowMode: OverflowMode.clipContent,
       backgroundColor: kPrimaryColor,
       targetColor: kPrimary300Color,
-      textColor: Colors.white,
+      // textColor: Colors.white,
       // backgroundOpacity: 0.95,
       // onComplete: () async {
       //   await FeatureDiscovery.clearPreferences(context, <String>{

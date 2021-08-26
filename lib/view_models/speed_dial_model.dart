@@ -19,7 +19,7 @@ class SpeedDialModel with ChangeNotifier {
     _controller = AnimationController(
       vsync: vsync,
       value: _isOpen ? 1.0 : 0.0,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
 
     _childrenAnimation = CurvedAnimation(

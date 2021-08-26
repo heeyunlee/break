@@ -3,5 +3,3 @@ extension BoolParsing on String {
     return toLowerCase() == 'true';
   }
 }
-
-String enumToString(enumItem) => enumItem.toString().split('.').last;

@@ -32,7 +32,7 @@ final workoutDummyData = Workout(
     'de': 'Name des Trainings',
     'en': 'Workout Title',
     'es': 'Nombre del entrenamiento',
-    'fr': 'Nom de l\'entraînement',
+    'fr': 'Nom de lentraînement',
     'ko': '운동 이름'
   },
   location: 'Location.gym',
@@ -97,7 +97,7 @@ final routineWorkoutsDummyData = List.generate(
       'de': 'Name des Trainings',
       'en': 'Workout Title',
       'es': 'Nombre del entrenamiento',
-      'fr': 'Nom de l\'entraînement',
+      'fr': 'Nom de lentraînement',
       'ko': '운동 이름'
     },
     sets: [],
@@ -121,6 +121,7 @@ final routineHistoryDummyData = RoutineHistory(
   imageUrl: '',
   unitOfMass: 0,
   equipmentRequired: ['EquipmentRequired.band'],
+  routineHistoryType: 'routine',
 );
 
 final nutritionDummyData = Nutrition(

@@ -21,7 +21,7 @@ class NextWorkoutSetButton extends ConsumerWidget {
         iconSize: iconSize!,
         disabledColor: Colors.grey[700],
         color: Colors.white,
-        icon: Icon(Icons.skip_next_rounded),
+        icon: const Icon(Icons.skip_next_rounded),
         onPressed: model.isNextButtonDisabled() ? null : model.nextWorkoutSet,
       ),
     );

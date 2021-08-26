@@ -72,7 +72,7 @@ class ProgressTabWidgetsModel with ChangeNotifier {
   void init(TickerProvider vsync) {
     _staggeredController = AnimationController(
       vsync: vsync,
-      duration: Duration(milliseconds: 3500),
+      duration: const Duration(milliseconds: 3500),
     );
 
     final container = ProviderContainer();
@@ -86,16 +86,20 @@ class ProgressTabWidgetsModel with ChangeNotifier {
     } else {}
   }
 
-  Widget buildDraggableFeedback(context, constraints, child) {
+  Widget buildDraggableFeedback(
+    BuildContext context,
+    BoxConstraints constraints,
+    Widget child,
+  ) {
     return ConstrainedBox(
       constraints: constraints,
       child: FittedBox(
         child: DottedBorder(
           borderType: BorderType.RRect,
           color: Colors.grey.withOpacity(0.5),
-          radius: Radius.circular(24),
+          radius: const Radius.circular(24),
           strokeCap: StrokeCap.round,
-          dashPattern: [16, 4],
+          dashPattern: const [16, 4],
           child: child,
         ),
       ),
@@ -107,16 +111,21 @@ class ProgressTabWidgetsModel with ChangeNotifier {
     //   newIndex -= 1;
     // }
 
-    List<String> _newKeys = [];
+    // final List<String> _newKeys = [];
 
     final itemToReorder = _widgets.removeAt(oldIndex);
     _widgets.insert(newIndex, itemToReorder);
 
-    _widgets.forEach((e) {
-      final key = e.key.toString().replaceAll(RegExp(r'[^\w\s]+'), '');
+    final _newKeys = _widgets
+        .map((widget) =>
+            widget.key.toString().replaceAll(RegExp(r'[^\w\s]+'), ''))
+        .toList();
 
-      _newKeys.add(key);
-    });
+    // _widgets.forEach((e) {
+    //   final key = e.key.toString().replaceAll(RegExp(r'[^\w\s]+'), '');
+
+    //   _newKeys.add(key);
+    // });
     _widgetKeysList = _newKeys;
 
     final updatedUser = {
@@ -133,27 +142,27 @@ class ProgressTabWidgetsModel with ChangeNotifier {
   }) {
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;
 
-    Widget latestBodyFat = LatestBodyFatWidget(
-      key: Key('latestBodyFat'),
+    final Widget latestBodyFat = LatestBodyFatWidget(
+      key: const Key('latestBodyFat'),
       data: data,
       constraints: constraints,
     );
 
-    Widget latestWeight = LatestWeightWidget(
-      key: Key('latestWeight'),
+    final Widget latestWeight = LatestWeightWidget(
+      key: const Key('latestWeight'),
       constraints: constraints,
       data: data,
     );
 
-    Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(
-      key: Key('weeklyWorkoutHistorySmall'),
+    final Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(
+      key: const Key('weeklyWorkoutHistorySmall'),
       user: data.user,
       routineHistories: data.routineHistories,
       constraints: constraints,
     );
 
-    Widget weeklyWorkoutHistoryMedium = WeeklyBarChartCardTemplate(
-      key: Key('weeklyWorkoutHistoryMedium'),
+    final Widget weeklyWorkoutHistoryMedium = WeeklyBarChartCardTemplate(
+      key: const Key('weeklyWorkoutHistoryMedium'),
       progressTabClass: data,
       constraints: constraints,
       defaultColor: kPrimaryColor,
@@ -165,8 +174,8 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       subtitle: S.current.weightsChartMessage,
     );
 
-    Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
-      key: Key('weeklyNutritionChart'),
+    final Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
+      key: const Key('weeklyNutritionChart'),
       progressTabClass: data,
       constraints: constraints,
       defaultColor: Colors.greenAccent,
@@ -178,20 +187,20 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       subtitle: S.current.proteinChartContentText,
     );
 
-    Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
-      key: Key('weeklyMeasurementsChart'),
+    final Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
+      key: const Key('weeklyMeasurementsChart'),
       progressTabClass: data,
       constraints: constraints,
     );
 
-    Widget activityRing = DailyActivityRingWidget(
-      key: Key('activityRing'),
+    final Widget activityRing = DailyActivityRingWidget(
+      key: const Key('activityRing'),
       progressTabClass: data,
       constraints: constraints,
     );
 
-    Widget recentWorkout = MostRecentWorkout(
-      key: Key('recentWorkout'),
+    final Widget recentWorkout = MostRecentWorkout(
+      key: const Key('recentWorkout'),
       constraints: constraints,
       data: data,
     );
@@ -201,26 +210,26 @@ class ProgressTabWidgetsModel with ChangeNotifier {
     //   steps: data.steps,
     // );
 
-    Widget empty2x2 = SizedBox(
-      key: Key('empty2x2'),
+    final Widget empty2x2 = SizedBox(
+      key: const Key('empty2x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 2,
     );
 
-    Widget empty1x2 = SizedBox(
-      key: Key('empty1x2'),
+    final Widget empty1x2 = SizedBox(
+      key: const Key('empty1x2'),
       width: constraints.maxWidth,
       height: constraints.maxHeight / 4,
     );
 
-    Widget empty1x1 = SizedBox(
-      key: Key('empty1x1'),
+    final Widget empty1x1 = SizedBox(
+      key: const Key('empty1x1'),
       width: constraints.maxWidth / 2,
       height: constraints.maxHeight / 4,
     );
 
-    Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
-      key: Key('weeklyCarbsBarChart'),
+    final Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
+      key: const Key('weeklyCarbsBarChart'),
       onTap: () => CarbsEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,
@@ -231,8 +240,8 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       model: weeklyCarbsBarChartModelProvider,
     );
 
-    Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
-      key: Key('weeklyFatBarChart'),
+    final Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
+      key: const Key('weeklyFatBarChart'),
       onTap: () => FatEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,
@@ -243,8 +252,8 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       model: weeklyFatBarChartModelProvider,
     );
 
-    Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
-      key: Key('weeklyCalorieBarChart'),
+    final Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
+      key: const Key('weeklyCalorieBarChart'),
       onTap: () => CaloriesEntriesScreen.show(context, user: data.user),
       constraints: constraints,
       progressTabClass: data,

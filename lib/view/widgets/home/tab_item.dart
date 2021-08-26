@@ -36,7 +36,7 @@ class TabItemData {
       selectedIcon: Icons.collections_bookmark_rounded,
       size: 24,
     ),
-    TabItem.watch: TabItemData(
+    TabItem.watch: const TabItemData(
       label: 'Watch',
       selectedIcon: Icons.smart_display_rounded,
       size: 24,

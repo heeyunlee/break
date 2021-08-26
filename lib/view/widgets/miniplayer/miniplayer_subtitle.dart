@@ -43,8 +43,8 @@ class MiniplayerSubtitle extends StatelessWidget {
       return YoutubeValueBuilder(
         controller: model.youtubeController,
         builder: (context, value) {
-          final video = model.currentWorkout as YoutubeVideo;
-          final currentWorkout = video.workouts.lastWhereOrNull(
+          final video = model.currentWorkout as YoutubeVideo?;
+          final currentWorkout = video!.workouts.lastWhereOrNull(
                 (element) => element.position <= value.position,
               ) ??
               video.workouts[0];

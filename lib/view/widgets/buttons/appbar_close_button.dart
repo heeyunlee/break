@@ -11,7 +11,7 @@ class AppBarCloseButton extends StatelessWidget {
         HapticFeedback.mediumImpact();
         Navigator.of(context).pop();
       },
-      icon: Icon(Icons.close_rounded),
+      icon: const Icon(Icons.close_rounded),
     );
   }
 }

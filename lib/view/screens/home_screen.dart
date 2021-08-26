@@ -9,9 +9,9 @@ import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import 'library/library_tab.dart';
+import 'miniplayer_screen.dart';
 import 'progress_tab.dart';
 import 'search_tab.dart';
-import 'miniplayer_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
         body: Stack(
           children: [
             _buildIndexedStack(),
-            MiniplayerScreen(),
+            const MiniplayerScreen(),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

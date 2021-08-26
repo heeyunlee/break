@@ -47,4 +47,9 @@ class APIPath {
       'routines/$routineId/routine_workouts/$routineWorkoutId';
   static String routineWorkouts(String routineId) =>
       'routines/$routineId/routine_workouts';
+
+  /// YouTube Videos
+  static String youtubeVideos() => 'youtube_videos';
+  static String youtubeVideo(String youtubeVideoId) =>
+      'youtube_videos/$youtubeVideoId';
 }

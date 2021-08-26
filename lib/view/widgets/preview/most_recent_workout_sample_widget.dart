@@ -21,8 +21,8 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
     timeago.setLocaleMessages('ko', timeago.KoMessages());
     final locale = Intl.getCurrentLocale();
 
-    String ago = timeago.format(
-      DateTime.now().subtract(Duration(days: 2)),
+    final String ago = timeago.format(
+      DateTime.now().subtract(const Duration(days: 2)),
       locale: locale,
     );
 
@@ -46,15 +46,15 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         '9,520 kg',
                         style: TextStyles.headline5_menlo_w900_primary,
                       ),

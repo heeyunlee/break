@@ -71,9 +71,9 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      SizedBox(height: Scaffold.of(context).appBarMaxHeight!),
+                      SizedBox(height: Scaffold.of(context).appBarMaxHeight),
                       AnimatedListViewBuilder(
-                        beginOffset: Offset(0.25, 0),
+                        beginOffset: const Offset(0.25, 0),
                         offsetInitialDelayTime: 0.25,
                         offsetStaggerTime: 0.05,
                         offsetDuration: 0.5,
@@ -94,8 +94,8 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      nextFocus: true,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // nextFocus: true,
       actions: List.generate(
         widget.model.signInFocusNodes.length,
         (index) => KeyboardActionsItem(
@@ -112,11 +112,11 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
   List<Widget> _widgets() {
     return [
       Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
           formKey: SignInWithEmailModel.formKey,
           autofocus: true,
-          enableSuggestions: false,
+          // enableSuggestions: false,
           focusNode: widget.model.focusNode1,
           controller: widget.model.emailEditingController,
           keyboardType: TextInputType.emailAddress,
@@ -140,16 +140,16 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
           customValidator: (string) =>
               widget.textFieldModel.emailValidatorWithBool(
             string,
-            widget.model.submitted,
+            submitted: widget.model.submitted,
           ),
         ),
       ),
       Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
           maxLines: 1,
           autocorrect: false,
-          enableSuggestions: false,
+          // enableSuggestions: false,
           obscureText: true,
           focusNode: widget.model.focusNode2,
           controller: widget.model.passwordEditingController,
@@ -175,7 +175,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
           customValidator: (string) =>
               widget.textFieldModel.passwordValidatorWithBool(
             string,
-            widget.model.submitted,
+            submitted: widget.model.submitted,
           ),
         ),
       ),

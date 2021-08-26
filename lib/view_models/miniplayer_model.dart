@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
+import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -15,7 +16,7 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/screens/routine_history_summary_screen.dart';
+import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/screens/youtube_video_detail_screen.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
@@ -105,7 +106,7 @@ class MiniplayerModel with ChangeNotifier {
   void init(TickerProvider vsync) {
     _animationController = AnimationController(
       vsync: vsync,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
   }
 
@@ -128,7 +129,7 @@ class MiniplayerModel with ChangeNotifier {
       // Setting Routine Length
       int routineLength = 0;
       for (int i = 0; i < routineWorkouts.length; i++) {
-        int length = routineWorkouts[i].sets.length;
+        final int length = routineWorkouts[i].sets.length;
 
         routineLength += length;
       }
@@ -154,16 +155,17 @@ class MiniplayerModel with ChangeNotifier {
 
     diosposeValues();
 
+    _workoutStartTime = Timestamp.now();
     _currentWorkout = youtubeVideo;
-    final video = _currentWorkout as YoutubeVideo;
+    final video = _currentWorkout as YoutubeVideo?;
 
     _youtubeController = YoutubePlayerController(
-      initialVideoId: video.videoId,
-      params: YoutubePlayerParams(
-        autoPlay: true,
-        mute: false,
+      initialVideoId: video!.videoId,
+      params: const YoutubePlayerParams(
+        // autoPlay: true,
+        // mute: false,
         showControls: false,
-        showFullscreenButton: false,
+        // showFullscreenButton: false,
       ),
     );
 
@@ -238,11 +240,11 @@ class MiniplayerModel with ChangeNotifier {
   }
 
   void nextWorkoutSet() {
-    if (_currentWorkout.runtimeType == Routine) {
-      // Reverse animation if workout is paused & Set isWorkoutPaused false
-      if (_isWorkoutPaused) _animationController.reverse();
-      _isWorkoutPaused = false;
+    // Reverse animation if workout is paused & Set isWorkoutPaused false
+    if (_isWorkoutPaused) _animationController.reverse();
+    _isWorkoutPaused = false;
 
+    if (_currentWorkout.runtimeType == Routine) {
       // increase current index by 1
       _currentIndex++;
 
@@ -257,9 +259,9 @@ class MiniplayerModel with ChangeNotifier {
       // Set Rest Time
       _restTime = Duration(seconds: _currentWorkoutSet!.restTime ?? 60);
     } else {
-      final video = _currentWorkout as YoutubeVideo;
+      final video = _currentWorkout as YoutubeVideo?;
 
-      if (_currentWorkoutForYoutubeIndex < video.workouts.length - 1) {
+      if (_currentWorkoutForYoutubeIndex < video!.workouts.length - 1) {
         _youtubeController!.seekTo(
             video.workouts[_currentWorkoutForYoutubeIndex + 1].position);
       }
@@ -269,11 +271,11 @@ class MiniplayerModel with ChangeNotifier {
   }
 
   void previousWorkoutSet() {
-    if (_currentWorkout.runtimeType == Routine) {
-      // Reverse animation if workout is paused & Set isWorkoutPaused false
-      if (_isWorkoutPaused) _animationController.reverse();
-      _isWorkoutPaused = false;
+    // Reverse animation if workout is paused & Set isWorkoutPaused false
+    if (_isWorkoutPaused) _animationController.reverse();
+    _isWorkoutPaused = false;
 
+    if (_currentWorkout.runtimeType == Routine) {
       // Decrease current index by 1
       _currentIndex--;
 
@@ -286,11 +288,11 @@ class MiniplayerModel with ChangeNotifier {
       // Set Rest Time
       _restTime = Duration(seconds: _currentWorkoutSet!.restTime ?? 60);
     } else {
-      final video = _currentWorkout as YoutubeVideo;
+      final video = _currentWorkout as YoutubeVideo?;
 
       if (_currentWorkoutForYoutubeIndex != 0) {
         _youtubeController!.seekTo(
-            video.workouts[_currentWorkoutForYoutubeIndex - 1].position);
+            video!.workouts[_currentWorkoutForYoutubeIndex - 1].position);
       }
     }
 
@@ -300,7 +302,7 @@ class MiniplayerModel with ChangeNotifier {
   void nextRoutineWorkout() {
     if (_currentIndex < _setsLength) {
       final workoutSetLength = _currentRoutineWorkout!.sets.length - 1;
-      _currentIndex += (-workoutSetIndex + workoutSetLength + 1);
+      _currentIndex += -workoutSetIndex + workoutSetLength + 1;
     }
 
     // set workout index to 0
@@ -418,95 +420,139 @@ class MiniplayerModel with ChangeNotifier {
     try {
       final database = provider.Provider.of<Database>(context, listen: false);
 
-      final routine = _currentWorkout as Routine;
-
-      /// For Routine History
       final workoutEndTime = Timestamp.now();
-      final routineHistoryId = 'RH${Uuid().v1()}';
+      final routineHistoryId = 'RH${const Uuid().v1()}';
       final workoutEndDate = workoutEndTime.toDate();
       final workoutStartDate = _workoutStartTime!.toDate();
       final duration = workoutEndDate.difference(workoutStartDate).inSeconds;
-      final isBodyWeightWorkout = _selectedRoutineWorkouts?.any(
-            (element) => element!.isBodyWeightWorkout == true,
-          ) ??
-          false;
-
       final workoutDate = DateTime.utc(
         workoutStartDate.year,
         workoutStartDate.month,
         workoutStartDate.day,
       );
 
-      final muscleGroup = routine.mainMuscleGroupEnum ??
-          Formatter.getListOfMainMuscleGroupFromStrings(
-              routine.mainMuscleGroup);
+      if (_currentWorkout.runtimeType == Routine) {
+        final routine = _currentWorkout as Routine?;
 
-      final equipments = routine.equipmentRequiredEnum ??
-          Formatter.getListOfEquipmentsFromStrings(routine.equipmentRequired);
-      final unitOfMass = routine.unitOfMassEnum ??
-          UnitOfMass.values[routine.initialUnitOfMass ?? 0];
+        /// For Routine History
 
-      final routineHistory = RoutineHistory(
-        routineHistoryId: routineHistoryId,
-        userId: user.userId,
-        username: user.displayName,
-        routineId: routine.routineId,
-        routineTitle: routine.routineTitle,
-        isPublic: true,
-        workoutStartTime: _workoutStartTime!,
-        workoutEndTime: workoutEndTime,
-        notes: '',
-        totalCalories: 0,
-        totalDuration: duration,
-        totalWeights: routine.totalWeights,
-        isBodyWeightWorkout: isBodyWeightWorkout,
-        workoutDate: workoutDate,
-        imageUrl: routine.imageUrl,
-        mainMuscleGroupEnum: muscleGroup,
-        equipmentRequiredEnum: equipments,
-        unitOfMassEnum: unitOfMass,
-      );
+        final isBodyWeightWorkout = _selectedRoutineWorkouts?.any(
+              (element) => element!.isBodyWeightWorkout == true,
+            ) ??
+            false;
 
-      /// For Workout Histories
-      List<WorkoutHistory> workoutHistories = [];
-      _selectedRoutineWorkouts!.forEach(
-        (rw) {
-          final id = 'WH${Uuid().v1()}';
+        final muscleGroup = routine!.mainMuscleGroupEnum ??
+            Formatter.getListOfMainMuscleGroupFromStrings(
+                routine.mainMuscleGroup);
 
-          final workoutHistory = WorkoutHistory(
+        final equipments = routine.equipmentRequiredEnum ??
+            Formatter.getListOfEquipmentsFromStrings(routine.equipmentRequired);
+        final unitOfMass = routine.unitOfMassEnum ??
+            UnitOfMass.values[routine.initialUnitOfMass ?? 0];
+
+        final routineHistory = RoutineHistory(
+          routineHistoryId: routineHistoryId,
+          userId: user.userId,
+          username: user.displayName,
+          routineId: routine.routineId,
+          routineTitle: routine.routineTitle,
+          isPublic: true,
+          workoutStartTime: _workoutStartTime!,
+          workoutEndTime: workoutEndTime,
+          notes: '',
+          totalCalories: 0,
+          totalDuration: duration,
+          totalWeights: routine.totalWeights,
+          isBodyWeightWorkout: isBodyWeightWorkout,
+          workoutDate: workoutDate,
+          imageUrl: routine.imageUrl,
+          mainMuscleGroupEnum: muscleGroup,
+          equipmentRequiredEnum: equipments,
+          unitOfMassEnum: unitOfMass,
+          routineHistoryType: 'routine',
+        );
+
+        await database.setRoutineHistory(routineHistory);
+
+        final workoutHistories =
+            _selectedRoutineWorkouts!.map((routineWorkout) {
+          final id = 'WH${const Uuid().v1()}';
+
+          return WorkoutHistory(
             workoutHistoryId: id,
             routineHistoryId: routineHistoryId,
-            workoutId: rw!.workoutId,
-            routineId: rw.routineId,
+            workoutId: routineWorkout!.workoutId,
+            routineId: routineWorkout.routineId,
             uid: user.userId,
-            index: rw.index,
-            workoutTitle: rw.workoutTitle,
-            numberOfSets: rw.numberOfSets,
-            numberOfReps: rw.numberOfReps,
-            totalWeights: rw.totalWeights,
-            isBodyWeightWorkout: rw.isBodyWeightWorkout,
-            duration: rw.duration,
-            secondsPerRep: rw.secondsPerRep,
-            translated: rw.translated,
-            sets: rw.sets,
+            index: routineWorkout.index,
+            workoutTitle: routineWorkout.workoutTitle,
+            numberOfSets: routineWorkout.numberOfSets,
+            numberOfReps: routineWorkout.numberOfReps,
+            totalWeights: routineWorkout.totalWeights,
+            isBodyWeightWorkout: routineWorkout.isBodyWeightWorkout,
+            duration: routineWorkout.duration,
+            secondsPerRep: routineWorkout.secondsPerRep,
+            translated: routineWorkout.translated,
+            sets: routineWorkout.sets,
             workoutTime: workoutEndTime,
             workoutDate: Timestamp.fromDate(workoutDate),
             unitOfMass: routine.initialUnitOfMass,
           );
-          workoutHistories.add(workoutHistory);
-        },
-      );
+        }).toList();
 
-      await database.setRoutineHistory(routineHistory);
-      await database.batchWriteWorkoutHistories(workoutHistories);
+        await database.batchWriteWorkoutHistories(workoutHistories);
 
-      diosposeValues();
-      _miniplayerController.animateToHeight(state: PanelState.MIN);
+        diosposeValues();
+        _miniplayerController.animateToHeight(state: PanelState.MIN);
 
-      RoutineHistorySummaryScreen.show(
-        context,
-        routineHistory: routineHistory,
-      );
+        WorkoutSummaryScreen.show(
+          context,
+          routineHistory: routineHistory,
+        );
+      } else {
+        final video = _currentWorkout as YoutubeVideo?;
+
+        /// For Routine History
+
+        final isBodyWeightWorkout = video!.equipmentsRequired.contains(
+          EquipmentRequired.bodyweight,
+        );
+
+        final muscleGroups = video.mainMuscleGroups;
+
+        final equipments = video.equipmentsRequired;
+
+        final routineHistory = RoutineHistory(
+          routineHistoryId: routineHistoryId,
+          userId: user.userId,
+          username: user.displayName,
+          routineId: video.youtubeVideoId,
+          routineTitle: video.title,
+          isPublic: true,
+          workoutStartTime: _workoutStartTime!,
+          workoutEndTime: workoutEndTime,
+          notes: '',
+          totalCalories: video.caloriesBurnt,
+          totalDuration: duration,
+          totalWeights: video.totalWeights,
+          isBodyWeightWorkout: isBodyWeightWorkout,
+          workoutDate: workoutDate,
+          imageUrl: video.thumnail,
+          mainMuscleGroupEnum: muscleGroups,
+          equipmentRequiredEnum: equipments,
+          routineHistoryType: 'youtube',
+        );
+
+        await database.setRoutineHistory(routineHistory);
+
+        diosposeValues();
+        _miniplayerController.animateToHeight(state: PanelState.MIN);
+
+        WorkoutSummaryScreen.show(
+          context,
+          routineHistory: routineHistory,
+        );
+      }
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -527,24 +573,26 @@ class MiniplayerModel with ChangeNotifier {
     );
 
     if (_currentWorkout.runtimeType == Routine) {
-      final routine = _currentWorkout as Routine;
+      final routine = _currentWorkout as Routine?;
 
       RoutineDetailScreenModel.show(
         currentContext,
-        routine: routine,
+        routine: routine!,
         tag: 'miniplayer${routine.routineId}',
       );
     } else {
-      final video = _currentWorkout as YoutubeVideo;
+      final video = _currentWorkout as YoutubeVideo?;
 
       YoutubeVideoDetailScreen.show(
         currentContext,
-        youtubeVideo: video,
+        youtubeVideo: video!,
         heroTag: 'heroTag',
       );
     }
   }
 
+  // TODO(heeyunlee): fix here
+  // ignore: use_setters_to_change_properties
   void updateCurrentIndex(int value) {
     _currentWorkoutForYoutubeIndex = value;
   }
@@ -573,9 +621,9 @@ class MiniplayerModel with ChangeNotifier {
         return true;
       }
     } else {
-      final video = _currentWorkout as YoutubeVideo;
+      final video = _currentWorkout as YoutubeVideo?;
 
-      return _currentWorkoutForYoutubeIndex >= (video.workouts.length - 1);
+      return _currentWorkoutForYoutubeIndex >= (video!.workouts.length - 1);
     }
   }
 

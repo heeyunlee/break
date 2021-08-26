@@ -75,10 +75,10 @@ class LatestBodyWeightSampleWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    children: [
-                      const Text('75 kg', style: TextStyles.caption1),
-                      const Spacer(),
-                      const Text('85 kg', style: TextStyles.caption1),
+                    children: const [
+                      Text('75 kg', style: TextStyles.caption1),
+                      Spacer(),
+                      Text('85 kg', style: TextStyles.caption1),
                     ],
                   ),
                 ],

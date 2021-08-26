@@ -33,7 +33,7 @@ class WorkoutHistoryCard extends StatelessWidget {
     final title = (translation.isEmpty)
         ? workoutHistory.workoutTitle
         : (locale == 'ko' || locale == 'en')
-            ? workoutHistory.translated[locale]
+            ? workoutHistory.translated[locale].toString()
             : workoutHistory.workoutTitle;
 
     return Card(
@@ -48,7 +48,7 @@ class WorkoutHistoryCard extends StatelessWidget {
         child: ExpansionTile(
           collapsedIconColor: Colors.white,
           iconColor: Colors.white,
-          leading: Container(
+          leading: SizedBox(
             height: 48,
             width: 24,
             child: Center(
@@ -64,7 +64,7 @@ class WorkoutHistoryCard extends StatelessWidget {
               ),
             ),
           ),
-          initiallyExpanded: false,
+          // initiallyExpanded: false,
           title: (title.length > 24)
               ? FittedBox(
                   fit: BoxFit.cover,
@@ -90,13 +90,13 @@ class WorkoutHistoryCard extends StatelessWidget {
               ),
             ],
           ),
-          childrenPadding: const EdgeInsets.all(0),
+          childrenPadding: EdgeInsets.zero,
           maintainState: true,
           children: [
             if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
               const Divider(endIndent: 8, indent: 8, color: kGrey700),
             if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
-              Container(
+              SizedBox(
                 height: 80,
                 child: Center(
                   child: Text(S.current.addASet, style: TextStyles.body2),
@@ -105,7 +105,7 @@ class WorkoutHistoryCard extends StatelessWidget {
             const Divider(endIndent: 8, indent: 8, color: kGrey700),
             if (workoutHistory.sets != null)
               ListView.builder(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: workoutHistory.sets!.length,

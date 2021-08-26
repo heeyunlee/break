@@ -32,7 +32,7 @@ class WeeklyWorkoutWidget extends StatefulWidget {
     required BoxConstraints constraints,
   }) {
     return Consumer(
-      key: Key('weeklyWorkoutHistorySmall'),
+      key: const Key('weeklyWorkoutHistorySmall'),
       builder: (context, watch, child) => WeeklyWorkoutWidget(
         user: user,
         model: watch(weeklyWorkoutSummaryModelProvider),
@@ -74,12 +74,12 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 height: 24,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
                       Icons.local_fire_department_rounded,

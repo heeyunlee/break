@@ -106,8 +106,8 @@ class _AddWorkoutsToRoutineScreenState
           const SizedBox(height: 8),
           CustomStreamBuilder<List<Workout>>(
             stream: widget.model.stream,
-            errorWidget: EmptyContent(),
-            loadingWidget: ListViewShimmer(),
+            errorWidget: const EmptyContent(),
+            loadingWidget: const ListViewShimmer(),
             builder: (context, data) => CustomListViewBuilder<Workout>(
               items: data,
               emptyContentTitle: S.current.noWorkoutEmptyContent(
@@ -141,7 +141,7 @@ class _AddWorkoutsToRoutineScreenState
     return SliverAppBar(
       floating: true,
       pinned: true,
-      snap: false,
+      // snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
       title: Text(S.current.addWorkoutkButtonText, style: TextStyles.subtitle1),

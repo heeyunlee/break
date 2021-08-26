@@ -60,64 +60,79 @@ class _EditWorkoutMainMuscleGroupScreenState
   void initState() {
     super.initState();
 
-    // TODO: MAKE THIS BETTER
-    var mainMuscleGroup = <String, bool>{
+    // TODO: Refactor edit_workout_main_muscle_group_screen
+    final mainMuscleGroup = <String, bool>{
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.abs.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.abs.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.arms.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.arms.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.back.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.back.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.cardio.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.cardio.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.chest.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.chest.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.fullBody.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.fullBody.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.glutes.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.glutes.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.hamstring.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.hamstring.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.lats.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.lats.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.lowerBody.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.lowerBody.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.lowerBack.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.lowerBack.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.quads.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.quads.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.shoulder.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.shoulder.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.stretch.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.stretch.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       MainMuscleGroup.traps.toString(): (widget.workout.mainMuscleGroup
               .contains(MainMuscleGroup.traps.toString()))
           ? true
@@ -202,7 +217,7 @@ class _EditWorkoutMainMuscleGroupScreenState
           onPressed: _submit,
         ),
         title: Text(S.current.mainMuscleGroup, style: TextStyles.subtitle1),
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
         child: Column(

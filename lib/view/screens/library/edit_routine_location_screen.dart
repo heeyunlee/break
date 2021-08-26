@@ -106,7 +106,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
               : Colors.transparent,
           title: Text(Location.atHome.translation!, style: TextStyles.body1),
           trailing: (_location == Location.atHome.toString())
-              ? Icon(Icons.check, color: Colors.white)
+              ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () {
             setState(() {
@@ -121,7 +121,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
               : Colors.transparent,
           title: Text(Location.gym.translation!, style: TextStyles.body1),
           trailing: (_location == Location.gym.toString())
-              ? Icon(Icons.check, color: Colors.white)
+              ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () {
             setState(() {
@@ -136,7 +136,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
               : Colors.transparent,
           title: Text(Location.outdoor.translation!, style: TextStyles.body1),
           trailing: (_location == Location.outdoor.toString())
-              ? Icon(Icons.check, color: Colors.white)
+              ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () {
             setState(() {
@@ -151,7 +151,7 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
               : Colors.transparent,
           title: Text(Location.others.translation!, style: TextStyles.body1),
           trailing: (_location == Location.others.toString())
-              ? Icon(Icons.check, color: Colors.white)
+              ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () {
             setState(() {

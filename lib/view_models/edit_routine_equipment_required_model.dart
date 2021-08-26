@@ -1,12 +1,14 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+
+import 'main_model.dart';
 
 final editRoutineEquipmentRequiredModelProvider = ChangeNotifierProvider(
   (ref) => EditRoutineEquipmentRequiredModel(),
@@ -19,7 +21,8 @@ class EditRoutineEquipmentRequiredModel with ChangeNotifier {
       _selectedEquipmentRequired;
 
   void init(Routine routine) {
-    List<EquipmentRequired?>? equipmentsFromString = routine.equipmentRequired
+    final List<EquipmentRequired?>? equipmentsFromString = routine
+        .equipmentRequired
         ?.map((string) =>
             EquipmentRequired.values.firstWhere((e) => e.toString() == string))
         .toList();

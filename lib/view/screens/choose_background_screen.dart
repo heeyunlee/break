@@ -58,7 +58,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
   void initState() {
     super.initState();
     widget.model.initSelectedImageIndex();
-    widget.model.showFiles();
+    // widget.model.showFiles();
   }
 
   @override
@@ -79,7 +79,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
       ),
       body: Builder(
         builder: (context) => GridView.count(
-          childAspectRatio: (2 / 3),
+          childAspectRatio: 2 / 3,
           crossAxisCount: 2,
           padding: EdgeInsets.only(
             top: Scaffold.of(context).appBarMaxHeight! + 16,
@@ -123,7 +123,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
                     side: index == widget.model.selectedImageIndex
-                        ? BorderSide(color: Colors.white, width: 2)
+                        ? const BorderSide(color: Colors.white, width: 2)
                         : BorderSide.none,
                     borderRadius: BorderRadius.circular(12),
                   ),

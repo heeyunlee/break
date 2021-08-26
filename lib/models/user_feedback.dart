@@ -21,12 +21,12 @@ class UserFeedback {
 
   factory UserFeedback.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userId = data['userId'];
-      final String username = data['username'];
-      final Timestamp createdDate = data['createdDate'];
-      final String feedback = data['feedback'];
-      final String? userEmail = data['userEmail'];
-      final bool isResolved = data['isResolved'];
+      final String userId = data['userId'].toString();
+      final String username = data['username'].toString();
+      final Timestamp createdDate = data['createdDate'] as Timestamp;
+      final String feedback = data['feedback'].toString();
+      final String? userEmail = data['userEmail']?.toString();
+      final bool isResolved = data['isResolved'] as bool;
 
       return UserFeedback(
         userFeedbackId: documentId,

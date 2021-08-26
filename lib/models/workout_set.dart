@@ -23,15 +23,15 @@ class WorkoutSet {
 
   factory WorkoutSet.fromJson(Map<String, dynamic>? data) {
     if (data != null) {
-      final String workoutSetId = data['workoutSetId'];
-      final bool isRest = data['isRest'];
-      final int index = data['index'];
-      final String setTitle = data['setTitle'];
-      final num? weights = data['weights'];
-      final int? reps = data['reps'];
-      final int? restTime = data['restTime'];
-      final int? setIndex = data['setIndex'];
-      final int? restIndex = data['restIndex'];
+      final String workoutSetId = data['workoutSetId'].toString();
+      final bool isRest = data['isRest'] as bool;
+      final int index = int.parse(data['index'].toString());
+      final String setTitle = data['setTitle'].toString();
+      final num? weights = num.tryParse(data['weights']?.toString() ?? '');
+      final int? reps = int.tryParse(data['reps']?.toString() ?? '');
+      final int? restTime = int.tryParse(data['restTime']?.toString() ?? '');
+      final int? setIndex = int.tryParse(data['setIndex']?.toString() ?? '');
+      final int? restIndex = int.tryParse(data['restIndex']?.toString() ?? '');
 
       return WorkoutSet(
         workoutSetId: workoutSetId,

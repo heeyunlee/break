@@ -34,7 +34,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _daysOfTheWeek = [
+    final List<String> _daysOfTheWeek = [
       'Sun',
       'Mon',
       'Tue',

@@ -46,7 +46,7 @@ class SignInScreenModel extends ChangeNotifier {
   final randomNumber = Random().nextInt(6);
   final now = Timestamp.now();
 
-  void setIsLoading(bool value) {
+  void setIsLoading({required bool value}) {
     _isLoading = value;
     notifyListeners();
   }
@@ -54,9 +54,9 @@ class SignInScreenModel extends ChangeNotifier {
   // SIGN IN ANONYMOUSLY
   Future<void> signInAnonymously(BuildContext context) async {
     logger.d('sign in with Anonymously pressed');
-    MixpanelManager.track('signed up Anonymously');
+    MixpanelManager().track('signed up Anonymously');
 
-    setIsLoading(true);
+    setIsLoading(value: true);
 
     try {
       await auth!.signInAnonymously();
@@ -121,15 +121,15 @@ class SignInScreenModel extends ChangeNotifier {
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   /// SIGN IN WITH GOOGLE
   Future<void> signInWithGoogle(BuildContext context) async {
     logger.d('sign in with google pressed');
-    MixpanelManager.track('sign up with Google Used');
+    MixpanelManager().track('sign up with Google Used');
 
-    setIsLoading(true);
+    setIsLoading(value: true);
 
     try {
       await auth!.signInWithGoogle();
@@ -184,15 +184,15 @@ class SignInScreenModel extends ChangeNotifier {
       _showSignInError(e, context);
     }
 
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   /// SIGN IN WITH FACEBOOK
   Future<void> signInWithFacebook(BuildContext context) async {
     logger.d('sign in with facebook pressed');
-    MixpanelManager.track('sign up with Facebook pressed');
+    MixpanelManager().track('sign up with Facebook pressed');
 
-    setIsLoading(true);
+    setIsLoading(value: true);
 
     try {
       await auth!.signInWithFacebook();
@@ -246,15 +246,15 @@ class SignInScreenModel extends ChangeNotifier {
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   /// SIGN IN WITH APPLE
   Future<void> signInWithApple(BuildContext context) async {
     logger.d('sign in with Apple pressed');
-    MixpanelManager.track('sign up with Apple pressed');
+    MixpanelManager().track('sign up with Apple pressed');
 
-    setIsLoading(true);
+    setIsLoading(value: true);
 
     try {
       await auth!.signInWithApple();
@@ -311,15 +311,15 @@ class SignInScreenModel extends ChangeNotifier {
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   /// SIGN IN WITH Kakao
   Future<void> signInWithKakao(BuildContext context) async {
     logger.d('sign in with Kakao pressed');
-    MixpanelManager.track('sign up with Kakao pressed');
+    MixpanelManager().track('sign up with Kakao pressed');
 
-    setIsLoading(true);
+    setIsLoading(value: true);
 
     try {
       await auth!.signInWithKakao();
@@ -366,7 +366,7 @@ class SignInScreenModel extends ChangeNotifier {
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   // /// Return Base user data
@@ -479,13 +479,13 @@ class SignInScreenModel extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>?> _getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
       return androidInfo.toMap();
     } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
 
       return iosInfo.toMap();
     }

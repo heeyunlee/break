@@ -45,17 +45,17 @@ class WorkoutsTab extends StatelessWidget {
       header: SliverToBoxAdapter(
         child: _buildHeader(context, isHeader: true),
       ),
-      footer: SliverToBoxAdapter(
-        child: const SizedBox(height: kBottomNavigationBarHeight + 48),
+      footer: const SliverToBoxAdapter(
+        child: SizedBox(height: kBottomNavigationBarHeight + 48),
       ),
       onError: (error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, documentSnapshot) {
-        final workout = documentSnapshot.data() as Workout;
+        final workout = documentSnapshot.data() as Workout?;
 
         return LibraryListTile(
-          tag: 'savedWorkout${workout.workoutId}',
+          tag: 'savedWorkout${workout!.workoutId}',
           title: Formatter.localizedTitle(
             workout.workoutTitle,
             workout.translated,

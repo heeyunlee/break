@@ -114,8 +114,8 @@ class _EditRoutineMainMuscleGroupScreenState
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: widget.model.selected(muscle),
                     selected: widget.model.selected(muscle),
-                    onChanged: (bool? checked) => widget.model
-                        .addOrRemoveMainMuscleGroup(checked, muscle),
+                    onChanged: (bool? checked) =>
+                        widget.model.addOrRemove(checked, muscle),
                   ),
                 ),
               ),

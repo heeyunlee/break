@@ -50,17 +50,17 @@ class BlurBackgroundCard extends StatelessWidget {
             BoxShadow(
               color: (shadowColor ?? Colors.black).withOpacity(0.14),
               blurRadius: 5,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
             BoxShadow(
               color: (shadowColor ?? Colors.black).withOpacity(0.12),
               blurRadius: 10,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
             ),
             BoxShadow(
               color: (shadowColor ?? Colors.black).withOpacity(0.20),
               blurRadius: 4,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),

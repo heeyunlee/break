@@ -1,149 +1,66 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/workout_summary_screen_model.dart';
 
-class RoutineHistorySummaryScreen extends StatefulWidget {
-  final RoutineHistory routineHistory;
-  final Database database;
-
-  const RoutineHistorySummaryScreen({
+class WorkoutSummaryScreen extends StatefulWidget {
+  const WorkoutSummaryScreen({
     Key? key,
     required this.routineHistory,
-    required this.database,
+    required this.model,
   }) : super(key: key);
+
+  final RoutineHistory routineHistory;
+  final WorkoutSummaryScreenModel model;
 
   static void show(
     BuildContext context, {
     required RoutineHistory routineHistory,
-  }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    await Navigator.of(context, rootNavigator: true).push(
+  }) {
+    Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
-        builder: (context) => RoutineHistorySummaryScreen(
-          routineHistory: routineHistory,
-          database: database,
+        builder: (context) => Consumer(
+          builder: (context, watch, child) => WorkoutSummaryScreen(
+            routineHistory: routineHistory,
+            model: watch(workoutSummaryScreenModelProvider),
+          ),
         ),
       ),
     );
   }
 
   @override
-  _RoutineHistorySummaryScreenState createState() =>
-      _RoutineHistorySummaryScreenState();
+  _WorkoutSummaryScreenState createState() => _WorkoutSummaryScreenState();
 }
 
-class _RoutineHistorySummaryScreenState
-    extends State<RoutineHistorySummaryScreen> with TickerProviderStateMixin {
-  late ConfettiController _confettiController;
-
-  bool _isPublic = true;
-  num? _effort = 3;
-
-  late String _title = widget.routineHistory.routineTitle;
-  late List<dynamic> _musclesAndEquipment;
-
-  late String _formattedUnit;
-  late String _formattedWeight;
-  late String _formattedDuration;
-
-  // Notes
-  String? get _notes => _textController1.text;
-  late TextEditingController _textController1;
-  late FocusNode focusNode1;
-
+class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
   @override
   void initState() {
     super.initState();
-    focusNode1 = FocusNode();
-    _textController1 = TextEditingController();
 
-    _confettiController = ConfettiController(duration: Duration(seconds: 3));
-    _confettiController.play();
+    widget.model.init(widget.routineHistory);
   }
 
   @override
   void dispose() {
-    focusNode1.dispose();
-    _textController1.dispose();
-    _confettiController.dispose();
     super.dispose();
-  }
-
-  // Submit data to Firestore
-  Future<void> _update() async {
-    try {
-      final routineHistory = {
-        'isPublic': _isPublic,
-        'notes': _notes,
-        'effort': _effort,
-      };
-      await widget.database.updateRoutineHistory(
-        widget.routineHistory,
-        routineHistory,
-      );
-
-      await HapticFeedback.mediumImpact();
-    } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
-    }
-  }
-
-  void dataFormat(RoutineHistory routineHistory) {
-    _title = routineHistory.routineTitle;
-
-    _musclesAndEquipment = Formatter.getListOfEquipments(
-          routineHistory.equipmentRequired,
-          routineHistory.equipmentRequiredEnum,
-        ) +
-        Formatter.getListOfMainMuscleGroup(
-          routineHistory.mainMuscleGroup,
-          routineHistory.mainMuscleGroupEnum,
-        );
-
-    // Unit Of Mass
-    _formattedUnit = Formatter.unitOfMass(
-      routineHistory.unitOfMass,
-      routineHistory.unitOfMassEnum,
-    );
-
-    // Number Formatting
-    final _weights = routineHistory.totalWeights;
-    _formattedWeight = Formatter.numWithOrWithoutDecimal(_weights);
-
-    // Date / Time
-    final startTime = routineHistory.workoutStartTime;
-    final formattedStartTime = Formatter.timeInHM(startTime);
-    final endTime = routineHistory.workoutEndTime;
-    final formattedEndTime = Formatter.timeInHM(endTime);
-
-    _formattedDuration = '$formattedStartTime ~ $formattedEndTime';
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    dataFormat(widget.routineHistory);
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
@@ -152,22 +69,25 @@ class _RoutineHistorySummaryScreenState
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.close_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            _update();
-            Navigator.of(context).pop();
-          },
+          icon: const Icon(Icons.close_rounded, color: Colors.white),
+          onPressed: () => widget.model.update(context, widget.routineHistory),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _buildBody(),
+    );
+  }
+
+  Form _buildBody() {
+    final size = MediaQuery.of(context).size;
+
+    return Form(
+      key: WorkoutSummaryScreenModel.formKey,
+      child: SingleChildScrollView(
         child: Stack(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.max,
+              // mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
                   height: size.height * 2 / 7,
@@ -177,8 +97,7 @@ class _RoutineHistorySummaryScreenState
                       CachedNetworkImage(
                         imageUrl: widget.routineHistory.imageUrl,
                         fit: BoxFit.cover,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                        errorWidget: (_, __, ___) => const Icon(Icons.error),
                       ),
                       Container(
                         decoration: const BoxDecoration(
@@ -203,29 +122,9 @@ class _RoutineHistorySummaryScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 24),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            S.current.stats,
-                            maxLines: 1,
-                            style: TextStyles.headline6_w900,
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        _SummaryRowWidget(
-                          title: '$_formattedWeight ',
-                          subtitle: _formattedUnit,
-                          imageUrl:
-                              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        _SummaryRowWidget(
-                          title: _formattedDuration,
-                          imageUrl:
-                              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
-                        ),
-                        SizedBox(height: size.height * 0.02),
+                        const SizedBox(height: 16),
+                        _buildStats(),
+                        const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -236,30 +135,15 @@ class _RoutineHistorySummaryScreenState
                             style: TextStyles.headline6_w900,
                           ),
                         ),
-                        Card(
-                          color: kCardColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: TextFormField(
-                              textInputAction: TextInputAction.done,
-                              controller: _textController1,
-                              style: TextStyles.body2,
-                              focusNode: focusNode1,
-                              decoration: InputDecoration(
-                                hintText: S.current.addNotesHintText,
-                                hintStyle: TextStyles.body2_grey,
-                                border: InputBorder.none,
-                              ),
-                              onFieldSubmitted: (value) => setState(() {}),
-                              onChanged: (value) => setState(() {}),
-                              onSaved: (value) => setState(() {}),
-                            ),
-                          ),
+                        OutlinedTextTextFieldWidget(
+                          focusNode: widget.model.focusNode,
+                          controller: widget.model.textEditingController,
+                          formKey: WorkoutSummaryScreenModel.formKey,
+                          hintText: S.current.addNotesHintText,
+                          textInputAction: TextInputAction.done,
+                          maxLines: 4,
                         ),
-                        SizedBox(height: size.height * 0.02),
+                        const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -281,12 +165,13 @@ class _RoutineHistorySummaryScreenState
                               height: size.height * 0.08,
                               child: Center(
                                 child: RatingBar(
-                                  initialRating: 3,
+                                  initialRating: widget.model.effort.toDouble(),
                                   glow: false,
                                   allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  // itemCount: 5,
+                                  itemPadding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
                                   ratingWidget: RatingWidget(
                                     empty: Image.asset(
                                       'assets/emojis/fire_none.png',
@@ -298,12 +183,7 @@ class _RoutineHistorySummaryScreenState
                                       'assets/emojis/fire_half.png',
                                     ),
                                   ),
-                                  onRatingUpdate: (rating) {
-                                    HapticFeedback.mediumImpact();
-                                    setState(() {
-                                      _effort = rating;
-                                    });
-                                  },
+                                  onRatingUpdate: widget.model.onRatingUpdate,
                                 ),
                               ),
                             ),
@@ -320,7 +200,7 @@ class _RoutineHistorySummaryScreenState
                             SizedBox(
                               width: 72,
                               child: Text(
-                                (_isPublic)
+                                (widget.model.isPublic)
                                     ? S.current.everyone
                                     : S.current.justMe,
                                 style: TextStyles.body2_w900,
@@ -328,26 +208,20 @@ class _RoutineHistorySummaryScreenState
                             ),
                             const SizedBox(width: 8),
                             Icon(
-                              (_isPublic)
+                              (widget.model.isPublic)
                                   ? Icons.public_rounded
                                   : Icons.public_off_rounded,
                               color: Colors.white,
                             ),
                             const SizedBox(width: 8),
                             Switch(
-                              value: _isPublic,
+                              value: widget.model.isPublic,
                               activeColor: kPrimaryColor,
-                              onChanged: (bool value) {
-                                HapticFeedback.mediumImpact();
-                                setState(() {
-                                  _isPublic = value;
-                                });
-                              },
+                              onChanged: widget.model.isPublicOnChanged,
                             ),
                           ],
                         ),
-                        Spacer(),
-                        // const SizedBox(height: 40),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -359,13 +233,13 @@ class _RoutineHistorySummaryScreenState
                 maxBlastForce: 100,
                 maximumSize: const Size(10, 10),
                 minimumSize: const Size(5, 5),
-                confettiController: _confettiController,
+                confettiController: widget.model.confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
-                shouldLoop: false,
+                // shouldLoop: false,
                 displayTarget: true,
                 numberOfParticles: 30,
                 blastDirection: -pi / 2,
-                colors: [
+                colors: const [
                   kPrimaryColor,
                   Colors.green,
                   Colors.cyanAccent,
@@ -380,6 +254,15 @@ class _RoutineHistorySummaryScreenState
   }
 
   Widget _buildChips() {
+    final musclesAndEquipments = Formatter.getListOfEquipments(
+          widget.routineHistory.equipmentRequired,
+          widget.routineHistory.equipmentRequiredEnum,
+        ) +
+        Formatter.getListOfMainMuscleGroup(
+          widget.routineHistory.mainMuscleGroup,
+          widget.routineHistory.mainMuscleGroupEnum,
+        );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -391,7 +274,7 @@ class _RoutineHistorySummaryScreenState
             style: TextStyles.subtitle1_grey,
           ),
           Text(
-            _title,
+            widget.routineHistory.routineTitle,
             maxLines: 1,
             style: TextStyles.headline5_bold,
           ),
@@ -400,12 +283,12 @@ class _RoutineHistorySummaryScreenState
             clipBehavior: Clip.none,
             child: Row(
               children: List.generate(
-                _musclesAndEquipment.length,
+                musclesAndEquipments.length,
                 (index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Chip(
                     label: Text(
-                      _musclesAndEquipment[index],
+                      musclesAndEquipments[index],
                       style: TextStyles.button1,
                     ),
                     backgroundColor: kPrimaryColor,
@@ -416,6 +299,46 @@ class _RoutineHistorySummaryScreenState
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildStats() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(S.current.stats, style: TextStyles.headline6_w900),
+        ),
+        if (widget.routineHistory.routineHistoryType == 'routine')
+          _SummaryRowWidget(
+            title:
+                '${Formatter.numWithOrWithoutDecimal(widget.routineHistory.totalWeights)} ',
+            subtitle: Formatter.unitOfMass(
+              widget.routineHistory.unitOfMass,
+              widget.routineHistory.unitOfMassEnum,
+            ),
+            imageUrl:
+                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
+          ),
+        if (widget.routineHistory.routineHistoryType == 'youtube')
+          _SummaryRowWidget(
+            subtitle: ' Kcal',
+            title: Formatter.numWithOrWithoutDecimal(
+              widget.routineHistory.totalCalories,
+            ),
+            imageUrl:
+                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/285/heart-on-fire_2764-fe0f-200d-1f525.png',
+          ),
+        _SummaryRowWidget(
+          title: Formatter.durationInString(
+            widget.routineHistory.workoutStartTime,
+            widget.routineHistory.workoutEndTime,
+          ),
+          imageUrl:
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
+        ),
+      ],
     );
   }
 }
@@ -434,29 +357,32 @@ class _SummaryRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CachedNetworkImage(
-          imageUrl: imageUrl,
-          width: 36,
-          height: 36,
-        ),
-        const SizedBox(width: 16),
-        RichText(
-          text: TextSpan(
-            style: TextStyles.headline5,
-            children: <TextSpan>[
-              TextSpan(text: title),
-              if (subtitle != null)
-                TextSpan(
-                  text: subtitle,
-                  style: TextStyles.subtitle1,
-                ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            width: 36,
+            height: 36,
           ),
-        ),
-      ],
+          const SizedBox(width: 16),
+          RichText(
+            text: TextSpan(
+              style: TextStyles.headline5,
+              children: <TextSpan>[
+                TextSpan(text: title),
+                if (subtitle != null)
+                  TextSpan(
+                    text: subtitle,
+                    style: TextStyles.subtitle1,
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

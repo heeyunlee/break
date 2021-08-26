@@ -19,7 +19,7 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: ChooseMainMuscleGroupScreen(),
+      screen: const ChooseMainMuscleGroupScreen(),
     );
   }
 
@@ -55,7 +55,7 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: Scaffold.of(context).appBarMaxHeight!),
+          SizedBox(height: Scaffold.of(context).appBarMaxHeight),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -67,7 +67,7 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
             checked: model.selectedMainMuscleGroupEnum.contains,
             items: MainMuscleGroup.values,
             onChangedMainMuscleEnum: (checked, muscle) =>
-                model.onChangedMuscleGroup(checked, muscle),
+                model.onChangedMuscleGroup(checked, muscle as MainMuscleGroup),
             getTitle: (muscle) => (muscle as MainMuscleGroup).translation!,
           ),
           const SizedBox(height: 48),

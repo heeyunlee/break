@@ -28,7 +28,8 @@ class WorkoutTitleWidget extends StatelessWidget {
 
   Widget _buildChild(Workout workout) {
     final locale = Intl.getCurrentLocale();
-    final title = workout.translated[locale] ?? workout.workoutTitle;
+    final title =
+        workout.translated[locale]?.toString() ?? workout.workoutTitle;
 
     if (isAppBarTitle) {
       return Center(child: Text(title, style: TextStyles.subtitle1));

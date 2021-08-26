@@ -1,14 +1,17 @@
 import 'dart:math' as math;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
-import 'main_model.dart';
 import 'package:workout_player/utils/formatter.dart';
+
+import 'main_model.dart';
 
 final weeklyFatBarChartModelProvider =
     ChangeNotifierProvider.family<WeeklyFatBarChartModel, ProgressTabClass>(
@@ -43,10 +46,10 @@ class WeeklyFatBarChartModel with ChangeNotifier {
   List<double> get randomListOfYs => [5, 9, 2.6, 9.4, 10, 7, 10];
 
   void init() {
-    logger.d('init in nutritionChart called');
+    logger.d('init in WeeklyFatBarChartModel called');
 
     /// INIT Dates
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
@@ -62,10 +65,11 @@ class WeeklyFatBarChartModel with ChangeNotifier {
 
     /// INIT Relative Ys
     Map<DateTime, List<Nutrition>> _mapData;
-    List<num> _listOfYs = [];
-    List<double> _relatives = [];
+    final List<num> _listOfYs = [];
+    final List<double> _relatives = [];
 
-    List<Nutrition> fatList = nutritions.where((e) => e.fat != null).toList();
+    final List<Nutrition> fatList =
+        nutritions.where((e) => e.fat != null).toList();
 
     if (fatList.isNotEmpty) {
       _mapData = {
@@ -73,11 +77,15 @@ class WeeklyFatBarChartModel with ChangeNotifier {
           item: fatList.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
+      // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
+      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
-          list.forEach((nutrition) => sum += nutrition.fat!);
+          for (final nutrition in list) {
+            sum += nutrition.fat!;
+          }
         }
 
         _listOfYs.add(sum);
@@ -87,15 +95,17 @@ class WeeklyFatBarChartModel with ChangeNotifier {
       if (largest == 0) {
         _fatMaxY = 200;
 
-        _listOfYs.forEach((element) => _relatives.add(0));
+        for (final _ in _listOfYs) {
+          _relatives.add(0);
+        }
       } else {
         final roundedLargest = (largest / 10).ceil() * 10;
 
         _fatMaxY = roundedLargest.toDouble() + 10;
 
-        _listOfYs.forEach((element) {
-          _relatives.add(element / _fatMaxY * 10);
-        });
+        for (final y in _listOfYs) {
+          _relatives.add(y / _fatMaxY * 10);
+        }
       }
       _relativeYs = _relatives;
 

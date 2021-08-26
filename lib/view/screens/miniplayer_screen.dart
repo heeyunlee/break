@@ -138,12 +138,15 @@ class MiniplayerScreen extends StatelessWidget {
           Stack(
             children: [
               const YoutubePlayerWidget(),
-              _opacitySizeBuilder(
-                reversed: true,
-                percentage: percentage,
-                widget: Container(
-                  color: kBottomNavBarColor.withOpacity(0.9),
-                  child: _collapedWidget(context, model),
+              Offstage(
+                offstage: percentage > 0.5,
+                child: _opacitySizeBuilder(
+                  reversed: true,
+                  percentage: percentage,
+                  widget: Container(
+                    color: kBottomNavBarColor.withOpacity(0.9),
+                    child: _collapedWidget(context, model),
+                  ),
                 ),
               ),
             ],
@@ -162,12 +165,16 @@ class MiniplayerScreen extends StatelessWidget {
     bool? reversed = false,
   }) {
     final intervalA = reversed!
-        ? Interval(0.85, 1.00, curve: Curves.easeOut).transform(1 - percentage)
-        : Interval(0.25, 0.50, curve: Curves.easeOut).transform(percentage);
+        ? const Interval(0.85, 1.00, curve: Curves.easeOut)
+            .transform(1 - percentage)
+        : const Interval(0.25, 0.50, curve: Curves.easeOut)
+            .transform(percentage);
 
     final intervalB = reversed
-        ? Interval(0.85, 1.00, curve: Curves.easeIn).transform(1 - percentage)
-        : Interval(0.00, 0.25, curve: Curves.easeIn).transform(percentage);
+        ? const Interval(0.85, 1.00, curve: Curves.easeIn)
+            .transform(1 - percentage)
+        : const Interval(0.00, 0.25, curve: Curves.easeIn)
+            .transform(percentage);
 
     return Opacity(
       opacity: intervalA,
@@ -222,7 +229,7 @@ class MiniplayerScreen extends StatelessWidget {
                   model: model,
                   isExpanded: false,
                   horzPadding: 16,
-                  vertPadding: 4,
+                  // vertPadding: 4,
                   textStyle: TextStyles.body1_bold,
                 ),
                 MiniplayerSubtitle(
@@ -235,7 +242,7 @@ class MiniplayerScreen extends StatelessWidget {
           ),
         ),
         PauseOrPlayButton(iconSize: 36, model: model),
-        NextWorkoutSetButton(iconSize: 36),
+        const NextWorkoutSetButton(iconSize: 36),
         const SizedBox(width: 8),
       ],
     );

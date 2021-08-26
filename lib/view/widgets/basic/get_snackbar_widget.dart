@@ -6,7 +6,7 @@ void getSnackbarWidget(String title, String message, {int? duration}) {
   return Get.snackbar(
     title,
     message,
-    animationDuration: Duration(milliseconds: 500),
+    animationDuration: const Duration(milliseconds: 500),
     backgroundColor: Colors.grey[700]!.withOpacity(0.75),
     snackPosition: SnackPosition.TOP,
     titleText: Text(title, style: TextStyles.body2_grey),

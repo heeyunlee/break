@@ -46,18 +46,18 @@ class RoutinesTab extends StatelessWidget {
       header: SliverToBoxAdapter(
         child: _buildHeader(context, isHeader: true),
       ),
-      footer: SliverToBoxAdapter(
-        child: const SizedBox(height: kBottomNavigationBarHeight + 48),
+      footer: const SliverToBoxAdapter(
+        child: SizedBox(height: kBottomNavigationBarHeight + 48),
       ),
       onError: (error) => EmptyContent(
         message: S.current.somethingWentWrong,
         e: error,
       ),
       itemBuilder: (_, context, snapshot) {
-        final routine = snapshot.data() as Routine;
+        final routine = snapshot.data() as Routine?;
 
         return LibraryListTile(
-          tag: 'savedRoutines-${routine.routineId}',
+          tag: 'savedRoutines-${routine!.routineId}',
           title: routine.routineTitle,
           subtitle: Formatter.getJoinedMainMuscleGroups(
             routine.mainMuscleGroup,

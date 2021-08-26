@@ -18,7 +18,7 @@ class NextWRoutineorkoutButton extends ConsumerWidget {
       child: IconButton(
         disabledColor: Colors.grey[700],
         color: Colors.white,
-        icon: Icon(CupertinoIcons.forward_end_alt_fill),
+        icon: const Icon(CupertinoIcons.forward_end_alt_fill),
         onPressed:
             model.isForwardButtonDisabled() ? null : model.nextRoutineWorkout,
       ),

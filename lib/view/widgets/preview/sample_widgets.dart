@@ -5,7 +5,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'weekly_bar_chart_sample_template.dart';
 
 class SampleWidgets {
-  final Widget weeklyWeightsBarChart = WeeklyBarChartSampleTemplate(
+  final Widget weeklyWeightsBarChart = const WeeklyBarChartSampleTemplate(
     key: Key('weeklyWorkoutHistoryMedium'),
     cardPadding: 4,
     cardColor: kCardColor,
@@ -19,7 +19,8 @@ class SampleWidgets {
     unit: 'kg',
   );
 
-  final Widget weeklyWeightsBarChartPreview = WeeklyBarChartSampleTemplate(
+  final Widget weeklyWeightsBarChartPreview =
+      const WeeklyBarChartSampleTemplate(
     key: Key('weeklyWorkoutHistoryMedium'),
     cardPadding: 16,
     defaultColor: kPrimaryColor,
@@ -32,7 +33,7 @@ class SampleWidgets {
     unit: 'kg',
   );
 
-  final Widget weeklyProteinsBarChart = WeeklyBarChartSampleTemplate(
+  final Widget weeklyProteinsBarChart = const WeeklyBarChartSampleTemplate(
     key: Key('weeklyNutritionChart'),
     cardPadding: 4,
     cardColor: kCardColor,
@@ -46,7 +47,8 @@ class SampleWidgets {
     unit: 'g',
   );
 
-  final Widget weeklyProteinsBarChartPreview = WeeklyBarChartSampleTemplate(
+  final Widget weeklyProteinsBarChartPreview =
+      const WeeklyBarChartSampleTemplate(
     key: Key('weeklyNutritionChart'),
     cardPadding: 16,
     defaultColor: Colors.greenAccent,
@@ -60,7 +62,7 @@ class SampleWidgets {
   );
 
   final Widget weeklyCarbsBarChart = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyCarbsBarChart'),
+    key: const Key('weeklyCarbsBarChart'),
     cardPadding: 4,
     cardColor: kCardColor,
     title: S.current.carbs,
@@ -70,11 +72,11 @@ class SampleWidgets {
     leadingIcon: Icons.restaurant_menu_rounded,
     unit: 'g',
     maxY: 160,
-    randomData: [140, 163, 123, 153, 162, 100, 160],
+    randomData: const [140, 163, 123, 153, 162, 100, 160],
   );
 
   final Widget weeklyCarbsBarChartPreview = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyCarbsBarChart'),
+    key: const Key('weeklyCarbsBarChart'),
     cardPadding: 16,
     title: S.current.carbs,
     defaultColor: Colors.lightGreenAccent,
@@ -83,11 +85,11 @@ class SampleWidgets {
     leadingIcon: Icons.restaurant_menu_rounded,
     unit: 'g',
     maxY: 160,
-    randomData: [140, 163, 123, 153, 162, 100, 160],
+    randomData: const [140, 163, 123, 153, 162, 100, 160],
   );
 
   final Widget weeklyFatBarChart = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyFatBarChart'),
+    key: const Key('weeklyFatBarChart'),
     title: S.current.fat,
     cardColor: kCardColor,
     cardPadding: 4,
@@ -97,11 +99,11 @@ class SampleWidgets {
     horizontalInterval: 50,
     unit: 'g',
     maxY: 60,
-    randomData: [45, 32, 66, 43, 52, 12, 50],
+    randomData: const [45, 32, 66, 43, 52, 12, 50],
   );
 
   final Widget weeklyFatBarChartPreview = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyFatBarChart'),
+    key: const Key('weeklyFatBarChart'),
     title: S.current.fat,
     cardPadding: 16,
     defaultColor: Colors.lightGreenAccent,
@@ -110,11 +112,11 @@ class SampleWidgets {
     horizontalInterval: 50,
     unit: 'g',
     maxY: 60,
-    randomData: [45, 32, 66, 43, 52, 12, 50],
+    randomData: const [45, 32, 66, 43, 52, 12, 50],
   );
 
   final Widget weeklyCaloriesChart = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyCalorieBarChart'),
+    key: const Key('weeklyCalorieBarChart'),
     title: S.current.consumedCalorie,
     cardColor: kCardColor,
     cardPadding: 4,
@@ -124,11 +126,11 @@ class SampleWidgets {
     horizontalInterval: 2000,
     unit: 'Cal',
     maxY: 2100,
-    randomData: [1600, 1730, 2000, 2145, 1960, 2000, 2010],
+    randomData: const [1600, 1730, 2000, 2145, 1960, 2000, 2010],
   );
 
   final Widget weeklyCaloriesChartPreview = WeeklyBarChartSampleTemplate(
-    key: Key('weeklyCalorieBarChart'),
+    key: const Key('weeklyCalorieBarChart'),
     title: S.current.consumedCalorie,
     cardPadding: 16,
     defaultColor: Colors.lightGreenAccent,
@@ -137,6 +139,6 @@ class SampleWidgets {
     horizontalInterval: 2000,
     unit: 'Cal',
     maxY: 2100,
-    randomData: [1600, 1730, 2000, 2145, 1960, 2000, 2010],
+    randomData: const [1600, 1730, 2000, 2145, 1960, 2000, 2010],
   );
 }

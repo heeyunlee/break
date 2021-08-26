@@ -11,7 +11,7 @@ abstract class StringValidator {
 class StringValidatorBase implements StringValidator {
   @override
   bool isEmailValid(String email) {
-    if (EmailValidator.validate(email, false, true)) {
+    if (EmailValidator.validate(email)) {
       return true;
     } else {
       return false;

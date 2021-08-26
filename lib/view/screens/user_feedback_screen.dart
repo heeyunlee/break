@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -22,17 +21,18 @@ class UserFeedbackScreen extends StatefulWidget {
     required this.database,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {required User user}) async {
     final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
+    // final auth = Provider.of<AuthBase>(context, listen: false);
+    // final user = await database.getUserDocument(auth.currentUser!.uid);
 
     await Navigator.of(context, rootNavigator: true).push(
       CupertinoPageRoute(
         fullscreenDialog: true,
         builder: (context) => UserFeedbackScreen(
           database: database,
-          user: user!,
+          // user: user!,
+          user: user,
         ),
       ),
     );
@@ -61,7 +61,7 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
   Future<void> _submit() async {
     try {
       // final userFeedbackId = documentIdFromCurrentDate();
-      final id = 'UF${Uuid().v1()}';
+      final id = 'UF${const Uuid().v1()}';
       final createdDate = Timestamp.now();
 
       final userFeedback = UserFeedback(
@@ -74,6 +74,9 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         isResolved: false,
       );
       await widget.database.setUserFeedback(userFeedback);
+
+      // TODO: fix here
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
 
       getSnackbarWidget(

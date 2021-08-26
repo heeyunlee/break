@@ -52,7 +52,7 @@ class WorkoutDetailScreen extends StatefulWidget {
 
     await HapticFeedback.mediumImpact();
     if (!isRoot) {
-      await Navigator.of(context, rootNavigator: false).push(
+      await Navigator.of(context).push(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
@@ -65,7 +65,7 @@ class WorkoutDetailScreen extends StatefulWidget {
         ),
       );
     } else {
-      await Navigator.of(context, rootNavigator: false).pushReplacement(
+      await Navigator.of(context).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
@@ -100,9 +100,9 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     super.initState();
 
     _textAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+        AnimationController(vsync: this, duration: Duration.zero);
 
-    _transTween = Tween(begin: Offset(0, 24), end: Offset(0, 0))
+    _transTween = Tween(begin: const Offset(0, 24), end: Offset.zero)
         .animate(_textAnimationController);
 
     _opacityTween = Tween(
@@ -160,7 +160,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   ) {
     final size = MediaQuery.of(context).size;
 
-    final title = workout.translated[locale] ?? workout.workoutTitle;
+    final title =
+        workout.translated[locale]?.toString() ?? workout.workoutTitle;
 
     return AnimatedBuilder(
       animation: _textAnimationController,
@@ -176,14 +177,14 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
           ),
         ),
         backgroundColor: kAppBarColor,
-        floating: false,
+        // floating: false,
         pinned: true,
-        snap: false,
+        // snap: false,
         stretch: true,
         expandedHeight: size.height / 2,
         centerTitle: true,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(48),
+          preferredSize: const Size.fromHeight(48),
           child: Container(
             color: kAppBarColor,
             child: TabBar(
@@ -231,12 +232,12 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
             tag: widget.tag,
             child: CachedNetworkImage(
               imageUrl: workout.imageUrl,
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
               fit: BoxFit.cover,
             ),
           ),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment(0.0, -0.75),
                 end: Alignment(0.0, 0.75),
@@ -258,7 +259,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     // Main Muscle Group
-                    Container(
+                    SizedBox(
                       width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +286,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                     ),
 
                     // Equipment Required
-                    Container(
+                    SizedBox(
                       width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +313,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                     ),
 
                     // Experience Level
-                    Container(
+                    SizedBox(
                       width: size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,7 +347,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                     workout: workout,
                   ),
                 ),
-                SizedBox(height: 48),
+                const SizedBox(height: 48),
               ],
             ),
           ),

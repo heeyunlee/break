@@ -16,12 +16,12 @@ class SearchHistoryListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.history_rounded, color: Colors.grey),
+      leading: const Icon(Icons.history_rounded, color: Colors.grey),
       title: Text(query, style: TextStyles.body2_grey),
       onTap: tileOnTap,
       trailing: InkWell(
         onTap: iconOnTap,
-        child: Icon(Icons.close_rounded, color: Colors.grey),
+        child: const Icon(Icons.close_rounded, color: Colors.grey),
       ),
     );
   }

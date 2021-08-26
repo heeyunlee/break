@@ -101,7 +101,7 @@ class MeasurementsScreen extends StatelessWidget {
           return Slidable(
             // startActionPane: const SlidableDrawerActionPane(),
             endActionPane: ActionPane(
-              motion: ScrollMotion(),
+              motion: const ScrollMotion(),
               children: [
                 SlidableAction(
                   label: S.current.delete,

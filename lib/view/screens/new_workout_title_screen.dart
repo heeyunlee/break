@@ -58,11 +58,11 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
     return Center(
       child: Container(
         height: 104,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(8),
         child: TextFormField(
           maxLength: 35,
-          maxLines: 1,
+          // maxLines: 1,
           style: TextStyles.headline5,
           autofocus: true,
           textAlign: TextAlign.center,

@@ -56,14 +56,14 @@ class AddWorkoutToRoutineScreen extends StatelessWidget {
           ],
         ),
       ),
-      footer: SliverToBoxAdapter(
-        child: const SizedBox(height: kBottomNavigationBarHeight),
+      footer: const SliverToBoxAdapter(
+        child: SizedBox(height: kBottomNavigationBarHeight),
       ),
       onError: (Exception error) => EmptyContent(
         message: '${S.current.somethingWentWrong}: $error',
       ),
       itemBuilder: (index, context, snapshot) {
-        final routine = snapshot.data() as Routine;
+        final routine = snapshot.data() as Routine?;
         final model = context.read(addWorkoutToRoutineScreenModelProvider);
         final homeModel = context.read(homeScreenModelProvider);
         // final currentKey = homeModel.tabNavigatorKeys[homeModel.currentTab]!;
@@ -71,7 +71,7 @@ class AddWorkoutToRoutineScreen extends StatelessWidget {
             HomeScreenModel.tabNavigatorKeys[homeModel.currentTab]!;
 
         return LibraryListTile(
-          tag: 'routine${routine.routineId}',
+          tag: 'routine${routine!.routineId}',
           title: routine.routineTitle,
           subtitle: Formatter.getJoinedMainMuscleGroups(
             routine.mainMuscleGroup,

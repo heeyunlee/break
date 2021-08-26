@@ -27,7 +27,7 @@ class TextFieldModel with ChangeNotifier {
     return null;
   }
 
-  String? emailValidatorWithBool(String? value, bool submitted) {
+  String? emailValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
         final validator = StringValidatorBase();
@@ -40,7 +40,7 @@ class TextFieldModel with ChangeNotifier {
     }
   }
 
-  String? firstNameValidatorWithBool(String? value, bool submitted) {
+  String? firstNameValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value == null || value.isEmpty) {
         return S.current.emptyFirstNameText;
@@ -48,7 +48,7 @@ class TextFieldModel with ChangeNotifier {
     }
   }
 
-  String? lastNameValidatorWithBool(String? value, bool submitted) {
+  String? lastNameValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value == null || value.isEmpty) {
         return S.current.emptyLastNameText;
@@ -56,7 +56,7 @@ class TextFieldModel with ChangeNotifier {
     }
   }
 
-  String? passwordValidatorWithBool(String? value, bool submitted) {
+  String? passwordValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
         final validator = StringValidatorBase();

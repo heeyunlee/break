@@ -134,7 +134,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               NumberPicker(
                 minValue: intMinValue,
@@ -144,7 +144,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
                 textStyle: TextStyles.subtitle1,
                 selectedTextStyle: TextStyles.headline4.copyWith(color: color),
                 value: model.intValue,
-                itemWidth: (isDouble) ? (size.width * 0.4) : (size.width * 0.6),
+                itemWidth: isDouble ? (size.width * 0.4) : (size.width * 0.6),
                 onChanged: model.onIntChanged,
                 textMapper: (str) => Formatter.numWithoutDecimal(null, str),
               ),

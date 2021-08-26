@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 /// Class of `Measurement` is a collection of body measurements such as [bodyWeight],
 /// [bodyFat], [skeletalMuscleMass], [bmi].
@@ -41,22 +42,23 @@ class Measurement {
 
   factory Measurement.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userId = data['userId'];
-      final String username = data['username'];
-      final Timestamp loggedTime = data['loggedTime'];
-      final DateTime loggedDate = data['loggedDate'].toDate();
-      final num? bodyWeight = data['bodyWeight'];
-      final num? bodyFat = data['bodyFat'];
-      final num? skeletalMuscleMass = data['skeletalMuscleMass'];
-      final num? bmi = data['bmi'];
-      final String? notes = data['notes'];
-      final String? dataSource = data['dataSource'];
-      final String? sourceId = data['sourceId'];
-      final String? sourceName = data['sourceName'];
-      final String? dataType = data['dataType'];
-      final String? platformType = data['platformType'];
+      final String userId = data['userId'].toString();
+      final String username = data['username'].toString();
+      final Timestamp loggedTime = data['loggedTime'] as Timestamp;
+      final DateTime loggedDate = (data['loggedDate'] as Timestamp).toDate();
+      final num? bodyWeight = num.tryParse(data['bodyWeight'].toString());
+      final num? bodyFat = num.tryParse(data['bodyFat'].toString());
+      final num? skeletalMuscleMass =
+          num.tryParse(data['skeletalMuscleMass'].toString());
+      final num? bmi = num.tryParse(data['bmi'].toString());
+      final String? notes = data['notes']?.toString();
+      final String? dataSource = data['dataSource']?.toString();
+      final String? sourceId = data['sourceId']?.toString();
+      final String? sourceName = data['sourceName']?.toString();
+      final String? dataType = data['dataType']?.toString();
+      final String? platformType = data['platformType']?.toString();
 
-      return Measurement(
+      final measurement = Measurement(
         measurementId: documentId,
         userId: userId,
         username: username,
@@ -73,6 +75,8 @@ class Measurement {
         dataType: dataType,
         platformType: platformType,
       );
+
+      return measurement;
     } else {
       throw 'null';
     }

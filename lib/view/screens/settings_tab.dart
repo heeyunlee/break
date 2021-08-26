@@ -154,7 +154,7 @@ class SettingsTab extends ConsumerWidget {
                 S.current.personalGoals,
                 style: TextStyles.body2,
               ),
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.grey,
                 size: 20,
@@ -183,7 +183,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: () => UserFeedbackScreen.show(context),
+              onTap: () => UserFeedbackScreen.show(context, user: user),
             ),
 
             // ABOUT
@@ -223,7 +223,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: model.launchPrivacyServiceURL,
+              onTap: () => model.launchPrivacyServiceURL(context),
             ),
             ListTile(
               leading: const Icon(
@@ -236,7 +236,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: model.launchTermsURL,
+              onTap: () => model.launchTermsURL(context),
             ),
 
             // LOG IN
@@ -256,8 +256,8 @@ class SettingsTab extends ConsumerWidget {
             ),
             const SizedBox(height: 48),
             // TODO: CHANGE VERSION CODE HERE
-            Center(
-              child: const Text('v.0.3.4', style: TextStyles.caption1_grey),
+            const Center(
+              child: Text('v.0.3.5', style: TextStyles.caption1_grey),
             ),
             const SizedBox(height: 120),
           ],

@@ -42,9 +42,10 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
     _todaysMuscleWorked = '-';
 
     if (nutritions.isNotEmpty) {
-      nutritions.forEach((e) {
-        _nutritionDailyTotal += e.proteinAmount.toInt();
-      });
+      for (final nutrition in nutritions) {
+        _nutritionDailyTotal += nutrition.proteinAmount.toInt();
+      }
+
       _nutritionDailyProgress = _nutritionDailyTotal / _nutritionDailyGoal;
 
       if (_nutritionDailyProgress >= 1) {
@@ -53,9 +54,9 @@ class DailyActivityRingWidgetModel with ChangeNotifier {
     }
 
     if (routineHistories.isNotEmpty) {
-      routineHistories.forEach((e) {
-        _weightsLiftedDailyTotal += e.totalWeights.toInt();
-      });
+      for (final history in routineHistories) {
+        _weightsLiftedDailyTotal += history.totalWeights.toInt();
+      }
 
       _weightsLiftedDailyProgress =
           _weightsLiftedDailyTotal / _liftingDailyGoal;

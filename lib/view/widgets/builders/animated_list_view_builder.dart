@@ -18,7 +18,7 @@ class AnimatedListViewBuilder extends StatelessWidget {
     Key? key,
     required this.items,
     this.beginOffset,
-    this.endOffset = const Offset(0, 0),
+    this.endOffset = Offset.zero,
     this.offsetInitialDelayTime = 0.2,
     this.offsetStaggerTime = 0.1,
     this.offsetDuration = 0.3,

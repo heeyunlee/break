@@ -18,7 +18,7 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Color> gradientColors = [
+    final List<Color> gradientColors = [
       kSecondaryColor,
       kSecondaryColor.withOpacity(0.95),
     ];
@@ -133,10 +133,10 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                           getTitles: (value) {
                             final unit = Formatter.unitOfMass(0);
 
-                            final maxY = 80;
-                            final minY = 70;
+                            const maxY = 80;
+                            const minY = 70;
 
-                            final interaval = (maxY - minY) / 4;
+                            const interaval = (maxY - minY) / 4;
 
                             if (value == maxY) {
                               return '${maxY.toInt()} $unit';
@@ -155,8 +155,8 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                       ),
                       borderData: FlBorderData(
                         show: true,
-                        border: Border(
-                          bottom: BorderSide(color: Colors.white12, width: 1),
+                        border: const Border(
+                          bottom: BorderSide(color: Colors.white12),
                         ),
                       ),
                       minX: 0,

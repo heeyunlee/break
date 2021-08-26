@@ -9,8 +9,8 @@ class FirestoreService {
   Future<void> setData<T>({
     required String path,
     required T data,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
@@ -24,8 +24,8 @@ class FirestoreService {
   Future<void> updateData<T>({
     required String path,
     required Map<String, dynamic> data,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
@@ -45,8 +45,8 @@ class FirestoreService {
   // Document Future
   Future<T?> getDocument<T>({
     required String path,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
@@ -62,8 +62,8 @@ class FirestoreService {
   // Document Stream
   Stream<T?> documentStream<T>({
     required String path,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final reference = FirebaseFirestore.instance.doc(path).withConverter<T>(
           fromFirestore: (json, _) => fromBuilder(json.data(), json.id),
@@ -79,8 +79,8 @@ class FirestoreService {
     required String path,
     required String order,
     required bool descending,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
     int? limit,
   }) {
     final reference = FirebaseFirestore.instance
@@ -105,8 +105,8 @@ class FirestoreService {
     required String where,
     required String order,
     required bool descending,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
     int? limit,
   }) {
     final reference = FirebaseFirestore.instance
@@ -132,10 +132,10 @@ class FirestoreService {
     String? uid,
     String? uidVariableName,
     required String dateVariableName,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
-    final lastWeek = DateTime.now().subtract(Duration(days: 7));
+    final lastWeek = DateTime.now().subtract(const Duration(days: 7));
 
     final reference = (uid != null && uidVariableName != null)
         ? FirebaseFirestore.instance
@@ -171,10 +171,10 @@ class FirestoreService {
     required String dateVariableName,
     required String whereVariableName,
     required String isEqualToVariable,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
-    final lastWeek = DateTime.now().subtract(Duration(days: 7));
+    final lastWeek = DateTime.now().subtract(const Duration(days: 7));
 
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -201,8 +201,8 @@ class FirestoreService {
     required String uid,
     required String dateVariableName,
     required String orderVariableName,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final now = DateTime.now();
     final today = DateTime.utc(now.year, now.month, now.day);
@@ -232,8 +232,8 @@ class FirestoreService {
     required String dateVariableName,
     DateTime? dateIsEqualTo,
     required String orderVariableName,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final day = dateIsEqualTo ?? DateTime.now();
 
@@ -265,8 +265,8 @@ class FirestoreService {
     required String orderByVariable,
     required bool isDescending,
     int? limit,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -296,8 +296,8 @@ class FirestoreService {
     required String orderByVariable,
     required bool isDescending,
     int? limit,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -328,8 +328,8 @@ class FirestoreService {
     required String orderByVariable,
     required bool isDescending,
     int? limit,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final reference = FirebaseFirestore.instance
         .collection(path)
@@ -402,8 +402,8 @@ class FirestoreService {
     required String path,
     required String orderBy,
     required bool descending,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
@@ -421,8 +421,8 @@ class FirestoreService {
     required String orderBy,
     required bool descending,
     required String isPublicName,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
@@ -442,8 +442,8 @@ class FirestoreService {
     required dynamic isEqualTo,
     required String orderBy,
     required bool descending,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)
@@ -464,8 +464,8 @@ class FirestoreService {
     required String whereNotNull,
     required String orderBy,
     required bool descending,
-    required Function(Map<String, dynamic>? data, String id) fromBuilder,
-    required Function(T model) toBuilder,
+    required T Function(Map<String, dynamic>? data, String id) fromBuilder,
+    required Map<String, Object?> Function(T model) toBuilder,
   }) {
     final query = FirebaseFirestore.instance
         .collection(path)

@@ -27,8 +27,8 @@ class BlurredBackgroundPreviewWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment(0, -0.5),
-              end: Alignment(0, 1),
+              begin: const Alignment(0, -0.5),
+              end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
                 Colors.black.withOpacity(0.5),

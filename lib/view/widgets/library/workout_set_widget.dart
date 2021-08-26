@@ -87,7 +87,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   Widget build(BuildContext context) {
     return Slidable(
       endActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             label: S.current.delete,
@@ -326,7 +326,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: false,
       actions: [
         KeyboardActionsItem(

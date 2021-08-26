@@ -13,10 +13,7 @@ final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
 class PreviewScreenModel extends ChangeNotifier {
   int _currentWidgetIndex = 0;
   Timer? _timer;
-  Widget _currentWidget = ActivityRingSampleWidget(
-    color: Colors.transparent,
-    elevation: 0,
-  );
+  Widget _currentWidget = const ActivityRingSampleWidget();
 
   int get currentWidgetIndex => _currentWidgetIndex;
   Timer? get timer => _timer;
@@ -27,7 +24,7 @@ class PreviewScreenModel extends ChangeNotifier {
     _timer?.cancel();
 
     _timer = Timer.periodic(
-      Duration(seconds: 4),
+      const Duration(seconds: 4),
       (timer) {
         if (_currentWidgetIndex < (currentPreviewWidgetList.length - 1)) {
           _currentWidgetIndex += 1;
@@ -53,16 +50,16 @@ class PreviewScreenModel extends ChangeNotifier {
   }
 
   final List<Widget> currentPreviewWidgetList = [
-    ActivityRingSampleWidget(margin: 16),
+    const ActivityRingSampleWidget(margin: 16),
     SampleWidgets().weeklyWeightsBarChartPreview,
-    WeeklyWorkoutSummarySampleWidget(padding: 24),
+    const WeeklyWorkoutSummarySampleWidget(padding: 24),
     SampleWidgets().weeklyProteinsBarChartPreview,
     SampleWidgets().weeklyFatBarChartPreview,
-    MostRecentWorkoutSampleWidget(padding: 24),
-    LatestBodyFatSampleWidget(padding: 16),
-    WeeklyMeasurementsSampleWidget(padding: 24),
+    const MostRecentWorkoutSampleWidget(padding: 24),
+    const LatestBodyFatSampleWidget(padding: 16),
+    const WeeklyMeasurementsSampleWidget(padding: 24),
     SampleWidgets().weeklyCarbsBarChartPreview,
-    LatestBodyWeightSampleWidget(padding: 16),
+    const LatestBodyWeightSampleWidget(padding: 16),
     SampleWidgets().weeklyCaloriesChartPreview,
   ];
 }

@@ -146,8 +146,8 @@ class _NewWorkoutDifficultyAndMoreScreenState
                             .values[_difficultySlider.toInt()].translation!;
                       });
                     },
-                    label: '$_difficultySliderLabel',
-                    min: 0,
+                    label: _difficultySliderLabel,
+                    // min: 0,
                     max: 2,
                     divisions: 2,
                   ),

@@ -20,7 +20,7 @@ class SearchCategoryWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        borderOnForeground: true,
+        // borderOnForeground: true,
         margin: const EdgeInsets.all(8),
         elevation: 6,
         clipBehavior: Clip.antiAlias,

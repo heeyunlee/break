@@ -10,7 +10,7 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _location = Location.values
+    final String _location = Location.values
         .firstWhere((e) => e.toString() == routine.location)
         .translation!;
 

@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
+import 'package:workout_player/models/combined/auth_and_database.dart';
+import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
+import 'main_model.dart';
 import 'progress_tab_widgets_model.dart';
 
 final customizeWidgetsScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -77,27 +77,27 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   }
 
   List<Widget> currentPreviewWidgetList = [
-    ActivityRingSampleWidget(
+    const ActivityRingSampleWidget(
       color: kCardColor,
       margin: 4,
       key: Key('activityRing'),
     ),
-    MostRecentWorkoutSampleWidget(
+    const MostRecentWorkoutSampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('recentWorkout'),
     ),
-    WeeklyWorkoutSummarySampleWidget(
+    const WeeklyWorkoutSummarySampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('weeklyWorkoutHistorySmall'),
     ),
-    LatestBodyFatSampleWidget(
+    const LatestBodyFatSampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('latestBodyFat'),
     ),
-    WeeklyMeasurementsSampleWidget(
+    const WeeklyMeasurementsSampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('weeklyMeasurementsChart'),
@@ -107,7 +107,7 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     SampleWidgets().weeklyCarbsBarChart,
     SampleWidgets().weeklyFatBarChart,
     SampleWidgets().weeklyCaloriesChart,
-    LatestBodyWeightSampleWidget(
+    const LatestBodyWeightSampleWidget(
       color: kCardColor,
       padding: 4,
       key: Key('latestWeight'),

@@ -32,7 +32,8 @@ class TermsAndPrivacyPolicyWidget extends StatelessWidget {
             TextSpan(
               text: S.current.terms,
               style: TextStyles.overline_gery_underlined,
-              recognizer: TapGestureRecognizer()..onTap = model.launchTermsURL,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => model.launchTermsURL(context),
             ),
             TextSpan(
               text: S.current.and,
@@ -42,7 +43,7 @@ class TermsAndPrivacyPolicyWidget extends StatelessWidget {
               text: S.current.privacyPolicy,
               style: TextStyles.overline_gery_underlined,
               recognizer: TapGestureRecognizer()
-                ..onTap = model.launchPrivacyServiceURL,
+                ..onTap = () => model.launchPrivacyServiceURL(context),
             ),
             if (locale == 'ko')
               TextSpan(

@@ -73,15 +73,18 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     try {
-      final id = 'WK${Uuid().v1()}';
+      final id = 'WK${const Uuid().v1()}';
       final userId = widget.user.userId;
       final userName = widget.user.userName;
       final lastEditedDate = Timestamp.now();
       final workoutCreatedDate = Timestamp.now();
-      final isBodyWeightWorkout = (_selectedEquipmentRequired
-              .contains(EquipmentRequired.bodyweight.toString()))
-          ? true
-          : false;
+      final bool isBodyWeightWorkout;
+      if (_selectedEquipmentRequired
+          .contains(EquipmentRequired.bodyweight.toString())) {
+        isBodyWeightWorkout = true;
+      } else {
+        isBodyWeightWorkout = false;
+      }
 
       // Get Image Url
       final ref = FirebaseStorage.instance.ref().child('workout-pictures');
@@ -111,7 +114,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
           'de': 'Name des Trainings',
           'en': 'Workout Title',
           'es': 'Nombre del entrenamiento',
-          'fr': 'Nom de l\'entraînement',
+          'fr': 'Nom de lentraînement',
           'ko': '운동 이름'
         },
         tags: [],
@@ -206,7 +209,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
       ),
       body: Builder(
         builder: (BuildContext context) {

@@ -124,9 +124,9 @@ class AddNutritionScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onChipSelected(bool selected, Meal e) {
+  void onChipSelected(bool selected, Meal meal) {
     if (selected) {
-      _mealType = e;
+      _mealType = meal;
 
       notifyListeners();
     }
@@ -163,7 +163,7 @@ class AddNutritionScreenModel with ChangeNotifier {
     if (_mealType != null) {
       if (_validateAndSaveForm()) {
         try {
-          final id = 'NUT${Uuid().v1()}';
+          final id = 'NUT${const Uuid().v1()}';
           final timeInDate = _loggedTime.toDate();
           final loggedDate = DateTime.utc(
             timeInDate.year,

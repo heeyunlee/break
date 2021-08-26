@@ -40,22 +40,14 @@ class SocialSignInButton extends StatelessWidget {
           minimumSize: MaterialStateProperty.resolveWith<Size>(
             (_) => Size(size.width, 48),
           ),
-          shape: MaterialStateProperty.resolveWith((_) => StadiumBorder()),
+          shape: MaterialStateProperty.resolveWith(
+            (_) => const StadiumBorder(),
+          ),
         ),
         child: Stack(
           alignment: Alignment.centerLeft,
           children: [
-            (logo != null)
-                ? Image.asset(
-                    logo!,
-                    height: 18,
-                    width: 18,
-                  )
-                : Icon(
-                    iconData,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+            _getIcon(),
             Center(
               child: Text(
                 kButtonText,
@@ -66,5 +58,13 @@ class SocialSignInButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _getIcon() {
+    if (logo != null) {
+      return Image.asset(logo!, height: 18, width: 18);
+    } else {
+      return Icon(iconData, color: Colors.white, size: 20);
+    }
   }
 }

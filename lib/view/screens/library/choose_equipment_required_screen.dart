@@ -18,7 +18,7 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: ChooseEquipmentRequiredScreen(),
+      screen: const ChooseEquipmentRequiredScreen(),
     );
   }
 
@@ -42,7 +42,7 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: Scaffold.of(context).appBarMaxHeight!),
+          SizedBox(height: Scaffold.of(context).appBarMaxHeight),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -53,8 +53,8 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
           CheckboxListView(
             checked: model.selectedEquipmentRequiredEnum.contains,
             items: EquipmentRequired.values,
-            onChangedMainMuscleEnum: (checked, equipment) =>
-                model.onChangedEquipment(checked, equipment),
+            onChangedMainMuscleEnum: (checked, equipment) => model
+                .onChangedEquipment(checked, equipment as EquipmentRequired),
             getTitle: (muscle) => (muscle as EquipmentRequired).translation!,
           ),
           const SizedBox(height: 48),

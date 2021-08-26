@@ -16,7 +16,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _weekDaysOfTheWeek = [
+    final List<String> _weekDaysOfTheWeek = [
       'Sun',
       'Mon',
       'Tue',
@@ -26,7 +26,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
       'Sat',
     ];
 
-    List<String> _daysOfTheWeek = [
+    final List<String> _daysOfTheWeek = [
       '12',
       '13',
       '14',
@@ -36,7 +36,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
       '18',
     ];
 
-    List<String?> _weeklyWorkedOutMuscles = [
+    final List<String?> _weeklyWorkedOutMuscles = [
       null,
       S.current.chest,
       S.current.back,
@@ -55,12 +55,12 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: 24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.local_fire_department_rounded,

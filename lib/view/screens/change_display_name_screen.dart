@@ -75,10 +75,12 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
         await widget.database.updateUser(widget.auth.currentUser!.uid, user);
 
         // Updating username in Routine History
-        List<Map<String, dynamic>> routineHistories = [];
+        final List<Map<String, dynamic>> routineHistories = [];
         final historiesDoc =
             await widget.database.routineHistoriesStream().first;
         if (historiesDoc.isNotEmpty) {
+          // TODO: refactor here: avoid_function_literals_in_foreach_calls
+          // ignore: avoid_function_literals_in_foreach_calls
           historiesDoc.forEach((element) {
             final updatedElement = {
               'routineHistoryId': element.routineHistoryId,
@@ -173,7 +175,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
       children: [
         Container(
           height: 80,
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           padding: const EdgeInsets.all(8),
           child: TextFormField(
             style: TextStyles.headline5,

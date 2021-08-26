@@ -49,7 +49,7 @@ class SignInScreen extends ConsumerWidget {
               children: <Widget>[
                 SignInLogoWidget(model: model),
                 AnimatedListViewBuilder(
-                  beginOffset: Offset(0.25, 0),
+                  beginOffset: const Offset(0.25, 0),
                   offsetInitialDelayTime: 0.25,
                   offsetStaggerTime: 0.05,
                   offsetDuration: 0.5,
@@ -99,7 +99,7 @@ class SignInScreen extends ConsumerWidget {
       ),
       SocialSignInButton(
         kButtonText: S.current.continueWithFacebook,
-        color: Color(0xff1877F2),
+        color: const Color(0xff1877F2),
         textColor: Colors.white.withOpacity(0.85),
         logo: 'assets/logos/facebook_logo.png',
         onPressed:
@@ -116,7 +116,7 @@ class SignInScreen extends ConsumerWidget {
         ),
       SocialSignInButton(
         kButtonText: S.current.continueWithKakao,
-        color: Color(0xffFEE500),
+        color: const Color(0xffFEE500),
         logo: 'assets/logos/kakao_logo.png',
         textColor: Colors.black.withOpacity(0.85),
         onPressed:

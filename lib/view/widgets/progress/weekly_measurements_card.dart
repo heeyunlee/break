@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/screens/measurements_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
-import '../../../../../view/screens/measurements_screen.dart';
+import 'package:workout_player/view_models/weekly_measurements_chart_model.dart';
+
 import 'weekly_measurements_chart.dart';
-import '../../../../../view_models/weekly_measurements_chart_model.dart';
 
 class WeeklyMeasurementsCard extends StatelessWidget {
   final ProgressTabClass progressTabClass;

@@ -34,7 +34,7 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
           await database.routineWorkoutsStream(routine.routineId).first;
       final index = routineWorkouts.length + 1;
 
-      final id = 'RW${Uuid().v1()}';
+      final id = 'RW${const Uuid().v1()}';
 
       final routineWorkout = RoutineWorkout(
         routineWorkoutId: id,
@@ -60,7 +60,6 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
         currentTabContext,
         routine: routine,
         tag: 'addWorkoutToRoutine${routine.routineId}',
-        isPushReplacement: true,
       );
 
       // TODO: ADD SNACK BAR HERE

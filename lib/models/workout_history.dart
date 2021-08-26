@@ -48,28 +48,38 @@ class WorkoutHistory {
       Map<String, dynamic>? data, String documentId) {
     if (data != null) {
       final String workoutHistoryId = documentId;
-      final String routineHistoryId = data['routineHistoryId'];
-      final String workoutId = data['workoutId'];
-      final String routineId = data['routineId'];
-      final String uid = data['uid'];
-      final int index = data['index'];
-      final String workoutTitle = data['workoutTitle'];
-      final int numberOfSets = data['numberOfSets'];
-      final int numberOfReps = data['numberOfReps'];
-      final num totalWeights = data['totalWeights'];
-      List<WorkoutSet>? sets = <WorkoutSet>[]; // Nullable
-      if (data['sets'] != null) {
-        data['sets'].forEach((item) {
-          sets.add(WorkoutSet.fromJson(item));
-        });
-      }
-      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-      final int duration = data['duration'];
-      final int secondsPerRep = data['secondsPerRep'];
-      final Map<String, dynamic> translated = data['translated'];
-      final Timestamp? workoutTime = data['workoutTime']; // Nullable
-      final Timestamp? workoutDate = data['workoutDate']; // Nullable
-      final int? unitOfMass = data['unitOfMass']; // Nullable
+      final String routineHistoryId = data['routineHistoryId'].toString();
+      final String workoutId = data['workoutId'].toString();
+      final String routineId = data['routineId'].toString();
+      final String uid = data['uid'].toString();
+      final int index = int.parse(data['index'].toString());
+      final String workoutTitle = data['workoutTitle'].toString();
+      final int numberOfSets = int.parse(data['numberOfSets'].toString());
+      final int numberOfReps = int.parse(data['numberOfReps'].toString());
+      final num totalWeights = num.parse(data['totalWeights'].toString());
+      final List<WorkoutSet>? sets = (data['sets'] != null)
+          ? (data['sets'] as List<Map<String, dynamic>?>)
+              .map((map) => WorkoutSet.fromJson(map))
+              .toList()
+          : null;
+
+      // List<WorkoutSet>? sets = <WorkoutSet>[]; // Nullable
+      // if (data['sets'] != null) {
+      //   data['sets'].forEach((item) {
+      //     sets.add(WorkoutSet.fromJson(item));
+      //   });
+      // }
+      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'] as bool;
+      final int duration = int.parse(data['duration'].toString());
+      final int secondsPerRep = int.parse(data['secondsPerRep'].toString());
+      final Map<String, dynamic> translated =
+          data['translated'] as Map<String, dynamic>;
+      final Timestamp? workoutTime =
+          data['workoutTime'] as Timestamp?; // Nullable
+      final Timestamp? workoutDate =
+          data['workoutDate'] as Timestamp?; // Nullable
+      final int? unitOfMass =
+          int.tryParse(data['unitOfMass']?.toString() ?? ''); // Nullable
 
       return WorkoutHistory(
         workoutHistoryId: workoutHistoryId,

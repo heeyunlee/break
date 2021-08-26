@@ -25,7 +25,6 @@ class ProgressTabModel with ChangeNotifier {
   List<String> _daysOfTheWeek = [];
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  bool _showBanner = true;
   late AnimationController _animationController;
   late Animation<double> _blurTween;
   late Animation<double> _brightnessTween;
@@ -35,7 +34,6 @@ class ProgressTabModel with ChangeNotifier {
   List<String> get daysOfTheWeek => _daysOfTheWeek;
   DateTime get focusedDate => _focusedDate;
   DateTime get selectedDate => _selectedDate;
-  bool get showBanner => _showBanner;
   AnimationController get animationController => _animationController;
   Animation<double> get blurTween => _blurTween;
   Animation<double> get brightnessTween => _brightnessTween;
@@ -51,13 +49,8 @@ class ProgressTabModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setShowBanner(bool value) {
-    _showBanner = value;
-    notifyListeners();
-  }
-
   void initWeeklyDates() {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {

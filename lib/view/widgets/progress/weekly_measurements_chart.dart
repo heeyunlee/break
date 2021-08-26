@@ -69,19 +69,19 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                       getTitles: (value) {
                         switch (value.toInt()) {
                           case 0:
-                            return '${widget.model.daysOfTheWeek[0]}';
+                            return widget.model.daysOfTheWeek[0];
                           case 1:
-                            return '${widget.model.daysOfTheWeek[1]}';
+                            return widget.model.daysOfTheWeek[1];
                           case 2:
-                            return '${widget.model.daysOfTheWeek[2]}';
+                            return widget.model.daysOfTheWeek[2];
                           case 3:
-                            return '${widget.model.daysOfTheWeek[3]}';
+                            return widget.model.daysOfTheWeek[3];
                           case 4:
-                            return '${widget.model.daysOfTheWeek[4]}';
+                            return widget.model.daysOfTheWeek[4];
                           case 5:
-                            return '${widget.model.daysOfTheWeek[5]}';
+                            return widget.model.daysOfTheWeek[5];
                           case 6:
-                            return '${widget.model.daysOfTheWeek[6]}';
+                            return widget.model.daysOfTheWeek[6];
 
                           default:
                             return '';
@@ -119,8 +119,8 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                   ),
                   borderData: FlBorderData(
                     show: true,
-                    border: Border(
-                      bottom: const BorderSide(color: Colors.white12, width: 1),
+                    border: const Border(
+                      bottom: BorderSide(color: Colors.white12),
                     ),
                   ),
                   minX: 0,

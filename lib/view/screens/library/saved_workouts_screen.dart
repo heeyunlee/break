@@ -19,17 +19,17 @@ class SavedWorkoutsScreen extends StatelessWidget {
   final Database database;
   final User user;
 
-  SavedWorkoutsScreen({
+  const SavedWorkoutsScreen({
     Key? key,
     required this.database,
     required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required User user}) async {
+  static void show(BuildContext context, {required User user}) {
     final database = Provider.of<Database>(context, listen: false);
 
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
+    HapticFeedback.mediumImpact();
+    Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => SavedWorkoutsScreen(
           database: database,
@@ -40,15 +40,17 @@ class SavedWorkoutsScreen extends StatelessWidget {
   }
 
   void _getDocuments(List<Future<Workout?>> workoutsFuture) {
+    // TODO: fix avoid_function_literals_in_foreach_calls
+    // ignore: avoid_function_literals_in_foreach_calls
     user.savedWorkouts!.forEach((id) {
-      Future<Workout?> nextDoc = database.getWorkout(id);
+      final Future<Workout?> nextDoc = database.getWorkout(id);
       workoutsFuture.add(nextDoc);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Future<Workout?>> workoutsFuture = [];
+    final List<Future<Workout?>> workoutsFuture = [];
 
     final size = MediaQuery.of(context).size;
 
@@ -78,7 +80,8 @@ class SavedWorkoutsScreen extends StatelessWidget {
                         future: element,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            Workout workout = snapshot.data!;
+                            final Workout workout = snapshot.data!;
+
                             final subtitle = MainMuscleGroup.values
                                 .firstWhere(
                                   (e) =>
@@ -108,8 +111,8 @@ class SavedWorkoutsScreen extends StatelessWidget {
                               ),
                             );
                           } else {
-                            return Center(
-                              child: const CircularProgressIndicator(),
+                            return const Center(
+                              child: CircularProgressIndicator(),
                             );
                           }
                         },

@@ -80,29 +80,35 @@ class Routine {
 
   factory Routine.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String routineOwnerId = data['routineOwnerId'];
-      final String routineOwnerUserName = data['routineOwnerUserName'];
-      final String routineTitle = data['routineTitle'];
-      final Timestamp lastEditedDate = data['lastEditedDate'];
-      final Timestamp routineCreatedDate = data['routineCreatedDate'];
-      final List<dynamic>? mainMuscleGroup = data['mainMuscleGroup'];
-      final List<dynamic>? secondMuscleGroup = data['secondMuscleGroup'];
-      final String? description = data['description'];
-      final String imageUrl = data['imageUrl'];
-      final num totalWeights = data['totalWeights'];
-      final int? averageTotalCalories = data['averageTotalCalories'];
-      final int duration = data['duration'];
-      final List<dynamic>? equipmentRequired = data['equipmentRequired'];
-      final int trainingLevel = data['trainingLevel'];
-      final bool isPublic = data['isPublic'];
-      final int? initialUnitOfMass = data['initialUnitOfMass'];
-      final String location = data['location'];
-      final String? thumbnailImageUrl = data['thumbnailImageUrl'];
+      final String routineOwnerId = data['routineOwnerId'].toString();
+      final String routineOwnerUserName =
+          data['routineOwnerUserName'].toString();
+      final String routineTitle = data['routineTitle'].toString();
+      final Timestamp lastEditedDate = data['lastEditedDate'] as Timestamp;
+      final Timestamp routineCreatedDate =
+          data['routineCreatedDate'] as Timestamp;
+      final List<dynamic>? mainMuscleGroup =
+          data['mainMuscleGroup'] as List<dynamic>?;
+      final List<dynamic>? secondMuscleGroup =
+          data['secondMuscleGroup'] as List<dynamic>?;
+      final String? description = data['description']?.toString();
+      final String imageUrl = data['imageUrl'].toString();
+      final num totalWeights = data['totalWeights'] as num;
+      final int? averageTotalCalories =
+          int.tryParse(data['averageTotalCalories'].toString());
+      final int duration = data['duration'] as int;
+      final List<dynamic>? equipmentRequired =
+          data['equipmentRequired'] as List<dynamic>?;
+      final int trainingLevel = data['trainingLevel'] as int;
+      final bool isPublic = data['isPublic'] as bool;
+      final int? initialUnitOfMass = data['initialUnitOfMass'] as int?;
+      final String location = data['location'] as String;
+      final String? thumbnailImageUrl = data['thumbnailImageUrl'] as String?;
       final List<MainMuscleGroup?>? mainMuscleGroupEnum =
           (data['mainMuscleGroupEnum'] != null)
               ? EnumToString.fromList(
                   MainMuscleGroup.values,
-                  data['mainMuscleGroupEnum'],
+                  data['mainMuscleGroupEnum'] as List<dynamic>,
                 )
               : null;
 
@@ -110,14 +116,14 @@ class Routine {
           (data['equipmentRequiredEnum'] != null)
               ? EnumToString.fromList(
                   EquipmentRequired.values,
-                  data['equipmentRequiredEnum'],
+                  data['equipmentRequiredEnum'] as List<dynamic>,
                 )
               : null;
 
       final UnitOfMass? unitOfMassEnum = (data['unitOfMassEnum'] != null)
           ? EnumToString.fromString<UnitOfMass>(
               UnitOfMass.values,
-              data['unitOfMassEnum'],
+              data['unitOfMassEnum'] as String,
             )
           : null;
 

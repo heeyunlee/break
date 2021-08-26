@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
@@ -12,18 +14,17 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
-import 'package:workout_player/view/screens/routine_history_summary_screen.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/screens/workout_summary_screen.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/log_routine_screen.dart';
+import 'main_model.dart';
 import 'miniplayer_model.dart';
 
-final logRoutineModelProvider = ChangeNotifierProvider(
+final logRoutineModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => LogRoutineModel(),
 );
 
@@ -130,7 +131,7 @@ class LogRoutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onIsPublicChanged(bool value) {
+  void onIsPublicChanged(bool isChanged) {
     _isPublic = !_isPublic;
     notifyListeners();
   }
@@ -147,7 +148,7 @@ class LogRoutineModel with ChangeNotifier {
       _toggleBoolValue();
 
       /// For Routine History
-      final routineHistoryId = 'RH${Uuid().v1()}';
+      final routineHistoryId = 'RH${const Uuid().v1()}';
       final _workoutStartTime = _loggedTime.toDate().subtract(
             Duration(minutes: int.parse(_durationEditingController.text)),
           );
@@ -189,46 +190,73 @@ class LogRoutineModel with ChangeNotifier {
         equipmentRequiredEnum: equipments,
         effort: _effort,
         unitOfMassEnum: unitOfMass,
+        routineHistoryType: 'routine',
       );
 
       /// For Workout Histories
-      List<WorkoutHistory> workoutHistories = [];
-      routineWorkouts.forEach(
-        (rw) {
-          final uniqueId = UniqueKey().toString();
+      final List<WorkoutHistory> workoutHistories = routineWorkouts.map((rw) {
+        final uniqueId = UniqueKey().toString();
 
-          final workoutHistoryId = 'WH${Uuid().v1()}$uniqueId';
+        final workoutHistoryId = 'WH${const Uuid().v1()}$uniqueId';
 
-          final workoutHistory = WorkoutHistory(
-            workoutHistoryId: workoutHistoryId,
-            routineHistoryId: routineHistoryId,
-            workoutId: rw!.workoutId,
-            routineId: rw.routineId,
-            uid: user.userId,
-            index: rw.index,
-            workoutTitle: rw.workoutTitle,
-            numberOfSets: rw.numberOfSets,
-            numberOfReps: rw.numberOfReps,
-            totalWeights: rw.totalWeights,
-            isBodyWeightWorkout: rw.isBodyWeightWorkout,
-            duration: rw.duration,
-            secondsPerRep: rw.secondsPerRep,
-            translated: rw.translated,
-            sets: rw.sets,
-            workoutTime: _loggedTime,
-            workoutDate: Timestamp.fromDate(workoutDate),
-            unitOfMass: routine.initialUnitOfMass,
-          );
-          workoutHistories.add(workoutHistory);
-        },
-      );
+        final workoutHistory = WorkoutHistory(
+          workoutHistoryId: workoutHistoryId,
+          routineHistoryId: routineHistoryId,
+          workoutId: rw!.workoutId,
+          routineId: rw.routineId,
+          uid: user.userId,
+          index: rw.index,
+          workoutTitle: rw.workoutTitle,
+          numberOfSets: rw.numberOfSets,
+          numberOfReps: rw.numberOfReps,
+          totalWeights: rw.totalWeights,
+          isBodyWeightWorkout: rw.isBodyWeightWorkout,
+          duration: rw.duration,
+          secondsPerRep: rw.secondsPerRep,
+          translated: rw.translated,
+          sets: rw.sets,
+          workoutTime: _loggedTime,
+          workoutDate: Timestamp.fromDate(workoutDate),
+          unitOfMass: routine.initialUnitOfMass,
+        );
+
+        return workoutHistory;
+      }).toList();
+
+      // for (final routineWorkout in routineWorkouts) {
+      //   final uniqueId = UniqueKey().toString();
+
+      //   final workoutHistoryId = 'WH${const Uuid().v1()}$uniqueId';
+
+      //   final workoutHistory = WorkoutHistory(
+      //     workoutHistoryId: workoutHistoryId,
+      //     routineHistoryId: routineHistoryId,
+      //     workoutId: rw!.workoutId,
+      //     routineId: rw.routineId,
+      //     uid: user.userId,
+      //     index: rw.index,
+      //     workoutTitle: rw.workoutTitle,
+      //     numberOfSets: rw.numberOfSets,
+      //     numberOfReps: rw.numberOfReps,
+      //     totalWeights: rw.totalWeights,
+      //     isBodyWeightWorkout: rw.isBodyWeightWorkout,
+      //     duration: rw.duration,
+      //     secondsPerRep: rw.secondsPerRep,
+      //     translated: rw.translated,
+      //     sets: rw.sets,
+      //     workoutTime: _loggedTime,
+      //     workoutDate: Timestamp.fromDate(workoutDate),
+      //     unitOfMass: routine.initialUnitOfMass,
+      //   );
+      //   workoutHistories.add(workoutHistory);
+      // }
 
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
       Navigator.of(context).pop();
 
-      RoutineHistorySummaryScreen.show(
+      WorkoutSummaryScreen.show(
         context,
         routineHistory: routineHistory,
       );

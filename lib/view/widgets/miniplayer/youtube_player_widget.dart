@@ -22,7 +22,7 @@ class YoutubePlayerWidget extends ConsumerWidget {
       height: 220,
       width: size.width,
       child: YoutubePlayerIFrame(
-        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{},
+        gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
         controller: model.youtubeController,
       ),
     );

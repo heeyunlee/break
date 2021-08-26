@@ -101,8 +101,8 @@ class _ProgressTabState extends State<ProgressTab>
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment(0, -1.00),
-              end: Alignment(0, -0.75),
+              begin: Alignment.topCenter,
+              end: const Alignment(0, -0.75),
               colors: [
                 Colors.black.withOpacity(0.5),
                 Colors.transparent,

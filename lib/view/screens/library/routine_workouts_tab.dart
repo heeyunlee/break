@@ -25,7 +25,7 @@ class RoutineWorkoutsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isOwner = auth.currentUser!.uid == data.routine?.routineOwnerId;
+    final bool isOwner = auth.currentUser!.uid == data.routine?.routineOwnerId;
 
     // Widgets to show only if one's routine's owner
     final List<Widget> routineOwnerWidgets = [
@@ -61,11 +61,11 @@ class RoutineWorkoutsTab extends StatelessWidget {
               child: ImplicitlyAnimatedList<RoutineWorkout>(
                 shrinkWrap: true,
                 items: data.routineWorkouts!,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 areItemsTheSame: (a, b) =>
                     a.routineWorkoutId == b.routineWorkoutId,
-                removeDuration: Duration(milliseconds: 200),
-                insertDuration: Duration(milliseconds: 200),
+                removeDuration: const Duration(milliseconds: 200),
+                insertDuration: const Duration(milliseconds: 200),
                 itemBuilder: (context, animation, item, index) {
                   return SizeFadeTransition(
                     sizeFraction: 0.7,

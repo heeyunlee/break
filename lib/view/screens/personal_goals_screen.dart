@@ -31,7 +31,7 @@ class PersonalGoalsScreen extends StatelessWidget {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
-    Navigator.of(context, rootNavigator: false).push(
+    Navigator.of(context).push(
       CupertinoPageRoute(
         fullscreenDialog: false,
         builder: (context) => PersonalGoalsScreen(
@@ -73,7 +73,7 @@ class PersonalGoalsScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              // mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                 _buildLiftingGoalListTIle(context, user, model),

@@ -70,7 +70,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
       child: ExpansionTile(
         collapsedIconColor: Colors.white,
         iconColor: Colors.white,
-        leading: Container(
+        leading: SizedBox(
           height: 48,
           width: 48,
           child: Center(
@@ -80,7 +80,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
             ),
           ),
         ),
-        initiallyExpanded: false,
+        // initiallyExpanded: false,
         title: _buildTitle(),
         subtitle: Row(
           children: <Widget>[
@@ -89,41 +89,14 @@ class RoutineWorkoutCard extends ConsumerWidget {
             Text(formattedTotalWeights, style: TextStyles.subtitle2),
           ],
         ),
-        childrenPadding: const EdgeInsets.all(0),
+        childrenPadding: EdgeInsets.zero,
         maintainState: true,
         children: [
           kCustomDividerIndent8,
-          // ListItemBuilder<WorkoutSet>(
-          //   items: routineWorkout.sets,
-          //   emptyContentWidget: Column(
-          //     children: [
-          //       Container(
-          //         height: 80,
-          //         child: Center(
-          //           child: Text(S.current.addASet, style: TextStyles.body2),
-          //         ),
-          //       ),
-          //       kCustomDividerIndent8,
-          //     ],
-          //   ),
-          //   itemBuilder: (context, item, index) {
-          //     return WorkoutSetWidget(
-          //       database: authAndDatabase.database,
-          //       routine: routine,
-          //       routineWorkout: routineWorkout,
-          //       workoutSet: item,
-          //       index: index,
-          //       auth: authAndDatabase.auth,
-          //       model: workoutSetModel,
-          //     );
-          //   },
-          // ),
-
-          // TODO: ADD Implicitily Animated List
           if (routineWorkout.sets.isEmpty)
             Column(
               children: [
-                Container(
+                SizedBox(
                   height: 80,
                   child: Center(
                     child: Text(S.current.addASet, style: TextStyles.body2),
@@ -136,10 +109,10 @@ class RoutineWorkoutCard extends ConsumerWidget {
             ImplicitlyAnimatedList<WorkoutSet>(
               items: routineWorkout.sets,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               areItemsTheSame: (a, b) => a.workoutSetId == b.workoutSetId,
-              removeDuration: Duration(milliseconds: 200),
-              insertDuration: Duration(milliseconds: 200),
+              removeDuration: const Duration(milliseconds: 200),
+              insertDuration: const Duration(milliseconds: 200),
               itemBuilder: (context, animation, item, index) {
                 return SizeFadeTransition(
                   sizeFraction: 0.7,
@@ -163,7 +136,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                SizedBox(
                   width: 100,
                   child: IconButton(
                     onPressed: () => model.addNewSet(
@@ -175,7 +148,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
                   ),
                 ),
                 Container(height: 36, width: 1, color: kGrey800),
-                Container(
+                SizedBox(
                   width: 100,
                   child: IconButton(
                     onPressed: () => model.addNewRest(
@@ -187,7 +160,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
                   ),
                 ),
                 Container(height: 36, width: 1, color: kGrey800),
-                Container(
+                SizedBox(
                   width: 100,
                   child: IconButton(
                     onPressed: () => _showModalBottomSheet(context, model),

@@ -3,18 +3,20 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class CustomFutureBuilder<T> extends StatelessWidget {
-  final Future<T> future;
-  final SnapshotActiveBuilder<T> builder;
-  final Widget? errorWidget;
-  final Widget? loadingWidget;
-
   const CustomFutureBuilder({
     Key? key,
     required this.future,
     required this.builder,
     this.errorWidget,
     this.loadingWidget,
+    this.emptyWidget,
   }) : super(key: key);
+
+  final Future<T> future;
+  final SnapshotActiveBuilder<T> builder;
+  final Widget? errorWidget;
+  final Widget? loadingWidget;
+  final Widget? emptyWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,12 @@ class CustomFutureBuilder<T> extends StatelessWidget {
       future: future,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasData) {
-          return builder(context, snapshot.data!);
+          final data = snapshot.data;
+          if (data != null) {
+            return builder(context, data);
+          } else {
+            return emptyWidget ?? const SizedBox();
+          }
         } else if (snapshot.hasError) {
           logger.e(snapshot.error);
 
@@ -34,11 +41,11 @@ class CustomFutureBuilder<T> extends StatelessWidget {
                 ),
               );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: const CircularProgressIndicator(),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         } else {
-          return Container();
+          return const SizedBox();
         }
       },
     );

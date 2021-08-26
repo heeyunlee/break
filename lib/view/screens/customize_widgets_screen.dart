@@ -74,7 +74,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),
         title: Text(S.current.addOrRemoveWidgets, style: TextStyles.subtitle2),
@@ -125,7 +125,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                       value,
                       Positioned.fill(
                         child: Container(
-                          margin: EdgeInsets.all(4),
+                          margin: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             border: hasKey
                                 ? Border.all(color: kPrimaryColor)
@@ -143,7 +143,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Align(
-                                  alignment: Alignment(1, -1),
+                                  alignment: Alignment.topRight,
                                   child: hasKey
                                       ? const Icon(
                                           Icons.check_circle_outline_rounded,

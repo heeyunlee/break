@@ -1,19 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
-// import 'package:workout_player/models/custom_health_data_point.dart';
-// import 'package:workout_player/models/steps.dart';
-// import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/home/tab_item.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/home/tab_item.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+
+import 'main_model.dart';
 
 final homeScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => HomeScreenModel(),
@@ -226,16 +221,16 @@ class HomeScreenModel with ChangeNotifier {
     currentState?.popUntil((route) => route.isFirst);
   }
 
-  Future<void> showPermission() async {
-    final request = Permission.activityRecognition.request();
+  // Future<void> showPermission() async {
+  //   final request = Permission.activityRecognition.request();
 
-    if (await request.isDenied || await request.isPermanentlyDenied) {
-      getSnackbarWidget(
-        'title',
-        'Permission is needed',
-      );
-    }
-  }
+  //   if (await request.isDenied || await request.isPermanentlyDenied) {
+  //     getSnackbarWidget(
+  //       'title',
+  //       'Permission is needed',
+  //     );
+  //   }
+  // }
 
   static final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
     TabItem.progress: GlobalKey<NavigatorState>(),

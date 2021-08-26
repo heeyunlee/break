@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Future<bool?> showAdaptiveModalBottomSheet(
-  context, {
+  BuildContext context, {
   Text? title,
   Text? message,
   bool? isFirstActionDefault,
@@ -104,29 +104,29 @@ Future<bool?> showAdaptiveModalBottomSheet(
       actions: <Widget>[
         if (firstActionText != null)
           CupertinoActionSheetAction(
-            isDefaultAction: (isFirstActionDefault == true) ? true : false,
-            isDestructiveAction: (isFirstActionDefault == true) ? false : true,
+            isDefaultAction: isFirstActionDefault == true,
+            isDestructiveAction: isFirstActionDefault != true,
             onPressed: firstActionOnPressed ?? () {},
             child: Text(firstActionText),
           ),
         if (secondActionText != null)
           CupertinoActionSheetAction(
-            isDefaultAction: (isSecondActionDefault == true) ? true : false,
-            isDestructiveAction: (isSecondActionDefault == true) ? false : true,
+            isDefaultAction: isSecondActionDefault == true,
+            isDestructiveAction: isSecondActionDefault != true,
             onPressed: secondActionOnPressed ?? () {},
             child: Text(secondActionText),
           ),
         if (thirdActionText != null)
           CupertinoActionSheetAction(
-            isDefaultAction: (isThirdActionDefault == true) ? true : false,
-            isDestructiveAction: (isThirdActionDefault == true) ? false : true,
+            isDefaultAction: isThirdActionDefault == true,
+            isDestructiveAction: isThirdActionDefault != true,
             onPressed: thirdActionOnPressed ?? () {},
             child: Text(thirdActionText),
           ),
       ],
       cancelButton: CupertinoActionSheetAction(
-        isDefaultAction: (isCancelDefault == true) ? true : false,
-        isDestructiveAction: (isCancelDefault == true) ? false : true,
+        isDefaultAction: isCancelDefault == true,
+        isDestructiveAction: isCancelDefault != true,
         onPressed: () => Navigator.of(context).pop(),
         child: Text(cancelText ?? 'CANCEL'),
       ),

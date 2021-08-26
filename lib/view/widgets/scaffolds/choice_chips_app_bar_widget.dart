@@ -17,7 +17,7 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
 
   @override
   Size get preferredSize {
-    return Size.fromHeight(64.0);
+    return const Size.fromHeight(64.0);
   }
 
   @override
@@ -43,11 +43,11 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
           backgroundColor: kAppBarColor,
           selectedColor: kPrimaryColor,
           label: Text(label, style: TextStyles.button1),
-          labelPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           shape: StadiumBorder(
             side: BorderSide(
               color: (selectedChip == string) ? kPrimary300Color : Colors.grey,
-              width: 1,
+              // width: 1,
             ),
           ),
           selected: selectedChip == string,
@@ -57,7 +57,7 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
     }).toList();
 
     return PreferredSize(
-      preferredSize: Size.fromHeight(64),
+      preferredSize: const Size.fromHeight(64),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(

@@ -50,7 +50,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () async {
-            await S.load(Locale('ko'));
+            await S.load(const Locale('ko'));
             setState(() {
               _currentLang = Intl.getCurrentLocale();
             });
@@ -64,7 +64,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               ? const Icon(Icons.check, color: Colors.white)
               : null,
           onTap: () async {
-            await S.load(Locale('en'));
+            await S.load(const Locale('en'));
             setState(() {
               _currentLang = Intl.getCurrentLocale();
             });

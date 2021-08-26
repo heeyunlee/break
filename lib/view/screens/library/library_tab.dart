@@ -42,7 +42,7 @@ class LibraryTab extends StatelessWidget {
     return SliverAppBar(
       floating: true,
       pinned: true,
-      snap: false,
+      // snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
       backgroundColor: Colors.transparent,

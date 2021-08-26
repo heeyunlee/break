@@ -76,6 +76,7 @@ class LatestBodyFatWidget extends StatelessWidget {
     );
   }
 
+  // TODO: Refactor
   List<Widget> _buildProgressBar() {
     final bool goalExists = data.user.bodyFatPercentageGoal != null;
 
@@ -91,20 +92,20 @@ class LatestBodyFatWidget extends StatelessWidget {
 
     final startingBodyFat = Formatter.percentage(firstDoc?.bodyFat);
 
-    num? initialWeightToLose = (firstDoc != null && goalExists)
+    final num? initialWeightToLose = (firstDoc != null && goalExists)
         ? firstDoc.bodyFat! - data.user.bodyFatPercentageGoal!
         : null;
 
-    num? nowWeightToLose = (lastDoc != null && goalExists)
+    final num? nowWeightToLose = (lastDoc != null && goalExists)
         ? lastDoc.bodyFat! - data.user.bodyFatPercentageGoal!
         : null;
 
-    double? diffPercentage =
+    final double? diffPercentage =
         (initialWeightToLose != null && nowWeightToLose != null)
             ? nowWeightToLose / initialWeightToLose
             : null;
 
-    double? diffPercentageFormatted =
+    final double? diffPercentageFormatted =
         ((diffPercentage ?? 0) > 1) ? 1 : diffPercentage;
 
     return [

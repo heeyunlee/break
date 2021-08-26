@@ -17,7 +17,6 @@ class MainMuscleGroupGridWidget extends StatelessWidget {
     final List<Widget> _cards = MainMuscleGroup.values.map(
       (muscle) {
         return SearchCategoryWidget(
-          color: kPrimaryColor,
           text: muscle.translation!,
           onTap: () => SearchCategoryScreen.show(
             context,
@@ -29,7 +28,7 @@ class MainMuscleGroupGridWidget extends StatelessWidget {
     ).toList();
 
     return GridView.count(
-      childAspectRatio: (itemWidth / itemHeight),
+      childAspectRatio: itemWidth / itemHeight,
       crossAxisCount: 2,
       padding: const EdgeInsets.all(8),
       physics: const NeverScrollableScrollPhysics(),
@@ -63,9 +62,9 @@ class EquipmentRequiredGridWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.count(
-        childAspectRatio: (itemWidth / itemHeight),
+        childAspectRatio: itemWidth / itemHeight,
         crossAxisCount: 2,
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: _cards,
@@ -98,9 +97,9 @@ class LocationGridWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.count(
-        childAspectRatio: (itemWidth / itemHeight),
+        childAspectRatio: itemWidth / itemHeight,
         crossAxisCount: 2,
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: _cards,

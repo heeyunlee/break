@@ -42,7 +42,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   Stream<List<Workout>> get stream => _stream;
 
   void init(Routine routine) {
-    _selectedMainMuscleGroup = routine.mainMuscleGroup?[0] ??
+    _selectedMainMuscleGroup = routine.mainMuscleGroup?[0].toString() ??
         routine.mainMuscleGroupEnum?[0].toString() ??
         'MainMuscleGroup.abs';
 
@@ -77,14 +77,14 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void selectWorkout(BuildContext context, Workout workout) async {
+  void selectWorkout(BuildContext context, Workout workout) {
     if (_selectedWorkouts.contains(workout)) {
       _selectedWorkouts.remove(workout);
     } else {
       if (_selectedWorkouts.length < 6) {
         _selectedWorkouts.add(workout);
       } else {
-        await showAlertDialog(
+        showAlertDialog(
           context,
           title: S.current.warning,
           content: S.current.addWorkoutWaningMessage,
@@ -122,13 +122,13 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     await HapticFeedback.mediumImpact();
 
     try {
-      List<RoutineWorkout> _routineWorkouts = [];
-      int _index = routineWorkouts.length;
+      final List<RoutineWorkout> _routineWorkouts = [];
+      // int _index = routineWorkouts.length;
 
-      _selectedWorkouts.forEach((workout) {
-        final id = Uuid().v1();
-        _index += 1;
-
+      for (int i = 0; i < _selectedWorkouts.length; i++) {
+        final id = const Uuid().v1();
+        final workout = _selectedWorkouts[i];
+        final index = routineWorkouts.length + i + 1;
         final routineWorkout = RoutineWorkout(
           routineWorkoutId: 'RW$id',
           workoutId: workout.workoutId,
@@ -138,7 +138,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
           numberOfReps: 0,
           numberOfSets: 0,
           totalWeights: 0,
-          index: _index,
+          index: index,
           sets: [],
           isBodyWeightWorkout: workout.isBodyWeightWorkout,
           duration: 0,
@@ -147,7 +147,30 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
         );
 
         _routineWorkouts.add(routineWorkout);
-      });
+      }
+      // _selectedWorkouts.forEach((workout) {
+      //   final id = const Uuid().v1();
+      //   _index += 1;
+
+      //   final routineWorkout = RoutineWorkout(
+      //     routineWorkoutId: 'RW$id',
+      //     workoutId: workout.workoutId,
+      //     routineId: routine.routineId,
+      //     routineWorkoutOwnerId: auth.currentUser!.uid,
+      //     workoutTitle: workout.workoutTitle,
+      //     numberOfReps: 0,
+      //     numberOfSets: 0,
+      //     totalWeights: 0,
+      //     index: _index,
+      //     sets: [],
+      //     isBodyWeightWorkout: workout.isBodyWeightWorkout,
+      //     duration: 0,
+      //     secondsPerRep: workout.secondsPerRep,
+      //     translated: workout.translated,
+      //   );
+
+      //   _routineWorkouts.add(routineWorkout);
+      // });
 
       await database.batchWriteRoutineWorkouts(routine, _routineWorkouts);
 

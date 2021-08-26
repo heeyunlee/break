@@ -81,10 +81,10 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              children: [
-                const Placeholder(fallbackHeight: 40, fallbackWidth: 40),
-                const SizedBox(width: 24),
-                const Placeholder(fallbackHeight: 40, fallbackWidth: 40),
+              children: const [
+                Placeholder(fallbackHeight: 40, fallbackWidth: 40),
+                SizedBox(width: 24),
+                Placeholder(fallbackHeight: 40, fallbackWidth: 40),
               ],
             ),
           ),
@@ -113,7 +113,7 @@ class _DailySummaryRowWidget extends StatelessWidget {
         _buildRowChildren(
           emojiUrl:
               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
-          title: '$formattedWeights',
+          title: formattedWeights,
           subtitle: S.current.lifted,
         ),
 
@@ -137,7 +137,7 @@ class _DailySummaryRowWidget extends StatelessWidget {
   Widget _buildRowChildren({
     required String emojiUrl,
     required String title,
-    subtitle,
+    required String subtitle,
   }) {
     return Column(
       children: [

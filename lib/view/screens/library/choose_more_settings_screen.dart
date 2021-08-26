@@ -19,7 +19,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: ChooseMoreSettingsScreen(),
+      screen: const ChooseMoreSettingsScreen(),
     );
   }
 
@@ -42,7 +42,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
         builder: (context) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
@@ -123,7 +123,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
                   value: model.routineDifficulty,
                   onChanged: model.onChangedDifficulty,
                   label: model.routineDifficultyLabel,
-                  min: 0,
+                  // min: 0,
                   max: 2,
                   divisions: 2,
                 ),

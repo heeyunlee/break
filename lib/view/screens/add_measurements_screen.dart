@@ -135,8 +135,8 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: kKeyboardDarkColor,
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      nextFocus: true,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // nextFocus: true,
       actions: widget.model.focusNodes
           .map(
             (focusNode) => KeyboardActionsItem(

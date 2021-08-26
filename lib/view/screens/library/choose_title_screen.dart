@@ -17,11 +17,6 @@ import 'package:workout_player/styles/text_styles.dart';
 /// * `String? Function(String?)?` function named [validator]
 /// * `void Function(BuildContext, T)` function named [saveTitle]
 class ChooseTitleScreen<T> extends StatefulWidget {
-  final T model;
-  final GlobalKey<FormState> formKey;
-  final String appBarTitle;
-  final String hintText;
-
   const ChooseTitleScreen({
     Key? key,
     required this.model,
@@ -29,6 +24,11 @@ class ChooseTitleScreen<T> extends StatefulWidget {
     required this.appBarTitle,
     required this.hintText,
   }) : super(key: key);
+
+  final T model;
+  final GlobalKey<FormState> formKey;
+  final String appBarTitle;
+  final String hintText;
 
   static void show<T>(
     BuildContext context, {
@@ -88,12 +88,14 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
       body: Form(
         key: widget.formKey,
         child: FullScreenTextTextFieldWidget(
-          controller: widget.model.textEditingController,
+          controller:
+              widget.model.textEditingController as TextEditingController,
           formKey: widget.formKey,
           hintText: widget.hintText,
-          customValidator: widget.model.validator,
-          maxLength: 45,
-          maxLines: 1,
+          // customValidator: widget.customValidator,
+          customValidator: widget.model.validator as String? Function(String?)?,
+          // maxLength: 45,
+          // maxLines: 1,
         ),
       ),
       floatingActionButton: _buildFAB(),

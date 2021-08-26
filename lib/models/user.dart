@@ -65,43 +65,61 @@ class User {
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userName = data['userName'];
-      final String? userEmail = data['userEmail'];
-      final Timestamp signUpDate = data['signUpDate'];
-      final String signUpProvider = data['signUpProvider'];
-      final List<String>? savedWorkouts =
-          data['savedWorkouts']?.map<String>((e) => e.toString()).toList();
-      final List<String>? savedRoutines =
-          data['savedRoutines']?.map<String>((e) => e.toString()).toList();
-      final num totalWeights = data['totalWeights'];
-      final int totalNumberOfWorkouts = data['totalNumberOfWorkouts'];
-      final int? unitOfMass = data['unitOfMass'];
-      final Timestamp lastLoginDate = data['lastLoginDate'];
-      final num? dailyWeightsGoal = data['dailyWeightsGoal'];
-      final num? dailyProteinGoal = data['dailyProteinGoal'];
-      final String displayName = data['displayName'];
-      final int? backgroundImageIndex = data['backgroundImageIndex'];
+      final String userName = data['userName'].toString();
+      final String? userEmail = data['userEmail']?.toString();
+      final Timestamp signUpDate = data['signUpDate'] as Timestamp;
+      final String signUpProvider = data['signUpProvider'].toString();
+      final List<String>? savedWorkouts = (data['savedWorkouts'] as List?)
+          ?.map<String>((e) => e.toString())
+          .toList();
+
+      final List<String>? savedRoutines = (data['savedRoutines'] as List?)
+          ?.map<String>((e) => e.toString())
+          .toList();
+
+      final num totalWeights = num.parse(data['totalWeights'].toString());
+      final int totalNumberOfWorkouts =
+          int.parse(data['totalNumberOfWorkouts'].toString());
+      final int? unitOfMass =
+          int.tryParse(data['unitOfMass']?.toString() ?? '');
+      final Timestamp lastLoginDate = data['lastLoginDate'] as Timestamp;
+      final num? dailyWeightsGoal =
+          num.tryParse(data['dailyWeightsGoal']?.toString() ?? '');
+      final num? dailyProteinGoal =
+          num.tryParse(data['dailyProteinGoal']?.toString() ?? '');
+      final String displayName = data['displayName'].toString();
+      final int? backgroundImageIndex =
+          int.tryParse(data['backgroundImageIndex']?.toString() ?? '');
       final DateTime? lastHealthDataFetchedTime =
-          data['lastHealthDataFetchedTime']?.toDate();
-      final num? weightGoal = data['weightGoal'];
-      final num? bodyFatPercentageGoal = data['bodyFatPercentageGoal'];
-      final List<dynamic>? widgetsList = data['widgetsList'];
-      final Map<String, dynamic>? deviceInfo = data['deviceInfo'];
-      final Timestamp? lastAppOpenedTime = data['lastAppOpenedTime'];
-      final DateTime? creationTime = data['creationTime']?.toDate();
-      final String? profileUrl = data['profileUrl'];
+          (data['lastHealthDataFetchedTime'] as Timestamp?)?.toDate();
+
+      final num? weightGoal =
+          num.tryParse(data['weightGoal']?.toString() ?? '');
+      final num? bodyFatPercentageGoal =
+          num.tryParse(data['bodyFatPercentageGoal']?.toString() ?? '');
+      final List<dynamic>? widgetsList = data['widgetsList'] as List?;
+      final Map<String, dynamic>? deviceInfo =
+          data['deviceInfo'] as Map<String, dynamic>?;
+      final Timestamp? lastAppOpenedTime =
+          data['lastAppOpenedTime'] as Timestamp?;
+      final DateTime? creationTime =
+          (data['creationTime'] as Timestamp?)?.toDate();
+
+      final String? profileUrl = data['profileUrl']?.toString();
       final UnitOfMass? unitOfMassEnum = (data['unitOfMassEnum'] != null)
           ? EnumToString.fromString<UnitOfMass>(
               UnitOfMass.values,
-              data['unitOfMassEnum'],
+              data['unitOfMassEnum']?.toString() ?? '',
             )
           : null;
-      final num? dailyCarbsGoal = data['dailyCarbsGoal'];
-      final num? dailyFatGoal = data['dailyFatGoal'];
+      final num? dailyCarbsGoal =
+          num.tryParse(data['dailyCarbsGoal']?.toString() ?? '');
+      final num? dailyFatGoal =
+          num.tryParse(data['dailyFatGoal']?.toString() ?? '');
       final num? dailyCalorieConsumptionGoal =
-          data['dailyCalorieConsumptionGoal'];
+          num.tryParse(data['dailyCalorieConsumptionGoal']?.toString() ?? '');
 
-      return User(
+      final User user = User(
         userId: documentId,
         userName: userName,
         userEmail: userEmail,
@@ -130,6 +148,8 @@ class User {
         dailyFatGoal: dailyFatGoal,
         dailyCalorieConsumptionGoal: dailyCalorieConsumptionGoal,
       );
+
+      return user;
     } else {
       throw UnimplementedError();
     }

@@ -24,7 +24,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
     final routineWorkout = model.currentRoutineWorkout!;
     final workoutSet = model.currentWorkoutSet!;
 
-    final weights = Formatter.numWithOrWithoutDecimal(workoutSet.weights!);
+    final weights = Formatter.numWithOrWithoutDecimal(workoutSet.weights);
     final unit = Formatter.unitOfMass(
       routine.initialUnitOfMass,
       routine.unitOfMassEnum,

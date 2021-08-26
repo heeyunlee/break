@@ -38,7 +38,6 @@ class ChooseMealTypeWidget extends StatelessWidget {
                           color: (model.mealType == type)
                               ? kPrimary300Color
                               : Colors.grey,
-                          width: 1,
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 8),

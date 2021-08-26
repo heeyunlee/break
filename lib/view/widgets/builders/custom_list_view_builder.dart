@@ -39,7 +39,7 @@ class CustomListViewBuilder<T> extends StatelessWidget {
   Widget _buildList(List<T> items) {
     return ListView.builder(
       scrollDirection: scrollDirection!,
-      padding: const EdgeInsets.all(0),
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: items.length,

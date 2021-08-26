@@ -5,7 +5,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -17,21 +16,22 @@ class ManageAccountScreen extends StatelessWidget {
   const ManageAccountScreen({
     Key? key,
     required this.database,
-    required this.auth,
+    // required this.auth,
   }) : super(key: key);
 
   final Database database;
-  final AuthBase auth;
+  // final AuthBase auth;
 
-  static void show(BuildContext context, {required User user}) async {
+  static void show(BuildContext context, {required User user}) {
     final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context, rootNavigator: false).push(
+    // final auth = Provider.of<AuthBase>(context, listen: false);
+
+    Navigator.of(context).push(
       CupertinoPageRoute(
         fullscreenDialog: false,
         builder: (context) => ManageAccountScreen(
           database: database,
-          auth: auth,
+          // auth: auth,
         ),
       ),
     );
@@ -45,7 +45,7 @@ class ManageAccountScreen extends StatelessWidget {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,
         leading: const AppBarBackButton(),
         title: Text(S.current.manageAccount, style: TextStyles.subtitle1),
@@ -70,7 +70,7 @@ class ManageAccountScreen extends StatelessWidget {
             height: size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+              // mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
                 Padding(

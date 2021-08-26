@@ -28,7 +28,7 @@ class _SearchTabState extends State<SearchTab> {
   late FloatingSearchBarController _controller;
   // TODO: Extract search model HERE
   AlgoliaIndexReference algoliaIndexReference =
-      AlgoliaManager.init().instance.index('prod_WORKOUTS');
+      AlgoliaManager().initAlgolia().instance.index('prod_WORKOUTS');
   List<AlgoliaObjectSnapshot> searchResults = [];
   bool _isLoading = false;
 
@@ -44,7 +44,7 @@ class _SearchTabState extends State<SearchTab> {
     super.dispose();
   }
 
-  void onQueryChanged(String query) async {
+  Future<void> onQueryChanged(String query) async {
     if (query.isNotEmpty) {
       _isLoading = true;
       final algoliaQuery = algoliaIndexReference.query(query);
@@ -66,7 +66,7 @@ class _SearchTabState extends State<SearchTab> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
+        preferredSize: const Size.fromHeight(0),
         child: AppBar(
           backgroundColor: kAppBarColor,
           brightness: Brightness.dark,
@@ -76,9 +76,9 @@ class _SearchTabState extends State<SearchTab> {
       backgroundColor: kBackgroundColor,
       body: FloatingSearchBar(
         controller: _controller,
-        clearQueryOnClose: true,
+        // clearQueryOnClose: true,
         iconColor: Colors.black,
-        automaticallyImplyBackButton: true,
+        // automaticallyImplyBackButton: true,
         borderRadius: BorderRadius.circular(24),
         transitionDuration: const Duration(milliseconds: 300),
         debounceDelay: const Duration(milliseconds: 300),
@@ -92,9 +92,9 @@ class _SearchTabState extends State<SearchTab> {
         backgroundColor: Colors.white,
         queryStyle: TextStyles.body2_black,
         actions: [
-          FloatingSearchBarAction(
-            showIfOpened: false,
-            child: const Icon(Icons.fitness_center_outlined),
+          const FloatingSearchBarAction(
+            // showIfOpened: false,
+            child: Icon(Icons.fitness_center_outlined),
           ),
           const SizedBox(width: 8),
           FloatingSearchBarAction.searchToClear(
@@ -112,12 +112,12 @@ class _SearchTabState extends State<SearchTab> {
                   searchResults = [];
                 });
               },
-              child: Icon(Icons.arrow_back_ios_new_rounded),
+              child: const Icon(Icons.arrow_back_ios_new_rounded),
             ),
           ),
         ],
         transition: CircularFloatingSearchBarTransition(),
-        physics: BouncingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
         onQueryChanged: onQueryChanged,
         onSubmitted: onQueryChanged,
         body: FloatingSearchBarScrollNotifier(child: _buildBody()),
@@ -142,9 +142,9 @@ class _SearchTabState extends State<SearchTab> {
                 child: Column(
                   children: searchResults.map((e) {
                     final data = e.data;
-                    final workoutId = data['workoutId'];
+                    final workoutId = data['workoutId'].toString();
 
-                    final title = data['translated'][locale];
+                    final title = data['translated'][locale].toString();
 
                     final muscle = MainMuscleGroup.values
                         .firstWhere(

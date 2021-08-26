@@ -1,20 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:workout_player/models/enum/meal.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 class Nutrition {
-  final String nutritionId;
-  final String userId;
-  final String username;
-  final Timestamp loggedTime;
-  final DateTime loggedDate;
-  final Meal type;
-  final num proteinAmount;
-  final String? notes; // Nullable
-  final num? calories; // Nullable
-  final num? carbs; // Nullable
-  final num? fat; // Nullable
-
   const Nutrition({
     required this.nutritionId,
     required this.userId,
@@ -29,26 +18,38 @@ class Nutrition {
     this.fat,
   });
 
+  final String nutritionId;
+  final String userId;
+  final String username;
+  final Timestamp loggedTime;
+  final DateTime loggedDate;
+  final Meal type;
+  final num proteinAmount;
+  final String? notes; // Nullable
+  final num? calories; // Nullable
+  final num? carbs; // Nullable
+  final num? fat; // Nullable
+
   factory Nutrition.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userId = data['userId'];
-      final String username = data['username'];
-      final Timestamp loggedTime = data['loggedTime'];
-      final DateTime loggedDate = data['loggedDate'].toDate();
+      final String userId = data['userId'].toString();
+      final String username = data['username'].toString();
+      final Timestamp loggedTime = data['loggedTime'] as Timestamp;
+      final DateTime loggedDate = (data['loggedDate'] as Timestamp).toDate();
 
       final Meal type = EnumToString.fromString<Meal>(
         Meal.values,
-        data['type'],
+        data['type'].toString(),
         camelCase: true,
       )!;
 
-      final num proteinAmount = data['proteinAmount'];
-      final String? notes = data['notes'];
-      final num? calories = data['calories'];
-      final num? carbs = data['carbs'];
-      final num? fat = data['fat'];
+      final num proteinAmount = num.parse(data['proteinAmount'].toString());
+      final String? notes = data['notes']?.toString();
+      final num? calories = num.tryParse(data['calories']?.toString() ?? '');
+      final num? carbs = num.tryParse(data['carbs']?.toString() ?? '');
+      final num? fat = num.tryParse(data['fat']?.toString() ?? '');
 
-      return Nutrition(
+      final nutrition = Nutrition(
         nutritionId: documentId,
         userId: userId,
         username: username,
@@ -61,6 +62,10 @@ class Nutrition {
         carbs: carbs,
         fat: fat,
       );
+
+      logger.d(nutrition);
+
+      return nutrition;
     } else {
       throw 'null';
     }

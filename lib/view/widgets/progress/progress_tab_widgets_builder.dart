@@ -85,7 +85,7 @@ class _ProgressTabWidgetsBuilderState extends State<ProgressTabWidgetsBuilder> {
 
         return FadeSlideTransition(
           animation: widget.model.staggeredController,
-          beginOffset: Offset(0, 1),
+          // beginOffset: const Offset(0, 1),
           offsetBeginInterval: offsetBegin,
           offsetEndInterval: offsetEnd,
           offsetCurves: Curves.fastOutSlowIn,

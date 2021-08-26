@@ -23,7 +23,7 @@ class RoutineWorkoutShimmer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: kCardColor,
               ),
-              child: Text(''),
+              child: const Text(''),
             ),
           );
         },

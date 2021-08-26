@@ -24,18 +24,47 @@ class SettingsTabModel with ChangeNotifier {
     database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
-  static const termsUrl =
+  static const _termsUrl =
       'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
-  static const privacyPolicyUrl =
+  static const _privacyPolicyUrl =
       'https://app.termly.io/document/privacy-policy/34f278e4-7150-48c6-88c0-ee9a3ee082d1';
 
-  void launchTermsURL() async => await canLaunch(termsUrl)
-      ? await launch(termsUrl)
-      : throw 'Could not launch $termsUrl';
+  // void launchTermsURL() async => await canLaunch(termsUrl)
+  //     ? await launch(termsUrl)
+  //     : throw 'Could not launch $termsUrl';
 
-  void launchPrivacyServiceURL() async => await canLaunch(privacyPolicyUrl)
-      ? await launch(privacyPolicyUrl)
-      : throw 'Could not launch $privacyPolicyUrl';
+  // void launchPrivacyServiceURL() async => await canLaunch(privacyPolicyUrl)
+  //     ? await launch(privacyPolicyUrl)
+  //     : throw 'Could not launch $privacyPolicyUrl';
+
+  // TODO(heeyunlee): get rid of this duplicate function
+  Future<void> launchTermsURL(BuildContext context) async {
+    final bool canLaunchs = await canLaunch(_termsUrl);
+
+    if (canLaunchs) {
+      await launch(_termsUrl);
+    } else {
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: 'Could not launch $_termsUrl',
+      );
+    }
+  }
+
+  Future<void> launchPrivacyServiceURL(BuildContext context) async {
+    final bool canLaunchs = await canLaunch(_privacyPolicyUrl);
+
+    if (canLaunchs) {
+      await launch(_privacyPolicyUrl);
+    } else {
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: 'Could not launch $_privacyPolicyUrl',
+      );
+    }
+  }
 
   Future<void> confirmSignOut(BuildContext context) async {
     final didRequestSignOut = await showAlertDialog(
@@ -79,7 +108,7 @@ class SettingsTabModel with ChangeNotifier {
       applicationName: S.current.applicationName,
       applicationVersion: 'v.0.3.4',
       applicationIcon: Container(
-        decoration: BoxDecoration(color: kBackgroundColor),
+        decoration: const BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/herakles_icon.png',
             width: 36, height: 36),
       ),

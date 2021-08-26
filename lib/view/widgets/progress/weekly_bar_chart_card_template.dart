@@ -134,12 +134,13 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                   touchTooltipData: BarTouchTooltipData(
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
-                        widget.model.getTooltipText(rod.y),
+                        widget.model.getTooltipText(rod.y) as String,
                         TextStyles.body1_black,
                       );
                     },
                   ),
-                  touchCallback: widget.model.onTouchCallback,
+                  touchCallback: widget.model.onTouchCallback as dynamic
+                      Function(BarTouchResponse)?,
                 ),
                 titlesData: FlTitlesData(
                   show: true,
@@ -150,19 +151,19 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                     getTitles: (double value) {
                       switch (value.toInt()) {
                         case 0:
-                          return widget.model.daysOfTheWeek[0];
+                          return widget.model.daysOfTheWeek[0] as String;
                         case 1:
-                          return widget.model.daysOfTheWeek[1];
+                          return widget.model.daysOfTheWeek[1] as String;
                         case 2:
-                          return widget.model.daysOfTheWeek[2];
+                          return widget.model.daysOfTheWeek[2] as String;
                         case 3:
-                          return widget.model.daysOfTheWeek[3];
+                          return widget.model.daysOfTheWeek[3] as String;
                         case 4:
-                          return widget.model.daysOfTheWeek[4];
+                          return widget.model.daysOfTheWeek[4] as String;
                         case 5:
-                          return widget.model.daysOfTheWeek[5];
+                          return widget.model.daysOfTheWeek[5] as String;
                         case 6:
-                          return widget.model.daysOfTheWeek[6];
+                          return widget.model.daysOfTheWeek[6] as String;
                         default:
                           return '';
                       }
@@ -175,11 +176,11 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                     getTitles: (double value) {
                       switch (value.toInt()) {
                         case 0:
-                          return widget.model.getSideTiles(value);
+                          return widget.model.getSideTiles(value) as String;
                         case 5:
-                          return widget.model.getSideTiles(value);
+                          return widget.model.getSideTiles(value) as String;
                         case 10:
-                          return widget.model.getSideTiles(value);
+                          return widget.model.getSideTiles(value) as String;
                         default:
                           return '';
                       }
@@ -187,12 +188,12 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                   ),
                 ),
                 borderData: FlBorderData(show: false),
-                barGroups: (widget.model.relativeYs.isNotEmpty)
+                barGroups: (widget.model.relativeYs.isNotEmpty as bool)
                     ? _hasData()
                     : randomData(),
               ),
             ),
-            if (widget.model.relativeYs.isEmpty)
+            if (widget.model.relativeYs.isEmpty as bool)
               NoDataInChartMessageWidget(color: widget.defaultColor),
           ],
         ),
@@ -202,9 +203,9 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
 
   FlGridData _buildGrid() {
     return FlGridData(
-      horizontalInterval: widget.model.interval,
+      horizontalInterval: widget.model.interval as double?,
       drawVerticalLine: false,
-      show: widget.model.goalExists,
+      show: widget.model.goalExists as bool?,
       getDrawingHorizontalLine: (_) => FlLine(
         color: widget.defaultColor.withOpacity(0.5),
         dashArray: [16, 4],
@@ -217,7 +218,7 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
       7,
       (index) => _makeBarChartGroupData(
         x: index,
-        y: widget.model.relativeYs[index],
+        y: widget.model.relativeYs[index] as double,
         isTouched: widget.model.touchedIndex == index,
         defaultColor: widget.defaultColor,
         touchedColor: widget.touchedColor,
@@ -230,7 +231,7 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
       7,
       (index) => _makeBarChartGroupData(
         x: index,
-        y: widget.model.randomListOfYs[index],
+        y: widget.model.randomListOfYs[index] as double,
         isTouched: widget.model.touchedIndex == index,
         defaultColor: widget.defaultColor.withOpacity(0.25),
         touchedColor: widget.defaultColor.withOpacity(0.5),

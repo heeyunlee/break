@@ -32,6 +32,9 @@ class RoutineHistoriesScreen extends StatelessWidget {
     final database = container.read(databaseProvider(auth.currentUser?.uid));
 
     await HapticFeedback.mediumImpact();
+
+    // TODO: fix use_build_context_synchronously
+    // ignore: use_build_context_synchronously
     await Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => RoutineHistoriesScreen(

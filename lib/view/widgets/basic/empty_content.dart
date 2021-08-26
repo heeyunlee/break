@@ -22,13 +22,13 @@ class EmptyContent extends StatelessWidget {
 
     logger.i(e);
 
-    return Container(
+    return SizedBox(
       width: size.width,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 36),
+          const SizedBox(height: 36),
           Image.asset(
             'assets/images/treadmill.png',
             height: size.height / sizeFactor,

@@ -21,7 +21,7 @@ class FadeSlideTransition extends StatelessWidget {
     Key? key,
     this.animation,
     this.beginOffset = const Offset(0, 1),
-    this.endOffset = const Offset(0, 0),
+    this.endOffset = Offset.zero,
     this.offsetBeginInterval = 0.0,
     this.offsetEndInterval = 1.0,
     this.offsetCurves = Curves.decelerate,
@@ -35,7 +35,7 @@ class FadeSlideTransition extends StatelessWidget {
   Widget build(BuildContext context) {
     final animationProvider =
         animation ?? Provider.of<Animation<double>>(context, listen: false);
-    final offsetTween = Tween<Offset>(begin: beginOffset!, end: endOffset!);
+    final offsetTween = Tween<Offset>(begin: beginOffset, end: endOffset);
 
     return AnimatedBuilder(
       animation: animationProvider,

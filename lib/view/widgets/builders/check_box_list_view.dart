@@ -28,7 +28,7 @@ class CheckboxListView extends StatelessWidget {
     required this.onChangedMainMuscleEnum,
     required this.getTitle,
     this.beginOffset,
-    this.endOffset = const Offset(0, 0),
+    this.endOffset = Offset.zero,
     this.offsetStartInterval = 0.0,
     this.offsetDelay = 0.05,
     this.offsetDuration = 0.25,
@@ -59,8 +59,8 @@ class CheckboxListView extends StatelessWidget {
         assert(opacityEnd <= 1);
 
         return FadeSlideTransition(
-          beginOffset: Offset(0.75, 0),
-          endOffset: Offset(0, 0),
+          beginOffset: const Offset(0.75, 0),
+          // endOffset: Offset.zero,
           offsetBeginInterval: offsetBegin,
           offsetEndInterval: offsetEnd,
           offsetCurves: offsetCurves,

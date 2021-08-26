@@ -49,6 +49,14 @@ class Formatter {
     return formattedTime;
   }
 
+  static String durationInString(Timestamp startTime, Timestamp endTime) {
+    final format = DateFormat.jm();
+    final formattedStartTime = format.format(startTime.toDate());
+    final formattedEndTime = format.format(endTime.toDate());
+
+    return '$formattedStartTime ~ $formattedEndTime';
+  }
+
   /// Returns a translated [Difficulty] from either int or enum
   static String difficulty([int? difficulty, Difficulty? difficultyEnum]) {
     if (difficulty != null) {
@@ -140,7 +148,7 @@ class Formatter {
     final locale = Intl.getCurrentLocale();
 
     if (map != null && (locale == 'ko' || locale == 'en')) {
-      return map[locale];
+      return map[locale].toString();
     } else {
       return string ?? 'Title is null';
     }
@@ -436,7 +444,7 @@ class Formatter {
   }
 
   static String workoutSetWeightAndReps(
-    Routine routine,
+    Routine? routine,
     RoutineWorkout? routineWorkout,
     WorkoutSet? workoutSet,
   ) {
@@ -452,10 +460,10 @@ class Formatter {
           return '${S.current.bodyweight}   •   $reps';
         } else {
           final unit = Formatter.unitOfMass(
-            routine.initialUnitOfMass,
+            routine!.initialUnitOfMass,
             routine.unitOfMassEnum,
           );
-          final formattedWeight = numWithOrWithoutDecimal(workoutSet.weights!);
+          final formattedWeight = numWithOrWithoutDecimal(workoutSet.weights);
 
           return '$formattedWeight $unit   •   $reps';
         }
@@ -467,9 +475,30 @@ class Formatter {
 
   static String durationInMMSS(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    final String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    final String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
 
     return '$twoDigitMinutes:$twoDigitSeconds';
+  }
+
+  static Duration stringToDuration(String string) {
+    final split = string.split(':');
+    final hours = int.parse(split[0]);
+    final minutes = int.parse(split[1]);
+
+    final secondSplit = split[2].split('.');
+    final seconds = int.parse(secondSplit[0]);
+    final milliseconds = int.parse(secondSplit[1].substring(0, 3));
+    final miscroseconds = int.parse(secondSplit[1].substring(3, 6));
+
+    final parsedDuration = Duration(
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+      milliseconds: milliseconds,
+      microseconds: miscroseconds,
+    );
+
+    return parsedDuration;
   }
 }

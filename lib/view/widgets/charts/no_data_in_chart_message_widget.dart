@@ -17,7 +17,7 @@ class NoDataInChartMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment(0.2, -0.1),
+      alignment: const Alignment(0.2, -0.1),
       child: Container(
         width: 120,
         height: 28,

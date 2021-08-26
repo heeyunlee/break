@@ -19,7 +19,7 @@ class SignInLogoWidget extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: model.isLoading ? _loadingWidget() : _logoWidget(),
         ),

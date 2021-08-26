@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 
@@ -36,25 +37,24 @@ class YoutubeVideoCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               color: Colors.transparent,
-              margin: EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.symmetric(vertical: 8),
               clipBehavior: Clip.antiAlias,
               child: Stack(
-                alignment: Alignment(0, 0),
+                alignment: Alignment.center,
                 children: [
                   Hero(
                     tag: heroTag,
-                    child: Image.asset(
-                      youtubeVideo.thumnail,
-                      width: double.infinity,
+                    child: CachedNetworkImage(
+                      imageUrl: youtubeVideo.thumnail,
                       height: 220,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment(0, -0.50),
-                        end: Alignment(0, 1.00),
+                        begin: const Alignment(0, -0.50),
+                        end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
                           Colors.black.withOpacity(0.75),
@@ -68,60 +68,55 @@ class YoutubeVideoCard extends StatelessWidget {
                     bottom: 16,
                     child: SizedBox(
                       width: size.width - 64,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            youtubeVideo.title,
-                            style: TextStyles.body1,
-                            overflow: TextOverflow.fade,
-                            softWrap: true,
-                            maxLines: 2,
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Text(
-                                Formatter.getJoinedMainMuscleGroups(
-                                  null,
-                                  youtubeVideo.mainMuscleGroups,
-                                ),
-                                style: TextStyles.body2_grey,
-                              ),
-                              Text('   •   ', style: TextStyles.body2_grey),
-                              Text(
-                                '${youtubeVideo.duration.inMinutes} minutes',
-                                style: TextStyles.body2_grey,
-                              ),
-                              Text('   •   ', style: TextStyles.body2_grey),
-                              Text(
-                                EnumToString.convertToString(
-                                  youtubeVideo.location,
-                                  camelCase: true,
-                                ),
-                                style: TextStyles.body2_grey,
-                              ),
-                            ],
-                          ),
-                        ],
+                      child: Text(
+                        youtubeVideo.title,
+                        style: TextStyles.body1,
+                        overflow: TextOverflow.fade,
+                        softWrap: true,
+                        maxLines: 2,
                       ),
                     ),
                   ),
                   Image.asset(
-                    'assets/test/yt_icon_rgb.png',
+                    'assets/logos/yt_icon_rgb.png',
                     height: 32,
                   ),
                 ],
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(width: 8),
+                Text(
+                  Formatter.getJoinedMainMuscleGroups(
+                    null,
+                    youtubeVideo.mainMuscleGroups,
+                  ),
+                  style: TextStyles.body2_grey,
+                ),
+                const Text('   •   ', style: TextStyles.body2_grey),
+                Text(
+                  '${youtubeVideo.duration.inMinutes} minutes',
+                  style: TextStyles.body2_grey,
+                ),
+                const Text('   •   ', style: TextStyles.body2_grey),
+                Text(
+                  EnumToString.convertToString(
+                    youtubeVideo.location,
+                    camelCase: true,
+                  ),
+                  style: TextStyles.body2_grey,
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: CircleAvatar(
                     radius: 12,
-                    backgroundImage: AssetImage(
+                    backgroundImage: CachedNetworkImageProvider(
                       youtubeVideo.authorProfilePicture,
                     ),
                   ),

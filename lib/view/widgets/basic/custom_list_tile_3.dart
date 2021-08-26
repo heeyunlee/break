@@ -51,8 +51,10 @@ class CustomListTile3 extends StatelessWidget {
                 child: _buildLeadingWidget(),
               ),
               const SizedBox(width: 16),
+
+              // TODO: check if this works
               Expanded(
-                child: Container(
+                child: SizedBox(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -92,7 +94,7 @@ class CustomListTile3 extends StatelessWidget {
   }
 
   Widget _buildLeadingWidget() {
-    return Container(
+    return SizedBox(
       height: 64,
       width: 64,
       child: Stack(
@@ -100,7 +102,7 @@ class CustomListTile3 extends StatelessWidget {
         children: [
           CachedNetworkImage(
             imageUrl: imageUrl,
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             fit: BoxFit.cover,
           ),
           Container(color: Colors.black.withOpacity(0.4)),

@@ -45,7 +45,7 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
 
   void init() {
     /// SET DATES
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
@@ -61,8 +61,8 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
 
     /// Set Ys
     Map<DateTime, List<RoutineHistory>> _mapData;
-    List<num> listOfYs = [];
-    List<double> relatives = [];
+    final List<num> listOfYs = [];
+    final List<double> relatives = [];
 
     if (routineHistories.isNotEmpty) {
       _mapData = {
@@ -72,13 +72,15 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
               .toList()
       };
 
+      // TODO(heeyunlee): fix here
+      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
-          list.forEach((nutrition) {
-            sum += nutrition.totalWeights;
-          });
+          for (final history in list) {
+            sum += history.totalWeights;
+          }
         }
 
         listOfYs.add(sum);
@@ -92,16 +94,16 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
       if (largest == 0) {
         _weightsLiftedMaxY = 20000;
 
-        listOfYs.forEach((element) {
+        for (final _ in listOfYs) {
           relativeYs.add(0);
-        });
+        }
       } else {
         final roundedLargest = (largest / 1000).ceil() * 1000;
         _weightsLiftedMaxY = roundedLargest.toDouble() + 1000;
 
-        listOfYs.forEach((element) {
-          relatives.add(element / _weightsLiftedMaxY * 10);
-        });
+        for (final y in listOfYs) {
+          relatives.add(y / _weightsLiftedMaxY * 10);
+        }
       }
       _relativeYs = relatives;
 

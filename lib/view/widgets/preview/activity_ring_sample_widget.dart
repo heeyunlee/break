@@ -37,7 +37,7 @@ class ActivityRingSampleWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Stack(
               alignment: Alignment.center,
@@ -45,7 +45,7 @@ class ActivityRingSampleWidget extends StatelessWidget {
                 SizedBox(
                   width: size.width / 5,
                   child: FittedBox(
-                    alignment: Alignment.center,
+                    // alignment: Alignment.center,
                     child: Text(
                       S.current.chest,
                       style: TextStyles.headline5_w900,
@@ -91,7 +91,7 @@ class ActivityRingSampleWidget extends StatelessWidget {
                       thousands: '2',
                       hundreds: '5',
                       tens: '9',
-                      ones: '0',
+                      // ones: '0',
                       unit: 'kg',
                     ),
                   ),
@@ -102,10 +102,10 @@ class ActivityRingSampleWidget extends StatelessWidget {
                     child: DailySummaryNumbersWidget(
                       title: S.current.proteins,
                       backgroundColor: Colors.greenAccent,
-                      textStyle: TextStyles.body1_menlo,
+                      // textStyle: TextStyles.body1_menlo,
                       hundreds: '1',
                       tens: '3',
-                      ones: '0',
+                      // ones: '0',
                       unit: 'g',
                     ),
                   ),

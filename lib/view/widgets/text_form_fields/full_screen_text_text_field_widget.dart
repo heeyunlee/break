@@ -31,10 +31,7 @@ class FullScreenTextTextFieldWidget extends StatelessWidget {
     return Center(
       child: Container(
         height: 104,
-        margin: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 0,
-        ),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(8),
         child: TextFormField(
           focusNode: focusNode,

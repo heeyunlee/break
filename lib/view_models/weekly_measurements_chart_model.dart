@@ -28,7 +28,7 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
   List<Measurement?> get thisWeekData => _thisWeekData;
 
   void init() {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
@@ -45,19 +45,18 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
-    List<Measurement?> _thisWeekDataS = [];
+    final List<Measurement?> _thisWeekDataS = [];
 
     if (measurements.isNotEmpty) {
-      _dates.forEach(
-        (date) {
-          final measurement = measurements.lastWhereOrNull(
-            (element) => element.loggedDate.toUtc() == date,
-          );
-          if (measurement != null) {
-            _thisWeekDataS.add(measurement);
-          }
-        },
-      );
+      for (final date in _dates) {
+        final measurement = measurements.lastWhereOrNull(
+          (element) => element.loggedDate.toUtc() == date,
+        );
+        if (measurement != null) {
+          _thisWeekDataS.add(measurement);
+        }
+      }
+
       _thisWeekData = _thisWeekDataS;
 
       final largest = measurements

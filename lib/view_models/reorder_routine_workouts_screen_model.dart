@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+
+import 'main_model.dart';
 
 final reorderRoutineWorkoutsScreenModelProvider = ChangeNotifierProvider(
   (ref) => ReorderRoutineWorkoutsScreenModel(),
@@ -40,11 +42,13 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   }
 
   void onReorder(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) {
-      newIndex -= 1;
+    int _newIndex = newIndex;
+
+    if (_newIndex > oldIndex) {
+      _newIndex -= 1;
     }
     final itemToReorder = _newList.removeAt(oldIndex);
-    _newList.insert(newIndex, itemToReorder);
+    _newList.insert(_newIndex, itemToReorder);
 
     _newMap = _newList.asMap();
     _areMapsEqual = false;
@@ -53,13 +57,12 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Widget proxyDecorator(child, index, animation) {
+  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget? child) {
         return Material(
           color: Colors.transparent,
-          elevation: 0,
           child: child,
         );
       },

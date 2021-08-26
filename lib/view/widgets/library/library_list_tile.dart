@@ -74,7 +74,7 @@ class LibraryListTile extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

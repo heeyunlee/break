@@ -92,7 +92,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         // SnackBar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(S.current.updateEmailSnackbar),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ));
       } on FirebaseException catch (e) {
@@ -103,8 +103,6 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           exception: e.toString(),
         );
       }
-    } else {
-      return null;
     }
   }
 
@@ -132,7 +130,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         children: [
           Container(
             height: 80,
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             padding: const EdgeInsets.all(8),
             child: TextFormField(
               style: TextStyles.headline5,
@@ -148,16 +146,16 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 }
                 return null;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintStyle: TextStyles.headline6_grey,
                 hintText: 'JohnDoe@abc.com',
-                enabledBorder: const UnderlineInputBorder(
+                enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
                 ),
-                focusedBorder: const UnderlineInputBorder(
+                focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: kSecondaryColor),
                 ),
-                errorBorder: const UnderlineInputBorder(
+                errorBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),
                 ),
                 counterStyle: TextStyles.caption1_grey,

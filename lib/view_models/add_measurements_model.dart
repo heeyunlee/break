@@ -165,7 +165,7 @@ class AddMeasurementsModel with ChangeNotifier {
   ) async {
     if (_validateAndSaveForm()) {
       try {
-        final id = 'MS${Uuid().v1()}';
+        final id = 'MS${const Uuid().v1()}';
         final loggedTimeInDate = _loggedTime.toDate();
         final loggedDate = DateTime.utc(
           loggedTimeInDate.year,

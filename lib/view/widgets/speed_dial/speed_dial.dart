@@ -64,7 +64,7 @@ class _SpeedDialState extends State<SpeedDial>
           ),
           child: SizedBox.expand(
             child: Stack(
-              alignment: Alignment(0, 1),
+              alignment: Alignment.bottomCenter,
               children: [
                 _renderOverlay(),
                 _buildTapToCloseFab(),
@@ -109,7 +109,7 @@ class _SpeedDialState extends State<SpeedDial>
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.model.toggleAnimation,
-            child: Icon(
+            child: const Icon(
               Icons.close,
               color: Colors.transparent,
             ),
@@ -136,7 +136,7 @@ class _SpeedDialState extends State<SpeedDial>
           widget.model.toggleAnimation();
           ChooseRoutineScreen.show(context);
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.fitness_center_rounded,
           color: Colors.white,
           size: 20,
@@ -148,7 +148,7 @@ class _SpeedDialState extends State<SpeedDial>
           widget.model.toggleAnimation();
           AddNutritionScreenModel.show(context);
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.restaurant_menu_rounded,
           color: Colors.white,
           size: 20,
@@ -162,6 +162,7 @@ class _SpeedDialState extends State<SpeedDial>
     final count = _expandingChildren(context).length;
     final step = 90 / (count - 1);
 
+    // ignore: avoid_multiple_declarations_per_line
     for (var i = 0, angleInDegrees = 45.0;
         i < count;
         i++, angleInDegrees += step) {
@@ -188,10 +189,7 @@ class _SpeedDialState extends State<SpeedDial>
           onPressed: widget.model.toggleAnimation,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          child: Icon(
-            Icons.add_circle_rounded,
-            size: 52,
-          ),
+          child: const Icon(Icons.add_circle_rounded, size: 52),
         ),
       ),
     );
@@ -229,7 +227,7 @@ class _SpeedDialChildrenWidget extends StatelessWidget {
           bottom: 8 + offset.dy,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 2,
-            child: child!,
+            child: child,
           ),
         );
       },

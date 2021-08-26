@@ -32,12 +32,13 @@ class AppBarTitleWidget extends ConsumerWidget {
 
   String getTitle(MiniplayerModel model) {
     if (model.currentWorkout.runtimeType == Routine) {
-      final routine = model.currentWorkout as Routine;
-      return routine.routineTitle;
-    } else {
-      final video = model.currentWorkout as YoutubeVideo;
+      final routine = model.currentWorkout as Routine?;
 
-      return video.title;
+      return routine!.routineTitle;
+    } else {
+      final video = model.currentWorkout as YoutubeVideo?;
+
+      return video!.title;
     }
   }
 }

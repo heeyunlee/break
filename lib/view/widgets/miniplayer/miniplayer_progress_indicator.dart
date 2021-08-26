@@ -78,12 +78,13 @@ class MiniplayerProgressIndicator extends StatelessWidget {
         ],
       );
     } else {
-      final currentVideo = model.currentWorkout as YoutubeVideo;
+      final currentVideo = model.currentWorkout as YoutubeVideo?;
 
       return YoutubeValueBuilder(
         controller: model.youtubeController,
         builder: (context, value) {
-          progress = value.position.inSeconds / currentVideo.duration.inSeconds;
+          progress =
+              value.position.inSeconds / currentVideo!.duration.inSeconds;
 
           return Column(
             children: [

@@ -15,6 +15,7 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
+// TODO: Fix Here
 class RoutineHistoryTab extends StatefulWidget {
   final Routine routine;
   final AuthBase auth;
@@ -44,7 +45,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
-      var now = DateTime.now();
+      final now = DateTime.now();
       return DateTime.utc(now.year, now.month, now.day - index);
     });
     _dates = _dates.reversed.toList();
@@ -58,17 +59,19 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
   void _setData(List<RoutineHistory?> streamData, List<double> relativeYs) {
     Map<DateTime, List<RoutineHistory?>> _mapData;
-    List<num> listOfYs = [];
+    final List<num> listOfYs = [];
 
     if (streamData.isNotEmpty) {
       _mapData = {
         for (var item in _dates)
           item: streamData.where((e) => e!.workoutDate.toUtc() == item).toList()
       };
+      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
+          // ignore: avoid_function_literals_in_foreach_calls
           list.forEach((history) {
             sum += history!.totalWeights;
           });
@@ -81,19 +84,21 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
       if (largest == 0) {
         _maxY = 20000;
+        // ignore: avoid_function_literals_in_foreach_calls
         listOfYs.forEach((element) {
           relativeYs.add(0);
         });
       } else {
         final roundedLargest = (largest / 10000).ceil() * 10000;
         _maxY = roundedLargest.toDouble();
+        // ignore: avoid_function_literals_in_foreach_calls
         listOfYs.forEach((element) {
           relativeYs.add(element / _maxY * 10);
         });
       }
     } else {
       _mapData = {for (var item in _dates) item: []};
-      for (var _ in _dates) {
+      for (final _ in _dates) {
         relativeYs.add(0);
       }
     }
@@ -113,7 +118,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
         widget.routine.routineId,
       ),
       builder: (context, snapshot) {
-        List<double> relativeYs = [];
+        final List<double> relativeYs = [];
 
         _setData(snapshot, relativeYs);
 
@@ -123,7 +128,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
         );
 
         return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,7 +141,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
               ),
               Card(
                 color: kCardColor,
-                margin: EdgeInsets.all(16),
+                margin: const EdgeInsets.all(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

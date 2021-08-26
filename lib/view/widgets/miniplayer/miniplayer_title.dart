@@ -43,7 +43,7 @@ class MiniplayerTitle extends StatelessWidget {
       } else {
         return Text(
           Formatter.workoutSetWeightAndReps(
-            model.currentWorkout as Routine,
+            model.currentWorkout as Routine?,
             model.currentRoutineWorkout,
             model.currentWorkoutSet,
           ),
@@ -53,8 +53,8 @@ class MiniplayerTitle extends StatelessWidget {
     } else {
       return YoutubeValueBuilder(
         builder: (context, value) {
-          final video = model.currentWorkout as YoutubeVideo;
-          final currentWorkout = video.workouts
+          final video = model.currentWorkout as YoutubeVideo?;
+          final currentWorkout = video!.workouts
                   .lastWhereOrNull((e) => e.position <= value.position) ??
               video.workouts[0];
           int currentIndex = video.workouts

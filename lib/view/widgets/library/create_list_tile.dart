@@ -26,10 +26,10 @@ class CreateListTile extends StatelessWidget {
           elevation: 0,
           child: Row(
             children: <Widget>[
-              Container(
+              const SizedBox(
                 width: 64,
                 height: 64,
-                child: const Icon(Icons.add_rounded, size: 32),
+                child: Icon(Icons.add_rounded, size: 32),
               ),
               const SizedBox(width: 16),
               Text(title, style: TextStyles.body1_bold),

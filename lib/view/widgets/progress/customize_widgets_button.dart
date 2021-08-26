@@ -30,7 +30,7 @@ class CustomizeWidgetsButton extends StatelessWidget {
       ),
       backgroundColor: kSecondaryColor,
       targetColor: kPrimaryColor,
-      textColor: Colors.white,
+      // textColor: Colors.white,
       child: IconButton(
         onPressed: () => CustomizeWidgetsScreen.show(
           context,

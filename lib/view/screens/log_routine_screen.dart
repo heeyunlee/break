@@ -47,7 +47,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: S.current.addWorkoutLog,
-      appBarLeading: AppBarCloseButton(),
+      appBarLeading: const AppBarCloseButton(),
       buildBody: _buildBody,
       fabWidget: _buildFAB(context),
     );
@@ -74,7 +74,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: Scaffold.of(context).appBarMaxHeight!),
+                  SizedBox(height: Scaffold.of(context).appBarMaxHeight),
                   SelectDatesWidget(
                     labelText: S.current.startTime,
                     borderColor: widget.model.borderColor,
@@ -138,10 +138,10 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      nextFocus: true,
+      // nextFocus: true,
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       actions: List.generate(
         widget.model.focusNodes.length,
         (index) => KeyboardActionsItem(

@@ -69,7 +69,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
     return SliverAppBar(
       floating: true,
       pinned: true,
-      snap: false,
+      // snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
       title: Text(
@@ -154,7 +154,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
       return Column(
         children: [
           ...user.savedRoutines!.map<Widget>((id) {
-            Future<Routine?> future = database.getRoutine(id);
+            final Future<Routine?> future = database.getRoutine(id);
 
             return CustomFutureBuilder<Routine?>(
               future: future,

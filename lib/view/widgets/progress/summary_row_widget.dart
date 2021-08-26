@@ -17,7 +17,7 @@ class SummaryRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CachedNetworkImage(
           imageUrl: imageUrl,

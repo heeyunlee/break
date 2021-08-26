@@ -34,13 +34,13 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
   final AuthBase auth;
 
   static void show(
-    context, {
+    BuildContext context, {
     required RoutineHistory routineHistory,
     required Database database,
     required AuthBase auth,
-  }) async {
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
+  }) {
+    HapticFeedback.mediumImpact();
+    Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => RoutineHistoryDetailScreen(
           routineHistory: routineHistory,
@@ -69,7 +69,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   // For SliverApp to Work
   late AnimationController _colorAnimationController;
   late AnimationController _textAnimationController;
-  late Animation _colorTween;
+  late Animation<Color?> _colorTween;
   late Animation<Offset> _transTween;
 
   bool _scrollListener(ScrollNotification scrollInfo) {
@@ -92,12 +92,12 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     _isPublic = widget.routineHistory.isPublic;
 
     _colorAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+        AnimationController(vsync: this, duration: Duration.zero);
     _textAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
+        AnimationController(vsync: this, duration: Duration.zero);
     _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
         .animate(_colorAnimationController);
-    _transTween = Tween(begin: Offset(-10, 40), end: Offset(-10, 0))
+    _transTween = Tween(begin: const Offset(-10, 40), end: const Offset(-10, 0))
         .animate(_textAnimationController);
   }
 
@@ -236,9 +236,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         ),
         brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
-        floating: false,
+        // floating: false,
         pinned: true,
-        snap: false,
+        // snap: false,
         stretch: true,
         expandedHeight: size.height / 3,
         flexibleSpace: FlexibleSpaceBar(
@@ -251,8 +251,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 fit: BoxFit.cover,
               ),
               Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
                     begin: Alignment(0.0, -0.5),
                     end: Alignment.bottomCenter,
                     colors: [
@@ -410,15 +410,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   SizedBox(
                     width: 72,
                     child: Text(
-                      (_isPublic) ? S.current.everyone : S.current.justMe,
+                      _isPublic ? S.current.everyone : S.current.justMe,
                       style: TextStyles.body2_w900,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Icon(
-                    (_isPublic)
-                        ? Icons.public_rounded
-                        : Icons.public_off_rounded,
+                    _isPublic ? Icons.public_rounded : Icons.public_off_rounded,
                     color: Colors.white,
                   ),
                   const SizedBox(width: 8),

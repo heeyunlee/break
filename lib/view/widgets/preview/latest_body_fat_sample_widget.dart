@@ -75,10 +75,10 @@ class LatestBodyFatSampleWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    children: [
-                      const Text('14.5%', style: TextStyles.caption1),
-                      const Spacer(),
-                      const Text('21.4%', style: TextStyles.caption1),
+                    children: const [
+                      Text('14.5%', style: TextStyles.caption1),
+                      Spacer(),
+                      Text('21.4%', style: TextStyles.caption1),
                     ],
                   ),
                 ],

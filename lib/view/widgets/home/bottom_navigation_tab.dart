@@ -81,7 +81,7 @@ class BottomNavigationTab extends ConsumerWidget {
           right: itemData.rightPadding,
         ),
         child: Icon(
-          itemData.selectedIcon,
+          itemData.selectedIcon as IconData,
           size: itemData.size,
         ),
       ),

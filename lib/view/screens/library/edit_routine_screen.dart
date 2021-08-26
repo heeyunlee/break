@@ -398,7 +398,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               ),
               onFieldSubmitted: (value) => _description = value,
               onChanged: (value) => _description = value,
-              onSaved: (value) => _description = value!,
+              onSaved: (value) => _description = value,
             ),
           ),
         ),
@@ -424,7 +424,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           ),
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
               Text(_difficultySliderLabel, style: TextStyles.body1),
@@ -440,7 +440,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                         .values[_difficultySlider.toInt()].translation!;
                   });
                 },
-                min: 0,
+                // min: 0,
                 max: 2,
                 divisions: 2,
               ),
@@ -602,8 +602,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      nextFocus: true,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // nextFocus: true,
       actions: [
         KeyboardActionsItem(
           focusNode: focusNode1,

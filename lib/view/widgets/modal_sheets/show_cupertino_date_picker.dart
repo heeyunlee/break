@@ -14,13 +14,13 @@ void showDatePicker(
     context: context,
     builder: (context) {
       return VisibilityDetector(
-        key: Key('DatePicker'),
+        key: const Key('DatePicker'),
         onVisibilityChanged: onVisibilityChanged,
         child: Container(
           color: kCardColorLight,
           height: size.height / 3,
           child: CupertinoTheme(
-            data: CupertinoThemeData(brightness: Brightness.dark),
+            data: const CupertinoThemeData(brightness: Brightness.dark),
             child: CupertinoDatePicker(
               initialDateTime: initialDateTime,
               onDateTimeChanged: onDateTimeChanged,

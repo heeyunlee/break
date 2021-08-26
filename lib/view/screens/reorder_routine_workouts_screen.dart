@@ -131,7 +131,8 @@ class _ReorderRoutineWorkoutsScreenState
                       Text(indexToString, style: TextStyles.body2),
                       const SizedBox(width: 4),
                       Text(
-                        widget.routineWorkouts[index]!.translated[locale],
+                        widget.routineWorkouts[index]!.translated[locale]
+                            .toString(),
                         style: TextStyles.body2,
                       ),
                       const Spacer(),

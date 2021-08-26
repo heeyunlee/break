@@ -38,8 +38,8 @@ class DailyActivityRingWidget extends StatelessWidget {
           );
 
           return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 width: constraints.maxWidth / 2 - 16,
@@ -48,7 +48,7 @@ class DailyActivityRingWidget extends StatelessWidget {
                   children: [
                     _buildMuscleWorked(model),
                     CircularPercentIndicator(
-                      radius: (constraints.maxWidth / 2 * 0.65),
+                      radius: constraints.maxWidth / 2 * 0.65,
                       lineWidth: 12,
                       percent: model.nutritionDailyProgress,
                       backgroundColor: Colors.greenAccent.withOpacity(0.25),
@@ -104,7 +104,7 @@ class DailyActivityRingWidget extends StatelessWidget {
       return SizedBox(
         width: constraints.maxWidth / 5,
         child: FittedBox(
-          alignment: Alignment.center,
+          // alignment: Alignment.center,
           child: Text(
             model.todaysMuscleWorked,
             style: TextStyles.headline5_w900,
@@ -121,8 +121,9 @@ class DailyActivityRingWidget extends StatelessWidget {
     String? tens;
     String? ones;
 
-    int length = model.weightsLiftedDailyTotal.toString().length - 1;
-    String totalWeightsInString = model.weightsLiftedDailyTotal.toString();
+    final int length = model.weightsLiftedDailyTotal.toString().length - 1;
+    final String totalWeightsInString =
+        model.weightsLiftedDailyTotal.toString();
 
     ones = totalWeightsInString[length];
     tens = (length > 0) ? totalWeightsInString[length - 1] : '0';
@@ -151,8 +152,8 @@ class DailyActivityRingWidget extends StatelessWidget {
     String? tens;
     String? ones;
 
-    int length = model.nutritionDailyTotal.toString().length - 1;
-    String totalProteinsInString = model.nutritionDailyTotal.toString();
+    final int length = model.nutritionDailyTotal.toString().length - 1;
+    final String totalProteinsInString = model.nutritionDailyTotal.toString();
 
     ones = totalProteinsInString[length];
     tens = (length > 0) ? totalProteinsInString[length - 1] : '0';

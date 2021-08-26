@@ -44,7 +44,7 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted ??
           (string) => model.onFieldSubmitted(formKey, string),
       keyboardAppearance: Brightness.dark,
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.,]+'))],
       decoration: InputDecoration(
         labelText: labelText,

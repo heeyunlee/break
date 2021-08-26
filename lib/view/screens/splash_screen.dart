@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Hero(

@@ -11,7 +11,7 @@ final searchModelProvider = ChangeNotifierProvider<SearchModel>(
 
 class SearchModel extends ChangeNotifier {
   AlgoliaIndexReference algoliaIndexReference =
-      AlgoliaManager.init().instance.index('dev_WORKOUTS');
+      AlgoliaManager().initAlgolia().instance.index('dev_WORKOUTS');
 
   List<AlgoliaObjectSnapshot> _searchResults = [];
   List<AlgoliaObjectSnapshot> get searchResults => _searchResults;
@@ -22,7 +22,7 @@ class SearchModel extends ChangeNotifier {
   String _query = '';
   String get query => _query;
 
-  void onQueryChanged(String query) async {
+  Future<void> onQueryChanged(String query) async {
     if (query == _query) return;
 
     _query = query;

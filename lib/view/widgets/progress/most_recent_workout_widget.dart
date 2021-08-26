@@ -29,13 +29,13 @@ class MostRecentWorkout extends StatelessWidget {
     timeago.setLocaleMessages('ko', timeago.KoMessages());
     final locale = Intl.getCurrentLocale();
 
-    RoutineHistory? last = data.routineHistories.lastOrNull;
+    final RoutineHistory? last = data.routineHistories.lastOrNull;
 
-    String ago = (last != null)
+    final String ago = (last != null)
         ? timeago.format(last.workoutEndTime.toDate(), locale: locale)
         : '';
 
-    String title = last?.routineTitle ?? 'No recent workout yet!';
+    final title = last?.routineTitle ?? 'No recent workout yet!';
 
     return SizedBox(
       height: constraints.maxHeight / heightFactor,
@@ -44,59 +44,59 @@ class MostRecentWorkout extends StatelessWidget {
         onTap: () => RoutineHistoriesScreen.show(context),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(title, style: TextStyles.body1),
-                  Text(ago, style: TextStyles.overline_grey),
-                ],
+              Text(ago, style: TextStyles.overline_grey),
+              const SizedBox(height: 4),
+              Text(
+                title,
+                style: TextStyles.body1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          Formatter.routineHistoryWeights(last),
-                          style: TextStyles.headline5_menlo_w900_primary,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          S.current.liftedWeights,
-                          style: TextStyles.caption1_grey,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 1,
-                      height: 48,
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      color: Colors.white24,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          Formatter.durationInMin(last?.totalDuration),
-                          style: TextStyles.headline5_menlo_w900_primary,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          S.current.time,
-                          style: TextStyles.caption1_grey,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 16),
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Formatter.routineHistoryWeights(last),
+                        style: TextStyles.headline5_menlo_w900_primary,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.liftedWeights,
+                        style: TextStyles.caption1_grey,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: 1,
+                    height: 48,
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    color: Colors.white24,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Formatter.durationInMin(last?.totalDuration),
+                        style: TextStyles.headline5_menlo_w900_primary,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.current.time,
+                        style: TextStyles.caption1_grey,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

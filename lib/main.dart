@@ -24,9 +24,10 @@ import 'view/screens/landing_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await MixpanelManager.init();
-  AlgoliaManager.init();
-  KakaoContext.clientId = PrivateKeys.kakaoClientId;
+  await MixpanelManager().init();
+  AlgoliaManager().initAlgolia();
+  // AlgoliaManager.init();
+  KakaoContext.clientId = kakaoClientId;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runApp(ProviderScope(child: MyApp()));
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
 
     /// Make Android status bar transparent
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
     );
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
       ],
       child: FeatureDiscovery(
         child: GetMaterialApp(
-          localizationsDelegates: [
+          localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

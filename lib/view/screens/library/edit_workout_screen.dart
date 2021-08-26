@@ -194,9 +194,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               S.current.editWorkoutTitle,
               style: TextStyles.subtitle1,
             ),
-            flexibleSpace: AppbarBlurBG(
-              blurSigma: 10,
-            ),
+            flexibleSpace: const AppbarBlurBG(blurSigma: 10),
             actions: <Widget>[
               TextButton(
                 onPressed: _submit,
@@ -245,7 +243,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                     await _showModalBottomSheet(context);
                   },
                 ),
-                SizedBox(height: 38),
+                const SizedBox(height: 38),
               ],
             ),
           ),
@@ -320,12 +318,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
               maxLength: 35,
-              maxLines: 1,
+              // maxLines: 1,
               textInputAction: TextInputAction.done,
               controller: _textController1,
               style: TextStyles.body2,
@@ -362,7 +360,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
@@ -418,7 +416,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               });
             },
             // label: '$_ratingLabel',
-            min: 0,
+            // min: 0,
             max: 2,
             divisions: 2,
           ),
@@ -590,8 +588,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     return KeyboardActionsConfig(
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      nextFocus: true,
+      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      // nextFocus: true,
       actions: [
         KeyboardActionsItem(
           focusNode: focusNode1,

@@ -47,7 +47,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
-      var now = DateTime.now();
+      final now = DateTime.now();
       return DateTime.utc(now.year, now.month, now.day - index);
     });
     _dates = _dates.reversed.toList();
@@ -61,7 +61,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
   void _setData(List<WorkoutHistory?> streamData, List<double> relativeYs) {
     Map<DateTime, List<WorkoutHistory?>> _mapData;
-    List<num> listOfYs = [];
+    final List<num> listOfYs = [];
 
     if (streamData.isNotEmpty) {
       _mapData = {
@@ -71,21 +71,24 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
               .toList()
       };
 
+      // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
+      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         if (list.isNotEmpty) {
           WorkoutSet? largestSet;
 
-          list.forEach((history) {
+          for (final history in list) {
             final _largestSest = history!.sets?.reduce((a, b) {
               final maxWeight = math.max<num>(a.weights!, b.weights!);
-              final s =
+              final max =
                   history.sets?.where((c) => c.weights! == maxWeight).first;
 
-              return s ?? a;
+              return max ?? a;
             });
 
             largestSet = _largestSest;
-          });
+          }
+
           listOfYs.add(largestSet?.weights ?? 0);
         } else {
           listOfYs.add(0);
@@ -96,19 +99,20 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
       if (largestY == 0) {
         _maxY = 100;
-        listOfYs.forEach((element) {
+
+        for (final _ in _dates) {
           relativeYs.add(0);
-        });
+        }
       } else {
         final roundedLargest = (largestY / 100).ceil() * 100;
         _maxY = roundedLargest.toDouble();
-        listOfYs.forEach((element) {
-          relativeYs.add(element / _maxY * 10);
-        });
+        for (final y in listOfYs) {
+          relativeYs.add(y / _maxY * 10);
+        }
       }
     } else {
       _mapData = {for (var item in _dates) item: []};
-      for (var _ in _dates) {
+      for (final _ in _dates) {
         relativeYs.add(0);
       }
     }
@@ -128,12 +132,12 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
         widget.workout.workoutId,
       ),
       builder: (context, data) {
-        List<double> relativeYs = [];
+        final List<double> relativeYs = [];
 
         _setData(data, relativeYs);
 
         return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -160,7 +164,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
     return Card(
       color: kCardColor,
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: AspectRatio(
         aspectRatio: 1.5,

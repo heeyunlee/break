@@ -23,14 +23,14 @@ class SearchResultListTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: size.width,
         height: 64,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Icon(Icons.fitness_center_outlined, size: 16),
             ),
             Column(

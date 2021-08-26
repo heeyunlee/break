@@ -9,17 +9,113 @@
   [![Get it from App Store](https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/README.md%2FDownload_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg?alt=media&token=8681ed8f-b1c5-417a-bb4b-338009480c2d)](https://apps.apple.com/us/app/herakles-workout-player/id1555829140) [![Get it on Google Play](https://lisk.io/sites/default/files/pictures/2020-01/download_on_the_play_store_badge.svg)](https://play.google.com/store/apps/details?id=com.healtine.playerh)
 </h1>
 
-#### Herakles is health & fitness tracking app built with Flutter and Firebase. Users can log their body measurements, nutritions consumed, and workout data, and these data are transformed into customizable and easy-to-look dashboard.
+Herakles is a health & fitness tracking app built with Dart (Flutter) and Firebase. From logging nutritions to working out with YouTube videos, I have been learning and adding many cool features over the months, and here are some quick snippets.
+
+<p align="left">
+    <img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/speed_dial.gif" alt="speed dial" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>  
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
+</p>
 
 <br>
 <br>
 
 ### **Table of contents**
+- [**Introduction**](#introduction)
 - [**Preview & Sign In Screen**](#preview--sign-in-screen)
+- [**Library Tab**](#library-tab-workouts-and-workout-routines)
 - [**To Do**](#to-do)
 
 <br>
 <br>
+
+## Introduction
+
+### Why?
+There are countless fitness apps available, yet I was never satisfied with just one app, and I always had to use multiple apps to log and track my health & fitness. For example, [Yazio] was very good for tracking nutritions, but tracking physical activities was never good there. [Strong] app was very good for tracking weight lifting exercises, but it also lacked other functionalities. 
+
+That's why I started this project. The goal of this project is to create a all-in-one place for users to log and track their health & fitness. Users can log their body measurements, nutritions consumed, and workout data, and these data are transformed into customizable and easy-to-look dashboard, all in one app. Users also can use YouTube videos to workout and log their progress.
+
+### Checklist
+- [x] Manaully add nutritions data
+- [ ] Add nutritions by scanning bar code
+- [ ] Automatically log nutritions data
+- [x] Manually add body measurements data
+- [ ] Automatically sync measurements data with Apple HealthKit and/or Google Fit
+- [x] Log weight lifting exercise data
+- [ ] Log other cardio workouts
+- [x] Workout with YouTube Video
+
+
+<br>
+<br>
+
+## Architecture
+* MVVM
+
+<br>
+<br>
+
+## Features
+
+## Staggered Animation Transition
+
+<img align="left" src="readme_assets/sign_in_screen_transition_1.gif" width="200">
+
+First, I created the custom widget with `FadeTransition()` and `SlideTransition()` so that each items could fade in/out or side up/down or in/out. Then, I delayed each item's animation start time by `stagger time * index`.
+
+```dart
+return FadeTransition(
+    opacity: opacityAnimation,
+    child: SlideTransition(
+    position: offsetTween.animate(offsetAnimation),
+    child: child,
+    ),
+);
+```
+
+<br>
+
+<img align="center" src="readme_assets/animation_interval.png" width="500">
+
+
+### Code Snippet
+```dart
+ListView.builder(
+    padding: EdgeInsets.zero,
+    itemCount: items.length,
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemBuilder: (context, i) {
+        // offsetBegin = 0.2 (offsetInitialDelayTime) + 0.1 (offsetStaggerTime) * i;
+        final offsetBegin = 0.2 + 0.1 * i; 
+
+        // offsetEnd = offsetBegin + 0.1 (offsetStaoffsetDurationggerTime);
+        final offsetEnd = offsetBegin + 0.3!;
+
+        assert(offsetEnd <= 1);
+
+        return FadeSlideTransition(
+            beginOffset: Offset(0.25, 0),
+            endOffset: Offset(0, 0),
+            offsetBeginInterval: offsetBegin,
+            offsetEndInterval: offsetEnd,
+            offsetCurves: Curves.decelerate,
+            child: items[i],
+        );
+    },
+);
+```
 
 ## Preview & Sign In Screen
 The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `KakaoTalk`.  
@@ -46,6 +142,32 @@ For transitions between screens in PreviewScreen and SignInScreen, I made a reus
 <br>
 <br>
 
+## Library Tab: Workouts and Workout Routines
+Library is a screen where user's custom-made/saved workouts and routines are displayed in a well-organized manner using `DefaultTabController()`, `NestedScrollView()`, and `TabBarView()`. UI is similiar to the 'library' of any music streaming apps that displays saved songs or playlists.
+
+<p align="left">
+    <img src="readme_assets/routines_tab.PNG" alt="Routines Tab" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/workouts_tab.PNG" alt="Routines Tab" width="200"/>
+</p>
+
+<br>
+<br>
+
+### Routine Detail Screen
+
+
+### Others screens from the library tab
+
+<p align="left">
+    <img src="readme_assets/create_routine_screen.gif" alt="Routines Tab" width="200"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</p>
+
 ## Progress Tab
 Progress tab displays various widgets that highlight user's health & fitness data.
 
@@ -59,8 +181,6 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 ## Speed Dial
 
 ## Search Tab
-
-## Library Tab
 
 ## Settings Tab
 
@@ -114,4 +234,42 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 - [x] Preview Screen
 - [ ] Miniplayer
 
+## Libraries used
+* [flutter_svg] for displaying svg files
+* [intl] for i18n
+* [logger] for better debugging and logging
+* [cupertino_icons] for using iOS-looking icons
+* [url_launcher] for launching url within the app
+* [uuid] for generating uuids
+* [collection] to make working with collections easier
+* [device_info_plus] for getting users' device info
+* [enum_to_string] to make working with enums easier
+* [firebase_storage] for Firebase Cloud Storage
+* [firebase_core] to use Firebase
+* [cloud_firestore] for Firebase Cloud Firestore
+* [cloud_functions] for Firebase Cloud Functions
+* [firebase_auth] for Firebase Authentication
+* [firebase_crashlytics] for Firebase Crashlytics
+* [firebase_analytics] for Firebase Analytics
+* [google_fonts] for using Google Fonts
+
 [cookbook]: https://flutter.dev/docs/cookbook/effects/staggered-menu-animation
+[Yazio]: https://www.yazio.com/en
+[Strong]: https://www.strong.app/
+[flutter_svg]: https://pub.dev/packages/flutter_svg
+[intl]: https://pub.dev/packages/intl
+[logger]: https://pub.dev/packages/logger
+[cupertino_icons]: https://pub.dev/packages/cupertino_icons
+[url_launcher]: https://pub.dev/packages/url_launcher
+[uuid]: https://pub.dev/packages/uuid
+[collection]: https://pub.dev/packages/collection
+[device_info_plus]: https://pub.dev/packages/device_info_plus
+[enum_to_string]: https://pub.dev/packages/enum_to_string
+[firebase_storage]: https://pub.dev/packages/firebase_storage
+[firebase_core]: https://pub.dev/packages/firebase_core
+[cloud_firestore]: https://pub.dev/packages/cloud_firestore
+[cloud_functions]: https://pub.dev/packages/cloud_firestore
+[firebase_auth]: https://pub.dev/packages/firebase_auth
+[firebase_crashlytics]: https://pub.dev/packages/firebase_crashlytics
+[firebase_analytics]: https://pub.dev/packages/firebase_analytics
+[google_fonts]: https://pub.dev/packages/google_fonts

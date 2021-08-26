@@ -20,7 +20,7 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
   List<double> get radiuses => _radiuses;
 
   void init() {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
@@ -37,8 +37,8 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
 
   void setData(List<RoutineHistory?> routineHistories, String locale) {
     Map<DateTime, List<RoutineHistory?>> _mapData;
-    List<String?> _muscleWorked = [];
-    List<double> _newRadiuses = [];
+    final List<String?> _muscleWorked = [];
+    final List<double> _newRadiuses = [];
 
     if (routineHistories.isNotEmpty) {
       _mapData = {
@@ -48,6 +48,8 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
               .toList()
       };
 
+      // TODO: fix here
+      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         if (list.isNotEmpty) {
           final _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
@@ -61,10 +63,11 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
         }
       });
     } else {
-      _dates.forEach((_) {
+      for (final _ in _dates) {
         _muscleWorked.add(null);
         _newRadiuses.add(16.0);
-      });
+      }
+      // _dates.forEach((_) {});
     }
     _weeklyWorkedOutMuscles = _muscleWorked;
     _radiuses = _newRadiuses;

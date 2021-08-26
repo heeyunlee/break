@@ -70,7 +70,7 @@ class SavedRoutinesScreen extends StatelessWidget {
 
   List<Widget> _list() {
     return user.savedRoutines!.map((id) {
-      Future<Routine?> future = database.getRoutine(id);
+      final Future<Routine?> future = database.getRoutine(id);
 
       return CustomFutureBuilder<Routine?>(
         future: future,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_player/styles/constants.dart';
 
+// ignore: avoid_classes_with_only_static_members
 /// My Custom TextStyle Convention
 ///
 ///

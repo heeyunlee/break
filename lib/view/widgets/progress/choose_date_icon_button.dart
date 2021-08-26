@@ -49,11 +49,11 @@ class ChooseDateIconButton extends StatelessWidget {
         color: kCardColor,
         height: 500,
         child: TableCalendar(
-          daysOfWeekStyle: DaysOfWeekStyle(
+          daysOfWeekStyle: const DaysOfWeekStyle(
             weekdayStyle: TextStyles.body2,
             weekendStyle: TextStyles.body2_red,
           ),
-          headerStyle: HeaderStyle(
+          headerStyle: const HeaderStyle(
             formatButtonShowsNext: false,
             formatButtonVisible: false,
             titleCentered: true,
@@ -62,7 +62,7 @@ class ChooseDateIconButton extends StatelessWidget {
           selectedDayPredicate: (day) {
             return isSameDay(model.selectedDate, day);
           },
-          calendarStyle: CalendarStyle(
+          calendarStyle: const CalendarStyle(
             weekendTextStyle: TextStyles.body2_red,
             defaultTextStyle: TextStyles.body2,
             outsideTextStyle: TextStyles.body2_grey700,

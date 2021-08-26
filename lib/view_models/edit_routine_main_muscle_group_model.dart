@@ -4,12 +4,14 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+
+import 'main_model.dart';
 
 final editRoutineMainMuscleGroupModel = ChangeNotifierProvider(
   (ref) => EditRoutineMainMuscleGroupModel(),
@@ -22,7 +24,7 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
       _selectedMainMuscleGroupEnum;
 
   void init(Routine routine) {
-    List<MainMuscleGroup?>? musclesFromString = routine.mainMuscleGroup
+    final List<MainMuscleGroup?>? musclesFromString = routine.mainMuscleGroup
         ?.map((string) =>
             MainMuscleGroup.values.firstWhere((e) => e.toString() == string))
         .toList();
@@ -35,7 +37,7 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
     return _selectedMainMuscleGroupEnum.contains(muscle);
   }
 
-  void addOrRemoveMainMuscleGroup(bool? value, MainMuscleGroup muscle) {
+  void addOrRemove(bool? value, MainMuscleGroup muscle) {
     if (value!) {
       _selectedMainMuscleGroupEnum.add(muscle);
     } else {

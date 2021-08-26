@@ -38,27 +38,32 @@ class RoutineWorkout {
   factory RoutineWorkout.fromJson(
       Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final int index = data['index'];
+      final int index = int.parse(data['index'].toString());
       final String routineWorkoutId = documentId;
-      final String workoutId = data['workoutId'];
-      final String routineId = data['routineId'];
-      final String routineWorkoutOwnerId = data['routineWorkoutOwnerId'];
-      final String workoutTitle = data['workoutTitle'];
-      final int numberOfSets = data['numberOfSets'];
-      final int numberOfReps = data['numberOfReps'];
-      final num totalWeights = data['totalWeights'];
-      List<WorkoutSet> sets = <WorkoutSet>[];
+      final String workoutId = data['workoutId'].toString();
+      final String routineId = data['routineId'].toString();
+      final String routineWorkoutOwnerId =
+          data['routineWorkoutOwnerId'].toString();
+      final String workoutTitle = data['workoutTitle'].toString();
+      final int numberOfSets = int.parse(data['numberOfSets'].toString());
+      final int numberOfReps = int.parse(data['numberOfReps'].toString());
+      final num totalWeights = num.parse(data['totalWeights'].toString());
+
+      // TODO(heeyunlee): fix here
+      final List<WorkoutSet> sets = <WorkoutSet>[];
       if (data['sets'] != null) {
         // List<WorkoutSet> sets =
         //     data['sets'].map((e) => WorkoutSet.fromJson(e)).toList();
         data['sets'].forEach((item) {
-          sets.add(WorkoutSet.fromJson(item));
+          sets.add(WorkoutSet.fromJson(item as Map<String, dynamic>?));
         });
       }
-      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-      final int duration = data['duration'];
-      final int secondsPerRep = data['secondsPerRep'];
-      final Map<String, dynamic> translated = data['translated'];
+
+      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'] as bool;
+      final int duration = data['duration'] as int;
+      final int secondsPerRep = data['secondsPerRep'] as int;
+      final Map<String, dynamic> translated =
+          data['translated'] as Map<String, dynamic>;
 
       return RoutineWorkout(
         index: index,

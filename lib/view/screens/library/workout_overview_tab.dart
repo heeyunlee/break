@@ -16,7 +16,8 @@ class WorkoutOverviewTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Intl.getCurrentLocale();
     final String description =
-        workout.translatedDescription?[locale] ?? workout.description;
+        workout.translatedDescription?[locale]?.toString() ??
+            workout.description;
 
     return SingleChildScrollView(
       child: Padding(

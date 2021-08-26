@@ -28,15 +28,13 @@ class ListTileShimmer extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(width: 80, height: 20, color: Colors.grey),
-                      SizedBox(height: 4),
-                      Container(width: 160, height: 20, color: Colors.grey),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(width: 80, height: 20, color: Colors.grey),
+                    const SizedBox(height: 4),
+                    Container(width: 160, height: 20, color: Colors.grey),
+                  ],
                 ),
               ),
             ],

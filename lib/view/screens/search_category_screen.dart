@@ -35,9 +35,9 @@ class SearchCategoryScreen extends StatelessWidget {
     String? isEqualTo,
     String? arrayContains,
     required String searchCategory,
-  }) async {
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
+  }) {
+    HapticFeedback.mediumImpact();
+    Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => SearchCategoryScreen(
           isEqualTo: isEqualTo,
@@ -73,7 +73,7 @@ class SearchCategoryScreen extends StatelessWidget {
               SliverAppBar(
                 floating: true,
                 pinned: true,
-                snap: false,
+                // snap: false,
                 centerTitle: true,
                 brightness: Brightness.dark,
                 leading: const AppBarBackButton(),
@@ -128,21 +128,21 @@ class SearchCategoryScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final workout = documentSnapshot.data() as Workout;
+        final workout = documentSnapshot.data() as Workout?;
 
         final leadingText = EquipmentRequired.values
-            .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
+            .firstWhere((e) => e.toString() == workout!.equipmentRequired[0])
             .translation;
 
         final locale = Intl.getCurrentLocale();
 
         final title = (locale == 'ko' || locale == 'en')
-            ? workout.translated[locale]
-            : workout.workoutTitle;
+            ? workout!.translated[locale].toString()
+            : workout!.workoutTitle;
 
         return CustomListTile3(
           imageUrl: workout.imageUrl,
-          isLeadingDuration: false,
+          // isLeadingDuration: false,
           title: title,
           leadingText: leadingText!,
           subtitle: workout.workoutOwnerUserName,
@@ -184,9 +184,9 @@ class SearchCategoryScreen extends StatelessWidget {
       ),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (index, context, documentSnapshot) {
-        final routine = documentSnapshot.data() as Routine;
+        final routine = documentSnapshot.data() as Routine?;
 
-        final duration = Duration(seconds: routine.duration).inMinutes;
+        final duration = Duration(seconds: routine!.duration).inMinutes;
         return CustomListTile3(
           isLeadingDuration: true,
           imageUrl: routine.imageUrl,

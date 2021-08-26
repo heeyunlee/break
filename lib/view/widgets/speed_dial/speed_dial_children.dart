@@ -20,7 +20,6 @@ class SpeedDialChildren extends StatelessWidget {
       width: 80,
       height: 80,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Material(

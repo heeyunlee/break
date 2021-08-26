@@ -92,7 +92,7 @@ class SignInWithEmailModel extends ChangeNotifier {
     _passwordEditingController = TextEditingController();
   }
 
-  void setIsLoading(bool value) {
+  void setIsLoading({required bool value}) {
     _isLoading = value;
     notifyListeners();
   }
@@ -113,7 +113,7 @@ class SignInWithEmailModel extends ChangeNotifier {
   // SIGN UP WITH EMAIL AND PASSWORD
   Future<void> signUpWithEmail(BuildContext context) async {
     if (_validateAndSaveForm()) {
-      setIsLoading(true);
+      setIsLoading(value: true);
       _submitted = true;
 
       try {
@@ -155,14 +155,14 @@ class SignInWithEmailModel extends ChangeNotifier {
       } on FirebaseException catch (e) {
         _showSignInError(e, context);
       }
-      setIsLoading(false);
+      setIsLoading(value: false);
     }
   }
 
   // SIGN IN WITH EMAIL AND PASSWORD
   Future<void> signInWithEmailAndPassword(BuildContext context) async {
     if (_validateAndSaveForm()) {
-      setIsLoading(true);
+      setIsLoading(value: true);
       _submitted = true;
 
       try {
@@ -185,7 +185,7 @@ class SignInWithEmailModel extends ChangeNotifier {
         _showSignInError(e, context);
       }
     }
-    setIsLoading(false);
+    setIsLoading(value: false);
   }
 
   bool _validateAndSaveForm() {
@@ -236,25 +236,45 @@ class SignInWithEmailModel extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>?> _getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
       return androidInfo.toMap();
     } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
 
       return iosInfo.toMap();
     }
   }
 
-  void launchTermsURL() async => await canLaunch(_termsUrl)
-      ? await launch(_termsUrl)
-      : throw 'Could not launch $_termsUrl';
+  Future<void> launchTermsURL(BuildContext context) async {
+    final bool canLaunchs = await canLaunch(_termsUrl);
 
-  void launchPrivacyServiceURL() async => await canLaunch(_privacyServiceUrl)
-      ? await launch(_privacyServiceUrl)
-      : throw 'Could not launch $_privacyServiceUrl';
+    if (canLaunchs) {
+      await launch(_termsUrl);
+    } else {
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: 'Could not launch $_termsUrl',
+      );
+    }
+  }
+
+  Future<void> launchPrivacyServiceURL(BuildContext context) async {
+    final bool canLaunchs = await canLaunch(_privacyServiceUrl);
+
+    if (canLaunchs) {
+      await launch(_privacyServiceUrl);
+    } else {
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: 'Could not launch $_privacyServiceUrl',
+      );
+    }
+  }
 
   static void showSignUpScreen(BuildContext context) {
     custmFadeTransition(

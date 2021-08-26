@@ -50,6 +50,8 @@ class AuthService implements AuthBase {
     return _user;
   }
 
+  // TODO(heeyunlee): fix this
+  // ignore: use_setters_to_change_properties
   void setUser(auth.User value) {
     _user = value;
   }
@@ -337,8 +339,9 @@ class AuthService implements AuthBase {
 
   Future<String> _verifyToken(String kakaoToken) async {
     try {
-      FirebaseFunctions functions = FirebaseFunctions.instance;
-      HttpsCallable callable = functions.httpsCallable('verifyKakaoToken');
+      final FirebaseFunctions functions = FirebaseFunctions.instance;
+      final HttpsCallable callable =
+          functions.httpsCallable('verifyKakaoToken');
 
       final HttpsCallableResult result = await callable.call(
         <String, dynamic>{
@@ -347,9 +350,9 @@ class AuthService implements AuthBase {
       );
 
       if (result.data['error'] != null) {
-        return Future.error(result.data['error']);
+        return Future.error(result.data['error'] as Object);
       } else {
-        return result.data['token'];
+        return result.data['token'].toString();
       }
     } catch (e) {
       return Future.error(e);

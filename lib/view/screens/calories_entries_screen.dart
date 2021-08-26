@@ -86,13 +86,13 @@ class CaloriesEntriesScreen extends StatelessWidget {
         ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (index, context, snapshot) {
-          final nutrition = snapshot.data() as Nutrition;
-          final date = Formatter.yMdjm(nutrition.loggedTime);
+          final nutrition = snapshot.data() as Nutrition?;
+          final date = Formatter.yMdjm(nutrition!.loggedTime);
           final title = Formatter.numWithDecimal(nutrition.calories);
 
           return Slidable(
             endActionPane: ActionPane(
-              motion: ScrollMotion(),
+              motion: const ScrollMotion(),
               children: [
                 SlidableAction(
                   label: S.current.delete,

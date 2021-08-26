@@ -58,56 +58,69 @@ class _EditWorkoutEquipmentRequiredScreenState
   void initState() {
     super.initState();
 
-    // TODO: MAKE THIS BETTER
-    var equipmentRequired = <String, bool>{
+    // TODO: fix edit_workout_equipment_required_screen
+    final equipmentRequired = <String, bool>{
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.band.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.band.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.barbell.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.barbell.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.bench.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.bench.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.bodyweight.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.bodyweight.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.cable.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.cable.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.chains.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.chains.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.dumbbell.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.dumbbell.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.eZBar.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.eZBar.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.gymBall.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.gymBall.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.kettlebell.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.kettlebell.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.machine.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.machine.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.plate.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.plate.toString()))
           ? true
           : false,
+      // ignore: avoid_bool_literals_in_conditional_expressions
       EquipmentRequired.other.toString(): (widget.workout.equipmentRequired
               .contains(EquipmentRequired.other.toString()))
           ? true
@@ -183,7 +196,7 @@ class _EditWorkoutEquipmentRequiredScreenState
           onPressed: _submit,
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.subtitle1),
-        flexibleSpace: AppbarBlurBG(),
+        flexibleSpace: const AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
         child: Column(

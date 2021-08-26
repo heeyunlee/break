@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/foundation.dart';
 
 import 'enum/equipment_required.dart';
 import 'enum/main_muscle_group.dart';
@@ -31,6 +32,7 @@ class RoutineHistory {
     this.mainMuscleGroupEnum,
     this.equipmentRequiredEnum,
     this.unitOfMassEnum,
+    required this.routineHistoryType,
   });
 
   final String routineHistoryId;
@@ -57,35 +59,43 @@ class RoutineHistory {
   final List<MainMuscleGroup?>? mainMuscleGroupEnum; // Nullable
   final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
   final UnitOfMass? unitOfMassEnum; // Nullable
+  final String? routineHistoryType;
 
   factory RoutineHistory.fromJson(
       Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userId = data['userId'];
-      final String username = data['username'];
-      final String routineId = data['routineId'];
-      final String routineTitle = data['routineTitle'];
-      final bool isPublic = data['isPublic'];
-      final Timestamp workoutStartTime = data['workoutStartTime'];
-      final Timestamp workoutEndTime = data['workoutEndTime'];
-      final num totalWeights = data['totalWeights'];
-      final num? totalCalories = data['totalCalories'];
-      final int totalDuration = data['totalDuration'];
-      final bool? earnedBadges = data['earnedBadges'];
-      final String? notes = data['notes'];
-      final List<dynamic>? mainMuscleGroup = data['mainMuscleGroup'];
-      final List<dynamic>? secondMuscleGroup = data['secondMuscleGroup'];
-      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-      final DateTime workoutDate = data['workoutDate'].toDate();
-      final String imageUrl = data['imageUrl'];
-      final int? unitOfMass = data['unitOfMass'];
-      final List<dynamic>? equipmentRequired = data['equipmentRequired'];
-      final num? effort = data['effort'];
+      final String userId = data['userId'].toString();
+      final String username = data['username'].toString();
+      final String routineId = data['routineId'].toString();
+      final String routineTitle = data['routineTitle'].toString();
+      final bool isPublic = data['isPublic'] as bool;
+      final Timestamp workoutStartTime = data['workoutStartTime'] as Timestamp;
+      final Timestamp workoutEndTime = data['workoutEndTime'] as Timestamp;
+      final num totalWeights = num.parse(data['totalWeights'].toString());
+      final num? totalCalories =
+          num.tryParse(data['totalCalories']?.toString() ?? '');
+      final int totalDuration = int.parse(data['totalDuration'].toString());
+      final bool? earnedBadges = data['earnedBadges'] as bool?;
+      final String? notes = data['notes']?.toString();
+      final List<dynamic>? mainMuscleGroup =
+          data['mainMuscleGroup'] as List<dynamic>?;
+      final List<dynamic>? secondMuscleGroup =
+          data['secondMuscleGroup'] as List<dynamic>?;
+      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'] as bool;
+      final DateTime workoutDate = (data['workoutDate'] as Timestamp).toDate();
+      final String imageUrl = data['imageUrl'].toString();
+      final int? unitOfMass =
+          int.tryParse(data['unitOfMass']?.toString() ?? '');
+
+      final List<dynamic>? equipmentRequired =
+          data['equipmentRequired'] as List<dynamic>?;
+
+      final num? effort = num.tryParse(data['effort']?.toString() ?? '');
       final List<MainMuscleGroup?>? mainMuscleGroupEnum =
           (data['mainMuscleGroupEnum'] != null)
               ? EnumToString.fromList(
                   MainMuscleGroup.values,
-                  data['mainMuscleGroupEnum'],
+                  data['mainMuscleGroupEnum'] as List<dynamic>,
                 )
               : null;
 
@@ -93,18 +103,20 @@ class RoutineHistory {
           (data['equipmentRequiredEnum'] != null)
               ? EnumToString.fromList(
                   EquipmentRequired.values,
-                  data['equipmentRequiredEnum'],
+                  data['equipmentRequiredEnum'] as List<dynamic>,
                 )
               : null;
 
       final UnitOfMass? unitOfMassEnum = (data['unitOfMassEnum'] != null)
           ? EnumToString.fromString<UnitOfMass>(
               UnitOfMass.values,
-              data['unitOfMassEnum'],
+              data['unitOfMassEnum'].toString(),
             )
           : null;
 
-      return RoutineHistory(
+      final String? routineHistoryType = data['routineHistoryType']?.toString();
+
+      final routineHistory = RoutineHistory(
         routineHistoryId: documentId,
         userId: userId,
         username: username,
@@ -129,7 +141,10 @@ class RoutineHistory {
         mainMuscleGroupEnum: mainMuscleGroupEnum,
         equipmentRequiredEnum: equipmentRequiredEnum,
         unitOfMassEnum: unitOfMassEnum,
+        routineHistoryType: routineHistoryType,
       );
+
+      return routineHistory;
     } else {
       throw 'null';
     }
@@ -166,6 +181,7 @@ class RoutineHistory {
       'unitOfMassEnum': (unitOfMassEnum != null)
           ? EnumToString.convertToString(unitOfMassEnum)
           : null,
+      'routineHistoryType': routineHistoryType,
     };
   }
 
@@ -194,6 +210,7 @@ class RoutineHistory {
     List<MainMuscleGroup?>? mainMuscleGroupEnum,
     List<EquipmentRequired?>? equipmentRequiredEnum,
     UnitOfMass? unitOfMassEnum,
+    String? routineHistoryType,
   }) {
     return RoutineHistory(
       routineHistoryId: routineHistoryId ?? this.routineHistoryId,
@@ -221,6 +238,73 @@ class RoutineHistory {
       equipmentRequiredEnum:
           equipmentRequiredEnum ?? this.equipmentRequiredEnum,
       unitOfMassEnum: unitOfMassEnum ?? this.unitOfMassEnum,
+      routineHistoryType: routineHistoryType ?? this.routineHistoryType,
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RoutineHistory &&
+        other.routineHistoryId == routineHistoryId &&
+        other.userId == userId &&
+        other.username == username &&
+        other.routineId == routineId &&
+        other.routineTitle == routineTitle &&
+        other.isPublic == isPublic &&
+        other.workoutStartTime == workoutStartTime &&
+        other.workoutEndTime == workoutEndTime &&
+        other.totalWeights == totalWeights &&
+        other.totalCalories == totalCalories &&
+        other.totalDuration == totalDuration &&
+        other.earnedBadges == earnedBadges &&
+        other.notes == notes &&
+        listEquals(other.mainMuscleGroup, mainMuscleGroup) &&
+        listEquals(other.secondMuscleGroup, secondMuscleGroup) &&
+        other.isBodyWeightWorkout == isBodyWeightWorkout &&
+        other.workoutDate == workoutDate &&
+        other.imageUrl == imageUrl &&
+        other.unitOfMass == unitOfMass &&
+        listEquals(other.equipmentRequired, equipmentRequired) &&
+        other.effort == effort &&
+        listEquals(other.mainMuscleGroupEnum, mainMuscleGroupEnum) &&
+        listEquals(other.equipmentRequiredEnum, equipmentRequiredEnum) &&
+        other.unitOfMassEnum == unitOfMassEnum &&
+        other.routineHistoryType == routineHistoryType;
+  }
+
+  @override
+  int get hashCode {
+    return routineHistoryId.hashCode ^
+        userId.hashCode ^
+        username.hashCode ^
+        routineId.hashCode ^
+        routineTitle.hashCode ^
+        isPublic.hashCode ^
+        workoutStartTime.hashCode ^
+        workoutEndTime.hashCode ^
+        totalWeights.hashCode ^
+        totalCalories.hashCode ^
+        totalDuration.hashCode ^
+        earnedBadges.hashCode ^
+        notes.hashCode ^
+        mainMuscleGroup.hashCode ^
+        secondMuscleGroup.hashCode ^
+        isBodyWeightWorkout.hashCode ^
+        workoutDate.hashCode ^
+        imageUrl.hashCode ^
+        unitOfMass.hashCode ^
+        equipmentRequired.hashCode ^
+        effort.hashCode ^
+        mainMuscleGroupEnum.hashCode ^
+        equipmentRequiredEnum.hashCode ^
+        unitOfMassEnum.hashCode ^
+        routineHistoryType.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'RoutineHistory(routineHistoryId: $routineHistoryId, userId: $userId, username: $username, routineId: $routineId, routineTitle: $routineTitle, isPublic: $isPublic, workoutStartTime: $workoutStartTime, workoutEndTime: $workoutEndTime, totalWeights: $totalWeights, totalCalories: $totalCalories, totalDuration: $totalDuration, earnedBadges: $earnedBadges, notes: $notes, mainMuscleGroup: $mainMuscleGroup, secondMuscleGroup: $secondMuscleGroup, isBodyWeightWorkout: $isBodyWeightWorkout, workoutDate: $workoutDate, imageUrl: $imageUrl, unitOfMass: $unitOfMass, equipmentRequired: $equipmentRequired, effort: $effort, mainMuscleGroupEnum: $mainMuscleGroupEnum, equipmentRequiredEnum: $equipmentRequiredEnum, unitOfMassEnum: $unitOfMassEnum, routineHistoryType: $routineHistoryType)';
   }
 }

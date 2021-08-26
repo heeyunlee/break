@@ -38,10 +38,10 @@ class RoutineDetailScreenModel with ChangeNotifier {
   void init(TickerProvider vsync) {
     _textAnimationController = AnimationController(
       vsync: vsync,
-      duration: Duration(seconds: 0),
+      duration: Duration.zero,
     );
 
-    _offsetTween = Tween<Offset>(begin: Offset(0, 16), end: Offset(0, 0))
+    _offsetTween = Tween<Offset>(begin: const Offset(0, 16), end: Offset.zero)
         .animate(_textAnimationController);
 
     _opacityTween = Tween<double>(begin: 0, end: 1).animate(
@@ -60,43 +60,25 @@ class RoutineDetailScreenModel with ChangeNotifier {
     BuildContext context, {
     required Routine routine,
     required String tag,
-    bool isPushReplacement = false,
   }) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
 
     await HapticFeedback.mediumImpact();
 
-    if (!isPushReplacement) {
-      await Navigator.of(context, rootNavigator: false).push(
-        CupertinoPageRoute(
-          fullscreenDialog: false,
-          builder: (context) => Consumer(
-            builder: (context, watch, child) => RoutineDetailScreen(
-              routine: routine,
-              tag: tag,
-              model: watch(routineDetailScreenModelProvider),
-              auth: auth,
-              database: database,
-            ),
+    await Navigator.of(context).push(
+      CupertinoPageRoute(
+        fullscreenDialog: false,
+        builder: (context) => Consumer(
+          builder: (context, watch, child) => RoutineDetailScreen(
+            routine: routine,
+            tag: tag,
+            model: watch(routineDetailScreenModelProvider),
+            auth: auth,
+            database: database,
           ),
         ),
-      );
-    } else {
-      await Navigator.of(context, rootNavigator: false).push(
-        CupertinoPageRoute(
-          fullscreenDialog: false,
-          builder: (context) => Consumer(
-            builder: (context, watch, child) => RoutineDetailScreen(
-              routine: routine,
-              tag: tag,
-              model: watch(routineDetailScreenModelProvider),
-              auth: auth,
-              database: database,
-            ),
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 }

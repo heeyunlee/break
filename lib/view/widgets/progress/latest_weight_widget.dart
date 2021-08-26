@@ -36,7 +36,7 @@ class LatestWeightWidget extends StatelessWidget {
     );
 
     final weight = (lastDoc != null)
-        ? Formatter.numWithDecimal(lastDoc.bodyWeight!)
+        ? Formatter.numWithDecimal(lastDoc.bodyWeight)
         : '--.-';
 
     final unit = Formatter.unitOfMass(
@@ -80,6 +80,7 @@ class LatestWeightWidget extends StatelessWidget {
     );
   }
 
+  // TODO: Refactor
   List<Widget> _buildProgressBar() {
     final unit = Formatter.unitOfMass(
       data.user.unitOfMass,
@@ -99,20 +100,20 @@ class LatestWeightWidget extends StatelessWidget {
 
     final startingWeight = Formatter.numWithDecimal(firstDoc?.bodyWeight);
 
-    num? initialWeightToLose = (firstDoc != null && goalExists)
+    final num? initialWeightToLose = (firstDoc != null && goalExists)
         ? firstDoc.bodyWeight! - data.user.weightGoal!
         : null;
 
-    num? nowWeightToLose = (lastDoc != null && goalExists)
+    final num? nowWeightToLose = (lastDoc != null && goalExists)
         ? lastDoc.bodyWeight! - data.user.weightGoal!
         : null;
 
-    double? diffPercentage =
+    final double? diffPercentage =
         (initialWeightToLose != null && nowWeightToLose != null)
             ? nowWeightToLose / initialWeightToLose
             : null;
 
-    double? diffPercentageFormatted = ((diffPercentage ?? 0) > 1)
+    final double? diffPercentageFormatted = ((diffPercentage ?? 0) > 1)
         ? 1
         : ((diffPercentage ?? 0) < 0)
             ? 0

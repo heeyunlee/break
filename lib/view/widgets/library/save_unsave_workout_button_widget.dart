@@ -52,7 +52,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
 
   Widget _saveButton(BuildContext context) {
     return IconButton(
-      icon: Icon(
+      icon: const Icon(
         Icons.bookmark_border_rounded,
         color: Colors.white,
       ),
@@ -84,7 +84,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
 
   Widget _unsaveButton(BuildContext context) {
     return IconButton(
-      icon: Icon(
+      icon: const Icon(
         Icons.bookmark_rounded,
         color: Colors.white,
       ),

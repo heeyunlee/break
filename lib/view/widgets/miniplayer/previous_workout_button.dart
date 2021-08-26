@@ -18,7 +18,7 @@ class PreviousWorkoutButton extends ConsumerWidget {
       child: IconButton(
         disabledColor: Colors.grey[700],
         color: Colors.white,
-        icon: Icon(CupertinoIcons.backward_end_alt_fill),
+        icon: const Icon(CupertinoIcons.backward_end_alt_fill),
         onPressed: model.isBackwardButtonDisabled()
             ? null
             : model.previousRoutineWorkout,

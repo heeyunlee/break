@@ -52,28 +52,34 @@ class Workout {
 
   factory Workout.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String workoutOwnerId = data['workoutOwnerId'];
-      final String workoutOwnerUserName = data['workoutOwnerUserName'];
-      final String workoutTitle = data['workoutTitle'];
-      final List<dynamic> mainMuscleGroup = data['mainMuscleGroup'];
-      final List<dynamic>? secondaryMuscleGroup = data['secondaryMuscleGroup'];
-      final String description = data['description'];
-      final List<dynamic> equipmentRequired = data['equipmentRequired'];
-      final String imageUrl = data['imageUrl'];
-      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'];
-      final Timestamp lastEditedDate = data['lastEditedDate'];
-      final Timestamp workoutCreatedDate = data['workoutCreatedDate'];
-      final int difficulty = data['difficulty'];
-      final String? instructions = data['instructions'];
-      final String? tips = data['tips'];
-      final int secondsPerRep = data['secondsPerRep'];
-      final bool isPublic = data['isPublic'];
-      final String location = data['location'];
-      final Map<String, dynamic> translated = data['translated'];
-      final String? thumbnailImageUrl = data['thumbnailImageUrl'];
-      final List<dynamic>? tags = data['tags'];
+      final String workoutOwnerId = data['workoutOwnerId'].toString();
+      final String workoutOwnerUserName =
+          data['workoutOwnerUserName'].toString();
+      final String workoutTitle = data['workoutTitle'].toString();
+      final List<dynamic> mainMuscleGroup =
+          data['mainMuscleGroup'] as List<dynamic>;
+      final List<dynamic>? secondaryMuscleGroup =
+          data['secondaryMuscleGroup'] as List<dynamic>?;
+      final String description = data['description'].toString();
+      final List<dynamic> equipmentRequired =
+          data['equipmentRequired'] as List<dynamic>;
+      final String imageUrl = data['imageUrl'].toString();
+      final bool isBodyWeightWorkout = data['isBodyWeightWorkout'] as bool;
+      final Timestamp lastEditedDate = data['lastEditedDate'] as Timestamp;
+      final Timestamp workoutCreatedDate =
+          data['workoutCreatedDate'] as Timestamp;
+      final int difficulty = int.parse(data['difficulty'].toString());
+      final String? instructions = data['instructions']?.toString();
+      final String? tips = data['tips']?.toString();
+      final int secondsPerRep = int.parse(data['secondsPerRep'].toString());
+      final bool isPublic = data['isPublic'] as bool;
+      final String location = data['location'].toString();
+      final Map<String, dynamic> translated =
+          data['translated'] as Map<String, dynamic>;
+      final String? thumbnailImageUrl = data['thumbnailImageUrl']?.toString();
+      final List<dynamic>? tags = data['tags'] as List<dynamic>?;
       final Map<String, dynamic>? translatedDescription =
-          data['translatedDescription'];
+          data['translatedDescription'] as Map<String, dynamic>?;
 
       return Workout(
         workoutId: documentId,

@@ -30,7 +30,7 @@ class SetEffortsWidget extends ConsumerWidget {
               initialRating: model.effort,
               glow: false,
               allowHalfRating: true,
-              itemCount: 5,
+              // itemCount: 5,
               itemPadding: const EdgeInsets.symmetric(horizontal: 8),
               ratingWidget: RatingWidget(
                 empty: Image.asset(

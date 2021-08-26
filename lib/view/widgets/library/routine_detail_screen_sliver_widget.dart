@@ -44,9 +44,9 @@ class RoutineDetailScreenSliverWidget extends ConsumerWidget {
     return AnimatedBuilder(
       animation: model.textAnimationController,
       builder: (context, child) => SliverAppBar(
-        floating: false,
+        // floating: false,
         pinned: true,
-        snap: false,
+        // snap: false,
         stretch: true,
         centerTitle: true,
         elevation: 0,
@@ -84,7 +84,7 @@ class RoutineDetailScreenSliverWidget extends ConsumerWidget {
                       Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
-                            begin: Alignment(0.0, 0.0),
+                            begin: Alignment.center,
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
@@ -113,7 +113,7 @@ class RoutineDetailScreenSliverWidget extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SubtitleWidget(routine: routine),
