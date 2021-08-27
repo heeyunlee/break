@@ -131,11 +131,11 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
           controller: _textController1,
           maxLines: 20,
           autofocus: true,
-          style: TextStyles.body1_heighted,
+          style: TextStyles.body1Heighted,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: S.current.feedbackHintText,
-            hintStyle: TextStyles.body1_grey,
+            hintStyle: TextStyles.body1Grey,
           ),
           onChanged: (value) {
             setState(() {

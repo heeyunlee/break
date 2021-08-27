@@ -27,28 +27,28 @@ class TermsAndPrivacyPolicyWidget extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           text: S.current.acceptingTermsEmail,
-          style: TextStyles.overline_grey,
+          style: TextStyles.overlineGrey,
           children: <TextSpan>[
             TextSpan(
               text: S.current.terms,
-              style: TextStyles.overline_gery_underlined,
+              style: TextStyles.overlineGreyUnderlined,
               recognizer: TapGestureRecognizer()
                 ..onTap = () => model.launchTermsURL(context),
             ),
             TextSpan(
               text: S.current.and,
-              style: TextStyles.overline_grey,
+              style: TextStyles.overlineGrey,
             ),
             TextSpan(
               text: S.current.privacyPolicy,
-              style: TextStyles.overline_gery_underlined,
+              style: TextStyles.overlineGreyUnderlined,
               recognizer: TapGestureRecognizer()
                 ..onTap = () => model.launchPrivacyServiceURL(context),
             ),
             if (locale == 'ko')
               TextSpan(
                 text: S.current.acepptingTermsKorean,
-                style: TextStyles.overline_grey,
+                style: TextStyles.overlineGrey,
               ),
           ],
         ),

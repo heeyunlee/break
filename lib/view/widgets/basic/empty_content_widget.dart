@@ -38,7 +38,7 @@ class EmptyContentWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(bodyText, style: TextStyles.body1_heighted),
+                  Text(bodyText, style: TextStyles.body1Heighted),
                   const SizedBox(height: 36),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(

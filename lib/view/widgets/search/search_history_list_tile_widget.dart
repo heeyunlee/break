@@ -17,7 +17,7 @@ class SearchHistoryListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.history_rounded, color: Colors.grey),
-      title: Text(query, style: TextStyles.body2_grey),
+      title: Text(query, style: TextStyles.body2Grey),
       onTap: tileOnTap,
       trailing: InkWell(
         onTap: iconOnTap,

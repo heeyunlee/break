@@ -64,7 +64,7 @@ class LatestBodyFatWidget extends StatelessWidget {
                   Text(S.current.bodyFat, style: TextStyles.button1),
                   Text(
                     '$bodyFat %',
-                    style: TextStyles.headline5_menlo_bold_secondary,
+                    style: TextStyles.headline5MenloBoldSecondary,
                   ),
                   if (showWidget) ..._buildProgressBar(),
                 ],

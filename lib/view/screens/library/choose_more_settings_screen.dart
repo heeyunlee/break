@@ -59,7 +59,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
                       size: 20,
                     ),
                     const SizedBox(width: 8),
-                    Text(S.current.location, style: TextStyles.headline6_bold),
+                    Text(S.current.location, style: TextStyles.headline6Bold),
                   ],
                 ),
               ),
@@ -108,7 +108,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   '${S.current.difficulty}: ${model.routineDifficultyLabel}',
-                  style: TextStyles.headline6_bold,
+                  style: TextStyles.headline6Bold,
                 ),
               ),
               Card(

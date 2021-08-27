@@ -167,7 +167,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
 
                               return BarTooltipItem(
                                 '$formattedWeights $unit',
-                                TextStyles.body1_black,
+                                TextStyles.body1Black,
                               );
                             },
                           ),
@@ -216,7 +216,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                           leftTitles: SideTitles(
                             showTitles: true,
                             margin: 28,
-                            getTextStyles: (_) => TextStyles.caption1_grey,
+                            getTextStyles: (_) => TextStyles.caption1Grey,
                             getTitles: (double value) {
                               final toOriginalNumber =
                                   (value / 10 * _maxY).round();

@@ -120,7 +120,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
         child: FloatingActionButton.extended(
           onPressed: () => fabOnPressed(context),
           backgroundColor: kPrimaryColor,
-          label: Text(S.current.setGoal, style: TextStyles.button1_bold),
+          label: Text(S.current.setGoal, style: TextStyles.button1Bold),
         ),
       ),
     );

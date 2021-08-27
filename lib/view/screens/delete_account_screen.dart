@@ -75,7 +75,7 @@ class DeleteAccountScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             S.current.deleteAccountTitle(user.userName),
-            style: TextStyles.headline6_w900,
+            style: TextStyles.headline6W900,
           ),
           const SizedBox(height: 16),
           Text(S.current.byDeletingAccount, style: TextStyles.body1),

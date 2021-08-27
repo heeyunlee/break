@@ -4,13 +4,14 @@ import 'package:workout_player/generated/l10n.dart';
 import '../../../../view_models/miniplayer_model.dart';
 
 class PauseOrPlayButton extends StatefulWidget {
-  final double? iconSize;
-  final MiniplayerModel model;
-
   const PauseOrPlayButton({
+    Key? key,
     this.iconSize = 56,
     required this.model,
-  });
+  }) : super(key: key);
+
+  final double? iconSize;
+  final MiniplayerModel model;
 
   @override
   _PauseOrPlayButtonState createState() => _PauseOrPlayButtonState();

@@ -15,17 +15,17 @@ class SubtitleWidget extends StatelessWidget {
         children: [
           Text(
             Formatter.routineTotalWeights(routine),
-            style: TextStyles.body2_light,
+            style: TextStyles.body2Light,
           ),
           const Text('   \u2022   ', style: TextStyles.caption1),
           Text(
             Formatter.durationInMin(routine.duration),
-            style: TextStyles.body2_light,
+            style: TextStyles.body2Light,
           ),
           const Text('   \u2022   ', style: TextStyles.caption1),
           Text(
             Formatter.difficulty(routine.trainingLevel),
-            style: TextStyles.body2_light,
+            style: TextStyles.body2Light,
           ),
         ],
       ),

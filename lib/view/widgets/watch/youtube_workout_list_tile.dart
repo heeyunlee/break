@@ -31,7 +31,7 @@ class YoutubeWorkoutListTile extends StatelessWidget {
         ),
         subtitle: Text(
           getSubtitle(),
-          style: TextStyles.body2_grey,
+          style: TextStyles.body2Grey,
         ),
         leading: SizedBox(
           width: 56,

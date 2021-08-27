@@ -7,11 +7,12 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 class WeightsAndRepsWidget extends StatelessWidget {
-  final MiniplayerModel model;
-
   const WeightsAndRepsWidget({
+    Key? key,
     required this.model,
-  });
+  }) : super(key: key);
+
+  final MiniplayerModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             S.current.weights,
-                            style: TextStyles.body2_grey,
+                            style: TextStyles.body2Grey,
                           ),
                         ),
                         const Divider(color: kBackgroundColor, height: 0),
@@ -114,7 +115,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             S.current.reps,
-                            style: TextStyles.body2_grey,
+                            style: TextStyles.body2Grey,
                           ),
                         ),
                         const Divider(color: kBackgroundColor, height: 0),

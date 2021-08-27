@@ -51,7 +51,7 @@ class BottomNavigationTab extends ConsumerWidget {
             showUnselectedLabels: true,
             unselectedItemColor: Colors.white,
             currentIndex: model.currentTabIndex,
-            selectedLabelStyle: TextStyles.overline_primary,
+            selectedLabelStyle: TextStyles.overlinePrimary,
             unselectedLabelStyle: TextStyles.overline,
             backgroundColor: kBottomNavBarColor,
             selectedItemColor: kPrimaryColor,

@@ -1,48 +1,48 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum CustomHealthDataUnit {
-  @JsonValue('BEATS_PER_MINUTE')
-  BEATS_PER_MINUTE,
+  @JsonValue('Beats Per Minute')
+  beatsPerMinute,
 
-  @JsonValue('CALORIES')
-  CALORIES,
+  @JsonValue('Calories')
+  calories,
 
-  @JsonValue('COUNT')
-  COUNT,
+  @JsonValue('Count')
+  count,
 
-  @JsonValue('DEGREE_CELSIUS')
-  DEGREE_CELSIUS,
+  @JsonValue('Degree Celsius')
+  degreeCelsius,
 
-  @JsonValue('KILOGRAMS')
-  KILOGRAMS,
+  @JsonValue('Kilograms')
+  kilograms,
 
-  @JsonValue('METERS')
-  METERS,
+  @JsonValue('Meters')
+  meters,
 
-  @JsonValue('MILLIGRAM_PER_DECILITER')
-  MILLIGRAM_PER_DECILITER,
+  @JsonValue('Milligram Per Deciliter')
+  milligramPerDeciliter,
 
-  @JsonValue('MILLIMETER_OF_MERCURY')
-  MILLIMETER_OF_MERCURY,
+  @JsonValue('Millimeter Of Mercury')
+  millimeterOfMercury,
 
-  @JsonValue('MILLISECONDS')
-  MILLISECONDS,
+  @JsonValue('Milliseconds')
+  milliseconds,
 
-  @JsonValue('MINUTES')
-  MINUTES,
+  @JsonValue('Minutes')
+  minutes,
 
-  @JsonValue('NO_UNIT')
-  NO_UNIT,
+  @JsonValue('No Unit')
+  noUnit,
 
-  @JsonValue('PERCENTAGE')
-  PERCENTAGE,
+  @JsonValue('Percentage')
+  percentage,
 
-  @JsonValue('SIEMENS')
-  SIEMENS,
+  @JsonValue('Siemens')
+  siemens,
 
-  @JsonValue('UNKNOWN_UNIT')
-  UNKNOWN_UNIT,
+  @JsonValue('Unkown Unit')
+  unkownUnit,
 
-  @JsonValue('LITER')
-  LITER,
+  @JsonValue('Liter')
+  liter,
 }

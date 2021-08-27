@@ -132,7 +132,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                           ),
                           child: Text(
                             S.current.notes,
-                            style: TextStyles.headline6_w900,
+                            style: TextStyles.headline6W900,
                           ),
                         ),
                         OutlinedTextTextFieldWidget(
@@ -151,7 +151,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                           ),
                           child: Text(
                             S.current.setEffortsTitle,
-                            style: TextStyles.headline6_w900,
+                            style: TextStyles.headline6W900,
                           ),
                         ),
                         Card(
@@ -195,7 +195,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                           children: [
                             Text(
                               S.current.makeItVisibleTo,
-                              style: TextStyles.body2_light,
+                              style: TextStyles.body2Light,
                             ),
                             SizedBox(
                               width: 72,
@@ -203,7 +203,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                                 (widget.model.isPublic)
                                     ? S.current.everyone
                                     : S.current.justMe,
-                                style: TextStyles.body2_w900,
+                                style: TextStyles.body2W900,
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -271,12 +271,12 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
         children: <Widget>[
           Text(
             S.current.todaysWorkoutSummary,
-            style: TextStyles.subtitle1_grey,
+            style: TextStyles.subtitle1Grey,
           ),
           Text(
             widget.routineHistory.routineTitle,
             maxLines: 1,
-            style: TextStyles.headline5_bold,
+            style: TextStyles.headline5Bold,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -308,7 +308,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(S.current.stats, style: TextStyles.headline6_w900),
+          child: Text(S.current.stats, style: TextStyles.headline6W900),
         ),
         if (widget.routineHistory.routineHistoryType == 'routine')
           _SummaryRowWidget(

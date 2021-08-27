@@ -3,43 +3,43 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum Meal {
   @JsonValue('Breakfast')
-  Breakfast,
+  breakfast,
 
   @JsonValue('Lunch')
-  Lunch,
+  lunch,
 
   @JsonValue('Dinner')
-  Dinner,
+  dinner,
 
   @JsonValue('Snack')
-  Snack,
+  snack,
 
   @JsonValue('Supplement')
-  Supplement,
+  supplement,
 
   @JsonValue('Before Workout')
-  BeforeWorkout,
+  beforeWorkout,
 
   @JsonValue('After Workout')
-  AfterWorkout,
+  afterWorkout,
 }
 
 extension MealLabelExtension on Meal {
   String? get label {
     switch (this) {
-      case Meal.BeforeWorkout:
+      case Meal.beforeWorkout:
         return 'Before Workout';
-      case Meal.AfterWorkout:
+      case Meal.afterWorkout:
         return 'After Workout';
-      case Meal.Breakfast:
+      case Meal.breakfast:
         return 'Breakfast';
-      case Meal.Lunch:
+      case Meal.lunch:
         return 'Lunch';
-      case Meal.Dinner:
+      case Meal.dinner:
         return 'Dinner';
-      case Meal.Snack:
+      case Meal.snack:
         return 'Snack';
-      case Meal.Supplement:
+      case Meal.supplement:
         return 'Supplement';
       default:
         return null;
@@ -61,19 +61,19 @@ extension MealListExtension on Meal {
 extension MealTranslationExtension on Meal {
   String? get translation {
     switch (this) {
-      case Meal.BeforeWorkout:
+      case Meal.beforeWorkout:
         return S.current.beforeWorkout;
-      case Meal.AfterWorkout:
+      case Meal.afterWorkout:
         return S.current.afterWorkout;
-      case Meal.Breakfast:
+      case Meal.breakfast:
         return S.current.breakfast;
-      case Meal.Lunch:
+      case Meal.lunch:
         return S.current.lunch;
-      case Meal.Dinner:
+      case Meal.dinner:
         return S.current.dinner;
-      case Meal.Snack:
+      case Meal.snack:
         return S.current.snack;
-      case Meal.Supplement:
+      case Meal.supplement:
         return S.current.others;
       default:
         return null;

@@ -53,12 +53,12 @@ class SavedListTile<T> extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyles.body1_bold,
+                      style: TextStyles.body1Bold,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       _getSubtitle(data!),
-                      style: TextStyles.body2_grey,
+                      style: TextStyles.body2Grey,
                     ),
                   ],
                 ),

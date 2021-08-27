@@ -87,7 +87,7 @@ class _ReorderRoutineWorkoutsScreenState
               ? null
               : () => widget.model.onSubmit(context, widget.routine),
           backgroundColor: widget.model.areMapsEqual ? kGrey700 : kPrimaryColor,
-          label: Text(S.current.save, style: TextStyles.button1_bold),
+          label: Text(S.current.save, style: TextStyles.button1Bold),
         ),
       ),
     );
@@ -106,7 +106,7 @@ class _ReorderRoutineWorkoutsScreenState
           child: Center(
             child: Text(
               S.current.reorderRoutineWorkoutsHeader,
-              style: TextStyles.body2_grey,
+              style: TextStyles.body2Grey,
             ),
           ),
         ),

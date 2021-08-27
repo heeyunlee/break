@@ -69,7 +69,7 @@ class SignInScreen extends ConsumerWidget {
   ) {
     return [
       TextButton(
-        style: ButtonStyles.text1_google,
+        style: ButtonStyles.text1Google,
         onPressed:
             model.isLoading ? null : () => model.signInAnonymously(context),
         child: Text(S.current.takeALook),
@@ -123,7 +123,7 @@ class SignInScreen extends ConsumerWidget {
             model.isLoading ? null : () => model.signInWithKakao(context),
       ),
       TextButton(
-        style: ButtonStyles.text1_google,
+        style: ButtonStyles.text1Google,
         onPressed: model.isLoading
             ? null
             : () => SignInWithEmailModel.showSignInScreen(context),

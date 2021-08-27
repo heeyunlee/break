@@ -57,7 +57,7 @@ class RecentSkeletenMuscleMassWidget extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$skeletenMuscleMass $unit',
-                  style: TextStyles.headline5_menlo_bold_secondary,
+                  style: TextStyles.headline5MenloBoldSecondary,
                 ),
                 // if (difference != null)
                 //   Text(

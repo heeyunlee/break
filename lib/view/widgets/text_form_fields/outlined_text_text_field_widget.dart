@@ -97,9 +97,9 @@ class OutlinedTextTextFieldWidget extends StatelessWidget {
         suffixText: suffixText,
         suffixStyle: TextStyles.body1,
         hintText: hintText,
-        hintStyle: TextStyles.body1_grey,
+        hintStyle: TextStyles.body1Grey,
         counterText: '',
-        counterStyle: TextStyles.overline_grey,
+        counterStyle: TextStyles.overlineGrey,
         contentPadding: const EdgeInsets.all(16),
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: kSecondaryColor),

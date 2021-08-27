@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 /// Class of `Measurement` is a collection of body measurements such as [bodyWeight],
 /// [bodyFat], [skeletalMuscleMass], [bmi].

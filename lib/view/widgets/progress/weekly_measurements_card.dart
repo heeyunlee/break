@@ -52,7 +52,7 @@ class WeeklyMeasurementsCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           S.current.bodyMeasurement,
-                          style: TextStyles.subtitle1_w900_secondary,
+                          style: TextStyles.subtitle1W900Secondary,
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(

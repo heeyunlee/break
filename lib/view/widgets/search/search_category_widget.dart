@@ -37,7 +37,7 @@ class SearchCategoryWidget extends StatelessWidget {
               ),
             ),
             child: Center(
-              child: Text(text, style: TextStyles.subtitle2_w900),
+              child: Text(text, style: TextStyles.subtitle2W900),
             ),
           ),
         ),

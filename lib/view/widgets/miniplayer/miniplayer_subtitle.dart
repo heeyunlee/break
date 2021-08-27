@@ -15,10 +15,11 @@ class MiniplayerSubtitle extends StatelessWidget {
   final MiniplayerModel model;
 
   const MiniplayerSubtitle({
+    Key? key,
     this.horizontalPadding,
-    this.textStyle = TextStyles.headline6_grey,
+    this.textStyle = TextStyles.headline6Grey,
     required this.model,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

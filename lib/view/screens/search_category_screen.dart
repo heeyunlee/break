@@ -21,10 +21,11 @@ import 'library/workout_detail_screen.dart';
 
 class SearchCategoryScreen extends StatelessWidget {
   const SearchCategoryScreen({
+    Key? key,
     this.isEqualTo,
     this.arrayContains,
     required this.searchCategory,
-  });
+  }) : super(key: key);
 
   final String? isEqualTo;
   final String? arrayContains;

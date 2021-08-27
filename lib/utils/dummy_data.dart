@@ -130,7 +130,7 @@ final nutritionDummyData = Nutrition(
   username: 'username',
   loggedTime: Timestamp.now(),
   loggedDate: DateTime.now(),
-  type: Meal.AfterWorkout,
+  type: Meal.afterWorkout,
   proteinAmount: 100,
 );
 

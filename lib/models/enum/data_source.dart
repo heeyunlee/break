@@ -1,6 +1,6 @@
 enum DataSource {
-  IosHealthKit,
-  GoogleFit,
-  UserGenerated,
-  Others,
+  iOSHeahlthKit,
+  googleFit,
+  userGenerated,
+  others,
 }

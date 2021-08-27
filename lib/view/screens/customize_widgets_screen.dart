@@ -110,7 +110,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
             const SizedBox(height: 8),
             Text(
               S.current.customizeWidgetsMessage,
-              style: TextStyles.subtitle2_grey,
+              style: TextStyles.subtitle2Grey,
             ),
             ...widget.model.currentPreviewWidgetList.map(
               (value) {

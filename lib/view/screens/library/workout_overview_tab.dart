@@ -36,10 +36,10 @@ class WorkoutOverviewTab extends StatelessWidget {
     if (description.isNotEmpty) {
       return Text(
         description,
-        style: TextStyles.body1_w800,
+        style: TextStyles.body1W800,
       );
     } else {
-      return Text(S.current.addDescription, style: TextStyles.body2_light_grey);
+      return Text(S.current.addDescription, style: TextStyles.body2LightGrey);
     }
   }
 }

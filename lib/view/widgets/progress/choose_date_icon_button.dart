@@ -51,21 +51,21 @@ class ChooseDateIconButton extends StatelessWidget {
         child: TableCalendar(
           daysOfWeekStyle: const DaysOfWeekStyle(
             weekdayStyle: TextStyles.body2,
-            weekendStyle: TextStyles.body2_red,
+            weekendStyle: TextStyles.body2Red,
           ),
           headerStyle: const HeaderStyle(
             formatButtonShowsNext: false,
             formatButtonVisible: false,
             titleCentered: true,
-            titleTextStyle: TextStyles.body1_w800,
+            titleTextStyle: TextStyles.body1W800,
           ),
           selectedDayPredicate: (day) {
             return isSameDay(model.selectedDate, day);
           },
           calendarStyle: const CalendarStyle(
-            weekendTextStyle: TextStyles.body2_red,
+            weekendTextStyle: TextStyles.body2Red,
             defaultTextStyle: TextStyles.body2,
-            outsideTextStyle: TextStyles.body2_grey700,
+            outsideTextStyle: TextStyles.body2Grey700,
           ),
           onDaySelected: (selectedDay, focusedDay) {
             model.selectSelectedDate(selectedDay);

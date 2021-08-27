@@ -70,7 +70,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     title,
-                    style: TextStyles.subtitle1_w900.copyWith(
+                    style: TextStyles.subtitle1W900.copyWith(
                       color: defaultColor,
                     ),
                   ),
@@ -101,7 +101,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
 
                           return BarTooltipItem(
                             '$formatted $unit',
-                            TextStyles.body1_black,
+                            TextStyles.body1Black,
                           );
                         },
                       ),
@@ -136,7 +136,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
                       leftTitles: SideTitles(
                         showTitles: true,
                         margin: 34,
-                        getTextStyles: (_) => TextStyles.caption1_grey,
+                        getTextStyles: (_) => TextStyles.caption1Grey,
                         getTitles: (double value) {
                           final formatted =
                               NumberFormat.compact().format(value);

@@ -110,7 +110,7 @@ class MiniplayerScreen extends StatelessWidget {
       final workoutSet = model.currentWorkoutSet;
 
       final widget = (workoutSet == null)
-          ? EmptyWorkoutSetWidget()
+          ? const EmptyWorkoutSetWidget()
           : (workoutSet.isRest)
               ? RestTimerWidget(model: model)
               : WeightsAndRepsWidget(model: model);
@@ -230,11 +230,11 @@ class MiniplayerScreen extends StatelessWidget {
                   isExpanded: false,
                   horzPadding: 16,
                   // vertPadding: 4,
-                  textStyle: TextStyles.body1_bold,
+                  textStyle: TextStyles.body1Bold,
                 ),
                 MiniplayerSubtitle(
                   horizontalPadding: 16,
-                  textStyle: TextStyles.body2_grey,
+                  textStyle: TextStyles.body2Grey,
                   model: model,
                 ),
               ],

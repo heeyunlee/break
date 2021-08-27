@@ -32,7 +32,7 @@ class CreateListTile extends StatelessWidget {
                 child: Icon(Icons.add_rounded, size: 32),
               ),
               const SizedBox(width: 16),
-              Text(title, style: TextStyles.body1_bold),
+              Text(title, style: TextStyles.body1Bold),
             ],
           ),
         ),

@@ -48,7 +48,7 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       S.current.bodyMeasurement,
-                      style: TextStyles.subtitle1_w900_secondary,
+                      style: TextStyles.subtitle1W900Secondary,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -129,7 +129,7 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                         leftTitles: SideTitles(
                           showTitles: true,
                           margin: 24,
-                          getTextStyles: (_) => TextStyles.caption1_grey,
+                          getTextStyles: (_) => TextStyles.caption1Grey,
                           getTitles: (value) {
                             final unit = Formatter.unitOfMass(0);
 

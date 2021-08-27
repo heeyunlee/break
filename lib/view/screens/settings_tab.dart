@@ -67,7 +67,7 @@ class SettingsTab extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 S.current.account,
-                style: TextStyles.body2_grey_bold,
+                style: TextStyles.body2GreyBold,
               ),
             ),
             ListTile(
@@ -100,7 +100,7 @@ class SettingsTab extends ConsumerWidget {
                 children: [
                   Text(
                     Formatter.unitOfMass(user!.unitOfMass, user.unitOfMassEnum),
-                    style: TextStyles.body2_grey,
+                    style: TextStyles.body2Grey,
                   ),
                   const SizedBox(width: 16),
                   const Icon(
@@ -131,7 +131,7 @@ class SettingsTab extends ConsumerWidget {
                 children: [
                   Text(
                     Intl.getCurrentLocale(),
-                    style: TextStyles.body2_grey,
+                    style: TextStyles.body2Grey,
                   ),
                   const SizedBox(width: 16),
                   const Icon(
@@ -169,7 +169,7 @@ class SettingsTab extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 S.current.support,
-                style: TextStyles.body2_grey_bold,
+                style: TextStyles.body2GreyBold,
               ),
             ),
             ListTile(
@@ -193,7 +193,7 @@ class SettingsTab extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 S.current.about,
-                style: TextStyles.body2_grey_bold,
+                style: TextStyles.body2GreyBold,
               ),
             ),
             ListTile(
@@ -246,7 +246,7 @@ class SettingsTab extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 S.current.logIn,
-                style: TextStyles.body2_grey_bold,
+                style: TextStyles.body2GreyBold,
               ),
             ),
             ListTile(
@@ -257,7 +257,7 @@ class SettingsTab extends ConsumerWidget {
             const SizedBox(height: 48),
             // TODO: CHANGE VERSION CODE HERE
             const Center(
-              child: Text('v.0.3.5', style: TextStyles.caption1_grey),
+              child: Text('v.0.3.5', style: TextStyles.caption1Grey),
             ),
             const SizedBox(height: 120),
           ],

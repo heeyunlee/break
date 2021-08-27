@@ -5,6 +5,8 @@ import 'package:workout_player/styles/text_styles.dart';
 // TODO: FINISH PASSWROD STRENGTH METER
 
 class PasswordStrengthMeter extends StatelessWidget {
+  const PasswordStrengthMeter({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

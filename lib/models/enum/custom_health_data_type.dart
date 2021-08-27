@@ -1,93 +1,93 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum CustomHealthDataType {
-  @JsonValue('ACTIVE_ENERGY_BURNED')
-  ACTIVE_ENERGY_BURNED,
+  @JsonValue('Active Energy Burned')
+  activeEnergyBurned,
 
-  @JsonValue('BASAL_ENERGY_BURNED')
-  BASAL_ENERGY_BURNED,
+  @JsonValue('Basal Energy Burned')
+  basalEnergyBurned,
 
-  @JsonValue('BLOOD_GLUCOSE')
-  BLOOD_GLUCOSE,
+  @JsonValue('Blood Glucose')
+  bloodGlucose,
 
-  @JsonValue('BLOOD_OXYGEN')
-  BLOOD_OXYGEN,
+  @JsonValue('Blood Oxygen')
+  bloodOxygen,
 
-  @JsonValue('BLOOD_PRESSURE_DIASTOLIC')
-  BLOOD_PRESSURE_DIASTOLIC,
+  @JsonValue('Blood Pressure Diastolic')
+  bloodPressureDiastolic,
 
-  @JsonValue('BLOOD_PRESSURE_SYSTOLIC')
-  BLOOD_PRESSURE_SYSTOLIC,
+  @JsonValue('Blood Pressure Systolic')
+  bloodPressureSystolic,
 
-  @JsonValue('BODY_FAT_PERCENTAGE')
-  BODY_FAT_PERCENTAGE,
+  @JsonValue('Body Fat Percentage')
+  bodyFatPercentage,
 
-  @JsonValue('BODY_MASS_INDEX')
-  BODY_MASS_INDEX,
+  @JsonValue('Body Mass Index')
+  bodyMassIndex,
 
-  @JsonValue('BODY_TEMPERATURE')
-  BODY_TEMPERATURE,
+  @JsonValue('Body Temperature')
+  bodyTemperature,
 
-  @JsonValue('HEART_RATE')
-  HEART_RATE,
+  @JsonValue('Heart Rate')
+  heartRate,
 
-  @JsonValue('HEART_RATE_VARIABILITY_SDNN')
-  HEART_RATE_VARIABILITY_SDNN,
+  @JsonValue('Heart Rate Variability SDNN')
+  heartRateVariabilitySdnn,
 
-  @JsonValue('HEIGHT')
-  HEIGHT,
+  @JsonValue('Height')
+  height,
 
-  @JsonValue('RESTING_HEART_RATE')
-  RESTING_HEART_RATE,
+  @JsonValue('Resting Heart Rate')
+  restingHeartRate,
 
-  @JsonValue('STEPS')
-  STEPS,
+  @JsonValue('Steps')
+  steps,
 
-  @JsonValue('WAIST_CIRCUMFERENCE')
-  WAIST_CIRCUMFERENCE,
+  @JsonValue('WaistCircumfence')
+  waistCircumfence,
 
-  @JsonValue('WALKING_HEART_RATE')
-  WALKING_HEART_RATE,
+  @JsonValue('Walking Heart Rate')
+  walkingHeartRate,
 
-  @JsonValue('WEIGHT')
-  WEIGHT,
+  @JsonValue('Weight')
+  weight,
 
-  @JsonValue('DISTANCE_WALKING_RUNNING')
-  DISTANCE_WALKING_RUNNING,
+  @JsonValue('Distance Walking Running')
+  distanceWalkingRunning,
 
-  @JsonValue('FLIGHTS_CLIMBED')
-  FLIGHTS_CLIMBED,
+  @JsonValue('Flights Climbed')
+  flightsClimbed,
 
-  @JsonValue('MOVE_MINUTES')
-  MOVE_MINUTES,
+  @JsonValue('Move Minutes')
+  moveMinutes,
 
-  @JsonValue('DISTANCE_DELTA')
-  DISTANCE_DELTA,
+  @JsonValue('Distance Delta')
+  distanceDelta,
 
-  @JsonValue('MINDFULNESS')
-  MINDFULNESS,
+  @JsonValue('Mindfulness')
+  mindfulness,
 
-  @JsonValue('WATER')
-  WATER,
+  @JsonValue('Water')
+  water,
 
-  @JsonValue('SLEEP_IN_BED')
-  SLEEP_IN_BED,
+  @JsonValue('Sleep In Bed')
+  sleepInBed,
 
-  @JsonValue('SLEEP_ASLEEP')
-  SLEEP_ASLEEP,
+  @JsonValue('Sleep As leep')
+  sleepAsleep,
 
-  @JsonValue('SLEEP_AWAKE')
-  SLEEP_AWAKE,
+  @JsonValue('Sleep Awake')
+  sleepAwake,
 
-  @JsonValue('HIGH_HEART_RATE_EVENT')
-  HIGH_HEART_RATE_EVENT,
+  @JsonValue('High Heart Rate Event')
+  highHeartRateEvent,
 
-  @JsonValue('LOW_HEART_RATE_EVENT')
-  LOW_HEART_RATE_EVENT,
+  @JsonValue('Low Heart Rate Event')
+  lowHeartRateEvent,
 
-  @JsonValue('IRREGULAR_HEART_RATE_EVENT')
-  IRREGULAR_HEART_RATE_EVENT,
+  @JsonValue('Irregular Heart Rate Event')
+  irregularHeartRateEvent,
 
-  @JsonValue('ELECTRODERMAL_ACTIVITY')
-  ELECTRODERMAL_ACTIVITY,
+  @JsonValue('Electrodermal Activity')
+  electrodermalActivity,
 }

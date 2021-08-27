@@ -3,6 +3,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class EmptyWorkoutSetWidget extends StatelessWidget {
+  const EmptyWorkoutSetWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -29,7 +31,7 @@ class EmptyWorkoutSetWidget extends StatelessWidget {
                 ),
                 Text(
                   S.current.addSetsToWorkout,
-                  style: TextStyles.subtitle1_bold,
+                  style: TextStyles.subtitle1Bold,
                 ),
               ],
             ),

@@ -48,7 +48,7 @@ class ActivityRingSampleWidget extends StatelessWidget {
                     // alignment: Alignment.center,
                     child: Text(
                       S.current.chest,
-                      style: TextStyles.headline5_w900,
+                      style: TextStyles.headline5W900,
                     ),
                   ),
                 ),

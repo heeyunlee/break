@@ -1,9 +1,5 @@
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/text_styles.dart';
 
 import '../../screens/customize_widgets_screen.dart';
 
@@ -17,27 +13,12 @@ class CustomizeWidgetsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DescribedFeatureOverlay(
-      featureId: 'customize_widgets',
-      tapTarget: const Icon(Icons.dashboard_customize_rounded),
-      title: Text(
-        S.current.featureDiscoveryCustomizeWidgetTitle,
-        style: TextStyles.headline6,
+    return IconButton(
+      onPressed: () => CustomizeWidgetsScreen.show(
+        context,
+        user: user,
       ),
-      description: Text(
-        S.current.featureDiscoveryCustomizeWidgetMessage,
-        style: TextStyles.body1,
-      ),
-      backgroundColor: kSecondaryColor,
-      targetColor: kPrimaryColor,
-      // textColor: Colors.white,
-      child: IconButton(
-        onPressed: () => CustomizeWidgetsScreen.show(
-          context,
-          user: user,
-        ),
-        icon: const Icon(Icons.dashboard_customize_rounded),
-      ),
+      icon: const Icon(Icons.dashboard_customize_rounded),
     );
   }
 }

@@ -8,9 +8,10 @@ import 'package:workout_player/generated/l10n.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
   const RoutineHistorySummaryCard({
+    Key? key,
     required this.onTap,
     required this.routineHistory,
-  });
+  }) : super(key: key);
 
   final void Function() onTap;
   final RoutineHistory routineHistory;
@@ -60,7 +61,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           ),
           subtitle: Text(
             routineHistory.routineTitle,
-            style: TextStyles.subtitle1_w900,
+            style: TextStyles.subtitle1W900,
             maxLines: 1,
             softWrap: false,
             overflow: TextOverflow.fade,
@@ -147,9 +148,9 @@ class _DailySummaryRowWidget extends StatelessWidget {
           height: 48,
         ),
         const SizedBox(height: 16),
-        Text(title, style: TextStyles.subtitle1_w900),
+        Text(title, style: TextStyles.subtitle1W900),
         const SizedBox(height: 4),
-        Text(subtitle, style: TextStyles.body2_light),
+        Text(subtitle, style: TextStyles.body2Light),
       ],
     );
   }

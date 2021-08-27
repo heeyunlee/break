@@ -1,4 +1,3 @@
-import 'package:feature_discovery/feature_discovery.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -30,10 +29,12 @@ Future<void> main() async {
   KakaoContext.clientId = kakaoClientId;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     /// disable Landscape mode
@@ -64,25 +65,23 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthService(),
         ),
       ],
-      child: FeatureDiscovery(
-        child: GetMaterialApp(
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'NanumSquareRound',
-            primaryColorBrightness: Brightness.dark,
-            iconTheme: const IconThemeData(
-              color: Colors.white,
-            ),
+      child: GetMaterialApp(
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'NanumSquareRound',
+          primaryColorBrightness: Brightness.dark,
+          iconTheme: const IconThemeData(
+            color: Colors.white,
           ),
-          home: const LandingScreen(),
         ),
+        home: const LandingScreen(),
       ),
     );
   }

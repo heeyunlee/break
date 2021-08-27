@@ -17,7 +17,7 @@ class DescriptionWidget extends StatelessWidget {
       if (routine.description!.isNotEmpty) {
         return Text(
           routine.description!,
-          style: TextStyles.body2_light_grey,
+          style: TextStyles.body2LightGrey,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
@@ -25,11 +25,11 @@ class DescriptionWidget extends StatelessWidget {
       } else {
         return Text(
           S.current.addDescription,
-          style: TextStyles.body2_light_grey,
+          style: TextStyles.body2LightGrey,
         );
       }
     } else {
-      return Text(S.current.addDescription, style: TextStyles.body2_light_grey);
+      return Text(S.current.addDescription, style: TextStyles.body2LightGrey);
     }
   }
 }

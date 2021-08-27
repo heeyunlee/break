@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum CustomPlatformType {
-  @JsonValue('IOS')
-  IOS,
+  @JsonValue('iOS')
+  ios,
 
-  @JsonValue('ANDROID')
-  ANDROID,
+  @JsonValue('Android')
+  android,
 }

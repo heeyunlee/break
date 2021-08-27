@@ -295,7 +295,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             S.current.publicWorkoutDescription,
-            style: TextStyles.caption1_grey,
+            style: TextStyles.caption1Grey,
           ),
         ),
       ],
@@ -309,7 +309,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.workoutName, style: TextStyles.body1_w800),
+          child: Text(S.current.workoutName, style: TextStyles.body1W800),
         ),
 
         /// Workout Title
@@ -351,7 +351,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.description, style: TextStyles.body1_w800),
+          child: Text(S.current.description, style: TextStyles.body1W800),
         ),
 
         /// Description
@@ -371,7 +371,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: S.current.descriptionHintText,
-                hintStyle: TextStyles.body2_light_grey,
+                hintStyle: TextStyles.body2LightGrey,
                 border: InputBorder.none,
               ),
               onFieldSubmitted: (value) => _description = value,
@@ -393,7 +393,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.difficulty}: $_difficultySliderLabel',
-            style: TextStyles.body1_w800,
+            style: TextStyles.body1W800,
           ),
         ),
 
@@ -437,7 +437,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-            style: TextStyles.body1_w800,
+            style: TextStyles.body1W800,
           ),
         ),
         Card(
@@ -485,7 +485,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(S.current.moreSettings, style: TextStyles.body1_w800),
+          child: Text(S.current.moreSettings, style: TextStyles.body1W800),
         ),
 
         /// Main Muscle Group
@@ -496,7 +496,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             title: Text(S.current.mainMuscleGroup, style: TextStyles.button1),
-            subtitle: Text(mainMuscleGroup, style: TextStyles.body2_grey),
+            subtitle: Text(mainMuscleGroup, style: TextStyles.body2Grey),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               color: kPrimaryGrey,
@@ -525,7 +525,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(S.current.equipmentRequired, style: TextStyles.button1),
-        subtitle: Text(equipmentRequired, style: TextStyles.body2_grey),
+        subtitle: Text(equipmentRequired, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: kPrimaryGrey,
@@ -553,7 +553,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(S.current.location, style: TextStyles.button1),
-        subtitle: Text(location!, style: TextStyles.body2_grey),
+        subtitle: Text(location!, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: kPrimaryGrey,

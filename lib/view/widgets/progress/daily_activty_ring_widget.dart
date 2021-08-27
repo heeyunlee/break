@@ -98,7 +98,7 @@ class DailyActivityRingWidget extends StatelessWidget {
     if (model.todaysMuscleWorked.length == 1) {
       return Text(
         model.todaysMuscleWorked,
-        style: TextStyles.headline4_w900,
+        style: TextStyles.headline4W900,
       );
     } else {
       return SizedBox(
@@ -107,7 +107,7 @@ class DailyActivityRingWidget extends StatelessWidget {
           // alignment: Alignment.center,
           child: Text(
             model.todaysMuscleWorked,
-            style: TextStyles.headline5_w900,
+            style: TextStyles.headline5W900,
           ),
         ),
       );
@@ -162,7 +162,7 @@ class DailyActivityRingWidget extends StatelessWidget {
     return DailySummaryNumbersWidget(
       title: S.current.proteins,
       backgroundColor: Colors.greenAccent,
-      textStyle: TextStyles.body1_menlo_black,
+      textStyle: TextStyles.body1MenloBlack,
       hundreds: hundreds,
       tens: tens,
       ones: ones,

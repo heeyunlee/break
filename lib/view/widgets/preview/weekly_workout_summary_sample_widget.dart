@@ -70,7 +70,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     S.current.wokroutsThisWeek,
-                    style: TextStyles.subtitle1_w900_primary,
+                    style: TextStyles.subtitle1W900Primary,
                   ),
                   const SizedBox(width: 8),
                   const Icon(
@@ -90,7 +90,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                   children: [
                     Text(
                       _weekDaysOfTheWeek[index],
-                      style: TextStyles.body2_grey_bold,
+                      style: TextStyles.body2GreyBold,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),

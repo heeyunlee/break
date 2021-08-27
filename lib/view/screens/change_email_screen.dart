@@ -147,7 +147,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 return null;
               },
               decoration: const InputDecoration(
-                hintStyle: TextStyles.headline6_grey,
+                hintStyle: TextStyles.headline6Grey,
                 hintText: 'JohnDoe@abc.com',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
@@ -158,7 +158,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 errorBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),
                 ),
-                counterStyle: TextStyles.caption1_grey,
+                counterStyle: TextStyles.caption1Grey,
               ),
               onChanged: (value) => setState(() {
                 _email = value;

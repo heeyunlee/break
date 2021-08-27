@@ -31,7 +31,7 @@ class ReorderRoutineWorkoutsButton extends StatelessWidget {
           children: [
             Text(
               S.current.editRoutineWorkoutOrder,
-              style: TextStyles.body2_grey,
+              style: TextStyles.body2Grey,
             ),
             const SizedBox(width: 8),
             const Icon(

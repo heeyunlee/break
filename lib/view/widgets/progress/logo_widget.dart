@@ -26,7 +26,7 @@ class LogoWidget extends StatelessWidget {
               width: 32,
             ),
             const SizedBox(height: 24),
-            const Text('Herakles', style: TextStyles.body1_menlo),
+            const Text('Herakles', style: TextStyles.body1Menlo),
           ],
         ),
       ),

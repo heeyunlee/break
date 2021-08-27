@@ -3,6 +3,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class RoutineWorkoutShimmer extends StatelessWidget {
+  const RoutineWorkoutShimmer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

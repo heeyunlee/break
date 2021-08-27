@@ -80,7 +80,7 @@ class LibraryListTile extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: TextStyles.body1_bold,
+                        style: TextStyles.body1Bold,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -88,7 +88,7 @@ class LibraryListTile extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: TextStyles.body2_grey,
+                        style: TextStyles.body2Grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,

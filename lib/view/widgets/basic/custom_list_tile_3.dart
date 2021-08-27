@@ -60,7 +60,7 @@ class CustomListTile3 extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: TextStyles.body1_bold,
+                        style: TextStyles.body1Bold,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -68,7 +68,7 @@ class CustomListTile3 extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         subtitle,
-                        style: TextStyles.caption1_grey,
+                        style: TextStyles.caption1Grey,
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         softWrap: false,
@@ -77,7 +77,7 @@ class CustomListTile3 extends StatelessWidget {
                       if (kSubtitle2 != null)
                         Text(
                           kSubtitle2 ?? 'Subtitle 2',
-                          style: TextStyles.caption1_grey,
+                          style: TextStyles.caption1Grey,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,

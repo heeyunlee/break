@@ -89,7 +89,7 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                     const SizedBox(width: 8),
                     Text(
                       S.current.wokroutsThisWeek,
-                      style: TextStyles.subtitle1_w900_primary,
+                      style: TextStyles.subtitle1W900Primary,
                     ),
                     const SizedBox(width: 8),
                     const Icon(
@@ -109,7 +109,7 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                     children: [
                       Text(
                         widget.model.daysOfTheWeek[index],
-                        style: TextStyles.body2_grey_bold,
+                        style: TextStyles.body2GreyBold,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),

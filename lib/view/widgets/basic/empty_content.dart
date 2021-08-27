@@ -37,7 +37,7 @@ class EmptyContent extends StatelessWidget {
           if (message != null)
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Text(message!, style: TextStyles.subtitle1_bold),
+              child: Text(message!, style: TextStyles.subtitle1Bold),
             ),
           if (button != null) button ?? Container(),
         ],

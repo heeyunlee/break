@@ -43,7 +43,7 @@ class FullScreenTextTextFieldWidget extends StatelessWidget {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             counterStyle: TextStyles.caption1,
-            hintStyle: TextStyles.headline6_grey,
+            hintStyle: TextStyles.headline6Grey,
             hintText: hintText,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),

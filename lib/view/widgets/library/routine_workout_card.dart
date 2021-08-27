@@ -25,11 +25,12 @@ class RoutineWorkoutCard extends ConsumerWidget {
   final AuthAndDatabase authAndDatabase;
 
   const RoutineWorkoutCard({
+    Key? key,
     required this.index,
     required this.routine,
     required this.routineWorkout,
     required this.authAndDatabase,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

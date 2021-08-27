@@ -9,12 +9,13 @@ import 'package:collection/collection.dart';
 
 class MiniplayerTitle extends StatelessWidget {
   const MiniplayerTitle({
+    Key? key,
     required this.model,
     required this.isExpanded,
     this.horzPadding = 24,
     this.vertPadding = 4,
     this.textStyle = TextStyles.headline5,
-  });
+  }) : super(key: key);
 
   final MiniplayerModel model;
   final bool isExpanded;

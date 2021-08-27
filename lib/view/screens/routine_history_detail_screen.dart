@@ -270,12 +270,12 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   children: <Widget>[
                     Text(
                       Formatter.date(widget.routineHistory.workoutStartTime),
-                      style: TextStyles.subtitle1_bold,
+                      style: TextStyles.subtitle1Bold,
                     ),
                     Text(
                       widget.routineHistory.routineTitle,
                       maxLines: 1,
-                      style: TextStyles.headline4_bold,
+                      style: TextStyles.headline4Bold,
                       softWrap: false,
                       overflow: TextOverflow.fade,
                     ),
@@ -303,7 +303,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 16),
-            Text(S.current.quickSummary, style: TextStyles.headline6_w900),
+            Text(S.current.quickSummary, style: TextStyles.headline6W900),
             const SizedBox(height: 8),
             SummaryRowWidget(
               title: Formatter.routineHistoryWeights(routineHistory),
@@ -328,7 +328,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.routines, style: TextStyles.headline6_w900),
+              child: Text(S.current.routines, style: TextStyles.headline6W900),
             ),
             CustomStreamBuilder<List<WorkoutHistory>>(
               stream: widget.database.workoutHistoriesStream(
@@ -353,7 +353,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(S.current.notes, style: TextStyles.headline6_w900),
+              child: Text(S.current.notes, style: TextStyles.headline6W900),
             ),
             const SizedBox(height: 8),
             Card(
@@ -373,7 +373,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                         focusNode: focusNode1,
                         decoration: InputDecoration(
                           hintText: S.current.notesHintText,
-                          hintStyle: TextStyles.body2_grey,
+                          hintStyle: TextStyles.body2Grey,
                           border: InputBorder.none,
                         ),
                         onFieldSubmitted: (value) {
@@ -405,13 +405,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 children: [
                   Text(
                     S.current.makeItVisibleTo,
-                    style: TextStyles.body2_light,
+                    style: TextStyles.body2Light,
                   ),
                   SizedBox(
                     width: 72,
                     child: Text(
                       _isPublic ? S.current.everyone : S.current.justMe,
-                      style: TextStyles.body2_w900,
+                      style: TextStyles.body2W900,
                     ),
                   ),
                   const SizedBox(width: 8),

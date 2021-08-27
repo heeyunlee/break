@@ -184,7 +184,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
             controller: _textController1,
             maxLength: 25,
             decoration: InputDecoration(
-              hintStyle: TextStyles.headline6_grey,
+              hintStyle: TextStyles.headline6Grey,
               hintText: S.current.displayNameHintText,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
@@ -192,7 +192,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
               focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: kPrimaryColor),
               ),
-              counterStyle: TextStyles.caption1_grey,
+              counterStyle: TextStyles.caption1Grey,
             ),
             onChanged: (value) => setState(() {
               _displayName = value;
@@ -208,7 +208,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
             },
           ),
         ),
-        Text(S.current.yourDisplayName, style: TextStyles.body1_grey),
+        Text(S.current.yourDisplayName, style: TextStyles.body1Grey),
       ],
     );
   }

@@ -30,13 +30,14 @@ class WorkoutDetailScreen extends StatefulWidget {
   final String tag;
 
   const WorkoutDetailScreen({
+    Key? key,
     this.workout,
     required this.workoutId,
     required this.database,
     required this.auth,
     required this.user,
     required this.tag,
-  });
+  }) : super(key: key);
 
   // For Navigation
   static Future<void> show(
@@ -266,7 +267,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                         children: <Widget>[
                           Text(
                             S.current.mainMuscleGroup,
-                            style: TextStyles.caption1_grey,
+                            style: TextStyles.caption1Grey,
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -293,7 +294,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                         children: <Widget>[
                           Text(
                             S.current.equipmentRequired,
-                            style: TextStyles.caption1_grey,
+                            style: TextStyles.caption1Grey,
                           ),
                           const SizedBox(height: 8),
                           Text(

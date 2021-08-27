@@ -45,7 +45,7 @@ class SignInLogoWidget extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 40),
-      const Text('Herakles: Workout Player', style: TextStyles.subtitle1_menlo),
+      const Text('Herakles: Workout Player', style: TextStyles.subtitle1Menlo),
     ];
   }
 }

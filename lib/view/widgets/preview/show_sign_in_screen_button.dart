@@ -12,7 +12,7 @@ class ShowSignInScreenButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: OutlinedButton(
-        style: ButtonStyles.elevated_full_width,
+        style: ButtonStyles.elevatedFullWidth,
         onPressed: () => SignInScreenModel.show(context),
         child: Text(S.current.getStarted, style: TextStyles.button1),
       ),

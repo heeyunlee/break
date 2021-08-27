@@ -325,8 +325,7 @@ class PersonalGoalsScreen extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (showTrailingText)
-            Text(trailingText, style: TextStyles.body2_grey),
+          if (showTrailingText) Text(trailingText, style: TextStyles.body2Grey),
           const SizedBox(width: 16),
           const Icon(
             Icons.arrow_forward_ios_rounded,

@@ -17,13 +17,13 @@ class ToggleIsPublicWidget extends ConsumerWidget {
       children: [
         Text(
           S.current.makeItVisibleTo,
-          style: TextStyles.body2_light,
+          style: TextStyles.body2Light,
         ),
         SizedBox(
           width: 72,
           child: Text(
             (model.isPublic) ? S.current.everyone : S.current.justMe,
-            style: TextStyles.body2_w900,
+            style: TextStyles.body2W900,
           ),
         ),
         const SizedBox(width: 8),

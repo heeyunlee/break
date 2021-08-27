@@ -87,10 +87,10 @@ class _SearchTabState extends State<SearchTab> {
         progress: _isLoading,
         transitionCurve: Curves.easeInOut,
         hint: S.current.searchBarHintText,
-        hintStyle: TextStyles.body2_grey,
+        hintStyle: TextStyles.body2Grey,
         backdropColor: kAppBarColor,
         backgroundColor: Colors.white,
-        queryStyle: TextStyles.body2_black,
+        queryStyle: TextStyles.body2Black,
         actions: [
           const FloatingSearchBarAction(
             // showIfOpened: false,
@@ -189,28 +189,28 @@ class _SearchTabState extends State<SearchTab> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byMuscleGroup,
-              style: TextStyles.body1_w900_menlo,
+              style: TextStyles.body1W900Menlo,
             ),
           ),
-          MainMuscleGroupGridWidget(),
+          const MainMuscleGroupGridWidget(),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byEquipment,
-              style: TextStyles.body1_w900_menlo,
+              style: TextStyles.body1W900Menlo,
             ),
           ),
-          EquipmentRequiredGridWidget(),
+          const EquipmentRequiredGridWidget(),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               S.current.byLocation,
-              style: TextStyles.body1_w900_menlo,
+              style: TextStyles.body1W900Menlo,
             ),
           ),
-          LocationGridWidget(),
+          const LocationGridWidget(),
           const SizedBox(height: 160),
         ],
       ),

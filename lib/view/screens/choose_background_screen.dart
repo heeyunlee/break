@@ -180,7 +180,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
           backgroundColor: (widget.model.selectedImageIndex != null)
               ? kPrimaryColor
               : Colors.grey[700],
-          label: Text(S.current.setWallpaper, style: TextStyles.button1_bold),
+          label: Text(S.current.setWallpaper, style: TextStyles.button1Bold),
         ),
       ),
     );

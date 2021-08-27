@@ -8,6 +8,8 @@ import '../../screens/search_category_screen.dart';
 import 'search_category_widget.dart';
 
 class MainMuscleGroupGridWidget extends StatelessWidget {
+  const MainMuscleGroupGridWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -39,6 +41,8 @@ class MainMuscleGroupGridWidget extends StatelessWidget {
 }
 
 class EquipmentRequiredGridWidget extends StatelessWidget {
+  const EquipmentRequiredGridWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -74,6 +78,8 @@ class EquipmentRequiredGridWidget extends StatelessWidget {
 }
 
 class LocationGridWidget extends StatelessWidget {
+  const LocationGridWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

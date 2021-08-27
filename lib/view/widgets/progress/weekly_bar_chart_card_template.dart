@@ -58,7 +58,7 @@ class WeeklyBarChartCardTemplate extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             title,
-                            style: TextStyles.subtitle1_w900.copyWith(
+                            style: TextStyles.subtitle1W900.copyWith(
                               color: defaultColor,
                             ),
                           ),
@@ -135,7 +135,7 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
                         widget.model.getTooltipText(rod.y) as String,
-                        TextStyles.body1_black,
+                        TextStyles.body1Black,
                       );
                     },
                   ),
@@ -172,7 +172,7 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
                   leftTitles: SideTitles(
                     showTitles: true,
                     margin: 28,
-                    getTextStyles: (_) => TextStyles.caption1_grey,
+                    getTextStyles: (_) => TextStyles.caption1Grey,
                     getTitles: (double value) {
                       switch (value.toInt()) {
                         case 0:

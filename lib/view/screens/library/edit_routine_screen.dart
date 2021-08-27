@@ -313,7 +313,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             S.current.publicRoutineDescription,
-            style: TextStyles.caption1_grey,
+            style: TextStyles.caption1Grey,
           ),
         ),
         const SizedBox(height: 16),
@@ -330,7 +330,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             S.current.routineTitleTitle,
-            style: TextStyles.body1_w800,
+            style: TextStyles.body1W800,
           ),
         ),
 
@@ -373,7 +373,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.description, style: TextStyles.body1_w800),
+          child: Text(S.current.description, style: TextStyles.body1W800),
         ),
 
         /// Description
@@ -393,7 +393,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: S.current.descriptionHintText,
-                hintStyle: TextStyles.body2_light_grey,
+                hintStyle: TextStyles.body2LightGrey,
                 border: InputBorder.none,
               ),
               onFieldSubmitted: (value) => _description = value,
@@ -413,7 +413,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.trainingLevel, style: TextStyles.body1_w800),
+          child: Text(S.current.trainingLevel, style: TextStyles.body1W800),
         ),
 
         /// Training Level
@@ -459,7 +459,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
         const SizedBox(height: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(S.current.moreSettings, style: TextStyles.body1_w800),
+          child: Text(S.current.moreSettings, style: TextStyles.body1W800),
         ),
 
         /// Main Muscle Group
@@ -475,7 +475,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
                 routine.mainMuscleGroup,
                 routine.mainMuscleGroupEnum,
               ),
-              style: TextStyles.body2_grey,
+              style: TextStyles.body2Grey,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -507,7 +507,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             routine.equipmentRequired,
             routine.equipmentRequiredEnum,
           ),
-          style: TextStyles.body2_grey,
+          style: TextStyles.body2Grey,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -537,7 +537,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
             routine.initialUnitOfMass,
             routine.unitOfMassEnum,
           ),
-          style: TextStyles.body2_grey,
+          style: TextStyles.body2Grey,
         ),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
@@ -567,7 +567,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         title: Text(S.current.location, style: TextStyles.button1),
-        subtitle: Text(location!, style: TextStyles.body2_grey),
+        subtitle: Text(location!, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
           color: kPrimaryGrey,

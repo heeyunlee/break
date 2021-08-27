@@ -4,11 +4,12 @@ import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NextWorkoutSetButton extends ConsumerWidget {
-  final double? iconSize;
-
   const NextWorkoutSetButton({
+    Key? key,
     this.iconSize = 48,
-  });
+  }) : super(key: key);
+
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

@@ -69,7 +69,7 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
           controller: _textController1,
           decoration: InputDecoration(
             counterStyle: TextStyles.caption1,
-            hintStyle: TextStyles.headline6_grey,
+            hintStyle: TextStyles.headline6Grey,
             hintText: S.current.workoutHintText,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),

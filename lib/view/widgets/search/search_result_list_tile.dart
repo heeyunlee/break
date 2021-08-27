@@ -41,7 +41,7 @@ class SearchResultListTile extends StatelessWidget {
                 if (subtitle != null)
                   Text(
                     subtitle!,
-                    style: TextStyles.caption1_grey,
+                    style: TextStyles.caption1Grey,
                   ),
               ],
             ),

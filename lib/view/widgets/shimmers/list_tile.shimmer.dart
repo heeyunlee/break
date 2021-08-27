@@ -3,6 +3,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:workout_player/styles/constants.dart';
 
 class ListTileShimmer extends StatelessWidget {
+  const ListTileShimmer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(

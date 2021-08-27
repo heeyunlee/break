@@ -49,7 +49,7 @@ class LatestBodyFatSampleWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   const Text(
                     '20 %',
-                    style: TextStyles.headline5_menlo_bold_secondary,
+                    style: TextStyles.headline5MenloBoldSecondary,
                   ),
                   const SizedBox(height: 8),
                   Stack(

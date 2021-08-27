@@ -81,7 +81,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     S.current.description,
-                    style: TextStyles.body1_w800,
+                    style: TextStyles.body1W800,
                   ),
                 ),
                 Card(
@@ -99,7 +99,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       maxLines: 3,
                       decoration: InputDecoration(
                         hintText: S.current.descriptionHintText,
-                        hintStyle: TextStyles.body2_light_grey,
+                        hintStyle: TextStyles.body2LightGrey,
                         border: InputBorder.none,
                       ),
                       onFieldSubmitted: (value) {
@@ -124,7 +124,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.workoutDifficultySliderText}: $_difficultySliderLabel',
-                    style: TextStyles.body1_w800,
+                    style: TextStyles.body1W800,
                   ),
                 ),
                 Card(
@@ -159,7 +159,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     '${S.current.secondsPerRep}: $formattedSecondsPerRep ${S.current.seconds}',
-                    style: TextStyles.body1_w800,
+                    style: TextStyles.body1W800,
                   ),
                 ),
                 Card(
@@ -191,7 +191,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     S.current.secondsPerRepHelperText,
-                    style: TextStyles.caption1_grey,
+                    style: TextStyles.caption1Grey,
                   ),
                 ),
                 const SizedBox(height: 36),
@@ -210,7 +210,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                       const SizedBox(width: 8),
                       Text(
                         S.current.location,
-                        style: TextStyles.headline6_bold,
+                        style: TextStyles.headline6Bold,
                       ),
                     ],
                   ),

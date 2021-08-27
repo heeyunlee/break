@@ -102,7 +102,7 @@ class RoutineDetailScreenSliverWidget extends ConsumerWidget {
                             TitleWidget(title: routine.routineTitle),
                             Text(
                               routine.routineOwnerUserName,
-                              style: TextStyles.subtitle2_bold_grey,
+                              style: TextStyles.subtitle2BoldGrey,
                             ),
                           ],
                         ),

@@ -40,7 +40,7 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(S.current.routineTitleHintText, style: TextStyles.body1),
-                Text(ago, style: TextStyles.overline_grey),
+                Text(ago, style: TextStyles.overlineGrey),
               ],
             ),
             Padding(
@@ -56,12 +56,12 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
                     children: [
                       const Text(
                         '9,520 kg',
-                        style: TextStyles.headline5_menlo_w900_primary,
+                        style: TextStyles.headline5MenloW900Primary,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         S.current.liftedWeights,
-                        style: TextStyles.caption1_grey,
+                        style: TextStyles.caption1Grey,
                       ),
                     ],
                   ),
@@ -78,12 +78,12 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
                     children: [
                       Text(
                         '62 ${S.current.minutes}',
-                        style: TextStyles.headline5_menlo_w900_primary,
+                        style: TextStyles.headline5MenloW900Primary,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         S.current.time,
-                        style: TextStyles.caption1_grey,
+                        style: TextStyles.caption1Grey,
                       ),
                     ],
                   ),

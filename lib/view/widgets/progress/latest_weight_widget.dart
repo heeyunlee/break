@@ -68,7 +68,7 @@ class LatestWeightWidget extends StatelessWidget {
                   Text(S.current.bodyWeight, style: TextStyles.button1),
                   Text(
                     '$weight $unit',
-                    style: TextStyles.headline5_menlo_bold_secondary,
+                    style: TextStyles.headline5MenloBoldSecondary,
                   ),
                   if (showWidget) ..._buildProgressBar(),
                 ],

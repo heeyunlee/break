@@ -21,7 +21,7 @@ class AppBarTitleWidget extends ConsumerWidget {
         onPressed: () => model.jumpToCurrentWorkout(homeModel),
         child: Text(
           getTitle(model),
-          style: TextStyles.body2_w900,
+          style: TextStyles.body2W900,
           maxLines: 1,
           softWrap: false,
           overflow: TextOverflow.ellipsis,

@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
             const SizedBox(height: 40),
             const Text(
               'Herakles: Workout Player',
-              style: TextStyles.subtitle1_menlo,
+              style: TextStyles.subtitle1Menlo,
             ),
           ],
         ),

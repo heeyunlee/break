@@ -163,20 +163,20 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                                   // youtubeVideo?.mainMuscleGroups,
                                   model.muscleGroups,
                                 ),
-                                style: TextStyles.body2_grey,
+                                style: TextStyles.body2Grey,
                               ),
                               const Text(
                                 '   •   ',
-                                style: TextStyles.body2_grey,
+                                style: TextStyles.body2Grey,
                               ),
                               Text(
                                 '${model.duration} ${S.current.minutes}',
                                 // '${youtubeVideo?.duration.inMinutes} ${S.current.minutes}',
-                                style: TextStyles.body2_grey,
+                                style: TextStyles.body2Grey,
                               ),
                               const Text(
                                 '   •   ',
-                                style: TextStyles.body2_grey,
+                                style: TextStyles.body2Grey,
                               ),
                               Text(
                                 EnumToString.convertToString(
@@ -184,7 +184,7 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                                   model.location,
                                   camelCase: true,
                                 ),
-                                style: TextStyles.body2_grey,
+                                style: TextStyles.body2Grey,
                               ),
                             ],
                           ),

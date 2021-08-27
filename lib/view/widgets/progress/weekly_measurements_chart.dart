@@ -91,7 +91,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                     leftTitles: SideTitles(
                       showTitles: true,
                       margin: 24,
-                      getTextStyles: (_) => TextStyles.caption1_grey,
+                      getTextStyles: (_) => TextStyles.caption1Grey,
                       getTitles: (value) {
                         final unit = Formatter.unitOfMass(
                           widget.user.unitOfMass,

@@ -47,7 +47,7 @@ class MostRecentWorkout extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(ago, style: TextStyles.overline_grey),
+              Text(ago, style: TextStyles.overlineGrey),
               const SizedBox(height: 4),
               Text(
                 title,
@@ -66,12 +66,12 @@ class MostRecentWorkout extends StatelessWidget {
                     children: [
                       Text(
                         Formatter.routineHistoryWeights(last),
-                        style: TextStyles.headline5_menlo_w900_primary,
+                        style: TextStyles.headline5MenloW900Primary,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         S.current.liftedWeights,
-                        style: TextStyles.caption1_grey,
+                        style: TextStyles.caption1Grey,
                       ),
                     ],
                   ),
@@ -87,12 +87,12 @@ class MostRecentWorkout extends StatelessWidget {
                     children: [
                       Text(
                         Formatter.durationInMin(last?.totalDuration),
-                        style: TextStyles.headline5_menlo_w900_primary,
+                        style: TextStyles.headline5MenloW900Primary,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         S.current.time,
-                        style: TextStyles.caption1_grey,
+                        style: TextStyles.caption1Grey,
                       ),
                     ],
                   ),

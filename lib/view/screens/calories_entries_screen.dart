@@ -107,7 +107,7 @@ class CaloriesEntriesScreen extends StatelessWidget {
                 '$title Cal',
                 style: TextStyles.body1,
               ),
-              trailing: Text(date, style: TextStyles.body1_grey),
+              trailing: Text(date, style: TextStyles.body1Grey),
             ),
           );
         },
