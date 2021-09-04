@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:workout_player/models/enum/meal.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class Nutrition {
   const Nutrition({
@@ -49,7 +48,7 @@ class Nutrition {
       final num? carbs = num.tryParse(data['carbs']?.toString() ?? '');
       final num? fat = num.tryParse(data['fat']?.toString() ?? '');
 
-      final nutrition = Nutrition(
+      return Nutrition(
         nutritionId: documentId,
         userId: userId,
         username: username,
@@ -62,10 +61,6 @@ class Nutrition {
         carbs: carbs,
         fat: fat,
       );
-
-      logger.d(nutrition);
-
-      return nutrition;
     } else {
       throw 'null';
     }

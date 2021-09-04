@@ -12,11 +12,11 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../styles/constants.dart';
+import 'library/routine_detail_screen.dart';
 import 'library/workout_detail_screen.dart';
 
 class SearchCategoryScreen extends StatelessWidget {
@@ -195,7 +195,7 @@ class SearchCategoryScreen extends StatelessWidget {
           title: routine.routineTitle,
           subtitle: routine.routineOwnerUserName,
           tag: 'MoreScreen-${routine.routineId}',
-          onTap: () => RoutineDetailScreenModel.show(
+          onTap: () => RoutineDetailScreen.show(
             context,
             routine: routine,
             tag: 'MoreScreen-${routine.routineId}',

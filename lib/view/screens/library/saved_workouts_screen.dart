@@ -40,12 +40,14 @@ class SavedWorkoutsScreen extends StatelessWidget {
   }
 
   void _getDocuments(List<Future<Workout?>> workoutsFuture) {
-    // TODO: fix avoid_function_literals_in_foreach_calls
-    // ignore: avoid_function_literals_in_foreach_calls
-    user.savedWorkouts!.forEach((id) {
+    user.savedWorkouts?.map((id) {
       final Future<Workout?> nextDoc = database.getWorkout(id);
       workoutsFuture.add(nextDoc);
     });
+    // user.savedWorkouts!.forEach((id) {
+    //   final Future<Workout?> nextDoc = database.getWorkout(id);
+    //   workoutsFuture.add(nextDoc);
+    // });
   }
 
   @override

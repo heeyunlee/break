@@ -32,6 +32,7 @@ const kGrey100 = Color(0xffffffff);
 const kKeyboardDarkColor = Color(0xff303030);
 const kBackgroundColor = Color(0xff121212);
 const kAppBarColor = Color(0xff1C1C1C);
+const kCardColorDark = Color(0xff191a1b);
 const kCardColor = Color(0xff242526);
 const kCardColorLight = Color(0xff3C3C3C);
 const kCardColorSuperLight = Color(0xff666666);

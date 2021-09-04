@@ -501,4 +501,12 @@ class Formatter {
 
     return parsedDuration;
   }
+
+  static String formattedKcal(num? value) {
+    if (value != null) {
+      return '${numWithOrWithoutDecimal(value)} Kcal';
+    } else {
+      return '--.- Kcal';
+    }
+  }
 }

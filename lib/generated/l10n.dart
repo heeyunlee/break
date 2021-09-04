@@ -4469,6 +4469,76 @@ class S {
       args: [equipments],
     );
   }
+
+  /// `Sign out has failed...`
+  String get signOutFailedMessage {
+    return Intl.message(
+      'Sign out has failed...',
+      name: 'signOutFailedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rest for {subtitle}`
+  String youtubeWorkoutListTileTitle(Object subtitle) {
+    return Intl.message(
+      'Rest for $subtitle',
+      name: 'youtubeWorkoutListTileTitle',
+      desc: '',
+      args: [subtitle],
+    );
+  }
+
+  /// `YouTube Workout In Progress`
+  String get startYoutubeWorkoutAlertTitle {
+    return Intl.message(
+      'YouTube Workout In Progress',
+      name: 'startYoutubeWorkoutAlertTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please end the currently running YouTube workout before starting the new one`
+  String get startYoutubeWorkoutAlertMessage {
+    return Intl.message(
+      'Please end the currently running YouTube workout before starting the new one',
+      name: 'startYoutubeWorkoutAlertMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workouts In This Video`
+  String get workoutsInThisVideo {
+    return Intl.message(
+      'Workouts In This Video',
+      name: 'workoutsInThisVideo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Burnt`
+  String get burnt {
+    return Intl.message(
+      'Burnt',
+      name: 'burnt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could Not Launch: {url}`
+  String couldNotLaunch(Object url) {
+    return Intl.message(
+      'Could Not Launch: $url',
+      name: 'couldNotLaunch',
+      desc: '',
+      args: [url],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

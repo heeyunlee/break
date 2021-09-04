@@ -6,7 +6,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/view_models/add_measurements_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
-import 'package:workout_player/view_models/miniplayer_model.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/speed_dial_model.dart';
 
 import '../speed_dial.dart';
@@ -46,16 +46,16 @@ class _SpeedDialState extends State<SpeedDial>
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, watch, child) {
-        final model = watch(miniplayerModelProvider);
+        final homeModel = watch(homeScreenModelProvider);
         final size = MediaQuery.of(context).size;
 
         return ValueListenableBuilder<double>(
-          valueListenable: model.valueNotifier,
+          valueListenable: homeModel.valueNotifier!,
           builder: (context, height, child) => Transform.translate(
             offset: Offset(
               0,
-              model.getYOffset(
-                min: miniplayerMinHeight,
+              homeModel.getYOffset(
+                min: homeModel.miniplayerMinHeight!,
                 max: size.height,
                 value: height,
               ),
@@ -67,9 +67,9 @@ class _SpeedDialState extends State<SpeedDial>
               alignment: Alignment.bottomCenter,
               children: [
                 _renderOverlay(),
-                _buildTapToCloseFab(),
+                // _buildTapToCloseFab(),
                 ..._buildExpandingActionButtons(context),
-                _buildTapToOpenFab(),
+                SafeArea(child: _buildTapToOpenFab()),
               ],
             ),
           ),
@@ -95,29 +95,29 @@ class _SpeedDialState extends State<SpeedDial>
     );
   }
 
-  Widget _buildTapToCloseFab() {
-    final width = MediaQuery.of(context).size.width;
+  // Widget _buildTapToCloseFab() {
+  //   final width = MediaQuery.of(context).size.width;
 
-    return SizedBox(
-      width: width / 8,
-      height: width / 8,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: widget.model.toggleAnimation,
-            child: const Icon(
-              Icons.close,
-              color: Colors.transparent,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  //   return SizedBox(
+  //     width: width / 8,
+  //     height: width / 8,
+  //     child: Center(
+  //       child: Material(
+  //         shape: const CircleBorder(),
+  //         clipBehavior: Clip.antiAlias,
+  //         elevation: 4.0,
+  //         color: Colors.transparent,
+  //         child: InkWell(
+  //           onTap: widget.model.toggleAnimation,
+  //           child: const Icon(
+  //             Icons.close,
+  //             color: Colors.transparent,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   List<Widget> _expandingChildren(BuildContext context) {
     return [
@@ -162,7 +162,6 @@ class _SpeedDialState extends State<SpeedDial>
     final count = _expandingChildren(context).length;
     final step = 90 / (count - 1);
 
-    // ignore: avoid_multiple_declarations_per_line
     for (var i = 0, angleInDegrees = 45.0;
         i < count;
         i++, angleInDegrees += step) {

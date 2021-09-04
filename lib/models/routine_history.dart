@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:workout_player/models/workout_for_youtube.dart';
+
 import 'enum/equipment_required.dart';
 import 'enum/main_muscle_group.dart';
 import 'enum/unit_of_mass.dart';
@@ -33,6 +35,7 @@ class RoutineHistory {
     this.equipmentRequiredEnum,
     this.unitOfMassEnum,
     required this.routineHistoryType,
+    this.youtubeWorkouts,
   });
 
   final String routineHistoryId;
@@ -60,6 +63,7 @@ class RoutineHistory {
   final List<EquipmentRequired?>? equipmentRequiredEnum; // Nullable
   final UnitOfMass? unitOfMassEnum; // Nullable
   final String? routineHistoryType;
+  final List<WorkoutForYoutube>? youtubeWorkouts;
 
   factory RoutineHistory.fromJson(
       Map<String, dynamic>? data, String documentId) {
@@ -115,6 +119,11 @@ class RoutineHistory {
           : null;
 
       final String? routineHistoryType = data['routineHistoryType']?.toString();
+      final List<WorkoutForYoutube>? youtubeWorkouts =
+          (data['youtubeWorkouts'] as List<dynamic>?)
+              ?.map<WorkoutForYoutube>((workout) =>
+                  WorkoutForYoutube.fromMap(workout as Map<String, dynamic>))
+              .toList();
 
       final routineHistory = RoutineHistory(
         routineHistoryId: documentId,
@@ -142,6 +151,7 @@ class RoutineHistory {
         equipmentRequiredEnum: equipmentRequiredEnum,
         unitOfMassEnum: unitOfMassEnum,
         routineHistoryType: routineHistoryType,
+        youtubeWorkouts: youtubeWorkouts,
       );
 
       return routineHistory;
@@ -182,6 +192,9 @@ class RoutineHistory {
           ? EnumToString.convertToString(unitOfMassEnum)
           : null,
       'routineHistoryType': routineHistoryType,
+      'youtubeWorkouts': youtubeWorkouts
+          ?.map<Map<String, dynamic>>((workout) => workout.toMap())
+          .toList()
     };
   }
 
@@ -211,6 +224,7 @@ class RoutineHistory {
     List<EquipmentRequired?>? equipmentRequiredEnum,
     UnitOfMass? unitOfMassEnum,
     String? routineHistoryType,
+    List<WorkoutForYoutube>? youtubeWorkouts,
   }) {
     return RoutineHistory(
       routineHistoryId: routineHistoryId ?? this.routineHistoryId,
@@ -239,6 +253,7 @@ class RoutineHistory {
           equipmentRequiredEnum ?? this.equipmentRequiredEnum,
       unitOfMassEnum: unitOfMassEnum ?? this.unitOfMassEnum,
       routineHistoryType: routineHistoryType ?? this.routineHistoryType,
+      youtubeWorkouts: youtubeWorkouts ?? this.youtubeWorkouts,
     );
   }
 
@@ -271,7 +286,8 @@ class RoutineHistory {
         listEquals(other.mainMuscleGroupEnum, mainMuscleGroupEnum) &&
         listEquals(other.equipmentRequiredEnum, equipmentRequiredEnum) &&
         other.unitOfMassEnum == unitOfMassEnum &&
-        other.routineHistoryType == routineHistoryType;
+        other.routineHistoryType == routineHistoryType &&
+        listEquals(other.youtubeWorkouts, youtubeWorkouts);
   }
 
   @override
@@ -300,11 +316,12 @@ class RoutineHistory {
         mainMuscleGroupEnum.hashCode ^
         equipmentRequiredEnum.hashCode ^
         unitOfMassEnum.hashCode ^
-        routineHistoryType.hashCode;
+        routineHistoryType.hashCode ^
+        youtubeWorkouts.hashCode;
   }
 
   @override
   String toString() {
-    return 'RoutineHistory(routineHistoryId: $routineHistoryId, userId: $userId, username: $username, routineId: $routineId, routineTitle: $routineTitle, isPublic: $isPublic, workoutStartTime: $workoutStartTime, workoutEndTime: $workoutEndTime, totalWeights: $totalWeights, totalCalories: $totalCalories, totalDuration: $totalDuration, earnedBadges: $earnedBadges, notes: $notes, mainMuscleGroup: $mainMuscleGroup, secondMuscleGroup: $secondMuscleGroup, isBodyWeightWorkout: $isBodyWeightWorkout, workoutDate: $workoutDate, imageUrl: $imageUrl, unitOfMass: $unitOfMass, equipmentRequired: $equipmentRequired, effort: $effort, mainMuscleGroupEnum: $mainMuscleGroupEnum, equipmentRequiredEnum: $equipmentRequiredEnum, unitOfMassEnum: $unitOfMassEnum, routineHistoryType: $routineHistoryType)';
+    return 'RoutineHistory(routineHistoryId: $routineHistoryId, userId: $userId, username: $username, routineId: $routineId, routineTitle: $routineTitle, isPublic: $isPublic, workoutStartTime: $workoutStartTime, workoutEndTime: $workoutEndTime, totalWeights: $totalWeights, totalCalories: $totalCalories, totalDuration: $totalDuration, earnedBadges: $earnedBadges, notes: $notes, mainMuscleGroup: $mainMuscleGroup, secondMuscleGroup: $secondMuscleGroup, isBodyWeightWorkout: $isBodyWeightWorkout, workoutDate: $workoutDate, imageUrl: $imageUrl, unitOfMass: $unitOfMass, equipmentRequired: $equipmentRequired, effort: $effort, mainMuscleGroupEnum: $mainMuscleGroupEnum, equipmentRequiredEnum: $equipmentRequiredEnum, unitOfMassEnum: $unitOfMassEnum, routineHistoryType: $routineHistoryType, youtubeWorkouts: $youtubeWorkouts)';
   }
 }

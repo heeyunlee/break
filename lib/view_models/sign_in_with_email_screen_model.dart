@@ -7,7 +7,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
@@ -248,34 +247,6 @@ class SignInWithEmailModel extends ChangeNotifier {
     }
   }
 
-  Future<void> launchTermsURL(BuildContext context) async {
-    final bool canLaunchs = await canLaunch(_termsUrl);
-
-    if (canLaunchs) {
-      await launch(_termsUrl);
-    } else {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: 'Could not launch $_termsUrl',
-      );
-    }
-  }
-
-  Future<void> launchPrivacyServiceURL(BuildContext context) async {
-    final bool canLaunchs = await canLaunch(_privacyServiceUrl);
-
-    if (canLaunchs) {
-      await launch(_privacyServiceUrl);
-    } else {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: 'Could not launch $_privacyServiceUrl',
-      );
-    }
-  }
-
   static void showSignUpScreen(BuildContext context) {
     custmFadeTransition(
       context,
@@ -304,9 +275,4 @@ class SignInWithEmailModel extends ChangeNotifier {
 
   /// STATIC
   static final formKey = GlobalKey<FormState>();
-
-  static const _termsUrl =
-      'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
-  static const _privacyServiceUrl =
-      'https://app.termly.io/document/privacy-policy/34f278e4-7150-48c6-88c0-ee9a3ee082d1';
 }

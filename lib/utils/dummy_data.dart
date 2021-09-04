@@ -122,6 +122,7 @@ final routineHistoryDummyData = RoutineHistory(
   unitOfMass: 0,
   equipmentRequired: ['EquipmentRequired.band'],
   routineHistoryType: 'routine',
+  youtubeWorkouts: [],
 );
 
 final nutritionDummyData = Nutrition(

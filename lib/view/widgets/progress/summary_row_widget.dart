@@ -16,29 +16,32 @@ class SummaryRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CachedNetworkImage(
-          imageUrl: imageUrl,
-          width: 36,
-          height: 36,
-        ),
-        const SizedBox(width: 16),
-        RichText(
-          text: TextSpan(
-            style: TextStyles.headline3,
-            children: <TextSpan>[
-              TextSpan(text: title),
-              if (subtitle != null)
-                TextSpan(
-                  text: subtitle,
-                  style: TextStyles.subtitle1,
-                ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            width: 36,
+            height: 36,
           ),
-        ),
-      ],
+          const SizedBox(width: 16),
+          RichText(
+            text: TextSpan(
+              style: TextStyles.headline3,
+              children: <TextSpan>[
+                TextSpan(text: title),
+                if (subtitle != null)
+                  TextSpan(
+                    text: subtitle,
+                    style: TextStyles.subtitle1,
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

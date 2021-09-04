@@ -5,13 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/library/library_list_tile.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class SavedRoutinesScreen extends StatelessWidget {
   final Database database;
@@ -85,7 +85,7 @@ class SavedRoutinesScreen extends StatelessWidget {
                 routine.mainMuscleGroupEnum,
               ),
               imageUrl: routine.imageUrl,
-              onTap: () => RoutineDetailScreenModel.show(
+              onTap: () => RoutineDetailScreen.show(
                 context,
                 routine: routine,
                 tag: 'savedRoutiness-${routine.routineId}',

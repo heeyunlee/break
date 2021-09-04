@@ -3,37 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final workoutSetWidgetModelProvider = ChangeNotifierProvider.autoDispose
-    .family<WorkoutSetWidgetModel, AuthAndDatabase>(
-  (_, authAndDatabase) => WorkoutSetWidgetModel(
-    auth: authAndDatabase.auth,
-    database: authAndDatabase.database,
-  ),
+final workoutSetWidgetModelProvider = ChangeNotifierProvider(
+  (ref) => WorkoutSetWidgetModel(),
 );
 
 class WorkoutSetWidgetModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
-
-  WorkoutSetWidgetModel({
-    this.auth,
-    this.database,
-  });
-
   /// DELETE WORKOUT SET
   Future<void> deleteSet(
-    BuildContext context, {
+    BuildContext context,
+    Database database, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required WorkoutSet workoutSet,
@@ -63,7 +50,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
       };
 
-      await database!.setWorkoutSet(
+      await database.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -88,7 +75,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'lastEditedDate': Timestamp.now(),
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
 
       getSnackbarWidget(
         S.current.deleteWorkoutSet,
@@ -108,7 +95,8 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
   /// UPDATE WEIGHT
   Future<void> updateWeight(
-    BuildContext context, {
+    BuildContext context,
+    Database database, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -127,12 +115,13 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
     focusNode.unfocus();
 
-    await _submit(context, routine, routineWorkout, workoutSets);
+    await _submit(context, database, routine, routineWorkout, workoutSets);
   }
 
   /// UPDATE WEIGHT
   Future<void> updateReps(
-    BuildContext context, {
+    BuildContext context,
+    Database database, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -151,12 +140,13 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
     focusNode.unfocus();
 
-    await _submit(context, routine, routineWorkout, workoutSets);
+    await _submit(context, database, routine, routineWorkout, workoutSets);
   }
 
   /// UPDATE WEIGHT
   Future<void> updateRestTime(
-    BuildContext context, {
+    BuildContext context,
+    Database database, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -175,11 +165,12 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
     focusNode.unfocus();
 
-    await _submit(context, routine, routineWorkout, workoutSets);
+    await _submit(context, database, routine, routineWorkout, workoutSets);
   }
 
   Future<void> _submit(
     BuildContext context,
+    Database database,
     Routine routine,
     RoutineWorkout routineWorkout,
     List<WorkoutSet> workoutSets,
@@ -208,7 +199,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'sets': workoutSets.map((e) => e.toJson()).toList(),
       };
 
-      await database!.updateRoutineWorkout(
+      await database.updateRoutineWorkout(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -226,7 +217,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'lastEditedDate': Timestamp.now(),
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -236,4 +227,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
       );
     }
   }
+
+  // static final formKey = GlobalKey<FormState>();
 }

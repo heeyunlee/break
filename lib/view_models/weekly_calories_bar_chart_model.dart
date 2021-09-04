@@ -78,7 +78,6 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
       };
 
       // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
-      // ignore: avoid_function_literals_in_foreach_calls
       _mapData.values.forEach((list) {
         num sum = 0;
 

@@ -6,7 +6,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
@@ -47,12 +46,9 @@ class AddWorkoutToRoutineScreen extends StatelessWidget {
       itemsPerPage: 10,
       header: SliverToBoxAdapter(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
-            Text(
-              'Add ${workout.workoutTitle} to your routine',
-              style: TextStyles.body1,
-            ),
           ],
         ),
       ),

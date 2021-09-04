@@ -40,17 +40,24 @@ class WatchTab extends StatelessWidget {
         ),
         flexibleSpace: const AppbarBlurBG(),
       ),
-      body: CustomStreamBuilder<List<YoutubeVideo>>(
-        stream: database.youtubeVideosStream(),
-        builder: (context, videos) {
-          return CustomListViewBuilder<YoutubeVideo>(
-            items: videos,
-            itemBuilder: (context, video, index) => YoutubeVideoCard(
-              heroTag: video.youtubeVideoId,
-              youtubeVideo: video,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomStreamBuilder<List<YoutubeVideo>>(
+              stream: database.youtubeVideosStream(),
+              builder: (context, videos) {
+                return CustomListViewBuilder<YoutubeVideo>(
+                  items: videos,
+                  itemBuilder: (context, video, index) => YoutubeVideoCard(
+                    heroTag: video.youtubeVideoId,
+                    youtubeVideo: video,
+                  ),
+                );
+              },
             ),
-          );
-        },
+            const SizedBox(height: kBottomNavigationBarHeight + 32)
+          ],
+        ),
       ),
     );
   }

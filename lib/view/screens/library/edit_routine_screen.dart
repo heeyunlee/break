@@ -585,11 +585,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen> {
   Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
-      title: Text(S.current.deleteRoutinekButtonText),
-      message: Text(
-        S.current.deleteRoutineWarningMessage,
-        textAlign: TextAlign.center,
-      ),
+      title: S.current.deleteRoutinekButtonText,
+      message: S.current.deleteRoutineWarningMessage,
       firstActionText: S.current.deleteRoutinekButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.routine),

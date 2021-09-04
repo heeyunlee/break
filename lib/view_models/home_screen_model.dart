@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +20,8 @@ final homeScreenModelProvider = ChangeNotifierProvider.autoDispose(
 class HomeScreenModel with ChangeNotifier {
   AuthBase? auth;
   Database? database;
+  double? miniplayerMinHeight;
+  ValueNotifier<double>? valueNotifier;
 
   HomeScreenModel({
     this.auth,
@@ -34,6 +39,36 @@ class HomeScreenModel with ChangeNotifier {
   TabItem get currentTab => _currentTab;
   int get currentTabIndex => _currentTabIndex;
   bool get isFirstStartup => _isFirstStartup;
+
+  Future<void> setMiniplayerHeight() async {
+    logger.d('`setMiniplayerHeight` function called');
+
+    // final _miniplayerHeight = Platform.isAndroid
+    //     ? 120.0
+    //     : (size.height > 700)
+    //         ? 152.0
+    //         : 120.0;
+    final aspectRatio = window.physicalSize.aspectRatio;
+    final _miniplayerHeight = Platform.isAndroid
+        ? 120.0
+        : (aspectRatio < 0.5)
+            ? 152.0
+            : 120.0;
+    logger.d('physicalSize: ${window.physicalSize}');
+
+    miniplayerMinHeight = _miniplayerHeight;
+    valueNotifier = ValueNotifier<double>(miniplayerMinHeight!);
+  }
+
+  double getYOffset({
+    required double min,
+    required double max,
+    required double value,
+  }) {
+    final percentage = (value - min) / (max - min);
+
+    return kBottomNavigationBarHeight * percentage * 2;
+  }
 
   Future<bool> onWillPopMiniplayer() async {
     final state = miniplayerNavigatorKey.currentState!;
@@ -237,7 +272,6 @@ class HomeScreenModel with ChangeNotifier {
     TabItem.search: GlobalKey<NavigatorState>(),
     TabItem.watch: GlobalKey<NavigatorState>(),
     TabItem.library: GlobalKey<NavigatorState>(),
-    // TabItem.settings: GlobalKey<NavigatorState>(),
   };
 
   // Home Screen Navigator Key

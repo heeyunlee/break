@@ -1,19 +1,19 @@
 import 'package:workout_player/generated/l10n.dart';
 
 enum Difficulty {
-  Beginner,
-  Intermediate,
-  Advanced,
+  beginner,
+  intermediate,
+  advanced,
 }
 
 extension DifficultyExtension on Difficulty {
   String? get translation {
     switch (this) {
-      case Difficulty.Beginner:
+      case Difficulty.beginner:
         return S.current.beginner;
-      case Difficulty.Intermediate:
+      case Difficulty.intermediate:
         return S.current.intermediate;
-      case Difficulty.Advanced:
+      case Difficulty.advanced:
         return S.current.advanced;
       default:
         return null;

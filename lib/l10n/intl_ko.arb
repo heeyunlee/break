@@ -440,5 +440,12 @@
     "chooseEquipmentRequiredMessage" : "이 루틴에서 필요한 운동 기구들을 설정해 주세요",
     "emptyRoutineTitleWarningMessage": "루틴의 이름을 정해주세요",
     "errorAbortedByUser": "로그인을 취소했습니다",
-    "workoutsTabSubtitle": "{equipments}를 이용"
+    "workoutsTabSubtitle": "{equipments}를 이용",
+    "signOutFailedMessage": "로그아웃에 실패했습니다...",
+    "youtubeWorkoutListTileTitle": "휴식: {subtitle}",
+    "startYoutubeWorkoutAlertTitle": "유튜브 운동이 재생 중입니다",
+    "startYoutubeWorkoutAlertMessage": "현재 재생중인 유튜브 운동을 취소하고 새로운 운동을 시작해 주세요~",
+    "workoutsInThisVideo": "이 동영상 속 운동",
+    "burnt": "소모",
+    "couldNotLaunch": "링크를 여는데 오류가 생겼습니다: {url}"
 }

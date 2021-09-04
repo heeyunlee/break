@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/workout_for_youtube.dart';
 
 import 'package:workout_player/models/youtube_video.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
 // String youtubeUrlFromId(String id, {int seconds = 0}) =>
@@ -52,6 +56,70 @@ class YoutubeVideoDetailScreenModel with ChangeNotifier {
         context,
         title: S.current.operationFailed,
         exception: 'Cannot launch: $url',
+      );
+    }
+  }
+
+  /// DELETE WORKOUT SET
+  Future<void> update(BuildContext context) async {
+    final database = provider.Provider.of<Database>(context, listen: false);
+
+    // Punch Up + Side Tap
+    // Standing Twist Crunch
+    // Boxing Leg Curl
+    // Plank Side Tap
+    // Mountain Cross Climber
+
+    try {
+      const workout = WorkoutForYoutube(
+        workoutForYoutubeId: 'workoutForYoutubeId',
+        workoutId: 'workoutId',
+        workoutTitle: 'Move G-4',
+        translatedWorkoutTitle: {
+          'en': 'Move G-4',
+          'ko': '무브 G-4',
+        },
+        position: Duration(
+          minutes: 18,
+          seconds: 12,
+        ),
+        isRepsBased: false,
+        duration: Duration(
+          seconds: 20,
+          minutes: 0,
+        ),
+      );
+
+      // const workout = WorkoutForYoutube(
+      //   workoutForYoutubeId: 'workoutForYoutubeId',
+      //   workoutId: 'workoutId',
+      //   workoutTitle: 'Rest',
+      //   translatedWorkoutTitle: {
+      //     'en': 'Rest',
+      //     'ko': '휴식',
+      //   },
+      //   position: Duration(
+      //     minutes: 18,
+      //     seconds: 2,
+      //   ),
+      //   isRepsBased: false,
+      //   duration: Duration(
+      //     seconds: 10,
+      //     minutes: 0,
+      //   ),
+      //   isRest: true,
+      // );
+
+      final updatedVideo = {
+        'workouts': FieldValue.arrayUnion([workout.toMap()]),
+      };
+
+      await database.updatedYoutubeVideo(video, updatedVideo);
+    } on FirebaseException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
       );
     }
   }

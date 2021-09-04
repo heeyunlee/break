@@ -5,43 +5,29 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final routineWorkoutCardModelProvider =
-    ChangeNotifierProvider.family<RoutineWorkoutCardModel, AuthAndDatabase>(
-  (ref, authAndDatabase) {
-    return RoutineWorkoutCardModel(
-      auth: authAndDatabase.auth,
-      database: authAndDatabase.database,
-    );
-  },
+final routineWorkoutCardModelProvider = ChangeNotifierProvider(
+  (ref) => RoutineWorkoutCardModel(),
 );
 
 class RoutineWorkoutCardModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
-
-  RoutineWorkoutCardModel({
-    this.auth,
-    this.database,
-  });
-
   /// Add a New Set
   Future<void> addNewSet(
     BuildContext context, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
+    final database = provider.Provider.of<Database>(context, listen: false);
     try {
       // WorkoutSet and RoutineWorkout
       final WorkoutSet? formerWorkoutSet = routineWorkout.sets.lastWhereOrNull(
@@ -81,7 +67,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'sets': FieldValue.arrayUnion([newSet.toJson()]),
       };
 
-      await database!.setWorkoutSet(
+      await database.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -97,7 +83,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
             routine.duration + (newSet.reps! * routineWorkout.secondsPerRep),
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -114,6 +100,8 @@ class RoutineWorkoutCardModel with ChangeNotifier {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
+    final database = provider.Provider.of<Database>(context, listen: false);
+
     try {
       final WorkoutSet? formerWorkoutSet = routineWorkout.sets.lastWhereOrNull(
         (element) => element.isRest == true,
@@ -143,7 +131,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'sets': FieldValue.arrayUnion([newSet.toJson()]),
       };
 
-      await database!.setWorkoutSet(
+      await database.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -158,7 +146,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'duration': routine.duration + newSet.restTime!,
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -175,11 +163,13 @@ class RoutineWorkoutCardModel with ChangeNotifier {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
-    try {
-      // Delete Routine Workout
-      await database!.deleteRoutineWorkout(routine, routineWorkout);
+    final database = provider.Provider.of<Database>(context, listen: false);
 
+    try {
       Navigator.of(context).pop();
+
+      // Delete Routine Workout
+      await database.deleteRoutineWorkout(routine, routineWorkout);
 
       // Update Routine
       final updatedRoutine = {
@@ -187,11 +177,86 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'duration': routine.duration - routineWorkout.duration,
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
 
       getSnackbarWidget(
         S.current.deleteRoutineHistorySnackbarTitle,
         S.current.deleteRoutineWorkoutSnakbarMessage,
+      );
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
+    }
+  }
+
+  Future<void> deleteRestingWorkoutSet(
+    BuildContext context,
+    Database database, {
+    required Routine routine,
+    required RoutineWorkout routineWorkout,
+    required WorkoutSet workoutSet,
+  }) async {
+    try {
+      // Update Routine Workout Data
+      final numberOfSets = (workoutSet.isRest)
+          ? routineWorkout.numberOfSets
+          : routineWorkout.numberOfSets - 1;
+
+      final numberOfReps = (workoutSet.isRest)
+          ? routineWorkout.numberOfReps
+          : routineWorkout.numberOfReps - (workoutSet.reps ?? 0);
+
+      final totalWeights = routineWorkout.totalWeights -
+          (workoutSet.weights ?? 0) * (workoutSet.reps ?? 0);
+
+      final duration = routineWorkout.duration -
+          (workoutSet.restTime ?? 0) -
+          (workoutSet.reps ?? 0) * routineWorkout.secondsPerRep;
+
+      final updatedRoutineWorkout = {
+        'numberOfSets': numberOfSets,
+        'numberOfReps': numberOfReps,
+        'totalWeights': totalWeights,
+        'duration': duration,
+        'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
+      };
+
+      await database.setWorkoutSet(
+        routine: routine,
+        routineWorkout: routineWorkout,
+        data: updatedRoutineWorkout,
+      );
+
+      // Update Routine Data
+      final routineTotalWeights = (workoutSet.isRest)
+          ? routine.totalWeights
+          : (workoutSet.weights == 0)
+              ? routine.totalWeights
+              : routine.totalWeights -
+                  ((workoutSet.weights ?? 0) * (workoutSet.reps ?? 0));
+
+      final routineDuration = (workoutSet.isRest)
+          ? routine.duration - (workoutSet.restTime ?? 0)
+          : routine.duration -
+              ((workoutSet.reps ?? 0) * routineWorkout.secondsPerRep);
+
+      final updatedRoutine = {
+        'totalWeights': routineTotalWeights,
+        'duration': routineDuration,
+        'lastEditedDate': Timestamp.now(),
+      };
+
+      await database.updateRoutine(routine, updatedRoutine);
+
+      getSnackbarWidget(
+        S.current.deleteWorkoutSet,
+        (workoutSet.isRest)
+            ? S.current.deletedARestMessage
+            : S.current.deletedASet,
       );
     } on FirebaseException catch (e) {
       logger.e(e);

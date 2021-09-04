@@ -61,7 +61,7 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
 
     /// Set Ys
     Map<DateTime, List<RoutineHistory>> _mapData;
-    final List<num> listOfYs = [];
+    List<num> listOfYs = [];
     final List<double> relatives = [];
 
     if (routineHistories.isNotEmpty) {
@@ -72,9 +72,7 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
               .toList()
       };
 
-      // TODO(heeyunlee): fix here
-      // ignore: avoid_function_literals_in_foreach_calls
-      _mapData.values.forEach((list) {
+      listOfYs = _mapData.values.map((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
@@ -83,8 +81,8 @@ class WeeklyWeightsBarChartModel with ChangeNotifier {
           }
         }
 
-        listOfYs.add(sum);
-      });
+        return sum;
+      }).toList();
 
       final largest = [
         ...listOfYs,

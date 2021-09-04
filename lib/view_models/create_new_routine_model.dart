@@ -19,11 +19,11 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/library/choose_equipment_required_screen.dart';
 import 'package:workout_player/view/screens/library/choose_main_muscle_group_screen.dart';
 import 'package:workout_player/view/screens/library/choose_more_settings_screen.dart';
+import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
 import 'main_model.dart';
-import 'routine_detail_screen_model.dart';
 
 final createNewROutineModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => CreateNewRoutineModel(),
@@ -221,7 +221,7 @@ class CreateNewRoutineModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      await RoutineDetailScreenModel.show(
+      await RoutineDetailScreen.show(
         currentContext,
         routine: routine,
         tag: 'createRoutine${routine.routineId}',

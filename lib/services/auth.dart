@@ -50,8 +50,6 @@ class AuthService implements AuthBase {
     return _user;
   }
 
-  // TODO(heeyunlee): fix this
-  // ignore: use_setters_to_change_properties
   void setUser(auth.User value) {
     _user = value;
   }

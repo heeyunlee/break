@@ -58,7 +58,7 @@ class WorkoutHistory {
       final int numberOfReps = int.parse(data['numberOfReps'].toString());
       final num totalWeights = num.parse(data['totalWeights'].toString());
       final List<WorkoutSet>? sets = (data['sets'] != null)
-          ? (data['sets'] as List<Map<String, dynamic>?>)
+          ? (data['sets'] as List)
               .map((map) => WorkoutSet.fromJson(map))
               .toList()
           : null;

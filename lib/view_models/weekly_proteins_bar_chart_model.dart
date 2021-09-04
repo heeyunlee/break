@@ -65,7 +65,7 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
 
     /// INIT Relative Ys
     Map<DateTime, List<Nutrition>> _mapData;
-    final List<num> _listOfYs = [];
+    List<num> _listOfYs = [];
     final List<double> _relatives = [];
 
     if (nutritions.isNotEmpty) {
@@ -74,19 +74,31 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
           item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
-      // ignore: avoid_function_literals_in_foreach_calls
-      _mapData.values.forEach((list) {
+      _listOfYs = _mapData.values.map((list) {
         num sum = 0;
 
-        if (list.isNotEmpty) {
-          for (final nutrition in list) {
-            sum += nutrition.proteinAmount;
-          }
+        // if (list.isNotEmpty) {
+        for (final nutrition in list) {
+          sum += nutrition.proteinAmount;
         }
+        // }
 
-        _listOfYs.add(sum);
-      });
+        return sum;
+
+        // _listOfYs.add(sum);
+      }).toList();
+
+      // _mapData.values.forEach((list) {
+      //   num sum = 0;
+
+      //   if (list.isNotEmpty) {
+      //     for (final nutrition in list) {
+      //       sum += nutrition.proteinAmount;
+      //     }
+      //   }
+
+      //   _listOfYs.add(sum);
+      // });
       final largest =
           [..._listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
 

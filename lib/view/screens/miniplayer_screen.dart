@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +12,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
@@ -25,19 +28,21 @@ class MiniplayerScreen extends StatelessWidget {
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),
+      loadingWidget: const SizedBox.shrink(),
       builder: (context, user) => Consumer(
         builder: (context, watch, child) {
           final size = MediaQuery.of(context).size;
           final model = watch(miniplayerModelProvider);
+          final homeModel = watch(homeScreenModelProvider);
 
           return Offstage(
             offstage: model.currentWorkout == null,
             child: Miniplayer(
               duration: const Duration(milliseconds: 500),
               controller: model.miniplayerController,
-              minHeight: miniplayerMinHeight,
+              minHeight: homeModel.miniplayerMinHeight!,
               maxHeight: size.height,
-              valueNotifier: model.valueNotifier,
+              valueNotifier: homeModel.valueNotifier,
               elevation: 6,
               builder: (height, percentage) {
                 if (model.currentWorkout == null) {
@@ -65,9 +70,9 @@ class MiniplayerScreen extends StatelessWidget {
     MiniplayerModel model,
     User user,
   ) {
-    logger.d('_buildMiniplayer() called...');
-
     final size = MediaQuery.of(context).size;
+    final aspectRatio = ui.window.physicalSize.aspectRatio;
+    final isScreenBigger = aspectRatio < 0.5;
 
     return Container(
       color: kBottomNavBarColor,
@@ -86,10 +91,20 @@ class MiniplayerScreen extends StatelessWidget {
           _opacitySizeBuilder(
             percentage: percentage,
             width: size.width,
-            height: 96,
-            widget: _buildCustomAppBar(),
+            height: isScreenBigger ? 96 : 64,
+            widget: _buildCustomAppBar(context),
+          ),
+          _opacitySizeBuilder(
+            percentage: percentage,
+            height: isScreenBigger ? 24.0 : 16.0,
+            widget: SizedBox(height: isScreenBigger ? 24.0 : 16.0),
           ),
           _buildMainWidget(context, percentage, model),
+          _opacitySizeBuilder(
+            percentage: percentage,
+            height: isScreenBigger ? 24.0 : 16.0,
+            widget: SizedBox(height: isScreenBigger ? 24.0 : 16.0),
+          ),
           _opacitySizeBuilder(
             percentage: percentage,
             widget: _buildExpandedMiniplayerController(context, model, user),
@@ -105,6 +120,8 @@ class MiniplayerScreen extends StatelessWidget {
     MiniplayerModel model,
   ) {
     final size = MediaQuery.of(context).size;
+    final isScreenBigger = size.height > 700;
+    final paddingFactor = isScreenBigger ? 56 : 104;
 
     if (model.currentWorkout.runtimeType == Routine) {
       final workoutSet = model.currentWorkoutSet;
@@ -115,12 +132,12 @@ class MiniplayerScreen extends StatelessWidget {
               ? RestTimerWidget(model: model)
               : WeightsAndRepsWidget(model: model);
 
-      return Row(
+      return Stack(
         children: [
           _opacitySizeBuilder(
             percentage: percentage,
-            width: size.width,
-            height: size.width,
+            width: size.width - paddingFactor,
+            height: size.width - paddingFactor,
             widget: widget,
           ),
           _opacitySizeBuilder(
@@ -186,9 +203,16 @@ class MiniplayerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomAppBar() {
+  Widget _buildCustomAppBar(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isScreenBigger = size.height > 700;
+
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 48),
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: isScreenBigger ? 48 : 24,
+      ),
       child: Stack(
         alignment: Alignment.center,
         children: [

@@ -79,11 +79,9 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
         final historiesDoc =
             await widget.database.routineHistoriesStream().first;
         if (historiesDoc.isNotEmpty) {
-          // TODO: refactor here: avoid_function_literals_in_foreach_calls
-          // ignore: avoid_function_literals_in_foreach_calls
-          historiesDoc.forEach((element) {
+          historiesDoc.map((history) {
             final updatedElement = {
-              'routineHistoryId': element.routineHistoryId,
+              'routineHistoryId': history.routineHistoryId,
               'username': _displayName,
             };
 

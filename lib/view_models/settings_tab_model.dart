@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 final settingsTabModelProvider = ChangeNotifierProvider(
   (ref) => SettingsTabModel(),
@@ -22,48 +22,6 @@ class SettingsTabModel with ChangeNotifier {
     final container = ProviderContainer();
     auth = container.read(authServiceProvider);
     database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
-
-  static const _termsUrl =
-      'https://app.termly.io/document/terms-of-use-for-ios-app/94692e31-d268-4f30-b710-2eebe37cc750';
-  static const _privacyPolicyUrl =
-      'https://app.termly.io/document/privacy-policy/34f278e4-7150-48c6-88c0-ee9a3ee082d1';
-
-  // void launchTermsURL() async => await canLaunch(termsUrl)
-  //     ? await launch(termsUrl)
-  //     : throw 'Could not launch $termsUrl';
-
-  // void launchPrivacyServiceURL() async => await canLaunch(privacyPolicyUrl)
-  //     ? await launch(privacyPolicyUrl)
-  //     : throw 'Could not launch $privacyPolicyUrl';
-
-  // TODO(heeyunlee): get rid of this duplicate function
-  Future<void> launchTermsURL(BuildContext context) async {
-    final bool canLaunchs = await canLaunch(_termsUrl);
-
-    if (canLaunchs) {
-      await launch(_termsUrl);
-    } else {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: 'Could not launch $_termsUrl',
-      );
-    }
-  }
-
-  Future<void> launchPrivacyServiceURL(BuildContext context) async {
-    final bool canLaunchs = await canLaunch(_privacyPolicyUrl);
-
-    if (canLaunchs) {
-      await launch(_privacyPolicyUrl);
-    } else {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: 'Could not launch $_privacyPolicyUrl',
-      );
-    }
   }
 
   Future<void> confirmSignOut(BuildContext context) async {
@@ -96,8 +54,12 @@ class SettingsTabModel with ChangeNotifier {
         S.current.signOutSnackbarMessage,
       );
     } catch (e) {
-      // TODO: SHOW DIALOG AFTER CATCHING ERROR
-      throw UnimplementedError();
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: S.current.signOutFailedMessage,
+      );
     }
   }
 
@@ -106,7 +68,7 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.4',
+      applicationVersion: 'v.0.3.5',
       applicationIcon: Container(
         decoration: const BoxDecoration(color: kBackgroundColor),
         child: Image.asset('assets/logos/herakles_icon.png',

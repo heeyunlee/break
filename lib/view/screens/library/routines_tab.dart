@@ -11,8 +11,8 @@ import 'package:workout_player/view/screens/library/choose_title_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
+import 'routine_detail_screen.dart';
 import 'saved_routines_screen.dart';
 
 /// Creates a tab that displays a list of routines, either saved or created by
@@ -64,7 +64,7 @@ class RoutinesTab extends StatelessWidget {
             routine.mainMuscleGroupEnum,
           ),
           imageUrl: routine.imageUrl,
-          onTap: () => RoutineDetailScreenModel.show(
+          onTap: () => RoutineDetailScreen.show(
             context,
             routine: routine,
             tag: 'savedRoutines-${routine.routineId}',

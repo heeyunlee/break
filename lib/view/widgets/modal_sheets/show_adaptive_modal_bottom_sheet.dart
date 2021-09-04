@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 Future<bool?> showAdaptiveModalBottomSheet(
   BuildContext context, {
-  Text? title,
-  Text? message,
+  String? title,
+  String? message,
   bool? isFirstActionDefault,
   Icon? firstActionIcon,
   String? firstActionText,
@@ -22,10 +22,11 @@ Future<bool?> showAdaptiveModalBottomSheet(
   bool? isCancelDefault,
   Icon? cancelActionIcon,
   String? cancelText,
+  bool? useRootNavigator = false,
 }) {
   if (!Platform.isIOS) {
     return showModalBottomSheet<bool>(
-      useRootNavigator: false,
+      useRootNavigator: useRootNavigator!,
       backgroundColor: Colors.white,
       context: context,
       builder: (context) {
@@ -33,8 +34,8 @@ Future<bool?> showAdaptiveModalBottomSheet(
           children: <Widget>[
             const SizedBox(height: 16),
             ListTile(
-              title: title,
-              subtitle: message,
+              title: Text(title ?? ''),
+              subtitle: Text(message ?? ''),
             ),
             const Divider(indent: 4, endIndent: 4),
             if (firstActionText != null)
@@ -96,11 +97,14 @@ Future<bool?> showAdaptiveModalBottomSheet(
     );
   }
   return showCupertinoModalPopup<bool>(
-    useRootNavigator: false,
+    useRootNavigator: useRootNavigator!,
     context: context,
     builder: (context) => CupertinoActionSheet(
-      title: title,
-      message: message,
+      title: Text(title ?? ''),
+      message: Text(
+        message ?? '',
+        textAlign: TextAlign.center,
+      ),
       actions: <Widget>[
         if (firstActionText != null)
           CupertinoActionSheetAction(

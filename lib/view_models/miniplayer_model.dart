@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -24,20 +23,18 @@ import 'package:workout_player/view/widgets/modal_sheets.dart';
 
 import 'home_screen_model.dart';
 import 'main_model.dart';
-import 'routine_detail_screen_model.dart';
 
-final double miniplayerMinHeight = Platform.isIOS ? 152 : 120;
+// final double miniplayerMinHeight = Platform.isIOS ? 152 : 120;
 
 final miniplayerModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => MiniplayerModel(
-    valueNotifier: ValueNotifier<double>(miniplayerMinHeight),
-  ),
+      // valueNotifier: ValueNotifier<double>(miniplayerMinHeight),
+      ),
 );
 
 class MiniplayerModel with ChangeNotifier {
-  MiniplayerModel({required this.valueNotifier});
-
-  final ValueNotifier<double> valueNotifier;
+  // double? miniplayerMinHeight;
+  // ValueNotifier<double>? valueNotifier;
 
   int _currentIndex = 1;
   int _routineWorkoutIndex = 0;
@@ -57,6 +54,8 @@ class MiniplayerModel with ChangeNotifier {
   WorkoutForYoutube? _currentWorkoutForYoutube;
   int _currentWorkoutForYoutubeIndex = 0;
 
+  // double? get miniplayerMinHeight => _miniplayerMinHeight;
+  // ValueNotifier<double>? get valueNotifier => _valueNotifier;
   int get currentIndex => _currentIndex;
   int get routineWorkoutIndex => _routineWorkoutIndex;
   int get workoutSetIndex => _workoutSetIndex;
@@ -93,15 +92,15 @@ class MiniplayerModel with ChangeNotifier {
     _currentWorkoutForYoutubeIndex = 0;
   }
 
-  double getYOffset({
-    required double min,
-    required double max,
-    required double value,
-  }) {
-    final percentage = (value - min) / (max - min);
+  // double getYOffset({
+  //   required double min,
+  //   required double max,
+  //   required double value,
+  // }) {
+  //   final percentage = (value - min) / (max - min);
 
-    return kBottomNavigationBarHeight * percentage * 2;
-  }
+  //   return kBottomNavigationBarHeight * percentage * 2;
+  // }
 
   void init(TickerProvider vsync) {
     _animationController = AnimationController(
@@ -114,17 +113,24 @@ class MiniplayerModel with ChangeNotifier {
     BuildContext context,
     RoutineDetailScreenClass data,
   ) {
+    logger.d('startRoutine() function called');
     diosposeValues();
 
     final routineWorkouts = data.routineWorkouts!;
 
+    logger.d('message 1');
+
     if (routineWorkouts.isNotEmpty) {
       final sets = routineWorkouts[0].sets;
+
+      logger.d('message 2');
 
       _currentWorkout = data.routine;
       _selectedRoutineWorkouts = routineWorkouts;
       _currentRoutineWorkout = routineWorkouts[0];
       _currentWorkoutSet = sets.isEmpty ? null : routineWorkouts[0].sets[0];
+
+      logger.d('message 3');
 
       // Setting Routine Length
       int routineLength = 0;
@@ -134,10 +140,16 @@ class MiniplayerModel with ChangeNotifier {
         routineLength += length;
       }
 
+      logger.d('message 4');
+
       _setsLength = routineLength;
       _workoutStartTime = Timestamp.now();
 
+      logger.d('message 5');
+
       _miniplayerController.animateToHeight(state: PanelState.MAX);
+
+      logger.d('message 6');
     } else {
       showAlertDialog(
         context,
@@ -147,42 +159,48 @@ class MiniplayerModel with ChangeNotifier {
       );
     }
 
+    logger.d('message 7');
+
     notifyListeners();
   }
 
-  void startYouTubeWorkout(YoutubeVideo youtubeVideo) {
+  void startYouTubeWorkout(BuildContext context, YoutubeVideo youtubeVideo) {
     logger.d('`startYouTubeWorkout()` function called');
 
-    diosposeValues();
+    if (_currentWorkout == null || _currentWorkout.runtimeType == Routine) {
+      diosposeValues();
 
-    _workoutStartTime = Timestamp.now();
-    _currentWorkout = youtubeVideo;
-    final video = _currentWorkout as YoutubeVideo?;
+      _workoutStartTime = Timestamp.now();
+      _currentWorkout = youtubeVideo;
+      final video = _currentWorkout as YoutubeVideo?;
 
-    _youtubeController = YoutubePlayerController(
-      initialVideoId: video!.videoId,
-      params: const YoutubePlayerParams(
-        // autoPlay: true,
-        // mute: false,
-        showControls: false,
-        // showFullscreenButton: false,
-      ),
-    );
+      logger.d('current video is ${video!.toString()}');
 
-    _currentWorkoutForYoutube = video.workouts[0];
+      _youtubeController = YoutubePlayerController(
+        initialVideoId: video.videoId,
+        params: const YoutubePlayerParams(
+          showControls: false,
+        ),
+      );
 
-    _miniplayerController.animateToHeight(state: PanelState.MAX);
+      _currentWorkoutForYoutube = video.workouts[0];
 
-    notifyListeners();
+      _miniplayerController.animateToHeight(state: PanelState.MAX);
+
+      notifyListeners();
+    } else {
+      showExceptionAlertDialog(
+        context,
+        title: S.current.startYoutubeWorkoutAlertTitle,
+        exception: S.current.startYoutubeWorkoutAlertMessage,
+      );
+    }
   }
 
   Future<bool?> endWorkout(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
-      title: Text(
-        S.current.endWorkoutWarningMessage,
-        textAlign: TextAlign.center,
-      ),
+      title: S.current.endWorkoutWarningMessage,
       firstActionText: S.current.stopTheWorkout,
       isFirstActionDefault: false,
       firstActionOnPressed: () {
@@ -541,6 +559,7 @@ class MiniplayerModel with ChangeNotifier {
           mainMuscleGroupEnum: muscleGroups,
           equipmentRequiredEnum: equipments,
           routineHistoryType: 'youtube',
+          youtubeWorkouts: video.workouts,
         );
 
         await database.setRoutineHistory(routineHistory);
@@ -575,7 +594,7 @@ class MiniplayerModel with ChangeNotifier {
     if (_currentWorkout.runtimeType == Routine) {
       final routine = _currentWorkout as Routine?;
 
-      RoutineDetailScreenModel.show(
+      RoutineDetailScreen.show(
         currentContext,
         routine: routine!,
         tag: 'miniplayer${routine.routineId}',
@@ -591,8 +610,6 @@ class MiniplayerModel with ChangeNotifier {
     }
   }
 
-  // TODO(heeyunlee): fix here
-  // ignore: use_setters_to_change_properties
   void updateCurrentIndex(int value) {
     _currentWorkoutForYoutubeIndex = value;
   }

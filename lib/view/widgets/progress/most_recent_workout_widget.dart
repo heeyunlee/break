@@ -55,10 +55,8 @@ class MostRecentWorkout extends StatelessWidget {
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 16),
+              const Spacer(),
               Row(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

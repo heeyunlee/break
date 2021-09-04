@@ -11,30 +11,28 @@ class RestTimerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final paddingFactor = (size.height > 700) ? 56 : 104;
 
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Card(
-        color: Colors.grey[800],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 6,
-        child: SizedBox(
-          width: size.width - 56,
-          height: size.width - 56,
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: CircularCountDownTimer(
-              textStyle: TextStyles.headline2,
-              controller: model.countDownController,
-              width: 280,
-              height: 280,
-              duration: model.restTime!.inSeconds,
-              fillColor: Colors.grey[600]!,
-              ringColor: Colors.red,
-              isReverse: true,
-              strokeWidth: 8,
-              onComplete: () => model.timerOnComplete(context),
-            ),
+    return Card(
+      color: Colors.grey[800],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 6,
+      child: SizedBox(
+        width: size.width - paddingFactor,
+        height: size.width - paddingFactor,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: CircularCountDownTimer(
+            textStyle: TextStyles.headline2,
+            controller: model.countDownController,
+            width: 280,
+            height: 280,
+            duration: model.restTime!.inSeconds,
+            fillColor: Colors.grey[600]!,
+            ringColor: Colors.red,
+            isReverse: true,
+            strokeWidth: 8,
+            onComplete: () => model.timerOnComplete(context),
           ),
         ),
       ),

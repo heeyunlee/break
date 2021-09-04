@@ -51,6 +51,8 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
   void initState() {
     super.initState();
     widget.model.init();
+    final locale = Intl.getCurrentLocale();
+    widget.model.setData(widget.routineHistories, locale);
   }
 
   @override
@@ -61,9 +63,6 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
   @override
   Widget build(BuildContext context) {
     final heightFactor = (widget.constraints.maxHeight > 600) ? 4 : 3.5;
-    final locale = Intl.getCurrentLocale();
-
-    widget.model.setData(widget.routineHistories, locale);
 
     return SizedBox(
       height: widget.constraints.maxHeight / heightFactor,

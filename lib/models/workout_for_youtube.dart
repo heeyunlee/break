@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
+
 import 'package:workout_player/utils/formatter.dart';
 
 class WorkoutForYoutube {
@@ -13,6 +12,7 @@ class WorkoutForYoutube {
     required this.isRepsBased,
     this.reps,
     this.duration,
+    this.isRest,
   });
 
   final String workoutForYoutubeId;
@@ -23,6 +23,7 @@ class WorkoutForYoutube {
   final bool isRepsBased;
   final int? reps;
   final Duration? duration;
+  final bool? isRest;
 
   Map<String, dynamic> toMap() {
     return {
@@ -34,6 +35,7 @@ class WorkoutForYoutube {
       'isRepsBased': isRepsBased,
       'reps': reps,
       'duration': duration.toString(),
+      'isRest': isRest,
     };
   }
 
@@ -50,6 +52,7 @@ class WorkoutForYoutube {
     final Duration? duration = (map['duration'] != null)
         ? Formatter.stringToDuration(map['duration'].toString())
         : null;
+    final bool? isRest = map['isRest'] as bool?;
 
     return WorkoutForYoutube(
       workoutForYoutubeId: id,
@@ -60,13 +63,9 @@ class WorkoutForYoutube {
       isRepsBased: isRepsBased,
       reps: reps,
       duration: duration,
+      isRest: isRest,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory WorkoutForYoutube.fromJson(String source) =>
-      WorkoutForYoutube.fromMap(json.decode(source) as Map<String, dynamic>);
 
   WorkoutForYoutube copyWith({
     String? workoutForYoutubeId,
@@ -77,6 +76,7 @@ class WorkoutForYoutube {
     bool? isRepsBased,
     int? reps,
     Duration? duration,
+    bool? isRest,
   }) {
     return WorkoutForYoutube(
       workoutForYoutubeId: workoutForYoutubeId ?? this.workoutForYoutubeId,
@@ -88,12 +88,13 @@ class WorkoutForYoutube {
       isRepsBased: isRepsBased ?? this.isRepsBased,
       reps: reps ?? this.reps,
       duration: duration ?? this.duration,
+      isRest: isRest ?? this.isRest,
     );
   }
 
   @override
   String toString() {
-    return 'WorkoutForYoutube(workoutForYoutubeId: $workoutForYoutubeId, workoutId: $workoutId, workoutTitle: $workoutTitle, translatedWorkoutTitle: $translatedWorkoutTitle, position: $position, isRepsBased: $isRepsBased, reps: $reps, duration: $duration)';
+    return 'WorkoutForYoutube(workoutForYoutubeId: $workoutForYoutubeId, workoutId: $workoutId, workoutTitle: $workoutTitle, translatedWorkoutTitle: $translatedWorkoutTitle, position: $position, isRepsBased: $isRepsBased, reps: $reps, duration: $duration, isRest: $isRest)';
   }
 
   @override
@@ -108,7 +109,8 @@ class WorkoutForYoutube {
         other.position == position &&
         other.isRepsBased == isRepsBased &&
         other.reps == reps &&
-        other.duration == duration;
+        other.duration == duration &&
+        other.isRest == isRest;
   }
 
   @override
@@ -120,6 +122,7 @@ class WorkoutForYoutube {
         position.hashCode ^
         isRepsBased.hashCode ^
         reps.hashCode ^
-        duration.hashCode;
+        duration.hashCode ^
+        isRest.hashCode;
   }
 }

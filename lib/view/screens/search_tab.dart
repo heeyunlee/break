@@ -76,9 +76,8 @@ class _SearchTabState extends State<SearchTab> {
       backgroundColor: kBackgroundColor,
       body: FloatingSearchBar(
         controller: _controller,
-        // clearQueryOnClose: true,
         iconColor: Colors.black,
-        // automaticallyImplyBackButton: true,
+        automaticallyImplyBackButton: false,
         borderRadius: BorderRadius.circular(24),
         transitionDuration: const Duration(milliseconds: 300),
         debounceDelay: const Duration(milliseconds: 300),
@@ -93,7 +92,6 @@ class _SearchTabState extends State<SearchTab> {
         queryStyle: TextStyles.body2Black,
         actions: [
           const FloatingSearchBarAction(
-            // showIfOpened: false,
             child: Icon(Icons.fitness_center_outlined),
           ),
           const SizedBox(width: 8),

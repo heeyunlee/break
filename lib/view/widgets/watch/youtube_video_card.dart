@@ -71,8 +71,7 @@ class YoutubeVideoCard extends StatelessWidget {
                       child: Text(
                         youtubeVideo.title,
                         style: TextStyles.body1,
-                        overflow: TextOverflow.fade,
-                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
                     ),

@@ -13,44 +13,53 @@ import 'miniplayer_screen.dart';
 import 'progress_tab.dart';
 import 'search_tab.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   Map<TabItem, Widget Function()> get widgetBuilders {
     return {
       TabItem.progress: () => ProgressTab.create(),
       TabItem.search: () => const SearchTab(),
       TabItem.watch: () => const WatchTab(),
       TabItem.library: () => const LibraryTab(),
-      // TabItem.settings: () => const SettingsTab(),
     };
   }
 
-  void updateUserData(BuildContext context) {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     context.read(homeScreenModelProvider).updateUser(context);
+    context.read(homeScreenModelProvider).setMiniplayerHeight();
   }
 
   @override
   Widget build(BuildContext context) {
     logger.d('[HomeScreen] building... ');
 
-    updateUserData(context);
-
     return MiniplayerWillPopScope(
       onWillPop: context.read(homeScreenModelProvider).onWillPopMiniplayer,
-      child: Scaffold(
-        extendBody: true,
-        resizeToAvoidBottomInset: false,
-        key: HomeScreenModel.homeScreenNavigatorKey,
-        body: Stack(
-          children: [
-            _buildIndexedStack(),
-            const MiniplayerScreen(),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: SpeedDial.create(),
-        bottomNavigationBar: const BottomNavigationTab(),
+      child: Stack(
+        children: [
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            extendBody: true,
+            key: HomeScreenModel.homeScreenNavigatorKey,
+            body: Stack(
+              children: [
+                _buildIndexedStack(),
+                const MiniplayerScreen(),
+              ],
+            ),
+            bottomNavigationBar: const BottomNavigationTab(),
+          ),
+          SpeedDial.create(),
+        ],
       ),
     );
   }

@@ -571,11 +571,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<bool?> _showModalBottomSheet(BuildContext context) {
     return showAdaptiveModalBottomSheet(
       context,
-      title: Text(S.current.deleteWorkoutkButtonText),
-      message: Text(
-        S.current.deleteWorkoutWarningMessage,
-        textAlign: TextAlign.start,
-      ),
+      title: S.current.deleteWorkoutkButtonText,
+      message: S.current.deleteWorkoutWarningMessage,
       firstActionText: S.current.deleteWorkoutkButtonText,
       isFirstActionDefault: false,
       firstActionOnPressed: () => _delete(context, widget.workout),

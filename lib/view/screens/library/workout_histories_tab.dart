@@ -71,9 +71,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
               .toList()
       };
 
-      // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
-      // ignore: avoid_function_literals_in_foreach_calls
-      _mapData.values.forEach((list) {
+      _mapData.values.map((list) {
         if (list.isNotEmpty) {
           WorkoutSet? largestSet;
 
@@ -94,6 +92,28 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
           listOfYs.add(0);
         }
       });
+
+      // _mapData.values.forEach((list) {
+      //   if (list.isNotEmpty) {
+      //     WorkoutSet? largestSet;
+
+      //     for (final history in list) {
+      //       final _largestSest = history!.sets?.reduce((a, b) {
+      //         final maxWeight = math.max<num>(a.weights!, b.weights!);
+      //         final max =
+      //             history.sets?.where((c) => c.weights! == maxWeight).first;
+
+      //         return max ?? a;
+      //       });
+
+      //       largestSet = _largestSest;
+      //     }
+
+      //     listOfYs.add(largestSet?.weights ?? 0);
+      //   } else {
+      //     listOfYs.add(0);
+      //   }
+      // });
 
       final largestY = listOfYs.reduce(math.max);
 

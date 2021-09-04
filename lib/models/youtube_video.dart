@@ -42,42 +42,6 @@ class YoutubeVideo {
   final num caloriesBurnt;
   final num totalWeights;
 
-  YoutubeVideo copyWith({
-    String? youtubeVideoId,
-    String? videoId,
-    String? thumnail,
-    String? title,
-    List<MainMuscleGroup?>? mainMuscleGroups,
-    Duration? duration,
-    Location? location,
-    String? authorName,
-    String? authorProfilePicture,
-    String? videoUrl,
-    String? blurHash,
-    List<WorkoutForYoutube>? workouts,
-    List<EquipmentRequired?>? equipmentsRequired,
-    num? caloriesBurnt,
-    num? totalWeights,
-  }) {
-    return YoutubeVideo(
-      youtubeVideoId: youtubeVideoId ?? this.youtubeVideoId,
-      videoId: videoId ?? this.videoId,
-      thumnail: thumnail ?? this.thumnail,
-      title: title ?? this.title,
-      mainMuscleGroups: mainMuscleGroups ?? this.mainMuscleGroups,
-      duration: duration ?? this.duration,
-      location: location ?? this.location,
-      authorName: authorName ?? this.authorName,
-      authorProfilePicture: authorProfilePicture ?? this.authorProfilePicture,
-      videoUrl: videoUrl ?? this.videoUrl,
-      blurHash: blurHash ?? this.blurHash,
-      workouts: workouts ?? this.workouts,
-      equipmentsRequired: equipmentsRequired ?? this.equipmentsRequired,
-      caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
-      totalWeights: totalWeights ?? this.totalWeights,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'youtubeVideoId': youtubeVideoId,
@@ -146,6 +110,42 @@ class YoutubeVideo {
     } else {
       throw '';
     }
+  }
+
+  YoutubeVideo copyWith({
+    String? youtubeVideoId,
+    String? videoId,
+    String? thumnail,
+    String? title,
+    List<MainMuscleGroup?>? mainMuscleGroups,
+    Duration? duration,
+    Location? location,
+    String? authorName,
+    String? authorProfilePicture,
+    String? videoUrl,
+    String? blurHash,
+    List<WorkoutForYoutube>? workouts,
+    List<EquipmentRequired?>? equipmentsRequired,
+    num? caloriesBurnt,
+    num? totalWeights,
+  }) {
+    return YoutubeVideo(
+      youtubeVideoId: youtubeVideoId ?? this.youtubeVideoId,
+      videoId: videoId ?? this.videoId,
+      thumnail: thumnail ?? this.thumnail,
+      title: title ?? this.title,
+      mainMuscleGroups: mainMuscleGroups ?? this.mainMuscleGroups,
+      duration: duration ?? this.duration,
+      location: location ?? this.location,
+      authorName: authorName ?? this.authorName,
+      authorProfilePicture: authorProfilePicture ?? this.authorProfilePicture,
+      videoUrl: videoUrl ?? this.videoUrl,
+      blurHash: blurHash ?? this.blurHash,
+      workouts: workouts ?? this.workouts,
+      equipmentsRequired: equipmentsRequired ?? this.equipmentsRequired,
+      caloriesBurnt: caloriesBurnt ?? this.caloriesBurnt,
+      totalWeights: totalWeights ?? this.totalWeights,
+    );
   }
 
   // String toJson() => json.encode(toMap());

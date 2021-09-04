@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
@@ -14,7 +13,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/settings_tab_model.dart';
 
-import 'change_language_screen.dart';
 import 'manage_account_screen.dart';
 import 'personal_goals_screen.dart';
 import 'unit_of_mass_screen.dart';
@@ -116,33 +114,33 @@ class SettingsTab extends ConsumerWidget {
               ),
             ),
 
-            // LANGUAGE
-            ListTile(
-              leading: const Icon(
-                Icons.language_rounded,
-                color: Colors.white,
-              ),
-              title: Text(
-                S.current.launguage,
-                style: TextStyles.body2,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    Intl.getCurrentLocale(),
-                    style: TextStyles.body2Grey,
-                  ),
-                  const SizedBox(width: 16),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey,
-                    size: 20,
-                  ),
-                ],
-              ),
-              onTap: () => ChangeLanguageScreen.show(context),
-            ),
+            // // LANGUAGE
+            // ListTile(
+            //   leading: const Icon(
+            //     Icons.language_rounded,
+            //     color: Colors.white,
+            //   ),
+            //   title: Text(
+            //     S.current.launguage,
+            //     style: TextStyles.body2,
+            //   ),
+            //   trailing: Row(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       Text(
+            //         Intl.getCurrentLocale(),
+            //         style: TextStyles.body2Grey,
+            //       ),
+            //       const SizedBox(width: 16),
+            //       const Icon(
+            //         Icons.arrow_forward_ios_rounded,
+            //         color: Colors.grey,
+            //         size: 20,
+            //       ),
+            //     ],
+            //   ),
+            //   onTap: () => ChangeLanguageScreen.show(context),
+            // ),
 
             // PERSONAL GOALS
             ListTile(
@@ -223,7 +221,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: () => model.launchPrivacyServiceURL(context),
+              onTap: () => MainModel().launchPrivacyServiceURL(context),
             ),
             ListTile(
               leading: const Icon(
@@ -236,7 +234,7 @@ class SettingsTab extends ConsumerWidget {
                 color: Colors.grey,
                 size: 20,
               ),
-              onTap: () => model.launchTermsURL(context),
+              onTap: () => MainModel().launchTermsURL(context),
             ),
 
             // LOG IN

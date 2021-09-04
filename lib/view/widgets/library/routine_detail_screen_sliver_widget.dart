@@ -8,6 +8,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/library/edit_routine_screen.dart';
+import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 import '../widgets.dart';
@@ -130,7 +131,10 @@ class RoutineDetailScreenSliverWidget extends ConsumerWidget {
                             user: data.user!,
                           ),
                           const Spacer(),
-                          StartRoutineButton(data: data),
+                          StartRoutineButton(
+                            data: data,
+                            model: watch(miniplayerModelProvider),
+                          ),
                         ],
                       ),
                     ],

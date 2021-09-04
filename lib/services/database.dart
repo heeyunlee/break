@@ -198,6 +198,10 @@ abstract class Database {
   Stream<ProgressTabClass> progressTabStream(DateTime? day);
 
   /// Youtube Videos
+  Future<void> updatedYoutubeVideo(
+    YoutubeVideo video,
+    Map<String, dynamic> updatedVideo,
+  );
   Stream<List<YoutubeVideo>> youtubeVideosStream({int? limit});
 }
 
@@ -1223,6 +1227,19 @@ class FirestoreDatabase implements Database {
       },
     );
   }
+
+  // Add Routine
+  @override
+  Future<void> updatedYoutubeVideo(
+    YoutubeVideo video,
+    Map<String, dynamic> updatedVideo,
+  ) =>
+      _service.updateData<YoutubeVideo>(
+        path: APIPath.youtubeVideo(video.youtubeVideoId),
+        data: updatedVideo,
+        fromBuilder: (data, id) => YoutubeVideo.fromMap(data, id),
+        toBuilder: (model) => model.toMap(),
+      );
 
   // All Public Routines Stream
   @override

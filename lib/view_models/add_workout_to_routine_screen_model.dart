@@ -10,10 +10,10 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/add_workout_to_routine_screen.dart';
+import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
-import 'routine_detail_screen_model.dart';
 
 final addWorkoutToRoutineScreenModelProvider = ChangeNotifierProvider(
   (ref) => AddWorkoutToRoutineScreenModel(),
@@ -56,7 +56,7 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
 
       Navigator.of(context).pop();
 
-      await RoutineDetailScreenModel.show(
+      await RoutineDetailScreen.show(
         currentTabContext,
         routine: routine,
         tag: 'addWorkoutToRoutine${routine.routineId}',

@@ -4,10 +4,16 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
 ## Unrelreased (0.3.5)
 ### New Features
+- Added Watch Tab, where users can find YouTube videos to workout with. 
 
 ### Bug Fix & Refactor
 - Rearchitectured the entire project to implement (kind of?) MVVM architecture.
 - Created exports to simplify imports list
+- Use flutter_lints for more flutter specific linting rules
+- Refactored Miniplayer so that it works with video as well
+- Fixed automaticallyImplyBackButton issue on Search Tab
+- Update Readme.md
+- Removed Settings tab from TabItem and put under Library Tab
 
 ## [0.3.4] - August 8th, 2021
 ### New Features

@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -33,7 +34,7 @@ class TermsAndPrivacyPolicyWidget extends StatelessWidget {
               text: S.current.terms,
               style: TextStyles.overlineGreyUnderlined,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => model.launchTermsURL(context),
+                ..onTap = () => MainModel().launchTermsURL(context),
             ),
             TextSpan(
               text: S.current.and,
@@ -43,7 +44,7 @@ class TermsAndPrivacyPolicyWidget extends StatelessWidget {
               text: S.current.privacyPolicy,
               style: TextStyles.overlineGreyUnderlined,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => model.launchPrivacyServiceURL(context),
+                ..onTap = () => MainModel().launchPrivacyServiceURL(context),
             ),
             if (locale == 'ko')
               TextSpan(

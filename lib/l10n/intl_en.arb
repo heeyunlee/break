@@ -440,5 +440,12 @@
     "chooseEquipmentRequiredMessage": "Please select equipment(s) required for this routine",
     "emptyRoutineTitleWarningMessage": "Please enter a routine title",
     "errorAbortedByUser": "Sign In was aborted by user",
-    "workoutsTabSubtitle": "Using {equipments}"
+    "workoutsTabSubtitle": "Using {equipments}",
+    "signOutFailedMessage": "Sign out has failed...",
+    "youtubeWorkoutListTileTitle": "Rest for {subtitle}",
+    "startYoutubeWorkoutAlertTitle": "YouTube Workout In Progress",
+    "startYoutubeWorkoutAlertMessage": "Please end the currently running YouTube workout before starting the new one",
+    "workoutsInThisVideo": "Workouts In This Video",
+    "burnt": "Burnt",
+    "couldNotLaunch": "Could Not Launch: {url}"
 }

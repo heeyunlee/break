@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
@@ -11,7 +9,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-class RoutineWorkoutsTab extends StatelessWidget {
+class RoutineWorkoutsTab extends StatefulWidget {
   final RoutineDetailScreenClass data;
   final AuthBase auth;
   final Database database;
@@ -24,8 +22,14 @@ class RoutineWorkoutsTab extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _RoutineWorkoutsTabState createState() => _RoutineWorkoutsTabState();
+}
+
+class _RoutineWorkoutsTabState extends State<RoutineWorkoutsTab> {
+  @override
   Widget build(BuildContext context) {
-    final bool isOwner = auth.currentUser!.uid == data.routine?.routineOwnerId;
+    final bool isOwner =
+        widget.auth.currentUser!.uid == widget.data.routine?.routineOwnerId;
 
     // Widgets to show only if one's routine's owner
     final List<Widget> routineOwnerWidgets = [
@@ -37,14 +41,14 @@ class RoutineWorkoutsTab extends StatelessWidget {
         color: kCardColor,
         onPressed: () => AddWorkoutsToRoutineScreen.show(
           context,
-          routine: data.routine!,
-          routineWorkouts: data.routineWorkouts!,
+          routine: widget.data.routine!,
+          routineWorkouts: widget.data.routineWorkouts!,
         ),
       ),
       const SizedBox(height: 8),
       ReorderRoutineWorkoutsButton(
-        routine: data.routine!,
-        list: data.routineWorkouts!,
+        routine: widget.data.routine!,
+        list: widget.data.routineWorkouts!,
       ),
     ];
 
@@ -54,34 +58,16 @@ class RoutineWorkoutsTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (data.routineWorkouts!.isEmpty)
-              EmptyContent(message: S.current.routineWorkoutEmptyText),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: ImplicitlyAnimatedList<RoutineWorkout>(
-                shrinkWrap: true,
-                items: data.routineWorkouts!,
-                physics: const NeverScrollableScrollPhysics(),
-                areItemsTheSame: (a, b) =>
-                    a.routineWorkoutId == b.routineWorkoutId,
-                removeDuration: const Duration(milliseconds: 200),
-                insertDuration: const Duration(milliseconds: 200),
-                itemBuilder: (context, animation, item, index) {
-                  return SizeFadeTransition(
-                    sizeFraction: 0.7,
-                    curve: Curves.easeInOut,
-                    animation: animation,
-                    child: RoutineWorkoutCard(
-                      index: index,
-                      authAndDatabase: AuthAndDatabase(
-                        auth: auth,
-                        database: database,
-                      ),
-                      routine: data.routine!,
-                      routineWorkout: item,
-                    ),
-                  );
-                },
+            CustomListViewBuilder<RoutineWorkout>(
+              items: widget.data.routineWorkouts!,
+              itemBuilder: (context, item, i) => RoutineWorkoutCard(
+                index: i,
+                authAndDatabase: AuthAndDatabase(
+                  auth: widget.auth,
+                  database: widget.database,
+                ),
+                routine: widget.data.routine!,
+                routineWorkout: item,
               ),
             ),
             if (isOwner) ...routineOwnerWidgets,

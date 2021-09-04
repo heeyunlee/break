@@ -76,7 +76,6 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       await widget.database.setUserFeedback(userFeedback);
 
       // TODO: fix here
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
 
       getSnackbarWidget(

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -210,7 +211,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       body: NotificationListener<ScrollNotification>(
           onNotification: _scrollListener,
           child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
             slivers: [
               _buildSliverAppBar(context),
               _buildSliverBody(),
@@ -305,24 +305,28 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             const SizedBox(height: 16),
             Text(S.current.quickSummary, style: TextStyles.headline6W900),
             const SizedBox(height: 8),
-            SummaryRowWidget(
-              title: Formatter.routineHistoryWeights(routineHistory),
-              imageUrl:
-                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
-            ),
-            const SizedBox(height: 16),
+            if (routineHistory.routineHistoryType == null ||
+                routineHistory.routineHistoryType == 'routine')
+              SummaryRowWidget(
+                title: Formatter.routineHistoryWeights(routineHistory),
+                imageUrl:
+                    'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
+              ),
+
             SummaryRowWidget(
               title: Formatter.durationInMin(routineHistory.totalDuration),
               imageUrl:
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
             ),
-            // SizedBox(height: 16),
-            // SummaryRowWidget(
-            //   title: formattedCalories,
-            //   subtitle: ' Kcal  Burnt',
-            //   image:
-            //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
-            // ),
+            if (routineHistory.routineHistoryType == 'youtube')
+              SummaryRowWidget(
+                title: Formatter.numWithOrWithoutDecimal(
+                  routineHistory.totalCalories,
+                ),
+                subtitle: ' Kcal  ${S.current.burnt}',
+                imageUrl:
+                    'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
+              ),
             const SizedBox(height: 32),
             const Divider(color: kGrey800),
             const SizedBox(height: 16),
@@ -330,24 +334,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(S.current.routines, style: TextStyles.headline6W900),
             ),
-            CustomStreamBuilder<List<WorkoutHistory>>(
-              stream: widget.database.workoutHistoriesStream(
-                widget.routineHistory.routineHistoryId,
-              ),
-              builder: (context, snapshot) {
-                return CustomListViewBuilder<WorkoutHistory>(
-                  items: snapshot,
-                  itemBuilder: (context, workoutHistory, index) {
-                    workoutHistories = snapshot;
-
-                    return WorkoutHistoryCard(
-                      routineHistory: routineHistory,
-                      workoutHistory: workoutHistory,
-                    );
-                  },
-                );
-              },
-            ),
+            _buildListView(),
             const SizedBox(height: 32),
             const Divider(color: kGrey800),
             const SizedBox(height: 16),
@@ -458,17 +445,40 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     );
   }
 
-  Future<bool?> _showModalBottomSheet(BuildContext context) {
-    return showAdaptiveModalBottomSheet(
-      context,
-      title: Text(S.current.deleteBottomSheetTitle),
-      message: Text(S.current.deleteBottomSheetMessage),
-      firstActionText: S.current.deleteBottomSheetkButtonText,
-      isFirstActionDefault: false,
-      firstActionOnPressed: () => _delete(context, widget.routineHistory),
-      cancelText: S.current.cancel,
-      isCancelDefault: true,
-    );
+  Widget _buildListView() {
+    if (widget.routineHistory.routineHistoryType == null ||
+        widget.routineHistory.routineHistoryType == 'routine') {
+      return CustomStreamBuilder<List<WorkoutHistory>>(
+        stream: widget.database.workoutHistoriesStream(
+          widget.routineHistory.routineHistoryId,
+        ),
+        builder: (context, snapshot) {
+          return CustomListViewBuilder<WorkoutHistory>(
+            items: snapshot,
+            itemBuilder: (context, workoutHistory, index) {
+              workoutHistories = snapshot;
+
+              return WorkoutHistoryCard(
+                routineHistory: widget.routineHistory,
+                workoutHistory: workoutHistory,
+              );
+            },
+          );
+        },
+      );
+    } else {
+      return ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.routineHistory.youtubeWorkouts!.length,
+        itemBuilder: (context, index) {
+          return YoutubeWorkoutListTile(
+            workout: widget.routineHistory.youtubeWorkouts![index],
+          );
+        },
+      );
+    }
   }
 
   Widget _buildChips() {
@@ -490,6 +500,19 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
           ),
         ),
       ),
+    );
+  }
+
+  Future<bool?> _showModalBottomSheet(BuildContext context) {
+    return showAdaptiveModalBottomSheet(
+      context,
+      title: S.current.deleteBottomSheetTitle,
+      message: S.current.deleteBottomSheetMessage,
+      firstActionText: S.current.deleteBottomSheetkButtonText,
+      isFirstActionDefault: false,
+      firstActionOnPressed: () => _delete(context, widget.routineHistory),
+      cancelText: S.current.cancel,
+      isCancelDefault: true,
     );
   }
 }

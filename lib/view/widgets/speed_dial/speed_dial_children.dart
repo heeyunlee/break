@@ -37,7 +37,10 @@ class SpeedDialChildren extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(label, style: TextStyles.caption1)
+          Material(
+            color: Colors.transparent,
+            child: Text(label, style: TextStyles.caption1),
+          )
         ],
       ),
     );

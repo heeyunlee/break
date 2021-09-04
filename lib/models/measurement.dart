@@ -41,11 +41,11 @@ class Measurement {
 
   factory Measurement.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final String userId = data['userId'].toString();
-      final String username = data['username'].toString();
+      final String userId = data['userId'] as String;
+      final String username = data['username'] as String;
       final Timestamp loggedTime = data['loggedTime'] as Timestamp;
       final DateTime loggedDate = (data['loggedDate'] as Timestamp).toDate();
-      final num? bodyWeight = num.tryParse(data['bodyWeight'].toString());
+      final num? bodyWeight = data['bodyWeight'] as num?;
       final num? bodyFat = num.tryParse(data['bodyFat'].toString());
       final num? skeletalMuscleMass =
           num.tryParse(data['skeletalMuscleMass'].toString());

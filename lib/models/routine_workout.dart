@@ -3,21 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'workout_set.dart';
 
 class RoutineWorkout {
-  final String routineWorkoutId;
-  final String routineId;
-  final String routineWorkoutOwnerId;
-  final String workoutId;
-  final String workoutTitle;
-  final int index;
-  final int numberOfSets;
-  final int numberOfReps;
-  final num totalWeights;
-  final List<WorkoutSet> sets;
-  final bool isBodyWeightWorkout;
-  final int duration;
-  final int secondsPerRep;
-  final Map<String, dynamic> translated;
-
   const RoutineWorkout({
     required this.routineWorkoutId,
     required this.routineId,
@@ -35,30 +20,36 @@ class RoutineWorkout {
     required this.translated,
   });
 
+  final String routineWorkoutId;
+  final String routineId;
+  final String routineWorkoutOwnerId;
+  final String workoutId;
+  final String workoutTitle;
+  final int index;
+  final int numberOfSets;
+  final int numberOfReps;
+  final num totalWeights;
+  final List<WorkoutSet> sets;
+  final bool isBodyWeightWorkout;
+  final int duration;
+  final int secondsPerRep;
+  final Map<String, dynamic> translated;
+
   factory RoutineWorkout.fromJson(
       Map<String, dynamic>? data, String documentId) {
     if (data != null) {
-      final int index = int.parse(data['index'].toString());
-      final String routineWorkoutId = documentId;
-      final String workoutId = data['workoutId'].toString();
       final String routineId = data['routineId'].toString();
       final String routineWorkoutOwnerId =
           data['routineWorkoutOwnerId'].toString();
+      final String workoutId = data['workoutId'].toString();
       final String workoutTitle = data['workoutTitle'].toString();
+      final int index = int.parse(data['index'].toString());
       final int numberOfSets = int.parse(data['numberOfSets'].toString());
       final int numberOfReps = int.parse(data['numberOfReps'].toString());
       final num totalWeights = num.parse(data['totalWeights'].toString());
-
-      // TODO(heeyunlee): fix here
-      final List<WorkoutSet> sets = <WorkoutSet>[];
-      if (data['sets'] != null) {
-        // List<WorkoutSet> sets =
-        //     data['sets'].map((e) => WorkoutSet.fromJson(e)).toList();
-        data['sets'].forEach((item) {
-          sets.add(WorkoutSet.fromJson(item as Map<String, dynamic>?));
-        });
-      }
-
+      final List<WorkoutSet> sets = (data['sets'] != null)
+          ? (data['sets'] as List).map((e) => WorkoutSet.fromJson(e)).toList()
+          : [];
       final bool isBodyWeightWorkout = data['isBodyWeightWorkout'] as bool;
       final int duration = data['duration'] as int;
       final int secondsPerRep = data['secondsPerRep'] as int;
@@ -66,8 +57,8 @@ class RoutineWorkout {
           data['translated'] as Map<String, dynamic>;
 
       return RoutineWorkout(
+        routineWorkoutId: documentId,
         index: index,
-        routineWorkoutId: routineWorkoutId,
         workoutId: workoutId,
         routineId: routineId,
         routineWorkoutOwnerId: routineWorkoutOwnerId,

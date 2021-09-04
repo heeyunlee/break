@@ -26,16 +26,14 @@ class RoutineHistoriesScreen extends StatelessWidget {
     required this.auth,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
+  static void show(BuildContext context) {
     final container = ProviderContainer();
     final auth = container.read(authServiceProvider);
     final database = container.read(databaseProvider(auth.currentUser?.uid));
 
-    await HapticFeedback.mediumImpact();
+    HapticFeedback.mediumImpact();
 
-    // TODO: fix use_build_context_synchronously
-    // ignore: use_build_context_synchronously
-    await Navigator.of(context).push(
+    Navigator.of(context).push(
       CupertinoPageRoute(
         builder: (context) => RoutineHistoriesScreen(
           database: database,
@@ -83,7 +81,6 @@ class RoutineHistoriesScreen extends StatelessWidget {
               routineHistory: routineHistory,
               database: database,
               auth: auth,
-              // user: user,
             ),
           );
         },

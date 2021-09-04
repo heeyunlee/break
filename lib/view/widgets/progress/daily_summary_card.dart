@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/generated/l10n.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
   const RoutineHistorySummaryCard({
@@ -37,24 +38,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
       children: <Widget>[
         const SizedBox(height: 8),
         ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Container(
-              height: 56,
-              width: 56,
-              color: kGrey700,
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl:
-                      'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png',
-                  color: Colors.grey,
-                  width: 36,
-                  height: 36,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          ),
+          leading: _buildLeadingWidget(),
           title: Text(
             Formatter.date(routineHistory.workoutStartTime),
             style: TextStyles.subtitle2,
@@ -71,9 +55,10 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         const Divider(indent: 8, endIndent: 8, color: kGrey800),
         const SizedBox(height: 16),
         _DailySummaryRowWidget(
-          formattedWeights: Formatter.routineHistoryWeights(routineHistory),
-          caloriesBurnt: routineHistory.totalCalories,
-          totalDuration: Formatter.durationInMin(routineHistory.totalDuration),
+          routineHistory: routineHistory,
+          // formattedWeights: Formatter.routineHistoryWeights(routineHistory),
+          // caloriesBurnt: routineHistory.totalCalories,
+          // totalDuration: Formatter.durationInMin(routineHistory.totalDuration),
         ),
         const SizedBox(height: 16),
         if (routineHistory.earnedBadges == true)
@@ -92,43 +77,86 @@ class RoutineHistorySummaryCard extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildLeadingWidget() {
+    if (routineHistory.youtubeWorkouts != null) {
+      return SizedBox(
+        height: 48,
+        width: 80,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          clipBehavior: Clip.antiAlias,
+          child: Image.network(
+            routineHistory.imageUrl,
+            width: 72,
+            height: 56,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    } else {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          height: 56,
+          width: 56,
+          color: kGrey700,
+          child: Center(
+            child: CachedNetworkImage(
+              imageUrl:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png',
+              color: Colors.grey,
+              width: 36,
+              height: 36,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      );
+    }
+  }
 }
 
 class _DailySummaryRowWidget extends StatelessWidget {
   const _DailySummaryRowWidget({
     Key? key,
-    required this.formattedWeights,
-    required this.caloriesBurnt,
-    required this.totalDuration,
+    // required this.formattedWeights,
+    // required this.caloriesBurnt,
+    // required this.totalDuration,
+    required this.routineHistory,
   }) : super(key: key);
 
-  final String formattedWeights;
-  final num? caloriesBurnt;
-  final String totalDuration;
+  // final String formattedWeights;
+  // final num? caloriesBurnt;
+  // final String totalDuration;
+  final RoutineHistory routineHistory;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _buildRowChildren(
-          emojiUrl:
-              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
-          title: formattedWeights,
-          subtitle: S.current.lifted,
-        ),
-
-        // _buildRowChildren(
-        //   emojiUrl:
-        //       'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
-        //   title: '$caloriesBurnt Kcal',
-        //   subtitle: 'Burnt',
-        // ),
-
+        if (routineHistory.routineHistoryType == null ||
+            routineHistory.routineHistoryType == 'routine')
+          _buildRowChildren(
+            emojiUrl:
+                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/person-lifting-weights_1f3cb-fe0f.png',
+            // title: formattedWeights,
+            title: Formatter.routineHistoryWeights(routineHistory),
+            subtitle: S.current.lifted,
+          ),
+        if (routineHistory.routineHistoryType == 'youtube')
+          _buildRowChildren(
+            emojiUrl:
+                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
+            title: Formatter.formattedKcal(routineHistory.totalCalories),
+            subtitle: S.current.burnt,
+          ),
         _buildRowChildren(
           emojiUrl:
               'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/stopwatch_23f1-fe0f.png',
-          title: totalDuration,
+          // title: totalDuration,
+          title: Formatter.durationInMin(routineHistory.totalDuration),
           subtitle: S.current.spent,
         ),
       ],
