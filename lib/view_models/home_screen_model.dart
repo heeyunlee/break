@@ -41,20 +41,14 @@ class HomeScreenModel with ChangeNotifier {
   bool get isFirstStartup => _isFirstStartup;
 
   Future<void> setMiniplayerHeight() async {
-    logger.d('`setMiniplayerHeight` function called');
+    logger.d('`setMiniplayerHeight()` function called in [HomeScreen]');
 
-    // final _miniplayerHeight = Platform.isAndroid
-    //     ? 120.0
-    //     : (size.height > 700)
-    //         ? 152.0
-    //         : 120.0;
     final aspectRatio = window.physicalSize.aspectRatio;
     final _miniplayerHeight = Platform.isAndroid
         ? 120.0
         : (aspectRatio < 0.5)
             ? 152.0
             : 120.0;
-    logger.d('physicalSize: ${window.physicalSize}');
 
     miniplayerMinHeight = _miniplayerHeight;
     valueNotifier = ValueNotifier<double>(miniplayerMinHeight!);

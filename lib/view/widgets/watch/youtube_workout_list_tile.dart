@@ -33,7 +33,7 @@ class YoutubeWorkoutListTile extends StatelessWidget {
                     child: FittedBox(
                       child: Text(
                         Formatter.durationInMMSS(workout.position),
-                        style: TextStyles.blackHans2,
+                        style: TextStyles.blackHans3,
                       ),
                     ),
                   ),
@@ -67,7 +67,7 @@ class YoutubeWorkoutListTile extends StatelessWidget {
                   child: Center(
                     child: Text(
                       Formatter.durationInMMSS(workout.position),
-                      style: TextStyles.blackHans2,
+                      style: TextStyles.blackHans3,
                     ),
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -286,24 +285,34 @@ class LogRoutineModel with ChangeNotifier {
   /// STATIC
   ///
   /// Navigation
-  static Future<void> show(
+  static void show(
     BuildContext context, {
-    required Database database,
     required RoutineDetailScreenClass data,
-  }) async {
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => LogRoutineScreen(
-            database: database,
-            model: watch(logRoutineModelProvider),
-            data: data,
-          ),
+  }) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, _, database) => Consumer(
+        builder: (context, watch, child) => LogRoutineScreen(
+          database: database,
+          model: watch(logRoutineModelProvider),
+          data: data,
         ),
       ),
     );
+    // await HapticFeedback.mediumImpact();
+    // await Navigator.of(context, rootNavigator: true).push(
+    //   CupertinoPageRoute(
+    //     fullscreenDialog: true,
+    //     builder: (context) => Consumer(
+    //       builder: (context, watch, child) => LogRoutineScreen(
+    //         database: database,
+    //         model: watch(logRoutineModelProvider),
+    //         data: data,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   static final formKey = GlobalKey<FormState>();

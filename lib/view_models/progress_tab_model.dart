@@ -66,7 +66,6 @@ class ProgressTabModel with ChangeNotifier {
   }
 
   void init({required TickerProvider vsync}) {
-    // INIT Background Blur Animation
     _animationController = AnimationController(
       vsync: vsync,
       duration: Duration.zero,

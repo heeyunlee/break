@@ -60,7 +60,7 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('SearchTab Scaffold building...');
+    logger.d('[SearchTab] building...');
 
     final size = MediaQuery.of(context).size;
 
@@ -115,7 +115,6 @@ class _SearchTabState extends State<SearchTab> {
           ),
         ],
         transition: CircularFloatingSearchBarTransition(),
-        // physics: const BouncingScrollPhysics(),
         onQueryChanged: onQueryChanged,
         onSubmitted: onQueryChanged,
         body: FloatingSearchBarScrollNotifier(child: _buildBody()),
@@ -178,7 +177,6 @@ class _SearchTabState extends State<SearchTab> {
 
   Widget _buildBody() {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

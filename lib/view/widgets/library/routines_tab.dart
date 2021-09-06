@@ -12,8 +12,8 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-import 'routine_detail_screen.dart';
-import 'saved_routines_screen.dart';
+import '../../screens/library/routine_detail_screen.dart';
+import '../../screens/library/saved_routines_screen.dart';
 
 /// Creates a tab that displays a list of routines, either saved or created by
 /// the user.

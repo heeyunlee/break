@@ -421,7 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "liftingGoal": MessageLookupByLibrary.simpleMessage("Lifting Goal"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "logIn": MessageLookupByLibrary.simpleMessage("Log In"),
-        "logRoutine": MessageLookupByLibrary.simpleMessage("Log Routine"),
+        "logRoutine": MessageLookupByLibrary.simpleMessage("LOG"),
         "logYourWorkout":
             MessageLookupByLibrary.simpleMessage("Log Your Workout"),
         "loggedRoutineHistorySnackbar":
@@ -660,7 +660,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spent": MessageLookupByLibrary.simpleMessage("spent"),
         "start": MessageLookupByLibrary.simpleMessage("START"),
         "startNow": MessageLookupByLibrary.simpleMessage("Start Now"),
-        "startRoutine": MessageLookupByLibrary.simpleMessage("Start Routine"),
+        "startRoutine": MessageLookupByLibrary.simpleMessage("START"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
         "startWorkout": MessageLookupByLibrary.simpleMessage("Start Workout"),
         "startWorkoutkButtonText":

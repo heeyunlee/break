@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class TitleWidget extends StatelessWidget {
@@ -31,10 +30,7 @@ class TitleWidget extends StatelessWidget {
       if (title.length < 21) {
         return Text(
           title,
-          style: GoogleFonts.blackHanSans(
-            color: Colors.white,
-            fontSize: 28,
-          ),
+          style: TextStyles.blackHans1,
           maxLines: 1,
           overflow: TextOverflow.fade,
           softWrap: false,
@@ -43,19 +39,13 @@ class TitleWidget extends StatelessWidget {
         return FittedBox(
           child: Text(
             title,
-            style: GoogleFonts.blackHanSans(
-              color: Colors.white,
-              fontSize: 28,
-            ),
+            style: TextStyles.blackHans1,
           ),
         );
       } else {
         return Text(
           title,
-          style: GoogleFonts.blackHanSans(
-            color: Colors.white,
-            fontSize: 20,
-          ),
+          style: TextStyles.blackHans3,
           maxLines: 1,
           overflow: TextOverflow.fade,
           softWrap: false,

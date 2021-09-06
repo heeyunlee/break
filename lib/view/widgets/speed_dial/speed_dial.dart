@@ -7,6 +7,7 @@ import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/view_models/add_measurements_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
+import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/speed_dial_model.dart';
 
 import '../speed_dial.dart';
@@ -44,6 +45,8 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
+    logger.d('[SpeedDial] widget building');
+
     return Consumer(
       builder: (context, watch, child) {
         final homeModel = watch(homeScreenModelProvider);

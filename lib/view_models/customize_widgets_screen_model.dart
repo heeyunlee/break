@@ -27,14 +27,18 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   });
 
   List<dynamic> _widgetKeysList = [];
+  int? _selectedImageIndex;
 
   List<dynamic> get widgetKeysList => _widgetKeysList;
+  int? get selectedImageIndex => _selectedImageIndex;
 
   void init(AuthAndDatabase authAndDatabase, User user) {
     _widgetKeysList =
         user.widgetsList ?? ProgressTabWidgetsModel().widgetKeysList;
     auth = authAndDatabase.auth;
     database = authAndDatabase.database;
+    _selectedImageIndex = user.backgroundImageIndex;
+    // notifyListeners();
   }
 
   void onTap(String key) {
@@ -51,6 +55,7 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     try {
       final updatedUser = {
         'widgetsList': _widgetKeysList,
+        'backgroundImageIndex': _selectedImageIndex,
       };
 
       await database!.updateUser(auth!.currentUser!.uid, updatedUser);
@@ -73,6 +78,33 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
       context,
       title: S.current.operationFailed,
       exception: exception.message ?? '',
+    );
+  }
+
+  void setselectedImageIndex(int? index) {
+    _selectedImageIndex = index;
+    notifyListeners();
+  }
+
+  Future<void> initSelectedImageIndex() async {
+    final user = await database!.getUserDocument(auth!.currentUser!.uid);
+
+    _selectedImageIndex = user!.backgroundImageIndex;
+    notifyListeners();
+  }
+
+  Future<void> updateBackground(BuildContext context) async {
+    final user = {
+      'backgroundImageIndex': _selectedImageIndex,
+    };
+
+    await database!.updateUser(auth!.currentUser!.uid, user);
+
+    Navigator.of(context).pop();
+
+    getSnackbarWidget(
+      S.current.updateBackgroundSnackbarTitle,
+      S.current.updateBackgroundSnackbarMessage,
     );
   }
 

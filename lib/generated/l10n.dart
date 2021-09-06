@@ -600,20 +600,20 @@ class S {
     );
   }
 
-  /// `Log Routine`
+  /// `LOG`
   String get logRoutine {
     return Intl.message(
-      'Log Routine',
+      'LOG',
       name: 'logRoutine',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start Routine`
+  /// `START`
   String get startRoutine {
     return Intl.message(
-      'Start Routine',
+      'START',
       name: 'startRoutine',
       desc: '',
       args: [],

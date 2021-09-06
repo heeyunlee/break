@@ -389,7 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "liftingGoal": MessageLookupByLibrary.simpleMessage("중량 목표"),
         "location": MessageLookupByLibrary.simpleMessage("장소"),
         "logIn": MessageLookupByLibrary.simpleMessage("로그인"),
-        "logRoutine": MessageLookupByLibrary.simpleMessage("루틴 기록"),
+        "logRoutine": MessageLookupByLibrary.simpleMessage("기록"),
         "logYourWorkout":
             MessageLookupByLibrary.simpleMessage("오늘 나의 운동을 기록하세요"),
         "loggedRoutineHistorySnackbar":
@@ -612,7 +612,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spent": MessageLookupByLibrary.simpleMessage("시간"),
         "start": MessageLookupByLibrary.simpleMessage("시작하기"),
         "startNow": MessageLookupByLibrary.simpleMessage("시작하기"),
-        "startRoutine": MessageLookupByLibrary.simpleMessage("루틴 시작"),
+        "startRoutine": MessageLookupByLibrary.simpleMessage("시작"),
         "startTime": MessageLookupByLibrary.simpleMessage("운동 시작 시간"),
         "startWorkout": MessageLookupByLibrary.simpleMessage("운동 시작"),
         "startWorkoutkButtonText":

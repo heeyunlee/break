@@ -280,7 +280,7 @@ class Formatter {
     if (equipmentsAsEnum != null) {
       final list =
           equipmentsAsEnum.map((equipment) => equipment!.translation!).toList();
-      final lowerCased = list.join(', ').toLowerCase();
+      final lowerCased = list.join(', ');
 
       return lowerCased;
     } else if (equipmentsAsString != null) {

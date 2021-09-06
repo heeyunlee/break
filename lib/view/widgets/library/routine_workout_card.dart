@@ -69,9 +69,11 @@ class RoutineWorkoutCard extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
           color: kCardColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: ExpansionTile(
+            initiallyExpanded: true,
             collapsedIconColor: Colors.white,
             iconColor: Colors.white,
             leading: SizedBox(

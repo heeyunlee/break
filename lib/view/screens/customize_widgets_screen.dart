@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/combined/auth_and_database.dart';
@@ -13,6 +15,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
+import 'package:workout_player/view_models/progress_tab_model.dart';
 
 class CustomizeWidgetsScreen extends StatefulWidget {
   final User user;
@@ -92,13 +95,13 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(
           top: Scaffold.of(context).appBarMaxHeight! + 16,
           bottom: 120,
-          left: 16,
-          right: 16,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +114,101 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
             Text(
               S.current.customizeWidgetsMessage,
               style: TextStyles.subtitle2Grey,
+            ),
+            SizedBox(
+              height: size.height / 3,
+              child: GridView.count(
+                childAspectRatio: 3 / 2,
+                crossAxisCount: 1,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(
+                  // top: Scaffold.of(context).appBarMaxHeight! + 16,
+                  // bottom: kBottomNavigationBarHeight + 48,
+                  left: 16,
+                  right: 16,
+                ),
+                shrinkWrap: true,
+                children: [
+                  // Card(
+                  //   color: kCardColor,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(12),
+                  //   ),
+                  //   child: InkWell(
+                  //     onTap: () => widget.model.showModalBottomSheet(context),
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Text(S.current.addPhotos, style: TextStyles.body2),
+                  //         const SizedBox(height: 8),
+                  //         Icon(
+                  //           Icons.add_rounded,
+                  //           color: Colors.white,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  ...List.generate(
+                    ProgressTabModel.bgURL.length,
+                    (index) => GestureDetector(
+                      onTap: () => widget.model.setselectedImageIndex(index),
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 8,
+                        ),
+                        color: Colors.transparent,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          side: index == widget.model.selectedImageIndex
+                              ? const BorderSide(color: Colors.white, width: 2)
+                              : BorderSide.none,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Stack(
+                          clipBehavior: Clip.antiAlias,
+                          fit: StackFit.passthrough,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: ProgressTabModel.bgURL[index],
+                              placeholder: (context, _) => BlurHash(
+                                hash: ProgressTabModel.bgPlaceholderHash[index],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // ...List.generate(
+                  //   widget.model.personalImagesUrls.length,
+                  //   (index) {
+                  //     print('${widget.model.personalImagesUrls.length}');
+                  //     return GestureDetector(
+                  //       child: Card(
+                  //         color: Colors.transparent,
+                  //         clipBehavior: Clip.antiAlias,
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         child: Stack(
+                  //           clipBehavior: Clip.antiAlias,
+                  //           fit: StackFit.passthrough,
+                  //           children: [
+                  //             CachedNetworkImage(
+                  //               imageUrl: widget.model.personalImagesUrls[index],
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                ],
+              ),
             ),
             ...widget.model.currentPreviewWidgetList.map(
               (value) {

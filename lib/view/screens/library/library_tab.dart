@@ -6,7 +6,7 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import 'routines_tab.dart';
+import '../../widgets/library/routines_tab.dart';
 import 'workouts_tab.dart';
 
 class LibraryTab extends StatelessWidget {
@@ -42,7 +42,6 @@ class LibraryTab extends StatelessWidget {
     return SliverAppBar(
       floating: true,
       pinned: true,
-      // snap: false,
       centerTitle: true,
       brightness: Brightness.dark,
       backgroundColor: Colors.transparent,

@@ -25,11 +25,10 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MixpanelManager().init();
   AlgoliaManager().initAlgolia();
-  // AlgoliaManager.init();
   KakaoContext.clientId = kakaoClientId;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// disable Landscape mode
+    /// Disable Landscape mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -56,32 +55,34 @@ class MyApp extends StatelessWidget {
 
     logger.d('In [Main] method');
 
-    return provider.MultiProvider(
-      providers: [
-        provider.Provider<Database>(
-          create: (_) => FirestoreDatabase(),
-        ),
-        provider.Provider<AuthBase>(
-          create: (context) => AuthService(),
-        ),
-      ],
-      child: GetMaterialApp(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'NanumSquareRound',
-          primaryColorBrightness: Brightness.dark,
-          iconTheme: const IconThemeData(
-            color: Colors.white,
+    return ProviderScope(
+      child: provider.MultiProvider(
+        providers: [
+          provider.Provider<Database>(
+            create: (_) => FirestoreDatabase(),
           ),
+          provider.Provider<AuthBase>(
+            create: (context) => AuthService(),
+          ),
+        ],
+        child: GetMaterialApp(
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'NanumSquareRound',
+            primaryColorBrightness: Brightness.dark,
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+          ),
+          home: const LandingScreen(),
         ),
-        home: const LandingScreen(),
       ),
     );
   }

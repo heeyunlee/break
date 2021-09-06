@@ -33,14 +33,6 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // static const headline3Menlo = TextStyle(
-  //   fontSize: 48,
-  //   fontWeight: FontWeight.bold,
-  //   color: Colors.white,
-  //   letterSpacing: 0,
-  //   fontFamily: menlo,
-  // );
-
   static const headline4 = TextStyle(
     fontSize: 34,
     fontWeight: FontWeight.w400,
@@ -64,14 +56,6 @@ class TextStyles {
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
   );
-
-  // static const headline4MenloW900Primary = TextStyle(
-  //   fontSize: 34,
-  //   fontWeight: FontWeight.w900,
-  //   color: kPrimaryColor,
-  //   letterSpacing: 0.25,
-  //   fontFamily: menlo,
-  // );
 
   static const headline5 = TextStyle(
     fontSize: 24,
@@ -104,30 +88,6 @@ class TextStyles {
     letterSpacing: 0,
     fontFamily: defaultFontFamily,
   );
-
-  // static const headline5Menlo = TextStyle(
-  //   fontSize: 24,
-  //   fontWeight: FontWeight.w400,
-  //   color: Colors.white,
-  //   letterSpacing: 0,
-  //   fontFamily: menlo,
-  // );
-
-  // static const headline5MenloPrimary = TextStyle(
-  //   fontSize: 24,
-  //   fontWeight: FontWeight.w400,
-  //   color: kPrimaryColor,
-  //   letterSpacing: 0,
-  //   fontFamily: menlo,
-  // );
-
-  // static const headline5MenloBoldPrimary = TextStyle(
-  //   fontSize: 24,
-  //   fontWeight: FontWeight.bold,
-  //   color: kPrimaryColor,
-  //   letterSpacing: 0,
-  //   fontFamily: menlo,
-  // );
 
   static const headline5MenloW900Primary = TextStyle(
     fontSize: 24,
@@ -177,30 +137,6 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // static const headline6GreyW900 = TextStyle(
-  //   fontSize: 20,
-  //   fontWeight: FontWeight.w900,
-  //   color: Colors.grey,
-  //   letterSpacing: 0.15,
-  //   fontFamily: defaultFontFamily,
-  // );
-
-  // static const headline6Menlo = TextStyle(
-  //   fontSize: 20,
-  //   fontWeight: FontWeight.w500,
-  //   color: Colors.white,
-  //   letterSpacing: 0.15,
-  //   fontFamily: menlo,
-  // );
-
-  // static const headline6MenloBold = TextStyle(
-  //   fontSize: 20,
-  //   fontWeight: FontWeight.bold,
-  //   color: Colors.white,
-  //   letterSpacing: 0.15,
-  //   fontFamily: menlo,
-  // );
-
   /// Subtitle 1 Text Styles
   ///
   /// Basic Settings
@@ -213,14 +149,6 @@ class TextStyles {
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
-
-  // static const subtitle1Light = TextStyle(
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.w300,
-  //   color: Colors.white,
-  //   letterSpacing: 0.15,
-  //   fontFamily: defaultFontFamily,
-  // );
 
   static const subtitle1Bold = TextStyle(
     fontSize: 16,
@@ -254,30 +182,6 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // static const subtitle1W900GreenAccent = TextStyle(
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.w900,
-  //   color: Colors.greenAccent,
-  //   letterSpacing: 0.15,
-  //   fontFamily: defaultFontFamily,
-  // );
-
-  // static const subtitle1W900LightGreenAccent = TextStyle(
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.w900,
-  //   color: Colors.lightGreenAccent,
-  //   letterSpacing: 0.15,
-  //   fontFamily: defaultFontFamily,
-  // );
-
-  // static const subtitle1LightGrey = TextStyle(
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.w300,
-  //   color: Colors.grey,
-  //   letterSpacing: 0.15,
-  //   fontFamily: defaultFontFamily,
-  // );
-
   static const subtitle1Grey = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
@@ -309,14 +213,6 @@ class TextStyles {
     letterSpacing: 0.1,
     fontFamily: defaultFontFamily,
   );
-
-  // static const subtitle2Menlo = TextStyle(
-  //   fontSize: 14,
-  //   fontWeight: FontWeight.w500,
-  //   color: Colors.white,
-  //   letterSpacing: 0.1,
-  //   fontFamily: menlo,
-  // );
 
   static const subtitle2BoldGrey = TextStyle(
     fontSize: 14,
@@ -387,15 +283,6 @@ class TextStyles {
     letterSpacing: 0,
     fontFamily: menlo,
   );
-
-  // static const body1MenloWhite54 = TextStyle(
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.normal,
-  //   color: Colors.white54,
-  //   letterSpacing: 0,
-  //   fontFamily: menlo,
-  //   height: 1.5,
-  // );
 
   static const body1Bold = TextStyle(
     fontSize: 16,
@@ -519,14 +406,6 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  // static const button1Black = TextStyle(
-  //   fontSize: 14,
-  //   fontWeight: FontWeight.w500,
-  //   color: Colors.black,
-  //   letterSpacing: 1.25,
-  //   fontFamily: defaultFontFamily,
-  // );
-
   static const button1Bold = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
@@ -534,22 +413,6 @@ class TextStyles {
     letterSpacing: 1.25,
     fontFamily: defaultFontFamily,
   );
-
-  // static const button1BoldGrey = TextStyle(
-  //   fontSize: 14,
-  //   fontWeight: FontWeight.bold,
-  //   color: Colors.grey,
-  //   letterSpacing: 1.25,
-  //   fontFamily: defaultFontFamily,
-  // );
-
-  // static const button1BoldPrimary = TextStyle(
-  //   fontSize: 14,
-  //   fontWeight: FontWeight.bold,
-  //   color: kPrimaryColor,
-  //   letterSpacing: 1.25,
-  //   fontFamily: defaultFontFamily,
-  // );
 
   /// Button 2 Text Styles
   ///
@@ -584,22 +447,6 @@ class TextStyles {
     letterSpacing: 0.4,
     fontFamily: defaultFontFamily,
   );
-
-  // static const caption1Primary = TextStyle(
-  //   fontSize: 12,
-  //   fontWeight: FontWeight.w400,
-  //   color: kPrimaryColor,
-  //   letterSpacing: 0.4,
-  //   fontFamily: defaultFontFamily,
-  // );
-
-  // static const caption1Black = TextStyle(
-  //   fontSize: 12,
-  //   fontWeight: FontWeight.w400,
-  //   color: Colors.black,
-  //   letterSpacing: 0.4,
-  //   fontFamily: defaultFontFamily,
-  // );
 
   /// Overline Text Styles
   ///
@@ -655,10 +502,15 @@ class TextStyles {
 
   static final blackHans1 = GoogleFonts.blackHanSans(
     color: Colors.white,
-    fontSize: 24,
+    fontSize: 28,
   );
 
   static final blackHans2 = GoogleFonts.blackHanSans(
+    color: Colors.white,
+    fontSize: 24,
+  );
+
+  static final blackHans3 = GoogleFonts.blackHanSans(
     color: Colors.white,
     fontSize: 20,
   );

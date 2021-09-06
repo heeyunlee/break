@@ -35,7 +35,7 @@ class WorkoutsTab extends StatelessWidget {
     return PaginateFirestore(
       isLive: true,
       shrinkWrap: true,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       query: database.workoutsPaginatedUserQuery(),
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilderType: PaginateBuilderType.listView,

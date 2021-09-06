@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 import '../../../view_models/home_screen_model.dart';
 import 'tab_item.dart';
@@ -13,8 +14,9 @@ class BottomNavigationTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(homeScreenModelProvider);
+    logger.d('[BottomNavigationTab] widget building');
 
+    final model = watch(homeScreenModelProvider);
     final size = MediaQuery.of(context).size;
 
     return ValueListenableBuilder<double>(

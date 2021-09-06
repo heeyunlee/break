@@ -2,7 +2,13 @@
 
 Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
-## Unrelreased (0.3.5)
+## Unreleased (0.3.6)
+### New Features
+
+### Bug Fix & Refactor
+- Refactored RoutineDetailScreen 
+
+## [0.3.5] - September 4th, 2021
 ### New Features
 - Added Watch Tab, where users can find YouTube videos to workout with. 
 
@@ -87,6 +93,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
 
+[0.3.5]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
 [0.3.4]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
 [0.3.3]: https://github.com/heeyunlee/herakless/compare/ea1d7a2abec9c652e2e508e1326df011b1ab2e8b..054a3316c3963866a36a2a6a8ea155120acbfd78
 [0.3.2]: https://github.com/heeyunlee/herakless/compare/db5c6992dcc41fd9f5f11160333509e97fa42019..ea1d7a2abec9c652e2e508e1326df011b1ab2e8b
