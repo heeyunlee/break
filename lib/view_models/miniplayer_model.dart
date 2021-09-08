@@ -92,15 +92,12 @@ class MiniplayerModel with ChangeNotifier {
     _currentWorkoutForYoutubeIndex = 0;
   }
 
-  // double getYOffset({
-  //   required double min,
-  //   required double max,
-  //   required double value,
-  // }) {
-  //   final percentage = (value - min) / (max - min);
+  void close() {
+    diosposeValues();
+    _miniplayerController.animateToHeight(state: PanelState.MIN);
 
-  //   return kBottomNavigationBarHeight * percentage * 2;
-  // }
+    notifyListeners();
+  }
 
   void init(TickerProvider vsync) {
     _animationController = AnimationController(

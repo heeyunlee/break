@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
-import 'package:workout_player/view_models/log_routine_screen_model.dart';
+import 'package:workout_player/view/screens/log_routine_screen.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -19,7 +19,7 @@ class LogRoutineButton extends StatelessWidget {
 
     return OutlinedButton(
       style: ButtonStyles.outlined1,
-      onPressed: () => LogRoutineModel.show(
+      onPressed: () => LogRoutineScreen.show(
         context,
         data: data,
       ),

@@ -133,10 +133,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("이미 회원가입을 하셨나요?"),
         "amount": MessageLookupByLibrary.simpleMessage("양"),
         "and": MessageLookupByLibrary.simpleMessage(" 및 "),
-        "announcementCardTitle1":
-            MessageLookupByLibrary.simpleMessage("나만의\n루틴을\n만들어보세요!"),
-        "announcementCardTitle2":
-            MessageLookupByLibrary.simpleMessage("운동을\n기록하세요!"),
         "applicationName": MessageLookupByLibrary.simpleMessage("헤라클레스"),
         "arms": MessageLookupByLibrary.simpleMessage("팔"),
         "atHome": MessageLookupByLibrary.simpleMessage("홈 트레이닝"),
@@ -287,7 +283,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "displayNameEmptyTitle":
             MessageLookupByLibrary.simpleMessage("이름이 없어요"),
         "displayNameHintText":
-            MessageLookupByLibrary.simpleMessage("\"헤라클레스\""),
+            MessageLookupByLibrary.simpleMessage("\'헤라클레스\'"),
         "done": MessageLookupByLibrary.simpleMessage("완료"),
         "dumbbell": MessageLookupByLibrary.simpleMessage("덤벨"),
         "durationHintText": MessageLookupByLibrary.simpleMessage("운동 시간: 분"),

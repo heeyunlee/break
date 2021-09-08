@@ -6,7 +6,6 @@ import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -19,7 +18,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import '../view/screens/log_routine_screen.dart';
 import 'main_model.dart';
 import 'miniplayer_model.dart';
 
@@ -222,34 +220,6 @@ class LogRoutineModel with ChangeNotifier {
         return workoutHistory;
       }).toList();
 
-      // for (final routineWorkout in routineWorkouts) {
-      //   final uniqueId = UniqueKey().toString();
-
-      //   final workoutHistoryId = 'WH${const Uuid().v1()}$uniqueId';
-
-      //   final workoutHistory = WorkoutHistory(
-      //     workoutHistoryId: workoutHistoryId,
-      //     routineHistoryId: routineHistoryId,
-      //     workoutId: rw!.workoutId,
-      //     routineId: rw.routineId,
-      //     uid: user.userId,
-      //     index: rw.index,
-      //     workoutTitle: rw.workoutTitle,
-      //     numberOfSets: rw.numberOfSets,
-      //     numberOfReps: rw.numberOfReps,
-      //     totalWeights: rw.totalWeights,
-      //     isBodyWeightWorkout: rw.isBodyWeightWorkout,
-      //     duration: rw.duration,
-      //     secondsPerRep: rw.secondsPerRep,
-      //     translated: rw.translated,
-      //     sets: rw.sets,
-      //     workoutTime: _loggedTime,
-      //     workoutDate: Timestamp.fromDate(workoutDate),
-      //     unitOfMass: routine.initialUnitOfMass,
-      //   );
-      //   workoutHistories.add(workoutHistory);
-      // }
-
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
@@ -265,9 +235,7 @@ class LogRoutineModel with ChangeNotifier {
         S.current.afterWorkoutSnackbar,
       );
 
-      context.read(miniplayerModelProvider).diosposeValues();
-
-      // context.read(miniplayerModelProvider).setRoutine(null);
+      context.read(miniplayerModelProvider).close();
 
       _toggleBoolValue();
     } on FirebaseException catch (e) {
@@ -283,37 +251,5 @@ class LogRoutineModel with ChangeNotifier {
   }
 
   /// STATIC
-  ///
-  /// Navigation
-  static void show(
-    BuildContext context, {
-    required RoutineDetailScreenClass data,
-  }) {
-    customPush(
-      context,
-      rootNavigator: true,
-      builder: (context, _, database) => Consumer(
-        builder: (context, watch, child) => LogRoutineScreen(
-          database: database,
-          model: watch(logRoutineModelProvider),
-          data: data,
-        ),
-      ),
-    );
-    // await HapticFeedback.mediumImpact();
-    // await Navigator.of(context, rootNavigator: true).push(
-    //   CupertinoPageRoute(
-    //     fullscreenDialog: true,
-    //     builder: (context) => Consumer(
-    //       builder: (context, watch, child) => LogRoutineScreen(
-    //         database: database,
-    //         model: watch(logRoutineModelProvider),
-    //         data: data,
-    //       ),
-    //     ),
-    //   ),
-    // );
-  }
-
   static final formKey = GlobalKey<FormState>();
 }

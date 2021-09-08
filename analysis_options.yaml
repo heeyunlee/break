@@ -2,10 +2,7 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    always_declare_return_types: false
     prefer_single_quotes: true
-    use_build_context_synchronously: false
-    type_annotate_public_apis: false
+    # type_annotate_public_apis: false
     unnecessary_string_escapes: false
-    avoid_positional_boolean_parameters: false
-    prefer_final_locals: false
+    # avoid_positional_boolean_parameters: false

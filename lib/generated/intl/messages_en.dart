@@ -142,10 +142,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "and": MessageLookupByLibrary.simpleMessage(" and "),
-        "announcementCardTitle1":
-            MessageLookupByLibrary.simpleMessage("CREATE\nYOUR\nOWN\nROUTINE"),
-        "announcementCardTitle2":
-            MessageLookupByLibrary.simpleMessage("SAVE\nYOUR\nPROGRESS"),
         "applicationName": MessageLookupByLibrary.simpleMessage("Herakles"),
         "arms": MessageLookupByLibrary.simpleMessage("Arms"),
         "atHome": MessageLookupByLibrary.simpleMessage("At Home"),
@@ -309,7 +305,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "displayNameEmptyTitle":
             MessageLookupByLibrary.simpleMessage("Display Name is Empty"),
         "displayNameHintText":
-            MessageLookupByLibrary.simpleMessage("\"Hercules\""),
+            MessageLookupByLibrary.simpleMessage("\'Hercules\'"),
         "done": MessageLookupByLibrary.simpleMessage("DONE"),
         "dumbbell": MessageLookupByLibrary.simpleMessage("Dumbbell"),
         "durationHintText":

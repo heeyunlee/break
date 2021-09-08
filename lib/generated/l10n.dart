@@ -330,10 +330,10 @@ class S {
     );
   }
 
-  /// `"Hercules"`
+  /// `'Hercules'`
   String get displayNameHintText {
     return Intl.message(
-      '"Hercules"',
+      '\'Hercules\'',
       name: 'displayNameHintText',
       desc: '',
       args: [],
@@ -1775,26 +1775,6 @@ class S {
     return Intl.message(
       'Nothing here...',
       name: 'emptyContentTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `CREATE\nYOUR\nOWN\nROUTINE`
-  String get announcementCardTitle1 {
-    return Intl.message(
-      'CREATE\nYOUR\nOWN\nROUTINE',
-      name: 'announcementCardTitle1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `SAVE\nYOUR\nPROGRESS`
-  String get announcementCardTitle2 {
-    return Intl.message(
-      'SAVE\nYOUR\nPROGRESS',
-      name: 'announcementCardTitle2',
       desc: '',
       args: [],
     );

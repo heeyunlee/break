@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
@@ -26,6 +27,24 @@ class LogRoutineScreen extends StatefulWidget {
   final Database database;
   final LogRoutineModel model;
   final RoutineDetailScreenClass data;
+
+  /// Navigation
+  static void show(
+    BuildContext context, {
+    required RoutineDetailScreenClass data,
+  }) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, _, database) => Consumer(
+        builder: (context, watch, child) => LogRoutineScreen(
+          database: database,
+          model: watch(logRoutineModelProvider),
+          data: data,
+        ),
+      ),
+    );
+  }
 
   @override
   _LogRoutineScreenState createState() => _LogRoutineScreenState();
@@ -138,10 +157,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      // nextFocus: true,
       keyboardSeparatorColor: kGrey700,
       keyboardBarColor: const Color(0xff303030),
-      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       actions: List.generate(
         widget.model.focusNodes.length,
         (index) => KeyboardActionsItem(
