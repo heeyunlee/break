@@ -22,3 +22,4 @@ export 'library/workout_title_widget.dart';
 export 'library/workout_youtube_tips_widget.dart';
 export 'library/routine_flexible_space_bar.dart';
 export 'library/routine_sliver_to_box_adapter.dart';
+export 'library/routine_bottom_sheet.dart';

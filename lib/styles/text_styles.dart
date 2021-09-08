@@ -222,6 +222,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const subtitle2BoldWhite38 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.white38,
+    letterSpacing: 0.1,
+    fontFamily: defaultFontFamily,
+  );
+
   static const subtitle2W900 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w900,
@@ -321,6 +329,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const body2Bold = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
   static const body2Grey = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -394,6 +410,14 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.white,
+    letterSpacing: 1.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const button1SecondaryW900 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: kSecondaryColor,
     letterSpacing: 1.25,
     fontFamily: defaultFontFamily,
   );
@@ -502,6 +526,11 @@ class TextStyles {
 
   static final blackHans1 = GoogleFonts.blackHanSans(
     color: Colors.white,
+    fontSize: 28,
+  );
+
+  static final blackHans1Grey = GoogleFonts.blackHanSans(
+    color: Colors.grey,
     fontSize: 28,
   );
 

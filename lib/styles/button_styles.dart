@@ -38,6 +38,23 @@ class ButtonStyles {
     }),
   );
 
+  static final text1SecondaryW900 = ButtonStyle(
+    foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+      if (states.contains(MaterialState.disabled)) return kGrey600;
+      return kSecondaryColor;
+    }),
+    overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+      if (states.contains(MaterialState.disabled)) return Colors.grey;
+      return kSecondaryColor.withOpacity(0.12);
+    }),
+    textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
+      if (states.contains(MaterialState.disabled)) {
+        return TextStyles.button1Grey;
+      }
+      return TextStyles.button1SecondaryW900;
+    }),
+  );
+
   static final outlined1 = OutlinedButton.styleFrom(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
@@ -49,6 +66,13 @@ class ButtonStyles {
     primary: kPrimaryColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
+    ),
+  );
+
+  static final elevated2 = ElevatedButton.styleFrom(
+    primary: kPrimaryColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(4),
     ),
   );
 

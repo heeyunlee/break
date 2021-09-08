@@ -68,6 +68,26 @@ That's why I started this project. The goal of this project is to create a all-i
 
 ## Features
 
+### Workout Playlist
+
+<p align="left">
+    <img src="readme_assets/routine_detail_screen_1.gif" alt="Routine Detail Screen 1" width="160"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/speed_dial.gif" alt="speed dial" width="160"/>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/miniplayer.gif" alt="miniplayer" width="160"/>  
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="readme_assets/progress_tab.gif" alt="progress tab" width="160"/> 
+</p>
+
+Workout playlist is a collection of workouts 
+
 ## Staggered Animation Transition
 
 <img align="left" src="readme_assets/sign_in_screen_transition_1.gif" width="200">

@@ -78,7 +78,7 @@
     "editRoutineSnackbar": "Edited a routine!",
     "editRoutineTitle": "Edit Routine",
     "save": "SAVE",
-    "publicRoutine": "Public Routine",
+    "publicRoutine": "Make Routine Public",
     "publicRoutineDescription": "Make your routine either just for yourself or sharable with other users",
     "routineTitleTitle": "Routine Name",
     "routineTitleHintText": "'Chest Routine'",
@@ -447,5 +447,6 @@
     "startYoutubeWorkoutAlertMessage": "Please end the currently running YouTube workout before starting the new one",
     "workoutsInThisVideo": "Workouts In This Video",
     "burnt": "Burnt",
-    "couldNotLaunch": "Could Not Launch: {url}"
+    "couldNotLaunch": "Could Not Launch: {url}",
+    "deleteLowercase": "Delete"
 }

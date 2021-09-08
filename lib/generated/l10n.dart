@@ -840,10 +840,10 @@ class S {
     );
   }
 
-  /// `Public Routine`
+  /// `Make Routine Public`
   String get publicRoutine {
     return Intl.message(
-      'Public Routine',
+      'Make Routine Public',
       name: 'publicRoutine',
       desc: '',
       args: [],
@@ -4537,6 +4537,16 @@ class S {
       name: 'couldNotLaunch',
       desc: '',
       args: [url],
+    );
+  }
+
+  /// `Delete`
+  String get deleteLowercase {
+    return Intl.message(
+      'Delete',
+      name: 'deleteLowercase',
+      desc: '',
+      args: [],
     );
   }
 }

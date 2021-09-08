@@ -80,6 +80,9 @@ class MyApp extends StatelessWidget {
             iconTheme: const IconThemeData(
               color: Colors.white,
             ),
+            bottomSheetTheme: const BottomSheetThemeData(
+              backgroundColor: Colors.transparent,
+            ),
           ),
           home: const LandingScreen(),
         ),

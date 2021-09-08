@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
+import 'home_screen_model.dart';
 import 'main_model.dart';
 
 final routineDetailScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -35,7 +37,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
   late Animation<double> _opacityTween;
   late Animation<Color?> _colorTweeen;
   late Animation<Color?> _secondColorTweeen;
-  RoutineDetailScreenClass? _data;
 
   AnimationController get sliverAnimationController =>
       _sliverAnimationController;
@@ -43,7 +44,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
   Animation<double> get opacityTween => _opacityTween;
   Animation<Color?> get colorTweeen => _colorTweeen;
   Animation<Color?> get secondColorTweeen => _secondColorTweeen;
-  RoutineDetailScreenClass? get data => _data;
 
   void init(TickerProvider vsync) {
     _sliverAnimationController = AnimationController(
@@ -73,23 +73,20 @@ class RoutineDetailScreenModel with ChangeNotifier {
     notification.metrics.pixels;
 
     _sliverAnimationController
-        .animateTo((notification.metrics.pixels - 280) / 100);
+        .animateTo((notification.metrics.pixels - 264) / 120);
 
     return true;
-  }
-
-  void setData(RoutineDetailScreenClass data) {
-    _data = data;
   }
 
   Future<void> saveUnsaveRoutine(
     BuildContext context,
     bool isRoutineSaved,
+    RoutineDetailScreenClass data,
   ) async {
     try {
       if (isRoutineSaved) {
         final user = {
-          'savedRoutines': FieldValue.arrayRemove([_data!.routine!.routineId]),
+          'savedRoutines': FieldValue.arrayRemove([data.routine!.routineId]),
         };
 
         await database!.updateUser(auth!.currentUser!.uid, user);
@@ -100,7 +97,7 @@ class RoutineDetailScreenModel with ChangeNotifier {
         );
       } else {
         final user = {
-          'savedRoutines': FieldValue.arrayUnion([_data!.routine!.routineId]),
+          'savedRoutines': FieldValue.arrayUnion([data.routine!.routineId]),
         };
 
         await database!.updateUser(auth!.currentUser!.uid, user);
@@ -122,118 +119,123 @@ class RoutineDetailScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  /// VIEW MODEL
-  String location() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  Future<bool?> showBottomSheet(BuildContext currentContext, Routine routine) {
+    final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
-      if (routine != null) {
-        return Location.values
-            .firstWhere((e) => e.toString() == routine.location)
-            .translation!;
-      } else {
-        return S.current.location;
-      }
+    return showModalBottomSheet<bool>(
+      context: homeContext,
+      isDismissible: true,
+      builder: (context) => RoutineBottomSheet(
+        routine: routine,
+        onTap: () => delete(currentContext, routine: routine),
+      ),
+    );
+  }
+
+  Future<void> delete(
+    BuildContext context, {
+    required Routine routine,
+  }) async {
+    try {
+      database!.deleteRoutine(routine);
+
+      final homeContext =
+          HomeScreenModel.homeScreenNavigatorKey.currentContext!;
+
+      Navigator.of(homeContext).pop();
+      Navigator.of(context).pop();
+
+      getSnackbarWidget(
+        S.current.deleteRoutineSnackbarTitle,
+        S.current.deleteRoutineSnackbar,
+      );
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
+    }
+  }
+
+  /// VIEW MODEL
+  String location(RoutineDetailScreenClass data) {
+    final routine = data.routine;
+
+    if (routine != null) {
+      return Location.values
+          .firstWhere((e) => e.toString() == routine.location)
+          .translation!;
     } else {
       return S.current.location;
     }
   }
 
-  String equipments() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String equipments(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return Formatter.getJoinedEquipmentsRequired(
-          routine.equipmentRequired,
-          routine.equipmentRequiredEnum,
-        );
-      } else {
-        return S.current.equipmentRequired;
-      }
+    if (routine != null) {
+      return Formatter.getJoinedEquipmentsRequired(
+        routine.equipmentRequired,
+        routine.equipmentRequiredEnum,
+      );
     } else {
       return S.current.equipmentRequired;
     }
   }
 
-  String muscleGroups() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String muscleGroups(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return Formatter.getJoinedMainMuscleGroups(
-          routine.mainMuscleGroup,
-          routine.mainMuscleGroupEnum,
-        );
-      } else {
-        return S.current.mainMuscleGroup;
-      }
+    if (routine != null) {
+      return Formatter.getJoinedMainMuscleGroups(
+        routine.mainMuscleGroup,
+        routine.mainMuscleGroupEnum,
+      );
     } else {
       return S.current.mainMuscleGroup;
     }
   }
 
-  String totalWeights() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String totalWeights(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return Formatter.routineTotalWeights(routine);
-      } else {
-        return '-,---';
-      }
+    if (routine != null) {
+      return Formatter.routineTotalWeights(routine);
     } else {
       return '-,---';
     }
   }
 
-  String duration() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String duration(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return Formatter.durationInMin(routine.duration);
-      } else {
-        return '- ${S.current.minutes}';
-      }
+    if (routine != null) {
+      return Formatter.durationInMin(routine.duration);
     } else {
       return '- ${S.current.minutes}';
     }
   }
 
-  String difficulty() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String difficulty(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return Formatter.difficulty(routine.trainingLevel);
-      } else {
-        return S.current.difficulty;
-      }
+    if (routine != null) {
+      return Formatter.difficulty(routine.trainingLevel);
     } else {
       return S.current.difficulty;
     }
   }
 
-  String description() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String description(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        final description = routine.description;
-        if (description != null) {
-          if (description.isNotEmpty) {
-            return routine.description!;
-          } else {
-            return S.current.addDescription;
-          }
+    if (routine != null) {
+      final description = routine.description;
+      if (description != null) {
+        if (description.isNotEmpty) {
+          return routine.description!;
         } else {
           return S.current.addDescription;
         }
@@ -245,46 +247,31 @@ class RoutineDetailScreenModel with ChangeNotifier {
     }
   }
 
-  String imageUrl() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String imageUrl(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return routine.imageUrl;
-      } else {
-        return '';
-      }
+    if (routine != null) {
+      return routine.imageUrl;
     } else {
       return '';
     }
   }
 
-  String username() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String username(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return routine.routineOwnerUserName;
-      } else {
-        return S.current.displayName;
-      }
+    if (routine != null) {
+      return routine.routineOwnerUserName;
     } else {
       return S.current.displayName;
     }
   }
 
-  String title() {
-    final data = _data;
-    if (data != null) {
-      final routine = data.routine;
+  String title(RoutineDetailScreenClass data) {
+    final routine = data.routine;
 
-      if (routine != null) {
-        return routine.routineTitle;
-      } else {
-        return S.current.routineTitleTitle;
-      }
+    if (routine != null) {
+      return routine.routineTitle;
     } else {
       return S.current.routineTitleTitle;
     }

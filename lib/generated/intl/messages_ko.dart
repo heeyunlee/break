@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("정말로 삭제할까요?"),
         "deleteBottomSheetkButtonText":
             MessageLookupByLibrary.simpleMessage("운동 기록 삭제"),
+        "deleteLowercase": MessageLookupByLibrary.simpleMessage("삭제"),
         "deleteMeasurementSnackbar":
             MessageLookupByLibrary.simpleMessage("성공적으로 신체 정보 기록을 삭제했습니다!"),
         "deleteMeasurementSnackbarTitle":
@@ -485,7 +486,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("단백질 섭취 기록"),
         "proteins": MessageLookupByLibrary.simpleMessage("단백질"),
         "proteinsGoal": MessageLookupByLibrary.simpleMessage("단백질 목표"),
-        "publicRoutine": MessageLookupByLibrary.simpleMessage("루틴 공개"),
+        "publicRoutine": MessageLookupByLibrary.simpleMessage("루틴 공개하기"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "루틴을 공개하시면 다른 유저들과 공유할 수 있습니다"),
         "publicWorkout": MessageLookupByLibrary.simpleMessage("운동 공개"),

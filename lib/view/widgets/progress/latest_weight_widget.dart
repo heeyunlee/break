@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
+// import 'package:collection/collection.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/styles/constants.dart';
+// import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
@@ -29,7 +29,7 @@ class LatestWeightWidget extends StatelessWidget {
         ? data.measurements.lastWhere((element) => element.bodyWeight != null)
         : null;
 
-    final bool showWidget = data.user.weightGoal != null && lastDoc != null;
+    // final bool showWidget = data.user.weightGoal != null && lastDoc != null;
 
     final date = DateFormat.MMMEd().format(
       lastDoc?.loggedDate ?? DateTime.now(),
@@ -70,7 +70,7 @@ class LatestWeightWidget extends StatelessWidget {
                     '$weight $unit',
                     style: TextStyles.headline5MenloBoldSecondary,
                   ),
-                  if (showWidget) ..._buildProgressBar(),
+                  // if (showWidget) ..._buildProgressBar(),
                 ],
               ),
             ),
@@ -80,76 +80,80 @@ class LatestWeightWidget extends StatelessWidget {
     );
   }
 
-  // TODO: Refactor
-  List<Widget> _buildProgressBar() {
-    final unit = Formatter.unitOfMass(
-      data.user.unitOfMass,
-      data.user.unitOfMassEnum,
-    );
-    final bool goalExists = data.user.weightGoal != null;
+  // // TODO: Refactor
+  // List<Widget> _buildProgressBar() {
+  //   final unit = Formatter.unitOfMass(
+  //     data.user.unitOfMass,
+  //     data.user.unitOfMassEnum,
+  //   );
+  //   final bool goalExists = data.user.weightGoal != null;
 
-    final Measurement? lastDoc = data.measurements.lastWhereOrNull(
-      (element) => element.bodyWeight != null,
-    );
+  //   final Measurement? lastDoc = data.measurements.lastWhereOrNull(
+  //     (element) => element.bodyWeight != null,
+  //   );
 
-    final Measurement? firstDoc = data.measurements.firstWhereOrNull(
-      (element) => element.bodyWeight != null,
-    );
+  //   final Measurement? firstDoc = data.measurements.firstWhereOrNull(
+  //     (element) => element.bodyWeight != null,
+  //   );
 
-    final goalWeight = Formatter.numWithDecimal(data.user.weightGoal);
+  //   final goalWeight = Formatter.numWithDecimal(data.user.weightGoal);
 
-    final startingWeight = Formatter.numWithDecimal(firstDoc?.bodyWeight);
+  //   final startingWeight = Formatter.numWithDecimal(firstDoc?.bodyWeight);
 
-    final num? initialWeightToLose = (firstDoc != null && goalExists)
-        ? firstDoc.bodyWeight! - data.user.weightGoal!
-        : null;
+  //   final num? initialWeightToLose = (firstDoc != null && goalExists)
+  //       ? firstDoc.bodyWeight! - data.user.weightGoal!
+  //       : null;
 
-    final num? nowWeightToLose = (lastDoc != null && goalExists)
-        ? lastDoc.bodyWeight! - data.user.weightGoal!
-        : null;
+  //   final num? nowWeightToLose = (lastDoc != null && goalExists)
+  //       ? lastDoc.bodyWeight! - data.user.weightGoal!
+  //       : null;
 
-    final double? diffPercentage =
-        (initialWeightToLose != null && nowWeightToLose != null)
-            ? nowWeightToLose / initialWeightToLose
-            : null;
+  //   final double? diffPercentage =
+  //       (initialWeightToLose != null && nowWeightToLose != null)
+  //           ? nowWeightToLose / initialWeightToLose
+  //           : null;
 
-    final double? diffPercentageFormatted = ((diffPercentage ?? 0) > 1)
-        ? 1
-        : ((diffPercentage ?? 0) < 0)
-            ? 0
-            : diffPercentage;
+  //   assert((diffPercentage ?? 0) >= 0);
 
-    return [
-      const SizedBox(height: 8),
-      Stack(
-        children: [
-          Container(
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          FractionallySizedBox(
-            widthFactor: diffPercentageFormatted ?? 0.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: kSecondaryColor,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              height: 4,
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 8),
-      Row(
-        children: [
-          Text('$goalWeight $unit', style: TextStyles.caption1),
-          const Spacer(),
-          Text('$startingWeight $unit', style: TextStyles.caption1),
-        ],
-      ),
-    ];
-  }
+  //   final double? diffPercentageFormatted = ((diffPercentage ?? 0) > 1)
+  //       ? 1
+  //       : ((diffPercentage ?? 0) < 0)
+  //           ? 0
+  //           : diffPercentage;
+
+  //   assert((diffPercentageFormatted ?? 0) >= 0);
+
+  //   return [
+  //     const SizedBox(height: 8),
+  //     Stack(
+  //       children: [
+  //         Container(
+  //           height: 4,
+  //           decoration: BoxDecoration(
+  //             color: Colors.white24,
+  //             borderRadius: BorderRadius.circular(2),
+  //           ),
+  //         ),
+  //         FractionallySizedBox(
+  //           widthFactor: diffPercentageFormatted ?? 0.0,
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               color: kSecondaryColor,
+  //               borderRadius: BorderRadius.circular(2),
+  //             ),
+  //             height: 4,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     const SizedBox(height: 8),
+  //     Row(
+  //       children: [
+  //         Text('$goalWeight $unit', style: TextStyles.caption1),
+  //         const Spacer(),
+  //         Text('$startingWeight $unit', style: TextStyles.caption1),
+  //       ],
+  //     ),
+  //   ];
+  // }
 }

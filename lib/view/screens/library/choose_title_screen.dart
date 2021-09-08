@@ -87,15 +87,20 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
       ),
       body: Form(
         key: widget.formKey,
-        child: FullScreenTextTextFieldWidget(
-          controller:
-              widget.model.textEditingController as TextEditingController,
-          formKey: widget.formKey,
-          hintText: widget.hintText,
-          // customValidator: widget.customValidator,
-          customValidator: widget.model.validator as String? Function(String?)?,
-          // maxLength: 45,
-          // maxLines: 1,
+        child: Center(
+          child: Container(
+            height: 104,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(8),
+            child: UnderlinedTextTextFieldWidget(
+              controller:
+                  widget.model.textEditingController as TextEditingController,
+              formKey: widget.formKey,
+              hintText: widget.hintText,
+              customValidator:
+                  widget.model.validator as String? Function(String?)?,
+            ),
+          ),
         ),
       ),
       floatingActionButton: _buildFAB(),

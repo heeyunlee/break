@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
+import 'package:collection/collection.dart';
 
 import '../generated/l10n.dart';
 import '../models/enum/difficulty.dart';
@@ -65,6 +67,22 @@ class Formatter {
       return difficultyEnum.translation!;
     } else {
       return S.current.difficulty;
+    }
+  }
+
+  /// Returns a translated [Location] from either int or enum
+  static String location([String? location, Location? locationEnum]) {
+    if (location != null) {
+      return Location.values
+              .firstWhereOrNull(
+                (e) => e.toString() == location,
+              )
+              ?.translation ??
+          S.current.location;
+    } else if (locationEnum != null) {
+      return locationEnum.translation!;
+    } else {
+      return S.current.location;
     }
   }
 

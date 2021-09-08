@@ -21,7 +21,6 @@ class BackgroundOverlay extends AnimatedWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
-          // color: Colors.transparent,
           color: color?.withOpacity(animation.value * opacity),
         ),
       ),

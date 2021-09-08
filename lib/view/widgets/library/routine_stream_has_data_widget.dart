@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/library/edit_routine_screen.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
@@ -48,66 +51,73 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
   void initState() {
     super.initState();
     widget.model.init(this);
-    widget.model.setData(widget.data);
   }
 
   @override
   void dispose() {
-    // widget.model.sliverAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final height = (size.height > 700) ? size.height / 5 : size.height / 5 + 40;
+    final height = size.height / 5;
 
-    return NotificationListener(
-      onNotification: widget.model.onNotification,
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          AnimatedBuilder(
-            animation: widget.model.sliverAnimationController,
-            builder: (context, child) => SliverAppBar(
-              pinned: true,
-              stretch: true,
-              centerTitle: true,
-              elevation: 0,
-              brightness: Brightness.dark,
-              backgroundColor: widget.model.colorTweeen.value,
-              expandedHeight: height,
-              leading: const AppBarBackButton(),
-              title: Transform.translate(
-                offset: widget.model.offsetTween.value,
-                child: Opacity(
-                  opacity: widget.model.opacityTween.value,
-                  child: child,
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        NotificationListener(
+          onNotification: widget.model.onNotification,
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              AnimatedBuilder(
+                animation: widget.model.sliverAnimationController,
+                builder: (context, child) => SliverAppBar(
+                  pinned: true,
+                  stretch: true,
+                  elevation: 0,
+                  brightness: Brightness.dark,
+                  backgroundColor: widget.model.colorTweeen.value,
+                  expandedHeight: height,
+                  leading: const AppBarBackButton(),
+                  title: Transform.translate(
+                    offset: widget.model.offsetTween.value,
+                    child: Opacity(
+                      opacity: widget.model.opacityTween.value,
+                      child: child,
+                    ),
+                  ),
+                  flexibleSpace: RoutineFlexibleSpaceBar(
+                    imageTag: widget.tag,
+                    model: widget.model,
+                    data: widget.data,
+                  ),
+                  actions: _sliverActions(),
+                ),
+                child: Text(
+                  widget.model.title(widget.data),
+                  style: TextStyles.subtitle2,
                 ),
               ),
-              flexibleSpace: RoutineFlexibleSpaceBar(
-                imageTag: widget.tag,
+              RoutineSliverToBoxAdapter(data: widget.data),
+              RoutineStickyHeaderAndBody(
+                authAndDatabase: widget.authAndDatabase,
+                data: widget.data,
                 model: widget.model,
               ),
-              actions: _sliverActions(),
-            ),
-            child: Text(widget.model.title(), style: TextStyles.subtitle2),
+            ],
           ),
-          const RoutineSliverToBoxAdapter(),
-          RoutineStickyHeaderAndBody(
-            authAndDatabase: widget.authAndDatabase,
-            data: widget.data,
-            model: widget.model,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   List<Widget> _sliverActions() {
-    final isRoutineSaved = widget.data.user!.savedRoutines
-            ?.contains(widget.data.routine!.routineId) ??
-        false;
+    final routine = widget.data.routine ?? routineDummyData;
+
+    final isRoutineSaved =
+        widget.data.user!.savedRoutines?.contains(routine.routineId) ?? false;
 
     return [
       IconButton(
@@ -117,19 +127,23 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
         onPressed: () => widget.model.saveUnsaveRoutine(
           context,
           isRoutineSaved,
+          widget.data,
         ),
       ),
       if (widget.authAndDatabase.auth.currentUser!.uid ==
-          widget.data.routine!.routineOwnerId)
+          routine.routineOwnerId)
         IconButton(
           icon: const Icon(Icons.edit_rounded, color: Colors.white),
           onPressed: () => EditRoutineScreen.show(
             context,
-            routine: widget.data.routine!,
-            auth: widget.authAndDatabase.auth,
             database: widget.authAndDatabase.database,
+            data: widget.data,
           ),
         ),
+      IconButton(
+        onPressed: () => widget.model.showBottomSheet(context, routine),
+        icon: const Icon(Icons.more_horiz_rounded),
+      ),
       const SizedBox(width: 8),
     ];
   }

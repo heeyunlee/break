@@ -251,6 +251,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Are You Sure"),
         "deleteBottomSheetkButtonText":
             MessageLookupByLibrary.simpleMessage("Delete History"),
+        "deleteLowercase": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteMeasurementSnackbar": MessageLookupByLibrary.simpleMessage(
             "Successfully delete Measurement!"),
         "deleteMeasurementSnackbarTitle":
@@ -524,7 +525,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Protein Entries"),
         "proteins": MessageLookupByLibrary.simpleMessage("Proteins"),
         "proteinsGoal": MessageLookupByLibrary.simpleMessage("Proteins Goal"),
-        "publicRoutine": MessageLookupByLibrary.simpleMessage("Public Routine"),
+        "publicRoutine":
+            MessageLookupByLibrary.simpleMessage("Make Routine Public"),
         "publicRoutineDescription": MessageLookupByLibrary.simpleMessage(
             "Make your routine either just for yourself or sharable with other users"),
         "publicWorkout": MessageLookupByLibrary.simpleMessage("Public Workout"),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/utils/string_validator.dart';
 
@@ -9,6 +10,10 @@ final textFieldModelProvider = ChangeNotifierProvider(
 
 /// Creates a [ChangeNotifier] that can be used for [TextField] or [TextFormField]
 class TextFieldModel with ChangeNotifier {
+  // String? _counterText;
+
+  // String? get counterText => _counterText;
+
   String? validator(String? value) {
     if (value!.isEmpty) {
       return null;
@@ -71,6 +76,7 @@ class TextFieldModel with ChangeNotifier {
 
   void onChanged(GlobalKey<FormState> formKey, String value) {
     final form = formKey.currentState!;
+
     form.validate();
 
     notifyListeners();
@@ -78,6 +84,7 @@ class TextFieldModel with ChangeNotifier {
 
   void onSaved(GlobalKey<FormState> formKey, String? value) {
     final form = formKey.currentState!;
+
     form.validate();
 
     notifyListeners();
@@ -85,6 +92,7 @@ class TextFieldModel with ChangeNotifier {
 
   void onFieldSubmitted(GlobalKey<FormState> formKey, String value) {
     final form = formKey.currentState!;
+
     form.validate();
 
     notifyListeners();

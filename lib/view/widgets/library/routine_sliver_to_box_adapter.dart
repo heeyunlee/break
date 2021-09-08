@@ -1,12 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class RoutineSliverToBoxAdapter extends ConsumerWidget {
-  const RoutineSliverToBoxAdapter({Key? key}) : super(key: key);
+  const RoutineSliverToBoxAdapter({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final RoutineDetailScreenClass data;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -23,17 +30,17 @@ class RoutineSliverToBoxAdapter extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  model.totalWeights(),
+                  model.totalWeights(data),
                   style: TextStyles.body2Light,
                 ),
                 const Text('   \u2022   ', style: TextStyles.caption1),
                 Text(
-                  model.duration(),
+                  model.duration(data),
                   style: TextStyles.body2Light,
                 ),
                 const Text('   \u2022   ', style: TextStyles.caption1),
                 Text(
-                  model.difficulty(),
+                  model.difficulty(data),
                   style: TextStyles.body2Light,
                 ),
               ],
@@ -53,7 +60,7 @@ class RoutineSliverToBoxAdapter extends ConsumerWidget {
                 SizedBox(
                   width: size.width - 68,
                   child: Text(
-                    model.muscleGroups(),
+                    model.muscleGroups(data),
                     style: TextStyles.body1,
                     maxLines: 1,
                     softWrap: false,
@@ -72,7 +79,7 @@ class RoutineSliverToBoxAdapter extends ConsumerWidget {
                 SizedBox(
                   width: size.width - 68,
                   child: Text(
-                    model.equipments(),
+                    model.equipments(data),
                     style: TextStyles.body1,
                     maxLines: 1,
                     softWrap: false,
@@ -88,14 +95,14 @@ class RoutineSliverToBoxAdapter extends ConsumerWidget {
               children: [
                 const Icon(Icons.location_on_rounded, size: 20),
                 const SizedBox(width: 16),
-                Text(model.location(), style: TextStyles.body1),
+                Text(model.location(data), style: TextStyles.body1),
               ],
             ),
             const SizedBox(height: 24),
 
             /// Description
             Text(
-              model.description(),
+              model.description(data),
               style: TextStyles.body2LightGrey,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

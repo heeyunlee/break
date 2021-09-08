@@ -6,7 +6,8 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 ### New Features
 
 ### Bug Fix & Refactor
-- Refactored RoutineDetailScreen 
+- Refactored and redesigned RoutineDetailScreen 
+- Refactored and redesigned EditRoutineScreen
 
 ## [0.3.5] - September 4th, 2021
 ### New Features

@@ -70,7 +70,6 @@ class _SpeedDialState extends State<SpeedDial>
               alignment: Alignment.bottomCenter,
               children: [
                 _renderOverlay(),
-                // _buildTapToCloseFab(),
                 ..._buildExpandingActionButtons(context),
                 SafeArea(child: _buildTapToOpenFab()),
               ],
@@ -97,30 +96,6 @@ class _SpeedDialState extends State<SpeedDial>
       ),
     );
   }
-
-  // Widget _buildTapToCloseFab() {
-  //   final width = MediaQuery.of(context).size.width;
-
-  //   return SizedBox(
-  //     width: width / 8,
-  //     height: width / 8,
-  //     child: Center(
-  //       child: Material(
-  //         shape: const CircleBorder(),
-  //         clipBehavior: Clip.antiAlias,
-  //         elevation: 4.0,
-  //         color: Colors.transparent,
-  //         child: InkWell(
-  //           onTap: widget.model.toggleAnimation,
-  //           child: const Icon(
-  //             Icons.close,
-  //             color: Colors.transparent,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   List<Widget> _expandingChildren(BuildContext context) {
     return [

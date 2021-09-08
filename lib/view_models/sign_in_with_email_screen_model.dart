@@ -252,10 +252,12 @@ class SignInWithEmailModel extends ChangeNotifier {
       context,
       duration: 500,
       screen: Consumer(
-        builder: (context, watch, child) => SignUpWithEmailScreen(
-          model: watch(signInWithEmailModelProvider),
-          textFieldModel: watch(textFieldModelProvider),
-        ),
+        builder: (context, watch, child) {
+          return SignUpWithEmailScreen(
+            model: watch(signInWithEmailModelProvider),
+            textFieldModel: watch(textFieldModelProvider),
+          );
+        },
       ),
     );
   }
@@ -265,10 +267,12 @@ class SignInWithEmailModel extends ChangeNotifier {
       context,
       duration: 500,
       screen: Consumer(
-        builder: (context, watch, child) => SignInWithEmailScreen(
-          model: watch(signInWithEmailModelProvider),
-          textFieldModel: watch(textFieldModelProvider),
-        ),
+        builder: (context, watch, child) {
+          return SignInWithEmailScreen(
+            model: watch(signInWithEmailModelProvider),
+            textFieldModel: watch(textFieldModelProvider),
+          );
+        },
       ),
     );
   }

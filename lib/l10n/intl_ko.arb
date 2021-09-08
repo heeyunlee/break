@@ -78,7 +78,7 @@
     "editRoutineSnackbar": "루틴을 수정했습니다",
     "editRoutineTitle": "루틴 수정",
     "save": "저장",
-    "publicRoutine": "루틴 공개",
+    "publicRoutine": "루틴 공개하기",
     "publicRoutineDescription": "루틴을 공개하시면 다른 유저들과 공유할 수 있습니다",
     "routineTitleTitle": "루틴 이름",
     "routineTitleHintText": "오늘은 가슴 DAY DAY",
@@ -447,5 +447,6 @@
     "startYoutubeWorkoutAlertMessage": "현재 재생중인 유튜브 운동을 취소하고 새로운 운동을 시작해 주세요~",
     "workoutsInThisVideo": "이 동영상 속 운동",
     "burnt": "소모",
-    "couldNotLaunch": "링크를 여는데 오류가 생겼습니다: {url}"
+    "couldNotLaunch": "링크를 여는데 오류가 생겼습니다: {url}",
+    "deleteLowercase": "삭제"
 }

@@ -5,6 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/add_workouts_to_routine_screen.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
@@ -24,8 +25,9 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routine = data.routine ?? routineDummyData;
     final bool isOwner =
-        authAndDatabase.auth.currentUser!.uid == data.routine?.routineOwnerId;
+        authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId;
 
     // Widgets to show only if one's routine's owner
     final List<Widget> routineOwnerWidgets = [
@@ -37,13 +39,13 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
         color: kCardColor,
         onPressed: () => AddWorkoutsToRoutineScreen.show(
           context,
-          routine: data.routine!,
+          routine: routine,
           routineWorkouts: data.routineWorkouts!,
         ),
       ),
       const SizedBox(height: 8),
       ReorderRoutineWorkoutsButton(
-        routine: data.routine!,
+        routine: routine,
         list: data.routineWorkouts!,
       ),
     ];
@@ -55,7 +57,7 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: const Alignment(0, 0.5),
+                begin: const Alignment(0, 0.25),
                 end: Alignment.bottomCenter,
                 colors: [
                   model.colorTweeen.value!,
@@ -63,7 +65,7 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
                 ],
               ),
             ),
-            height: 64,
+            height: 80,
             child: child,
           );
         },
@@ -90,13 +92,13 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
                     auth: authAndDatabase.auth,
                     database: authAndDatabase.database,
                   ),
-                  routine: data.routine!,
+                  routine: routine,
                   routineWorkout: item,
                 ),
               ),
               const SizedBox(height: 8),
               if (isOwner) ...routineOwnerWidgets,
-              const SizedBox(height: kBottomNavigationBarHeight + 8),
+              const SizedBox(height: kBottomNavigationBarHeight + 48),
             ],
           ),
         ),
