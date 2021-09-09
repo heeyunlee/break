@@ -78,6 +78,7 @@ typedef ItemWidgetBuilder2<T> = Widget Function(
 
 typedef SnapshotActiveBuilder<T> = Widget Function(
     BuildContext context, T data);
+typedef ErrorWidgetBuilder = Widget Function(BuildContext context, Object e);
 
 typedef CustomNavigatorBuilder = Widget Function(
   BuildContext context,

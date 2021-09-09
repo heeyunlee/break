@@ -8,6 +8,10 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 ### Bug Fix & Refactor
 - Refactored and redesigned RoutineDetailScreen 
 - Refactored and redesigned EditRoutineScreen
+- Updated to Flutter 2.5.0
+- Update dependencies:
+  - Provider from 5.0.0 to 6.0.0
+  - kakao_flutter_sdk from 0.6.3 to 0.8.1
 
 ## [0.3.5] - September 4th, 2021
 ### New Features

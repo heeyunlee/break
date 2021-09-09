@@ -69,7 +69,6 @@ class _SearchTabState extends State<SearchTab> {
         preferredSize: const Size.fromHeight(0),
         child: AppBar(
           backgroundColor: kAppBarColor,
-          brightness: Brightness.dark,
           elevation: 0,
         ),
       ),

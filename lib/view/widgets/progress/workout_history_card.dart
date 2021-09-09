@@ -42,7 +42,6 @@ class WorkoutHistoryCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Theme(
         data: Theme.of(context).copyWith(
-          accentColor: Colors.white,
           unselectedWidgetColor: Colors.white,
         ),
         child: ExpansionTile(

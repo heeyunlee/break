@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -171,15 +170,12 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                               );
                             },
                           ),
-                          touchCallback: (barTouchResponse) {
+                          touchCallback: (event, barTouchResponse) {
                             setState(() {
-                              if (barTouchResponse.spot != null &&
-                                  barTouchResponse.touchInput
-                                      is! PointerUpEvent &&
-                                  barTouchResponse.touchInput
-                                      is! PointerExitEvent) {
-                                touchedIndex =
-                                    barTouchResponse.spot!.touchedBarGroupIndex;
+                              if (barTouchResponse?.spot != null &&
+                                  event is! FlTapUpEvent) {
+                                touchedIndex = barTouchResponse
+                                    ?.spot!.touchedBarGroupIndex;
                               } else {
                                 touchedIndex = -1;
                               }
@@ -190,7 +186,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                           show: true,
                           bottomTitles: SideTitles(
                             showTitles: true,
-                            getTextStyles: (value) => TextStyles.body2,
+                            getTextStyles: (_, __) => TextStyles.body2,
                             margin: 16,
                             getTitles: (double value) {
                               switch (value.toInt()) {
@@ -216,7 +212,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                           leftTitles: SideTitles(
                             showTitles: true,
                             margin: 28,
-                            getTextStyles: (_) => TextStyles.caption1Grey,
+                            getTextStyles: (_, __) => TextStyles.caption1Grey,
                             getTitles: (double value) {
                               final toOriginalNumber =
                                   (value / 10 * _maxY).round();

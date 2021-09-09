@@ -39,7 +39,6 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.signUp, style: TextStyles.subtitle2),
         leading: const AppBarBackButton(),

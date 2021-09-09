@@ -103,7 +103,6 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarCloseButton(),

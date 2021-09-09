@@ -461,7 +461,6 @@ class FirestoreService {
     required String path,
     required String where,
     required dynamic isEqualTo,
-    required String whereNotNull,
     required String orderBy,
     required bool descending,
     required T Function(Map<String, dynamic>? data, String id) fromBuilder,

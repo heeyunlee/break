@@ -47,6 +47,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
         'MainMuscleGroup.abs';
 
     _stream = database!.workoutsSearchStream(
+      isEqualTo: false,
       arrayContainsVariableName: 'mainMuscleGroup',
       arrayContainsValue: _selectedMainMuscleGroup,
     );
@@ -69,6 +70,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
       _stream = database!.workoutsStream();
     } else {
       _stream = database!.workoutsSearchStream(
+        isEqualTo: false,
         arrayContainsVariableName: 'mainMuscleGroup',
         arrayContainsValue: _selectedMainMuscleGroup,
       );

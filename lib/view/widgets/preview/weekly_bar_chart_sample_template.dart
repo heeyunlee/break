@@ -81,7 +81,7 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
             SizedBox(
               height: 200,
               child: Padding(
-                padding: const EdgeInsets.only(left: 24, right: 8),
+                padding: const EdgeInsets.only(right: 8),
                 child: BarChart(
                   BarChartData(
                     maxY: maxY,
@@ -108,9 +108,11 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
                     ),
                     titlesData: FlTitlesData(
                       show: true,
+                      rightTitles: SideTitles(showTitles: false),
+                      topTitles: SideTitles(showTitles: false),
                       bottomTitles: SideTitles(
                         showTitles: true,
-                        getTextStyles: (value) => TextStyles.body2,
+                        getTextStyles: (_, __) => TextStyles.body2,
                         margin: 16,
                         getTitles: (double value) {
                           switch (value.toInt()) {
@@ -135,8 +137,8 @@ class WeeklyBarChartSampleTemplate extends StatelessWidget {
                       ),
                       leftTitles: SideTitles(
                         showTitles: true,
-                        margin: 34,
-                        getTextStyles: (_) => TextStyles.caption1Grey,
+                        reservedSize: 56,
+                        getTextStyles: (_, __) => TextStyles.caption1Grey,
                         getTitles: (double value) {
                           final formatted =
                               NumberFormat.compact().format(value);

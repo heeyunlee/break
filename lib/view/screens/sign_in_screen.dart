@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -36,7 +35,6 @@ class SignInScreen extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         actions: _appBarActionWidgets(context, model),
         leading: AppBarBackButton(pressed: model.isLoading),

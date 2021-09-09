@@ -50,7 +50,6 @@ class PersonalGoalsScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(),

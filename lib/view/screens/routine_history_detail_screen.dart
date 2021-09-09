@@ -234,7 +234,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             style: TextStyles.subtitle1,
           ),
         ),
-        brightness: Brightness.dark,
         backgroundColor: _colorTween.value,
         // floating: false,
         pinned: true,

@@ -74,7 +74,6 @@ class _EditRoutineEquipmentRequiredScreenState
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(),
         leading: AppBarBackButton(

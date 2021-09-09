@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -326,13 +327,17 @@ class AuthService implements AuthBase {
 
   Future<String> _getToken() async {
     final installed = await isKakaoTalkInstalled();
-    final authCode = installed
-        ? await AuthCodeClient.instance.requestWithTalk()
-        : await AuthCodeClient.instance.request();
-    final token = await AuthApi.instance.issueAccessToken(authCode);
+    // final authCode = installed
+    //     ? await AuthCodeClient.instance.requestWithTalk()
+    //     : await AuthCodeClient.instance.request();
 
-    await AccessTokenStore.instance.toStore(token);
-    return token.accessToken;
+    final authCode = installed
+        ? await UserApi.instance.loginWithKakaoTalk()
+        : await UserApi.instance.loginWithKakaoAccount();
+    // final token = await AuthApi.instance.issueAccessToken(authCode);
+    return authCode.accessToken ?? '';
+    // await TokenManager.instance.setToken(token);
+    // return token.accessToken;
   }
 
   Future<String> _verifyToken(String kakaoToken) async {
@@ -365,6 +370,9 @@ class AuthService implements AuthBase {
 
     final facebookLogin = FacebookAuth.instance;
     await facebookLogin.logOut();
+
+    final kakaoLogin = UserApi.instance;
+    await kakaoLogin.logout();
 
     await _auth.signOut();
   }

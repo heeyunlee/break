@@ -18,6 +18,7 @@ class IndexedHomeTabs extends ConsumerWidget {
       TabItem.search: () => const SearchTab(),
       TabItem.watch: () => const WatchTab(),
       TabItem.library: () => const LibraryTab(),
+      TabItem.settings: () => Container(),
     };
   }
 

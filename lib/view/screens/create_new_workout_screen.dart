@@ -194,7 +194,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         leading: const AppBarCloseButton(),
         title: Text(

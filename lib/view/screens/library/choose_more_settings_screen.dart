@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -31,7 +30,6 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(),

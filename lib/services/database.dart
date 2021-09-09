@@ -86,8 +86,11 @@ abstract class Database {
   Stream<List<Workout>> workoutsStream({int limit});
   Stream<List<Workout>> userWorkoutsStream({int limit});
   Stream<List<Workout>> workoutsSearchStream({
-    required String arrayContainsVariableName,
-    required String arrayContainsValue,
+    required bool isEqualTo,
+    String? arrayContainsVariableName,
+    String? arrayContainsValue,
+    String? isEqualToVariableName,
+    String? isEqualToVariableValue,
     int? limit,
   });
 
@@ -110,8 +113,11 @@ abstract class Database {
   Stream<List<Routine>> routinesStream({int limit});
   Stream<List<Routine>> userRoutinesStream({int limit});
   Stream<List<Routine>> routinesSearchStream({
-    required String arrayContainsVariableName,
-    required String arrayContainsValue,
+    required bool isEqualTo,
+    String? isEqualToVariableName,
+    String? isEqualToVariableValue,
+    String? arrayContainsVariableName,
+    String? arrayContainsValue,
     int? limit,
   });
 
@@ -336,7 +342,7 @@ class FirestoreDatabase implements Database {
   Stream<List<Measurement>> measurementsStream({int? limit}) =>
       _service.collectionStream<Measurement>(
         order: 'loggedTime',
-        descending: false,
+        descending: true,
         limit: limit,
         path: APIPath.measurements(uid!),
         fromBuilder: (data, id) => Measurement.fromJson(data, id),
@@ -468,7 +474,6 @@ class FirestoreDatabase implements Database {
         path: APIPath.nutritions(),
         where: 'userId',
         isEqualTo: uid,
-        whereNotNull: 'carbs',
         orderBy: 'loggedTime',
         descending: true,
         fromBuilder: (data, id) => Nutrition.fromJson(data, id),
@@ -559,22 +564,38 @@ class FirestoreDatabase implements Database {
   // Workout Search Stream
   @override
   Stream<List<Workout>> workoutsSearchStream({
-    required String arrayContainsVariableName,
-    required String arrayContainsValue,
+    required bool isEqualTo,
+    String? arrayContainsVariableName,
+    String? arrayContainsValue,
+    String? isEqualToVariableName,
+    String? isEqualToVariableValue,
     int? limit,
   }) =>
-      _service.isEqualToArrayContainsCollectionStream<Workout>(
-        path: APIPath.workouts(),
-        whereVariableName: 'isPublic',
-        isEqualToValue: true,
-        arrayContainsVariableName: arrayContainsVariableName,
-        arrayContainsValue: arrayContainsValue,
-        orderByVariable: 'workoutTitle',
-        isDescending: false,
-        fromBuilder: (data, id) => Workout.fromJson(data, id),
-        toBuilder: (model) => model.toJson(),
-        limit: limit,
-      );
+      isEqualTo
+          ? _service.twoIsEqualToCollectionStream(
+              path: APIPath.workouts(),
+              whereVariableName1: 'isPublic',
+              isEqualToValue1: true,
+              whereVariableName2: isEqualToVariableName!,
+              isEqualToValue2: isEqualToVariableValue,
+              orderByVariable: 'workoutTitle',
+              isDescending: false,
+              fromBuilder: (data, id) => Workout.fromJson(data, id),
+              toBuilder: (model) => model.toJson(),
+              limit: limit,
+            )
+          : _service.isEqualToArrayContainsCollectionStream<Workout>(
+              path: APIPath.workouts(),
+              whereVariableName: 'isPublic',
+              isEqualToValue: true,
+              arrayContainsVariableName: arrayContainsVariableName!,
+              arrayContainsValue: arrayContainsValue,
+              orderByVariable: 'workoutTitle',
+              isDescending: false,
+              fromBuilder: (data, id) => Workout.fromJson(data, id),
+              toBuilder: (model) => model.toJson(),
+              limit: limit,
+            );
 
   // Paginated Workouts Query for specific user
   @override
@@ -589,7 +610,6 @@ class FirestoreDatabase implements Database {
         toBuilder: (model) => model.toJson(),
       );
 
-  // Paginated Routines Query for specific user
   @override
   Query<Workout> workoutsSearchQuery() =>
       _service.paginatedPublicCollectionQuery(
@@ -697,22 +717,38 @@ class FirestoreDatabase implements Database {
   // Routine for Initial Search Screen
   @override
   Stream<List<Routine>> routinesSearchStream({
-    required String arrayContainsVariableName,
-    required String arrayContainsValue,
+    required bool isEqualTo,
+    String? isEqualToVariableName,
+    String? isEqualToVariableValue,
+    String? arrayContainsVariableName,
+    String? arrayContainsValue,
     int? limit,
   }) =>
-      _service.isEqualToArrayContainsCollectionStream<Routine>(
-        path: APIPath.routines(),
-        whereVariableName: 'isPublic',
-        isEqualToValue: true,
-        arrayContainsVariableName: arrayContainsVariableName,
-        arrayContainsValue: arrayContainsValue,
-        orderByVariable: 'routineTitle',
-        isDescending: false,
-        fromBuilder: (data, id) => Routine.fromJson(data, id),
-        toBuilder: (model) => model.toJson(),
-        limit: limit,
-      );
+      isEqualTo
+          ? _service.twoIsEqualToCollectionStream<Routine>(
+              path: APIPath.routines(),
+              whereVariableName1: 'isPublic',
+              isEqualToValue1: true,
+              whereVariableName2: isEqualToVariableName!,
+              isEqualToValue2: isEqualToVariableValue,
+              orderByVariable: 'routineTitle',
+              isDescending: false,
+              fromBuilder: (data, id) => Routine.fromJson(data, id),
+              toBuilder: (model) => model.toJson(),
+              limit: limit,
+            )
+          : _service.isEqualToArrayContainsCollectionStream<Routine>(
+              path: APIPath.routines(),
+              whereVariableName: 'isPublic',
+              isEqualToValue: true,
+              arrayContainsVariableName: arrayContainsVariableName!,
+              arrayContainsValue: arrayContainsValue,
+              orderByVariable: 'routineTitle',
+              isDescending: false,
+              fromBuilder: (data, id) => Routine.fromJson(data, id),
+              toBuilder: (model) => model.toJson(),
+              limit: limit,
+            );
 
   // Batch Update of Routine
   @override

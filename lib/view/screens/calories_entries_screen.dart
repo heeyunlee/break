@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -65,54 +64,94 @@ class CaloriesEntriesScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         title: Text(S.current.proteinEntriesTitle, style: TextStyles.subtitle2),
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),
-      body: PaginateFirestore(
-        shrinkWrap: true,
-        itemsPerPage: 10,
-        query: database.carbsPaginatedUserQuery(),
-        itemBuilderType: PaginateBuilderType.listView,
-        emptyDisplay: EmptyContent(
-          message: S.current.proteinEntriesEmptyMessage,
-        ),
-        header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-        footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-        onError: (error) => EmptyContent(
-          message: '${S.current.somethingWentWrong}: $error',
-        ),
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (index, context, snapshot) {
-          final nutrition = snapshot.data() as Nutrition?;
-          final date = Formatter.yMdjm(nutrition!.loggedTime);
-          final title = Formatter.numWithDecimal(nutrition.calories);
-
-          return Slidable(
-            endActionPane: ActionPane(
-              motion: const ScrollMotion(),
+      body: CustomStreamBuilder<List<Nutrition>>(
+        stream: database.userNutritionStream(limit: 100),
+        builder: (context, data) {
+          return SingleChildScrollView(
+            child: Column(
               children: [
-                SlidableAction(
-                  label: S.current.delete,
-                  backgroundColor: Colors.red,
-                  icon: Icons.delete_rounded,
-                  onPressed: (context) => _delete(context, nutrition),
+                SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 8),
+                CustomListViewBuilder<Nutrition>(
+                  items: data,
+                  itemBuilder: (context, nutrition, i) {
+                    final date = Formatter.yMdjm(nutrition.loggedTime);
+                    final title = Formatter.numWithDecimal(nutrition.calories);
+
+                    return Slidable(
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            label: S.current.delete,
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete_rounded,
+                            onPressed: (context) => _delete(context, nutrition),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Text(
+                          '$title Cal',
+                          style: TextStyles.body1,
+                        ),
+                        trailing: Text(date, style: TextStyles.body1Grey),
+                      ),
+                    );
+                  },
                 ),
+                const SizedBox(height: kBottomNavigationBarHeight),
               ],
-            ),
-            child: ListTile(
-              leading: Text(
-                '$title Cal',
-                style: TextStyles.body1,
-              ),
-              trailing: Text(date, style: TextStyles.body1Grey),
             ),
           );
         },
-        isLive: true,
       ),
+      // body: PaginateFirestore(
+      //   shrinkWrap: true,
+      //   itemsPerPage: 10,
+      //   query: database.carbsPaginatedUserQuery(),
+      //   itemBuilderType: PaginateBuilderType.listView,
+      //   emptyDisplay: EmptyContent(
+      //     message: S.current.proteinEntriesEmptyMessage,
+      //   ),
+      //   header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      //   footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      //   onError: (error) => EmptyContent(
+      //     message: '${S.current.somethingWentWrong}: $error',
+      //   ),
+      //   physics: const BouncingScrollPhysics(),
+      //   itemBuilder: (index, context, snapshot) {
+      //     final nutrition = snapshot.data() as Nutrition?;
+      //     final date = Formatter.yMdjm(nutrition!.loggedTime);
+      //     final title = Formatter.numWithDecimal(nutrition.calories);
+
+      //     return Slidable(
+      //       endActionPane: ActionPane(
+      //         motion: const ScrollMotion(),
+      //         children: [
+      //           SlidableAction(
+      //             label: S.current.delete,
+      //             backgroundColor: Colors.red,
+      //             icon: Icons.delete_rounded,
+      //             onPressed: (context) => _delete(context, nutrition),
+      //           ),
+      //         ],
+      //       ),
+      //       child: ListTile(
+      //         leading: Text(
+      //           '$title Cal',
+      //           style: TextStyles.body1,
+      //         ),
+      //         trailing: Text(date, style: TextStyles.body1Grey),
+      //       ),
+      //     );
+      //   },
+      //   isLive: true,
+      // ),
     );
   }
 }

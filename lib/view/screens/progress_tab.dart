@@ -72,7 +72,6 @@ class _ProgressTabState extends State<ProgressTab>
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             centerTitle: true,
-            brightness: Brightness.dark,
             elevation: 0,
             backgroundColor: Colors.transparent,
             leading: ChooseBackgroundButton(user: user!),

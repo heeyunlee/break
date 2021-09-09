@@ -61,7 +61,6 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
             backgroundColor: kAppBarColor,
             pinned: true,
             stretch: true,
-            brightness: Brightness.dark,
             leading: const AppBarBackButton(),
             expandedHeight: size.height / heightFactor,
             actions: [

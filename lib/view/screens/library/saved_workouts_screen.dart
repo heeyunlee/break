@@ -62,7 +62,6 @@ class SavedWorkoutsScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         title: Text(S.current.savedWorkouts, style: TextStyles.subtitle2),
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),

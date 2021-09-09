@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
@@ -90,7 +89,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
                   pinned: true,
                   stretch: true,
                   elevation: 0,
-                  brightness: Brightness.dark,
                   backgroundColor: widget.model.colorTweeen.value,
                   expandedHeight: size.height / 5,
                   leading: const AppBarCloseButton(),

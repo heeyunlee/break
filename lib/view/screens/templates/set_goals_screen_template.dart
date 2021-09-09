@@ -90,7 +90,6 @@ class SetGoalsScreenTemplate extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),

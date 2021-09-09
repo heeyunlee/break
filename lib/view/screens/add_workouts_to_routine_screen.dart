@@ -143,7 +143,6 @@ class _AddWorkoutsToRoutineScreenState
       pinned: true,
       // snap: false,
       centerTitle: true,
-      brightness: Brightness.dark,
       title: Text(S.current.addWorkoutkButtonText, style: TextStyles.subtitle1),
       flexibleSpace: const AppbarBlurBG(),
       backgroundColor: Colors.transparent,

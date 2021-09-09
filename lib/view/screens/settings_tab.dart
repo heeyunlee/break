@@ -39,7 +39,6 @@ class SettingsTab extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,

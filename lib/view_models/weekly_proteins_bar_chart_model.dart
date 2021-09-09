@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -153,11 +152,9 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
     return '$toOriginalNumber $unit';
   }
 
-  void onTouchCallback(BarTouchResponse barTouchResponse) {
-    if (barTouchResponse.spot != null &&
-        barTouchResponse.touchInput is! PointerExitEvent &&
-        barTouchResponse.touchInput is! PointerUpEvent) {
-      _touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+  void onTouchCallback(FlTouchEvent event, BarTouchResponse? barTouchResponse) {
+    if (barTouchResponse?.spot != null && event is! FlTapUpEvent) {
+      _touchedIndex = barTouchResponse?.spot!.touchedBarGroupIndex;
     } else {
       _touchedIndex = -1;
     }

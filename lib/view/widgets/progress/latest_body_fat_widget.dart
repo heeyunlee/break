@@ -7,9 +7,8 @@ import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/screens/body_fat_entries_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
-
-import '../../../../view/screens/measurements_screen.dart';
 
 class LatestBodyFatWidget extends StatelessWidget {
   final ProgressTabClass data;
@@ -44,7 +43,7 @@ class LatestBodyFatWidget extends StatelessWidget {
       height: constraints.maxHeight / heightFactor,
       width: (constraints.maxWidth - 16) / 2,
       child: BlurBackgroundCard(
-        onTap: () => MeasurementsScreen.show(context),
+        onTap: () => BodyFatEntriesScreen.show(context),
         child: Stack(
           children: [
             Positioned(

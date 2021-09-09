@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -45,7 +46,7 @@ class HomeScreenModel with ChangeNotifier {
 
     final aspectRatio = window.physicalSize.aspectRatio;
     final _miniplayerHeight = Platform.isAndroid
-        ? 120.0
+        ? 136.0
         : (aspectRatio < 0.5)
             ? 152.0
             : 120.0;
@@ -83,18 +84,23 @@ class HomeScreenModel with ChangeNotifier {
 
   void onSelectTab(int index) {
     final TabItem tabItem = TabItem.values[index];
-    final NavigatorState state = tabNavigatorKeys[tabItem]!.currentState!;
 
     _currentTabIndex = index;
 
-    if (tabItem == _currentTab) {
-      if (state.canPop()) {
-        state.popUntil((route) => route.isFirst);
+    if (tabItem != TabItem.settings) {
+      final NavigatorState state = tabNavigatorKeys[tabItem]!.currentState!;
+
+      if (tabItem == _currentTab) {
+        if (state.canPop()) {
+          state.popUntil((route) => route.isFirst);
+          notifyListeners();
+        }
+      } else {
+        _currentTab = tabItem;
         notifyListeners();
       }
     } else {
-      _currentTab = tabItem;
-      notifyListeners();
+      HapticFeedback.mediumImpact();
     }
   }
 

@@ -58,7 +58,6 @@ class DeleteAccountScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         leading: const AppBarBackButton(),
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

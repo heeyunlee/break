@@ -43,7 +43,6 @@ class LibraryTab extends StatelessWidget {
       floating: true,
       pinned: true,
       centerTitle: true,
-      brightness: Brightness.dark,
       backgroundColor: Colors.transparent,
       flexibleSpace: const AppbarBlurBG(),
       title: Text(S.current.library, style: TextStyles.subtitle2),

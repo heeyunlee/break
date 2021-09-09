@@ -88,7 +88,6 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(S.current.location, style: TextStyles.subtitle1),

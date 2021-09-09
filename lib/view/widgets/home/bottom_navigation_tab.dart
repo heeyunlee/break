@@ -34,9 +34,9 @@ class BottomNavigationTab extends ConsumerWidget {
       ),
       child: Theme(
         data: ThemeData(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-        ),
+            // splashColor: Colors.transparent,
+            // highlightColor: Colors.transparent,
+            ),
         child: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -59,9 +59,9 @@ class BottomNavigationTab extends ConsumerWidget {
             items: <BottomNavigationBarItem>[
               _buildItem(TabItem.progress),
               _buildItem(TabItem.search),
+              _buildItem(TabItem.settings),
               _buildItem(TabItem.watch),
               _buildItem(TabItem.library),
-              // _buildItem(TabItem.settings),
             ],
             onTap: model.onSelectTab,
           ),
@@ -75,16 +75,12 @@ class BottomNavigationTab extends ConsumerWidget {
 
     return BottomNavigationBarItem(
       label: '',
-      icon: Padding(
-        padding: EdgeInsets.only(
-          left: itemData.leftPadding,
-          right: itemData.rightPadding,
-        ),
-        child: Icon(
-          itemData.selectedIcon as IconData,
-          size: itemData.size,
-        ),
-      ),
+      icon: (itemData.selectedIcon != null)
+          ? Icon(
+              itemData.selectedIcon as IconData,
+              size: itemData.size,
+            )
+          : Container(),
     );
   }
 }

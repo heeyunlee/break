@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/user.dart';
@@ -76,7 +75,6 @@ class _EditRoutineMainMuscleGroupScreenState
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(),
         leading: AppBarBackButton(

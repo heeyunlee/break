@@ -122,81 +122,80 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
     widget.model.init();
 
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 8),
-        child: Stack(
-          children: [
-            BarChart(
-              BarChartData(
-                maxY: 10,
-                gridData: _buildGrid(),
-                barTouchData: BarTouchData(
-                  touchTooltipData: BarTouchTooltipData(
-                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                      return BarTooltipItem(
-                        widget.model.getTooltipText(rod.y) as String,
-                        TextStyles.body1Black,
-                      );
-                    },
-                  ),
-                  touchCallback: widget.model.onTouchCallback as dynamic
-                      Function(BarTouchResponse)?,
+      child: Stack(
+        children: [
+          BarChart(
+            BarChartData(
+              maxY: 10,
+              gridData: _buildGrid(),
+              barTouchData: BarTouchData(
+                touchTooltipData: BarTouchTooltipData(
+                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                    return BarTooltipItem(
+                      widget.model.getTooltipText(rod.y) as String,
+                      TextStyles.body1Black,
+                    );
+                  },
                 ),
-                titlesData: FlTitlesData(
-                  show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (value) => TextStyles.body2,
-                    margin: 16,
-                    getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return widget.model.daysOfTheWeek[0] as String;
-                        case 1:
-                          return widget.model.daysOfTheWeek[1] as String;
-                        case 2:
-                          return widget.model.daysOfTheWeek[2] as String;
-                        case 3:
-                          return widget.model.daysOfTheWeek[3] as String;
-                        case 4:
-                          return widget.model.daysOfTheWeek[4] as String;
-                        case 5:
-                          return widget.model.daysOfTheWeek[5] as String;
-                        case 6:
-                          return widget.model.daysOfTheWeek[6] as String;
-                        default:
-                          return '';
-                      }
-                    },
-                  ),
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    margin: 28,
-                    getTextStyles: (_) => TextStyles.caption1Grey,
-                    getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return widget.model.getSideTiles(value) as String;
-                        case 5:
-                          return widget.model.getSideTiles(value) as String;
-                        case 10:
-                          return widget.model.getSideTiles(value) as String;
-                        default:
-                          return '';
-                      }
-                    },
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                barGroups: (widget.model.relativeYs.isNotEmpty as bool)
-                    ? _hasData()
-                    : randomData(),
+                touchCallback: widget.model.onTouchCallback as dynamic Function(
+                    FlTouchEvent, BarTouchResponse?),
               ),
+              titlesData: FlTitlesData(
+                show: true,
+                topTitles: SideTitles(showTitles: false),
+                rightTitles: SideTitles(showTitles: false),
+                bottomTitles: SideTitles(
+                  showTitles: true,
+                  getTextStyles: (_, __) => TextStyles.body2,
+                  margin: 16,
+                  getTitles: (double value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return widget.model.daysOfTheWeek[0] as String;
+                      case 1:
+                        return widget.model.daysOfTheWeek[1] as String;
+                      case 2:
+                        return widget.model.daysOfTheWeek[2] as String;
+                      case 3:
+                        return widget.model.daysOfTheWeek[3] as String;
+                      case 4:
+                        return widget.model.daysOfTheWeek[4] as String;
+                      case 5:
+                        return widget.model.daysOfTheWeek[5] as String;
+                      case 6:
+                        return widget.model.daysOfTheWeek[6] as String;
+                      default:
+                        return '';
+                    }
+                  },
+                ),
+                leftTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 64,
+                  getTextStyles: (_, __) => TextStyles.caption1Grey,
+                  getTitles: (double value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return widget.model.getSideTiles(value) as String;
+                      case 5:
+                        return widget.model.getSideTiles(value) as String;
+                      case 10:
+                        return widget.model.getSideTiles(value) as String;
+                      default:
+                        return '';
+                    }
+                  },
+                ),
+              ),
+              borderData: FlBorderData(show: false),
+              barGroups: (widget.model.relativeYs.isNotEmpty as bool)
+                  ? _hasData()
+                  : randomData(),
             ),
-            if (widget.model.relativeYs.isEmpty as bool)
-              NoDataInChartMessageWidget(color: widget.defaultColor),
-          ],
-        ),
+          ),
+          if (widget.model.relativeYs.isEmpty as bool)
+            NoDataInChartMessageWidget(color: widget.defaultColor),
+        ],
       ),
     );
   }

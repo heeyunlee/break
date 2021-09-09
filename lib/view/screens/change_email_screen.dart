@@ -111,7 +111,6 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(S.current.editEmail, style: TextStyles.subtitle1),

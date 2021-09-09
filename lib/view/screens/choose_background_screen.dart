@@ -71,7 +71,6 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         flexibleSpace: const AppbarBlurBG(blurSigma: 10),
         leading: const AppBarCloseButton(),

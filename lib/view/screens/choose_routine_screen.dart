@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -71,7 +70,6 @@ class ChooseRoutineScreen extends ConsumerWidget {
       pinned: true,
       // snap: false,
       centerTitle: true,
-      brightness: Brightness.dark,
       title: Text(
         S.current.chooseRoutineToStart,
         style: TextStyles.subtitle1,

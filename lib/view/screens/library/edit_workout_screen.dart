@@ -187,7 +187,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           backgroundColor: kBackgroundColor,
           appBar: AppBar(
             centerTitle: true,
-            brightness: Brightness.dark,
             backgroundColor: Colors.transparent,
             leading: const AppBarCloseButton(),
             title: Text(

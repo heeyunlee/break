@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -18,6 +17,16 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
+/// Creates a screen that displays a list of [Measurement] entries, created by
+/// the user.
+///
+/// ## Roadmap
+///
+/// ### Refactoring
+/// * TODO: Paginate list of [Measurement] stream
+///
+/// ### Enhancement
+///
 class MeasurementsScreen extends StatelessWidget {
   final Database database;
   final User user;
@@ -69,59 +78,103 @@ class MeasurementsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.current.bodyMeasurement, style: TextStyles.subtitle2),
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: kAppBarColor,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),
-      body: PaginateFirestore(
-        shrinkWrap: true,
-        itemsPerPage: 10,
-        query: database.measurementsQuery(),
-        itemBuilderType: PaginateBuilderType.listView,
-        emptyDisplay: EmptyContent(
-          message: S.current.measurementsEmptyMessage,
-        ),
-        header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-        footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-        onError: (error) => EmptyContent(
-          message: '${S.current.somethingWentWrong}: $error',
-        ),
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (index, context, documentSnapshot) {
-          final measurement = documentSnapshot.data()! as Measurement;
-
-          final date = Formatter.yMdjm(measurement.loggedTime);
-
-          final unit = Formatter.unitOfMass(
-            user.unitOfMass,
-            user.unitOfMassEnum,
-          );
-
-          return Slidable(
-            // startActionPane: const SlidableDrawerActionPane(),
-            endActionPane: ActionPane(
-              motion: const ScrollMotion(),
+      body: CustomStreamBuilder<List<Measurement>>(
+        stream: database.measurementsStream(limit: 100),
+        builder: (context, data) {
+          return SingleChildScrollView(
+            child: Column(
               children: [
-                SlidableAction(
-                  label: S.current.delete,
-                  backgroundColor: Colors.red,
-                  icon: Icons.delete_rounded,
-                  onPressed: (context) => _delete(context, measurement),
+                const SizedBox(height: 16),
+                CustomListViewBuilder<Measurement>(
+                  items: data,
+                  itemBuilder: (context, measurement, i) {
+                    final date = Formatter.yMdjm(measurement.loggedTime);
+
+                    final unit = Formatter.unitOfMass(
+                      user.unitOfMass,
+                      user.unitOfMassEnum,
+                    );
+
+                    return Slidable(
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            label: S.current.delete,
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete_rounded,
+                            onPressed: (context) =>
+                                _delete(context, measurement),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Text(
+                          '${measurement.bodyWeight}$unit',
+                          style: TextStyles.body1,
+                        ),
+                        trailing: Text(date, style: TextStyles.body1Grey),
+                      ),
+                    );
+                  },
                 ),
+                const SizedBox(height: 16),
               ],
-            ),
-            child: ListTile(
-              leading: Text(
-                '${measurement.bodyWeight}$unit',
-                style: TextStyles.body1,
-              ),
-              trailing: Text(date, style: TextStyles.body1Grey),
             ),
           );
         },
-        isLive: true,
       ),
+      // body: PaginateFirestore(
+      //   shrinkWrap: true,
+      //   itemsPerPage: 10,
+      //   query: database.measurementsQuery(),
+      //   itemBuilderType: PaginateBuilderType.listView,
+      //   emptyDisplay: EmptyContent(
+      //     message: S.current.measurementsEmptyMessage,
+      //   ),
+      //   header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      //   footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      //   onError: (error) => EmptyContent(
+      //     message: '${S.current.somethingWentWrong}: $error',
+      //   ),
+      //   physics: const BouncingScrollPhysics(),
+      //   itemBuilder: (index, context, documentSnapshot) {
+      //     final measurement = documentSnapshot.data()! as Measurement;
+
+      //     final date = Formatter.yMdjm(measurement.loggedTime);
+
+      //     final unit = Formatter.unitOfMass(
+      //       user.unitOfMass,
+      //       user.unitOfMassEnum,
+      //     );
+
+      //     return Slidable(
+      //       endActionPane: ActionPane(
+      //         motion: const ScrollMotion(),
+      //         children: [
+      //           SlidableAction(
+      //             label: S.current.delete,
+      //             backgroundColor: Colors.red,
+      //             icon: Icons.delete_rounded,
+      //             onPressed: (context) => _delete(context, measurement),
+      //           ),
+      //         ],
+      //       ),
+      //       child: ListTile(
+      //         leading: Text(
+      //           '${measurement.bodyWeight}$unit',
+      //           style: TextStyles.body1,
+      //         ),
+      //         trailing: Text(date, style: TextStyles.body1Grey),
+      //       ),
+      //     );
+      //   },
+      //   isLive: true,
+      // ),
     );
   }
 }

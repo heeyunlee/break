@@ -77,7 +77,7 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
             SizedBox(
               height: 150,
               child: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 8),
+                  padding: const EdgeInsets.only(right: 8),
                   child: LineChart(
                     LineChartData(
                       gridData: FlGridData(
@@ -99,11 +99,12 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                       ),
                       titlesData: FlTitlesData(
                         show: true,
+                        rightTitles: SideTitles(showTitles: false),
+                        topTitles: SideTitles(showTitles: false),
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          reservedSize: 22,
                           margin: 24,
-                          getTextStyles: (value) => TextStyles.body2,
+                          getTextStyles: (_, __) => TextStyles.body2,
                           getTitles: (value) {
                             switch (value.toInt()) {
                               case 0:
@@ -128,8 +129,9 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          margin: 24,
-                          getTextStyles: (_) => TextStyles.caption1Grey,
+                          margin: 16,
+                          reservedSize: 56,
+                          getTextStyles: (_, __) => TextStyles.caption1Grey,
                           getTitles: (value) {
                             final unit = Formatter.unitOfMass(0);
 

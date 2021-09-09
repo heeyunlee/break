@@ -70,7 +70,6 @@ class _EditUnitOfMassScreenState extends State<EditUnitOfMassScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
         leading: const AppBarBackButton(),

@@ -65,7 +65,6 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(

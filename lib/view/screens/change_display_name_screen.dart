@@ -153,7 +153,6 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(

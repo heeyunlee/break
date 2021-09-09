@@ -78,7 +78,6 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         leading: const AppBarCloseButton(),
         title: Text(widget.appBarTitle, style: TextStyles.subtitle2),
         centerTitle: true,

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -77,7 +75,6 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
                   pinned: true,
                   stretch: true,
                   elevation: 0,
-                  brightness: Brightness.dark,
                   backgroundColor: widget.model.colorTweeen.value,
                   expandedHeight: height,
                   leading: const AppBarBackButton(),

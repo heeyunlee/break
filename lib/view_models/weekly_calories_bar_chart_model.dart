@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +64,7 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
 
     /// INIT Relative Ys
     Map<DateTime, List<Nutrition>> _mapData;
-    final List<num> _listOfYs = [];
+    List<num> _listOfYs = [];
     final List<double> _relatives = [];
 
     final List<Nutrition> carbsList =
@@ -77,8 +76,7 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
           item: carbsList.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      // TODO(heeyunlee): avoid_function_literals_in_foreach_calls
-      _mapData.values.forEach((list) {
+      _listOfYs = _mapData.values.map((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
@@ -87,8 +85,9 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
           }
         }
 
-        _listOfYs.add(sum);
-      });
+        return sum;
+      }).toList();
+
       final largest = [..._listOfYs, user.dailyCalorieConsumptionGoal ?? 0]
           .reduce(math.max);
 
@@ -135,11 +134,9 @@ class WeeklyCaloriesBarChartModel with ChangeNotifier {
     return '$toOriginalNumber kcal';
   }
 
-  void onTouchCallback(BarTouchResponse barTouchResponse) {
-    if (barTouchResponse.spot != null &&
-        barTouchResponse.touchInput is! PointerExitEvent &&
-        barTouchResponse.touchInput is! PointerUpEvent) {
-      _touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+  void onTouchCallback(FlTouchEvent event, BarTouchResponse? barTouchResponse) {
+    if (barTouchResponse?.spot != null && event is! FlTapUpEvent) {
+      _touchedIndex = barTouchResponse?.spot!.touchedBarGroupIndex;
     } else {
       _touchedIndex = -1;
     }

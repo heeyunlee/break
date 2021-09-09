@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +70,6 @@ class _ReorderRoutineWorkoutsScreenState
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        brightness: Brightness.dark,
         title: Text(
           S.current.editRoutineWorkoutOrder,
           style: TextStyles.subtitle2,

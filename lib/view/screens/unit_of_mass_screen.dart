@@ -90,7 +90,6 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
         leading: const AppBarBackButton(),

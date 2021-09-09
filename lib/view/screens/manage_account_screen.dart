@@ -43,7 +43,6 @@ class ManageAccountScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.dark,
         centerTitle: true,
         flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,

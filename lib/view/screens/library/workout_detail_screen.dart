@@ -168,7 +168,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
       animation: _textAnimationController,
       builder: (context, child) => SliverAppBar(
         forceElevated: innerBoxIsScrolled,
-        brightness: Brightness.dark,
         leading: const AppBarBackButton(),
         title: Transform.translate(
           offset: _transTween.value,

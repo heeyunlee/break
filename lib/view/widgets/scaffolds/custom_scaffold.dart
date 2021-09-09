@@ -55,7 +55,6 @@ class CustomScaffold extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         leading: appBarLeading ?? const AppBarBackButton(),
         actions: appBarActions,

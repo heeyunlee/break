@@ -39,6 +39,7 @@ class ChooseRoutineScreenModel with ChangeNotifier {
       return database.routinesStream();
     } else {
       return database.routinesSearchStream(
+        isEqualTo: false,
         arrayContainsVariableName: 'mainMuscleGroup',
         arrayContainsValue: _selectedChip,
       );

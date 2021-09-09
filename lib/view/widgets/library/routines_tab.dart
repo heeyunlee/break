@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -23,6 +22,7 @@ import '../../screens/library/saved_routines_screen.dart';
 /// ### Refactoring
 ///
 /// ### Enhancement
+/// * Paginate list of [Routine]
 ///
 class RoutinesTab extends StatelessWidget {
   const RoutinesTab({Key? key}) : super(key: key);
@@ -33,45 +33,81 @@ class RoutinesTab extends StatelessWidget {
 
     final database = Provider.of<Database>(context, listen: false);
 
-    return PaginateFirestore(
-      isLive: true,
-      shrinkWrap: true,
-      itemsPerPage: 10,
-      query: database.routinesPaginatedUserQuery(),
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: SingleChildScrollView(
+    return CustomStreamBuilder<List<Routine>>(
+      stream: database.userRoutinesStream(),
+      emptyWidget: SingleChildScrollView(
         child: _buildHeader(context, isHeader: false),
       ),
-      header: SliverToBoxAdapter(
-        child: _buildHeader(context, isHeader: true),
-      ),
-      footer: const SliverToBoxAdapter(
-        child: SizedBox(height: kBottomNavigationBarHeight + 48),
-      ),
-      onError: (error) => EmptyContent(
-        message: S.current.somethingWentWrong,
-        e: error,
-      ),
-      itemBuilder: (_, context, snapshot) {
-        final routine = snapshot.data() as Routine?;
-
-        return LibraryListTile(
-          tag: 'savedRoutines-${routine!.routineId}',
-          title: routine.routineTitle,
-          subtitle: Formatter.getJoinedMainMuscleGroups(
-            routine.mainMuscleGroup,
-            routine.mainMuscleGroupEnum,
-          ),
-          imageUrl: routine.imageUrl,
-          onTap: () => RoutineDetailScreen.show(
-            context,
-            routine: routine,
-            tag: 'savedRoutines-${routine.routineId}',
+      builder: (context, data) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(context, isHeader: true),
+              CustomListViewBuilder<Routine>(
+                items: data,
+                itemBuilder: (context, routine, i) {
+                  return LibraryListTile(
+                    tag: 'savedRoutines-${routine.routineId}',
+                    title: routine.routineTitle,
+                    subtitle: Formatter.getJoinedMainMuscleGroups(
+                      routine.mainMuscleGroup,
+                      routine.mainMuscleGroupEnum,
+                    ),
+                    imageUrl: routine.imageUrl,
+                    onTap: () => RoutineDetailScreen.show(
+                      context,
+                      routine: routine,
+                      tag: 'savedRoutines-${routine.routineId}',
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: kBottomNavigationBarHeight + 48),
+            ],
           ),
         );
       },
     );
+
+    // return PaginateFirestore(
+    //   isLive: true,
+    //   shrinkWrap: true,
+    //   itemsPerPage: 10,
+    //   query: database.routinesPaginatedUserQuery(),
+    //   physics: const AlwaysScrollableScrollPhysics(),
+    //   itemBuilderType: PaginateBuilderType.listView,
+    //   emptyDisplay: SingleChildScrollView(
+    //     child: _buildHeader(context, isHeader: false),
+    //   ),
+    //   header: SliverToBoxAdapter(
+    //     child: _buildHeader(context, isHeader: true),
+    //   ),
+    //   footer: const SliverToBoxAdapter(
+    //     child: SizedBox(height: kBottomNavigationBarHeight + 48),
+    //   ),
+    //   onError: (error) => EmptyContent(
+    //     message: S.current.somethingWentWrong,
+    //     e: error,
+    //   ),
+    //   itemBuilder: (_, context, snapshot) {
+    //     final routine = snapshot.data() as Routine?;
+
+    //     return LibraryListTile(
+    //       tag: 'savedRoutines-${routine!.routineId}',
+    //       title: routine.routineTitle,
+    //       subtitle: Formatter.getJoinedMainMuscleGroups(
+    //         routine.mainMuscleGroup,
+    //         routine.mainMuscleGroupEnum,
+    //       ),
+    //       imageUrl: routine.imageUrl,
+    //       onTap: () => RoutineDetailScreen.show(
+    //         context,
+    //         routine: routine,
+    //         tag: 'savedRoutines-${routine.routineId}',
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _buildHeader(BuildContext context, {required bool isHeader}) {

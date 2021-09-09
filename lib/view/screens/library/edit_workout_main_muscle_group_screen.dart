@@ -206,7 +206,6 @@ class _EditWorkoutMainMuscleGroupScreenState
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: IconButton(

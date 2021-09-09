@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -32,47 +31,87 @@ class WorkoutsTab extends StatelessWidget {
 
     final database = Provider.of<Database>(context, listen: false);
 
-    return PaginateFirestore(
-      isLive: true,
-      shrinkWrap: true,
-      itemsPerPage: 5,
-      query: database.workoutsPaginatedUserQuery(),
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemBuilderType: PaginateBuilderType.listView,
-      emptyDisplay: SingleChildScrollView(
+    return CustomStreamBuilder<List<Workout>>(
+      stream: database.userWorkoutsStream(),
+      emptyWidget: SingleChildScrollView(
         child: _buildHeader(context, isHeader: false),
       ),
-      header: SliverToBoxAdapter(
-        child: _buildHeader(context, isHeader: true),
-      ),
-      footer: const SliverToBoxAdapter(
-        child: SizedBox(height: kBottomNavigationBarHeight + 48),
-      ),
-      onError: (error) => EmptyContent(
-        message: '${S.current.somethingWentWrong}: $error',
-      ),
-      itemBuilder: (index, context, documentSnapshot) {
-        final workout = documentSnapshot.data() as Workout?;
-
-        return LibraryListTile(
-          tag: 'savedWorkout${workout!.workoutId}',
-          title: Formatter.localizedTitle(
-            workout.workoutTitle,
-            workout.translated,
-          ),
-          subtitle: S.current.workoutsTabSubtitle(
-            Formatter.getJoinedEquipmentsRequired(workout.equipmentRequired),
-          ),
-          imageUrl: workout.imageUrl,
-          onTap: () => WorkoutDetailScreen.show(
-            context,
-            workout: workout,
-            workoutId: workout.workoutId,
-            tag: 'savedWorkout${workout.workoutId}',
+      builder: (context, data) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(context, isHeader: true),
+              CustomListViewBuilder<Workout>(
+                items: data,
+                itemBuilder: (context, workout, i) {
+                  return LibraryListTile(
+                    tag: 'savedWorkout${workout.workoutId}',
+                    title: Formatter.localizedTitle(
+                      workout.workoutTitle,
+                      workout.translated,
+                    ),
+                    subtitle: S.current.workoutsTabSubtitle(
+                      Formatter.getJoinedEquipmentsRequired(
+                          workout.equipmentRequired),
+                    ),
+                    imageUrl: workout.imageUrl,
+                    onTap: () => WorkoutDetailScreen.show(
+                      context,
+                      workout: workout,
+                      workoutId: workout.workoutId,
+                      tag: 'savedWorkout${workout.workoutId}',
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: kBottomNavigationBarHeight + 48),
+            ],
           ),
         );
       },
     );
+
+    // return PaginateFirestore(
+    //   isLive: true,
+    //   shrinkWrap: true,
+    //   itemsPerPage: 5,
+    //   query: database.workoutsPaginatedUserQuery(),
+    //   physics: const AlwaysScrollableScrollPhysics(),
+    //   itemBuilderType: PaginateBuilderType.listView,
+    //   emptyDisplay: SingleChildScrollView(
+    //     child: _buildHeader(context, isHeader: false),
+    //   ),
+    //   header: SliverToBoxAdapter(
+    //     child: _buildHeader(context, isHeader: true),
+    //   ),
+    //   footer: const SliverToBoxAdapter(
+    //     child: SizedBox(height: kBottomNavigationBarHeight + 48),
+    //   ),
+    //   onError: (error) => EmptyContent(
+    //     message: '${S.current.somethingWentWrong}: $error',
+    //   ),
+    //   itemBuilder: (index, context, documentSnapshot) {
+    //     final workout = documentSnapshot.data() as Workout?;
+
+    //     return LibraryListTile(
+    //       tag: 'savedWorkout${workout!.workoutId}',
+    //       title: Formatter.localizedTitle(
+    //         workout.workoutTitle,
+    //         workout.translated,
+    //       ),
+    //       subtitle: S.current.workoutsTabSubtitle(
+    //         Formatter.getJoinedEquipmentsRequired(workout.equipmentRequired),
+    //       ),
+    //       imageUrl: workout.imageUrl,
+    //       onTap: () => WorkoutDetailScreen.show(
+    //         context,
+    //         workout: workout,
+    //         workoutId: workout.workoutId,
+    //         tag: 'savedWorkout${workout.workoutId}',
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _buildHeader(BuildContext context, {required bool isHeader}) {

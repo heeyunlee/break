@@ -76,7 +76,6 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        brightness: Brightness.dark,
         flexibleSpace: const AppbarBlurBG(),
         backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),
