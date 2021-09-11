@@ -83,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Workout Seamlessly With Workout Player"),
         "about": MessageLookupByLibrary.simpleMessage("About"),
         "abs": MessageLookupByLibrary.simpleMessage("Abs"),
+        "accept": MessageLookupByLibrary.simpleMessage("Accept"),
         "acceptingTerms": MessageLookupByLibrary.simpleMessage(
             "By signing in with one of the social login providers, you acknowledge that you\'ve read and accepted our\n"),
         "acceptingTermsEmail": MessageLookupByLibrary.simpleMessage(
@@ -199,6 +200,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm your password"),
         "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to logout? If you logged in anonymously, you will not be able to retrieve your data"),
+        "connectBankAcocunts":
+            MessageLookupByLibrary.simpleMessage("Connect \nBank Accounts"),
+        "connectBankAcocuntsSubtitle": MessageLookupByLibrary.simpleMessage(
+            "We will automatically calculate nutritions \ndata based on your transactions"),
         "consumedCalorie":
             MessageLookupByLibrary.simpleMessage("Consumed Calories"),
         "continueAnonymously":
@@ -313,6 +318,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "durationValidatorText":
             MessageLookupByLibrary.simpleMessage("Please enter duration!"),
         "eZBar": MessageLookupByLibrary.simpleMessage("EZ Bar"),
+        "eat": MessageLookupByLibrary.simpleMessage("Eat"),
+        "eatAllCap": MessageLookupByLibrary.simpleMessage("EAT"),
+        "eatTabSubtitle": MessageLookupByLibrary.simpleMessage(
+            "And Keeps Taps On \nYour Health"),
         "editDisplayNameTitle":
             MessageLookupByLibrary.simpleMessage("Edit Display Name"),
         "editEmail": MessageLookupByLibrary.simpleMessage("Edit Email"),
@@ -371,6 +380,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("An error has occured"),
         "etc": MessageLookupByLibrary.simpleMessage("etc."),
         "everyone": MessageLookupByLibrary.simpleMessage("Everyone"),
+        "explore": MessageLookupByLibrary.simpleMessage("Explore"),
         "fat": MessageLookupByLibrary.simpleMessage("Fat"),
         "fatGoal": MessageLookupByLibrary.simpleMessage("Fat Consumption Goal"),
         "featureDiscoveryCustomizeWidgetMessage":
@@ -443,14 +453,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Changed the record to public"),
         "manageAccount": MessageLookupByLibrary.simpleMessage("Manage Account"),
+        "manual": MessageLookupByLibrary.simpleMessage("Manual"),
         "mealType": MessageLookupByLibrary.simpleMessage("Meal Type"),
         "measurements": MessageLookupByLibrary.simpleMessage("Body"),
         "measurementsEmptyMessage": MessageLookupByLibrary.simpleMessage(
             "You haven\'t added any body measurements records yet!"),
         "minutes": MessageLookupByLibrary.simpleMessage("minutes"),
+        "modify": MessageLookupByLibrary.simpleMessage("Modify"),
         "moreAboutThisWorkout":
             MessageLookupByLibrary.simpleMessage("More About This Workout"),
         "moreSettings": MessageLookupByLibrary.simpleMessage("More Settings"),
+        "move": MessageLookupByLibrary.simpleMessage("Move"),
         "needAnAccount":
             MessageLookupByLibrary.simpleMessage("Need an account?"),
         "next": MessageLookupByLibrary.simpleMessage("NEXT"),
@@ -531,6 +544,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "quads": MessageLookupByLibrary.simpleMessage("Quads"),
         "quickSummary": MessageLookupByLibrary.simpleMessage("Quick Summary"),
         "recentBodyFatWidgetSubtitle": m8,
+        "recentTransactions":
+            MessageLookupByLibrary.simpleMessage("Recent Transactions"),
         "recentWeightWidgetSubtitle": m9,
         "register": MessageLookupByLibrary.simpleMessage("Register!"),
         "reorderRoutineWorkoutsHeader": MessageLookupByLibrary.simpleMessage(
@@ -584,6 +599,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Seconds per rep"),
         "secondsPerRepHelperText": MessageLookupByLibrary.simpleMessage(
             "This will help us calculate duration for a routine"),
+        "seeMore": MessageLookupByLibrary.simpleMessage("See More"),
         "seeYourProgress":
             MessageLookupByLibrary.simpleMessage("See Your Progress"),
         "selectMealTypeAlertTitle":
@@ -767,6 +783,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Give workout a name!"),
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("No workout name"),
+        "workoutWithYoutube":
+            MessageLookupByLibrary.simpleMessage("Workout With YouTube"),
         "workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
         "workoutsInThisVideo":
             MessageLookupByLibrary.simpleMessage("Workouts In This Video"),

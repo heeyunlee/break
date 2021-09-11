@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -8,18 +8,30 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 class WatchTab extends StatelessWidget {
-  const WatchTab({Key? key}) : super(key: key);
+  const WatchTab({
+    Key? key,
+    required this.database,
+  }) : super(key: key);
+
+  final Database database;
+
+  static void show(BuildContext context) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => WatchTab(database: database),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     logger.d('[WatchTab] building...');
 
-    final database = Provider.of<Database>(context, listen: false);
-
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: const AppBarBackButton(),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

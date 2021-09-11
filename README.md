@@ -262,15 +262,23 @@ Progress tab displays various widgets that highlight user's health & fitness dat
 I have used the following libraries to build this app:
 
 * [flutter_svg] for displaying svg files
-* [intl] for i18n
 * [logger] for better debugging and logging
-* [cupertino_icons] for using iOS-looking icons
-* [url_launcher] for launching url within the app
 * [uuid] for generating uuids
-* [collection] to make working with collections easier
-* [device_info_plus] for getting users' device info
 * [enum_to_string] to make working with enums easier
+* [easy_localization] for easy i18n
+* [email_validator] for validating emails
+* [cached_network_image] for caching network images
+
+* [cupertino_icons] for using iOS-looking icons
+* [intl] for i18n
+* [url_launcher] for launching url within the app
+* [device_info_plus] for getting users' device info
 * [flutter_lints] for strict Flutter Linting 
+* [visibility_detector] for implementing visibility_detector
+* [collection] to make working with collections easier
+* [google_fonts] for using Google Fonts
+* [flutter_blurhash] for creating pretty placeholder image using blurhash
+
 * [firebase_storage] for Firebase Cloud Storage
 * [firebase_core] to use Firebase
 * [cloud_firestore] for Firebase Cloud Firestore
@@ -278,16 +286,19 @@ I have used the following libraries to build this app:
 * [firebase_auth] for Firebase Authentication
 * [firebase_crashlytics] for Firebase Crashlytics
 * [firebase_analytics] for Firebase Analytics
-* [google_fonts] for using Google Fonts
-* [paginate_firestore] for pagination and lazy loading
+  
 * [google_sign_in] for enabling signing in with google with Firebase
 * [flutter_facebook_auth] for enabling signing in with Facebook with Firebase
 * [sign_in_with_apple] for enabling signing in with Apple
 * [kakao_flutter_sdk] for enabling signing in with Kakao
+  
 * [provider] for state management
 * [flutter_riverpod] for state management
 * [get] for creating custom snackbar
 * [rxdart] for streams (observables)
+  
+* [algolia] for search with Algolia
+* [mixpanel_flutter] for using Mixpanel analytics
 * [flutter_slidable] for implementing slidable list item
 * [fl_chart] for creating aesthetic looking charts
 * [smooth_page_indicator] for creating page indicators 
@@ -301,16 +312,12 @@ I have used the following libraries to build this app:
 * [percent_indicator] for creating a activity ring
 * [table_calendar] for creating a table calendar
 * [material_floating_search_bar] for creating a Google Map-like search bar
-* [implicitly_animated_reorderable_list] for creating implicitly animated list
 * [reorderables] for creating a reorderable list
 * [dotted_border] for creating the dotted line
 * [animated_text_kit] for creating animated text
-* [visibility_detector] for implementing visibility_detector
 * [youtube_plyr_iframe] for Youtube Player
-* [blurhash_dart] for creating blur has image
-* [cached_network_image] for caching network images
-* [email_validator] for validating emails
 * [timeago] for i18ned timeago messages
+* [flutter_sticky_header] for creating Sticky header in Slivers
 
 [cookbook]: https://flutter.dev/docs/cookbook/effects/staggered-menu-animation
 [Yazio]: https://www.yazio.com/en
@@ -365,3 +372,8 @@ I have used the following libraries to build this app:
 [cached_network_image]: https://pub.dev/packages/cached_network_image
 [email_validator]: https://pub.dev/packages/email_validator
 [timeago]: https://pub.dev/packages?q=timeago
+[easy_localization]: https://pub.dev/packages/easy_localization
+[flutter_blurhash]: https://pub.dev/packages/flutter_blurhash
+[algolia]: https://pub.dev/packages/algolia
+[mixpanel_flutter]: https://pub.dev/packages/mixpanel_flutter
+[flutter_sticky_header]: https://pub.dev/packages/flutter_sticky_header

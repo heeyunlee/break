@@ -133,6 +133,8 @@ final nutritionDummyData = Nutrition(
   loggedDate: DateTime.now(),
   type: Meal.afterWorkout,
   proteinAmount: 100,
+  description: 'Breakfast',
+  isCreditCardTransaction: false,
 );
 
 final measurementDummyData = Measurement(

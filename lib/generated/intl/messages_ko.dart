@@ -79,6 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동 플레이어를 이용해서 운동하세요"),
         "about": MessageLookupByLibrary.simpleMessage("정보"),
         "abs": MessageLookupByLibrary.simpleMessage("복근"),
+        "accept": MessageLookupByLibrary.simpleMessage("확인"),
         "acceptingTerms": MessageLookupByLibrary.simpleMessage(
             "\'계속하기\'버튼을 눌러 계정을 만들면 Herakles의\n"),
         "acceptingTermsEmail":
@@ -184,6 +185,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("비밀번호 확인"),
         "confirmSignOutContext": MessageLookupByLibrary.simpleMessage(
             "정말로 로그아웃 할까요? 익명으로 로그인 하셨다면 데이터는 다시 복구할 수 없습니다"),
+        "connectBankAcocunts":
+            MessageLookupByLibrary.simpleMessage("은행 계좌를 \n연결하세요"),
+        "connectBankAcocuntsSubtitle": MessageLookupByLibrary.simpleMessage(
+            "게좌 거래 내역을 통해 자동으로 \n영양소 데이터를 계산해 줍니다!"),
         "consumedCalorie": MessageLookupByLibrary.simpleMessage("칼로리 섭취"),
         "continueAnonymously": MessageLookupByLibrary.simpleMessage("둘러보기"),
         "continueButton": MessageLookupByLibrary.simpleMessage("계속"),
@@ -290,6 +295,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "durationValidatorText":
             MessageLookupByLibrary.simpleMessage("운동 시간을 넣어주세요!"),
         "eZBar": MessageLookupByLibrary.simpleMessage("EZ 바"),
+        "eat": MessageLookupByLibrary.simpleMessage("영양"),
+        "eatAllCap": MessageLookupByLibrary.simpleMessage("먹자"),
+        "eatTabSubtitle": MessageLookupByLibrary.simpleMessage("먹는 것도 운동이니까"),
         "editDisplayNameTitle": MessageLookupByLibrary.simpleMessage("이름 수정"),
         "editEmail": MessageLookupByLibrary.simpleMessage("이메일 수정"),
         "editRoutineSnackbar":
@@ -340,6 +348,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("오류가 났어요.."),
         "etc": MessageLookupByLibrary.simpleMessage("등등"),
         "everyone": MessageLookupByLibrary.simpleMessage("모두에게"),
+        "explore": MessageLookupByLibrary.simpleMessage("둘러보기"),
         "fat": MessageLookupByLibrary.simpleMessage("지방"),
         "fatGoal": MessageLookupByLibrary.simpleMessage("지방 섭취 목표"),
         "featureDiscoveryCustomizeWidgetMessage":
@@ -407,13 +416,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "makeRoutineHistoryPublicSnackbar":
             MessageLookupByLibrary.simpleMessage("운동 기록을 공개로 바꿨습니다"),
         "manageAccount": MessageLookupByLibrary.simpleMessage("계정 관리"),
+        "manual": MessageLookupByLibrary.simpleMessage("직접입력"),
         "mealType": MessageLookupByLibrary.simpleMessage("분류"),
         "measurements": MessageLookupByLibrary.simpleMessage("인바디"),
         "measurementsEmptyMessage":
             MessageLookupByLibrary.simpleMessage("아직 신체 정보 기록이 없어요!"),
         "minutes": MessageLookupByLibrary.simpleMessage("분"),
+        "modify": MessageLookupByLibrary.simpleMessage("수정"),
         "moreAboutThisWorkout": MessageLookupByLibrary.simpleMessage("더 많은 설정"),
         "moreSettings": MessageLookupByLibrary.simpleMessage("더 많은 설정"),
+        "move": MessageLookupByLibrary.simpleMessage("활동"),
         "needAnAccount": MessageLookupByLibrary.simpleMessage("계졍이 필요하신가요?"),
         "next": MessageLookupByLibrary.simpleMessage("다음"),
         "noRoutineAlertTitle":
@@ -491,6 +503,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "quads": MessageLookupByLibrary.simpleMessage("대퇴 사두근"),
         "quickSummary": MessageLookupByLibrary.simpleMessage("운동 요약"),
         "recentBodyFatWidgetSubtitle": m8,
+        "recentTransactions": MessageLookupByLibrary.simpleMessage("최근 거래들"),
         "recentWeightWidgetSubtitle": m9,
         "register": MessageLookupByLibrary.simpleMessage("회원가입!"),
         "reorderRoutineWorkoutsHeader":
@@ -541,6 +554,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("1회 반복 당 예상 소요 시간"),
         "secondsPerRepHelperText":
             MessageLookupByLibrary.simpleMessage("루틴 소요시간을 계산하는데 도움이 됩니다"),
+        "seeMore": MessageLookupByLibrary.simpleMessage("더 보기"),
         "seeYourProgress":
             MessageLookupByLibrary.simpleMessage("나의 운동 능력 변화를 기록하세요"),
         "selectMealTypeAlertTitle":
@@ -709,6 +723,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("운동에 이름을 지어주세요!"),
         "workoutTitleAlertTitle":
             MessageLookupByLibrary.simpleMessage("운동에 이름이 없습니다"),
+        "workoutWithYoutube":
+            MessageLookupByLibrary.simpleMessage("유튜브 동영상으로 운동"),
         "workouts": MessageLookupByLibrary.simpleMessage("운동"),
         "workoutsInThisVideo":
             MessageLookupByLibrary.simpleMessage("이 동영상 속 운동"),

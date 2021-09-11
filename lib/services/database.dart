@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
+import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -202,6 +203,7 @@ abstract class Database {
   // RxDart CombinedLists
   Stream<RoutineDetailScreenClass> routineDetailScreenStream(String routineId);
   Stream<ProgressTabClass> progressTabStream(DateTime? day);
+  Stream<EatsTabClass> eatsTabStream();
 
   /// Youtube Videos
   Future<void> updatedYoutubeVideo(
@@ -1228,7 +1230,6 @@ class FirestoreDatabase implements Database {
       routineHistoriesThisWeekStream(),
       routineHistorySelectedDayStream(day),
       nutritionsSelectedDayStream(day),
-      // stepsStream(),
       (
         User? user,
         List<Measurement> measurements,
@@ -1236,7 +1237,6 @@ class FirestoreDatabase implements Database {
         List<RoutineHistory> routineHistories,
         List<RoutineHistory> selectedDayRoutineHistories,
         List<Nutrition> selectedDayNutritions,
-        // Steps? steps,
       ) {
         final aLength = (user != null) ? 1 : 0;
         final bLength = measurements.length;
@@ -1244,7 +1244,6 @@ class FirestoreDatabase implements Database {
         final dLength = routineHistories.length;
         final eLength = selectedDayRoutineHistories.length;
         final fLength = selectedDayNutritions.length;
-        // final gLength = (steps != null) ? 1 : 0;
 
         final entireLength =
             aLength + bLength + cLength + dLength + eLength + fLength;
@@ -1258,13 +1257,39 @@ class FirestoreDatabase implements Database {
           measurements: measurements,
           selectedDayRoutineHistories: selectedDayRoutineHistories,
           selectedDayNutritions: selectedDayNutritions,
-          // steps: steps,
         );
       },
     );
   }
 
-  // Add Routine
+  @override
+  Stream<EatsTabClass> eatsTabStream() {
+    return Rx.combineLatest3(
+      userStream(),
+      thisWeeksNutritionsStream(),
+      userNutritionStream(limit: 6),
+      (
+        User? user,
+        List<Nutrition> thisWeeksNutritions,
+        List<Nutrition> recentNutritions,
+      ) {
+        final todaysNutritionsLength = thisWeeksNutritions.length;
+        final recentNutritionsLength = recentNutritions.length;
+
+        final length = 1 + todaysNutritionsLength + recentNutritionsLength;
+
+        logger.d('Rx `eatsTabStream` read $length documents');
+
+        return EatsTabClass(
+          user: user!,
+          thisWeeksNutritions: thisWeeksNutritions,
+          recentNutritions: recentNutritions,
+        );
+      },
+    );
+  }
+
+  /// Function that updates existing YouTubeVideo data on Firebase
   @override
   Future<void> updatedYoutubeVideo(
     YoutubeVideo video,

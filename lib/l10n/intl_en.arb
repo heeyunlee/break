@@ -446,5 +446,18 @@
     "workoutsInThisVideo": "Workouts In This Video",
     "burnt": "Burnt",
     "couldNotLaunch": "Could Not Launch: {url}",
-    "deleteLowercase": "Delete"
+    "deleteLowercase": "Delete",
+    "workoutWithYoutube": "Workout With YouTube",
+    "seeMore": "See More",
+    "eatAllCap": "EAT",
+    "eatTabSubtitle": "And Keeps Taps On \nYour Health",
+    "explore": "Explore",
+    "recentTransactions": "Recent Transactions",
+    "eat": "Eat",
+    "move": "Move",
+    "connectBankAcocunts": "Connect \nBank Accounts",
+    "connectBankAcocuntsSubtitle": "We will automatically calculate nutritions \ndata based on your transactions",
+    "manual": "Manual",
+    "modify": "Modify",
+    "accept": "Accept"
 }

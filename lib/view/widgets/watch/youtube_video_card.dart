@@ -12,10 +12,14 @@ class YoutubeVideoCard extends StatelessWidget {
     Key? key,
     required this.youtubeVideo,
     required this.heroTag,
+    this.height = 220,
+    this.width,
   }) : super(key: key);
 
   final YoutubeVideo youtubeVideo;
   final String heroTag;
+  final double height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -32,55 +36,59 @@ class YoutubeVideoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              color: Colors.transparent,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Hero(
-                    tag: heroTag,
-                    child: CachedNetworkImage(
-                      imageUrl: youtubeVideo.thumnail,
-                      height: 220,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: const Alignment(0, -0.50),
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.75),
-                        ],
+            SizedBox(
+              height: height,
+              width: width ?? (size.width - 32),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                color: Colors.transparent,
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Hero(
+                      tag: heroTag,
+                      child: CachedNetworkImage(
+                        imageUrl: youtubeVideo.thumnail,
+                        height: height,
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
-                    width: double.infinity,
-                    height: 220,
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    child: SizedBox(
-                      width: size.width - 64,
-                      child: Text(
-                        youtubeVideo.title,
-                        style: TextStyles.body1,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: const Alignment(0, -0.50),
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.75),
+                          ],
+                        ),
+                      ),
+                      width: double.infinity,
+                      height: height,
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      child: SizedBox(
+                        width: (width ?? (size.width - 32)) - 32,
+                        child: Text(
+                          youtubeVideo.title,
+                          style: TextStyles.body1,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
                       ),
                     ),
-                  ),
-                  Image.asset(
-                    'assets/logos/yt_icon_rgb.png',
-                    height: 32,
-                  ),
-                ],
+                    Image.asset(
+                      'assets/logos/yt_icon_rgb.png',
+                      height: 32,
+                    ),
+                  ],
+                ),
               ),
             ),
             Row(

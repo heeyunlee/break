@@ -31,7 +31,7 @@ const kGrey100 = Color(0xffffffff);
 
 const kKeyboardDarkColor = Color(0xff303030);
 const kBackgroundColor = Color(0xff121212);
-const kAppBarColor = Color(0xff1C1C1C);
+const kAppBarColor = Color(0xff121212);
 const kCardColorDark = Color(0xff191a1b);
 const kCardColor = Color(0xff242526);
 const kCardColorLight = Color(0xff3C3C3C);
@@ -39,7 +39,7 @@ const kCardColorSuperLight = Color(0xff666666);
 const kButtonEnabledColor = Color(0xff4E4F50);
 const kDisabledColor = Color(0xff9A9EA6);
 const kFocusedColor = Color(0xff605350);
-const kBottomNavBarColor = Color(0xff1C1C1C);
+const kBottomNavBarColor = Color(0xff121212);
 
 // OTHERS //
 const kCustomDivider = Divider(
@@ -59,12 +59,21 @@ const kCustomDividerIndent8 = Divider(
   endIndent: 8,
 );
 
+const kCustomDividerIndent8Heignt1 = Divider(
+  color: kGrey700,
+  indent: 8,
+  endIndent: 8,
+  height: 1,
+);
+
 const kPrimaryColorCircularProgressIndicator = CircularProgressIndicator(
   valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
 );
 
 const kBicepEmojiUrl =
     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/flexed-biceps_1f4aa.png';
+const kEatsTabBGUrl =
+    'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/eats_tab%2Feats_tab_bg.jpg?alt=media&token=b639380f-9bc8-4eca-99de-d365ac54f247';
 
 // Type Def
 typedef ListCallback<E> = void Function(List<E> list);

@@ -81,6 +81,18 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
                     onDateTimeChanged: widget.model.onDateTimeChanged,
                   ),
                   kCustomDivider,
+                  OutlinedTextTextFieldWidget(
+                    maxLines: 1,
+                    formKey: formKey,
+                    labelText: S.current.description,
+                    focusNode: widget.model.descriptionFocusNode,
+                    controller: widget.model.descriptionController,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 24,
+                      horizontal: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   SetProteinAmountWidget(model: widget.model, unit: unit),
                   const SizedBox(height: 16),
                   Row(

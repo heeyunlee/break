@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/measurement.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 final weeklyMeasurementsChartModelProvider = ChangeNotifierProvider(
   (ref) => WeeklyMeasurementsChartModel(),
@@ -45,6 +46,8 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
+    logger.d('measurements length is ${measurements.length}');
+
     final List<Measurement?> _thisWeekDataS = [];
 
     if (measurements.isNotEmpty) {
@@ -84,7 +87,7 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
     }
   }
 
-  double? flipNumber(double number) {
+  double flipNumber(double number) {
     switch (number.toInt()) {
       case 6:
         return 0.toDouble();
@@ -100,6 +103,8 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
         return 5.toDouble();
       case 0:
         return 6.toDouble();
+      default:
+        return 0.toDouble();
     }
   }
 }

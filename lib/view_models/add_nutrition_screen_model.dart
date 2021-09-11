@@ -31,15 +31,17 @@ class AddNutritionScreenModel with ChangeNotifier {
   int? _selectedIndex;
   Meal? _mealType;
 
-  late FocusNode _caloriesFocusNode;
-  late FocusNode _carbsFocusNode;
-  late FocusNode _fatFocusNode;
-  late FocusNode _notesFocusNode;
-
+  late TextEditingController _descriptionController;
   late TextEditingController _caloriesController;
   late TextEditingController _carbsController;
   late TextEditingController _fatController;
   late TextEditingController _notesController;
+
+  late FocusNode _descriptionFocusNode;
+  late FocusNode _caloriesFocusNode;
+  late FocusNode _carbsFocusNode;
+  late FocusNode _fatFocusNode;
+  late FocusNode _notesFocusNode;
 
   Timestamp get loggedTime => _loggedTime;
   Color get borderColor => _borderColor;
@@ -49,48 +51,56 @@ class AddNutritionScreenModel with ChangeNotifier {
   int? get selectedIndex => _selectedIndex;
   Meal? get mealType => _mealType;
 
+  TextEditingController get descriptionController => _descriptionController;
+  TextEditingController get caloriesController => _caloriesController;
+  TextEditingController get carbsController => _carbsController;
+  TextEditingController get fatController => _fatController;
+  TextEditingController get notesController => _notesController;
+
+  FocusNode get descriptionFocusNode => _descriptionFocusNode;
   FocusNode get caloriesFocusNode => _caloriesFocusNode;
   FocusNode get carbsFocusNode => _carbsFocusNode;
   FocusNode get fatFocusNode => _fatFocusNode;
   FocusNode get notesFocusNode => _notesFocusNode;
   List<FocusNode> get focusNodes => [
+        _descriptionFocusNode,
         _caloriesFocusNode,
         _carbsFocusNode,
         _fatFocusNode,
         _notesFocusNode,
       ];
 
-  TextEditingController get caloriesController => _caloriesController;
-  TextEditingController get carbsController => _carbsController;
-  TextEditingController get fatController => _fatController;
-  TextEditingController get notesController => _notesController;
-
   void init() {
-    _caloriesFocusNode = FocusNode();
-    _carbsFocusNode = FocusNode();
-    _fatFocusNode = FocusNode();
-    _notesFocusNode = FocusNode();
-
+    _descriptionController = TextEditingController();
     _caloriesController = TextEditingController();
     _carbsController = TextEditingController();
     _fatController = TextEditingController();
     _notesController = TextEditingController();
+
+    _descriptionFocusNode = FocusNode();
+    _caloriesFocusNode = FocusNode();
+    _carbsFocusNode = FocusNode();
+    _fatFocusNode = FocusNode();
+    _notesFocusNode = FocusNode();
   }
 
   void disposeController() {
-    _caloriesFocusNode.dispose();
-    _carbsFocusNode.dispose();
-    _fatFocusNode.dispose();
-    _notesFocusNode.dispose();
-
+    _descriptionController.dispose();
     _caloriesController.dispose();
     _carbsController.dispose();
     _fatController.dispose();
     _notesController.dispose();
+
+    _descriptionFocusNode.dispose();
+    _caloriesFocusNode.dispose();
+    _carbsFocusNode.dispose();
+    _fatFocusNode.dispose();
+    _notesFocusNode.dispose();
   }
 
   bool hasFocus() {
-    return _caloriesFocusNode.hasFocus ||
+    return _descriptionFocusNode.hasFocus ||
+        _caloriesFocusNode.hasFocus ||
         _carbsFocusNode.hasFocus ||
         _fatFocusNode.hasFocus ||
         _notesFocusNode.hasFocus;
@@ -183,6 +193,8 @@ class AddNutritionScreenModel with ChangeNotifier {
             calories: num.tryParse(_caloriesController.text),
             carbs: num.tryParse(_carbsController.text),
             fat: num.tryParse(_fatController.text),
+            description: _descriptionController.text,
+            isCreditCardTransaction: false,
           );
 
           // Call Firebase

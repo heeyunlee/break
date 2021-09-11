@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/view/screens/library/library_tab.dart';
+import 'package:workout_player/view/screens/eats_tab.dart';
 import 'package:workout_player/view/screens/progress_tab.dart';
-import 'package:workout_player/view/screens/search_tab.dart';
-import 'package:workout_player/view/screens/watch_tab.dart';
+import 'package:workout_player/view/screens/explore_tab.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -14,11 +14,11 @@ class IndexedHomeTabs extends ConsumerWidget {
 
   Map<TabItem, Widget Function()> get widgetBuilders {
     return {
-      TabItem.progress: () => ProgressTab.create(),
-      TabItem.search: () => const SearchTab(),
-      TabItem.watch: () => const WatchTab(),
+      TabItem.move: () => ProgressTab.create(),
+      TabItem.eat: () => const EatsTab(),
+      TabItem.empty: () => Container(),
+      TabItem.expore: () => const ExploreTab(),
       TabItem.library: () => const LibraryTab(),
-      TabItem.settings: () => Container(),
     };
   }
 

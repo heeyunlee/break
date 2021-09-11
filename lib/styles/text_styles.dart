@@ -89,6 +89,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const headline5Menlo = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
+    letterSpacing: 0,
+    fontFamily: menlo,
+  );
+
   static const headline5MenloW900Primary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
@@ -251,6 +259,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const body1Black54 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.black54,
+    letterSpacing: 0.50,
+    fontFamily: defaultFontFamily,
+  );
+
   static const body1Heighted = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
@@ -365,6 +381,14 @@ class TextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w900,
     color: Colors.white,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
+  static const body2Black54W900 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: Colors.black54,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
   );
@@ -531,6 +555,11 @@ class TextStyles {
 
   static final blackHans1Grey = GoogleFonts.blackHanSans(
     color: Colors.grey,
+    fontSize: 28,
+  );
+
+  static final blackHans1Black = GoogleFonts.blackHanSans(
+    color: Colors.black,
     fontSize: 28,
   );
 

@@ -32,6 +32,7 @@ class User {
   final num? dailyCarbsGoal; // Nullable
   final num? dailyFatGoal; // Nullable
   final num? dailyCalorieConsumptionGoal; // Nullable
+  final bool? isConnectedToPlaid;
 
   const User({
     required this.userId,
@@ -61,6 +62,7 @@ class User {
     this.dailyCarbsGoal,
     this.dailyFatGoal,
     this.dailyCalorieConsumptionGoal,
+    this.isConnectedToPlaid,
   });
 
   factory User.fromJson(Map<String, dynamic>? data, String documentId) {
@@ -118,6 +120,7 @@ class User {
           num.tryParse(data['dailyFatGoal']?.toString() ?? '');
       final num? dailyCalorieConsumptionGoal =
           num.tryParse(data['dailyCalorieConsumptionGoal']?.toString() ?? '');
+      final bool? isConnectedToPlaid = data['isConnectedToPlaid'] as bool?;
 
       final User user = User(
         userId: documentId,
@@ -147,6 +150,7 @@ class User {
         dailyCarbsGoal: dailyCarbsGoal,
         dailyFatGoal: dailyFatGoal,
         dailyCalorieConsumptionGoal: dailyCalorieConsumptionGoal,
+        isConnectedToPlaid: isConnectedToPlaid,
       );
 
       return user;
@@ -183,73 +187,9 @@ class User {
     data['dailyCarbsGoal'] = dailyCarbsGoal;
     data['dailyFatGoal'] = dailyFatGoal;
     data['dailyCalorieConsumptionGoal'] = dailyCalorieConsumptionGoal;
+    data['isConnectedToPlaid'] = isConnectedToPlaid;
 
     return data;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is User &&
-        other.userId == userId &&
-        other.userName == userName &&
-        other.userEmail == userEmail &&
-        other.signUpDate == signUpDate &&
-        other.signUpProvider == signUpProvider &&
-        listEquals(other.savedWorkouts, savedWorkouts) &&
-        listEquals(other.savedRoutines, savedRoutines) &&
-        other.totalWeights == totalWeights &&
-        other.totalNumberOfWorkouts == totalNumberOfWorkouts &&
-        other.unitOfMass == unitOfMass &&
-        other.lastLoginDate == lastLoginDate &&
-        other.dailyWeightsGoal == dailyWeightsGoal &&
-        other.dailyProteinGoal == dailyProteinGoal &&
-        other.displayName == displayName &&
-        other.backgroundImageIndex == backgroundImageIndex &&
-        other.lastHealthDataFetchedTime == lastHealthDataFetchedTime &&
-        other.weightGoal == weightGoal &&
-        other.bodyFatPercentageGoal == bodyFatPercentageGoal &&
-        listEquals(other.widgetsList, widgetsList) &&
-        mapEquals(other.deviceInfo, deviceInfo) &&
-        other.lastAppOpenedTime == lastAppOpenedTime &&
-        other.creationTime == creationTime &&
-        other.profileUrl == profileUrl &&
-        other.unitOfMassEnum == unitOfMassEnum &&
-        other.dailyCarbsGoal == dailyCarbsGoal &&
-        other.dailyFatGoal == dailyFatGoal &&
-        other.dailyCalorieConsumptionGoal == dailyCalorieConsumptionGoal;
-  }
-
-  @override
-  int get hashCode {
-    return userId.hashCode ^
-        userName.hashCode ^
-        userEmail.hashCode ^
-        signUpDate.hashCode ^
-        signUpProvider.hashCode ^
-        savedWorkouts.hashCode ^
-        savedRoutines.hashCode ^
-        totalWeights.hashCode ^
-        totalNumberOfWorkouts.hashCode ^
-        unitOfMass.hashCode ^
-        lastLoginDate.hashCode ^
-        dailyWeightsGoal.hashCode ^
-        dailyProteinGoal.hashCode ^
-        displayName.hashCode ^
-        backgroundImageIndex.hashCode ^
-        lastHealthDataFetchedTime.hashCode ^
-        weightGoal.hashCode ^
-        bodyFatPercentageGoal.hashCode ^
-        widgetsList.hashCode ^
-        deviceInfo.hashCode ^
-        lastAppOpenedTime.hashCode ^
-        creationTime.hashCode ^
-        profileUrl.hashCode ^
-        unitOfMassEnum.hashCode ^
-        dailyCarbsGoal.hashCode ^
-        dailyFatGoal.hashCode ^
-        dailyCalorieConsumptionGoal.hashCode;
   }
 
   User copyWith({
@@ -280,6 +220,7 @@ class User {
     num? dailyCarbsGoal,
     num? dailyFatGoal,
     num? dailyCalorieConsumptionGoal,
+    bool? isConnectedToPlaid,
   }) {
     return User(
       userId: userId ?? this.userId,
@@ -313,6 +254,79 @@ class User {
       dailyFatGoal: dailyFatGoal ?? this.dailyFatGoal,
       dailyCalorieConsumptionGoal:
           dailyCalorieConsumptionGoal ?? this.dailyCalorieConsumptionGoal,
+      isConnectedToPlaid: isConnectedToPlaid ?? this.isConnectedToPlaid,
     );
+  }
+
+  @override
+  String toString() {
+    return 'User(userId: $userId, userName: $userName, userEmail: $userEmail, signUpDate: $signUpDate, signUpProvider: $signUpProvider, savedWorkouts: $savedWorkouts, savedRoutines: $savedRoutines, totalWeights: $totalWeights, totalNumberOfWorkouts: $totalNumberOfWorkouts, unitOfMass: $unitOfMass, lastLoginDate: $lastLoginDate, dailyWeightsGoal: $dailyWeightsGoal, dailyProteinGoal: $dailyProteinGoal, displayName: $displayName, backgroundImageIndex: $backgroundImageIndex, lastHealthDataFetchedTime: $lastHealthDataFetchedTime, weightGoal: $weightGoal, bodyFatPercentageGoal: $bodyFatPercentageGoal, widgetsList: $widgetsList, deviceInfo: $deviceInfo, lastAppOpenedTime: $lastAppOpenedTime, creationTime: $creationTime, profileUrl: $profileUrl, unitOfMassEnum: $unitOfMassEnum, dailyCarbsGoal: $dailyCarbsGoal, dailyFatGoal: $dailyFatGoal, dailyCalorieConsumptionGoal: $dailyCalorieConsumptionGoal, isConnectedToPlaid: $isConnectedToPlaid)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is User &&
+        other.userId == userId &&
+        other.userName == userName &&
+        other.userEmail == userEmail &&
+        other.signUpDate == signUpDate &&
+        other.signUpProvider == signUpProvider &&
+        listEquals(other.savedWorkouts, savedWorkouts) &&
+        listEquals(other.savedRoutines, savedRoutines) &&
+        other.totalWeights == totalWeights &&
+        other.totalNumberOfWorkouts == totalNumberOfWorkouts &&
+        other.unitOfMass == unitOfMass &&
+        other.lastLoginDate == lastLoginDate &&
+        other.dailyWeightsGoal == dailyWeightsGoal &&
+        other.dailyProteinGoal == dailyProteinGoal &&
+        other.displayName == displayName &&
+        other.backgroundImageIndex == backgroundImageIndex &&
+        other.lastHealthDataFetchedTime == lastHealthDataFetchedTime &&
+        other.weightGoal == weightGoal &&
+        other.bodyFatPercentageGoal == bodyFatPercentageGoal &&
+        listEquals(other.widgetsList, widgetsList) &&
+        mapEquals(other.deviceInfo, deviceInfo) &&
+        other.lastAppOpenedTime == lastAppOpenedTime &&
+        other.creationTime == creationTime &&
+        other.profileUrl == profileUrl &&
+        other.unitOfMassEnum == unitOfMassEnum &&
+        other.dailyCarbsGoal == dailyCarbsGoal &&
+        other.dailyFatGoal == dailyFatGoal &&
+        other.dailyCalorieConsumptionGoal == dailyCalorieConsumptionGoal &&
+        other.isConnectedToPlaid == isConnectedToPlaid;
+  }
+
+  @override
+  int get hashCode {
+    return userId.hashCode ^
+        userName.hashCode ^
+        userEmail.hashCode ^
+        signUpDate.hashCode ^
+        signUpProvider.hashCode ^
+        savedWorkouts.hashCode ^
+        savedRoutines.hashCode ^
+        totalWeights.hashCode ^
+        totalNumberOfWorkouts.hashCode ^
+        unitOfMass.hashCode ^
+        lastLoginDate.hashCode ^
+        dailyWeightsGoal.hashCode ^
+        dailyProteinGoal.hashCode ^
+        displayName.hashCode ^
+        backgroundImageIndex.hashCode ^
+        lastHealthDataFetchedTime.hashCode ^
+        weightGoal.hashCode ^
+        bodyFatPercentageGoal.hashCode ^
+        widgetsList.hashCode ^
+        deviceInfo.hashCode ^
+        lastAppOpenedTime.hashCode ^
+        creationTime.hashCode ^
+        profileUrl.hashCode ^
+        unitOfMassEnum.hashCode ^
+        dailyCarbsGoal.hashCode ^
+        dailyFatGoal.hashCode ^
+        dailyCalorieConsumptionGoal.hashCode ^
+        isConnectedToPlaid.hashCode;
   }
 }

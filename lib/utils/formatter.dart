@@ -146,7 +146,7 @@ class Formatter {
 
       return formatter.format(valueToNum);
     } else {
-      return '-';
+      return '0';
     }
   }
 

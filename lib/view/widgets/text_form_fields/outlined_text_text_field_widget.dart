@@ -38,6 +38,7 @@ class OutlinedTextTextFieldWidget extends StatelessWidget {
     this.onFieldSubmitted,
     this.suffixIcon,
     this.hintText,
+    this.contentPadding = const EdgeInsets.all(16),
   }) : super(key: key);
 
   /// Default is `false`
@@ -67,6 +68,7 @@ class OutlinedTextTextFieldWidget extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final Widget? suffixIcon;
   final String? hintText;
+  final EdgeInsets? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +102,7 @@ class OutlinedTextTextFieldWidget extends StatelessWidget {
         hintStyle: TextStyles.body1Grey,
         counterText: '',
         counterStyle: TextStyles.overlineGrey,
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: contentPadding,
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: kSecondaryColor),
         ),

@@ -15,6 +15,8 @@ class Nutrition {
     this.calories,
     this.carbs,
     this.fat,
+    required this.description,
+    required this.isCreditCardTransaction,
   });
 
   final String nutritionId;
@@ -28,13 +30,16 @@ class Nutrition {
   final num? calories; // Nullable
   final num? carbs; // Nullable
   final num? fat; // Nullable
+  final String? description;
+  final bool? isCreditCardTransaction;
 
   factory Nutrition.fromJson(Map<String, dynamic>? data, String documentId) {
     if (data != null) {
       final String userId = data['userId'].toString();
       final String username = data['username'].toString();
       final Timestamp loggedTime = data['loggedTime'] as Timestamp;
-      final DateTime loggedDate = (data['loggedDate'] as Timestamp).toDate();
+      final DateTime loggedDate =
+          (data['loggedDate'] as Timestamp).toDate().toUtc();
 
       final Meal type = EnumToString.fromString<Meal>(
         Meal.values,
@@ -47,6 +52,9 @@ class Nutrition {
       final num? calories = num.tryParse(data['calories']?.toString() ?? '');
       final num? carbs = num.tryParse(data['carbs']?.toString() ?? '');
       final num? fat = num.tryParse(data['fat']?.toString() ?? '');
+      final String? description = data['description'] as String?;
+      final bool? isCreditCardTransaction =
+          data['isCreditCardTransaction'] as bool?;
 
       return Nutrition(
         nutritionId: documentId,
@@ -60,6 +68,8 @@ class Nutrition {
         calories: calories,
         carbs: carbs,
         fat: fat,
+        description: description,
+        isCreditCardTransaction: isCreditCardTransaction,
       );
     } else {
       throw 'null';
@@ -78,6 +88,8 @@ class Nutrition {
       'calories': calories,
       'carbs': carbs,
       'fat': fat,
+      'description': description,
+      'isCreditCardTransaction': isCreditCardTransaction,
     };
   }
 }

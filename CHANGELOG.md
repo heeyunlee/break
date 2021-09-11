@@ -4,6 +4,8 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 
 ## Unreleased (0.3.6)
 ### New Features
+- Combined [SearchTab] and [WatchTab] to one and named it [ExploreTab]
+- Created [EatsTab] that displays the nutritions
 
 ### Bug Fix & Refactor
 - Refactored and redesigned RoutineDetailScreen 
@@ -12,6 +14,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
 - Update dependencies:
   - Provider from 5.0.0 to 6.0.0
   - kakao_flutter_sdk from 0.6.3 to 0.8.1
+- Added label to [BottomNavigationBar]
 
 ## [0.3.5] - September 4th, 2021
 ### New Features

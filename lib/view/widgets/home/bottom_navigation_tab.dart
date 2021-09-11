@@ -32,39 +32,34 @@ class BottomNavigationTab extends ConsumerWidget {
         ),
         child: child,
       ),
-      child: Theme(
-        data: ThemeData(
-            // splashColor: Colors.transparent,
-            // highlightColor: Colors.transparent,
-            ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Colors.grey[800]!,
-                width: 0.5,
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey[800]!,
+              width: 0.5,
             ),
           ),
-          child: BottomNavigationBar(
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            unselectedItemColor: Colors.white,
-            currentIndex: model.currentTabIndex,
-            selectedLabelStyle: TextStyles.overlinePrimary,
-            unselectedLabelStyle: TextStyles.overline,
-            backgroundColor: kBottomNavBarColor,
-            selectedItemColor: kPrimaryColor,
-            type: BottomNavigationBarType.fixed,
-            items: <BottomNavigationBarItem>[
-              _buildItem(TabItem.progress),
-              _buildItem(TabItem.search),
-              _buildItem(TabItem.settings),
-              _buildItem(TabItem.watch),
-              _buildItem(TabItem.library),
-            ],
-            onTap: model.onSelectTab,
-          ),
+        ),
+        child: BottomNavigationBar(
+          unselectedFontSize: 0,
+          selectedFontSize: 10,
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          unselectedItemColor: Colors.white,
+          currentIndex: model.currentTabIndex,
+          selectedLabelStyle: TextStyles.overlinePrimary,
+          backgroundColor: kBottomNavBarColor,
+          selectedItemColor: kPrimaryColor,
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            _buildItem(TabItem.move),
+            _buildItem(TabItem.eat),
+            _buildItem(TabItem.empty),
+            _buildItem(TabItem.expore),
+            _buildItem(TabItem.library),
+          ],
+          onTap: model.onSelectTab,
         ),
       ),
     );
@@ -74,7 +69,7 @@ class BottomNavigationTab extends ConsumerWidget {
     final itemData = TabItemData.allTabs[tabItem]!;
 
     return BottomNavigationBarItem(
-      label: '',
+      label: itemData.label,
       icon: (itemData.selectedIcon != null)
           ? Icon(
               itemData.selectedIcon as IconData,

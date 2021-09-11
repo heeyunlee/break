@@ -8,6 +8,7 @@ export 'buttons.dart';
 export 'cards.dart';
 export 'charts.dart';
 export 'dialogs.dart';
+export 'eats.dart';
 export 'home.dart';
 export 'library.dart';
 export 'miniplayer.dart';

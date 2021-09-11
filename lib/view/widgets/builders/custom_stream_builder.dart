@@ -19,8 +19,23 @@ class CustomStreamBuilder<T> extends StatelessWidget {
   final Stream<T> stream;
   final T? initialData;
   final SnapshotActiveBuilder<T> builder;
+
+  /// A widget to be shown when snapshot returns error.
+  ///
+  /// Default is [EmptyContent] widget with errorOccuredMessage and error.
+  ///
   final Widget? errorWidget;
+
+  /// A widget to be shown when sapshot connection state is [ConnectionState.none],
+  /// [ConnectionState.waiting], or [ConnectionState.done].
+  ///
+  /// Default widget is [CircularProgressIndicator] with color of [kPrimaryColor]
+  ///
   final Widget? loadingWidget;
+
+  /// A widget io be shown when `snapshot.data == null`.
+  ///
+  /// Default is [EmptyContent]
   final Widget? emptyWidget;
 
   @override

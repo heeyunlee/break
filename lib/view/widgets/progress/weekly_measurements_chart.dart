@@ -6,6 +6,7 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/charts/no_data_in_chart_message_widget.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 import '../../../../../view_models/weekly_measurements_chart_model.dart';
 
@@ -158,9 +159,10 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
             .difference(widget.model.thisWeekData[index]!.loggedDate)
             .inDays
             .toDouble();
+        logger.d('diff is $diff');
 
         return FlSpot(
-          widget.model.flipNumber(diff)!,
+          widget.model.flipNumber(diff),
           widget.model.thisWeekData[index]!.bodyWeight!.toDouble(),
         );
       },

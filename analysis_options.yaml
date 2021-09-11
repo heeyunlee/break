@@ -3,6 +3,4 @@ include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     prefer_single_quotes: true
-    # type_annotate_public_apis: false
     unnecessary_string_escapes: false
-    # avoid_positional_boolean_parameters: false

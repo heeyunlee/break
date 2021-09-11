@@ -61,52 +61,47 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
     final size = MediaQuery.of(context).size;
     final height = size.height / 5;
 
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        NotificationListener(
-          onNotification: widget.model.onNotification,
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              AnimatedBuilder(
-                animation: widget.model.sliverAnimationController,
-                builder: (context, child) => SliverAppBar(
-                  pinned: true,
-                  stretch: true,
-                  elevation: 0,
-                  backgroundColor: widget.model.colorTweeen.value,
-                  expandedHeight: height,
-                  leading: const AppBarBackButton(),
-                  title: Transform.translate(
-                    offset: widget.model.offsetTween.value,
-                    child: Opacity(
-                      opacity: widget.model.opacityTween.value,
-                      child: child,
-                    ),
-                  ),
-                  flexibleSpace: RoutineFlexibleSpaceBar(
-                    imageTag: widget.tag,
-                    model: widget.model,
-                    data: widget.data,
-                  ),
-                  actions: _sliverActions(),
-                ),
-                child: Text(
-                  widget.model.title(widget.data),
-                  style: TextStyles.subtitle2,
+    return NotificationListener(
+      onNotification: widget.model.onNotification,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          AnimatedBuilder(
+            animation: widget.model.sliverAnimationController,
+            builder: (context, child) => SliverAppBar(
+              pinned: true,
+              stretch: true,
+              elevation: 0,
+              backgroundColor: widget.model.colorTweeen.value,
+              expandedHeight: height,
+              leading: const AppBarBackButton(),
+              title: Transform.translate(
+                offset: widget.model.offsetTween.value,
+                child: Opacity(
+                  opacity: widget.model.opacityTween.value,
+                  child: child,
                 ),
               ),
-              RoutineSliverToBoxAdapter(data: widget.data),
-              RoutineStickyHeaderAndBody(
-                authAndDatabase: widget.authAndDatabase,
-                data: widget.data,
+              flexibleSpace: RoutineFlexibleSpaceBar(
+                imageTag: widget.tag,
                 model: widget.model,
+                data: widget.data,
               ),
-            ],
+              actions: _sliverActions(),
+            ),
+            child: Text(
+              widget.model.title(widget.data),
+              style: TextStyles.subtitle2,
+            ),
           ),
-        ),
-      ],
+          RoutineSliverToBoxAdapter(data: widget.data),
+          RoutineStickyHeaderAndBody(
+            authAndDatabase: widget.authAndDatabase,
+            data: widget.data,
+            model: widget.model,
+          ),
+        ],
+      ),
     );
   }
 

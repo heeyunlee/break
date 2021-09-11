@@ -33,7 +33,7 @@ class HomeScreenModel with ChangeNotifier {
     database = container.read(databaseProvider(auth!.currentUser?.uid));
   }
 
-  TabItem _currentTab = TabItem.progress;
+  TabItem _currentTab = TabItem.move;
   int _currentTabIndex = 0;
   bool _isFirstStartup = true;
 
@@ -87,7 +87,7 @@ class HomeScreenModel with ChangeNotifier {
 
     _currentTabIndex = index;
 
-    if (tabItem != TabItem.settings) {
+    if (tabItem != TabItem.empty) {
       final NavigatorState state = tabNavigatorKeys[tabItem]!.currentState!;
 
       if (tabItem == _currentTab) {
@@ -268,9 +268,9 @@ class HomeScreenModel with ChangeNotifier {
   // }
 
   static final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
-    TabItem.progress: GlobalKey<NavigatorState>(),
-    TabItem.search: GlobalKey<NavigatorState>(),
-    TabItem.watch: GlobalKey<NavigatorState>(),
+    TabItem.move: GlobalKey<NavigatorState>(),
+    TabItem.eat: GlobalKey<NavigatorState>(),
+    TabItem.expore: GlobalKey<NavigatorState>(),
     TabItem.library: GlobalKey<NavigatorState>(),
   };
 

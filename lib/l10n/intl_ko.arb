@@ -446,5 +446,18 @@
     "workoutsInThisVideo": "이 동영상 속 운동",
     "burnt": "소모",
     "couldNotLaunch": "링크를 여는데 오류가 생겼습니다: {url}",
-    "deleteLowercase": "삭제"
+    "deleteLowercase": "삭제",
+    "workoutWithYoutube": "유튜브 동영상으로 운동",
+    "seeMore": "더 보기",
+    "eatAllCap": "먹자",
+    "eatTabSubtitle": "먹는 것도 운동이니까",
+    "explore": "둘러보기",
+    "recentTransactions": "최근 거래들",
+    "eat": "영양",
+    "move": "활동",
+    "connectBankAcocunts": "은행 계좌를 \n연결하세요",
+    "connectBankAcocuntsSubtitle": "게좌 거래 내역을 통해 자동으로 \n영양소 데이터를 계산해 줍니다!",
+    "manual": "직접입력",
+    "modify": "수정",
+    "accept": "확인"
 }

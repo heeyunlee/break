@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/services/algolia_manager.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/screens/watch_tab.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import 'library/workout_detail_screen.dart';
+import 'workouts_by_category_scree.dart';
 
-class SearchTab extends StatefulWidget {
-  const SearchTab({Key? key}) : super(key: key);
+class ExploreTab extends StatefulWidget {
+  const ExploreTab({Key? key}) : super(key: key);
 
   @override
-  _SearchTabState createState() => _SearchTabState();
+  _ExploreTabState createState() => _ExploreTabState();
 }
 
-class _SearchTabState extends State<SearchTab> {
+class _ExploreTabState extends State<ExploreTab> {
   final locale = Intl.getCurrentLocale();
 
   late FloatingSearchBarController _controller;
@@ -60,7 +65,7 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[SearchTab] building...');
+    logger.d('[ExploreTab] building...');
 
     final size = MediaQuery.of(context).size;
 
@@ -117,7 +122,6 @@ class _SearchTabState extends State<SearchTab> {
         onQueryChanged: onQueryChanged,
         onSubmitted: onQueryChanged,
         body: FloatingSearchBarScrollNotifier(child: _buildBody()),
-        // body: FloatingSearchBarScrollNotifier(child: SearchTabBodyWidget()),
         builder: (context, transition) => (searchResults.isEmpty)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -175,37 +179,79 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   Widget _buildBody() {
+    final database = Provider.of<Database>(context, listen: false);
+    final size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(height: 96),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              S.current.byMuscleGroup,
-              style: TextStyles.body1W900Menlo,
-            ),
+          Row(
+            children: [
+              const SizedBox(width: 24),
+              Text(
+                S.current.workouts,
+                style: TextStyles.body1W800,
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () => WorkoutsByCategoryScreen.show(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    S.current.seeMore,
+                    style: TextStyles.button1,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
           ),
-          const MainMuscleGroupGridWidget(),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              S.current.byEquipment,
-              style: TextStyles.body1W900Menlo,
-            ),
+          const WorkoutsByCategoryCard(),
+          const SizedBox(height: 40),
+          Row(
+            children: [
+              const SizedBox(width: 24),
+              Text(
+                S.current.workoutWithYoutube,
+                style: TextStyles.body1W800,
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () => WatchTab.show(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    S.current.seeMore,
+                    style: TextStyles.button1,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+            ],
           ),
-          const EquipmentRequiredGridWidget(),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              S.current.byLocation,
-              style: TextStyles.body1W900Menlo,
-            ),
+          CustomStreamBuilder<List<YoutubeVideo>>(
+            stream: database.youtubeVideosStream(),
+            builder: (context, videos) {
+              return SizedBox(
+                height: 280,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: videos.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return YoutubeVideoCard(
+                      height: 200,
+                      width: size.width - 80,
+                      heroTag: videos[index].youtubeVideoId,
+                      youtubeVideo: videos[index],
+                    );
+                  },
+                ),
+              );
+            },
           ),
-          const LocationGridWidget(),
           const SizedBox(height: 160),
         ],
       ),

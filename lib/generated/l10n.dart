@@ -4529,6 +4529,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Workout With YouTube`
+  String get workoutWithYoutube {
+    return Intl.message(
+      'Workout With YouTube',
+      name: 'workoutWithYoutube',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See More`
+  String get seeMore {
+    return Intl.message(
+      'See More',
+      name: 'seeMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `EAT`
+  String get eatAllCap {
+    return Intl.message(
+      'EAT',
+      name: 'eatAllCap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `And Keeps Taps On \nYour Health`
+  String get eatTabSubtitle {
+    return Intl.message(
+      'And Keeps Taps On \nYour Health',
+      name: 'eatTabSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore`
+  String get explore {
+    return Intl.message(
+      'Explore',
+      name: 'explore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent Transactions`
+  String get recentTransactions {
+    return Intl.message(
+      'Recent Transactions',
+      name: 'recentTransactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eat`
+  String get eat {
+    return Intl.message(
+      'Eat',
+      name: 'eat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move`
+  String get move {
+    return Intl.message(
+      'Move',
+      name: 'move',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect \nBank Accounts`
+  String get connectBankAcocunts {
+    return Intl.message(
+      'Connect \nBank Accounts',
+      name: 'connectBankAcocunts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will automatically calculate nutritions \ndata based on your transactions`
+  String get connectBankAcocuntsSubtitle {
+    return Intl.message(
+      'We will automatically calculate nutritions \ndata based on your transactions',
+      name: 'connectBankAcocuntsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manual`
+  String get manual {
+    return Intl.message(
+      'Manual',
+      name: 'manual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modify`
+  String get modify {
+    return Intl.message(
+      'Modify',
+      name: 'modify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept`
+  String get accept {
+    return Intl.message(
+      'Accept',
+      name: 'accept',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

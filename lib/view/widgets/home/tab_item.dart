@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-// enum TabItem { progress, search, library, settings }
-enum TabItem { progress, search, settings, watch, library }
+enum TabItem { move, eat, empty, expore, library }
 
 class TabItemData {
   final String label;
@@ -20,27 +19,25 @@ class TabItemData {
   });
 
   static Map<TabItem, TabItemData> allTabs = {
-    TabItem.progress: TabItemData(
-      label: S.current.progress,
-      selectedIcon: Icons.equalizer_rounded,
+    TabItem.move: TabItemData(
+      label: S.current.move,
+      selectedIcon: Icons.local_fire_department_outlined,
       size: 24,
     ),
-    TabItem.search: TabItemData(
-      label: S.current.search,
-      selectedIcon: Icons.search_rounded,
+    TabItem.eat: TabItemData(
+      label: S.current.eat,
+      selectedIcon: Icons.set_meal_rounded,
       size: 24,
-      // rightPadding: 32,
     ),
-    TabItem.settings: TabItemData(
-      label: S.current.settingsScreenTitle,
+    TabItem.empty: const TabItemData(
+      label: '',
       selectedIcon: null,
       size: 24,
     ),
-    TabItem.watch: const TabItemData(
-      label: 'Watch',
-      selectedIcon: Icons.smart_display_rounded,
+    TabItem.expore: TabItemData(
+      label: S.current.explore,
+      selectedIcon: Icons.explore_rounded,
       size: 24,
-      // leftPadding: 32,
     ),
     TabItem.library: TabItemData(
       label: S.current.library,

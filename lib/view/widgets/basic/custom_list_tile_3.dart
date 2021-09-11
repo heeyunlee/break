@@ -51,8 +51,6 @@ class CustomListTile3 extends StatelessWidget {
                 child: _buildLeadingWidget(),
               ),
               const SizedBox(width: 16),
-
-              // TODO: check if this works
               Expanded(
                 child: SizedBox(
                   child: Column(
