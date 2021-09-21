@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
@@ -19,7 +18,6 @@ class SignInLogoWidget extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: model.isLoading ? _loadingWidget() : _logoWidget(),
         ),
@@ -39,13 +37,16 @@ class SignInLogoWidget extends StatelessWidget {
     return [
       Hero(
         tag: 'logo',
-        child: SvgPicture.asset(
-          'assets/svgs/herakles_icon.svg',
+        child: Image.asset(
+          'assets/logos/break_icon.png',
           width: 72,
         ),
       ),
       const SizedBox(height: 40),
-      const Text('Herakles: Workout Player', style: TextStyles.subtitle1Menlo),
+      const Text(
+        'break your fitness goals',
+        style: TextStyles.subtitle1Menlo,
+      ),
     ];
   }
 }

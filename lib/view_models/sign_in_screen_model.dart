@@ -74,12 +74,11 @@ class SignInScreenModel extends ChangeNotifier {
         final deviceInfo = await _getDeviceInfo();
         final uniqueId = UniqueKey().toString();
 
-        String? displayName = firebaseUser.displayName ?? 'Herakles $uniqueId';
+        String? displayName = firebaseUser.displayName ?? uniqueId;
         String? email = firebaseUser.email;
 
         if (firebaseUser.providerData.isNotEmpty) {
-          displayName =
-              firebaseUser.providerData[0].displayName ?? 'Herakles $uniqueId';
+          displayName = firebaseUser.providerData[0].displayName ?? uniqueId;
           email = firebaseUser.providerData[0].email;
         }
 
@@ -143,7 +142,7 @@ class SignInScreenModel extends ChangeNotifier {
         final uniqueId = UniqueKey().toString();
         final displayName = firebaseUser.providerData[0].displayName ??
             firebaseUser.displayName ??
-            'Herakles $uniqueId';
+            uniqueId;
         final email = firebaseUser.providerData[0].email ?? firebaseUser.email;
         final unitOfMassEnum =
             (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
@@ -206,7 +205,7 @@ class SignInScreenModel extends ChangeNotifier {
         final uniqueId = UniqueKey().toString();
         final displayName = firebaseUser.providerData[0].displayName ??
             firebaseUser.displayName ??
-            'Herakles $uniqueId';
+            uniqueId;
         final email = firebaseUser.providerData[0].email ?? firebaseUser.email;
         final unitOfEnum =
             (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
@@ -266,18 +265,17 @@ class SignInScreenModel extends ChangeNotifier {
       if (user == null) {
         final deviceInfo = await _getDeviceInfo();
         final uniqueId = UniqueKey().toString();
-        final id = 'Herakles $uniqueId';
         final unitOfEnum =
             (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
         final username = firebaseUser.providerData[0].displayName ??
             firebaseUser.displayName ??
-            id;
+            uniqueId;
 
         final userData = User(
           userId: firebaseUser.uid,
           displayName: firebaseUser.providerData[0].displayName ??
               firebaseUser.displayName ??
-              id,
+              uniqueId,
           userName: username,
           userEmail: firebaseUser.providerData[0].email ?? firebaseUser.email,
           signUpDate: now,
@@ -334,8 +332,8 @@ class SignInScreenModel extends ChangeNotifier {
 
         final userData = User(
           userId: firebaseUser.uid,
-          userName: firebaseUser.displayName ?? 'Herakles $uniqueId',
-          displayName: firebaseUser.displayName ?? 'Herakles $uniqueId',
+          userName: firebaseUser.displayName ?? uniqueId,
+          displayName: firebaseUser.displayName ?? uniqueId,
           userEmail: firebaseUser.email,
           signUpDate: now,
           signUpProvider: 'kakao',
@@ -368,48 +366,6 @@ class SignInScreenModel extends ChangeNotifier {
     }
     setIsLoading(value: false);
   }
-
-  // /// Return Base user data
-  // Future<User> _fetchBaseUserData() async {
-  //   final firebaseUser = auth!.currentUser!;
-
-  //   final deviceInfo = await _getDeviceInfo();
-  //   final uniqueId = UniqueKey().toString();
-
-  //   String? displayName = firebaseUser.displayName ?? 'Herakles $uniqueId';
-  //   String? email = firebaseUser.email;
-
-  //   if (firebaseUser.providerData.isNotEmpty) {
-  //     displayName =
-  //         firebaseUser.providerData[0].displayName ?? 'Herakles $uniqueId';
-  //     email = firebaseUser.providerData[0].email;
-  //   }
-
-  //   final unitOfMassEnum =
-  //       (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds;
-
-  //   final user = User(
-  //     userId: firebaseUser.uid,
-  //     userName: displayName,
-  //     displayName: displayName,
-  //     userEmail: email,
-  //     signUpDate: now,
-  //     signUpProvider: '',
-  //     savedWorkouts: [],
-  //     savedRoutines: [],
-  //     totalWeights: 0,
-  //     totalNumberOfWorkouts: 0,
-  //     lastLoginDate: now,
-  //     backgroundImageIndex: randomNumber,
-  //     unitOfMassEnum: unitOfMassEnum,
-  //     deviceInfo: deviceInfo,
-  //     lastAppOpenedTime: now,
-  //     creationTime: firebaseUser.metadata.creationTime,
-  //     profileUrl: firebaseUser.photoURL,
-  //   );
-
-  //   return user;
-  // }
 
   Future<void> _updateUserData(BuildContext context, User user) async {
     final firebaseUser = auth!.currentUser!;

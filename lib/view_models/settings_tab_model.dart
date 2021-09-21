@@ -71,8 +71,11 @@ class SettingsTabModel with ChangeNotifier {
       applicationVersion: 'v.0.3.6',
       applicationIcon: Container(
         decoration: const BoxDecoration(color: kBackgroundColor),
-        child: Image.asset('assets/logos/herakles_icon.png',
-            width: 36, height: 36),
+        child: Image.asset(
+          'assets/logos/break_icon.png',
+          width: 36,
+          height: 36,
+        ),
       ),
     );
   }

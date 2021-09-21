@@ -53,8 +53,7 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
     // Create list of 7 days
     _dates = List<DateTime>.generate(7, (index) {
       return DateTime.utc(now.year, now.month, now.day - index);
-    });
-    _dates = _dates.reversed.toList();
+    }).reversed.toList();
 
     // Create list of 7 days of the week
     _daysOfTheWeek = List<String>.generate(

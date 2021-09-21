@@ -4,6 +4,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/screens/nutritions_detail_screen.dart';
 import 'package:workout_player/view_models/eats_tab_model.dart';
 
 class NutritionsListTile extends StatelessWidget {
@@ -17,7 +18,7 @@ class NutritionsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => NutritionsDetailScreen.show(context, nutrition: nutrition),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: IntrinsicHeight(

@@ -393,6 +393,14 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
+  static const body2White54W900 = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: Colors.white54,
+    letterSpacing: 0.25,
+    fontFamily: defaultFontFamily,
+  );
+
   static const body2Black = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

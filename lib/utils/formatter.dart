@@ -195,7 +195,7 @@ class Formatter {
     } else if (unitOfMassInt != null) {
       return UnitOfMass.values[unitOfMassInt].gram!;
     } else {
-      return 'unit';
+      return 'g';
     }
   }
 

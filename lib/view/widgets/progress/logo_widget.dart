@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class LogoWidget extends StatelessWidget {
@@ -21,12 +20,12 @@ class LogoWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/svgs/herakles_icon.svg',
+            Image.asset(
+              'assets/logos/break_icon.png',
               width: 32,
             ),
             const SizedBox(height: 24),
-            const Text('Herakles', style: TextStyles.body1Menlo),
+            const Text('break', style: TextStyles.body1Menlo),
           ],
         ),
       ),

@@ -1,10 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/main_model.dart';
+
+final eatsTabModelProvider = ChangeNotifierProvider(
+  (ref) => EatsTabModel(),
+);
 
 class EatsTabModel with ChangeNotifier {
   // VIEW MODELS
@@ -12,12 +17,6 @@ class EatsTabModel with ChangeNotifier {
   static String todaysTotalCalories(EatsTabClass data) {
     final now = DateTime.now();
     final today = DateTime.utc(now.year, now.month, now.day);
-
-    logger.d('today is $today');
-
-    data.thisWeeksNutritions.forEach((element) {
-      logger.d(element.loggedDate);
-    });
 
     final todaysData = data.thisWeeksNutritions.where(
       (element) => element.loggedDate == today,

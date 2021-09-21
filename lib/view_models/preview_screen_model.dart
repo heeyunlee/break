@@ -11,13 +11,17 @@ final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
 );
 
 class PreviewScreenModel extends ChangeNotifier {
+  int _currentPage = 0;
   int _currentWidgetIndex = 0;
   Timer? _timer;
   Widget _currentWidget = const ActivityRingSampleWidget();
+  PageController _pageController = PageController();
 
+  int get currentPage => _currentPage;
   int get currentWidgetIndex => _currentWidgetIndex;
   Timer? get timer => _timer;
   Widget get currentWidget => _currentWidget;
+  PageController get pageController => _pageController;
 
   void _setCurrentWdigetIndex() {
     logger.d('_setCurrentWdigetIndex called on PreviewScreen');

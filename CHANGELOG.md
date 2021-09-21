@@ -1,6 +1,6 @@
 # Change Log
 
-Hi, below is all the changes from my project, Herakles, after version 0.3.0.
+Hi, below is all the changes from my project, ~~Herakles~~ break, after version 0.3.0.
 
 ## Unreleased (0.3.6)
 ### New Features
@@ -15,6 +15,7 @@ Hi, below is all the changes from my project, Herakles, after version 0.3.0.
   - Provider from 5.0.0 to 6.0.0
   - kakao_flutter_sdk from 0.6.3 to 0.8.1
 - Added label to [BottomNavigationBar]
+- Changed the name of the app to break from Herakles
 
 ## [0.3.5] - September 4th, 2021
 ### New Features

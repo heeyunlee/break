@@ -195,6 +195,7 @@ class AddNutritionScreenModel with ChangeNotifier {
             fat: num.tryParse(_fatController.text),
             description: _descriptionController.text,
             isCreditCardTransaction: false,
+            unitOfMass: user.unitOfMassEnum,
           );
 
           // Call Firebase

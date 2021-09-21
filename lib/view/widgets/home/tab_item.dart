@@ -26,7 +26,7 @@ class TabItemData {
     ),
     TabItem.eat: TabItemData(
       label: S.current.eat,
-      selectedIcon: Icons.set_meal_rounded,
+      selectedIcon: Icons.restaurant_rounded,
       size: 24,
     ),
     TabItem.empty: const TabItemData(

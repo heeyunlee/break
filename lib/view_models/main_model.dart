@@ -11,12 +11,12 @@ PrefixPrinter prefixPrinter = PrefixPrinter(
     lineLength: 100, // width of the output
     printTime: true, // Should each log print contain a timestamp
   ),
-  debug: '[Herakles][D]',
-  info: '[Herakles][I]',
-  error: '[Herakles][E]',
-  warning: '[Herakles][W]',
-  verbose: '[Hereakles][V]',
-  wtf: '[Hereakles][WTF]',
+  debug: '[break][D]',
+  info: '[break][I]',
+  error: '[break][E]',
+  warning: '[break][W]',
+  verbose: '[break][V]',
+  wtf: '[break][WTF]',
 );
 
 Logger logger = Logger(

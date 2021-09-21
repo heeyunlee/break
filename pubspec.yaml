@@ -1,5 +1,5 @@
 name: workout_player
-description: Herakles - Workout Player
+description: break - break your fitness goals
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -88,8 +88,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path_ios: "assets/logos/herakles_icon.png"
-  image_path_android: "assets/logos/herakles_icon.png"
+  image_path_ios: "assets/logos/break_icon.png"
+  image_path_android: "assets/logos/break_icon.png"
   andriod: true
   ios: true
   remove_alpha_ios: true

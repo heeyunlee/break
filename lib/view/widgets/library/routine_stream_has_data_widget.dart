@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/generated/l10n.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/library/edit_routine_screen.dart';
+import 'package:workout_player/view/widgets/modal_sheets/show_custom_modal_bottom_sheet.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 import '../widgets.dart';
@@ -107,6 +110,7 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
 
   List<Widget> _sliverActions() {
     final routine = widget.data.routine ?? routineDummyData;
+    final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     final isRoutineSaved =
         widget.data.user!.savedRoutines?.contains(routine.routineId) ?? false;
@@ -133,7 +137,16 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
           ),
         ),
       IconButton(
-        onPressed: () => widget.model.showBottomSheet(context, routine),
+        onPressed: () => showCustomModalBottomSheet(
+          homeContext,
+          title: routine.routineTitle,
+          firstTileTitle: S.current.deleteLowercase,
+          firstTileIcon: Icons.delete_outline_rounded,
+          firstTileOnTap: () => widget.model.delete(
+            context,
+            routine: routine,
+          ),
+        ),
         icon: const Icon(Icons.more_horiz_rounded),
       ),
       const SizedBox(width: 8),

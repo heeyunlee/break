@@ -119,19 +119,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool?> showBottomSheet(BuildContext currentContext, Routine routine) {
-    final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
-
-    return showModalBottomSheet<bool>(
-      context: homeContext,
-      isDismissible: true,
-      builder: (context) => RoutineBottomSheet(
-        routine: routine,
-        onTap: () => delete(currentContext, routine: routine),
-      ),
-    );
-  }
-
   Future<void> delete(
     BuildContext context, {
     required Routine routine,

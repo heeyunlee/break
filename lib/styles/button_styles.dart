@@ -76,6 +76,16 @@ class ButtonStyles {
     ),
   );
 
+  static final elevatedStadium = ElevatedButton.styleFrom(
+    primary: kPrimaryColor,
+    shape: const StadiumBorder(),
+  );
+
+  static final elevatedStadiumGrey = ElevatedButton.styleFrom(
+    primary: Colors.grey,
+    shape: const StadiumBorder(),
+  );
+
   static final elevatedFullWidth = ElevatedButton.styleFrom(
     primary: kPrimaryColor,
     minimumSize: const Size(double.maxFinite, 48),

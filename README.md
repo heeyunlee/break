@@ -2,14 +2,14 @@
   <a name="logo"><img src="https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/Icons%2Fherakles_icon.svg?alt=media&token=7a7edfab-cb91-4eaf-a98a-6c1c9002ea84" alt="Herakles" width="120"></a>
   <br>
   <br>
-  Herakles: Workout Player
+  break: break your fitness goals
   <br>
   <br>
 
   [![Get it from App Store](https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/README.md%2FDownload_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg?alt=media&token=8681ed8f-b1c5-417a-bb4b-338009480c2d)](https://apps.apple.com/us/app/herakles-workout-player/id1555829140) [![Get it on Google Play](https://lisk.io/sites/default/files/pictures/2020-01/download_on_the_play_store_badge.svg)](https://play.google.com/store/apps/details?id=com.healtine.playerh)
 </h1>
 
-Herakles is a health & fitness tracking app built with Dart (Flutter) and Firebase. From logging nutritions to working out with YouTube videos, I have been learning and adding many cool features over the months, and here are some quick snippets.
+brbreakeakaway is a health & fitness tracking app built with Dart (Flutter) and Firebase. From logging nutritions to working out with YouTube videos, I have been learning and adding many cool features over the months, and here are some quick snippets.
 
 <p align="left">
     <img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="160"/>

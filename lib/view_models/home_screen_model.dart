@@ -36,10 +36,14 @@ class HomeScreenModel with ChangeNotifier {
   TabItem _currentTab = TabItem.move;
   int _currentTabIndex = 0;
   bool _isFirstStartup = true;
+  late List<DateTime> _thisWeek;
+  late List<String> _daysOfTheWeek;
 
   TabItem get currentTab => _currentTab;
   int get currentTabIndex => _currentTabIndex;
   bool get isFirstStartup => _isFirstStartup;
+  List<DateTime> get thisWeek => _thisWeek;
+  List<String> get daysOfTheWeek => _daysOfTheWeek;
 
   Future<void> setMiniplayerHeight() async {
     logger.d('`setMiniplayerHeight()` function called in [HomeScreen]');
@@ -107,11 +111,6 @@ class HomeScreenModel with ChangeNotifier {
   Future<void> updateUser(BuildContext context) async {
     logger.d('[HomeScreenModel] `updateUser()` function called');
 
-    // database = provider.Provider.of<Database>(context, listen: false);
-    // auth = provider.Provider.of<AuthBase>(context, listen: false);
-
-    // final user = await database!.getUserDocument(auth!.currentUser!.uid);
-
     try {
       final user = await database!.getUserDocument(auth!.currentUser!.uid);
 
@@ -123,117 +122,11 @@ class HomeScreenModel with ChangeNotifier {
         };
 
         await database!.updateUser(auth!.currentUser!.uid, userData);
-
-        // await fetchData(user!, context);
-
-        // final now2 = Timestamp.now().toDate();
-        // final diff = now.toDate().difference(now2);
-        // print('execution time is $diff');
       }
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
   }
-
-  // Future<void> fetchData(User user, BuildContext context) async {
-  //   logger.d('fetching health data function called');
-
-  //   // final database = provider.Provider.of<Database>(context, listen: false);
-  //   // final auth = provider.Provider.of<AuthBase>(context, listen: false);
-  //   final uid = auth!.currentUser!.uid;
-
-  //   HealthFactory health = HealthFactory();
-
-  //   /// Define the types to get.
-  //   /// For now, we'll only fetch steps data
-  //   List<HealthDataType> types = [
-  //     // HealthDataType.WEIGHT,
-  //     // HealthDataType.BODY_FAT_PERCENTAGE,
-  //     // HealthDataType.BODY_MASS_INDEX,
-  //     // HealthDataType.ACTIVE_ENERGY_BURNED,
-  //     // HealthDataType.BASAL_ENERGY_BURNED,
-  //     // HealthDataType.DISTANCE_WALKING_RUNNING,
-  //     HealthDataType.STEPS,
-  //     // HealthDataType.MOVE_MINUTES,
-  //     // HealthDataType.DISTANCE_DELTA,
-  //   ];
-
-  //   /// You MUST request access to the data types before reading them
-  //   bool accessWasGranted = await health.requestAuthorization(types);
-
-  //   if (accessWasGranted) {
-  //     try {
-  //       // Get steps data that are already on firestores
-  //       final stepsDataFromFirestore = await database!.getSteps(uid);
-
-  //       final endDate = DateTime.now();
-  //       final startDate = stepsDataFromFirestore?.lastUpdateTime.toDate() ??
-  //           endDate.subtract(Duration(days: 7));
-  //       print('startdate is $startDate');
-
-  //       /// Fetch new data
-  //       List<HealthDataPoint> rawHealthData =
-  //           await health.getHealthDataFromTypes(startDate, endDate, types);
-
-  //       /// Clean Data
-  //       rawHealthData = HealthFactory.removeDuplicates(rawHealthData);
-
-  //       logger.d('fecthed health data length: ${rawHealthData.length}');
-
-  //       if (rawHealthData.isNotEmpty) {
-  //         /// Group data by HealthDataType
-  //         final Map<HealthDataType, List<HealthDataPoint>> groupedMap =
-  //             rawHealthData.groupListsBy<HealthDataType>(
-  //           (element) => element.type,
-  //         );
-
-  //         /// Convert fetched data to custom CustomHealthDataPoint data
-  //         /// so that we can convert and write to firestore
-  //         final stepsData = groupedMap[HealthDataType.STEPS]
-  //             ?.map((point) => CustomHealthDataPoint.fromRawData(point))
-  //             .toList();
-
-  //         if (stepsData != null) {
-  //           if (stepsData.isNotEmpty) {
-  //             print('steps data length is: ${stepsData.length}');
-
-  //             if (stepsDataFromFirestore != null) {
-  //               final stepsDataAsMap =
-  //                   stepsData.map((e) => e.toJson()).toList();
-  //               final updatedStepsData = {
-  //                 'healthDataPoints': FieldValue.arrayUnion(stepsDataAsMap),
-  //                 'lastUpdateTime': Timestamp.now(),
-  //               };
-
-  //               await database!.updateSteps(uid, updatedStepsData);
-
-  //               print('updated');
-  //             } else {
-  //               final step = Steps(
-  //                 healthDataPoints: stepsData,
-  //                 lastUpdateTime: Timestamp.now(),
-  //                 ownerId: user.userId,
-  //               );
-
-  //               await database!.setSetps(step);
-  //               print('created');
-  //             }
-  //           } else {
-  //             print('stepsData is empty');
-  //           }
-  //         } else {
-  //           print('stepsData is null');
-  //         }
-  //       } else {
-  //         print('rawHealthData is empty');
-  //       }
-  //     } on FirebaseException catch (e) {
-  //       _showErrorDialog(e, context);
-  //     }
-  //   } else {
-  //     logger.d('Authorization not granted');
-  //   }
-  // }
 
   void toggleIsFirstStartup() {
     _isFirstStartup = !_isFirstStartup;
@@ -256,17 +149,6 @@ class HomeScreenModel with ChangeNotifier {
     currentState?.popUntil((route) => route.isFirst);
   }
 
-  // Future<void> showPermission() async {
-  //   final request = Permission.activityRecognition.request();
-
-  //   if (await request.isDenied || await request.isPermanentlyDenied) {
-  //     getSnackbarWidget(
-  //       'title',
-  //       'Permission is needed',
-  //     );
-  //   }
-  // }
-
   static final Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
     TabItem.move: GlobalKey<NavigatorState>(),
     TabItem.eat: GlobalKey<NavigatorState>(),
@@ -274,11 +156,9 @@ class HomeScreenModel with ChangeNotifier {
     TabItem.library: GlobalKey<NavigatorState>(),
   };
 
-  // Home Screen Navigator Key
   static final GlobalKey<NavigatorState> homeScreenNavigatorKey =
       GlobalKey<NavigatorState>();
 
-  // Miniplayer navigator key
   static final GlobalKey<NavigatorState> miniplayerNavigatorKey =
       GlobalKey<NavigatorState>();
 }

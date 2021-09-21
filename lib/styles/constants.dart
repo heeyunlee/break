@@ -47,6 +47,11 @@ const kCustomDivider = Divider(
   height: 48,
 );
 
+const kWhiteDivider = Divider(
+  color: Colors.white,
+  height: 48,
+);
+
 const kCustomDividerIndent16 = Divider(
   color: kGrey700,
   indent: 16,

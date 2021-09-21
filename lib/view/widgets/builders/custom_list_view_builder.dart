@@ -12,7 +12,8 @@ class CustomListViewBuilder<T> extends StatelessWidget {
     this.emptyContentButton,
     this.emptyContentWidget,
     this.scrollController,
-    this.scrollDirection = Axis.vertical,
+    this.header = const SizedBox.shrink(),
+    this.footer = const SizedBox.shrink(),
   }) : super(key: key);
 
   final List<T> items;
@@ -21,7 +22,8 @@ class CustomListViewBuilder<T> extends StatelessWidget {
   final Widget? emptyContentButton;
   final Widget? emptyContentWidget;
   final ScrollController? scrollController;
-  final Axis? scrollDirection;
+  final Widget? header;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +39,22 @@ class CustomListViewBuilder<T> extends StatelessWidget {
   }
 
   Widget _buildList(List<T> items) {
-    return ListView.builder(
-      scrollDirection: scrollDirection!,
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: items.length,
-      itemBuilder: (context, index) => itemBuilder(
-        context,
-        items[index],
-        index,
-      ),
+    return Column(
+      children: [
+        header!,
+        ListView.builder(
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: items.length,
+          itemBuilder: (context, index) => itemBuilder(
+            context,
+            items[index],
+            index,
+          ),
+        ),
+        footer!,
+      ],
     );
   }
 }

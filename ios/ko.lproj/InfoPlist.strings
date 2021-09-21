@@ -1,7 +1,7 @@
-CFBundleName = "Herakles";
-FacebookDisplayName = "Herakles";
+CFBundleName = "break";
+FacebookDisplayName = "break";
 NSCameraUsageDescription = "카메라로 찍은 사진을 배경으로 설정하기 위해 카메라 접근 권한이 필요합니다";
 NSMicrophoneUsageDescription = "카메라로 찍은 사진을 배경으로 설정하기 위해 마이 접근 권한이 필요합니다";
 NSLocalNetworkUsageDescription = "앱 디버깅을 위해 컴퓨터와 연결할 수 있는 권한이 필요합니다";
-NSHealthShareUsageDescription = "Herakles에서 내 활동을 추적하고 운동 측정항목을 계산하기 위해 건강 데이터에 액세스하려고 합니다"
-NSHealthUpdateUsageDescription = "Herakles에서 내 활동을 추적하고 운동 측정항목을 계산하기 위해 건강 데이터에 액세스하려고 합니다"
+NSHealthShareUsageDescription = "break에서 내 활동을 추적하고 운동 측정항목을 계산하기 위해 건강 데이터에 액세스하려고 합니다"
+NSHealthUpdateUsageDescription = "break에서 내 활동을 추적하고 운동 측정항목을 계산하기 위해 건강 데이터에 액세스하려고 합니다"
