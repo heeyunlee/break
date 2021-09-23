@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -69,13 +69,10 @@ class SettingsTabModel with ChangeNotifier {
       context: context,
       applicationName: S.current.applicationName,
       applicationVersion: 'v.0.3.6',
-      applicationIcon: Container(
-        decoration: const BoxDecoration(color: kBackgroundColor),
-        child: Image.asset(
-          'assets/logos/break_icon.png',
-          width: 36,
-          height: 36,
-        ),
+      applicationIcon: SvgPicture.asset(
+        'assets/svgs/break_logo.svg',
+        width: 36,
+        height: 36,
       ),
     );
   }

@@ -83,18 +83,13 @@ class NutritionsListTile extends StatelessWidget {
                       ],
                     ),
                   if (!(nutrition.isCreditCardTransaction ?? false))
-                    Container(
-                      width: 72,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Center(
-                        child: Text(
-                          S.current.manual,
-                          style: TextStyles.button2,
-                        ),
+                    Chip(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      labelStyle: TextStyles.button2,
+                      backgroundColor: Colors.black54,
+                      label: Text(
+                        S.current.manual,
+                        style: TextStyles.button2,
                       ),
                     ),
                 ],

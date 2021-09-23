@@ -1,5 +1,5 @@
 name: workout_player
-description: break - break your fitness goals
+description: Break - Break Your Fitness Goals
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -48,7 +48,7 @@ dependencies:
   # Authentication
   google_sign_in: ^5.1.0
   flutter_facebook_auth: ^3.5.1
-  sign_in_with_apple: ^3.0.0 # no web
+  sign_in_with_apple: ^3.1.0 # no web
   kakao_flutter_sdk: ^0.8.1
 
   # State Management
@@ -88,8 +88,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path_ios: "assets/logos/break_icon.png"
-  image_path_android: "assets/logos/break_icon.png"
+  image_path_ios: "assets/logos/break_logo.png"
+  image_path_android: "assets/logos/break_logo.png"
   andriod: true
   ios: true
   remove_alpha_ios: true

@@ -5,7 +5,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - cloud_firestore (2.5.2):
+  - cloud_firestore (2.5.3):
     - Firebase/Firestore (= 8.6.0)
     - firebase_core
     - Flutter
@@ -346,7 +346,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  cloud_firestore: 8a2843c34901ea2bc6aafcaa1c452f5b4f1ade37
+  cloud_firestore: bb4fcf1d62a2bf48586fad7a7e9612f20a719cda
   cloud_functions: eb40a5d5eed6baa51d163b7d0b06d2679ba4aac6
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
@@ -388,12 +388,12 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  sign_in_with_apple: 34f3f5456a45fd7ac5fb42905e2ad31dae061b4a
+  shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
+  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
 
 PODFILE CHECKSUM: 75e2081e031f1f9005aa5ff7b7e266ad365d6238
 

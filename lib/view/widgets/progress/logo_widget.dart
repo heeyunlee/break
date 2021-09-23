@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class LogoWidget extends StatelessWidget {
@@ -20,8 +21,8 @@ class LogoWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/logos/break_icon.png',
+            SvgPicture.asset(
+              'assets/svgs/break_logo.svg',
               width: 32,
             ),
             const SizedBox(height: 24),

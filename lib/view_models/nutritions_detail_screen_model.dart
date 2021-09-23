@@ -6,6 +6,9 @@ import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class NutritionsDetailScreenModel with ChangeNotifier {
+  void delete(BuildContext context) {}
+
+  /// VIEW MODEL
   static String title(Nutrition nutrition) {
     if (nutrition.description != null) {
       if (nutrition.description!.isNotEmpty) {

@@ -5,6 +5,7 @@ import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/screens/more_nutritions_entries_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class EatsTabBodyWidget extends StatelessWidget {
@@ -42,7 +43,7 @@ class EatsTabBodyWidget extends StatelessWidget {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: () {},
+                        onTap: () => MoreNutritionsEntriesScreen.show(context),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
@@ -37,14 +38,14 @@ class SignInLogoWidget extends StatelessWidget {
     return [
       Hero(
         tag: 'logo',
-        child: Image.asset(
-          'assets/logos/break_icon.png',
-          width: 72,
+        child: SvgPicture.asset(
+          'assets/svgs/break_logo.svg',
+          width: 48,
         ),
       ),
       const SizedBox(height: 40),
       const Text(
-        'break your fitness goals',
+        'Break Your Fitness Goals',
         style: TextStyles.subtitle1Menlo,
       ),
     ];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/view/widgets/preview/blurred_background_preview_widget.dart';
@@ -29,8 +30,10 @@ class PreviewScreen extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  // PreviewLogoWidget(),
-                  ProgressTabWidgetsPreviews(),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: ProgressTabWidgetsPreviews(),
+                  ),
                   Text(
                     'Widgets',
                     style: TextStyles.body2,
@@ -54,6 +57,8 @@ class PreviewScreen extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const PreviewLogoWidget(),
+              const Spacer(),
               SmoothPageIndicator(
                 controller: a,
                 count: 3,

@@ -109,10 +109,16 @@
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "Icon.png",
+      "filename" : "break_logo.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
+    },
+    {
+      "filename" : "Icon@1x.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512"
     }
   ],
   "info" : {

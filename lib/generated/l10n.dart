@@ -400,10 +400,10 @@ class S {
     );
   }
 
-  /// `break`
+  /// `Break`
   String get applicationName {
     return Intl.message(
-      'break',
+      'Break',
       name: 'applicationName',
       desc: '',
       args: [],
@@ -4050,10 +4050,10 @@ class S {
     );
   }
 
-  /// `break`
+  /// `Break`
   String get appName {
     return Intl.message(
-      'break',
+      'Break',
       name: 'appName',
       desc: '',
       args: [],

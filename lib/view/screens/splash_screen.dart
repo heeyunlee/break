@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -18,8 +19,8 @@ class SplashScreen extends StatelessWidget {
           children: [
             Hero(
               tag: 'logo',
-              child: Image.asset(
-                'assets/logos/break_icon.png',
+              child: SvgPicture.asset(
+                'assets/svgs/break_logo.svg',
                 width: 72,
               ),
             ),

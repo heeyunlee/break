@@ -70,7 +70,7 @@ class EatsTabFlexibleSpaceBar extends StatelessWidget {
               ),
               color: Colors.greenAccent,
               child: InkWell(
-                onTap: (data.user.isConnectedToPlaid ?? false)
+                onTap: (data.user.isConnectedToPlaid ?? true)
                     ? null
                     : () => ConnectBankAcocuntScreen.show(context),
                 borderRadius: BorderRadius.circular(12),
