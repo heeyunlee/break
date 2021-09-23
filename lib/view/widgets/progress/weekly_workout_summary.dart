@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
@@ -73,16 +73,14 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 height: 24,
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
                       Icons.local_fire_department_rounded,
-                      color: kPrimaryColor,
+                      color: ThemeColors.primary500,
                       size: 16,
                     ),
                     const SizedBox(width: 8),
@@ -93,7 +91,7 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                     const SizedBox(width: 8),
                     const Icon(
                       Icons.arrow_forward_ios_rounded,
-                      color: kPrimaryColor,
+                      color: ThemeColors.primary500,
                       size: 16,
                     ),
                   ],
@@ -116,7 +114,7 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                           backgroundColor:
                               (widget.model.weeklyWorkedOutMuscles[index] !=
                                       null)
-                                  ? kPrimaryColor
+                                  ? ThemeColors.primary500
                                   : Colors.transparent,
                           // maxRadius: widget.model.radiuses[index],
                           maxRadius: 16,

@@ -4,8 +4,9 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/add_measurements_model.dart';
+import 'package:workout_player/view_models/add_measurements_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -15,7 +16,7 @@ import 'package:workout_player/utils/formatter.dart';
 class AddMeasurementsScreen extends StatefulWidget {
   final User user;
   final Database database;
-  final AddMeasurementsModel model;
+  final AddMeasurementsScreenModel model;
 
   const AddMeasurementsScreen({
     Key? key,
@@ -60,7 +61,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: ThemeColors.primary500,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -70,7 +71,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
-              key: AddMeasurementsModel.formKey,
+              key: AddMeasurementsScreenModel.formKey,
               child: Column(
                 children: [
                   SizedBox(height: Scaffold.of(context).appBarMaxHeight),
@@ -82,7 +83,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   ),
                   kCustomDivider,
                   OutlinedNumberTextFieldWidget(
-                    formKey: AddMeasurementsModel.formKey,
+                    formKey: AddMeasurementsScreenModel.formKey,
                     focusNode: widget.model.focusNode1,
                     controller: widget.model.bodyweightController,
                     suffixText: unit,
@@ -91,7 +92,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   ),
                   const SizedBox(height: 16),
                   OutlinedNumberTextFieldWidget(
-                    formKey: AddMeasurementsModel.formKey,
+                    formKey: AddMeasurementsScreenModel.formKey,
                     focusNode: widget.model.focusNode2,
                     controller: widget.model.bodyFatController,
                     suffixText: '%',
@@ -99,7 +100,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   ),
                   const SizedBox(height: 16),
                   OutlinedNumberTextFieldWidget(
-                    formKey: AddMeasurementsModel.formKey,
+                    formKey: AddMeasurementsScreenModel.formKey,
                     focusNode: widget.model.focusNode3,
                     controller: widget.model.bmiController,
                     suffixText: 'kg/m²',
@@ -107,7 +108,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   ),
                   const SizedBox(height: 16),
                   OutlinedNumberTextFieldWidget(
-                    formKey: AddMeasurementsModel.formKey,
+                    formKey: AddMeasurementsScreenModel.formKey,
                     focusNode: widget.model.focusNode4,
                     controller: widget.model.smmController,
                     suffixText: unit,
@@ -116,7 +117,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
                   kCustomDivider,
                   OutlinedTextTextFieldWidget(
                     maxLines: 5,
-                    formKey: AddMeasurementsModel.formKey,
+                    formKey: AddMeasurementsScreenModel.formKey,
                     focusNode: widget.model.focusNode5,
                     controller: widget.model.notesController,
                     labelText: S.current.notes,
@@ -133,8 +134,8 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: kKeyboardDarkColor,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: widget.model.focusNodes
           .map(
             (focusNode) => KeyboardActionsItem(
@@ -163,7 +164,8 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
           widget.database,
           widget.user,
         ),
-        backgroundColor: widget.model.validate() ? kPrimaryColor : Colors.grey,
+        backgroundColor:
+            widget.model.validate() ? ThemeColors.primary500 : Colors.grey,
         heroTag: 'addProteinButton',
         label: Text(S.current.submit),
       ),

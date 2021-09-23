@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../../../../../view_models/add_nutrition_screen_model.dart';
+import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 
 class SetProteinAmountWidget extends StatelessWidget {
   final AddNutritionScreenModel model;
@@ -24,7 +23,7 @@ class SetProteinAmountWidget extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: kPrimaryGrey),
+            border: Border.all(color: ThemeColors.grey500),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Padding(
@@ -60,7 +59,7 @@ class SetProteinAmountWidget extends StatelessWidget {
           left: 12,
           top: -6,
           child: Container(
-            color: kBackgroundColor,
+            color: ThemeColors.background,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(

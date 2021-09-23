@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 import 'package:workout_player/view/widgets/library.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -128,7 +128,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: CustomStreamBuilder<Workout?>(
         stream: widget.database.workoutStream(widget.workoutId),
         builder: (context, data) {
@@ -176,7 +176,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
             child: child,
           ),
         ),
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         // floating: false,
         pinned: true,
         // snap: false,
@@ -186,11 +186,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Container(
-            color: kAppBarColor,
+            color: ThemeColors.appBar,
             child: TabBar(
               labelColor: Colors.white,
-              unselectedLabelColor: kGrey400,
-              indicatorColor: kPrimaryColor,
+              unselectedLabelColor: ThemeColors.grey400,
+              indicatorColor: ThemeColors.primary500,
               tabs: _tabs.map((e) => Tab(text: e)).toList(),
             ),
           ),
@@ -243,7 +243,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                 end: Alignment(0.0, 0.75),
                 colors: [
                   Colors.transparent,
-                  kAppBarColor,
+                  ThemeColors.appBar,
                 ],
               ),
             ),
@@ -335,7 +335,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                 const SizedBox(height: 24),
                 MaxWidthRaisedButton(
                   width: double.infinity,
-                  color: kGrey800,
+                  color: ThemeColors.grey800,
                   icon: const Icon(
                     Icons.add_rounded,
                     color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -15,7 +16,7 @@ import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart'
 
 import '../../styles/constants.dart';
 import '../../view_models/personal_goals_screen_model.dart';
-import 'templates/set_goals_screen_template.dart';
+import 'set_goals_screen_template.dart';
 
 class PersonalGoalsScreen extends StatelessWidget {
   final Database database;
@@ -48,7 +49,7 @@ class PersonalGoalsScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -108,7 +109,7 @@ class PersonalGoalsScreen extends StatelessWidget {
           model: model,
           user: user,
           fabOnPressed: model.setLiftingGoal,
-          color: kPrimaryColor,
+          color: ThemeColors.primary500,
           title: S.current.liftingGoal,
           intMinValue: 0,
           intMaxValue: 50000,
@@ -140,7 +141,8 @@ class PersonalGoalsScreen extends StatelessWidget {
           model: model,
           user: user,
           fabOnPressed: model.setWeightGoal,
-          color: kSecondaryColor,
+          color: ThemeColors.secondary,
+          // color: kSecondaryColor,
           title: S.current.weightGoal,
           intMinValue: 0,
           intMaxValue: 500,
@@ -172,7 +174,8 @@ class PersonalGoalsScreen extends StatelessWidget {
           model: model,
           user: user,
           fabOnPressed: model.setBodyFatPercentageGoal,
-          color: kSecondaryColor,
+          // color: kSecondaryColor,
+          color: ThemeColors.secondary,
           title: S.current.bodyFatGoal,
           intMinValue: 0,
           intMaxValue: 50,

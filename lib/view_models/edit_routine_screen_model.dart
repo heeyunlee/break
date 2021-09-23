@@ -6,7 +6,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -76,8 +76,8 @@ class EditRoutineScreenModel with ChangeNotifier {
     );
 
     _colorTweeen = ColorTween(
-      begin: kBackgroundColor,
-      end: kAppBarColor,
+      begin: ThemeColors.background,
+      end: ThemeColors.appBar,
     ).animate(_sliverAnimationController);
   }
 

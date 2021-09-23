@@ -6,6 +6,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -37,7 +38,7 @@ class SettingsTab extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         flexibleSpace: const AppbarBlurBG(),

@@ -2,57 +2,55 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
-class EditWorkoutLocationScreen extends StatefulWidget {
-  const EditWorkoutLocationScreen({
+class EditRoutineLocationScreen extends StatefulWidget {
+  const EditRoutineLocationScreen({
     Key? key,
-    required this.workout,
+    required this.routine,
     required this.database,
     required this.user,
   }) : super(key: key);
 
-  final Workout workout;
+  final Routine routine;
   final Database database;
   final User user;
 
   static Future<void> show(
     BuildContext context, {
     required User user,
-    required Workout workout,
+    required Routine routine,
   }) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => EditWorkoutLocationScreen(
+        builder: (context) => EditRoutineLocationScreen(
           database: database,
           user: user,
-          workout: workout,
+          routine: routine,
         ),
       ),
     );
   }
 
   @override
-  _EditWorkoutLocationScreenState createState() =>
-      _EditWorkoutLocationScreenState();
+  _EditRoutineLocationScreenState createState() =>
+      _EditRoutineLocationScreenState();
 }
 
-class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
+class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
   late String _location;
 
   @override
   void initState() {
-    _location = widget.workout.location;
+    _location = widget.routine.location;
     super.initState();
   }
 
@@ -64,17 +62,17 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
   // Submit data to Firestore
   Future<void> _updateLocation() async {
     try {
-      final workout = {
+      final routine = {
         'location': _location,
       };
-      await widget.database.updateWorkout(widget.workout, workout);
+      await widget.database.updateRoutine(widget.routine, routine);
 
       getSnackbarWidget(
         S.current.updateLocationTitle,
-        S.current.updateLocationMessage(S.current.workout),
+        S.current.updateLocationMessage(S.current.routine),
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
+      logger.d(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -86,7 +84,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -103,7 +101,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
       children: <Widget>[
         ListTile(
           tileColor: (_location == Location.atHome.toString())
-              ? kPrimary600Color
+              ? ThemeColors.primary600
               : Colors.transparent,
           title: Text(Location.atHome.translation!, style: TextStyles.body1),
           trailing: (_location == Location.atHome.toString())
@@ -118,7 +116,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.gym.toString())
-              ? kPrimary600Color
+              ? ThemeColors.primary600
               : Colors.transparent,
           title: Text(Location.gym.translation!, style: TextStyles.body1),
           trailing: (_location == Location.gym.toString())
@@ -133,7 +131,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.outdoor.toString())
-              ? kPrimary600Color
+              ? ThemeColors.primary600
               : Colors.transparent,
           title: Text(Location.outdoor.translation!, style: TextStyles.body1),
           trailing: (_location == Location.outdoor.toString())
@@ -148,7 +146,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.others.toString())
-              ? kPrimary600Color
+              ? ThemeColors.primary600
               : Colors.transparent,
           title: Text(Location.others.translation!, style: TextStyles.body1),
           trailing: (_location == Location.others.toString())

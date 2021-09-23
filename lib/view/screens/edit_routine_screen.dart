@@ -6,11 +6,11 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/styles/button_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_routine_screen_model.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
@@ -75,7 +75,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
     return NotificationListener(
       onNotification: widget.model.onNotification,
       child: Scaffold(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: ThemeColors.background,
         extendBodyBehindAppBar: true,
         extendBody: true,
         body: Form(
@@ -132,7 +132,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                kBackgroundColor,
+                                ThemeColors.background,
                               ],
                             ),
                           ),
@@ -349,8 +349,9 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
                           ),
                           const SizedBox(height: 8),
                           Slider(
-                            activeColor: kPrimaryColor,
-                            inactiveColor: kPrimaryColor.withOpacity(0.2),
+                            activeColor: ThemeColors.primary500,
+                            inactiveColor:
+                                ThemeColors.primary500.withOpacity(0.2),
                             value: widget.model.difficulty,
                             onChanged: widget.model.difficultyOnChanged,
                             max: 2,
@@ -375,7 +376,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
                         ),
                         trailing: Switch(
                           value: widget.model.isRoutinePublic,
-                          activeColor: kPrimaryColor,
+                          activeColor: ThemeColors.primary500,
                           onChanged: widget.model.isPublicOnChanged,
                         ),
                       ),
@@ -623,8 +624,8 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
         //               ),
         //               const SizedBox(height: 8),
         //               Slider(
-        //                 activeColor: kPrimaryColor,
-        //                 inactiveColor: kPrimaryColor.withOpacity(0.2),
+        //                 activeColor: ThemeColors.primary500,
+        //                 inactiveColor: ThemeColors.primary500.withOpacity(0.2),
         //                 value: widget.model.difficulty,
         //                 onChanged: widget.model.difficultyOnChanged,
         //                 max: 2,
@@ -649,7 +650,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
         //             ),
         //             trailing: Switch(
         //               value: widget.model.isRoutinePublic,
-        //               activeColor: kPrimaryColor,
+        //               activeColor: ThemeColors.primary500,
         //               onChanged: widget.model.isPublicOnChanged,
         //             ),
         //           ),

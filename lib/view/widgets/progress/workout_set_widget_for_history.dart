@@ -4,8 +4,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class WorkoutSetWidgetForHistory extends StatelessWidget {
@@ -45,7 +45,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               height: 36,
               width: 128,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: kCardColorLight,
+              color: ThemeColors.cardLight,
               child: Center(
                 child: Text(
                   Formatter.workoutSetWeightsFromHistory(
@@ -69,7 +69,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               width: 80,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
-              color: kPrimaryColor,
+              color: ThemeColors.primary500,
               child: Center(child: Text(reps, style: TextStyles.body1)),
             ),
           ),
@@ -83,7 +83,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
                 width: 80,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 alignment: Alignment.center,
-                color: kPrimaryColor,
+                color: ThemeColors.primary500,
                 child: Center(child: Text(restTime, style: TextStyles.body1))),
           ),
 

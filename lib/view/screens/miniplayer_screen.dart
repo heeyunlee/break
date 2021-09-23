@@ -9,8 +9,8 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -75,7 +75,7 @@ class MiniplayerScreen extends StatelessWidget {
     final isScreenBigger = aspectRatio < 0.5;
 
     return Container(
-      color: kBottomNavBarColor,
+      color: ThemeColors.bottomNavBar,
       child: Column(
         children: [
           _opacitySizeBuilder(
@@ -161,7 +161,7 @@ class MiniplayerScreen extends StatelessWidget {
                   reversed: true,
                   percentage: percentage,
                   widget: Container(
-                    color: kBottomNavBarColor.withOpacity(0.9),
+                    color: ThemeColors.bottomNavBar.withOpacity(0.9),
                     child: _collapedWidget(context, model),
                   ),
                 ),

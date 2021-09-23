@@ -17,8 +17,8 @@ class CreateListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: InkWell(
-        // splashColor: kPrimaryColor.withOpacity(0.2),
-        // highlightColor: kPrimaryColor.withOpacity(0.1),
+        // splashColor: ThemeColors.primary500.withOpacity(0.2),
+        // highlightColor: ThemeColors.primary500.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
         onTap: onTap,
         child: Card(

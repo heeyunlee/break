@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
@@ -19,8 +19,10 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Color> gradientColors = [
-      kSecondaryColor,
-      kSecondaryColor.withOpacity(0.95),
+      // kSecondaryColor,
+      // kSecondaryColor.withOpacity(0.95),
+      ThemeColors.secondary,
+      ThemeColors.secondary.withOpacity(0.95),
     ];
 
     return BlurBackgroundCard(
@@ -42,7 +44,8 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.line_weight_rounded,
-                      color: kSecondaryColor,
+                      color: ThemeColors.secondary,
+                      // color: kSecondaryColor,
                       size: 16,
                     ),
                     const SizedBox(width: 8),
@@ -56,7 +59,8 @@ class WeeklyMeasurementsSampleWidget extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: kSecondaryColor,
+                        // color: kSecondaryColor,
+                        color: ThemeColors.secondary,
                         size: 16,
                       ),
                     ),

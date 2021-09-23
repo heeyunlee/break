@@ -3,7 +3,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -25,7 +25,7 @@ class WorkoutsByCategoryScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -89,7 +89,8 @@ class WorkoutsByCategoryScreen extends StatelessWidget {
                   children: EquipmentRequired.values.map(
                     (equipment) {
                       return SearchCategoryWidget(
-                        color: kSecondaryColor,
+                        // color: kSecondaryColor,
+                        color: ThemeColors.secondary,
                         text: equipment.translation!,
                         onTap: () => SearchCategoryScreen.show(
                           context,

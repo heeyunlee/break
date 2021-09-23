@@ -12,7 +12,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/add_nutrition_screen.dart';
@@ -146,7 +146,8 @@ class AddNutritionScreenModel with ChangeNotifier {
     logger.d('onVisibilityChanged in AddNutritionScreenModel called');
 
     if (info.visibleFraction >= 0.5) {
-      _borderColor = kSecondaryColor;
+      // _borderColor = kSecondaryColor;
+      _borderColor = ThemeColors.secondary;
     } else {
       _borderColor = Colors.grey;
     }

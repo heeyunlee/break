@@ -8,7 +8,7 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-import '../create_new_workout_screen.dart';
+import 'create_new_workout_screen.dart';
 import 'saved_workouts_screen.dart';
 import 'workout_detail_screen.dart';
 

@@ -7,7 +7,7 @@ import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
@@ -110,27 +110,27 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
 
   List<Widget> currentPreviewWidgetList = [
     const ActivityRingSampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       margin: 4,
       key: Key('activityRing'),
     ),
     const MostRecentWorkoutSampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       padding: 4,
       key: Key('recentWorkout'),
     ),
     const WeeklyWorkoutSummarySampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       padding: 4,
       key: Key('weeklyWorkoutHistorySmall'),
     ),
     const LatestBodyFatSampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       padding: 4,
       key: Key('latestBodyFat'),
     ),
     const WeeklyMeasurementsSampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       padding: 4,
       key: Key('weeklyMeasurementsChart'),
     ),
@@ -140,7 +140,7 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     SampleWidgets().weeklyFatBarChart,
     SampleWidgets().weeklyCaloriesChart,
     const LatestBodyWeightSampleWidget(
-      color: kCardColor,
+      color: ThemeColors.card,
       padding: 4,
       key: Key('latestWeight'),
     ),

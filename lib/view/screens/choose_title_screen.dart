@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 /// Reusable screen that can start the progress of creating either custom [Routine]
@@ -76,7 +76,7 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         leading: const AppBarCloseButton(),
         title: Text(widget.appBarTitle, style: TextStyles.subtitle2),
@@ -108,7 +108,7 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
 
   Widget _buildFAB() {
     return FloatingActionButton(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: ThemeColors.primary500,
       onPressed: () => widget.model.saveTitle(context, widget.model),
       child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
     );

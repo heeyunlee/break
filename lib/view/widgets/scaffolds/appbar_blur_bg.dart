@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class AppbarBlurBG extends StatelessWidget {
   const AppbarBlurBG({
@@ -19,7 +19,7 @@ class AppbarBlurBG extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: color ?? kAppBarColor,
+        color: color ?? ThemeColors.appBar,
       ),
       child: childWidget,
     );

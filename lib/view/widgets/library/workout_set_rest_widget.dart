@@ -6,8 +6,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/routine_workout_card_model.dart';
 import 'package:workout_player/view_models/workout_set_rest_widget_model.dart';
 
@@ -104,7 +104,7 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
                     width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     alignment: Alignment.center,
-                    color: kPrimaryColor,
+                    color: ThemeColors.primary500,
                     child: TextField(
                       enabled: isOwner,
                       autofocus: false,
@@ -143,8 +143,8 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
 
   KeyboardActionsConfig _buildConfig(FocusNode focusNode) {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: kKeyboardDarkColor,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       actions: [
         KeyboardActionsItem(

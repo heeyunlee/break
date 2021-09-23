@@ -12,13 +12,13 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
@@ -184,7 +184,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       builder: (context, snapshot) {
         return Scaffold(
           extendBodyBehindAppBar: true,
-          backgroundColor: kBackgroundColor,
+          backgroundColor: ThemeColors.background,
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: Colors.transparent,
@@ -215,7 +215,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: ThemeColors.primary500,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -277,11 +277,11 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          tileColor: kCardColor,
+          tileColor: ThemeColors.card,
           title: Text(S.current.publicWorkout, style: TextStyles.button1),
           trailing: Switch(
             value: _isPublic,
-            activeColor: kPrimaryColor,
+            activeColor: ThemeColors.primary500,
             onChanged: (bool value) {
               setState(() {
                 _isPublic = value;
@@ -313,7 +313,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Workout Title
         Card(
-          color: kCardColor,
+          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -355,7 +355,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Description
         Card(
-          color: kCardColor,
+          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -398,14 +398,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Difficulty
         Card(
-          color: kCardColor,
+          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: kPrimaryColor,
-            inactiveColor: kPrimaryColor.withOpacity(0.2),
+            activeColor: ThemeColors.primary500,
+            inactiveColor: ThemeColors.primary500.withOpacity(0.2),
             value: _difficultySlider,
             onChanged: (newRating) {
               setState(() {
@@ -440,14 +440,14 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           ),
         ),
         Card(
-          color: kCardColor,
+          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: kPrimaryColor,
-            inactiveColor: kPrimaryColor.withOpacity(0.2),
+            activeColor: ThemeColors.primary500,
+            inactiveColor: ThemeColors.primary500.withOpacity(0.2),
             value: _secondsPerRepSlider,
             onChanged: (newRating) {
               setState(() {
@@ -498,9 +498,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             subtitle: Text(mainMuscleGroup, style: TextStyles.body2Grey),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
-              color: kPrimaryGrey,
+              color: ThemeColors.grey500,
             ),
-            tileColor: kCardColor,
+            tileColor: ThemeColors.card,
             onTap: () => EditWorkoutMainMuscleGroupScreen.show(
               context,
               workout: workout,
@@ -527,9 +527,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         subtitle: Text(equipmentRequired, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
-          color: kPrimaryGrey,
+          color: ThemeColors.grey500,
         ),
-        tileColor: kCardColor,
+        tileColor: ThemeColors.card,
         onTap: () => EditWorkoutEquipmentRequiredScreen.show(
           context,
           workout: workout,
@@ -555,9 +555,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         subtitle: Text(location!, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
-          color: kPrimaryGrey,
+          color: ThemeColors.grey500,
         ),
-        tileColor: kCardColor,
+        tileColor: ThemeColors.card,
         onTap: () => EditWorkoutLocationScreen.show(
           context,
           user: widget.user,
@@ -582,10 +582,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: const Color(0xff303030),
-      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      // nextFocus: true,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: [
         KeyboardActionsItem(
           focusNode: focusNode1,

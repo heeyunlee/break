@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 import '../../../../../view_models/daily_activity_ring_widget_model.dart';
@@ -62,8 +62,9 @@ class DailyActivityRingWidget extends StatelessWidget {
                         radius: (constraints.maxWidth - 48) / 2,
                         lineWidth: 12,
                         percent: model.weightsLiftedDailyProgress,
-                        backgroundColor: kPrimaryColor.withOpacity(0.25),
-                        progressColor: kPrimaryColor,
+                        backgroundColor:
+                            ThemeColors.primary500.withOpacity(0.25),
+                        progressColor: ThemeColors.primary500,
                         animation: true,
                         animationDuration: 1000,
                         circularStrokeCap: CircularStrokeCap.round,

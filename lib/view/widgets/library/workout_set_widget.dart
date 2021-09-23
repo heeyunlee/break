@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -112,7 +112,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     height: 36,
                     width: 128,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    color: kCardColorLight,
+                    color: ThemeColors.cardLight,
                     child: Center(child: _buildWeightWidget()),
                   ),
                 ),
@@ -188,7 +188,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         width: 80,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
-        color: kPrimaryColor,
+        color: ThemeColors.primary500,
         child: TextField(
           enabled: isOwner,
           autofocus: false,
@@ -223,8 +223,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: const Color(0xff303030),
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       nextFocus: false,
       actions: [

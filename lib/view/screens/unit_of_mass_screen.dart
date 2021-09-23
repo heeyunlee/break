@@ -9,11 +9,10 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../../styles/constants.dart';
 
 class UnitOfMassScreen extends StatefulWidget {
   const UnitOfMassScreen({
@@ -87,7 +86,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -103,7 +102,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor: (_unitOfMass == 0) ? kPrimary600Color : Colors.transparent,
+          tileColor:
+              (_unitOfMass == 0) ? ThemeColors.primary600 : Colors.transparent,
           title: const Text('kg', style: TextStyles.body1),
           trailing: (_unitOfMass == 0)
               ? const Icon(Icons.check, color: Colors.white)
@@ -117,7 +117,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
           },
         ),
         ListTile(
-          tileColor: (_unitOfMass == 1) ? kPrimary600Color : Colors.transparent,
+          tileColor:
+              (_unitOfMass == 1) ? ThemeColors.primary600 : Colors.transparent,
           title: const Text('lbs', style: TextStyles.body1),
           trailing: (_unitOfMass == 1)
               ? const Icon(Icons.check, color: Colors.white)

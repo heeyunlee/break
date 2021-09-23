@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/log_routine_screen_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class ToggleIsPublicWidget extends ConsumerWidget {
@@ -34,7 +34,7 @@ class ToggleIsPublicWidget extends ConsumerWidget {
         const SizedBox(width: 8),
         Switch(
           value: model.isPublic,
-          activeColor: kPrimaryColor,
+          activeColor: ThemeColors.primary500,
           onChanged: model.onIsPublicChanged,
         ),
       ],

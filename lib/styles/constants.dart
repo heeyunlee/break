@@ -1,49 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
-// COLOR //
-// Primary
-
-const kPrimary900Color = Color(0xff6c1f12);
-const kPrimary800Color = Color(0xff852616);
-const kPrimary700Color = Color(0xffa6301b);
-const kPrimary600Color = Color(0xffc73a20);
-const kPrimaryColor = Color(0xffdd4124);
-const kPrimary400Color = Color(0xffe77966);
-const kPrimary300Color = Color(0xfff1b3a7);
-const kPrimary200Color = Color(0xfff7cfc8);
-const kPrimary100Color = Color(0xfffcece9);
-
-// Secondary
-const kSecondaryColor = Color(0xff24c0dd);
-
-// Grey
-const kGrey900 = Color(0xff121212);
-const kGrey800 = Color(0xff303030);
-const kGrey700 = Color(0xff4d4d4d);
-const kGrey600 = Color(0xff6b6b6b);
-const kPrimaryGrey = Color(0xff898989);
-const kGrey400 = Color(0xffa6a6a6);
-const kGrey300 = Color(0xffc4c4c4);
-const kGrey200 = Color(0xffe1e1e1);
-const kGrey100 = Color(0xffffffff);
-
-const kKeyboardDarkColor = Color(0xff303030);
-const kBackgroundColor = Color(0xff121212);
-const kAppBarColor = Color(0xff121212);
-const kCardColorDark = Color(0xff191a1b);
-const kCardColor = Color(0xff242526);
-const kCardColorLight = Color(0xff3C3C3C);
-const kCardColorSuperLight = Color(0xff666666);
-const kButtonEnabledColor = Color(0xff4E4F50);
-const kDisabledColor = Color(0xff9A9EA6);
-const kFocusedColor = Color(0xff605350);
-const kBottomNavBarColor = Color(0xff121212);
-
-// OTHERS //
 const kCustomDivider = Divider(
-  color: kGrey700,
+  color: ThemeColors.grey700,
   height: 48,
 );
 
@@ -53,26 +14,26 @@ const kWhiteDivider = Divider(
 );
 
 const kCustomDividerIndent16 = Divider(
-  color: kGrey700,
+  color: ThemeColors.grey700,
   indent: 16,
   endIndent: 16,
 );
 
 const kCustomDividerIndent8 = Divider(
-  color: kGrey700,
+  color: ThemeColors.grey700,
   indent: 8,
   endIndent: 8,
 );
 
 const kCustomDividerIndent8Heignt1 = Divider(
-  color: kGrey700,
+  color: ThemeColors.grey700,
   indent: 8,
   endIndent: 8,
   height: 1,
 );
 
 const kPrimaryColorCircularProgressIndicator = CircularProgressIndicator(
-  valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+  valueColor: AlwaysStoppedAnimation<Color>(ThemeColors.primary500),
 );
 
 const kBicepEmojiUrl =

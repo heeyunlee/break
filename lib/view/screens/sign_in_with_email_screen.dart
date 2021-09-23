@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
@@ -39,7 +39,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -58,7 +58,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
         const BlurredBackgroundPreviewWidget(blur: 25),
         Theme(
           data: ThemeData(
-            disabledColor: kGrey700,
+            disabledColor: ThemeColors.grey700,
             iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
           ),
           child: KeyboardActions(
@@ -91,10 +91,8 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: const Color(0xff303030),
-      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      // nextFocus: true,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: List.generate(
         widget.model.signInFocusNodes.length,
         (index) => KeyboardActionsItem(
@@ -184,7 +182,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
           radius: 24,
           buttonText: S.current.logIn,
           onPressed: () => widget.model.signInWithEmailAndPassword(context),
-          color: kPrimary600Color,
+          color: ThemeColors.primary600,
         ),
       ),
     ];

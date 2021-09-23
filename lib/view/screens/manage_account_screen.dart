@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import '../../styles/constants.dart';
 import 'change_display_name_screen.dart';
 import 'delete_account_screen.dart';
 
@@ -41,7 +41,7 @@ class ManageAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         flexibleSpace: const AppbarBlurBG(),
@@ -128,7 +128,11 @@ class ManageAccountScreen extends StatelessWidget {
                 //     user: user,
                 //   ),
                 // ),
-                const Divider(color: kGrey700, indent: 16, endIndent: 16),
+                const Divider(
+                  color: ThemeColors.grey700,
+                  indent: 16,
+                  endIndent: 16,
+                ),
                 ListTile(
                   onTap: () => DeleteAccountScreen.show(context, user: user),
                   title: Text(

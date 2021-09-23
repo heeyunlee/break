@@ -371,8 +371,8 @@ class AuthService implements AuthBase {
     final facebookLogin = FacebookAuth.instance;
     await facebookLogin.logOut();
 
-    final kakaoLogin = UserApi.instance;
-    await kakaoLogin.logout();
+    // final kakaoLogin = UserApi.instance;
+    // await kakaoLogin.logout();
 
     await _auth.signOut();
   }

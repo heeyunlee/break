@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/body_fat_entries_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
@@ -122,7 +122,8 @@ class LatestBodyFatWidget extends StatelessWidget {
             widthFactor: diffPercentageFormatted ?? 0.0,
             child: Container(
               decoration: BoxDecoration(
-                color: kSecondaryColor,
+                // color: kSecondaryColor,
+                color: ThemeColors.secondary,
                 borderRadius: BorderRadius.circular(2),
               ),
               height: 4,

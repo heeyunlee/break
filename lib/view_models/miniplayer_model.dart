@@ -6,7 +6,7 @@ import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
+import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 import 'package:workout_player/generated/l10n.dart';

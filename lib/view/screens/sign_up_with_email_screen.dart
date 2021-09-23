@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
@@ -43,7 +43,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         title: Text(S.current.signUp, style: TextStyles.subtitle2),
         leading: const AppBarBackButton(),
       ),
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: Builder(builder: _buildBody),
     );
   }
@@ -56,7 +56,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         SafeArea(
           child: Theme(
             data: ThemeData(
-              disabledColor: kGrey700,
+              disabledColor: ThemeColors.grey700,
               iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
             ),
             child: KeyboardActions(
@@ -94,10 +94,8 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      // nextFocus: true,
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: const Color(0xff303030),
-      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: List.generate(
         widget.model.signUpFocusNodes.length,
         (index) => KeyboardActionsItem(
@@ -259,7 +257,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           radius: 24,
           buttonText: S.current.signUp,
           onPressed: () => widget.model.signUpWithEmail(context),
-          color: kPrimary600Color,
+          color: ThemeColors.primary600,
         ),
       ),
       TermsAndPrivacyPolicyWidget(model: widget.model),

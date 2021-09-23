@@ -9,8 +9,8 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
@@ -182,7 +182,7 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
     );
 
     return Card(
-      color: kCardColor,
+      color: ThemeColors.card,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: AspectRatio(
@@ -332,7 +332,8 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y * 1.05 : y,
-          colors: isTouched ? [kPrimary700Color] : [kPrimaryColor],
+          colors:
+              isTouched ? [ThemeColors.primary700] : [ThemeColors.primary500],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             // show: _data.isEmpty,

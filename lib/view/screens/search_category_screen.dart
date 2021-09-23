@@ -10,13 +10,13 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-import '../../styles/constants.dart';
-import 'library/routine_detail_screen.dart';
-import 'library/workout_detail_screen.dart';
+import 'routine_detail_screen.dart';
+import 'workout_detail_screen.dart';
 
 /// Screen that shows the list of [Workout] and [Routine] of the search category
 ///
@@ -75,7 +75,7 @@ class SearchCategoryScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: kBackgroundColor,
+        backgroundColor: ThemeColors.background,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -90,8 +90,8 @@ class SearchCategoryScreen extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 bottom: TabBar(
                   labelColor: Colors.white,
-                  unselectedLabelColor: kGrey400,
-                  indicatorColor: kPrimaryColor,
+                  unselectedLabelColor: ThemeColors.grey400,
+                  indicatorColor: ThemeColors.primary500,
                   tabs: [
                     Tab(text: S.current.workouts),
                     Tab(text: S.current.routines),

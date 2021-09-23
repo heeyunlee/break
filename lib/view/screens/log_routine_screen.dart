@@ -7,6 +7,7 @@ import 'package:workout_player/models/combined/routine_detail_screen_class.dart'
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/library/set_efforts_widget.dart';
 import 'package:workout_player/view/widgets/library/toggle_is_public_widget.dart';
@@ -77,7 +78,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
     return Theme(
       data: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: ThemeColors.primary500,
         disabledColor: Colors.grey,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
@@ -157,8 +158,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: const Color(0xff303030),
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: List.generate(
         widget.model.focusNodes.length,
         (index) => KeyboardActionsItem(
@@ -191,8 +192,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                   routineWorkouts: widget.data.routineWorkouts!,
                 ),
         backgroundColor: widget.model.isButtonPressed
-            ? kPrimaryColor.withOpacity(0.8)
-            : kPrimaryColor,
+            ? ThemeColors.primary500.withOpacity(0.8)
+            : ThemeColors.primary500,
         heroTag: 'logRoutineSubmitButton',
         label: Text(S.current.submit),
       ),

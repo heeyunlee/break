@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
-import '../../../styles/constants.dart';
 import '../../screens/search_category_screen.dart';
 import 'search_category_widget.dart';
 
@@ -30,7 +30,7 @@ class WorkoutsByCategoryCard extends StatelessWidget {
     final List<Widget> _equipmentsCards = EquipmentRequired.values.map(
       (equipment) {
         return SearchCategoryWidget(
-          color: kSecondaryColor,
+          color: ThemeColors.secondary,
           text: equipment.translation!,
           onTap: () => SearchCategoryScreen.show(
             context,

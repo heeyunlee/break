@@ -5,7 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
-import 'package:workout_player/view/screens/library/edit_routine_screen.dart';
+import 'package:workout_player/view/screens/edit_routine_screen.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_custom_modal_bottom_sheet.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';

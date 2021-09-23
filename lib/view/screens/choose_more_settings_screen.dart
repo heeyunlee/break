@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 
@@ -28,7 +28,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -63,7 +63,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
               ),
               Card(
                 margin: EdgeInsets.zero,
-                color: kCardColor,
+                color: ThemeColors.card,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -72,7 +72,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
                   child: DropdownButtonFormField(
                     isExpanded: true,
                     value: model.location,
-                    dropdownColor: kCardColor,
+                    dropdownColor: ThemeColors.card,
                     decoration: const InputDecoration(
                       enabledBorder: InputBorder.none,
                     ),
@@ -110,14 +110,14 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
                 ),
               ),
               Card(
-                color: kCardColor,
+                color: ThemeColors.card,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Slider(
-                  activeColor: kPrimaryColor,
-                  inactiveColor: kPrimaryColor.withOpacity(0.2),
+                  activeColor: ThemeColors.primary500,
+                  inactiveColor: ThemeColors.primary500.withOpacity(0.2),
                   value: model.routineDifficulty,
                   onChanged: model.onChangedDifficulty,
                   label: model.routineDifficultyLabel,
@@ -140,7 +140,7 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
     return SizedBox(
       width: size.width - 32,
       child: FloatingActionButton.extended(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: ThemeColors.primary500,
         onPressed: () => model.submitToFirestore(context),
         label: Text(S.current.submit, style: TextStyles.button1),
       ),

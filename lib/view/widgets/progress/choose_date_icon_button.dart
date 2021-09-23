@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../../../../view_models/home_screen_model.dart';
 
 class ChooseDateIconButton extends StatelessWidget {
   final ProgressTabModel model;
@@ -46,7 +45,7 @@ class ChooseDateIconButton extends StatelessWidget {
     return showModalBottomSheet<bool>(
       context: homeContext,
       builder: (context) => Container(
-        color: kCardColor,
+        color: ThemeColors.card,
         height: 500,
         child: TableCalendar(
           daysOfWeekStyle: const DaysOfWeekStyle(

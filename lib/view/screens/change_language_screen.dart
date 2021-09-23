@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -44,8 +44,9 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor:
-              (_currentLang == 'ko') ? kPrimaryColor : Colors.transparent,
+          tileColor: (_currentLang == 'ko')
+              ? ThemeColors.primary500
+              : Colors.transparent,
           title: const Text('한국어', style: TextStyles.body1),
           trailing: (_currentLang == 'ko')
               ? const Icon(Icons.check, color: Colors.white)
@@ -58,8 +59,9 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
           },
         ),
         ListTile(
-          tileColor:
-              (_currentLang == 'en') ? kPrimaryColor : Colors.transparent,
+          tileColor: (_currentLang == 'en')
+              ? ThemeColors.primary500
+              : Colors.transparent,
           title: const Text('English', style: TextStyles.body1),
           trailing: (_currentLang == 'en')
               ? const Icon(Icons.check, color: Colors.white)

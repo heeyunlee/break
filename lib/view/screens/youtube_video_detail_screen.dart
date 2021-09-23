@@ -6,8 +6,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/youtube_video.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -54,11 +54,11 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: kAppBarColor,
+            backgroundColor: ThemeColors.appBar,
             pinned: true,
             stretch: true,
             leading: const AppBarBackButton(),
@@ -105,7 +105,7 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                         end: Alignment(0, 0.85),
                         colors: [
                           Colors.transparent,
-                          kBackgroundColor,
+                          ThemeColors.background,
                         ],
                       ),
                     ),
@@ -142,7 +142,7 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                               onPressed: () => miniplayerModel
                                   .startYouTubeWorkout(context, model.video),
                               buttonText: S.current.startNow,
-                              color: kPrimaryColor,
+                              color: ThemeColors.primary500,
                               width: size.width - 32,
                             ),
                           ),

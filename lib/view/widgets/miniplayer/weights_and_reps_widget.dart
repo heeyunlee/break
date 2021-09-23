@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
@@ -77,13 +77,13 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           style: TextStyles.body2Grey,
                         ),
                       ),
-                      const Divider(color: kBackgroundColor, height: 0),
+                      const Divider(color: ThemeColors.background, height: 0),
                     ],
                   ),
                 ],
               ),
             ),
-            Container(width: 1, color: kBottomNavBarColor),
+            Container(width: 1, color: ThemeColors.bottomNavBar),
             SizedBox(
               width: columnWidth,
               height: height,
@@ -117,7 +117,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           style: TextStyles.body2Grey,
                         ),
                       ),
-                      const Divider(color: kBackgroundColor, height: 0),
+                      const Divider(color: ThemeColors.background, height: 0),
                     ],
                   ),
                 ],

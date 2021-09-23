@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class UnderlinedTextTextFieldWidget extends ConsumerWidget {
@@ -63,7 +63,7 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
           borderSide: BorderSide(color: Colors.grey),
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: kPrimaryColor),
+          borderSide: BorderSide(color: ThemeColors.primary500),
         ),
         focusedErrorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red),

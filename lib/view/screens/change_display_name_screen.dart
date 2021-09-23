@@ -7,8 +7,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -151,7 +151,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -187,7 +187,7 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
                 borderSide: BorderSide(color: Colors.grey),
               ),
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: kPrimaryColor),
+                borderSide: BorderSide(color: ThemeColors.primary500),
               ),
               counterStyle: TextStyles.caption1Grey,
             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import '../../../styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class SearchCategoryWidget extends StatelessWidget {
   final String text;
@@ -12,7 +11,7 @@ class SearchCategoryWidget extends StatelessWidget {
     Key? key,
     required this.text,
     this.onTap,
-    this.color = kPrimaryColor,
+    this.color = ThemeColors.primary500,
   }) : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class SearchCategoryWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
-        color: kCardColor,
+        color: ThemeColors.card,
         child: ClipPath(
           child: Container(
             decoration: BoxDecoration(

@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -63,7 +63,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -105,7 +105,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              kBackgroundColor,
+                              ThemeColors.background,
                             ],
                           ),
                         ),
@@ -154,7 +154,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                           ),
                         ),
                         Card(
-                          color: kCardColor,
+                          color: ThemeColors.card,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -215,7 +215,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                             const SizedBox(width: 8),
                             Switch(
                               value: widget.model.isPublic,
-                              activeColor: kPrimaryColor,
+                              activeColor: ThemeColors.primary500,
                               onChanged: widget.model.isPublicOnChanged,
                             ),
                           ],
@@ -239,7 +239,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                 numberOfParticles: 30,
                 blastDirection: -pi / 2,
                 colors: const [
-                  kPrimaryColor,
+                  ThemeColors.primary500,
                   Colors.green,
                   Colors.cyanAccent,
                   Colors.purpleAccent,
@@ -290,7 +290,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                       musclesAndEquipments[index],
                       style: TextStyles.button1,
                     ),
-                    backgroundColor: kPrimaryColor,
+                    backgroundColor: ThemeColors.primary500,
                   ),
                 ),
               ),

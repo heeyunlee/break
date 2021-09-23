@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class ProgressTabShimmer extends StatelessWidget {
   const ProgressTabShimmer({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class ProgressTabShimmer extends StatelessWidget {
     return Container(
       width: size.width,
       height: size.height,
-      color: kBackgroundColor,
+      color: ThemeColors.background,
       child: Shimmer.fromColors(
         baseColor: Colors.white.withOpacity(0.25),
         highlightColor: Colors.white.withOpacity(0.5),

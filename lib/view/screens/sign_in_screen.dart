@@ -8,7 +8,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
@@ -81,7 +81,7 @@ class SignInScreen extends ConsumerWidget {
       SocialSignInButton(
         kButtonText: S.current.signUp,
         iconData: Icons.email_rounded,
-        color: kPrimary600Color,
+        color: ThemeColors.primary600,
         textColor: Colors.white,
         onPressed: model.isLoading
             ? null

@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -203,7 +203,7 @@ class _EditWorkoutMainMuscleGroupScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -235,11 +235,12 @@ class _EditWorkoutMainMuscleGroupScreenState
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color:
-                          (_mainMuscleGroup[key]!) ? kPrimaryColor : kGrey700,
+                      color: (_mainMuscleGroup[key]!)
+                          ? ThemeColors.primary500
+                          : ThemeColors.grey700,
                       child: CheckboxListTile(
                         selected: _mainMuscleGroup[key]!,
-                        activeColor: kPrimary700Color,
+                        activeColor: ThemeColors.primary700,
                         title: Text(title, style: TextStyles.button1),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],

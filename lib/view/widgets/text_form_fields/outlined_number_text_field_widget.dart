@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
 
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,7 +57,7 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
           horizontal: 16,
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: kSecondaryColor),
+          borderSide: BorderSide(color: ThemeColors.secondary),
         ),
         focusedErrorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),

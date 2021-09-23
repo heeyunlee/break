@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/log_routine_screen_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class SetEffortsWidget extends ConsumerWidget {
@@ -51,7 +51,7 @@ class SetEffortsWidget extends ConsumerWidget {
           left: 12,
           top: -6,
           child: Container(
-            color: kBackgroundColor,
+            color: ThemeColors.background,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(

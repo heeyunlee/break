@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 
@@ -30,7 +30,7 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
       appBarTitle: S.current.equipmentRequired,
       buildBody: (context) => _buildBody(context, model),
       fabWidget: FloatingActionButton(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: ThemeColors.primary500,
         onPressed: () => model.saveEquipmentRequired(context, model),
         child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
       ),

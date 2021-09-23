@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class BlurBackgroundCard extends StatelessWidget {
   final Widget child;
@@ -44,7 +44,7 @@ class BlurBackgroundCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),
           border: isChecked!
-              ? Border.all(color: kPrimaryColor, width: 4)
+              ? Border.all(color: ThemeColors.primary500, width: 4)
               : Border.all(width: 0),
           boxShadow: [
             BoxShadow(
@@ -66,7 +66,7 @@ class BlurBackgroundCard extends StatelessWidget {
         ),
         child: Material(
           borderRadius: BorderRadius.circular(24),
-          color: color ?? kCardColor.withOpacity(0.85),
+          color: color ?? ThemeColors.card.withOpacity(0.85),
           child: InkWell(
             borderRadius: BorderRadius.circular(24),
             onLongPress: onLongPress,

@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -182,7 +182,7 @@ class _EditWorkoutEquipmentRequiredScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -214,11 +214,12 @@ class _EditWorkoutEquipmentRequiredScreenState
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color:
-                          (_equipmentRequired[key]!) ? kPrimaryColor : kGrey700,
+                      color: (_equipmentRequired[key]!)
+                          ? ThemeColors.primary500
+                          : ThemeColors.grey700,
                       child: CheckboxListTile(
                         selected: _equipmentRequired[key]!,
-                        activeColor: kPrimary700Color,
+                        activeColor: ThemeColors.primary700,
                         title: Text(title, style: TextStyles.button1),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _equipmentRequired[key],

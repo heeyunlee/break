@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
@@ -65,7 +65,8 @@ class LatestBodyWeightSampleWidget extends StatelessWidget {
                         widthFactor: 0.5,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: kSecondaryColor,
+                            // color: kSecondaryColor,
+                            color: ThemeColors.secondary,
                             borderRadius: BorderRadius.circular(2),
                           ),
                           height: 4,

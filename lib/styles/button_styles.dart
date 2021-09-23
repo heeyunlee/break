@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
-
-import 'constants.dart';
 
 class ButtonStyles {
   static final text1 = ButtonStyle(
     foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-      if (states.contains(MaterialState.disabled)) return kGrey600;
+      if (states.contains(MaterialState.disabled)) return ThemeColors.grey600;
       return Colors.white;
     }),
     overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
       if (states.contains(MaterialState.disabled)) return Colors.grey;
-      return kPrimaryColor.withOpacity(0.12);
+      return ThemeColors.primary500.withOpacity(0.12);
     }),
     textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
       if (states.contains(MaterialState.disabled)) {
@@ -23,12 +22,13 @@ class ButtonStyles {
 
   static final text1Google = ButtonStyle(
     foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-      if (states.contains(MaterialState.disabled)) return kGrey600;
+      if (states.contains(MaterialState.disabled)) return ThemeColors.grey600;
+
       return Colors.white;
     }),
     overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
       if (states.contains(MaterialState.disabled)) return Colors.grey;
-      return kPrimaryColor.withOpacity(0.12);
+      return ThemeColors.primary500.withOpacity(0.12);
     }),
     textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
       if (states.contains(MaterialState.disabled)) {
@@ -40,12 +40,15 @@ class ButtonStyles {
 
   static final text1SecondaryW900 = ButtonStyle(
     foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-      if (states.contains(MaterialState.disabled)) return kGrey600;
-      return kSecondaryColor;
+      if (states.contains(MaterialState.disabled)) return ThemeColors.grey600;
+
+      // return kSecondaryColor;
+      return ThemeColors.secondary;
     }),
     overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
       if (states.contains(MaterialState.disabled)) return Colors.grey;
-      return kSecondaryColor.withOpacity(0.12);
+      // return kSecondaryColor.withOpacity(0.12);
+      return ThemeColors.secondary.withOpacity(0.12);
     }),
     textStyle: MaterialStateProperty.resolveWith<TextStyle>((states) {
       if (states.contains(MaterialState.disabled)) {
@@ -59,25 +62,25 @@ class ButtonStyles {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
     ),
-    side: const BorderSide(width: 2, color: kPrimaryColor),
+    side: const BorderSide(width: 2, color: ThemeColors.primary500),
   );
 
   static final elevated1 = ElevatedButton.styleFrom(
-    primary: kPrimaryColor,
+    primary: ThemeColors.primary500,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
     ),
   );
 
   static final elevated2 = ElevatedButton.styleFrom(
-    primary: kPrimaryColor,
+    primary: ThemeColors.primary500,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4),
     ),
   );
 
   static final elevatedStadium = ElevatedButton.styleFrom(
-    primary: kPrimaryColor,
+    primary: ThemeColors.primary500,
     shape: const StadiumBorder(),
   );
 
@@ -87,7 +90,7 @@ class ButtonStyles {
   );
 
   static final elevatedFullWidth = ElevatedButton.styleFrom(
-    primary: kPrimaryColor,
+    primary: ThemeColors.primary500,
     minimumSize: const Size(double.maxFinite, 48),
     shape: const StadiumBorder(),
   );

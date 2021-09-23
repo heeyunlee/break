@@ -29,7 +29,7 @@ class CustomStreamBuilder<T> extends StatelessWidget {
   /// A widget to be shown when sapshot connection state is [ConnectionState.none],
   /// [ConnectionState.waiting], or [ConnectionState.done].
   ///
-  /// Default widget is [CircularProgressIndicator] with color of [kPrimaryColor]
+  /// Default widget is [CircularProgressIndicator] with color of [ThemeColors.primary500]
   ///
   final Widget? loadingWidget;
 

@@ -11,8 +11,8 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
@@ -73,7 +73,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         flexibleSpace: const AppbarBlurBG(),
@@ -87,7 +87,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
         child: FloatingActionButton.extended(
           onPressed: () => widget.model.submit(context),
           label: Text(S.current.submit, style: TextStyles.button1),
-          backgroundColor: kPrimaryColor,
+          backgroundColor: ThemeColors.primary500,
         ),
       ),
     );
@@ -225,11 +225,11 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                           margin: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             border: hasKey
-                                ? Border.all(color: kPrimaryColor)
+                                ? Border.all(color: ThemeColors.primary500)
                                 : Border.all(width: 0),
                             borderRadius: BorderRadius.circular(24),
                             color: hasKey
-                                ? kPrimaryColor.withOpacity(0.1)
+                                ? ThemeColors.primary500.withOpacity(0.1)
                                 : Colors.transparent,
                           ),
                           child: Material(
@@ -244,7 +244,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                                   child: hasKey
                                       ? const Icon(
                                           Icons.check_circle_outline_rounded,
-                                          color: kPrimaryColor,
+                                          color: ThemeColors.primary500,
                                           size: 32,
                                         )
                                       : const Icon(

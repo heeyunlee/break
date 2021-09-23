@@ -6,6 +6,7 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
@@ -39,7 +40,7 @@ class NutritionsDetailScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -48,7 +49,7 @@ class NutritionsDetailScreen extends StatelessWidget {
             stretch: true,
             centerTitle: true,
             expandedHeight: size.height / 4,
-            backgroundColor: kBackgroundColor,
+            backgroundColor: ThemeColors.background,
             leading: const AppBarBackButton(),
             actions: [
               IconButton(
@@ -79,7 +80,7 @@ class NutritionsDetailScreen extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           Colors.greenAccent,
-                          kBackgroundColor,
+                          ThemeColors.background,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,

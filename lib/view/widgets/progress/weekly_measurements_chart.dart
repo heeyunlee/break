@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/charts/no_data_in_chart_message_widget.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -28,8 +28,11 @@ class WeeklyMeasurementsChart extends StatefulWidget {
 }
 
 class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
-  List<Color> hasDataColors = [kSecondaryColor];
-  List<Color> noDataColors = [kSecondaryColor.withOpacity(0.5)];
+  // List<Color> hasDataColors = [kSecondaryColor];
+  List<Color> hasDataColors = [ThemeColors.secondary];
+
+  // List<Color> noDataColors = [kSecondaryColor.withOpacity(0.5)];
+  List<Color> noDataColors = [ThemeColors.secondary.withOpacity(0.5)];
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +148,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                 ),
               ),
               if (widget.model.thisWeekData.isEmpty)
-                const NoDataInChartMessageWidget(color: kSecondaryColor),
+                const NoDataInChartMessageWidget(color: ThemeColors.secondary),
             ],
           )),
     );

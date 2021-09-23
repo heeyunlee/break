@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
+import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/library/library_list_tile.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -42,11 +42,11 @@ class SavedRoutinesScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.savedRoutines, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),

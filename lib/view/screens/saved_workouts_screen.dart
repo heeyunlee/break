@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view/widgets/library/library_list_tile.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -59,11 +59,11 @@ class SavedWorkoutsScreen extends StatelessWidget {
     _getDocuments(workoutsFuture);
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.savedWorkouts, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),

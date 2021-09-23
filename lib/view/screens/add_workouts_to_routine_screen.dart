@@ -6,8 +6,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -69,7 +69,7 @@ class _AddWorkoutsToRoutineScreenState
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, _) {
           return <Widget>[_appBarWidget(context)];
@@ -88,7 +88,7 @@ class _AddWorkoutsToRoutineScreenState
                   ),
           backgroundColor: (widget.model.selectedWorkouts.isEmpty)
               ? Colors.grey
-              : kPrimaryColor,
+              : ThemeColors.primary500,
           label: Text(
             S.current.addWorkoutFABTitle(widget.model.selectedWorkouts.length),
             style: TextStyles.button1,

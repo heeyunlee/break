@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/animations/fade_slide_transition.dart';
 
 class CheckboxListView extends StatelessWidget {
@@ -72,9 +72,11 @@ class CheckboxListView extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                color: checked(item) ? kPrimaryColor : kCardColorLight,
+                color: checked(item)
+                    ? ThemeColors.primary500
+                    : ThemeColors.cardLight,
                 child: CheckboxListTile(
-                  activeColor: kPrimary700Color,
+                  activeColor: ThemeColors.primary700,
                   title: Text(getTitle(item), style: TextStyles.button1),
                   controlAffinity: ListTileControlAffinity.trailing,
                   value: checked(item),

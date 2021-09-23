@@ -5,8 +5,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class SavedListTile<T> extends StatelessWidget {
@@ -39,7 +39,7 @@ class SavedListTile<T> extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: kGrey800,
+                    color: ThemeColors.grey800,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Icon(

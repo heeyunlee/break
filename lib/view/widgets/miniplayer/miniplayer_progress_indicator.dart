@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/youtube_video.dart';
 
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
@@ -53,7 +53,7 @@ class MiniplayerProgressIndicator extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(radius!),
                   child: Container(
-                    color: kPrimaryColor,
+                    color: ThemeColors.primary500,
                     height: 4,
                     width: (size.width - padding! * 2) * progress,
                   ),
@@ -103,7 +103,7 @@ class MiniplayerProgressIndicator extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(radius!),
                       child: Container(
-                        color: kPrimaryColor,
+                        color: ThemeColors.primary500,
                         height: 4,
                         width: (size.width - padding! * 2) * progress,
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/library/workout_set_rest_widget.dart';
 import 'package:workout_player/view/widgets/library/workout_set_widget.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
@@ -68,7 +69,7 @@ class RoutineWorkoutCard extends StatelessWidget {
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
-          color: kCardColor,
+          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -155,7 +156,7 @@ class RoutineWorkoutCard extends StatelessWidget {
                         icon: const Icon(Icons.add_rounded, color: Colors.grey),
                       ),
                     ),
-                    Container(height: 36, width: 1, color: kGrey800),
+                    Container(height: 36, width: 1, color: ThemeColors.grey800),
                     SizedBox(
                       width: 100,
                       child: IconButton(
@@ -168,7 +169,7 @@ class RoutineWorkoutCard extends StatelessWidget {
                             const Icon(Icons.timer_rounded, color: Colors.grey),
                       ),
                     ),
-                    Container(height: 36, width: 1, color: kGrey800),
+                    Container(height: 36, width: 1, color: ThemeColors.grey800),
                     SizedBox(
                       width: 100,
                       child: IconButton(

@@ -11,17 +11,17 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/add_measurements_screen.dart';
 import 'main_model.dart';
 
-final addMeasurementsModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => AddMeasurementsModel(),
+final addMeasurementsScreenModelProvider = ChangeNotifierProvider.autoDispose(
+  (ref) => AddMeasurementsScreenModel(),
 );
 
-class AddMeasurementsModel with ChangeNotifier {
+class AddMeasurementsScreenModel with ChangeNotifier {
   late TextEditingController _bodyweightController;
   late TextEditingController _bodyFatController;
   late TextEditingController _smmController;
@@ -139,7 +139,8 @@ class AddMeasurementsModel with ChangeNotifier {
 
   void onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction >= 0.85) {
-      _borderColor = kSecondaryColor;
+      // _borderColor = kSecondaryColor;
+      _borderColor = ThemeColors.secondary;
     } else {
       _borderColor = Colors.grey;
     }
@@ -224,7 +225,7 @@ class AddMeasurementsModel with ChangeNotifier {
           builder: (context, watch, child) => AddMeasurementsScreen(
             user: user,
             database: database,
-            model: watch(addMeasurementsModelProvider),
+            model: watch(addMeasurementsScreenModelProvider),
           ),
         ),
       ),

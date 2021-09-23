@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 void showDatePicker(
   BuildContext context, {
@@ -17,7 +17,7 @@ void showDatePicker(
         key: const Key('DatePicker'),
         onVisibilityChanged: onVisibilityChanged,
         child: Container(
-          color: kCardColorLight,
+          color: ThemeColors.cardLight,
           height: size.height / 3,
           child: CupertinoTheme(
             data: const CupertinoThemeData(brightness: Brightness.dark),

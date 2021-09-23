@@ -5,6 +5,7 @@ import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class NewWorkoutDifficultyAndMoreScreen extends StatefulWidget {
   final StringCallback discriptionCallback;
@@ -85,7 +86,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   ),
                 ),
                 Card(
-                  color: kCardColor,
+                  color: ThemeColors.card,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -128,14 +129,14 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   ),
                 ),
                 Card(
-                  color: kCardColor,
+                  color: ThemeColors.card,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Slider(
-                    activeColor: kPrimaryColor,
-                    inactiveColor: kPrimaryColor.withOpacity(0.2),
+                    activeColor: ThemeColors.primary500,
+                    inactiveColor: ThemeColors.primary500.withOpacity(0.2),
                     value: _difficultySlider,
                     onChanged: (newRating) {
                       setState(() {
@@ -163,14 +164,14 @@ class _NewWorkoutDifficultyAndMoreScreenState
                   ),
                 ),
                 Card(
-                  color: kCardColor,
+                  color: ThemeColors.card,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Slider(
-                    activeColor: kPrimaryColor,
-                    inactiveColor: kPrimaryColor.withOpacity(0.2),
+                    activeColor: ThemeColors.primary500,
+                    inactiveColor: ThemeColors.primary500.withOpacity(0.2),
                     value: _secondsPerRepSlider,
                     onChanged: (newRating) {
                       setState(() {
@@ -217,7 +218,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                 ),
                 Card(
                   margin: EdgeInsets.zero,
-                  color: kCardColor,
+                  color: ThemeColors.card,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -226,7 +227,7 @@ class _NewWorkoutDifficultyAndMoreScreenState
                     child: DropdownButtonFormField(
                       isExpanded: true,
                       value: _dropdownValue,
-                      dropdownColor: kCardColor,
+                      dropdownColor: ThemeColors.card,
                       decoration: const InputDecoration(
                         enabledBorder: InputBorder.none,
                       ),

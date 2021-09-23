@@ -5,6 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/connect_bank_account_screen.dart';
 import 'package:workout_player/view_models/eats_tab_model.dart';
 
@@ -33,7 +34,7 @@ class EatsTabFlexibleSpaceBar extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  kBottomNavBarColor,
+                  ThemeColors.bottomNavBar,
                 ],
                 begin: Alignment(0, 0.5),
                 end: Alignment.bottomCenter,

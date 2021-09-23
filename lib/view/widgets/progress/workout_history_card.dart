@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 import 'workout_set_widget_for_history.dart';
@@ -38,7 +38,7 @@ class WorkoutHistoryCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      color: kCardColor,
+      color: ThemeColors.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -93,7 +93,11 @@ class WorkoutHistoryCard extends StatelessWidget {
           maintainState: true,
           children: [
             if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
-              const Divider(endIndent: 8, indent: 8, color: kGrey700),
+              const Divider(
+                endIndent: 8,
+                indent: 8,
+                color: ThemeColors.grey700,
+              ),
             if (workoutHistory.sets == null || workoutHistory.sets!.isEmpty)
               SizedBox(
                 height: 80,
@@ -101,7 +105,7 @@ class WorkoutHistoryCard extends StatelessWidget {
                   child: Text(S.current.addASet, style: TextStyles.body2),
                 ),
               ),
-            const Divider(endIndent: 8, indent: 8, color: kGrey700),
+            const Divider(endIndent: 8, indent: 8, color: ThemeColors.grey700),
             if (workoutHistory.sets != null)
               ListView.builder(
                 padding: EdgeInsets.zero,

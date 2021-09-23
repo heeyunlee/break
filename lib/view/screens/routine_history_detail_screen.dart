@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -14,7 +15,6 @@ import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/progress/summary_row_widget.dart';
@@ -96,7 +96,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         AnimationController(vsync: this, duration: Duration.zero);
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration.zero);
-    _colorTween = ColorTween(begin: Colors.transparent, end: kAppBarColor)
+    _colorTween = ColorTween(begin: Colors.transparent, end: ThemeColors.appBar)
         .animate(_colorAnimationController);
     _transTween = Tween(begin: const Offset(-10, 40), end: const Offset(-10, 0))
         .animate(_textAnimationController);
@@ -207,7 +207,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     dataFormat(widget.routineHistory);
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: NotificationListener<ScrollNotification>(
           onNotification: _scrollListener,
           child: CustomScrollView(
@@ -256,7 +256,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      kBackgroundColor,
+                      ThemeColors.background,
                     ],
                   ),
                 ),
@@ -327,7 +327,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
               ),
             const SizedBox(height: 32),
-            const Divider(color: kGrey800),
+            const Divider(color: ThemeColors.grey800),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -335,7 +335,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             ),
             _buildListView(),
             const SizedBox(height: 32),
-            const Divider(color: kGrey800),
+            const Divider(color: ThemeColors.grey800),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -343,7 +343,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             ),
             const SizedBox(height: 8),
             Card(
-              color: kCardColor,
+              color: ThemeColors.card,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -382,7 +382,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 32),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: kGrey800),
+              const Divider(color: ThemeColors.grey800),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 16),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
@@ -408,7 +408,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   const SizedBox(width: 8),
                   Switch(
                     value: _isPublic,
-                    activeColor: kPrimaryColor,
+                    activeColor: ThemeColors.primary500,
                     onChanged: (bool value) {
                       HapticFeedback.mediumImpact();
                       setState(() {
@@ -423,7 +423,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: kGrey800),
+              const Divider(color: ThemeColors.grey800),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
@@ -494,7 +494,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 _musclesAndEquipment[index],
                 style: TextStyles.button1,
               ),
-              backgroundColor: kPrimaryColor,
+              backgroundColor: ThemeColors.primary500,
             ),
           ),
         ),

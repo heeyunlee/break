@@ -9,8 +9,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -61,11 +61,11 @@ class CaloriesEntriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.proteinEntriesTitle, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),

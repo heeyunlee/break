@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
-import 'package:workout_player/view_models/add_measurements_model.dart';
+import 'package:workout_player/view_models/add_measurements_screen_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -104,7 +104,7 @@ class _SpeedDialState extends State<SpeedDial>
         onPressed: () {
           widget.model.toggleAnimation();
 
-          AddMeasurementsModel.show(context);
+          AddMeasurementsScreenModel.show(context);
         },
         icon: const Icon(Icons.monitor_weight_rounded, size: 20),
       ),

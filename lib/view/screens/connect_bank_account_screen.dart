@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class ConnectBankAcocuntScreen extends StatelessWidget {
@@ -22,10 +22,10 @@ class ConnectBankAcocuntScreen extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         leading: const AppBarCloseButton(),
       ),
       body: Builder(
@@ -64,7 +64,7 @@ class ConnectBankAcocuntScreen extends StatelessWidget {
         height: 40,
         child: FloatingActionButton.extended(
           onPressed: () {},
-          backgroundColor: kPrimaryColor,
+          backgroundColor: ThemeColors.primary500,
           label: const Text(
             'Connect acocunt',
             style: TextStyles.button1,

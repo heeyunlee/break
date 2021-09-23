@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import '../../../view_models/home_screen_model.dart';
@@ -49,8 +49,8 @@ class BottomNavigationTab extends ConsumerWidget {
           unselectedItemColor: Colors.white,
           currentIndex: model.currentTabIndex,
           selectedLabelStyle: TextStyles.overlinePrimary,
-          backgroundColor: kBottomNavBarColor,
-          selectedItemColor: kPrimaryColor,
+          backgroundColor: ThemeColors.bottomNavBar,
+          selectedItemColor: ThemeColors.primary500,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             _buildItem(TabItem.move),

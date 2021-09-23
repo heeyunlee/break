@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class NewWorkoutMainMuscleGroupScreen extends StatefulWidget {
   final ListCallback mainMuscleGroupCallback;
@@ -40,9 +41,11 @@ class _NewWorkoutMainMuscleGroupScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: (_mainMuscleGroup[key]!) ? kPrimaryColor : kGrey700,
+                    color: (_mainMuscleGroup[key]!)
+                        ? ThemeColors.primary500
+                        : ThemeColors.grey700,
                     child: CheckboxListTile(
-                      activeColor: kPrimary700Color,
+                      activeColor: ThemeColors.primary700,
                       title: Text(title, style: TextStyles.button1),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroup[key],

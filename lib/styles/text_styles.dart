@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 /// My Custom TextStyle Convention
 ///
@@ -84,7 +84,7 @@ class TextStyles {
   static const headline5W900Primary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
-    color: kPrimaryColor,
+    color: ThemeColors.primary500,
     letterSpacing: 0,
     fontFamily: defaultFontFamily,
   );
@@ -100,7 +100,7 @@ class TextStyles {
   static const headline5MenloW900Primary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
-    color: kPrimaryColor,
+    color: ThemeColors.primary500,
     letterSpacing: 0,
     fontFamily: menlo,
   );
@@ -108,7 +108,8 @@ class TextStyles {
   static const headline5MenloBoldSecondary = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
-    color: kSecondaryColor,
+    // color: kSecondaryColor,
+    color: ThemeColors.secondary,
     letterSpacing: 0,
     fontFamily: menlo,
   );
@@ -177,7 +178,7 @@ class TextStyles {
   static const subtitle1W900Primary = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    color: kPrimaryColor,
+    color: ThemeColors.primary500,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
@@ -185,7 +186,8 @@ class TextStyles {
   static const subtitle1W900Secondary = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    color: kSecondaryColor,
+    // color: kSecondaryColor,
+    color: ThemeColors.secondary,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
@@ -420,7 +422,7 @@ class TextStyles {
   static const body2Grey700 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: kGrey700,
+    color: ThemeColors.grey700,
     letterSpacing: 0.25,
     fontFamily: defaultFontFamily,
   );
@@ -449,7 +451,8 @@ class TextStyles {
   static const button1SecondaryW900 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w900,
-    color: kSecondaryColor,
+    // color: kSecondaryColor,
+    color: ThemeColors.secondary,
     letterSpacing: 1.25,
     fontFamily: defaultFontFamily,
   );
@@ -528,7 +531,7 @@ class TextStyles {
   static const overlinePrimary = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.normal,
-    color: kPrimaryColor,
+    color: ThemeColors.primary500,
     letterSpacing: 1.5,
     fontFamily: defaultFontFamily,
   );

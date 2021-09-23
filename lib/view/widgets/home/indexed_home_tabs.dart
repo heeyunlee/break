@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/view/screens/library/library_tab.dart';
+import 'package:workout_player/view/screens/library_tab.dart';
 import 'package:workout_player/view/screens/eats_tab.dart';
 import 'package:workout_player/view/screens/progress_tab.dart';
 import 'package:workout_player/view/screens/explore_tab.dart';

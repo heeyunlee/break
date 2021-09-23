@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/progress/daily_summary_card.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -45,11 +45,11 @@ class RoutineHistoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.routineHistoryTitle, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: kAppBarColor,
+        backgroundColor: ThemeColors.appBar,
         flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),

@@ -14,12 +14,12 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-import 'library/workout_detail_screen.dart';
+import 'workout_detail_screen.dart';
 import 'new_workout_difficulty_and_more_screen.dart';
 import 'new_workout_equipment_required_screen.dart';
 import 'new_workout_main_muscle_group_screen.dart';
@@ -192,7 +192,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         leading: const AppBarCloseButton(),
@@ -262,13 +262,13 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     if (_pageIndex == 3) {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: ThemeColors.primary500,
         label: Text(S.current.finish, style: TextStyles.button1),
         onPressed: _submit,
       );
     } else {
       return FloatingActionButton(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: ThemeColors.primary500,
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)

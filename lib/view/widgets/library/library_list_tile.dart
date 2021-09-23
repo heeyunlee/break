@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class LibraryListTile extends StatelessWidget {
   final String? tag;
@@ -35,7 +35,7 @@ class LibraryListTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: (selected ?? false)
-              ? kPrimaryColor.withOpacity(0.2)
+              ? ThemeColors.primary500.withOpacity(0.2)
               : Colors.transparent,
         ),
         child: Padding(

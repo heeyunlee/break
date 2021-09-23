@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/progress/daily_summary_numbers_widget.dart';
 
 class ActivityRingSampleWidget extends StatelessWidget {
@@ -56,8 +56,8 @@ class ActivityRingSampleWidget extends StatelessWidget {
                   radius: size.width / 2.4,
                   lineWidth: 12,
                   percent: 0.9,
-                  backgroundColor: kPrimaryColor.withOpacity(0.25),
-                  progressColor: kPrimaryColor,
+                  backgroundColor: ThemeColors.primary500.withOpacity(0.25),
+                  progressColor: ThemeColors.primary500,
                   animation: true,
                   animationDuration: 1000,
                   circularStrokeCap: CircularStrokeCap.round,

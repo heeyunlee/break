@@ -11,13 +11,13 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/services/algolia_manager.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/watch_tab.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-import 'library/workout_detail_screen.dart';
+import 'workout_detail_screen.dart';
 import 'workouts_by_category_scree.dart';
 
 class ExploreTab extends StatefulWidget {
@@ -73,11 +73,11 @@ class _ExploreTabState extends State<ExploreTab> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(0),
         child: AppBar(
-          backgroundColor: kAppBarColor,
+          backgroundColor: ThemeColors.appBar,
           elevation: 0,
         ),
       ),
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: FloatingSearchBar(
         controller: _controller,
         iconColor: Colors.black,
@@ -91,7 +91,7 @@ class _ExploreTabState extends State<ExploreTab> {
         transitionCurve: Curves.easeInOut,
         hint: S.current.searchBarHintText,
         hintStyle: TextStyles.body2Grey,
-        backdropColor: kAppBarColor,
+        backdropColor: ThemeColors.appBar,
         backgroundColor: Colors.white,
         queryStyle: TextStyles.body2Black,
         actions: [

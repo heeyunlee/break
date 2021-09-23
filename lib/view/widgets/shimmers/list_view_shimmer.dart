@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class ListViewShimmer extends StatelessWidget {
   const ListViewShimmer({Key? key}) : super(key: key);
@@ -8,7 +8,7 @@ class ListViewShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: kCardColor,
+      baseColor: ThemeColors.card,
       highlightColor: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),

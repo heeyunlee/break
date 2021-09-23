@@ -5,6 +5,7 @@ import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/more_nutritions_entries_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -25,7 +26,7 @@ class EatsTabBodyWidget extends StatelessWidget {
             SliverAppBar(
               pinned: true,
               stretch: true,
-              backgroundColor: kAppBarColor,
+              backgroundColor: ThemeColors.appBar,
               expandedHeight: size.height * 3 / 4,
               flexibleSpace: EatsTabFlexibleSpaceBar(data: data),
             ),
@@ -60,7 +61,7 @@ class EatsTabBodyWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     margin: const EdgeInsets.all(16),
-                    color: kCardColor,
+                    color: ThemeColors.card,
                     child: ListView.separated(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,

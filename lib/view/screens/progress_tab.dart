@@ -5,6 +5,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 import 'package:workout_player/view/widgets/progress/blurred_background.dart';
 import 'package:workout_player/view/widgets/progress/choose_date_icon_button.dart';
@@ -13,7 +14,6 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
-import '../../styles/constants.dart';
 import '../../view_models/progress_tab_model.dart';
 import '../widgets/progress/choose_background_button.dart';
 import '../widgets/progress/customize_widgets_button.dart';
@@ -64,11 +64,11 @@ class _ProgressTabState extends State<ProgressTab>
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),
-      loadingWidget: Container(color: kBackgroundColor),
+      loadingWidget: Container(color: ThemeColors.background),
       builder: (context, user) => NotificationListener<ScrollNotification>(
         onNotification: widget.model.onNotification,
         child: Scaffold(
-          backgroundColor: kBackgroundColor,
+          backgroundColor: ThemeColors.background,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             centerTitle: true,

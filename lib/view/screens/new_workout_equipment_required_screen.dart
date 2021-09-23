@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class NewWorkoutEquipmentRequiredScreen extends StatefulWidget {
   final ListCallback equipmentRequiredCallback;
@@ -40,10 +41,11 @@ class _NewWorkoutEquipmentRequiredScreenScreenState
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color:
-                        (_equipmentRequired[key]!) ? kPrimaryColor : kGrey700,
+                    color: (_equipmentRequired[key]!)
+                        ? ThemeColors.primary500
+                        : ThemeColors.grey700,
                     child: CheckboxListTile(
-                      activeColor: kPrimary700Color,
+                      activeColor: ThemeColors.primary700,
                       title: Text(title, style: TextStyles.button1),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _equipmentRequired[key],

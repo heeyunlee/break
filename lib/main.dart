@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/styles/custom_theme_data.dart';
 
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/services/auth.dart';
@@ -78,16 +79,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'NanumSquareRound',
-            primaryColorBrightness: Brightness.dark,
-            iconTheme: const IconThemeData(
-              color: Colors.white,
-            ),
-            bottomSheetTheme: const BottomSheetThemeData(
-              backgroundColor: Colors.transparent,
-            ),
-          ),
+          theme: CustomThemeData.defaultTheme,
           home: const LandingScreen(),
         ),
       ),

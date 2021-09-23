@@ -1,8 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/utils/string_validator.dart';
 
 final textFieldModelProvider = ChangeNotifierProvider(
   (ref) => TextFieldModel(),
@@ -35,8 +35,8 @@ class TextFieldModel with ChangeNotifier {
   String? emailValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
-        final validator = StringValidatorBase();
-        final isEmailValid = validator.isEmailValid(value);
+        // final validator = StringValidatorBase();
+        final isEmailValid = EmailValidator.validate(value);
 
         if (!isEmailValid) {
           return S.current.invalidEmailValidationText;
@@ -61,13 +61,21 @@ class TextFieldModel with ChangeNotifier {
     }
   }
 
+  bool isPasswordValid(String? password) {
+    if (password == null || password.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   String? passwordValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
-        final validator = StringValidatorBase();
-        final isPasswordValid = validator.isPasswordValid(value);
+        // final validator = StringValidatorBase();
+        final validator = isPasswordValid(value);
 
-        if (!isPasswordValid) {
+        if (!validator) {
           return S.current.emptyConfirmPasswordValidationtext;
         }
       }

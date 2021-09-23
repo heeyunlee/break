@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class RoutineDetailScreenShimmer extends StatelessWidget {
   const RoutineDetailScreenShimmer({Key? key}) : super(key: key);
@@ -13,8 +13,8 @@ class RoutineDetailScreenShimmer extends StatelessWidget {
       width: size.width,
       height: size.height,
       child: Shimmer.fromColors(
-        baseColor: kCardColor,
-        highlightColor: kCardColorLight,
+        baseColor: ThemeColors.card,
+        highlightColor: ThemeColors.cardLight,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

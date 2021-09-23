@@ -13,7 +13,7 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -115,7 +115,8 @@ class LogRoutineModel with ChangeNotifier {
 
   void onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction >= 0.85) {
-      _borderColor = kSecondaryColor;
+      // _borderColor = kSecondaryColor;
+      _borderColor = ThemeColors.secondary;
     } else {
       _borderColor = Colors.grey;
     }

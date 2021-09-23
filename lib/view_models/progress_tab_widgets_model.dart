@@ -5,7 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/calories_entries_screen.dart';
 import 'package:workout_player/view/screens/carbs_entries_screen.dart';
 import 'package:workout_player/view/screens/fat_entries_screen.dart';
@@ -165,8 +165,8 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       key: const Key('weeklyWorkoutHistoryMedium'),
       progressTabClass: data,
       constraints: constraints,
-      defaultColor: kPrimaryColor,
-      touchedColor: kPrimary700Color,
+      defaultColor: ThemeColors.primary500,
+      touchedColor: ThemeColors.primary700,
       model: weeklyWeightsBarChartModelProvider,
       onTap: () => RoutineHistoriesScreen.show(context),
       titleIcon: Icons.fitness_center_rounded,

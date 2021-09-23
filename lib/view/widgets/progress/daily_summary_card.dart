@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
@@ -20,7 +20,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: kCardColor,
+      color: ThemeColors.card,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -52,7 +52,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(indent: 8, endIndent: 8, color: kGrey800),
+        const Divider(indent: 8, endIndent: 8, color: ThemeColors.grey800),
         const SizedBox(height: 16),
         _DailySummaryRowWidget(
           routineHistory: routineHistory,
@@ -62,7 +62,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         if (routineHistory.earnedBadges == true)
-          const Divider(indent: 8, endIndent: 8, color: kGrey800),
+          const Divider(indent: 8, endIndent: 8, color: ThemeColors.grey800),
         if (routineHistory.earnedBadges == true)
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -100,7 +100,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         child: Container(
           height: 56,
           width: 56,
-          color: kGrey700,
+          color: ThemeColors.grey700,
           child: Center(
             child: CachedNetworkImage(
               imageUrl:

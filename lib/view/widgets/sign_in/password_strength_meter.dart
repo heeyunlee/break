@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 // TODO: FINISH PASSWROD STRENGTH METER
 
@@ -14,7 +14,7 @@ class PasswordStrengthMeter extends StatelessWidget {
       children: [
         Row(
           children: [
-            _passwordStrengthMeter(context, kPrimaryColor),
+            _passwordStrengthMeter(context, ThemeColors.primary500),
             _passwordStrengthMeter(context, Colors.grey),
             _passwordStrengthMeter(context, Colors.grey),
             _passwordStrengthMeter(context, Colors.grey),

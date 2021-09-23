@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
@@ -64,7 +64,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.local_fire_department_rounded,
-                    color: kPrimaryColor,
+                    color: ThemeColors.primary500,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
@@ -75,7 +75,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                   const SizedBox(width: 8),
                   const Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: kPrimaryColor,
+                    color: ThemeColors.primary500,
                     size: 16,
                   ),
                 ],
@@ -97,7 +97,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor:
                             (_weeklyWorkedOutMuscles[index] != null)
-                                ? kPrimaryColor
+                                ? ThemeColors.primary500
                                 : Colors.transparent,
                         maxRadius: 16,
                         child: Padding(

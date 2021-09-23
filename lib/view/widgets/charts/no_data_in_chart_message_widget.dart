@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class NoDataInChartMessageWidget extends StatelessWidget {
   final Color? color;
@@ -10,7 +10,7 @@ class NoDataInChartMessageWidget extends StatelessWidget {
 
   const NoDataInChartMessageWidget({
     Key? key,
-    this.color = kPrimaryColor,
+    this.color = ThemeColors.primary500,
     this.textStyle = TextStyles.caption1,
   }) : super(key: key);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -59,7 +60,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
     return Theme(
       data: ThemeData(
-        disabledColor: kGrey700,
+        disabledColor: ThemeColors.grey700,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
       ),
       child: KeyboardActions(
@@ -149,10 +150,8 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
   KeyboardActionsConfig _buildConfig() {
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: kGrey700,
-      keyboardBarColor: kKeyboardDarkColor,
-      // keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      // nextFocus: true,
+      keyboardSeparatorColor: ThemeColors.grey700,
+      keyboardBarColor: ThemeColors.keyboard,
       actions: widget.model.focusNodes
           .map(
             (focusNode) => KeyboardActionsItem(
@@ -181,7 +180,8 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
           widget.database,
           widget.user,
         ),
-        backgroundColor: widget.model.validate() ? kPrimaryColor : Colors.grey,
+        backgroundColor:
+            widget.model.validate() ? ThemeColors.primary500 : Colors.grey,
         heroTag: 'addProteinButton',
         label: Text(S.current.submit),
       ),

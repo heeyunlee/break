@@ -8,7 +8,7 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -59,12 +59,12 @@ class RoutineDetailScreenModel with ChangeNotifier {
     );
 
     _colorTweeen = ColorTween(
-      begin: kBackgroundColor,
-      end: kAppBarColor,
+      begin: ThemeColors.background,
+      end: ThemeColors.appBar,
     ).animate(_sliverAnimationController);
 
     _secondColorTweeen = ColorTween(
-      begin: kBackgroundColor,
+      begin: ThemeColors.background,
       end: Colors.transparent,
     ).animate(_sliverAnimationController);
   }

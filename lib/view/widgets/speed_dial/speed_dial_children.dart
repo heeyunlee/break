@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 
 class SpeedDialChildren extends StatelessWidget {
   final void Function() onPressed;
@@ -23,7 +23,7 @@ class SpeedDialChildren extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Material(
-            color: kPrimaryColor,
+            color: ThemeColors.primary500,
             clipBehavior: Clip.antiAlias,
             shape: const CircleBorder(),
             elevation: 6,

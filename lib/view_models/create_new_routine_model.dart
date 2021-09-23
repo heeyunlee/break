@@ -16,10 +16,10 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/screens/library/choose_equipment_required_screen.dart';
-import 'package:workout_player/view/screens/library/choose_main_muscle_group_screen.dart';
-import 'package:workout_player/view/screens/library/choose_more_settings_screen.dart';
-import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
+import 'package:workout_player/view/screens/choose_equipment_required_screen.dart';
+import 'package:workout_player/view/screens/choose_main_muscle_group_screen.dart';
+import 'package:workout_player/view/screens/choose_more_settings_screen.dart';
+import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'home_screen_model.dart';

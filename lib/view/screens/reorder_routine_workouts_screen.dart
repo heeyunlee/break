@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 import '../../view_models/reorder_routine_workouts_screen_model.dart';
@@ -66,7 +66,7 @@ class _ReorderRoutineWorkoutsScreenState
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -83,7 +83,9 @@ class _ReorderRoutineWorkoutsScreenState
           onPressed: widget.model.areMapsEqual
               ? null
               : () => widget.model.onSubmit(context, widget.routine),
-          backgroundColor: widget.model.areMapsEqual ? kGrey700 : kPrimaryColor,
+          backgroundColor: widget.model.areMapsEqual
+              ? ThemeColors.grey700
+              : ThemeColors.primary500,
           label: Text(S.current.save, style: TextStyles.button1Bold),
         ),
       ),
@@ -114,7 +116,7 @@ class _ReorderRoutineWorkoutsScreenState
             key: ValueKey(widget.routineWorkouts[index]!.routineWorkoutId),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Card(
-              color: kCardColor,
+              color: ThemeColors.card,
               elevation: 6,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

@@ -308,7 +308,7 @@ class Formatter {
               .translation!)
           .toList();
 
-      final lowerCased = list.join(', ').toLowerCase();
+      final lowerCased = list.join(', ');
 
       return lowerCased;
     } else {

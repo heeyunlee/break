@@ -5,13 +5,13 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/buttons/appbar_close_button.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
-import '../../../view_models/personal_goals_screen_model.dart';
+import '../../view_models/personal_goals_screen_model.dart';
 
 class SetGoalsScreenTemplate extends StatelessWidget {
   final PersonalGoalsScreenModel model;
@@ -88,7 +88,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -118,7 +118,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
         width: size.width - 32,
         child: FloatingActionButton.extended(
           onPressed: () => fabOnPressed(context),
-          backgroundColor: kPrimaryColor,
+          backgroundColor: ThemeColors.primary500,
           label: Text(S.current.setGoal, style: TextStyles.button1Bold),
         ),
       ),

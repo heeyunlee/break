@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class RoutineFlexibleSpaceBar extends StatelessWidget {
@@ -20,6 +20,8 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return FlexibleSpaceBar(
       background: Stack(
         fit: StackFit.passthrough,
@@ -39,7 +41,7 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  kBackgroundColor,
+                  ThemeColors.background,
                 ],
               ),
             ),
@@ -47,15 +49,18 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
           Positioned(
             bottom: 16,
             left: 16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildTitle(context, title: model.title(data)),
-                Text(
-                  model.username(data),
-                  style: TextStyles.subtitle2BoldGrey,
-                ),
-              ],
+            child: SizedBox(
+              width: size.width - 32,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTitle(context, title: model.title(data)),
+                  Text(
+                    model.username(data),
+                    style: TextStyles.subtitle2BoldGrey,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

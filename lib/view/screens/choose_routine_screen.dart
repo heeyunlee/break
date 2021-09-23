@@ -7,11 +7,11 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/screens/library/routine_detail_screen.dart';
+import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/choose_routine_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
@@ -52,7 +52,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: kBackgroundColor,
+      backgroundColor: ThemeColors.background,
       body: NestedScrollView(
         headerSliverBuilder: (_, __) {
           return <Widget>[
