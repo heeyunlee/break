@@ -59,7 +59,7 @@ class ManageAccountScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return StreamBuilder<User?>(
-      initialData: userDummyData,
+      initialData: DummyData.user,
       stream: database.userStream(),
       builder: (context, snapshot) {
         final user = snapshot.data;

@@ -466,5 +466,8 @@
     "nutritionFacts": "Nutrition Facts",
     "totalFat": "Total Fat",
     "totalCarbohydrate": "Total Carbohydrate",
-    "protein": "Protein"
+    "protein": "Protein",
+    "deleteNutritionSnackBarTitle": "Delete Nutrition",
+    "deleteNutritionSnackBarMessage": "Successfully deleted a nutrition entry",
+    "createYourOwnWorkoutRoutine": "Create Your Own Workout Routine"
 }

@@ -20,177 +20,151 @@ import 'package:workout_player/models/workout_set.dart';
 
 import '../../../view_models/routine_workout_card_model.dart';
 
-class RoutineWorkoutCard extends StatelessWidget {
+class RoutineWorkoutCard extends ConsumerWidget {
   final int index;
   final Routine routine;
   final RoutineWorkout routineWorkout;
-  final AuthAndDatabase authAndDatabase;
+  final AuthAndDatabase? authAndDatabase;
 
   const RoutineWorkoutCard({
     Key? key,
     required this.index,
     required this.routine,
     required this.routineWorkout,
-    required this.authAndDatabase,
+    this.authAndDatabase,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final bool isOwner =
-        authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId;
+  Widget build(BuildContext context, ScopedReader watch) {
+    final model = watch(routineWorkoutCardModelProvider);
+    final workoutSetModel = watch(workoutSetWidgetModelProvider);
+    final workoutSetRestModel = watch(workoutSetRestWidgetModelProvider);
 
-    // FORMATTING
-    final numberOfSets = routineWorkout.numberOfSets;
-    final formattedNumberOfSets = (numberOfSets > 1)
-        ? '$numberOfSets ${S.current.sets}'
-        : '$numberOfSets ${S.current.set}';
-
-    final weights = Formatter.numWithOrWithoutDecimal(
-      routineWorkout.totalWeights,
-    );
-
-    final unit = Formatter.unitOfMass(
-      routine.initialUnitOfMass,
-      routine.unitOfMassEnum,
-    );
-
-    final formattedTotalWeights =
-        (routineWorkout.isBodyWeightWorkout && routineWorkout.totalWeights == 0)
-            ? S.current.bodyweight
-            : (routineWorkout.isBodyWeightWorkout)
-                ? '${S.current.bodyweight} + $weights $unit'
-                : '$weights $unit';
-
-    return Consumer(
-      builder: (context, watch, child) {
-        final model = watch(routineWorkoutCardModelProvider);
-        final workoutSetModel = watch(workoutSetWidgetModelProvider);
-        final workoutSetRestModel = watch(workoutSetRestWidgetModelProvider);
-
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          color: ThemeColors.card,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: ExpansionTile(
-            initiallyExpanded: true,
-            collapsedIconColor: Colors.white,
-            iconColor: Colors.white,
-            leading: SizedBox(
-              height: 48,
-              width: 48,
-              child: Center(
-                child: Text(
-                  (index + 1).toString(),
-                  style: TextStyles.blackHans1,
-                ),
-              ),
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      color: ThemeColors.card,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ExpansionTile(
+        initiallyExpanded: true,
+        collapsedIconColor: Colors.white,
+        iconColor: Colors.white,
+        leading: SizedBox(
+          height: 48,
+          width: 48,
+          child: Center(
+            child: Text(
+              (index + 1).toString(),
+              style: TextStyles.blackHans1,
             ),
-            title: _buildTitle(),
-            subtitle: Row(
-              children: <Widget>[
-                Text(formattedNumberOfSets, style: TextStyles.subtitle2),
-                const Text('   |   ', style: TextStyles.subtitle2),
-                Text(formattedTotalWeights, style: TextStyles.subtitle2),
+          ),
+        ),
+        title: _buildTitle(),
+        subtitle: Row(
+          children: <Widget>[
+            Text(
+              RoutineWorkoutCardModel.numberOfSets(routineWorkout),
+              style: TextStyles.subtitle2,
+            ),
+            const Text('   |   ', style: TextStyles.subtitle2),
+            Text(
+              RoutineWorkoutCardModel.totalWeights(routine, routineWorkout),
+              style: TextStyles.subtitle2,
+            ),
+          ],
+        ),
+        childrenPadding: EdgeInsets.zero,
+        maintainState: true,
+        children: [
+          kCustomDividerIndent8,
+          if (routineWorkout.sets.isEmpty)
+            Column(
+              children: [
+                SizedBox(
+                  height: 80,
+                  child: Center(
+                    child: Text(S.current.addASet, style: TextStyles.body2),
+                  ),
+                ),
+                kCustomDividerIndent8,
               ],
             ),
-            childrenPadding: EdgeInsets.zero,
-            maintainState: true,
-            children: [
-              kCustomDividerIndent8,
-              if (routineWorkout.sets.isEmpty)
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 80,
-                      child: Center(
-                        child: Text(S.current.addASet, style: TextStyles.body2),
-                      ),
+          if (routineWorkout.sets.isNotEmpty)
+            CustomListViewBuilder<WorkoutSet>(
+              items: routineWorkout.sets,
+              itemBuilder: (context, item, index) {
+                if (item.isRest) {
+                  return WorkoutSetRestWidget(
+                    authAndDatabase: authAndDatabase,
+                    routine: routine,
+                    routineWorkout: routineWorkout,
+                    workoutSet: item,
+                    model: model,
+                    index: index,
+                    setRestWidgetModel: workoutSetRestModel,
+                  );
+                } else {
+                  return WorkoutSetWidget(
+                    authAndDatabase: authAndDatabase,
+                    routine: routine,
+                    routineWorkout: routineWorkout,
+                    workoutSet: item,
+                    index: index,
+                    model: workoutSetModel,
+                  );
+                }
+              },
+            ),
+          if (routineWorkout.sets.isNotEmpty == true &&
+              RoutineWorkoutCardModel.isOwner(authAndDatabase?.auth, routine))
+            kCustomDividerIndent8,
+          if (RoutineWorkoutCardModel.isOwner(authAndDatabase?.auth, routine))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: IconButton(
+                    onPressed: () => model.addNewSet(
+                      context,
+                      routine: routine,
+                      routineWorkout: routineWorkout,
                     ),
-                    kCustomDividerIndent8,
-                  ],
+                    icon: const Icon(Icons.add_rounded, color: Colors.grey),
+                  ),
                 ),
-              if (routineWorkout.sets.isNotEmpty)
-                CustomListViewBuilder<WorkoutSet>(
-                  items: routineWorkout.sets,
-                  itemBuilder: (context, item, index) {
-                    if (item.isRest) {
-                      return WorkoutSetRestWidget(
-                        database: authAndDatabase.database,
-                        auth: authAndDatabase.auth,
-                        routine: routine,
-                        routineWorkout: routineWorkout,
-                        workoutSet: item,
-                        model: model,
-                        index: index,
-                        setRestWidgetModel: workoutSetRestModel,
-                      );
-                    } else {
-                      return WorkoutSetWidget(
-                        database: authAndDatabase.database,
-                        routine: routine,
-                        routineWorkout: routineWorkout,
-                        workoutSet: item,
-                        index: index,
-                        auth: authAndDatabase.auth,
-                        model: workoutSetModel,
-                      );
-                    }
-                  },
+                Container(height: 36, width: 1, color: ThemeColors.grey800),
+                SizedBox(
+                  width: 100,
+                  child: IconButton(
+                    onPressed: () => model.addNewRest(
+                      context,
+                      routine: routine,
+                      routineWorkout: routineWorkout,
+                    ),
+                    icon: const Icon(Icons.timer_rounded, color: Colors.grey),
+                  ),
                 ),
-              if (routineWorkout.sets.isNotEmpty == true && isOwner)
-                kCustomDividerIndent8,
-              if (isOwner)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: IconButton(
-                        onPressed: () => model.addNewSet(
-                          context,
-                          routine: routine,
-                          routineWorkout: routineWorkout,
-                        ),
-                        icon: const Icon(Icons.add_rounded, color: Colors.grey),
-                      ),
+                Container(height: 36, width: 1, color: ThemeColors.grey800),
+                SizedBox(
+                  width: 100,
+                  child: IconButton(
+                    onPressed: () => _showModalBottomSheet(
+                      HomeScreenModel.homeScreenNavigatorKey.currentContext!,
+                      model,
                     ),
-                    Container(height: 36, width: 1, color: ThemeColors.grey800),
-                    SizedBox(
-                      width: 100,
-                      child: IconButton(
-                        onPressed: () => model.addNewRest(
-                          context,
-                          routine: routine,
-                          routineWorkout: routineWorkout,
-                        ),
-                        icon:
-                            const Icon(Icons.timer_rounded, color: Colors.grey),
-                      ),
+                    icon: const Icon(
+                      Icons.delete_rounded,
+                      color: Colors.grey,
                     ),
-                    Container(height: 36, width: 1, color: ThemeColors.grey800),
-                    SizedBox(
-                      width: 100,
-                      child: IconButton(
-                        onPressed: () => _showModalBottomSheet(
-                          HomeScreenModel
-                              .homeScreenNavigatorKey.currentContext!,
-                          model,
-                        ),
-                        icon: const Icon(
-                          Icons.delete_rounded,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              const SizedBox(height: 8),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 
@@ -225,7 +199,7 @@ class RoutineWorkoutCard extends StatelessWidget {
       useRootNavigator: false,
       message: S.current.deleteRoutineWorkoutMessage,
       cancelText: S.current.cancel,
-      isCancelDefault: false,
+      isCancelDefault: true,
       firstActionText: S.current.deleteRoutineWorkoutButton,
       isFirstActionDefault: false,
       firstActionOnPressed: () => model.deleteRoutineWorkout(

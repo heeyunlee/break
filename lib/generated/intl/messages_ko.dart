@@ -216,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("커스텀 루틴을 만들어 보세요"),
         "createYourOwnWorkout":
             MessageLookupByLibrary.simpleMessage("나만의 루틴을 만들어 보세요"),
+        "createYourOwnWorkoutRoutine":
+            MessageLookupByLibrary.simpleMessage("나만의 운동 루틴을 만들고 저장하세요"),
         "customizeWidgetsMessage": MessageLookupByLibrary.simpleMessage(
             "보고 싶지 않은 위젯은 제거하고, 자신에게 중요한 위젯만 볼 수 있습니다!"),
         "customizeWidgetsTitle": MessageLookupByLibrary.simpleMessage(
@@ -239,6 +241,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("성공적으로 신체 정보 기록을 삭제했습니다!"),
         "deleteMeasurementSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("신체 기록 정보 삭제"),
+        "deleteNutritionSnackBarMessage":
+            MessageLookupByLibrary.simpleMessage("성공적으로 영양소 엔트리를 삭제했습니다"),
+        "deleteNutritionSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("영양소 삭제"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("기록을 삭제했습니다"),
         "deleteProteinSnackbarTitle":

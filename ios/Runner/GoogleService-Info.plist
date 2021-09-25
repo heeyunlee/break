@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk.apps.googleusercontent.com</string>
+	<string>1008594575857-2p8ple0sccfd9bbo0qurhkm54japcckh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk</string>
+	<string>com.googleusercontent.apps.1008594575857-2p8ple0sccfd9bbo0qurhkm54japcckh</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>1008594575857-c0fcu6bqje42j4mjkcke76df01ibd0q3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.healtine.playerh</string>
+	<string>com.nextsportif.break</string>
 	<key>PROJECT_ID</key>
 	<string>player-h</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1008594575857:ios:999d6a9aa9e1c532046450</string>
+	<string>1:1008594575857:ios:7a6b45c9d5c89778046450</string>
 </dict>
 </plist>

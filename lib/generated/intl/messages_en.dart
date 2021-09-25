@@ -236,6 +236,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create Your Own Routine"),
         "createYourOwnWorkout":
             MessageLookupByLibrary.simpleMessage("Create Your Own Workout"),
+        "createYourOwnWorkoutRoutine": MessageLookupByLibrary.simpleMessage(
+            "Create Your Own Workout Routine"),
         "customizeWidgetsMessage": MessageLookupByLibrary.simpleMessage(
             "You can customize by selecting widgets that are important to you, and hide other widget that you may wish not to see now"),
         "customizeWidgetsTitle": MessageLookupByLibrary.simpleMessage(
@@ -259,6 +261,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Successfully delete Measurement!"),
         "deleteMeasurementSnackbarTitle":
             MessageLookupByLibrary.simpleMessage("Delete Body Measurement"),
+        "deleteNutritionSnackBarMessage": MessageLookupByLibrary.simpleMessage(
+            "Successfully deleted a nutrition entry"),
+        "deleteNutritionSnackBarTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Nutrition"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a protein entry"),
         "deleteProteinSnackbarTitle":

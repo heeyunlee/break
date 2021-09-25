@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/food_item.dart';
 import 'package:workout_player/models/nutrition.dart';
@@ -12,7 +13,7 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
 
-class NutritionsDetailScreen extends StatelessWidget {
+class NutritionsDetailScreen extends ConsumerWidget {
   const NutritionsDetailScreen({
     Key? key,
     required this.nutrition,
@@ -34,7 +35,8 @@ class NutritionsDetailScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final model = watch(nutritionsDetailScreenModelProvider);
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -52,10 +54,10 @@ class NutritionsDetailScreen extends StatelessWidget {
             backgroundColor: ThemeColors.background,
             leading: const AppBarBackButton(),
             actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.edit_rounded),
-              ),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.edit_rounded),
+              // ),
               IconButton(
                 onPressed: () {
                   showCustomModalBottomSheet(
@@ -63,9 +65,16 @@ class NutritionsDetailScreen extends StatelessWidget {
                     title: NutritionsDetailScreenModel.title(nutrition),
                     firstTileTitle: S.current.delete,
                     firstTileIcon: Icons.delete_rounded,
-                    firstTileOnTap: () {
-                      Navigator.of(context).pop();
-                    },
+                    firstTileOnTap: () => model.delete(
+                      context,
+                      database: database,
+                      nutrition: nutrition,
+                    ),
+                    // firstTileOnTap: () {
+                    //   final a = HomeScreenModel
+                    //       .homeScreenNavigatorKey.currentContext!;
+                    //   Navigator.of(a).pop();
+                    // },
                   );
                 },
                 icon: const Icon(Icons.more_vert_rounded),

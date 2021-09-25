@@ -1,12 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/food_item.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
+
+import 'home_screen_model.dart';
+import 'main_model.dart';
+
+final nutritionsDetailScreenModelProvider = ChangeNotifierProvider(
+  (ref) => NutritionsDetailScreenModel(),
+);
 
 class NutritionsDetailScreenModel with ChangeNotifier {
-  void delete(BuildContext context) {}
+  Future<void> delete(
+    BuildContext context, {
+    required Database database,
+    required Nutrition nutrition,
+  }) async {
+    try {
+      final homeContext =
+          HomeScreenModel.homeScreenNavigatorKey.currentContext!;
+
+      await database.deleteNutrition(nutrition);
+
+      Navigator.of(homeContext).pop();
+      Navigator.of(context).pop();
+
+      getSnackbarWidget(
+        S.current.deleteNutritionSnackBarTitle,
+        S.current.deleteNutritionSnackBarMessage,
+      );
+    } on FirebaseException catch (e) {
+      _showSignInError(e, context);
+    }
+  }
+
+  void _showSignInError(FirebaseException exception, BuildContext context) {
+    logger.e(exception);
+
+    showExceptionAlertDialog(
+      context,
+      title: S.current.operationFailed,
+      exception: exception.message ?? S.current.operationFailed,
+    );
+  }
 
   /// VIEW MODEL
   static String title(Nutrition nutrition) {

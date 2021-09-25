@@ -4729,6 +4729,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Delete Nutrition`
+  String get deleteNutritionSnackBarTitle {
+    return Intl.message(
+      'Delete Nutrition',
+      name: 'deleteNutritionSnackBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully deleted a nutrition entry`
+  String get deleteNutritionSnackBarMessage {
+    return Intl.message(
+      'Successfully deleted a nutrition entry',
+      name: 'deleteNutritionSnackBarMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Your Own Workout Routine`
+  String get createYourOwnWorkoutRoutine {
+    return Intl.message(
+      'Create Your Own Workout Routine',
+      name: 'createYourOwnWorkoutRoutine',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

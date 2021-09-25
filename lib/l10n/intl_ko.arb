@@ -466,5 +466,8 @@
     "nutritionFacts": "영양 정보",
     "totalFat": "지방",
     "totalCarbohydrate": "탄수화물",
-    "protein": "단백질"
+    "protein": "단백질",
+    "deleteNutritionSnackBarTitle": "영양소 삭제",
+    "deleteNutritionSnackBarMessage": "성공적으로 영양소 엔트리를 삭제했습니다",
+    "createYourOwnWorkoutRoutine": "나만의 운동 루틴을 만들고 저장하세요"
 }

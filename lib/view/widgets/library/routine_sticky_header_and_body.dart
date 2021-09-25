@@ -26,7 +26,7 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routine = data.routine ?? routineDummyData;
+    final routine = data.routine ?? DummyData.routine;
     final bool isOwner =
         authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId;
 

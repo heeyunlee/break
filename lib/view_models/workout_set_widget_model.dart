@@ -7,6 +7,7 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
@@ -20,12 +21,14 @@ class WorkoutSetWidgetModel with ChangeNotifier {
   /// DELETE WORKOUT SET
   Future<void> deleteSet(
     BuildContext context,
-    Database database, {
+    Database? database, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required WorkoutSet workoutSet,
   }) async {
     try {
+      assert(database != null);
+
       // Update Routine Workout Data
       final numberOfSets = (workoutSet.isRest)
           ? routineWorkout.numberOfSets
@@ -50,7 +53,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
       };
 
-      await database.setWorkoutSet(
+      await database!.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -96,7 +99,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
   /// UPDATE WEIGHT
   Future<void> updateWeight(
     BuildContext context,
-    Database database, {
+    Database? database, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -105,23 +108,34 @@ class WorkoutSetWidgetModel with ChangeNotifier {
     required int index,
   }) async {
     /// Update Workout Set
-    final List<WorkoutSet> workoutSets = routineWorkout.sets;
+    try {
+      assert(database != null);
 
-    final updatedWorkoutSet = workoutSet.copyWith(
-      weights: num.tryParse(textEditingController.text),
-    );
+      final List<WorkoutSet> workoutSets = routineWorkout.sets;
 
-    workoutSets[index] = updatedWorkoutSet;
+      final updatedWorkoutSet = workoutSet.copyWith(
+        weights: num.tryParse(textEditingController.text),
+      );
 
-    focusNode.unfocus();
+      workoutSets[index] = updatedWorkoutSet;
 
-    await _submit(context, database, routine, routineWorkout, workoutSets);
+      focusNode.unfocus();
+
+      await _submit(context, database!, routine, routineWorkout, workoutSets);
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
+    }
   }
 
   /// UPDATE WEIGHT
   Future<void> updateReps(
     BuildContext context,
-    Database database, {
+    Database? database, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -130,17 +144,28 @@ class WorkoutSetWidgetModel with ChangeNotifier {
     required int index,
   }) async {
     /// Update Workout Set
-    final List<WorkoutSet> workoutSets = routineWorkout.sets;
+    try {
+      assert(database != null);
 
-    final updatedWorkoutSet = workoutSet.copyWith(
-      reps: int.tryParse(textEditingController.text),
-    );
+      final List<WorkoutSet> workoutSets = routineWorkout.sets;
 
-    workoutSets[index] = updatedWorkoutSet;
+      final updatedWorkoutSet = workoutSet.copyWith(
+        reps: int.tryParse(textEditingController.text),
+      );
 
-    focusNode.unfocus();
+      workoutSets[index] = updatedWorkoutSet;
 
-    await _submit(context, database, routine, routineWorkout, workoutSets);
+      focusNode.unfocus();
+
+      await _submit(context, database!, routine, routineWorkout, workoutSets);
+    } on FirebaseException catch (e) {
+      logger.e(e);
+      await showExceptionAlertDialog(
+        context,
+        title: S.current.operationFailed,
+        exception: e.toString(),
+      );
+    }
   }
 
   /// UPDATE WEIGHT
@@ -228,5 +253,16 @@ class WorkoutSetWidgetModel with ChangeNotifier {
     }
   }
 
-  // static final formKey = GlobalKey<FormState>();
+  static String title(WorkoutSet workoutSet) {
+    return '${S.current.set} ${workoutSet.setIndex}';
+  }
+
+  static String unit(Routine routine) {
+    final unit = Formatter.unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
+
+    return unit;
+  }
 }

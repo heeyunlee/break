@@ -3,9 +3,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/routine_workout_card_model.dart';
@@ -16,8 +15,7 @@ import '../buttons.dart';
 class WorkoutSetRestWidget extends StatefulWidget {
   const WorkoutSetRestWidget({
     Key? key,
-    required this.database,
-    required this.auth,
+    this.authAndDatabase,
     required this.routine,
     required this.routineWorkout,
     required this.workoutSet,
@@ -26,8 +24,7 @@ class WorkoutSetRestWidget extends StatefulWidget {
     required this.setRestWidgetModel,
   }) : super(key: key);
 
-  final Database database;
-  final AuthBase auth;
+  final AuthAndDatabase? authAndDatabase;
   final Routine routine;
   final RoutineWorkout routineWorkout;
   final WorkoutSet workoutSet;
@@ -63,15 +60,16 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isOwner =
-        widget.auth.currentUser!.uid == widget.routine.routineOwnerId;
-
     return KeyboardActions(
       config: _buildConfig(_focusNode),
       autoScroll: false,
       disableScroll: true,
       bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
       child: Slidable(
+        enabled: RoutineWorkoutCardModel.isOwner(
+          widget.authAndDatabase?.auth,
+          widget.routine,
+        ),
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
@@ -81,7 +79,7 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
               icon: Icons.delete_rounded,
               onPressed: (context) => widget.model.deleteRestingWorkoutSet(
                 context,
-                widget.database,
+                widget.authAndDatabase?.database,
                 routine: widget.routine,
                 routineWorkout: widget.routineWorkout,
                 workoutSet: widget.workoutSet,
@@ -106,7 +104,10 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
                     alignment: Alignment.center,
                     color: ThemeColors.primary500,
                     child: TextField(
-                      enabled: isOwner,
+                      enabled: RoutineWorkoutCardModel.isOwner(
+                        widget.authAndDatabase?.auth,
+                        widget.routine,
+                      ),
                       autofocus: false,
                       textAlign: TextAlign.center,
                       controller: _textEditingController,

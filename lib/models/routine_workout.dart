@@ -1,4 +1,7 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import 'workout_set.dart';
 
@@ -18,6 +21,7 @@ class RoutineWorkout {
     required this.duration,
     required this.secondsPerRep,
     required this.translated,
+    this.unitOfMass,
   });
 
   final String routineWorkoutId;
@@ -34,6 +38,7 @@ class RoutineWorkout {
   final int duration;
   final int secondsPerRep;
   final Map<String, dynamic> translated;
+  final UnitOfMass? unitOfMass;
 
   factory RoutineWorkout.fromJson(
       Map<String, dynamic>? data, String documentId) {
@@ -55,6 +60,12 @@ class RoutineWorkout {
       final int secondsPerRep = data['secondsPerRep'] as int;
       final Map<String, dynamic> translated =
           data['translated'] as Map<String, dynamic>;
+      final UnitOfMass? unitOfMass = (data['unitOfMass'] != null)
+          ? EnumToString.fromString<UnitOfMass>(
+              UnitOfMass.values,
+              data['unitOfMass'] as String,
+            )
+          : null;
 
       return RoutineWorkout(
         routineWorkoutId: documentId,
@@ -71,6 +82,7 @@ class RoutineWorkout {
         duration: duration,
         secondsPerRep: secondsPerRep,
         translated: translated,
+        unitOfMass: unitOfMass,
       );
     } else {
       throw 'null';
@@ -92,6 +104,7 @@ class RoutineWorkout {
     data['duration'] = duration;
     data['secondsPerRep'] = secondsPerRep;
     data['translated'] = translated;
+    data['unitOfMass'] = unitOfMass;
 
     return data;
   }
@@ -114,7 +127,8 @@ class RoutineWorkout {
         other.isBodyWeightWorkout == isBodyWeightWorkout &&
         other.duration == duration &&
         other.secondsPerRep == secondsPerRep &&
-        mapEquals(other.translated, translated);
+        mapEquals(other.translated, translated) &&
+        other.unitOfMass == unitOfMass;
   }
 
   @override
@@ -132,6 +146,7 @@ class RoutineWorkout {
         isBodyWeightWorkout.hashCode ^
         duration.hashCode ^
         secondsPerRep.hashCode ^
-        translated.hashCode;
+        translated.hashCode ^
+        unitOfMass.hashCode;
   }
 }

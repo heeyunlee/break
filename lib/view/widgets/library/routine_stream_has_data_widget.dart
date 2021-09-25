@@ -109,7 +109,7 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
   }
 
   List<Widget> _sliverActions() {
-    final routine = widget.data.routine ?? routineDummyData;
+    final routine = widget.data.routine ?? DummyData.routine;
     final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     final isRoutineSaved =

@@ -63,7 +63,7 @@ class PersonalGoalsScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return CustomStreamBuilder<User?>(
-      initialData: userDummyData,
+      initialData: DummyData.user,
       stream: database.userStream(),
       builder: (context, user) => Consumer(
         builder: (context, watch, child) {

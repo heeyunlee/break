@@ -101,7 +101,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
       stream: model.stream(database),
       builder: (context, snapshot) {
         return CustomListViewBuilder<Routine>(
-          items: snapshot.data ?? [routineDummyData],
+          items: snapshot.data ?? [DummyData.routine],
           emptyContentTitle: S.current.emptyroutinesContentTitle(
             model.selectedChipTranslation,
           ),

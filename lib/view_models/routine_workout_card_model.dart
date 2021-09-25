@@ -11,7 +11,9 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
@@ -195,12 +197,14 @@ class RoutineWorkoutCardModel with ChangeNotifier {
 
   Future<void> deleteRestingWorkoutSet(
     BuildContext context,
-    Database database, {
+    Database? database, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required WorkoutSet workoutSet,
   }) async {
     try {
+      assert(database != null);
+
       // Update Routine Workout Data
       final numberOfSets = (workoutSet.isRest)
           ? routineWorkout.numberOfSets
@@ -225,7 +229,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
       };
 
-      await database.setWorkoutSet(
+      await database!.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -266,5 +270,40 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         exception: e.toString(),
       );
     }
+  }
+
+  static String numberOfSets(RoutineWorkout routineWorkout) {
+    if (routineWorkout.numberOfSets > 1) {
+      return '${routineWorkout.numberOfSets} ${S.current.sets}';
+    } else {
+      return '${routineWorkout.numberOfSets} ${S.current.set}';
+    }
+  }
+
+  static String totalWeights(Routine routine, RoutineWorkout routineWorkout) {
+    final weights = Formatter.numWithOrWithoutDecimal(
+      routineWorkout.totalWeights,
+    );
+
+    final unit = Formatter.unitOfMass(
+      routine.initialUnitOfMass,
+      routine.unitOfMassEnum,
+    );
+
+    final formattedTotalWeights =
+        (routineWorkout.isBodyWeightWorkout && routineWorkout.totalWeights == 0)
+            ? S.current.bodyweight
+            : (routineWorkout.isBodyWeightWorkout)
+                ? '${S.current.bodyweight} + $weights $unit'
+                : '$weights $unit';
+
+    return formattedTotalWeights;
+  }
+
+  static bool isOwner(AuthBase? auth, Routine routine) {
+    final uid = auth?.currentUser?.uid;
+    final routineOwnerId = routine.routineOwnerId;
+
+    return uid == routineOwnerId;
   }
 }
