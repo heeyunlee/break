@@ -32,20 +32,7 @@ class PreviewScreen extends StatelessWidget {
               ThirdPreviewWidget(),
             ],
           ),
-          Container(
-            width: double.infinity,
-            height: kBottomNavigationBarHeight + 40,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.85),
-                ],
-              ),
-            ),
-          ),
+          const GradientBackground(),
           SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,

@@ -1,0 +1,28 @@
+{
+  "name": "kakao_flutter_sdk",
+  "version": "0.8.1",
+  "summary": "Flutter SDK for Kakao API",
+  "description": "A new flutter plugin project.",
+  "homepage": "https://github.com/kakao/kakao_flutter_sdk",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Hara Kang": "hara0115@gmail.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "dependencies": {
+    "Flutter": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
+}

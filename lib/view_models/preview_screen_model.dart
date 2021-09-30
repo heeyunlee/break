@@ -5,19 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'main_model.dart';
+import 'sign_in_screen_model.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => PreviewScreenModel(),
 );
 
 class PreviewScreenModel extends ChangeNotifier {
-  int _currentPage = 0;
+  int _currentPageIndex = 0;
   int _currentWidgetIndex = 0;
   Timer? _timer;
   Widget _currentWidget = const ActivityRingSampleWidget();
-  PageController _pageController = PageController();
+  PageController _pageController = PageController(initialPage: 0);
 
-  int get currentPage => _currentPage;
+  int get currentPageIndex => _currentPageIndex;
   int get currentWidgetIndex => _currentWidgetIndex;
   Timer? get timer => _timer;
   Widget get currentWidget => _currentWidget;
@@ -51,6 +52,22 @@ class PreviewScreenModel extends ChangeNotifier {
     } else {
       _setCurrentWdigetIndex();
     }
+  }
+
+  Future<void> onPressed(BuildContext context) async {
+    if (_currentPageIndex >= 2) {
+      SignInScreenModel.show(context);
+    } else {
+      _currentPageIndex++;
+
+      _pageController.animateToPage(
+        _currentPageIndex,
+        curve: Curves.linear,
+        duration: const Duration(milliseconds: 300),
+      );
+    }
+
+    notifyListeners();
   }
 
   final List<Widget> currentPreviewWidgetList = [

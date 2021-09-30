@@ -3,6 +3,7 @@ library preview;
 export 'preview/activity_ring_sample_widget.dart';
 export 'preview/blurred_background_preview_widget.dart';
 export 'preview/first_preview_widget.dart';
+export 'preview/gradient_background.dart';
 export 'preview/latest_body_fat_sample_widget.dart';
 export 'preview/latest_body_weight_sample_widget.dart';
 export 'preview/most_recent_workout_sample_widget.dart';

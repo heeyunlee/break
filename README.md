@@ -28,15 +28,15 @@ Break is a health & fitness tracking app built with Dart (Flutter) and Firebase.
 
 ### Android
 
-  HomePage                 |   Routine Detail Screen   |        Cart Page          |        Cart Page
+  Sign In & Preview Screen |   Routine Detail Screen   |        Cart Page          |        Cart Page
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
-<img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_ios.gif" alt="speed dial" width="200"/>|<img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>|<img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
+<img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_android.gif" width="200"/>|<img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>|<img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
 
 <br>
 
 ### iOS
 
-  HomePage                 |   Routine Detail Screen   |        Cart Page          |        Cart Page
+  Sign In & Preview Screen |   Routine Detail Screen   |        Cart Page          |        Cart Page
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
 <img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_ios.gif" width="200"/>|<img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>|<img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
 
@@ -46,17 +46,24 @@ Break is a health & fitness tracking app built with Dart (Flutter) and Firebase.
 ## Introduction
 
 ### Why?
-There are countless fitness apps available, yet I was never satisfied with just one app, and I always had to use multiple apps to log and track my health & fitness. For example, [Yazio] was very good for tracking nutritions, but tracking physical activities was never good there. [Strong] app was very good for tracking weight lifting exercises, but it also lacked other functionalities. 
+There are countless fitness apps available, yet I was never satisfied with just one app, and I always had to use multiple apps to log and track my physical activtivies—weightlifting and running—and nutrition consumption at the same time. For example, [Yazio] was very good for tracking nutritions consumptions, but tracking physical activities was never good there. [Strong] app was very good for tracking weight lifting exercises, but they didn't have the feautes to add nutritions consumptions. To achieve health & fitness goals such as dieting, both exercising AND eating are equally important, but no apps offered exceptionally good product for both.
 
-That's why I started this project. The goal of this project is to create a all-in-one place for users to log and track their health & fitness. Users can log their body measurements, nutritions consumed, and workout data, and these data are transformed into customizable and easy-to-look dashboard, all in one app. Users also can use YouTube videos to workout and log their progress.
+That's why I started this project. The goal of this project is to create a all-in-one place for users to log and track their health & fitness. Users can log and track their body measurements, nutritions consumed, and workout data, and these data are transformed into customizable and easy-to-look dashboard, all in one app. 
 
-### Checklist
+This project is a work-in-process. I am keeping learning and developing new features. Below is the breif roadmap:
+
+### Roadmap
+#### Nutritions
 - [x] Manaully add nutritions data
 - [ ] Add nutritions by scanning bar code
-- [ ] Automatically log nutritions data
+- [ ] Automatically log nutritions data using credit card transactions data
+
+#### Body Measurement
 - [x] Manually add body measurements data
 - [ ] Automatically sync measurements data with Apple HealthKit and/or Google Fit
-- [x] Log weight lifting exercise data
+
+#### Exercise
+- [x] Log weight lifting exercise data manually
 - [ ] Log other cardio workouts
 - [x] Workout with YouTube Video
 
@@ -124,8 +131,9 @@ lib
 <br>
 
 ## Features
+H
 
-### Workout Playliss
+### Workout Playlist
 Workout playlist is a collection of workouts 
 
 ## Staggered Animation Transition
@@ -216,28 +224,6 @@ Library is a screen where user's custom-made/saved workouts and routines are dis
 
 <br>
 <br>
-
-### Routine Detail Screen
-
-
-### Others screens from the library tab
-
-<p align="left">
-    <img src="readme_assets/create_routine_screen.gif" alt="Routines Tab" width="200"/>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-</p>
-
-## Progress Tab
-Progress tab displays various widgets that highlight user's health & fitness data.
-
-<p align="left">
-    <img src="readme_assets/progress_tab_1_ios.gif" alt="Assessment 1, Android" width="200"/>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-</p>
 
 ## Libraries
 I have used the following libraries to build this app:

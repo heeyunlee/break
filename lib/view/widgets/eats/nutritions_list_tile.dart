@@ -11,14 +11,18 @@ class NutritionsListTile extends StatelessWidget {
   const NutritionsListTile({
     Key? key,
     required this.nutrition,
+    this.isPreview = false,
   }) : super(key: key);
 
   final Nutrition nutrition;
+  final bool isPreview;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => NutritionsDetailScreen.show(context, nutrition: nutrition),
+      onTap: isPreview
+          ? null
+          : () => NutritionsDetailScreen.show(context, nutrition: nutrition),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: IntrinsicHeight(
@@ -69,7 +73,6 @@ class NutritionsListTile extends StatelessWidget {
                           width: 72,
                           height: 32,
                           decoration: BoxDecoration(
-                            // color: kSecondaryColor,
                             color: ThemeColors.secondary,
                             borderRadius: BorderRadius.circular(4),
                           ),

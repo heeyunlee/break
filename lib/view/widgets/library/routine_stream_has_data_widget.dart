@@ -67,7 +67,7 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
     return NotificationListener(
       onNotification: widget.model.onNotification,
       child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
         slivers: [
           AnimatedBuilder(
             animation: widget.model.sliverAnimationController,

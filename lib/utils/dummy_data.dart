@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/enum/meal.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/models.dart';
 
 class DummyData {
@@ -572,6 +573,65 @@ class DummyData {
     description: 'Breakfast',
     isCreditCardTransaction: false,
   );
+
+  static List<Nutrition> nutritions = [
+    Nutrition(
+      nutritionId: 'nutritionId',
+      userId: 'userId',
+      username: 'username',
+      loggedTime: now,
+      loggedDate: now.toDate(),
+      type: Meal.dinner,
+      proteinAmount: 120,
+      calories: 650,
+      unitOfMass: UnitOfMass.kilograms,
+      description: 'Crispy Honey Garlic Cauliflower Bowls',
+      isCreditCardTransaction: false,
+    ),
+    Nutrition(
+      nutritionId: 'nutritionId',
+      userId: 'userId',
+      username: 'username',
+      loggedTime: now,
+      loggedDate: now.toDate(),
+      type: Meal.lunch,
+      proteinAmount: 100,
+      calories: 500,
+      unitOfMass: UnitOfMass.kilograms,
+      description: 'Lunch',
+      isCreditCardTransaction: false,
+    ),
+    Nutrition(
+      nutritionId: 'nutritionId',
+      userId: 'userId',
+      username: 'username',
+      loggedTime: Timestamp.fromDate(
+        now.toDate().subtract(const Duration(days: 1)),
+      ),
+      loggedDate: now.toDate().subtract(const Duration(days: 1)),
+      type: Meal.dinner,
+      proteinAmount: 120,
+      calories: 650,
+      unitOfMass: UnitOfMass.kilograms,
+      description: 'Breakfast',
+      isCreditCardTransaction: false,
+    ),
+    Nutrition(
+      nutritionId: 'nutritionId',
+      userId: 'userId',
+      username: 'username',
+      loggedTime: Timestamp.fromDate(
+        now.toDate().subtract(const Duration(days: 1)),
+      ),
+      loggedDate: now.toDate().subtract(const Duration(days: 1)),
+      type: Meal.dinner,
+      proteinAmount: 120,
+      calories: 650,
+      unitOfMass: UnitOfMass.kilograms,
+      description: 'Dinner',
+      isCreditCardTransaction: false,
+    ),
+  ];
 
   static final measurementDummyData = Measurement(
     measurementId: 'measurementId',
