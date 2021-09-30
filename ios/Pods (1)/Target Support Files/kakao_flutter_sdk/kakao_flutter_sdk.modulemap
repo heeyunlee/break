@@ -1,6 +1,0 @@
-framework module kakao_flutter_sdk {
-  umbrella header "kakao_flutter_sdk-umbrella.h"
-
-  export *
-  module * { export * }
-}
