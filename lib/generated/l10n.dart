@@ -4759,6 +4759,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Record Consumed Nutritions`
+  String get recordConsumedNutritions {
+    return Intl.message(
+      'Record Consumed Nutritions',
+      name: 'recordConsumedNutritions',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

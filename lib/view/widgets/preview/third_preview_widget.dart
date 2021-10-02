@@ -16,15 +16,22 @@ class ThirdPreviewWidget extends StatelessWidget {
         children: [
           SizedBox(height: size.height / 3),
           Text(
-            'asdasdas',
+            S.current.recordConsumedNutritions,
             style: TextStyles.body1Menlo,
           ),
           SizedBox(height: size.height / 6),
+          // ...List.generate(
+          //   DummyData.nutritions.length,
+          //   (index) => NutritionsListTile(
+          //     isPreview: true,
+          //     nutrition: DummyData.nutritionDummyData,
+          //   ),
+          // ),
           ...DummyData.nutritions
               .map(
                 (nutrition) => NutritionsListTile(
                   isPreview: true,
-                  nutrition: DummyData.nutritionDummyData,
+                  nutrition: nutrition,
                 ),
               )
               .toList(),

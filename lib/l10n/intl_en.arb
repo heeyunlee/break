@@ -469,5 +469,6 @@
     "protein": "Protein",
     "deleteNutritionSnackBarTitle": "Delete Nutrition",
     "deleteNutritionSnackBarMessage": "Successfully deleted a nutrition entry",
-    "createYourOwnWorkoutRoutine": "Create Your Own Workout Routine"
+    "createYourOwnWorkoutRoutine": "Create Your Own Workout Routine",
+    "recordConsumedNutritions": "Record Consumed Nutritions"
 }

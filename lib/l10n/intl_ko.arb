@@ -469,5 +469,6 @@
     "protein": "단백질",
     "deleteNutritionSnackBarTitle": "영양소 삭제",
     "deleteNutritionSnackBarMessage": "성공적으로 영양소 엔트리를 삭제했습니다",
-    "createYourOwnWorkoutRoutine": "나만의 운동 루틴을 만들고 저장하세요"
+    "createYourOwnWorkoutRoutine": "나만의 운동 루틴을 만들고 저장하세요",
+    "recordConsumedNutritions": "식단 관리를 하세요"
 }

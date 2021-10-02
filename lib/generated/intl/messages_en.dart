@@ -560,6 +560,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "recentTransactions":
             MessageLookupByLibrary.simpleMessage("Recent Transactions"),
         "recentWeightWidgetSubtitle": m9,
+        "recordConsumedNutritions":
+            MessageLookupByLibrary.simpleMessage("Record Consumed Nutritions"),
         "register": MessageLookupByLibrary.simpleMessage("Register!"),
         "reorderRoutineWorkoutsHeader": MessageLookupByLibrary.simpleMessage(
             "Long press the card to reorder"),

@@ -17,6 +17,8 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.d('[PreviewScreen] building...');
 
+    context.read(previewScreenModelProvider).init();
+
     return Scaffold(
       backgroundColor: ThemeColors.background,
       extendBodyBehindAppBar: true,

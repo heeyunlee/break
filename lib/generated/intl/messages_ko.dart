@@ -517,6 +517,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "recentBodyFatWidgetSubtitle": m8,
         "recentTransactions": MessageLookupByLibrary.simpleMessage("최근 거래들"),
         "recentWeightWidgetSubtitle": m9,
+        "recordConsumedNutritions":
+            MessageLookupByLibrary.simpleMessage("식단 관리를 하세요"),
         "register": MessageLookupByLibrary.simpleMessage("회원가입!"),
         "reorderRoutineWorkoutsHeader":
             MessageLookupByLibrary.simpleMessage("순서변경을 위해 운동 카드를 길게 눌러 주세요"),

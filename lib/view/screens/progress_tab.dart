@@ -15,7 +15,6 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 import '../../view_models/progress_tab_model.dart';
-import '../widgets/progress/choose_background_button.dart';
 import '../widgets/progress/customize_widgets_button.dart';
 
 class ProgressTab extends StatefulWidget {
@@ -74,8 +73,8 @@ class _ProgressTabState extends State<ProgressTab>
             centerTitle: true,
             elevation: 0,
             backgroundColor: Colors.transparent,
-            leading: ChooseBackgroundButton(user: user!),
-            title: ChooseDateIconButton(model: widget.model, user: user),
+            // leading: ChooseBackgroundButton(user: user!),
+            title: ChooseDateIconButton(model: widget.model, user: user!),
             actions: [
               CustomizeWidgetsButton(user: user),
               const SizedBox(width: 8),

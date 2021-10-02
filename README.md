@@ -6,7 +6,7 @@
   <br>
   <br>
 
-  <a href="https://play.google.com/store/apps/details?id=com.healtine.playerh"><img src="readme_assets/google-play-badge.png" height="64"></img></a>
+  <a href="https://play.google.com/store/apps/details?id=com.healtine.playerh"><img src="readme_assets/google_play_badge_icon.png" height="64"></img></a>
   <a href="https://apps.apple.com/us/app/herakles-workout-player/id1555829140"><img src="readme_assets/download_on_app_store.svg" height="48"></img></a>
 </h1>
 
@@ -28,9 +28,9 @@ Break is a health & fitness tracking app built with Dart (Flutter) and Firebase.
 
 ### Android
 
-  Sign In & Preview Screen |   Routine Detail Screen   |        Cart Page          |        Cart Page
+  Sign In & Preview Screen |   Routine Detail Screen   |     Workout Miniplayer    |        Speed Dial
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
-<img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_android.gif" width="200"/>|<img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>|<img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
+<img src="readme_assets/sign_in_screen_android.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_android.gif" width="200"/>|<img src="readme_assets/workout_miniplayer_android.gif" width="200"/>|<img src="readme_assets/speed_dial_android.gif" width="200"/> 
 
 <br>
 
@@ -38,7 +38,7 @@ Break is a health & fitness tracking app built with Dart (Flutter) and Firebase.
 
   Sign In & Preview Screen |   Routine Detail Screen   |        Cart Page          |        Cart Page
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
-<img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>|<img src="readme_assets/routine_detail_screen_ios.gif" width="200"/>|<img src="readme_assets/miniplayer.gif" alt="miniplayer" width="200"/>|<img src="readme_assets/progress_tab.gif" alt="progress tab" width="200"/> 
+<img src="readme_assets/sign_in_screen_ios.gif" width="200"/>|<img src="readme_assets/routine_detail_screen_ios.gif" width="200"/>|<img src="readme_assets/workout_miniplayer_ios.gif" width="200"/>|<img src="readme_assets/speed_dial_ios.gif" width="200"/> 
 
 <br>
 <br>
@@ -131,96 +131,10 @@ lib
 <br>
 
 ## Features
-H
+
 
 ### Workout Playlist
-Workout playlist is a collection of workouts 
 
-## Staggered Animation Transition
-
-<img align="left" src="readme_assets/sign_in_screen_transition_1.gif" width="200">
-
-First, I created the custom widget with `FadeTransition()` and `SlideTransition()` so that each items could fade in/out or side up/down or in/out. 
-
-Then, I created a custom `ListView.builder()` which delays each item's animation start time by `stagger time * index`.
-
-<br>
-
-<img align="center" src="readme_assets/animation_interval.png" width="460">
-
-```dart
-return FadeTransition(
-    opacity: opacityAnimation,
-    child: SlideTransition(
-    position: offsetTween.animate(offsetAnimation),
-    child: child,
-    ),
-);
-```
-
-### Code Snippet
-```dart
-ListView.builder(
-    padding: EdgeInsets.zero,
-    itemCount: items.length,
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemBuilder: (context, i) {
-        // offsetBegin = 0.2 (offsetInitialDelayTime) + 0.1 (offsetStaggerTime) * i;
-        final offsetBegin = 0.2 + 0.1 * i; 
-
-        // offsetEnd = offsetBegin + 0.1 (offsetStaoffsetDurationggerTime);
-        final offsetEnd = offsetBegin + 0.3!;
-
-        assert(offsetEnd <= 1);
-
-        return FadeSlideTransition(
-            beginOffset: Offset(0.25, 0),
-            endOffset: Offset(0, 0),
-            offsetBeginInterval: offsetBegin,
-            offsetEndInterval: offsetEnd,
-            offsetCurves: Curves.decelerate,
-            child: items[i],
-        );
-    },
-);
-```
-
-## Preview & Sign In Screen
-The preview screen showcases different widgets that users can use on the progress tab using `AnimatedSwitcher()` widget. On SingInScreen, I used Firebase Auth to authenticate users through email or different social sign-in providers, including `KakaoTalk`.  
-
-For transitions between screens in PreviewScreen and SignInScreen, I made a reusable custom `PageRouteBuilder()` using `FadeTransition()` and `AnimatedBuilder()` to create staggered and fading animation effects that is showcased below. I used [cookbook] from official Flutter Doc as a reference to create this widget, but used `ListenableProvider()` to create more readable and reusable widget.
-
-### Preview Screen & Transition Between Preview Screen and Sign In Screen
-<p align="left">
-    <img src="readme_assets/preview_screen_ios.gif" alt="preview screen" width="200"/>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <img src="readme_assets/sign_in_screen_transition_1.gif" alt="sign in screen transition 1" width="200"/>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <img src="readme_assets/sign_in_screen_transition_2.gif" alt="sign in screen transition 2" width="200"/>  
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <img src="readme_assets/sign_in_screen_transition_3.gif" alt="sign in screen transition 3" width="200"/> 
-</p>
-
-<br>
-<br>
-
-## Library Tab: Workouts and Workout Routines
-Library is a screen where user's custom-made/saved workouts and routines are displayed in a well-organized manner using `DefaultTabController()`, `NestedScrollView()`, and `TabBarView()`. UI is similiar to the 'library' of any music streaming apps that displays saved songs or playlists.
-
-<p align="left">
-    <img src="readme_assets/routines_tab.PNG" alt="Routines Tab" width="200"/>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <img src="readme_assets/workouts_tab.PNG" alt="Routines Tab" width="200"/>
-</p>
 
 <br>
 <br>

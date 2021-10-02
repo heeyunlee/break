@@ -7,14 +7,16 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 - Combined [SearchTab] and [WatchTab] to one and named it [ExploreTab]
 - Created [EatsTab] that displays the nutritions
 - Create [SecondPreviewScreen]
+- Update [PreviewScreen] to display more features
 
 ### Bug Fix & Refactor
 - Refactored and redesigned RoutineDetailScreen 
 - Refactored and redesigned EditRoutineScreen
 - Updated to Flutter 2.5.0
-- Update dependencies:
+- Update dependencies (major updates):
   - Provider from 5.0.0 to 6.0.0
   - kakao_flutter_sdk from 0.6.3 to 0.8.1
+  - firebase_core from 1.6.0 to 1.7.0
 - Added label to [BottomNavigationBar]
 - Changed the name of the app to Break from Herakles
 - Changed the app's logo

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -16,13 +17,23 @@ class PreviewScreenModel extends ChangeNotifier {
   int _currentWidgetIndex = 0;
   Timer? _timer;
   Widget _currentWidget = const ActivityRingSampleWidget();
-  PageController _pageController = PageController(initialPage: 0);
+  late PageController _pageController;
 
   int get currentPageIndex => _currentPageIndex;
   int get currentWidgetIndex => _currentWidgetIndex;
   Timer? get timer => _timer;
   Widget get currentWidget => _currentWidget;
   PageController get pageController => _pageController;
+
+  void init() {
+    _pageController = PageController();
+
+    _pageController.addListener(() {
+      _currentPageIndex = _pageController.page?.toInt() ?? 0;
+
+      notifyListeners();
+    });
+  }
 
   void _setCurrentWdigetIndex() {
     logger.d('_setCurrentWdigetIndex called on PreviewScreen');
@@ -59,6 +70,7 @@ class PreviewScreenModel extends ChangeNotifier {
       SignInScreenModel.show(context);
     } else {
       _currentPageIndex++;
+      HapticFeedback.mediumImpact();
 
       _pageController.animateToPage(
         _currentPageIndex,

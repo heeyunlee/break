@@ -17,8 +17,8 @@ class CustomThemeData {
       centerTitle: true,
       color: ThemeColors.appBar,
     ),
-    highlightColor: ThemeColors.primary500.withOpacity(0.25),
-    splashColor: ThemeColors.primary500.withOpacity(0.5),
+    // highlightColor: ThemeColors.primary500.withOpacity(0.25),
+    // splashColor: ThemeColors.primary500.withOpacity(0.5),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.transparent,
     ),

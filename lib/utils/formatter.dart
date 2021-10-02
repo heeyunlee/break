@@ -150,6 +150,18 @@ class Formatter {
     }
   }
 
+  /// Returns a formatted number with or without first decimal point from either
+  /// `num` or `string` data type
+  static String? numWithOrWithoutDecimalOrNull(num? value) {
+    if (value != null) {
+      final formatter = NumberFormat(',###,###.#');
+
+      return formatter.format(value);
+    } else {
+      return null;
+    }
+  }
+
   /// Returns a string of pertange point with decimal point and % sign
   static String percentage(num? value) {
     if (value != null) {

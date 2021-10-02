@@ -163,7 +163,6 @@ class _ExploreTabState extends State<ExploreTab> {
                       subtitle:
                           S.current.searchResultSubtitle(muscle, equipment),
                       onTap: () async {
-                        // _controller.close();
                         await WorkoutDetailScreen.show(
                           context,
                           workoutId: workoutId,

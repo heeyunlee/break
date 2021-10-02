@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/generated/l10n.dart';
-
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -43,59 +41,73 @@ class NutritionsListTile extends StatelessWidget {
                   Text(
                     EatsTabModel.description(nutrition),
                     style: TextStyles.body1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  if (nutrition.isCreditCardTransaction ?? false)
-                    const Text(
-                      'Big Mac, Drink, and fries',
-                      style: TextStyles.body2LightGrey,
-                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    EatsTabModel.nutritions(nutrition),
+                    style: TextStyles.caption1Grey,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  // if (nutrition.isCreditCardTransaction ?? false)
+                  //   const Text(
+                  //     'Big Mac, Drink, and fries',
+                  //     style: TextStyles.body2LightGrey,
+                  //   ),
                   const SizedBox(height: 8),
-                  if (nutrition.isCreditCardTransaction ?? false)
-                    Row(
-                      children: [
-                        Container(
-                          width: 72,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              S.current.modify,
-                              style: TextStyles.button2,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Container(
-                          width: 72,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: ThemeColors.secondary,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              S.current.accept,
-                              style: TextStyles.button2,
-                            ),
-                          ),
-                        ),
-                      ],
+                  Chip(
+                    backgroundColor: ThemeColors.primary500,
+                    label: Text(
+                      EatsTabModel.mealType(nutrition),
+                      style: TextStyles.button2,
                     ),
-                  if (!(nutrition.isCreditCardTransaction ?? false))
-                    Chip(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      labelStyle: TextStyles.button2,
-                      backgroundColor: Colors.black54,
-                      label: Text(
-                        S.current.manual,
-                        style: TextStyles.button2,
-                      ),
-                    ),
+                  ),
+                  // if (nutrition.isCreditCardTransaction ?? false)
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //         width: 72,
+                  //         height: 32,
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.grey,
+                  //           borderRadius: BorderRadius.circular(4),
+                  //         ),
+                  //         child: TextButton(
+                  //           onPressed: () {},
+                  //           child: Text(
+                  //             S.current.modify,
+                  //             style: TextStyles.button2,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(width: 16),
+                  //       Container(
+                  //         width: 72,
+                  //         height: 32,
+                  //         decoration: BoxDecoration(
+                  //           color: ThemeColors.secondary,
+                  //           borderRadius: BorderRadius.circular(4),
+                  //         ),
+                  //         child: TextButton(
+                  //           onPressed: () {},
+                  //           child: Text(
+                  //             S.current.accept,
+                  //             style: TextStyles.button2,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // if (!(nutrition.isCreditCardTransaction ?? false))
+                  //   Chip(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 8),
+                  //     labelStyle: TextStyles.button2,
+                  //     backgroundColor: Colors.black54,
+                  //     label: Text(
+                  //       S.current.manual,
+                  //       style: TextStyles.button2,
+                  //     ),
+                  //   ),
                 ],
               ),
               const Spacer(),

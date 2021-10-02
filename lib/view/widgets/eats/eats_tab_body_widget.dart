@@ -56,26 +56,31 @@ class EatsTabBodyWidget extends StatelessWidget {
                       const SizedBox(width: 16),
                     ],
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    margin: const EdgeInsets.all(16),
-                    color: ThemeColors.card,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) =>
-                          kCustomDividerIndent8Heignt1,
-                      itemCount: data.recentNutritions.length,
-                      itemBuilder: (context, index) {
-                        return NutritionsListTile(
-                          nutrition: data.recentNutritions[index],
-                        );
-                      },
-                    ),
-                  ),
+                  data.recentNutritions.isEmpty
+                      ? EmptyContent(message: S.current.addNutritions)
+                      : Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          margin: const EdgeInsets.all(16),
+                          color: ThemeColors.card,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) =>
+                                kCustomDividerIndent8Heignt1,
+                            itemCount: data.recentNutritions.length,
+                            itemBuilder: (context, index) {
+                              return SizedBox(
+                                width: size.width - 32,
+                                child: NutritionsListTile(
+                                  nutrition: data.recentNutritions[index],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                   // Card(
                   //   shape: RoundedRectangleBorder(
                   //     borderRadius: BorderRadius.circular(8),

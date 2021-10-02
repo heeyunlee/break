@@ -105,15 +105,22 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              S.current.customizeWidgetsTitle,
-              style: TextStyles.subtitle1,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                S.current.customizeWidgetsTitle,
+                style: TextStyles.subtitle1,
+              ),
             ),
             const SizedBox(height: 8),
-            Text(
-              S.current.customizeWidgetsMessage,
-              style: TextStyles.subtitle2Grey,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                S.current.customizeWidgetsMessage,
+                style: TextStyles.subtitle2Grey,
+              ),
             ),
+            const SizedBox(height: 24),
             SizedBox(
               height: size.height / 3,
               child: GridView.count(
@@ -121,8 +128,6 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                 crossAxisCount: 1,
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.only(
-                  // top: Scaffold.of(context).appBarMaxHeight! + 16,
-                  // bottom: kBottomNavigationBarHeight + 48,
                   left: 16,
                   right: 16,
                 ),
@@ -157,11 +162,16 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                           horizontal: 4,
                           vertical: 8,
                         ),
-                        color: Colors.transparent,
+                        color: index == widget.model.selectedImageIndex
+                            ? ThemeColors.primary500.withOpacity(0.1)
+                            : Colors.transparent,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
                           side: index == widget.model.selectedImageIndex
-                              ? const BorderSide(color: Colors.white, width: 2)
+                              ? const BorderSide(
+                                  color: ThemeColors.primary500,
+                                  width: 2,
+                                )
                               : BorderSide.none,
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -209,59 +219,67 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                 ],
               ),
             ),
-            ...widget.model.currentPreviewWidgetList.map(
-              (value) {
-                final key =
-                    value.key.toString().replaceAll(RegExp(r'[^\w\s]+'), '');
-                final hasKey = widget.model.widgetKeysList.contains(key);
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: widget.model.currentPreviewWidgetList.map(
+                  (value) {
+                    final key = value.key
+                        .toString()
+                        .replaceAll(RegExp(r'[^\w\s]+'), '');
+                    final hasKey = widget.model.widgetKeysList.contains(key);
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Stack(
-                    children: [
-                      value,
-                      Positioned.fill(
-                        child: Container(
-                          margin: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            border: hasKey
-                                ? Border.all(color: ThemeColors.primary500)
-                                : Border.all(width: 0),
-                            borderRadius: BorderRadius.circular(24),
-                            color: hasKey
-                                ? ThemeColors.primary500.withOpacity(0.1)
-                                : Colors.transparent,
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(24),
-                              onTap: () => widget.model.onTap(key),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: hasKey
-                                      ? const Icon(
-                                          Icons.check_circle_outline_rounded,
-                                          color: ThemeColors.primary500,
-                                          size: 32,
-                                        )
-                                      : const Icon(
-                                          Icons.circle_outlined,
-                                          size: 32,
-                                        ),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Stack(
+                        children: [
+                          value,
+                          Positioned.fill(
+                            child: Container(
+                              margin: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                border: hasKey
+                                    ? Border.all(color: ThemeColors.primary500)
+                                    : Border.all(width: 0),
+                                borderRadius: BorderRadius.circular(24),
+                                color: hasKey
+                                    ? ThemeColors.primary500.withOpacity(0.1)
+                                    : Colors.transparent,
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(24),
+                                  onTap: () => widget.model.onTap(key),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: hasKey
+                                          ? const Icon(
+                                              Icons
+                                                  .check_circle_outline_rounded,
+                                              color: ThemeColors.primary500,
+                                              size: 32,
+                                            )
+                                          : const Icon(
+                                              Icons.circle_outlined,
+                                              size: 32,
+                                            ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
-            ).toList(),
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
           ],
         ),
       ),

@@ -115,7 +115,7 @@ class _SpeedDialState extends State<SpeedDial>
           ChooseRoutineScreen.show(context);
         },
         icon: const Icon(
-          Icons.fitness_center_rounded,
+          Icons.local_fire_department_outlined,
           color: Colors.white,
           size: 20,
         ),
@@ -127,7 +127,7 @@ class _SpeedDialState extends State<SpeedDial>
           AddNutritionScreenModel.show(context);
         },
         icon: const Icon(
-          Icons.restaurant_menu_rounded,
+          Icons.restaurant_rounded,
           color: Colors.white,
           size: 20,
         ),
