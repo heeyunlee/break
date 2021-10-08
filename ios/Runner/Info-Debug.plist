@@ -33,7 +33,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.1008594575857-2p8ple0sccfd9bbo0qurhkm54japcckh</string>
-				<!-- <string>com.googleusercontent.apps.1008594575857-tnb3n24k54dvr3cb5jifcd6nm11qe5pk</string> -->
 				<string>fb2951446544958094</string>
 				<string>kakaoc17f0f1bc6e039d488fb5264fdf93a10</string>
 			</array>
@@ -99,8 +98,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

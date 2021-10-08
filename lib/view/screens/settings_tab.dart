@@ -255,7 +255,7 @@ class SettingsTab extends ConsumerWidget {
             const SizedBox(height: 48),
             // TODO: CHANGE VERSION CODE HERE
             const Center(
-              child: Text('v.0.3.6', style: TextStyles.caption1Grey),
+              child: Text('v.0.3.6+1', style: TextStyles.caption1Grey),
             ),
             const SizedBox(height: 120),
           ],

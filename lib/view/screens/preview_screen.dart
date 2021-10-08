@@ -20,6 +20,7 @@ class PreviewScreen extends StatelessWidget {
     context.read(previewScreenModelProvider).init();
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: ThemeColors.background,
       extendBodyBehindAppBar: true,
       body: Stack(

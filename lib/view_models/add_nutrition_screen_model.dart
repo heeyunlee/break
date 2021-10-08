@@ -7,6 +7,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/models/enum/meal.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -196,7 +197,7 @@ class AddNutritionScreenModel with ChangeNotifier {
             fat: num.tryParse(_fatController.text),
             description: _descriptionController.text,
             isCreditCardTransaction: false,
-            unitOfMass: user.unitOfMassEnum,
+            unitOfMass: user.unitOfMassEnum ?? UnitOfMass.kilograms,
           );
 
           // Call Firebase

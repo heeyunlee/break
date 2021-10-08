@@ -49,8 +49,11 @@ class HomeScreenModel with ChangeNotifier {
     logger.d('`setMiniplayerHeight()` function called in [HomeScreen]');
 
     final aspectRatio = window.physicalSize.aspectRatio;
+
     final _miniplayerHeight = Platform.isAndroid
-        ? 136.0
+        ? (aspectRatio < 0.5)
+            ? 168.0
+            : 136.0
         : (aspectRatio < 0.5)
             ? 152.0
             : 120.0;

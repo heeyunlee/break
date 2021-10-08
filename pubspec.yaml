@@ -76,7 +76,7 @@ dependencies:
   reorderables: ^0.4.1
   dotted_border: ^2.0.0 # SHOULD REPLACE
   animated_text_kit: ^4.2.1
-  youtube_plyr_iframe: ^2.0.7
+  # youtube_plyr_iframe: ^2.0.7
   blurhash_dart: ^1.0.2
   timeago: ^3.0.2 # SHOULD REPLACE
   flutter_sticky_header: ^0.6.0

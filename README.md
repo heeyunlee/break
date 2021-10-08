@@ -36,7 +36,7 @@ Break is a health & fitness tracking app built with Dart (Flutter) and Firebase.
 
 ### iOS
 
-  Sign In & Preview Screen |   Routine Detail Screen   |        Cart Page          |        Cart Page
+  Sign In & Preview Screen |   Routine Detail Screen   |     Workout Miniplayer    |        Speed Dial
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
 <img src="readme_assets/sign_in_screen_ios.gif" width="200"/>|<img src="readme_assets/routine_detail_screen_ios.gif" width="200"/>|<img src="readme_assets/workout_miniplayer_ios.gif" width="200"/>|<img src="readme_assets/speed_dial_ios.gif" width="200"/> 
 

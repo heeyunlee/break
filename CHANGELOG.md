@@ -22,7 +22,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 - Changed the app's logo
 - Created `theme_colors.dart` and `custom_theme_data.dart` for stypes
 - Update `README.md`
-- Change iOS's package name to `com.nextsportif.break`
+- Change iOS's package name to `com.nextsportif.break`  
 
 ## [0.3.5] - September 4th, 2021
 ### New Features

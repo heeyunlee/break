@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:miniplayer/miniplayer.dart';
 
 import 'package:workout_player/view/widgets/home/indexed_home_tabs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -29,25 +28,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     logger.d('[HomeScreen] building... ');
 
-    return MiniplayerWillPopScope(
-      onWillPop: context.read(homeScreenModelProvider).onWillPopMiniplayer,
-      child: Stack(
-        children: [
-          Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBody: true,
-            key: HomeScreenModel.homeScreenNavigatorKey,
-            body: Stack(
-              children: const [
-                IndexedHomeTabs(),
-                MiniplayerScreen(),
-              ],
-            ),
-            bottomNavigationBar: const BottomNavigationTab(),
+    return Stack(
+      // return MiniplayerWillPopScope(
+      //   onWillPop: context.read(homeScreenModelProvider).onWillPopMiniplayer,
+      //   child: Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          key: HomeScreenModel.homeScreenNavigatorKey,
+          body: Stack(
+            children: const [
+              IndexedHomeTabs(),
+              MiniplayerScreen(),
+            ],
           ),
-          SpeedDial.create(),
-        ],
-      ),
+          bottomNavigationBar: const BottomNavigationTab(),
+        ),
+        SpeedDial.create(),
+      ],
+      // ),
     );
   }
 }

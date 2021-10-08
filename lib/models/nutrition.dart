@@ -110,7 +110,7 @@ class Nutrition {
       'isCreditCardTransaction': isCreditCardTransaction,
       'foodItems': foodItems?.map((e) => e.toJson()).toList(),
       'merchantName': merchantName,
-      'unitOfMass': EnumToString.convertToString(unitOfMass),
+      'unitOfMass': EnumToString.convertToString(unitOfMass, camelCase: true),
     };
   }
 }

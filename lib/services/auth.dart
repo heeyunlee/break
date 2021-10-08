@@ -244,7 +244,7 @@ class AuthService implements AuthBase {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'com.nextsportif.break',
+          clientId: 'com.healtine.playerh',
           redirectUri: Uri.parse(
             'https://player-h.firebaseapp.com/__/auth/handler',
           ),

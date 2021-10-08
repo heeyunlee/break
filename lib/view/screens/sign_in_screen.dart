@@ -31,6 +31,7 @@ class SignInScreen extends ConsumerWidget {
     final model = watch(signInScreenProvider);
 
     return Scaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
-import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
@@ -50,7 +50,7 @@ class MiniplayerModel with ChangeNotifier {
   final CountDownController _countDownController = CountDownController();
   late AnimationController _animationController;
   Timestamp? _workoutStartTime;
-  YoutubePlayerController? _youtubeController;
+  // YoutubePlayerController? _youtubeController;
   WorkoutForYoutube? _currentWorkoutForYoutube;
   int _currentWorkoutForYoutubeIndex = 0;
 
@@ -71,7 +71,7 @@ class MiniplayerModel with ChangeNotifier {
   CountDownController get countDownController => _countDownController;
   AnimationController get animationController => _animationController;
   Timestamp? get workoutStartTime => _workoutStartTime;
-  YoutubePlayerController? get youtubeController => _youtubeController;
+  // YoutubePlayerController? get youtubeController => _youtubeController;
   WorkoutForYoutube? get currentWorkoutForYoutube => _currentWorkoutForYoutube;
   int get currentWorkoutForYoutubeIndex => _currentWorkoutForYoutubeIndex;
 
@@ -87,7 +87,7 @@ class MiniplayerModel with ChangeNotifier {
     _currentWorkoutSet = null;
     _restTime = null;
     _workoutStartTime = null;
-    _youtubeController = null;
+    // _youtubeController = null;
     _currentWorkoutForYoutube = null;
     _currentWorkoutForYoutubeIndex = 0;
   }
@@ -173,12 +173,12 @@ class MiniplayerModel with ChangeNotifier {
 
       logger.d('current video is ${video!.toString()}');
 
-      _youtubeController = YoutubePlayerController(
-        initialVideoId: video.videoId,
-        params: const YoutubePlayerParams(
-          showControls: false,
-        ),
-      );
+      // _youtubeController = YoutubePlayerController(
+      //   initialVideoId: video.videoId,
+      //   params: const YoutubePlayerParams(
+      //     showControls: false,
+      //   ),
+      // );
 
       _currentWorkoutForYoutube = video.workouts[0];
 
@@ -223,12 +223,12 @@ class MiniplayerModel with ChangeNotifier {
     if (_currentWorkoutSet != null) {
       if (!_isWorkoutPaused) {
         _isWorkoutPaused = !_isWorkoutPaused;
-        _youtubeController?.pause();
+        // _youtubeController?.pause();
 
         await _animationController.forward();
         if (_currentWorkoutSet!.isRest) _countDownController.pause();
       } else {
-        _youtubeController?.play();
+        // _youtubeController?.play();
 
         _isWorkoutPaused = !_isWorkoutPaused;
 
@@ -239,11 +239,11 @@ class MiniplayerModel with ChangeNotifier {
       if (!_isWorkoutPaused) {
         _isWorkoutPaused = !_isWorkoutPaused;
 
-        _youtubeController?.pause();
+        // _youtubeController?.pause();
 
         await _animationController.forward();
       } else {
-        _youtubeController?.play();
+        // _youtubeController?.play();
 
         _isWorkoutPaused = !_isWorkoutPaused;
 
@@ -277,8 +277,9 @@ class MiniplayerModel with ChangeNotifier {
       final video = _currentWorkout as YoutubeVideo?;
 
       if (_currentWorkoutForYoutubeIndex < video!.workouts.length - 1) {
-        _youtubeController!.seekTo(
-            video.workouts[_currentWorkoutForYoutubeIndex + 1].position);
+        // _youtubeController!.seekTo(
+        //   video.workouts[_currentWorkoutForYoutubeIndex + 1].position,
+        // );
       }
     }
 
@@ -303,11 +304,12 @@ class MiniplayerModel with ChangeNotifier {
       // Set Rest Time
       _restTime = Duration(seconds: _currentWorkoutSet!.restTime ?? 60);
     } else {
-      final video = _currentWorkout as YoutubeVideo?;
+      // final video = _currentWorkout as YoutubeVideo?;
 
       if (_currentWorkoutForYoutubeIndex != 0) {
-        _youtubeController!.seekTo(
-            video!.workouts[_currentWorkoutForYoutubeIndex - 1].position);
+        // _youtubeController!.seekTo(
+        //   video!.workouts[_currentWorkoutForYoutubeIndex - 1].position,
+        // );
       }
     }
 

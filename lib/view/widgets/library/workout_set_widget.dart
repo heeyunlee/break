@@ -40,11 +40,11 @@ class WorkoutSetWidget extends StatefulWidget {
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   late TextEditingController _textController1;
   late TextEditingController _textController2;
-  late List<TextEditingController> _textControllers;
+  // late List<TextEditingController> _textControllers;
 
   late FocusNode _focusNode1;
   late FocusNode _focusNode2;
-  late List<FocusNode> _focusNodes;
+  // late List<FocusNode> _focusNodes;
 
   @override
   void initState() {
@@ -58,12 +58,12 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     final reps = widget.workoutSet.reps.toString();
     _textController2 = TextEditingController(text: reps);
 
-    _textControllers = [_textController1, _textController2];
+    // _textControllers = [_textController1, _textController2];
 
     _focusNode1 = FocusNode();
     _focusNode2 = FocusNode();
 
-    _focusNodes = [_focusNode1, _focusNode2];
+    // _focusNodes = [_focusNode1, _focusNode2];
   }
 
   @override
@@ -227,30 +227,70 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       keyboardBarColor: ThemeColors.keyboard,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       nextFocus: false,
-      actions: List.generate(
-        2,
-        (index) {
-          return KeyboardActionsItem(
-            focusNode: _focusNodes[index],
-            displayDoneButton: false,
-            displayArrows: true,
-            toolbarButtons: [
-              (node) => KeyboardActionsDoneButton(
-                    onTap: () => widget.model.updateWeight(
-                      context,
-                      widget.authAndDatabase?.database,
-                      textEditingController: _textControllers[index],
-                      focusNode: node,
-                      routine: widget.routine,
-                      routineWorkout: widget.routineWorkout,
-                      workoutSet: widget.workoutSet,
-                      index: widget.index,
-                    ),
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _focusNode1,
+          displayDoneButton: false,
+          displayArrows: true,
+          toolbarButtons: [
+            (node) => KeyboardActionsDoneButton(
+                  onTap: () => widget.model.updateWeight(
+                    context,
+                    widget.authAndDatabase?.database,
+                    textEditingController: _textController1,
+                    focusNode: node,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
+                    workoutSet: widget.workoutSet,
+                    index: widget.index,
                   ),
-            ],
-          );
-        },
-      ),
+                ),
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: _focusNode2,
+          displayDoneButton: false,
+          displayArrows: true,
+          toolbarButtons: [
+            (node) => KeyboardActionsDoneButton(
+                  onTap: () => widget.model.updateReps(
+                    context,
+                    widget.authAndDatabase?.database,
+                    textEditingController: _textController2,
+                    focusNode: node,
+                    routine: widget.routine,
+                    routineWorkout: widget.routineWorkout,
+                    workoutSet: widget.workoutSet,
+                    index: widget.index,
+                  ),
+                ),
+          ],
+        ),
+      ],
+      // actions: List.generate(
+      //   2,
+      //   (index) {
+      //     return KeyboardActionsItem(
+      //       focusNode: _focusNodes[index],
+      //       displayDoneButton: false,
+      //       displayArrows: true,
+      //       toolbarButtons: [
+      //         (node) => KeyboardActionsDoneButton(
+      //               onTap: () => widget.model.updateWeight(
+      //                 context,
+      //                 widget.authAndDatabase?.database,
+      //                 textEditingController: _textControllers[index],
+      //                 focusNode: node,
+      //                 routine: widget.routine,
+      //                 routineWorkout: widget.routineWorkout,
+      //                 workoutSet: widget.workoutSet,
+      //                 index: widget.index,
+      //               ),
+      //             ),
+      //       ],
+      //     );
+      //   },
+      // ),
     );
   }
 }

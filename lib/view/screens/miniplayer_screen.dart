@@ -15,7 +15,7 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
-import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 class MiniplayerScreen extends StatelessWidget {
   const MiniplayerScreen({Key? key}) : super(key: key);
@@ -51,10 +51,11 @@ class MiniplayerScreen extends StatelessWidget {
                   if (model.currentWorkout.runtimeType == Routine) {
                     return _buildMiniplayer(context, percentage, model, user!);
                   }
-                  return YoutubePlayerControllerProvider(
-                    controller: model.youtubeController!,
-                    child: _buildMiniplayer(context, percentage, model, user!),
-                  );
+                  return Container();
+                  // return YoutubePlayerControllerProvider(
+                  //   controller: model.youtubeController!,
+                  //   child: _buildMiniplayer(context, percentage, model, user!),
+                  // );
                 }
               },
             ),

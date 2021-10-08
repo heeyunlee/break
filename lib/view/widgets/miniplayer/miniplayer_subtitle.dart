@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout_for_youtube.dart';
-import 'package:workout_player/models/youtube_video.dart';
+// import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
-import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
-import 'package:collection/collection.dart';
+// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+// import 'package:collection/collection.dart';
 
 class MiniplayerSubtitle extends StatelessWidget {
   final double? horizontalPadding;
@@ -41,18 +41,19 @@ class MiniplayerSubtitle extends StatelessWidget {
         style: textStyle,
       );
     } else {
-      return YoutubeValueBuilder(
-        controller: model.youtubeController,
-        builder: (context, value) {
-          final video = model.currentWorkout as YoutubeVideo?;
-          final currentWorkout = video!.workouts.lastWhereOrNull(
-                (element) => element.position <= value.position,
-              ) ??
-              video.workouts[0];
+      return Container();
+      // return YoutubeValueBuilder(
+      //   controller: model.youtubeController,
+      //   builder: (context, value) {
+      //     final video = model.currentWorkout as YoutubeVideo?;
+      //     final currentWorkout = video!.workouts.lastWhereOrNull(
+      //           (element) => element.position <= value.position,
+      //         ) ??
+      //         video.workouts[0];
 
-          return Text(getSubtitle(currentWorkout), style: textStyle);
-        },
-      );
+      //     return Text(getSubtitle(currentWorkout), style: textStyle);
+      //   },
+      // );
     }
   }
 

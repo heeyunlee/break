@@ -3,22 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/services/algolia_manager.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/screens/watch_tab.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
+import 'search_category_screen.dart';
 import 'workout_detail_screen.dart';
-import 'workouts_by_category_scree.dart';
 
 class ExploreTab extends StatefulWidget {
   const ExploreTab({Key? key}) : super(key: key);
@@ -178,79 +175,171 @@ class _ExploreTabState extends State<ExploreTab> {
   }
 
   Widget _buildBody() {
-    final database = Provider.of<Database>(context, listen: false);
-    final size = MediaQuery.of(context).size;
+    // final database = Provider.of<Database>(context, listen: false);
+    // final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(height: 96),
-          Row(
-            children: [
-              const SizedBox(width: 24),
-              Text(
-                S.current.workouts,
-                style: TextStyles.body1W800,
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () => WorkoutsByCategoryScreen.show(context),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    S.current.seeMore,
-                    style: TextStyles.button1,
+          const Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Text(
+              'Workouts and Routines \nby Category',
+              style: TextStyles.headline6Bold,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              S.current.mainMuscleGroup,
+              style: TextStyles.body1W900Menlo,
+            ),
+          ),
+          GridView.count(
+            childAspectRatio: 2.5,
+            crossAxisCount: 2,
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: MainMuscleGroup.values.map(
+              (muscle) {
+                return SearchCategoryWidget(
+                  text: muscle.translation!,
+                  onTap: () => SearchCategoryScreen.show(
+                    context,
+                    arrayContains: muscle.toString(),
+                    searchCategory: 'mainMuscleGroup',
                   ),
-                ),
-              ),
-              const SizedBox(width: 16),
-            ],
+                );
+              },
+            ).toList(),
           ),
-          const WorkoutsByCategoryCard(),
-          const SizedBox(height: 40),
-          Row(
-            children: [
-              const SizedBox(width: 24),
-              Text(
-                S.current.workoutWithYoutube,
-                style: TextStyles.body1W800,
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () => WatchTab.show(context),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    S.current.seeMore,
-                    style: TextStyles.button1,
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              S.current.equipmentRequired,
+              style: TextStyles.body1W900Menlo,
+            ),
+          ),
+          GridView.count(
+            childAspectRatio: 2.5,
+            crossAxisCount: 2,
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: EquipmentRequired.values.map(
+              (equipment) {
+                return SearchCategoryWidget(
+                  // color: kSecondaryColor,
+                  color: ThemeColors.secondary,
+                  text: equipment.translation!,
+                  onTap: () => SearchCategoryScreen.show(
+                    context,
+                    arrayContains: equipment.toString(),
+                    searchCategory: 'equipmentRequired',
                   ),
-                ),
-              ),
-              const SizedBox(width: 16),
-            ],
+                );
+              },
+            ).toList(),
           ),
-          CustomStreamBuilder<List<YoutubeVideo>>(
-            stream: database.youtubeVideosStream(),
-            builder: (context, videos) {
-              return SizedBox(
-                height: 280,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: videos.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return YoutubeVideoCard(
-                      height: 200,
-                      width: size.width - 80,
-                      heroTag: videos[index].youtubeVideoId,
-                      youtubeVideo: videos[index],
-                    );
-                  },
-                ),
-              );
-            },
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              S.current.equipmentRequired,
+              style: TextStyles.body1W900Menlo,
+            ),
           ),
+          GridView.count(
+            childAspectRatio: 2.5,
+            crossAxisCount: 2,
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: Location.values.map(
+              (location) {
+                return SearchCategoryWidget(
+                  color: Colors.amber,
+                  text: location.translation!,
+                  onTap: () => SearchCategoryScreen.show(
+                    context,
+                    searchCategory: 'location',
+                    isEqualTo: location.toString(),
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+          const SizedBox(height: kBottomNavigationBarHeight + 40),
+          // Row(
+          //   children: [
+          //     const SizedBox(width: 24),
+          //     Text(
+          //       S.current.workouts,
+          //       style: TextStyles.body1W800,
+          //     ),
+          //     const Spacer(),
+          //     InkWell(
+          //       onTap: () => WorkoutsByCategoryScreen.show(context),
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Text(
+          //           S.current.seeMore,
+          //           style: TextStyles.button1,
+          //         ),
+          //       ),
+          //     ),
+          //     const SizedBox(width: 16),
+          //   ],
+          // ),
+          // const WorkoutsByCategoryCard(),
+          // const SizedBox(height: 40),
+          // Row(
+          //   children: [
+          //     const SizedBox(width: 24),
+          //     Text(
+          //       S.current.workoutWithYoutube,
+          //       style: TextStyles.body1W800,
+          //     ),
+          //     const Spacer(),
+          //     InkWell(
+          //       onTap: () => WatchTab.show(context),
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Text(
+          //           S.current.seeMore,
+          //           style: TextStyles.button1,
+          //         ),
+          //       ),
+          //     ),
+          //     const SizedBox(width: 16),
+          //   ],
+          // ),
+          // CustomStreamBuilder<List<YoutubeVideo>>(
+          //   stream: database.youtubeVideosStream(),
+          //   builder: (context, videos) {
+          //     return SizedBox(
+          //       height: 280,
+          //       child: ListView.builder(
+          //         padding: EdgeInsets.zero,
+          //         itemCount: videos.length,
+          //         scrollDirection: Axis.horizontal,
+          //         itemBuilder: (context, index) {
+          //           return YoutubeVideoCard(
+          //             height: 200,
+          //             width: size.width - 80,
+          //             heroTag: videos[index].youtubeVideoId,
+          //             youtubeVideo: videos[index],
+          //           );
+          //         },
+          //       ),
+          //     );
+          //   },
+          // ),
           const SizedBox(height: 160),
         ],
       ),

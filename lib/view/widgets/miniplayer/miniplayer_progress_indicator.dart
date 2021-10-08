@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/youtube_video.dart';
+// import 'package:workout_player/models/youtube_video.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
-import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 class MiniplayerProgressIndicator extends StatelessWidget {
   const MiniplayerProgressIndicator({
@@ -78,61 +78,62 @@ class MiniplayerProgressIndicator extends StatelessWidget {
         ],
       );
     } else {
-      final currentVideo = model.currentWorkout as YoutubeVideo?;
+      return Container();
+      // final currentVideo = model.currentWorkout as YoutubeVideo?;
 
-      return YoutubeValueBuilder(
-        controller: model.youtubeController,
-        builder: (context, value) {
-          progress =
-              value.position.inSeconds / currentVideo!.duration.inSeconds;
+      // return YoutubeValueBuilder(
+      //   controller: model.youtubeController,
+      //   builder: (context, value) {
+      //     progress =
+      //         value.position.inSeconds / currentVideo!.duration.inSeconds;
 
-          return Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: padding!),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(radius!),
-                      child: Container(
-                        color: Colors.grey[800],
-                        height: 4,
-                        width: size.width,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(radius!),
-                      child: Container(
-                        color: ThemeColors.primary500,
-                        height: 4,
-                        width: (size.width - padding! * 2) * progress,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (isExpanded)
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: Row(
-                    children: [
-                      Text(
-                        Formatter.durationInMMSS(value.position),
-                        style: TextStyles.body2,
-                      ),
-                      const Spacer(),
-                      Text(
-                        Formatter.durationInMMSS(currentVideo.duration),
-                        style: TextStyles.body2,
-                      ),
-                    ],
-                  ),
-                ),
-            ],
-          );
-        },
-      );
+      //     return Column(
+      //       children: [
+      //         Padding(
+      //           padding: EdgeInsets.symmetric(horizontal: padding!),
+      //           child: Stack(
+      //             children: [
+      //               ClipRRect(
+      //                 borderRadius: BorderRadius.circular(radius!),
+      //                 child: Container(
+      //                   color: Colors.grey[800],
+      //                   height: 4,
+      //                   width: size.width,
+      //                 ),
+      //               ),
+      //               ClipRRect(
+      //                 borderRadius: BorderRadius.circular(radius!),
+      //                 child: Container(
+      //                   color: ThemeColors.primary500,
+      //                   height: 4,
+      //                   width: (size.width - padding! * 2) * progress,
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //         if (isExpanded)
+      //           Padding(
+      //             padding:
+      //                 const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      //             child: Row(
+      //               children: [
+      //                 Text(
+      //                   Formatter.durationInMMSS(value.position),
+      //                   style: TextStyles.body2,
+      //                 ),
+      //                 const Spacer(),
+      //                 Text(
+      //                   Formatter.durationInMMSS(currentVideo.duration),
+      //                   style: TextStyles.body2,
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //       ],
+      //     );
+      //   },
+      // );
     }
   }
 }
