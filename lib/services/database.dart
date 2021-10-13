@@ -63,6 +63,7 @@ abstract class Database {
   Future<void> deleteNutrition(Nutrition nutrition);
 
   // Stream
+  Stream<Nutrition?> nutritionStream(String nutritionId);
   Stream<List<Nutrition>> userNutritionStream({int limit});
   Stream<List<Nutrition>?> todaysNutritionStream();
   Stream<List<Nutrition>> nutritionsSelectedDayStream(DateTime? date);
@@ -401,6 +402,15 @@ class FirestoreDatabase implements Database {
   Future<void> deleteNutrition(Nutrition nutrition) async =>
       _service.deleteData(
         path: APIPath.nutrition(nutrition.nutritionId),
+      );
+
+  // Stream of Single Nutrition Stream
+  @override
+  Stream<Nutrition?> nutritionStream(String nutritionId) =>
+      _service.documentStream<Nutrition?>(
+        path: APIPath.nutrition(nutritionId),
+        fromBuilder: (data, id) => Nutrition.fromJson(data, id),
+        toBuilder: (model) => model!.toJson(),
       );
 
   // Nutrition Stream for specific User

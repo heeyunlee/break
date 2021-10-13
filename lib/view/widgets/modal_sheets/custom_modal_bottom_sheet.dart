@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 
@@ -14,6 +15,9 @@ class CustomModalBottomSheet extends StatelessWidget {
     required this.firstTileTitle,
     required this.firstTileIcon,
     required this.firstTileOnTap,
+    this.secondTileTitle,
+    this.secondTileIcon,
+    this.secondTileOnTap,
     this.cancelTileTitle,
     this.cancelTileIcon,
     this.cancelTileOnTap,
@@ -24,6 +28,9 @@ class CustomModalBottomSheet extends StatelessWidget {
   final String firstTileTitle;
   final IconData firstTileIcon;
   final void Function() firstTileOnTap;
+  final String? secondTileTitle;
+  final IconData? secondTileIcon;
+  final void Function()? secondTileOnTap;
   final String? cancelTileTitle;
   final IconData? cancelTileIcon;
   final void Function()? cancelTileOnTap;
@@ -55,21 +62,27 @@ class CustomModalBottomSheet extends StatelessWidget {
                   style: TextStyles.headline6,
                 ),
               ),
-              if (subtitle == null) const SizedBox(height: 8),
               if (subtitle != null)
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
                     subtitle!,
                     style: TextStyles.body1Grey,
                   ),
                 ),
+              if (subtitle == null) const SizedBox(height: 8),
+              kCustomDivider,
               ListTile(
-                onTap: firstTileOnTap,
                 leading: Icon(firstTileIcon, color: Colors.white, size: 20),
                 title: Text(firstTileTitle, style: TextStyles.body2),
+                onTap: firstTileOnTap,
               ),
+              if (secondTileTitle != null)
+                ListTile(
+                  leading: Icon(secondTileIcon, color: Colors.white, size: 20),
+                  title: Text(secondTileTitle!, style: TextStyles.body2),
+                  onTap: secondTileOnTap,
+                ),
               ListTile(
                 onTap: cancelTileOnTap ?? () => Navigator.of(context).pop(),
                 leading: Icon(

@@ -265,6 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Successfully deleted a nutrition entry"),
         "deleteNutritionSnackBarTitle":
             MessageLookupByLibrary.simpleMessage("Delete Nutrition"),
+        "deletePascalCase": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("Deleted a protein entry"),
         "deleteProteinSnackbarTitle":
@@ -330,6 +331,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "eatAllCap": MessageLookupByLibrary.simpleMessage("EAT"),
         "eatTabSubtitle": MessageLookupByLibrary.simpleMessage(
             "And Keeps Taps On \nYour Health"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editDisplayNameTitle":
             MessageLookupByLibrary.simpleMessage("Edit Display Name"),
         "editEmail": MessageLookupByLibrary.simpleMessage("Edit Email"),
@@ -404,6 +406,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "firstNameValidationText":
             MessageLookupByLibrary.simpleMessage("Please Add your first name"),
         "firstSignInSnackbarMessage": m5,
+        "foodItem": MessageLookupByLibrary.simpleMessage("Food Item"),
         "fullBody": MessageLookupByLibrary.simpleMessage("Full Body"),
         "getStarted": MessageLookupByLibrary.simpleMessage("GET STARTED"),
         "glutes": MessageLookupByLibrary.simpleMessage("Glutes"),
@@ -761,6 +764,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateMainMuscleGroupMessage": m19,
         "updateMainMuscleGroupTitle":
             MessageLookupByLibrary.simpleMessage("Main Muscle Group"),
+        "updateNutritionDateTimeMessage": MessageLookupByLibrary.simpleMessage(
+            "Updated the nutrition\'s entry time"),
+        "updateNutritionDateTimeTitle":
+            MessageLookupByLibrary.simpleMessage("Update Nutrition"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully updated notes"),
         "updateRoutineHistoryNotesSnackbarTitle":

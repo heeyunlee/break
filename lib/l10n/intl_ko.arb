@@ -470,5 +470,10 @@
     "deleteNutritionSnackBarTitle": "영양소 삭제",
     "deleteNutritionSnackBarMessage": "성공적으로 영양소 엔트리를 삭제했습니다",
     "createYourOwnWorkoutRoutine": "나만의 운동 루틴을 만들고 저장하세요",
-    "recordConsumedNutritions": "식단 관리를 하세요"
+    "recordConsumedNutritions": "식단 관리를 하세요",
+    "edit": "수정하기",
+    "deletePascalCase": "삭제하기",
+    "foodItem": "식품",
+    "updateNutritionDateTimeTitle": "영양소 섭취 수정",
+    "updateNutritionDateTimeMessage": "영양소 섭취 시간을 수정했습니다"
 }

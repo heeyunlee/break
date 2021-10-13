@@ -147,7 +147,6 @@ class AddNutritionScreenModel with ChangeNotifier {
     logger.d('onVisibilityChanged in AddNutritionScreenModel called');
 
     if (info.visibleFraction >= 0.5) {
-      // _borderColor = kSecondaryColor;
       _borderColor = ThemeColors.secondary;
     } else {
       _borderColor = Colors.grey;

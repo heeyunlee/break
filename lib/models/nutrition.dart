@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/food_item.dart';
@@ -112,5 +113,44 @@ class Nutrition {
       'merchantName': merchantName,
       'unitOfMass': EnumToString.convertToString(unitOfMass, camelCase: true),
     };
+  }
+
+  Nutrition copyWith({
+    String? nutritionId,
+    String? userId,
+    String? username,
+    Timestamp? loggedTime,
+    DateTime? loggedDate,
+    Meal? type,
+    num? proteinAmount,
+    String? notes,
+    num? calories,
+    num? carbs,
+    num? fat,
+    String? description,
+    bool? isCreditCardTransaction,
+    List<FoodItem>? foodItems,
+    String? merchantName,
+    UnitOfMass? unitOfMass,
+  }) {
+    return Nutrition(
+      nutritionId: nutritionId ?? this.nutritionId,
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      loggedTime: loggedTime ?? this.loggedTime,
+      loggedDate: loggedDate ?? this.loggedDate,
+      type: type ?? this.type,
+      proteinAmount: proteinAmount ?? this.proteinAmount,
+      notes: notes ?? this.notes,
+      calories: calories ?? this.calories,
+      carbs: carbs ?? this.carbs,
+      fat: fat ?? this.fat,
+      description: description ?? this.description,
+      isCreditCardTransaction:
+          isCreditCardTransaction ?? this.isCreditCardTransaction,
+      foodItems: foodItems ?? this.foodItems,
+      merchantName: merchantName ?? this.merchantName,
+      unitOfMass: unitOfMass ?? this.unitOfMass,
+    );
   }
 }

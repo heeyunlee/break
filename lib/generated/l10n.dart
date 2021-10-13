@@ -4769,6 +4769,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get deletePascalCase {
+    return Intl.message(
+      'Delete',
+      name: 'deletePascalCase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Food Item`
+  String get foodItem {
+    return Intl.message(
+      'Food Item',
+      name: 'foodItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Nutrition`
+  String get updateNutritionDateTimeTitle {
+    return Intl.message(
+      'Update Nutrition',
+      name: 'updateNutritionDateTimeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated the nutrition's entry time`
+  String get updateNutritionDateTimeMessage {
+    return Intl.message(
+      'Updated the nutrition\'s entry time',
+      name: 'updateNutritionDateTimeMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

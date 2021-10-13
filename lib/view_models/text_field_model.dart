@@ -10,10 +10,6 @@ final textFieldModelProvider = ChangeNotifierProvider(
 
 /// Creates a [ChangeNotifier] that can be used for [TextField] or [TextFormField]
 class TextFieldModel with ChangeNotifier {
-  // String? _counterText;
-
-  // String? get counterText => _counterText;
-
   String? validator(String? value) {
     if (value!.isEmpty) {
       return null;
@@ -35,7 +31,6 @@ class TextFieldModel with ChangeNotifier {
   String? emailValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
-        // final validator = StringValidatorBase();
         final isEmailValid = EmailValidator.validate(value);
 
         if (!isEmailValid) {
@@ -72,7 +67,6 @@ class TextFieldModel with ChangeNotifier {
   String? passwordValidatorWithBool(String? value, {required bool submitted}) {
     if (submitted) {
       if (value != null) {
-        // final validator = StringValidatorBase();
         final validator = isPasswordValid(value);
 
         if (!validator) {

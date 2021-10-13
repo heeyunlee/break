@@ -21,7 +21,6 @@ class EatsTabBodyWidget extends StatelessWidget {
       stream: database.eatsTabStream(),
       builder: (context, data) {
         return CustomScrollView(
-          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               pinned: true,

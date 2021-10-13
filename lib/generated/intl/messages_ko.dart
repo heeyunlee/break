@@ -245,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("성공적으로 영양소 엔트리를 삭제했습니다"),
         "deleteNutritionSnackBarTitle":
             MessageLookupByLibrary.simpleMessage("영양소 삭제"),
+        "deletePascalCase": MessageLookupByLibrary.simpleMessage("삭제하기"),
         "deleteProteinSnackbar":
             MessageLookupByLibrary.simpleMessage("기록을 삭제했습니다"),
         "deleteProteinSnackbarTitle":
@@ -306,6 +307,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "eat": MessageLookupByLibrary.simpleMessage("영양"),
         "eatAllCap": MessageLookupByLibrary.simpleMessage("먹자"),
         "eatTabSubtitle": MessageLookupByLibrary.simpleMessage("먹는 것도 운동이니까"),
+        "edit": MessageLookupByLibrary.simpleMessage("수정하기"),
         "editDisplayNameTitle": MessageLookupByLibrary.simpleMessage("이름 수정"),
         "editEmail": MessageLookupByLibrary.simpleMessage("이메일 수정"),
         "editRoutineSnackbar":
@@ -372,6 +374,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "firstNameValidationText":
             MessageLookupByLibrary.simpleMessage("이름을 입력해 주세요"),
         "firstSignInSnackbarMessage": m5,
+        "foodItem": MessageLookupByLibrary.simpleMessage("식품"),
         "fullBody": MessageLookupByLibrary.simpleMessage("전신"),
         "getStarted": MessageLookupByLibrary.simpleMessage("시작하기"),
         "glutes": MessageLookupByLibrary.simpleMessage("둔근"),
@@ -702,6 +705,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateMainMuscleGroupMessage": m19,
         "updateMainMuscleGroupTitle":
             MessageLookupByLibrary.simpleMessage("주요 운동 부위"),
+        "updateNutritionDateTimeMessage":
+            MessageLookupByLibrary.simpleMessage("영양소 섭취 시간을 수정했습니다"),
+        "updateNutritionDateTimeTitle":
+            MessageLookupByLibrary.simpleMessage("영양소 섭취 수정"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("운동 기록에 메모를 업데이트했습니다"),
         "updateRoutineHistoryNotesSnackbarTitle":

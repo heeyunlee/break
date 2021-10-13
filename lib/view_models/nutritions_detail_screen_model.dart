@@ -17,6 +17,14 @@ final nutritionsDetailScreenModelProvider = ChangeNotifierProvider(
 );
 
 class NutritionsDetailScreenModel with ChangeNotifier {
+  late Nutrition _nutrition;
+
+  Nutrition get nutrition => _nutrition;
+
+  void init(Nutrition nutrition) {
+    _nutrition = nutrition;
+  }
+
   Future<void> delete(
     BuildContext context, {
     required Database database,

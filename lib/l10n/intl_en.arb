@@ -470,5 +470,10 @@
     "deleteNutritionSnackBarTitle": "Delete Nutrition",
     "deleteNutritionSnackBarMessage": "Successfully deleted a nutrition entry",
     "createYourOwnWorkoutRoutine": "Create Your Own Workout Routine",
-    "recordConsumedNutritions": "Record Consumed Nutritions"
+    "recordConsumedNutritions": "Record Consumed Nutritions",
+    "edit": "Edit",
+    "deletePascalCase": "Delete",
+    "foodItem": "Food Item",
+    "updateNutritionDateTimeTitle": "Update Nutrition",
+    "updateNutritionDateTimeMessage": "Updated the nutrition's entry time"
 }
