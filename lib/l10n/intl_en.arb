@@ -474,6 +474,6 @@
     "edit": "Edit",
     "deletePascalCase": "Delete",
     "foodItem": "Food Item",
-    "updateNutritionDateTimeTitle": "Update Nutrition",
-    "updateNutritionDateTimeMessage": "Updated the nutrition's entry time"
+    "updateNutritionTitle": "Update",
+    "updateNutritionMessage": "Successfully updated the nutrition entry"
 }

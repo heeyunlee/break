@@ -51,7 +51,7 @@ class EditNutritionEntryScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> onDateTimeSaved(BuildContext context) async {
+  Future<void> onPressSave(BuildContext context) async {
     try {
       final database = provider.Provider.of<Database>(context, listen: false);
 
@@ -63,8 +63,8 @@ class EditNutritionEntryScreenModel with ChangeNotifier {
       Navigator.of(context).pop();
 
       getSnackbarWidget(
-        S.current.updateNutritionDateTimeTitle,
-        S.current.updateNutritionDateTimeMessage,
+        S.current.updateNutritionTitle,
+        S.current.updateNutritionMessage,
       );
     } on FirebaseException catch (e) {
       logger.e(e);
@@ -78,7 +78,7 @@ class EditNutritionEntryScreenModel with ChangeNotifier {
 
   void onMealTypeSelected(bool selected, Meal selectedMeal) {
     if (selected) {
-      // _meal = selectedMeal;
+      nutrition = nutrition.copyWith(type: selectedMeal);
 
       notifyListeners();
     }

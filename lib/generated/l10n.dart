@@ -4800,21 +4800,21 @@ class S {
     );
   }
 
-  /// `Update Nutrition`
-  String get updateNutritionDateTimeTitle {
+  /// `Update`
+  String get updateNutritionTitle {
     return Intl.message(
-      'Update Nutrition',
-      name: 'updateNutritionDateTimeTitle',
+      'Update',
+      name: 'updateNutritionTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Updated the nutrition's entry time`
-  String get updateNutritionDateTimeMessage {
+  /// `Successfully updated the nutrition entry`
+  String get updateNutritionMessage {
     return Intl.message(
-      'Updated the nutrition\'s entry time',
-      name: 'updateNutritionDateTimeMessage',
+      'Successfully updated the nutrition entry',
+      name: 'updateNutritionMessage',
       desc: '',
       args: [],
     );

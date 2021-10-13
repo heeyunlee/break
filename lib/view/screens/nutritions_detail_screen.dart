@@ -103,8 +103,9 @@ class NutritionsDetailScreen extends StatelessWidget {
                               const SizedBox(width: 8),
                               if (!(nutrition.isCreditCardTransaction ?? true))
                                 Chip(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
                                   labelStyle: TextStyles.button2,
                                   backgroundColor: Colors.black54,
                                   label: Text(
@@ -223,37 +224,20 @@ class NutritionsDetailScreen extends StatelessWidget {
                         ),
                       ),
                     NutritionLoggedDateListTile(nutrition: nutrition),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        S.current.mealType,
-                        style: TextStyles.body1,
-                      ),
-                      trailing: Text(
-                        NutritionsDetailScreenModel.mealType(nutrition),
-                        style: TextStyles.body2Grey,
-                      ),
-                    ),
+                    NutritionMealTypeListTile(nutrition: nutrition),
                     kCustomDividerIndent16,
 
                     /// Nutritional Facts
                     const SizedBox(height: 16),
-                    Text(
-                      S.current.nutritionFacts,
-                      style: TextStyles.headline6W900,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        S.current.nutritionFacts,
+                        style: TextStyles.headline6W900,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        S.current.calories,
-                        style: TextStyles.body1,
-                      ),
-                      trailing: Text(
-                        NutritionsDetailScreenModel.totalCalories(nutrition),
-                        style: TextStyles.body2Grey,
-                      ),
-                    ),
+                    NutritionCaloriesListTile(nutrition: nutrition),
                     if (nutrition.fat != null)
                       ListTile(
                         contentPadding: EdgeInsets.zero,

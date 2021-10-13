@@ -4,6 +4,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
@@ -12,8 +13,8 @@ import 'package:workout_player/view_models/home_screen_model.dart';
 
 import '../widgets.dart';
 
-class ChooseMealTypeListTile extends StatelessWidget {
-  const ChooseMealTypeListTile({
+class NutritionMealTypeListTile extends StatelessWidget {
+  const NutritionMealTypeListTile({
     Key? key,
     required this.nutrition,
   }) : super(key: key);
@@ -42,10 +43,7 @@ class ChooseMealTypeListTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     const SizedBox(height: 32),
-                    Text(
-                      S.current.mealType,
-                      style: TextStyles.body1Bold,
-                    ),
+                    Text(S.current.mealType, style: TextStyles.body1Bold),
                     Expanded(
                       child: Center(
                         child: SingleChildScrollView(
@@ -67,7 +65,7 @@ class ChooseMealTypeListTile extends StatelessWidget {
                         radius: 24,
                         color: ThemeColors.primary500,
                         buttonText: S.current.save,
-                        onPressed: () => Navigator.of(homeContext).pop(),
+                        onPressed: () => model.onPressSave(context),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -98,33 +96,31 @@ class ChooseMealTypeListTile extends StatelessWidget {
   }
 
   List<Widget> _chips(EditNutritionEntryScreenModel model) {
-    return [Container()];
-
-    // return Meal.values
-    //     .map(
-    //       (type) => Padding(
-    //         padding: const EdgeInsets.only(right: 8),
-    //         child: ChoiceChip(
-    //           shape: StadiumBorder(
-    //             side: BorderSide(
-    //               color: (model.meal == type)
-    //                   ? ThemeColors.primary300
-    //                   : Colors.grey,
-    //             ),
-    //           ),
-    //           padding: const EdgeInsets.symmetric(horizontal: 8),
-    //           label: Text(type.translation ?? '', style: TextStyles.button1),
-    //           selected: model.meal == type,
-    //           selectedShadowColor: ThemeColors.primary500,
-    //           backgroundColor: ThemeColors.card,
-    //           selectedColor: ThemeColors.primary500,
-    //           onSelected: (selected) => model.onMealTypeSelected(
-    //             selected,
-    //             type,
-    //           ),
-    //         ),
-    //       ),
-    //     )
-    //     .toList();
+    return Meal.values
+        .map(
+          (type) => Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ChoiceChip(
+              shape: StadiumBorder(
+                side: BorderSide(
+                  color: (model.nutrition.type == type)
+                      ? ThemeColors.primary300
+                      : Colors.grey,
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              label: Text(type.translation ?? '', style: TextStyles.button1),
+              selected: model.nutrition.type == type,
+              selectedShadowColor: ThemeColors.primary500,
+              backgroundColor: ThemeColors.card,
+              selectedColor: ThemeColors.primary500,
+              onSelected: (selected) => model.onMealTypeSelected(
+                selected,
+                type,
+              ),
+            ),
+          ),
+        )
+        .toList();
   }
 }

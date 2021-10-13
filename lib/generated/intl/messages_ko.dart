@@ -705,10 +705,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateMainMuscleGroupMessage": m19,
         "updateMainMuscleGroupTitle":
             MessageLookupByLibrary.simpleMessage("주요 운동 부위"),
-        "updateNutritionDateTimeMessage":
-            MessageLookupByLibrary.simpleMessage("영양소 섭취 시간을 수정했습니다"),
-        "updateNutritionDateTimeTitle":
-            MessageLookupByLibrary.simpleMessage("영양소 섭취 수정"),
+        "updateNutritionMessage":
+            MessageLookupByLibrary.simpleMessage("영양소 섭취 엔트리를 수정했습니다"),
+        "updateNutritionTitle": MessageLookupByLibrary.simpleMessage("수정"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("운동 기록에 메모를 업데이트했습니다"),
         "updateRoutineHistoryNotesSnackbarTitle":

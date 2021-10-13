@@ -119,7 +119,7 @@ class _EditNutritionEntryScreenState extends State<EditNutritionEntryScreen> {
                   children: [
                     const SizedBox(height: 8),
                     NutritionLoggedDateListTile(nutrition: widget.nutrition),
-                    ChooseMealTypeListTile(nutrition: widget.nutrition),
+                    NutritionMealTypeListTile(nutrition: widget.nutrition),
                     kCustomDividerIndent16,
 
                     /// Nutrition Facts

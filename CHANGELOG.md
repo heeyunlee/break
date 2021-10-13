@@ -2,7 +2,13 @@
 
 Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 0.3.0.
 
-## Unreleased (0.3.6)
+## Unreleased (0.3.7)
+### New Features & Screens
+- Enable users to edit [Nutrition] entry
+
+### Bug Fix & Refactor
+
+## [0.3.6] - October 8th, 2021
 ### New Features & Screens
 - Combined [SearchTab] and [WatchTab] to one and named it [ExploreTab]
 - Created [EatsTab] that displays the nutritions
@@ -109,6 +115,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
 
+[0.3.6]: https://github.com/heeyunlee/break/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..57c61659ebbd5b9743f01c7e7ef0c263888441d8
 [0.3.5]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
 [0.3.4]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
 [0.3.3]: https://github.com/heeyunlee/herakless/compare/ea1d7a2abec9c652e2e508e1326df011b1ab2e8b..054a3316c3963866a36a2a6a8ea155120acbfd78

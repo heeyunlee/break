@@ -764,10 +764,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateMainMuscleGroupMessage": m19,
         "updateMainMuscleGroupTitle":
             MessageLookupByLibrary.simpleMessage("Main Muscle Group"),
-        "updateNutritionDateTimeMessage": MessageLookupByLibrary.simpleMessage(
-            "Updated the nutrition\'s entry time"),
-        "updateNutritionDateTimeTitle":
-            MessageLookupByLibrary.simpleMessage("Update Nutrition"),
+        "updateNutritionMessage": MessageLookupByLibrary.simpleMessage(
+            "Successfully updated the nutrition entry"),
+        "updateNutritionTitle": MessageLookupByLibrary.simpleMessage("Update"),
         "updateRoutineHistoryNotesSnackbar":
             MessageLookupByLibrary.simpleMessage("Successfully updated notes"),
         "updateRoutineHistoryNotesSnackbarTitle":
