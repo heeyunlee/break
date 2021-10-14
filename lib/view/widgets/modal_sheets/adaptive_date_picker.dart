@@ -32,7 +32,6 @@ class AdaptiveDatePicker extends StatelessWidget {
       key: const Key('DatePicker'),
       onVisibilityChanged: onVisibilityChanged,
       child: BlurredCard(
-        height: (showButton!) ? size.height / 3 + 160 : size.height / 3,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

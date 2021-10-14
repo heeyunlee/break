@@ -25,12 +25,16 @@ class EditNutritionModel with ChangeNotifier {
   FocusNode? _caloriesFocusNode;
   int? _intValue;
   int? _decimalValue;
+  TextEditingController? _notesEditingController;
+  FocusNode? _notesFocusNode;
 
   TextEditingController? get caloriesEditingController =>
       _caloriesEditingController;
   FocusNode? get caloriesFocusNode => _caloriesFocusNode;
   int? get intValue => _intValue;
   int? get decimalValue => _decimalValue;
+  TextEditingController? get notesEditingController => _notesEditingController;
+  FocusNode? get notesFocusNode => _notesFocusNode;
 
   void onDateTimeChanged(DateTime date) {
     nutrition = nutrition.copyWith(
@@ -145,6 +149,29 @@ class EditNutritionModel with ChangeNotifier {
     nutrition = nutrition.copyWith(proteinAmount: protein);
 
     notifyListeners();
+  }
+
+  void initNotesEditor() {
+    _notesEditingController = TextEditingController(text: nutrition.notes);
+    _notesFocusNode = FocusNode();
+  }
+
+  void notesOnChanged(String value) {
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      nutrition = nutrition.copyWith(notes: value);
+    }
+  }
+
+  void notesOnFieldSubmitted(String value) {
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      nutrition = nutrition.copyWith(notes: value);
+    }
   }
 
   Future<void> onPressSave(BuildContext context) async {

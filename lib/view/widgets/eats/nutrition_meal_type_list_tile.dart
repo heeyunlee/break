@@ -24,7 +24,6 @@ class NutritionMealTypeListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
-    final size = MediaQuery.of(context).size;
 
     return ListTile(
       onTap: () => showModalBottomSheet(
@@ -34,40 +33,11 @@ class NutritionMealTypeListTile extends StatelessWidget {
             final model = watch(editNutritionModelProvider(nutrition));
 
             return BlurredCard(
-              height: size.height / 3 + 40,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
+              child: Stack(
                 children: [
-                  const SizedBox(height: 32),
-                  Text(S.current.mealType, style: TextStyles.body1Bold),
-                  Expanded(
-                    child: Center(
-                      child: SingleChildScrollView(
-                        clipBehavior: Clip.none,
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 16),
-                            ..._chips(model),
-                            const SizedBox(width: 16),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: MaxWidthRaisedButton(
-                      radius: 24,
-                      color: ThemeColors.primary500,
-                      buttonText: S.current.save,
-                      onPressed: () => model.onPressSave(context),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: size.width - 32,
+                  Positioned(
+                    top: 16,
+                    right: 16,
                     child: TextButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(
@@ -76,7 +46,40 @@ class NutritionMealTypeListTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: kBottomNavigationBarHeight),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const SizedBox(height: 32),
+                      Text(S.current.mealType, style: TextStyles.body1Bold),
+                      SizedBox(
+                        height: 120,
+                        child: Center(
+                          child: SingleChildScrollView(
+                            clipBehavior: Clip.none,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 16),
+                                ..._chips(model),
+                                const SizedBox(width: 16),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: MaxWidthRaisedButton(
+                          radius: 24,
+                          color: ThemeColors.primary500,
+                          buttonText: S.current.save,
+                          onPressed: () => model.onPressSave(context),
+                        ),
+                      ),
+                      const SizedBox(height: kBottomNavigationBarHeight),
+                    ],
+                  ),
                 ],
               ),
             );

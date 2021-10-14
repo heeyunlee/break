@@ -4,6 +4,8 @@ export 'eats/nutrition_calories_list_title.dart';
 export 'eats/nutrition_carbs_list_tile.dart';
 export 'eats/nutrition_logged_date_list_tile.dart';
 export 'eats/nutrition_meal_type_list_tile.dart';
+export 'eats/nutrition_notes_list_tile.dart';
 export 'eats/nutrition_protein_list_tile.dart';
 export 'eats/nutrition_total_fat_list_tile.dart';
 export 'eats/nutritions_list_tile.dart';
+export 'eats/nutrition_edit_notes_bottom_sheet.dart';

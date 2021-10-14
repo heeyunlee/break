@@ -137,7 +137,6 @@ class _EditNutritionEntryScreenState extends State<EditNutritionEntryScreen> {
                         showModalBottomSheet(
                           context: homeContext,
                           builder: (context) => BlurredCard(
-                            height: size.height / 2,
                             child: Column(
                               children: [
                                 Padding(

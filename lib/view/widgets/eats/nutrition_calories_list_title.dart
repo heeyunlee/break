@@ -33,52 +33,69 @@ class NutritionCaloriesListTile extends StatelessWidget {
   }
 
   Future<void> showModalPopup(BuildContext context) async {
-    final size = MediaQuery.of(context).size;
-
     return showCupertinoModalPopup(
       context: context,
       builder: (context) {
         return Consumer(
           builder: (context, watch, child) {
+            final bottomInset = MediaQuery.of(context).viewInsets.bottom;
             final model = watch(editNutritionModelProvider(nutrition));
+
             model.initCaloriesController();
 
             return Form(
               key: EditNutritionModel.formKey,
               child: BlurredCard(
-                height: size.height / 1.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
                   children: [
-                    const SizedBox(height: 32),
-                    Text(
-                      S.current.calories,
-                      style: TextStyles.body1Bold,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 32,
-                      ),
-                      child: OutlinedNumberTextFieldWidget(
-                        suffixText: 'Kcal',
-                        autoFocus: true,
-                        focusNode: model.caloriesFocusNode!,
-                        controller: model.caloriesEditingController!,
-                        formKey: EditNutritionModel.formKey,
-                        onChanged: model.caloriesOnChanged,
-                        onFieldSubmitted: model.caloriesOnFieldSubmitted,
+                    Positioned(
+                      top: 16,
+                      right: 16,
+                      child: TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text(
+                          S.current.cancel,
+                          style: TextStyles.button1Grey,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: MaxWidthRaisedButton(
-                        radius: 24,
-                        color: ThemeColors.primary500,
-                        buttonText: S.current.save,
-                        onPressed: () => model.onPressSave(context),
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 32),
+                        Text(
+                          S.current.calories,
+                          style: TextStyles.body1Bold,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 32,
+                          ),
+                          child: OutlinedNumberTextFieldWidget(
+                            suffixText: 'Kcal',
+                            autoFocus: true,
+                            focusNode: model.caloriesFocusNode!,
+                            controller: model.caloriesEditingController!,
+                            formKey: EditNutritionModel.formKey,
+                            onChanged: model.caloriesOnChanged,
+                            onFieldSubmitted: model.caloriesOnFieldSubmitted,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: MaxWidthRaisedButton(
+                            radius: 24,
+                            color: ThemeColors.primary500,
+                            buttonText: S.current.save,
+                            onPressed: () => model.onPressSave(context),
+                          ),
+                        ),
+                        SizedBox(
+                          height: kBottomNavigationBarHeight + bottomInset,
+                        ),
+                      ],
                     ),
                   ],
                 ),

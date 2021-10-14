@@ -244,13 +244,14 @@ class NutritionsDetailScreen extends StatelessWidget {
                     kCustomDividerIndent16,
 
                     // Notes & Others
-                    ListTile(
-                      title: Text(S.current.notes, style: TextStyles.body1),
-                      subtitle: Text(
-                        NutritionsDetailScreenModel.notes(nutrition),
-                        style: TextStyles.body2Grey,
-                      ),
-                    ),
+                    // ListTile(
+                    //   title: Text(S.current.notes, style: TextStyles.body1),
+                    //   subtitle: Text(
+                    //     NutritionsDetailScreenModel.notes(nutrition),
+                    //     style: TextStyles.body2Grey,
+                    //   ),
+                    // ),
+                    NutritionNotesListTile(nutrition: nutrition),
                     const SizedBox(height: kBottomNavigationBarHeight + 48)
                   ],
                 ),

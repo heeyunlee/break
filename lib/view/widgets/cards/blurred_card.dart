@@ -6,20 +6,16 @@ import 'package:workout_player/styles/theme_colors.dart';
 class BlurredCard extends StatelessWidget {
   const BlurredCard({
     Key? key,
-    required this.height,
     this.width,
     required this.child,
   }) : super(key: key);
 
-  final double height;
   final double? width;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? double.maxFinite,
-      height: height,
+    return IntrinsicHeight(
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         child: BackdropFilter(
