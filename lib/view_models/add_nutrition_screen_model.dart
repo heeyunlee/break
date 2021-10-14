@@ -247,7 +247,6 @@ class AddNutritionScreenModel with ChangeNotifier {
             database: database,
             auth: auth,
             model: watch(addNutritionScreenModelProvider),
-            // textFieldModel: watch(textFieldModelProvider),
           ),
         ),
       ),

@@ -238,48 +238,14 @@ class NutritionsDetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     NutritionCaloriesListTile(nutrition: nutrition),
-                    if (nutrition.fat != null)
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          S.current.totalFat,
-                          style: TextStyles.body2,
-                        ),
-                        trailing: Text(
-                          NutritionsDetailScreenModel.totalFat(nutrition),
-                          style: TextStyles.caption1Grey,
-                        ),
-                      ),
-                    if (nutrition.carbs != null)
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          S.current.totalCarbohydrate,
-                          style: TextStyles.body2,
-                        ),
-                        trailing: Text(
-                          NutritionsDetailScreenModel.totalCarbs(nutrition),
-                          style: TextStyles.caption1Grey,
-                        ),
-                      ),
+                    NutritionTotalFatListTile(nutrition: nutrition),
+                    NutritionCarbsListTile(nutrition: nutrition),
+                    NutritionProteinListTile(nutrition: nutrition),
+                    kCustomDividerIndent16,
+
+                    // Notes & Others
                     ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        S.current.protein,
-                        style: TextStyles.body2,
-                      ),
-                      trailing: Text(
-                        NutritionsDetailScreenModel.totalProtein(nutrition),
-                        style: TextStyles.caption1Grey,
-                      ),
-                    ),
-                    kCustomDivider,
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        S.current.notes,
-                        style: TextStyles.body1,
-                      ),
+                      title: Text(S.current.notes, style: TextStyles.body1),
                       subtitle: Text(
                         NutritionsDetailScreenModel.notes(nutrition),
                         style: TextStyles.body2Grey,

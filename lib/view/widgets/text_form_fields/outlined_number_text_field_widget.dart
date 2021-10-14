@@ -7,16 +7,6 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OutlinedNumberTextFieldWidget extends StatelessWidget {
-  final FocusNode focusNode;
-  final TextEditingController controller;
-  final GlobalKey<FormState> formKey;
-  final int? maxLength;
-  final String? suffixText;
-  final String? labelText;
-  final String? Function(String?)? customValidator;
-  final void Function(String)? onChanged;
-  final void Function(String)? onFieldSubmitted;
-
   const OutlinedNumberTextFieldWidget({
     Key? key,
     required this.focusNode,
@@ -28,13 +18,26 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
     this.customValidator,
     this.onChanged,
     this.onFieldSubmitted,
+    this.autoFocus = false,
   }) : super(key: key);
+
+  final FocusNode focusNode;
+  final TextEditingController controller;
+  final GlobalKey<FormState> formKey;
+  final int? maxLength;
+  final String? suffixText;
+  final String? labelText;
+  final String? Function(String?)? customValidator;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
     final model = context.read(textFieldModelProvider);
 
     return TextFormField(
+      autofocus: autoFocus,
       maxLength: maxLength ?? 8,
       focusNode: focusNode,
       controller: controller,

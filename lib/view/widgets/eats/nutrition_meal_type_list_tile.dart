@@ -31,57 +31,53 @@ class NutritionMealTypeListTile extends StatelessWidget {
         context: homeContext,
         builder: (context) => Consumer(
           builder: (context, watch, child) {
-            final model = watch(
-              editNutritionEntryScreenModelProvider(nutrition),
-            );
+            final model = watch(editNutritionModelProvider(nutrition));
 
             return BlurredCard(
-              child: SizedBox(
-                height: size.height / 3 + 40,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const SizedBox(height: 32),
-                    Text(S.current.mealType, style: TextStyles.body1Bold),
-                    Expanded(
-                      child: Center(
-                        child: SingleChildScrollView(
-                          clipBehavior: Clip.none,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 16),
-                              ..._chips(model),
-                              const SizedBox(width: 16),
-                            ],
-                          ),
+              height: size.height / 3 + 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SizedBox(height: 32),
+                  Text(S.current.mealType, style: TextStyles.body1Bold),
+                  Expanded(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        clipBehavior: Clip.none,
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 16),
+                            ..._chips(model),
+                            const SizedBox(width: 16),
+                          ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: MaxWidthRaisedButton(
-                        radius: 24,
-                        color: ThemeColors.primary500,
-                        buttonText: S.current.save,
-                        onPressed: () => model.onPressSave(context),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: MaxWidthRaisedButton(
+                      radius: 24,
+                      color: ThemeColors.primary500,
+                      buttonText: S.current.save,
+                      onPressed: () => model.onPressSave(context),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: size.width - 32,
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(
+                        S.current.cancel,
+                        style: TextStyles.button1Grey,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: size.width - 32,
-                      child: TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(
-                          S.current.cancel,
-                          style: TextStyles.button1Grey,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: kBottomNavigationBarHeight),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: kBottomNavigationBarHeight),
+                ],
               ),
             );
           },
@@ -95,7 +91,7 @@ class NutritionMealTypeListTile extends StatelessWidget {
     );
   }
 
-  List<Widget> _chips(EditNutritionEntryScreenModel model) {
+  List<Widget> _chips(EditNutritionModel model) {
     return Meal.values
         .map(
           (type) => Padding(

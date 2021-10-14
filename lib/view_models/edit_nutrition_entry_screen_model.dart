@@ -11,42 +11,138 @@ import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final editNutritionEntryScreenModelProvider = ChangeNotifierProvider.autoDispose
-    .family<EditNutritionEntryScreenModel, Nutrition>(
-  (ref, nutrition) => EditNutritionEntryScreenModel(nutrition: nutrition),
+final editNutritionModelProvider =
+    ChangeNotifierProvider.autoDispose.family<EditNutritionModel, Nutrition>(
+  (ref, nutrition) => EditNutritionModel(nutrition: nutrition),
 );
 
-class EditNutritionEntryScreenModel with ChangeNotifier {
-  EditNutritionEntryScreenModel({required this.nutrition});
+class EditNutritionModel with ChangeNotifier {
+  EditNutritionModel({required this.nutrition});
 
   Nutrition nutrition;
 
-  // late TextEditingController _titleEditingController;
-  // late FocusNode _titleFocusNode;
-  // late String _loggedDate;
-  // late Meal _meal;
+  TextEditingController? _caloriesEditingController;
+  FocusNode? _caloriesFocusNode;
+  int? _intValue;
+  int? _decimalValue;
 
-  // TextEditingController get titleEditingController => _titleEditingController;
-  // FocusNode get titleFocusNode => _titleFocusNode;
-  // String get loggedDate => _loggedDate;
-  // Meal get meal => _meal;
-
-  // void init(Nutrition nutrition) {
-  //   _titleEditingController = TextEditingController(
-  //     text: 'Add Description',
-  //   );
-
-  //   _titleFocusNode = FocusNode();
-
-  //   _loggedDate = Formatter.yMdjm(nutrition.loggedTime);
-  //   _meal = nutrition.type;
-  // }
+  TextEditingController? get caloriesEditingController =>
+      _caloriesEditingController;
+  FocusNode? get caloriesFocusNode => _caloriesFocusNode;
+  int? get intValue => _intValue;
+  int? get decimalValue => _decimalValue;
 
   void onDateTimeChanged(DateTime date) {
     nutrition = nutrition.copyWith(
       loggedTime: Timestamp.fromDate(date),
       loggedDate: DateTime.utc(date.year, date.month, date.day),
     );
+
+    notifyListeners();
+  }
+
+  void onMealTypeSelected(bool selected, Meal selectedMeal) {
+    if (selected) {
+      nutrition = nutrition.copyWith(type: selectedMeal);
+
+      notifyListeners();
+    }
+  }
+
+  void initCaloriesController() {
+    _caloriesEditingController = TextEditingController(
+      text: nutrition.calories.toString(),
+    );
+
+    _caloriesFocusNode = FocusNode();
+  }
+
+  void caloriesOnChanged(String value) {
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      final calories = num.tryParse(value);
+
+      nutrition = nutrition.copyWith(
+        calories: calories,
+      );
+    }
+  }
+
+  void caloriesOnFieldSubmitted(String value) {
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      final calories = num.tryParse(value);
+
+      nutrition = nutrition.copyWith(
+        calories: calories,
+      );
+    }
+  }
+
+  void initFatEditor(num? value) {
+    final numValue = value ?? 0;
+    final intValue = numValue.truncate();
+    final decimalValue =
+        (num.parse((numValue - intValue).toStringAsFixed(1)) * 10).toInt();
+
+    _intValue = intValue;
+    _decimalValue = decimalValue;
+  }
+
+  void onFatIntChanged(int intValue) {
+    _intValue = intValue;
+    final fat = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(fat: fat);
+
+    notifyListeners();
+  }
+
+  void onFatDecimalChanged(int decimalValue) {
+    _decimalValue = decimalValue;
+    final fat = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(fat: fat);
+
+    notifyListeners();
+  }
+
+  void onCarbsIntChanged(int intValue) {
+    _intValue = intValue;
+    final carbs = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(carbs: carbs);
+
+    notifyListeners();
+  }
+
+  void onCarbsDecimalChanged(int decimalValue) {
+    _decimalValue = decimalValue;
+    final carbs = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(carbs: carbs);
+
+    notifyListeners();
+  }
+
+  void onProteinsIntChanged(int intValue) {
+    _intValue = intValue;
+    final protein = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(proteinAmount: protein);
+
+    notifyListeners();
+  }
+
+  void onProteinsDecimalChanged(int decimalValue) {
+    _decimalValue = decimalValue;
+    final protein = _intValue! + _decimalValue! * 0.1;
+
+    nutrition = nutrition.copyWith(proteinAmount: protein);
 
     notifyListeners();
   }
@@ -73,14 +169,6 @@ class EditNutritionEntryScreenModel with ChangeNotifier {
         title: S.current.operationFailed,
         exception: e.toString(),
       );
-    }
-  }
-
-  void onMealTypeSelected(bool selected, Meal selectedMeal) {
-    if (selected) {
-      nutrition = nutrition.copyWith(type: selectedMeal);
-
-      notifyListeners();
     }
   }
 

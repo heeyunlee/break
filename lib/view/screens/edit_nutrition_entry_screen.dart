@@ -18,7 +18,7 @@ class EditNutritionEntryScreen extends StatefulWidget {
   }) : super(key: key);
 
   final Nutrition nutrition;
-  final EditNutritionEntryScreenModel model;
+  final EditNutritionModel model;
 
   static void show(BuildContext context, {required Nutrition nutrition}) {
     custmFadeTransition(
@@ -27,7 +27,7 @@ class EditNutritionEntryScreen extends StatefulWidget {
       screen: Consumer(
         builder: (context, watch, child) => EditNutritionEntryScreen(
           nutrition: nutrition,
-          model: watch(editNutritionEntryScreenModelProvider(nutrition)),
+          model: watch(editNutritionModelProvider(nutrition)),
         ),
       ),
     );
@@ -55,7 +55,7 @@ class _EditNutritionEntryScreenState extends State<EditNutritionEntryScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: ThemeColors.background,
       body: Form(
-        key: EditNutritionEntryScreenModel.formKey,
+        key: EditNutritionModel.formKey,
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
@@ -137,37 +137,35 @@ class _EditNutritionEntryScreenState extends State<EditNutritionEntryScreen> {
                         showModalBottomSheet(
                           context: homeContext,
                           builder: (context) => BlurredCard(
-                            child: SizedBox(
-                              height: size.height / 2,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: MaxWidthRaisedButton(
-                                      radius: 24,
-                                      color: ThemeColors.primary500,
-                                      buttonText: S.current.save,
-                                      onPressed: () =>
-                                          Navigator.of(homeContext).pop(),
+                            height: size.height / 2,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: MaxWidthRaisedButton(
+                                    radius: 24,
+                                    color: ThemeColors.primary500,
+                                    buttonText: S.current.save,
+                                    onPressed: () =>
+                                        Navigator.of(homeContext).pop(),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                SizedBox(
+                                  width: size.width - 32,
+                                  child: TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: Text(
+                                      S.current.cancel,
+                                      style: TextStyles.button1Grey,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  SizedBox(
-                                    width: size.width - 32,
-                                    child: TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: Text(
-                                        S.current.cancel,
-                                        style: TextStyles.button1Grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                      height: kBottomNavigationBarHeight),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(
+                                    height: kBottomNavigationBarHeight),
+                              ],
                             ),
                           ),
                         );

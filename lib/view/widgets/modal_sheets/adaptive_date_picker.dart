@@ -32,49 +32,46 @@ class AdaptiveDatePicker extends StatelessWidget {
       key: const Key('DatePicker'),
       onVisibilityChanged: onVisibilityChanged,
       child: BlurredCard(
-        child: SizedBox(
-          height: (showButton!) ? size.height / 3 + 160 : size.height / 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        height: (showButton!) ? size.height / 3 + 160 : size.height / 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: size.height / 3,
+              child: CupertinoTheme(
+                data: const CupertinoThemeData(
+                  brightness: Brightness.dark,
+                ),
+                child: CupertinoDatePicker(
+                  initialDateTime: initialDateTime,
+                  onDateTimeChanged: onDateTimeChanged,
+                ),
+              ),
+            ),
+            if (showButton!)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MaxWidthRaisedButton(
+                  color: ThemeColors.primary500,
+                  radius: 24,
+                  buttonText: S.current.save,
+                  onPressed: onSave,
+                ),
+              ),
+            if (showButton!) const SizedBox(height: 8),
+            if (showButton!)
               SizedBox(
-                height: size.height / 3,
-                child: CupertinoTheme(
-                  data: const CupertinoThemeData(
-                    brightness: Brightness.dark,
-                  ),
-                  child: CupertinoDatePicker(
-                    initialDateTime: initialDateTime,
-                    onDateTimeChanged: onDateTimeChanged,
+                width: size.width - 32,
+                child: TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    S.current.cancel,
+                    style: TextStyles.button1Grey,
                   ),
                 ),
               ),
-              if (showButton!)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: MaxWidthRaisedButton(
-                    color: ThemeColors.primary500,
-                    radius: 24,
-                    buttonText: S.current.save,
-                    onPressed: onSave,
-                  ),
-                ),
-              if (showButton!) const SizedBox(height: 8),
-              if (showButton!)
-                SizedBox(
-                  width: size.width - 32,
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(
-                      S.current.cancel,
-                      style: TextStyles.button1Grey,
-                    ),
-                  ),
-                ),
-              if (showButton!)
-                const SizedBox(height: kBottomNavigationBarHeight),
-            ],
-          ),
+            if (showButton!) const SizedBox(height: kBottomNavigationBarHeight),
+          ],
         ),
       ),
     );
