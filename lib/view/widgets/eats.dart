@@ -9,3 +9,5 @@ export 'eats/nutrition_protein_list_tile.dart';
 export 'eats/nutrition_total_fat_list_tile.dart';
 export 'eats/nutritions_list_tile.dart';
 export 'eats/nutrition_edit_notes_bottom_sheet.dart';
+export 'eats/nutrition_description_list_tile.dart';
+export 'eats/nutrition_edit_description_bottom_sheet.dart';

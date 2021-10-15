@@ -6,8 +6,8 @@ import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dar
 
 import '../widgets.dart';
 
-class NutritionEditNotesBottomSheet extends StatefulWidget {
-  const NutritionEditNotesBottomSheet({
+class NutritionEditDescriptionBottomSheet extends StatefulWidget {
+  const NutritionEditDescriptionBottomSheet({
     Key? key,
     required this.model,
   }) : super(key: key);
@@ -15,16 +15,16 @@ class NutritionEditNotesBottomSheet extends StatefulWidget {
   final EditNutritionModel model;
 
   @override
-  State<NutritionEditNotesBottomSheet> createState() =>
-      _NutritionEditNotesBottomSheetState();
+  State<NutritionEditDescriptionBottomSheet> createState() =>
+      _NutritionEditDescriptionBottomSheetState();
 }
 
-class _NutritionEditNotesBottomSheetState
-    extends State<NutritionEditNotesBottomSheet> {
+class _NutritionEditDescriptionBottomSheetState
+    extends State<NutritionEditDescriptionBottomSheet> {
   @override
   void initState() {
     super.initState();
-    widget.model.initNotesEditor();
+    widget.model.initDescriptionEditor();
   }
 
   @override
@@ -50,18 +50,18 @@ class _NutritionEditNotesBottomSheetState
             Column(
               children: [
                 const SizedBox(height: 24),
-                Text(S.current.notes, style: TextStyles.body1Bold),
+                Text(S.current.description, style: TextStyles.body1Bold),
                 const SizedBox(height: 32),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: OutlinedTextTextFieldWidget(
                     autofocus: true,
-                    maxLines: 5,
-                    focusNode: widget.model.notesFocusNode!,
-                    controller: widget.model.notesEditingController!,
+                    maxLines: 1,
+                    focusNode: widget.model.descriptionFocusNode!,
+                    controller: widget.model.descriptionEditingController!,
                     formKey: EditNutritionModel.formKey,
-                    onChanged: widget.model.notesOnChanged,
-                    onFieldSubmitted: widget.model.notesOnFieldSubmitted,
+                    onChanged: widget.model.descriptionOnChanged,
+                    onFieldSubmitted: widget.model.descriptionOnFieldSubmitted,
                   ),
                 ),
                 const SizedBox(height: 24),

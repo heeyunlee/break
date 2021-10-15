@@ -211,23 +211,12 @@ class NutritionsDetailScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 8),
-                    if (nutrition.isCreditCardTransaction ?? false)
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          S.current.merchant,
-                          style: TextStyles.body1,
-                        ),
-                        trailing: Text(
-                          NutritionsDetailScreenModel.merchantName(nutrition),
-                          style: TextStyles.body2Grey,
-                        ),
-                      ),
+                    NutritionDescriptionListTile(nutrition: nutrition),
                     NutritionLoggedDateListTile(nutrition: nutrition),
                     NutritionMealTypeListTile(nutrition: nutrition),
-                    kCustomDividerIndent16,
 
                     /// Nutritional Facts
+                    kCustomDividerIndent16,
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -241,16 +230,9 @@ class NutritionsDetailScreen extends StatelessWidget {
                     NutritionTotalFatListTile(nutrition: nutrition),
                     NutritionCarbsListTile(nutrition: nutrition),
                     NutritionProteinListTile(nutrition: nutrition),
-                    kCustomDividerIndent16,
 
-                    // Notes & Others
-                    // ListTile(
-                    //   title: Text(S.current.notes, style: TextStyles.body1),
-                    //   subtitle: Text(
-                    //     NutritionsDetailScreenModel.notes(nutrition),
-                    //     style: TextStyles.body2Grey,
-                    //   ),
-                    // ),
+                    // Others
+                    kCustomDividerIndent16,
                     NutritionNotesListTile(nutrition: nutrition),
                     const SizedBox(height: kBottomNavigationBarHeight + 48)
                   ],

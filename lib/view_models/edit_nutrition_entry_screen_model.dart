@@ -21,6 +21,8 @@ class EditNutritionModel with ChangeNotifier {
 
   Nutrition nutrition;
 
+  TextEditingController? _descriptionEditingController;
+  FocusNode? _descriptionFocusNode;
   TextEditingController? _caloriesEditingController;
   FocusNode? _caloriesFocusNode;
   int? _intValue;
@@ -28,6 +30,9 @@ class EditNutritionModel with ChangeNotifier {
   TextEditingController? _notesEditingController;
   FocusNode? _notesFocusNode;
 
+  TextEditingController? get descriptionEditingController =>
+      _descriptionEditingController;
+  FocusNode? get descriptionFocusNode => _descriptionFocusNode;
   TextEditingController? get caloriesEditingController =>
       _caloriesEditingController;
   FocusNode? get caloriesFocusNode => _caloriesFocusNode;
@@ -171,6 +176,45 @@ class EditNutritionModel with ChangeNotifier {
 
     if (isValid) {
       nutrition = nutrition.copyWith(notes: value);
+    }
+  }
+
+  void initDescriptionEditor() {
+    final isCreditCard = nutrition.isCreditCardTransaction ?? false;
+
+    _descriptionEditingController = TextEditingController(
+      text: isCreditCard ? nutrition.merchantName : nutrition.description,
+    );
+    _descriptionFocusNode = FocusNode();
+  }
+
+  void descriptionOnChanged(String value) {
+    final isCreditCard = nutrition.isCreditCardTransaction ?? false;
+
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      if (isCreditCard) {
+        nutrition = nutrition.copyWith(merchantName: value);
+      } else {
+        nutrition = nutrition.copyWith(description: value);
+      }
+    }
+  }
+
+  void descriptionOnFieldSubmitted(String value) {
+    final isCreditCard = nutrition.isCreditCardTransaction ?? false;
+
+    final form = formKey.currentState!;
+    final isValid = form.validate();
+
+    if (isValid) {
+      if (isCreditCard) {
+        nutrition = nutrition.copyWith(merchantName: value);
+      } else {
+        nutrition = nutrition.copyWith(description: value);
+      }
     }
   }
 

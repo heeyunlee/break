@@ -84,13 +84,19 @@ class NutritionsDetailScreenModel with ChangeNotifier {
     return '$calorie Kcal';
   }
 
-  static String merchantName(Nutrition nutrition) {
-    final name = nutrition.merchantName;
+  static String description(Nutrition nutrition) {
+    final isCreditCard = nutrition.isCreditCardTransaction ?? false;
 
-    if (name != null) {
-      return name;
+    if (isCreditCard) {
+      final name = nutrition.merchantName;
+
+      if (name != null) {
+        return name;
+      } else {
+        return '';
+      }
     } else {
-      return '';
+      return nutrition.description ?? '';
     }
   }
 
