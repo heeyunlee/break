@@ -6,13 +6,13 @@ import 'package:reorderables/reorderables.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/progress_tab_widgets_model.dart';
+import 'package:workout_player/view_models/move_tab_widgets_model.dart';
 
 import 'logo_widget.dart';
 
 class ProgressTabWidgetsBuilder extends StatefulWidget {
   final HomeScreenModel homeScreenModel;
-  final ProgressTabWidgetsModel model;
+  final MoveTabWidgetsModel model;
   final ProgressTabClass data;
   final BoxConstraints constraints;
   final TickerProvider vsync;

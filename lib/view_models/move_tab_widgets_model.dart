@@ -6,10 +6,6 @@ import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/screens/calories_entries_screen.dart';
-import 'package:workout_player/view/screens/carbs_entries_screen.dart';
-import 'package:workout_player/view/screens/fat_entries_screen.dart';
-import 'package:workout_player/view/screens/protein_entries_screen.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/view/widgets/progress/daily_activty_ring_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_body_fat_widget.dart';
@@ -20,21 +16,17 @@ import 'package:workout_player/view/widgets/progress/weekly_measurements_card.da
 import 'package:workout_player/view/widgets/progress/weekly_workout_summary.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 
-import 'weekly_calories_bar_chart_model.dart';
-import 'weekly_carbs_bar_chart_model.dart';
-import 'weekly_fat_bar_chart_model.dart';
-import 'weekly_proteins_bar_chart_model.dart';
 import 'weekly_weights_bar_chart_model.dart';
 
 final progressTabWidgetsModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => ProgressTabWidgetsModel(),
+  (ref) => MoveTabWidgetsModel(),
 );
 
-class ProgressTabWidgetsModel with ChangeNotifier {
+class MoveTabWidgetsModel with ChangeNotifier {
   AuthBase? auth;
   Database? database;
 
-  ProgressTabWidgetsModel({
+  MoveTabWidgetsModel({
     this.auth,
     this.database,
   }) {
@@ -46,19 +38,19 @@ class ProgressTabWidgetsModel with ChangeNotifier {
   Map<String, Widget> _keysAndWidgets = {};
   List<Widget> _widgets = [];
   List _widgetKeysList = [
-    // 'empty2x2',
+    'empty2x2',
     'activityRing',
     'weeklyWorkoutHistorySmall',
     'latestBodyFat',
     'latestWeight',
     'recentWorkout',
     'weeklyMeasurementsChart',
-    'weeklyNutritionChart',
+    // 'weeklyNutritionChart',
     'weeklyWorkoutHistoryMedium',
     // 'stepsWidget',
-    'weeklyCarbsBarChart',
-    'weeklyFatBarChart',
-    'weeklyCalorieBarChart',
+    // 'weeklyCarbsBarChart',
+    // 'weeklyFatBarChart',
+    // 'weeklyCalorieBarChart',
   ];
   AnimationController? _staggeredController;
   // bool _isFirstStartUp = true;
@@ -174,18 +166,18 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       subtitle: S.current.weightsChartMessage,
     );
 
-    final Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
-      key: const Key('weeklyNutritionChart'),
-      progressTabClass: data,
-      constraints: constraints,
-      defaultColor: Colors.greenAccent,
-      touchedColor: Colors.green,
-      onTap: () => ProteinEntriesScreen.show(context, user: data.user),
-      model: weeklyProteinsBarChartModelProvider,
-      titleIcon: Icons.restaurant_menu_rounded,
-      title: S.current.addProteins,
-      subtitle: S.current.proteinChartContentText,
-    );
+    // final Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
+    //   key: const Key('weeklyNutritionChart'),
+    //   progressTabClass: data,
+    //   constraints: constraints,
+    //   defaultColor: Colors.greenAccent,
+    //   touchedColor: Colors.green,
+    //   onTap: () => ProteinEntriesScreen.show(context, user: data.user),
+    //   model: weeklyProteinsBarChartModelProvider,
+    //   titleIcon: Icons.restaurant_menu_rounded,
+    //   title: S.current.addProteins,
+    //   subtitle: S.current.proteinChartContentText,
+    // );
 
     final Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
       key: const Key('weeklyMeasurementsChart'),
@@ -228,48 +220,48 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       height: constraints.maxHeight / 4,
     );
 
-    final Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
-      key: const Key('weeklyCarbsBarChart'),
-      onTap: () => CarbsEntriesScreen.show(context, user: data.user),
-      constraints: constraints,
-      progressTabClass: data,
-      defaultColor: Colors.greenAccent,
-      touchedColor: Colors.green,
-      title: S.current.carbs,
-      titleIcon: Icons.restaurant_menu_rounded,
-      model: weeklyCarbsBarChartModelProvider,
-    );
+    // final Widget weeklyCarbsBarChart = WeeklyBarChartCardTemplate(
+    //   key: const Key('weeklyCarbsBarChart'),
+    //   onTap: () => CarbsEntriesScreen.show(context, user: data.user),
+    //   constraints: constraints,
+    //   progressTabClass: data,
+    //   defaultColor: Colors.greenAccent,
+    //   touchedColor: Colors.green,
+    //   title: S.current.carbs,
+    //   titleIcon: Icons.restaurant_menu_rounded,
+    //   model: weeklyCarbsBarChartModelProvider,
+    // );
 
-    final Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
-      key: const Key('weeklyFatBarChart'),
-      onTap: () => FatEntriesScreen.show(context, user: data.user),
-      constraints: constraints,
-      progressTabClass: data,
-      defaultColor: Colors.greenAccent,
-      touchedColor: Colors.green,
-      title: S.current.fat,
-      titleIcon: Icons.restaurant_menu_rounded,
-      model: weeklyFatBarChartModelProvider,
-    );
+    // final Widget weeklyFatBarChart = WeeklyBarChartCardTemplate(
+    //   key: const Key('weeklyFatBarChart'),
+    //   onTap: () => FatEntriesScreen.show(context, user: data.user),
+    //   constraints: constraints,
+    //   progressTabClass: data,
+    //   defaultColor: Colors.greenAccent,
+    //   touchedColor: Colors.green,
+    //   title: S.current.fat,
+    //   titleIcon: Icons.restaurant_menu_rounded,
+    //   model: weeklyFatBarChartModelProvider,
+    // );
 
-    final Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
-      key: const Key('weeklyCalorieBarChart'),
-      onTap: () => CaloriesEntriesScreen.show(context, user: data.user),
-      constraints: constraints,
-      progressTabClass: data,
-      defaultColor: Colors.greenAccent,
-      touchedColor: Colors.green,
-      title: S.current.consumedCalorie,
-      titleIcon: Icons.local_fire_department_rounded,
-      model: weeklyCaloriesBarChartModelProvider,
-    );
+    // final Widget weeklyCalorieBarChart = WeeklyBarChartCardTemplate(
+    //   key: const Key('weeklyCalorieBarChart'),
+    //   onTap: () => CaloriesEntriesScreen.show(context, user: data.user),
+    //   constraints: constraints,
+    //   progressTabClass: data,
+    //   defaultColor: Colors.greenAccent,
+    //   touchedColor: Colors.green,
+    //   title: S.current.consumedCalorie,
+    //   titleIcon: Icons.local_fire_department_rounded,
+    //   model: weeklyCaloriesBarChartModelProvider,
+    // );
 
     _keysAndWidgets = {
       'activityRing': activityRing,
       'empty1x2': empty1x2,
       'empty2x2': empty2x2,
       'weeklyMeasurementsChart': weeklyMeasurementsChart,
-      'weeklyNutritionChart': weeklyNutritionChart,
+      // 'weeklyNutritionChart': weeklyNutritionChart,
       'weeklyWorkoutHistoryMedium': weeklyWorkoutHistoryMedium,
       'weeklyWorkoutHistorySmall': weeklyWorkoutHistorySmall,
       'recentWorkout': recentWorkout,
@@ -277,16 +269,18 @@ class ProgressTabWidgetsModel with ChangeNotifier {
       'latestBodyFat': latestBodyFat,
       'latestWeight': latestWeight,
       // 'stepsWidget': stepsWidget,
-      'weeklyCarbsBarChart': weeklyCarbsBarChart,
-      'weeklyFatBarChart': weeklyFatBarChart,
-      'weeklyCalorieBarChart': weeklyCalorieBarChart,
+      // 'weeklyCarbsBarChart': weeklyCarbsBarChart,
+      // 'weeklyFatBarChart': weeklyFatBarChart,
+      // 'weeklyCalorieBarChart': weeklyCalorieBarChart,
     };
 
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;
     _widgets = List.generate(
       data.user.widgetsList?.length ?? _widgetKeysList.length,
-      (index) => _keysAndWidgets[
-          data.user.widgetsList?[index] ?? _widgetKeysList[index]]!,
+      (index) =>
+          _keysAndWidgets[
+              data.user.widgetsList?[index] ?? _widgetKeysList[index]] ??
+          Container(),
     );
   }
 }

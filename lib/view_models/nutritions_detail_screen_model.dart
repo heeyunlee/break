@@ -34,10 +34,10 @@ class NutritionsDetailScreenModel with ChangeNotifier {
       final homeContext =
           HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
-      await database.deleteNutrition(nutrition);
-
       Navigator.of(homeContext).pop();
       Navigator.of(context).pop();
+
+      await database.deleteNutrition(nutrition);
 
       getSnackbarWidget(
         S.current.deleteNutritionSnackBarTitle,
@@ -46,6 +46,8 @@ class NutritionsDetailScreenModel with ChangeNotifier {
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }
+
+    notifyListeners();
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {

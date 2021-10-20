@@ -15,13 +15,12 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 import '../../view_models/progress_tab_model.dart';
-import '../widgets/progress/customize_widgets_button.dart';
 
-class ProgressTab extends StatefulWidget {
+class MoveTab extends StatefulWidget {
   final ProgressTabModel model;
   final MiniplayerModel miniplayerModel;
 
-  const ProgressTab({
+  const MoveTab({
     Key? key,
     required this.model,
     required this.miniplayerModel,
@@ -29,7 +28,7 @@ class ProgressTab extends StatefulWidget {
 
   static Widget create() {
     return Consumer(
-      builder: (context, watch, child) => ProgressTab(
+      builder: (context, watch, child) => MoveTab(
         model: watch(progressTabModelProvider),
         miniplayerModel: watch(miniplayerModelProvider),
       ),
@@ -37,11 +36,10 @@ class ProgressTab extends StatefulWidget {
   }
 
   @override
-  _ProgressTabState createState() => _ProgressTabState();
+  _MoveTabState createState() => _MoveTabState();
 }
 
-class _ProgressTabState extends State<ProgressTab>
-    with TickerProviderStateMixin {
+class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -75,10 +73,10 @@ class _ProgressTabState extends State<ProgressTab>
             backgroundColor: Colors.transparent,
             // leading: ChooseBackgroundButton(user: user!),
             title: ChooseDateIconButton(model: widget.model, user: user!),
-            actions: [
-              CustomizeWidgetsButton(user: user),
-              const SizedBox(width: 8),
-            ],
+            // actions: [
+            //   CustomizeWidgetsButton(user: user),
+            //   const SizedBox(width: 8),
+            // ],
           ),
           body: Builder(
             builder: (context) => _buildBody(context, user),

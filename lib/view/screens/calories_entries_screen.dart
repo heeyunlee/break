@@ -96,7 +96,7 @@ class CaloriesEntriesScreen extends StatelessWidget {
                       ),
                       child: ListTile(
                         leading: Text(
-                          '$title Cal',
+                          '$title Kcal',
                           style: TextStyles.body1,
                         ),
                         trailing: Text(date, style: TextStyles.body1Grey),
@@ -110,48 +110,6 @@ class CaloriesEntriesScreen extends StatelessWidget {
           );
         },
       ),
-      // body: PaginateFirestore(
-      //   shrinkWrap: true,
-      //   itemsPerPage: 10,
-      //   query: database.carbsPaginatedUserQuery(),
-      //   itemBuilderType: PaginateBuilderType.listView,
-      //   emptyDisplay: EmptyContent(
-      //     message: S.current.proteinEntriesEmptyMessage,
-      //   ),
-      //   header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-      //   footer: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-      //   onError: (error) => EmptyContent(
-      //     message: '${S.current.somethingWentWrong}: $error',
-      //   ),
-      //   physics: const BouncingScrollPhysics(),
-      //   itemBuilder: (index, context, snapshot) {
-      //     final nutrition = snapshot.data() as Nutrition?;
-      //     final date = Formatter.yMdjm(nutrition!.loggedTime);
-      //     final title = Formatter.numWithDecimal(nutrition.calories);
-
-      //     return Slidable(
-      //       endActionPane: ActionPane(
-      //         motion: const ScrollMotion(),
-      //         children: [
-      //           SlidableAction(
-      //             label: S.current.delete,
-      //             backgroundColor: Colors.red,
-      //             icon: Icons.delete_rounded,
-      //             onPressed: (context) => _delete(context, nutrition),
-      //           ),
-      //         ],
-      //       ),
-      //       child: ListTile(
-      //         leading: Text(
-      //           '$title Cal',
-      //           style: TextStyles.body1,
-      //         ),
-      //         trailing: Text(date, style: TextStyles.body1Grey),
-      //       ),
-      //     );
-      //   },
-      //   isLive: true,
-      // ),
     );
   }
 }

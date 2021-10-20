@@ -562,7 +562,7 @@ class DummyData {
     youtubeWorkouts: [],
   );
 
-  static final nutritionDummyData = Nutrition(
+  static final nutrition = Nutrition(
     nutritionId: 'nutritionId',
     userId: 'userId',
     username: 'username',

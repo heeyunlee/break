@@ -7,6 +7,7 @@ import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
@@ -19,9 +20,9 @@ class NutritionsDetailScreen extends StatelessWidget {
   }) : super(key: key);
 
   final Database database;
-  final Nutrition nutrition;
+  final Nutrition? nutrition;
 
-  static void show(BuildContext context, {required Nutrition nutrition}) {
+  static void show(BuildContext context, {required Nutrition? nutrition}) {
     customPush(
       context,
       rootNavigator: false,
@@ -41,8 +42,8 @@ class NutritionsDetailScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: ThemeColors.background,
       body: CustomStreamBuilder<Nutrition?>(
-        initialData: nutrition,
-        stream: database.nutritionStream(nutrition.nutritionId),
+        initialData: DummyData.nutrition,
+        stream: database.nutritionStream(nutrition?.nutritionId ?? ''),
         builder: (context, nutrition) => CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(

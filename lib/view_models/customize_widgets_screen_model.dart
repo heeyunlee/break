@@ -11,7 +11,7 @@ import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
-import 'progress_tab_widgets_model.dart';
+import 'move_tab_widgets_model.dart';
 
 final customizeWidgetsScreenModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => CustomizeWidgetsScreenModel(),
@@ -33,8 +33,7 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   int? get selectedImageIndex => _selectedImageIndex;
 
   void init(AuthAndDatabase authAndDatabase, User user) {
-    _widgetKeysList =
-        user.widgetsList ?? ProgressTabWidgetsModel().widgetKeysList;
+    _widgetKeysList = user.widgetsList ?? MoveTabWidgetsModel().widgetKeysList;
     auth = authAndDatabase.auth;
     database = authAndDatabase.database;
     _selectedImageIndex = user.backgroundImageIndex;

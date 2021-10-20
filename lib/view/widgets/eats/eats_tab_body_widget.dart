@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
@@ -7,7 +8,9 @@ import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/more_nutritions_entries_screen.dart';
+import 'package:workout_player/view/widgets/charts/weekly_bar_chart.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/weekly_calories_chart_model.dart';
 
 class EatsTabBodyWidget extends StatelessWidget {
   const EatsTabBodyWidget({Key? key}) : super(key: key);
@@ -55,15 +58,15 @@ class EatsTabBodyWidget extends StatelessWidget {
                       const SizedBox(width: 16),
                     ],
                   ),
-                  data.recentNutritions.isEmpty
-                      ? EmptyContent(message: S.current.addNutritions)
-                      : Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          margin: const EdgeInsets.all(16),
-                          color: ThemeColors.card,
-                          child: ListView.separated(
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    margin: const EdgeInsets.all(16),
+                    color: ThemeColors.card,
+                    child: data.recentNutritions.isEmpty
+                        ? EmptyContent(message: S.current.addNutritions)
+                        : ListView.separated(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             physics: const NeverScrollableScrollPhysics(),
@@ -79,189 +82,35 @@ class EatsTabBodyWidget extends StatelessWidget {
                               );
                             },
                           ),
-                        ),
-                  // Card(
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //   ),
-                  //   margin: const EdgeInsets.all(16),
-                  //   color: kCardColor,
-                  //   child: SizedBox(
-                  //     width: size.width,
-                  //     height: size.height / 3,
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(
-                  //         vertical: 8,
-                  //         horizontal: 16,
-                  //       ),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         mainAxisAlignment: MainAxisAlignment.end,
-                  //         children: [
-                  //           GestureDetector(
-                  //             behavior: HitTestBehavior.opaque,
-                  //             onTap: () => CaloriesEntriesScreen.show(
-                  //               context,
-                  //               user: data.user,
-                  //             ),
-                  //             child: Wrap(
-                  //               children: [
-                  //                 SizedBox(
-                  //                   height: 48,
-                  //                   child: Row(
-                  //                     children: [
-                  //                       const Icon(
-                  //                         Icons.local_fire_department_rounded,
-                  //                         color: Colors.greenAccent,
-                  //                         size: 16,
-                  //                       ),
-                  //                       const SizedBox(width: 8),
-                  //                       Text(
-                  //                         S.current.consumedCalorie,
-                  //                         style:
-                  //                             TextStyles.subtitle1W900.copyWith(
-                  //                           color: Colors.greenAccent,
-                  //                         ),
-                  //                       ),
-                  //                       const Padding(
-                  //                         padding: EdgeInsets.symmetric(
-                  //                             horizontal: 8),
-                  //                         child: Icon(
-                  //                           Icons.arrow_forward_ios_rounded,
-                  //                           color: Colors.greenAccent,
-                  //                           size: 16,
-                  //                         ),
-                  //                       ),
-                  //                       const Spacer(),
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //           const SizedBox(height: 16),
-
-                  //           /// Chart
-                  //           Consumer(
-                  //             builder: (context, watch, child) {
-                  //               final model =
-                  //                   watch(weeklyCaloriesChartModelProvider);
-
-                  //               return Expanded(
-                  //                 child: Stack(
-                  //                   children: [
-                  //                     BarChart(
-                  //                       BarChartData(
-                  //                         maxY: 10,
-                  //                         gridData: _buildGrid(),
-                  //                         barTouchData: BarTouchData(
-                  //                           touchTooltipData:
-                  //                               BarTouchTooltipData(
-                  //                             getTooltipItem: (group,
-                  //                                 groupIndex, rod, rodIndex) {
-                  //                               return BarTooltipItem(
-                  //                                 model.getTooltipText(
-                  //                                     data.user, rod.y),
-                  //                                 TextStyles.body1Black,
-                  //                               );
-                  //                             },
-                  //                           ),
-                  //                           touchCallback:
-                  //                               model.onTouchCallback,
-                  //                         ),
-                  //                         titlesData: FlTitlesData(
-                  //                           show: true,
-                  //                           topTitles:
-                  //                               SideTitles(showTitles: false),
-                  //                           rightTitles:
-                  //                               SideTitles(showTitles: false),
-                  //                           bottomTitles: SideTitles(
-                  //                             showTitles: true,
-                  //                             getTextStyles: (_, __) =>
-                  //                                 TextStyles.body2,
-                  //                             margin: 16,
-                  //                             getTitles: (double value) {
-                  //                               switch (value.toInt()) {
-                  //                                 case 0:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[0]
-                  //                                       as String;
-                  //                                 case 1:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[1]
-                  //                                       as String;
-                  //                                 case 2:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[2]
-                  //                                       as String;
-                  //                                 case 3:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[3]
-                  //                                       as String;
-                  //                                 case 4:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[4]
-                  //                                       as String;
-                  //                                 case 5:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[5]
-                  //                                       as String;
-                  //                                 case 6:
-                  //                                   return widget.model
-                  //                                           .daysOfTheWeek[6]
-                  //                                       as String;
-                  //                                 default:
-                  //                                   return '';
-                  //                               }
-                  //                             },
-                  //                           ),
-                  //                           leftTitles: SideTitles(
-                  //                             showTitles: true,
-                  //                             reservedSize: 64,
-                  //                             getTextStyles: (_, __) =>
-                  //                                 TextStyles.caption1Grey,
-                  //                             getTitles: (double value) {
-                  //                               switch (value.toInt()) {
-                  //                                 case 0:
-                  //                                   return widget.model
-                  //                                           .getSideTiles(value)
-                  //                                       as String;
-                  //                                 case 5:
-                  //                                   return widget.model
-                  //                                           .getSideTiles(value)
-                  //                                       as String;
-                  //                                 case 10:
-                  //                                   return widget.model
-                  //                                           .getSideTiles(value)
-                  //                                       as String;
-                  //                                 default:
-                  //                                   return '';
-                  //                               }
-                  //                             },
-                  //                           ),
-                  //                         ),
-                  //                         borderData: FlBorderData(show: false),
-                  //                         barGroups: (widget.model.relativeYs
-                  //                                 .isNotEmpty as bool)
-                  //                             ? _hasData()
-                  //                             : randomData(),
-                  //                       ),
-                  //                     ),
-                  //                     if (widget.model.relativeYs.isEmpty
-                  //                         as bool)
-                  //                       NoDataInChartMessageWidget(
-                  //                           color: widget.defaultColor),
-                  //                   ],
-                  //                 ),
-                  //               );
-                  //             },
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  const SizedBox(height: 120),
+                  ),
+                  WeeklyBarChartCard(
+                    cardHeight: size.height / 3,
+                    cardWidth: size.width,
+                    titleOnTap: () {},
+                    titleIcon: Icons.local_fire_department_outlined,
+                    defaultColor: Colors.greenAccent,
+                    touchedColor: Colors.green,
+                    title: S.current.consumedCalorie,
+                    chart: Consumer(
+                      builder: (context, watch, child) {
+                        final model = watch(
+                          weeklyCaloriesChartModelProvider(data),
+                        );
+                        return WeeklyBarChart2(
+                          nutritions: data.thisWeeksNutritions,
+                          maxY: model.getMaxY(),
+                          defaultColor: Colors.greenAccent,
+                          touchedColor: Colors.green,
+                          getBarTooltipText: model.getTooltipText,
+                          onTouchCallback: model.onTouchCallback,
+                          getDaysOfTheWeek: model.getDaysOfTheWeek,
+                          listOfYs: model.listOfYs(),
+                          touchedIndex: model.touchedIndex,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: kBottomNavigationBarHeight + 48),
                 ],
               ),
             ),
@@ -270,62 +119,4 @@ class EatsTabBodyWidget extends StatelessWidget {
       },
     );
   }
-
-  // FlGridData _buildGrid() {
-  //   return FlGridData(
-  //     horizontalInterval: widget.model.interval as double?,
-  //     drawVerticalLine: false,
-  //     show: widget.model.goalExists as bool?,
-  //     getDrawingHorizontalLine: (_) => FlLine(
-  //       color: Colors.greenAccent.withOpacity(0.5),
-  //       dashArray: [16, 4],
-  //     ),
-  //   );
-  // }
-
-  // List<BarChartGroupData> _hasData(WeeklyCaloriesChartModel model) {
-  //   return List.generate(
-  //     7,
-  //     (index) => _makeBarChartGroupData(
-  //       x: index,
-  //       y: model.relativeYs[index],
-  //       isTouched: model.touchedIndex == index,
-  //       defaultColor: Colors.greenAccent,
-  //       touchedColor: Colors.green,
-  //     ),
-  //   );
-  // }
-
-  // List<BarChartGroupData> randomData(WeeklyCaloriesChartModel model) {
-  //   return List.generate(
-  //     7,
-  //     (index) => _makeBarChartGroupData(
-  //       x: index,
-  //       y: model.randomListOfYs[index],
-  //       isTouched: model.touchedIndex == index,
-  //       defaultColor: Colors.greenAccent.withOpacity(0.25),
-  //       touchedColor: Colors.greenAccent.withOpacity(0.5),
-  //     ),
-  //   );
-  // }
-
-  // BarChartGroupData _makeBarChartGroupData({
-  //   required int x,
-  //   required double y,
-  //   double width = 16,
-  //   bool isTouched = false,
-  //   required Color defaultColor,
-  //   required Color touchedColor,
-  // }) {
-  //   return BarChartGroupData(
-  //     x: x,
-  //     barRods: [
-  //       BarChartRodData(
-  //         y: isTouched ? y * 1.05 : y,
-  //         colors: isTouched ? [touchedColor] : [defaultColor],
-  //         width: width,
-  //       ),
-  //     ],
-  //   );
-  // }
 }

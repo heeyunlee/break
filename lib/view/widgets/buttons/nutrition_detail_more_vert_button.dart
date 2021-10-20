@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/services/database.dart';
@@ -7,7 +8,7 @@ import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
 
 import '../widgets.dart';
 
-class NutritionDetailMoreVertButton extends StatelessWidget {
+class NutritionDetailMoreVertButton extends ConsumerWidget {
   const NutritionDetailMoreVertButton({
     Key? key,
     required this.database,
@@ -18,7 +19,8 @@ class NutritionDetailMoreVertButton extends StatelessWidget {
   final Nutrition nutrition;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final model = watch(nutritionsDetailScreenModelProvider);
     final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     return IconButton(
@@ -28,7 +30,7 @@ class NutritionDetailMoreVertButton extends StatelessWidget {
         title: NutritionsDetailScreenModel.title(nutrition),
         firstTileTitle: S.current.deletePascalCase,
         firstTileIcon: Icons.delete_rounded,
-        firstTileOnTap: () => NutritionsDetailScreenModel().delete(
+        firstTileOnTap: () => model.delete(
           context,
           database: database,
           nutrition: nutrition,
