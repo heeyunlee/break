@@ -49,25 +49,28 @@ class WorkoutDetailScreen extends StatefulWidget {
   }) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
-    await HapticFeedback.mediumImpact();
     if (!isRoot) {
-      await Navigator.of(context).push(
-        CupertinoPageRoute(
-          builder: (context) => WorkoutDetailScreen(
+      customPush(
+        context,
+        rootNavigator: false,
+        builder: (context, auth, database) {
+          return WorkoutDetailScreen(
             workout: workout,
             workoutId: workoutId,
             database: database,
             auth: auth,
             user: user,
             tag: tag,
-          ),
-        ),
+          );
+        },
       );
     } else {
+      await HapticFeedback.mediumImpact();
+
       await Navigator.of(context).pushReplacement(
-        CupertinoPageRoute(
+        MaterialPageRoute(
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
             workoutId: workoutId,

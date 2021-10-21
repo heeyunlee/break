@@ -72,21 +72,13 @@ class HomeScreenModel with ChangeNotifier {
     return kBottomNavigationBarHeight * percentage * 2;
   }
 
-  Future<bool> onWillPopMiniplayer() async {
-    final state = miniplayerNavigatorKey.currentState!;
+  Future<bool> onWillPopHomeScreen() async {
+    final state = tabNavigatorKeys[_currentTab]!.currentState!;
 
     if (!state.canPop()) return true;
     state.pop();
 
     return false;
-  }
-
-  Future<bool> onWillPopHomeScreen() async {
-    final state = tabNavigatorKeys[_currentTab]!.currentState!.maybePop();
-
-    final shouldPop = await state;
-
-    return shouldPop;
   }
 
   void onSelectTab(int index) {

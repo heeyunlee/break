@@ -7,6 +7,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 - Enable users to edit [Nutrition] entry
 
 ### Bug Fix & Refactor
+- Fix Android's back button issue
 
 ## [0.3.6] - October 8th, 2021
 ### New Features & Screens

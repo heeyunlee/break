@@ -29,9 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     logger.d('[HomeScreen] building... ');
 
     return Stack(
-      // return MiniplayerWillPopScope(
-      //   onWillPop: context.read(homeScreenModelProvider).onWillPopMiniplayer,
-      //   child: Stack(
       children: [
         Scaffold(
           resizeToAvoidBottomInset: false,
@@ -47,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SpeedDial.create(),
       ],
-      // ),
     );
   }
 }

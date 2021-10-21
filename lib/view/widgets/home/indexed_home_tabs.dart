@@ -30,9 +30,12 @@ class IndexedHomeTabs extends ConsumerWidget {
     return IndexedStack(
       index: model.currentTabIndex,
       children: TabItem.values.map((tabItem) {
-        return CupertinoTabView(
-          navigatorKey: HomeScreenModel.tabNavigatorKeys[tabItem],
-          builder: (context) => widgetBuilders[tabItem]!(),
+        return WillPopScope(
+          onWillPop: model.onWillPopHomeScreen,
+          child: CupertinoTabView(
+            navigatorKey: HomeScreenModel.tabNavigatorKeys[tabItem],
+            builder: (context) => widgetBuilders[tabItem]!(),
+          ),
         );
       }).toList(),
     );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,10 +18,16 @@ bool? customPush(
   final database = container.read(databaseProvider(auth.currentUser?.uid));
 
   HapticFeedback.mediumImpact();
+
   Navigator.of(context, rootNavigator: rootNavigator).push(
-    CupertinoPageRoute(
-      fullscreenDialog: rootNavigator,
-      builder: (context) => builder(context, auth, database),
-    ),
+    Platform.isIOS
+        ? CupertinoPageRoute(
+            fullscreenDialog: rootNavigator,
+            builder: (context) => builder(context, auth, database),
+          )
+        : MaterialPageRoute(
+            fullscreenDialog: rootNavigator,
+            builder: (context) => builder(context, auth, database),
+          ),
   );
 }

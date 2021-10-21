@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +13,7 @@ import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 import 'routine_detail_screen.dart';
 import 'workout_detail_screen.dart';
@@ -45,20 +45,21 @@ class SearchCategoryScreen extends StatelessWidget {
     String? arrayContains,
     required String searchCategory,
   }) {
-    HapticFeedback.mediumImpact();
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => SearchCategoryScreen(
-          isEqualTo: isEqualTo,
-          arrayContains: arrayContains,
-          searchCategory: searchCategory,
-        ),
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => SearchCategoryScreen(
+        isEqualTo: isEqualTo,
+        arrayContains: arrayContains,
+        searchCategory: searchCategory,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.d('[SearchCategoryScreen] building...');
+
     final title = (searchCategory == 'mainMuscleGroup')
         ? MainMuscleGroup.values
             .firstWhere((e) => e.toString() == arrayContains)
@@ -82,7 +83,6 @@ class SearchCategoryScreen extends StatelessWidget {
               SliverAppBar(
                 floating: true,
                 pinned: true,
-                // snap: false,
                 centerTitle: true,
                 leading: const AppBarBackButton(),
                 flexibleSpace: const AppbarBlurBG(),

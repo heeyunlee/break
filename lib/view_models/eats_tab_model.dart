@@ -6,7 +6,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 final eatsTabModelProvider = ChangeNotifierProvider(
   (ref) => EatsTabModel(),
@@ -22,7 +21,6 @@ class EatsTabModel with ChangeNotifier {
     final todaysData = data.thisWeeksNutritions.where(
       (element) => element.loggedDate == today,
     );
-    logger.d(todaysData.toString());
 
     final calories = todaysData.map((e) => e.calories ?? 0);
     final total = (calories.isEmpty) ? 0 : calories.reduce((a, b) => a + b);

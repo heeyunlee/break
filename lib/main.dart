@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark,
+        systemNavigationBarContrastEnforced: false,
         systemNavigationBarColor: Colors.transparent,
         systemNavigationBarDividerColor: Colors.transparent,
       ),
@@ -53,6 +54,10 @@ class MyApp extends StatelessWidget {
 
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
     );
 
     if (kDebugMode || kProfileMode) {
