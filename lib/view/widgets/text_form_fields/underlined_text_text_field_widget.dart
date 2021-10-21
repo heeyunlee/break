@@ -13,7 +13,7 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
     this.maxLength = 45,
     this.maxLines = 1,
     this.hintText,
-    this.customValidator,
+    this.validator,
     this.inputStyle = TextStyles.headline5,
     this.hintStyle = TextStyles.headline6Grey,
     this.counterStyle = TextStyles.caption1,
@@ -21,6 +21,9 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
     this.autoFocus = true,
     this.textAlign = TextAlign.center,
     this.contentPadding,
+    this.onChanged,
+    this.onSaved,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -29,7 +32,6 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
   final int? maxLength;
   final int? maxLines;
   final String? hintText;
-  final String? Function(String?)? customValidator;
   final TextStyle? inputStyle;
   final TextStyle? hintStyle;
   final TextStyle? counterStyle;
@@ -37,6 +39,10 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
   final bool? autoFocus;
   final TextAlign? textAlign;
   final EdgeInsetsGeometry? contentPadding;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final void Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -72,10 +78,11 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
           borderSide: BorderSide(color: Colors.red),
         ),
       ),
-      validator: customValidator ?? model.stringValidator,
-      onChanged: (string) => model.onChanged(formKey, string),
-      onSaved: (string) => model.onSaved(formKey, string),
-      onFieldSubmitted: (string) => model.onFieldSubmitted(formKey, string),
+      validator: validator ?? model.stringValidator,
+      onChanged: onChanged ?? (string) => model.onChanged(formKey, string),
+      onSaved: onSaved ?? (string) => model.onSaved(formKey, string),
+      onFieldSubmitted: onFieldSubmitted ??
+          (string) => model.onFieldSubmitted(formKey, string),
     );
   }
 }

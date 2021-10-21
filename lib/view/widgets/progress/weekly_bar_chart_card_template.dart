@@ -86,7 +86,7 @@ class WeeklyBarChartCardTemplate extends StatelessWidget {
 
               /// Chart
               Consumer(
-                builder: (context, watch, child) => WeeklyBarChart(
+                builder: (context, watch, child) => WeeklyBarChartTemplate(
                   defaultColor: defaultColor,
                   touchedColor: touchedColor,
                   model: watch(model(progressTabClass)),
@@ -100,12 +100,12 @@ class WeeklyBarChartCardTemplate extends StatelessWidget {
   }
 }
 
-class WeeklyBarChart extends StatefulWidget {
+class WeeklyBarChartTemplate extends StatefulWidget {
   final dynamic model;
   final Color defaultColor;
   final Color touchedColor;
 
-  const WeeklyBarChart({
+  const WeeklyBarChartTemplate({
     Key? key,
     required this.model,
     required this.defaultColor,
@@ -113,10 +113,10 @@ class WeeklyBarChart extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _WeeklyBarChartState createState() => _WeeklyBarChartState();
+  _WeeklyBarChartTemplateState createState() => _WeeklyBarChartTemplateState();
 }
 
-class _WeeklyBarChartState extends State<WeeklyBarChart> {
+class _WeeklyBarChartTemplateState extends State<WeeklyBarChartTemplate> {
   @override
   Widget build(BuildContext context) {
     widget.model.init();

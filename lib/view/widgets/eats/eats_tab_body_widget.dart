@@ -36,7 +36,35 @@ class EatsTabBodyWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+                  WeeklyBarChartCard(
+                    cardHeight: size.height / 3,
+                    cardWidth: size.width,
+                    titleOnTap: () {},
+                    titleIcon: Icons.local_fire_department_outlined,
+                    defaultColor: Colors.greenAccent,
+                    touchedColor: Colors.green,
+                    title: S.current.consumedCalorie,
+                    chart: Consumer(
+                      builder: (context, watch, child) {
+                        final model = watch(
+                          weeklyCaloriesChartModelProvider(data),
+                        );
+                        return WeeklyBarChart(
+                          nutritions: data.thisWeeksNutritions,
+                          maxY: model.getMaxY(),
+                          defaultColor: Colors.greenAccent,
+                          touchedColor: Colors.green,
+                          getBarTooltipText: model.getTooltipText,
+                          onTouchCallback: model.onTouchCallback,
+                          getDaysOfTheWeek: model.getDaysOfTheWeek,
+                          listOfYs: model.listOfYs(),
+                          touchedIndex: model.touchedIndex,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       const SizedBox(width: 28),
@@ -82,33 +110,6 @@ class EatsTabBodyWidget extends StatelessWidget {
                               );
                             },
                           ),
-                  ),
-                  WeeklyBarChartCard(
-                    cardHeight: size.height / 3,
-                    cardWidth: size.width,
-                    titleOnTap: () {},
-                    titleIcon: Icons.local_fire_department_outlined,
-                    defaultColor: Colors.greenAccent,
-                    touchedColor: Colors.green,
-                    title: S.current.consumedCalorie,
-                    chart: Consumer(
-                      builder: (context, watch, child) {
-                        final model = watch(
-                          weeklyCaloriesChartModelProvider(data),
-                        );
-                        return WeeklyBarChart2(
-                          nutritions: data.thisWeeksNutritions,
-                          maxY: model.getMaxY(),
-                          defaultColor: Colors.greenAccent,
-                          touchedColor: Colors.green,
-                          getBarTooltipText: model.getTooltipText,
-                          onTouchCallback: model.onTouchCallback,
-                          getDaysOfTheWeek: model.getDaysOfTheWeek,
-                          listOfYs: model.listOfYs(),
-                          touchedIndex: model.touchedIndex,
-                        );
-                      },
-                    ),
                   ),
                   const SizedBox(height: kBottomNavigationBarHeight + 48),
                 ],

@@ -96,8 +96,7 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
                   widget.model.textEditingController as TextEditingController,
               formKey: widget.formKey,
               hintText: widget.hintText,
-              customValidator:
-                  widget.model.validator as String? Function(String?)?,
+              validator: widget.model.validator as String? Function(String?)?,
             ),
           ),
         ),

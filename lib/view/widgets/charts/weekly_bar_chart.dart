@@ -6,8 +6,8 @@ import 'package:workout_player/styles/text_styles.dart';
 
 import 'no_data_in_chart_message_widget.dart';
 
-class WeeklyBarChart2 extends StatelessWidget {
-  const WeeklyBarChart2({
+class WeeklyBarChart extends StatelessWidget {
+  const WeeklyBarChart({
     Key? key,
     required this.nutritions,
     required this.maxY,

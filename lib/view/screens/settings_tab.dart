@@ -23,10 +23,10 @@ class SettingsTab extends ConsumerWidget {
   const SettingsTab({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => const SettingsTab(),
-      ),
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => const SettingsTab(),
     );
   }
 
@@ -37,16 +37,23 @@ class SettingsTab extends ConsumerWidget {
     final model = watch(settingsTabModelProvider);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       backgroundColor: ThemeColors.background,
-      appBar: AppBar(
-        centerTitle: true,
-        flexibleSpace: const AppbarBlurBG(),
-        backgroundColor: Colors.transparent,
-        title: Text(S.current.settingsScreenTitle, style: TextStyles.subtitle2),
-      ),
-      body: Builder(
-        builder: (context) => _buildBody(context, model),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            centerTitle: true,
+            title: Text(
+              S.current.settingsScreenTitle,
+              style: TextStyles.subtitle2,
+            ),
+            backgroundColor: ThemeColors.appBar,
+            leading: const AppBarBackButton(),
+          ),
+          SliverToBoxAdapter(
+            child: _buildBody(context, model),
+          ),
+        ],
       ),
     );
   }
@@ -56,210 +63,208 @@ class SettingsTab extends ConsumerWidget {
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),
-      builder: (context, user) => SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: Scaffold.of(context).appBarMaxHeight! + 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                S.current.account,
-                style: TextStyles.body2GreyBold,
-              ),
+      builder: (context, user) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              S.current.account,
+              style: TextStyles.body2GreyBold,
             ),
-            ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
-              title: Text(
-                S.current.manageAccount,
-                style: TextStyles.body2,
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => ManageAccountScreen.show(
-                context,
-                user: user!,
-              ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person, color: Colors.white),
+            title: Text(
+              S.current.manageAccount,
+              style: TextStyles.body2,
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.straighten_rounded,
-                color: Colors.white,
-              ),
-              title: Text(
-                S.current.unitOfMass,
-                style: TextStyles.body2,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    Formatter.unitOfMass(user!.unitOfMass, user.unitOfMassEnum),
-                    style: TextStyles.body2Grey,
-                  ),
-                  const SizedBox(width: 16),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.grey,
-                    size: 20,
-                  ),
-                ],
-              ),
-              onTap: () => UnitOfMassScreen.show(
-                context,
-                user: user,
-              ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
             ),
+            onTap: () => ManageAccountScreen.show(
+              context,
+              user: user!,
+            ),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.straighten_rounded,
+              color: Colors.white,
+            ),
+            title: Text(
+              S.current.unitOfMass,
+              style: TextStyles.body2,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  Formatter.unitOfMass(user!.unitOfMass, user.unitOfMassEnum),
+                  style: TextStyles.body2Grey,
+                ),
+                const SizedBox(width: 16),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+              ],
+            ),
+            onTap: () => UnitOfMassScreen.show(
+              context,
+              user: user,
+            ),
+          ),
 
-            // // LANGUAGE
-            // ListTile(
-            //   leading: const Icon(
-            //     Icons.language_rounded,
-            //     color: Colors.white,
-            //   ),
-            //   title: Text(
-            //     S.current.launguage,
-            //     style: TextStyles.body2,
-            //   ),
-            //   trailing: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       Text(
-            //         Intl.getCurrentLocale(),
-            //         style: TextStyles.body2Grey,
-            //       ),
-            //       const SizedBox(width: 16),
-            //       const Icon(
-            //         Icons.arrow_forward_ios_rounded,
-            //         color: Colors.grey,
-            //         size: 20,
-            //       ),
-            //     ],
-            //   ),
-            //   onTap: () => ChangeLanguageScreen.show(context),
-            // ),
+          // // LANGUAGE
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.language_rounded,
+          //     color: Colors.white,
+          //   ),
+          //   title: Text(
+          //     S.current.launguage,
+          //     style: TextStyles.body2,
+          //   ),
+          //   trailing: Row(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Text(
+          //         Intl.getCurrentLocale(),
+          //         style: TextStyles.body2Grey,
+          //       ),
+          //       const SizedBox(width: 16),
+          //       const Icon(
+          //         Icons.arrow_forward_ios_rounded,
+          //         color: Colors.grey,
+          //         size: 20,
+          //       ),
+          //     ],
+          //   ),
+          //   onTap: () => ChangeLanguageScreen.show(context),
+          // ),
 
-            // PERSONAL GOALS
-            ListTile(
-              leading: const Icon(
-                Icons.emoji_events_rounded,
-                color: Colors.white,
-              ),
-              title: Text(
-                S.current.personalGoals,
-                style: TextStyles.body2,
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => PersonalGoalsScreen.show(context),
+          // PERSONAL GOALS
+          ListTile(
+            leading: const Icon(
+              Icons.emoji_events_rounded,
+              color: Colors.white,
             ),
+            title: Text(
+              S.current.personalGoals,
+              style: TextStyles.body2,
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
+            ),
+            onTap: () => PersonalGoalsScreen.show(context),
+          ),
 
-            // SUPPORT
-            kCustomDivider,
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                S.current.support,
-                style: TextStyles.body2GreyBold,
-              ),
+          // SUPPORT
+          kCustomDivider,
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              S.current.support,
+              style: TextStyles.body2GreyBold,
             ),
-            ListTile(
-              leading: const Icon(Icons.feedback, color: Colors.white),
-              title: Text(
-                S.current.FeedbackAndFeatureRequests,
-                style: TextStyles.body2,
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => UserFeedbackScreen.show(context, user: user),
+          ),
+          ListTile(
+            leading: const Icon(Icons.feedback, color: Colors.white),
+            title: Text(
+              S.current.FeedbackAndFeatureRequests,
+              style: TextStyles.body2,
             ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
+            ),
+            onTap: () => UserFeedbackScreen.show(context, user: user),
+          ),
 
-            // ABOUT
-            kCustomDivider,
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                S.current.about,
-                style: TextStyles.body2GreyBold,
-              ),
+          // ABOUT
+          kCustomDivider,
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              S.current.about,
+              style: TextStyles.body2GreyBold,
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.info_outline_rounded,
-                color: Colors.white,
-              ),
-              title: Text(S.current.about, style: TextStyles.body2),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => model.showAboutDialogOfApp(context),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.info_outline_rounded,
+              color: Colors.white,
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.policy_outlined,
-                color: Colors.white,
-              ),
-              title: Text(
-                S.current.privacyPolicy,
-                style: TextStyles.body2,
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => MainModel().launchPrivacyServiceURL(context),
+            title: Text(S.current.about, style: TextStyles.body2),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.description_rounded,
-                color: Colors.white,
-              ),
-              title: Text(S.current.terms, style: TextStyles.body2),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onTap: () => MainModel().launchTermsURL(context),
+            onTap: () => model.showAboutDialogOfApp(context),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.policy_outlined,
+              color: Colors.white,
             ),
+            title: Text(
+              S.current.privacyPolicy,
+              style: TextStyles.body2,
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
+            ),
+            onTap: () => MainModel().launchPrivacyServiceURL(context),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.description_rounded,
+              color: Colors.white,
+            ),
+            title: Text(S.current.terms, style: TextStyles.body2),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.grey,
+              size: 20,
+            ),
+            onTap: () => MainModel().launchTermsURL(context),
+          ),
 
-            // LOG IN
-            kCustomDivider,
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                S.current.logIn,
-                style: TextStyles.body2GreyBold,
-              ),
+          // LOG IN
+          kCustomDivider,
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              S.current.logIn,
+              style: TextStyles.body2GreyBold,
             ),
-            ListTile(
-              onTap: () => model.confirmSignOut(context),
-              leading: const Icon(Icons.logout, color: Colors.white),
-              title: Text(S.current.logout, style: TextStyles.body2),
-            ),
-            const SizedBox(height: 48),
-            // TODO: CHANGE VERSION CODE HERE
-            const Center(
-              child: Text('v.0.3.7', style: TextStyles.caption1Grey),
-            ),
-            const SizedBox(height: 120),
-          ],
-        ),
+          ),
+          ListTile(
+            onTap: () => model.confirmSignOut(context),
+            leading: const Icon(Icons.logout, color: Colors.white),
+            title: Text(S.current.logout, style: TextStyles.body2),
+          ),
+          const SizedBox(height: 48),
+          // TODO: CHANGE VERSION CODE HERE
+          const Center(
+            child: Text('v.0.3.7', style: TextStyles.caption1Grey),
+          ),
+          const SizedBox(height: 120),
+        ],
       ),
     );
   }
