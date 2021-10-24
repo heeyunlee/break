@@ -26,10 +26,10 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
       locale: locale,
     );
 
+    final theme = Theme.of(context);
+
     return BlurBackgroundCard(
-      color: color,
-      // onTap: onTap,
-      // isChecked: isChecked,
+      color: color ?? theme.cardTheme.color,
       allPadding: padding,
       borderRadius: 28,
       child: Padding(
@@ -46,8 +46,6 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -56,7 +54,7 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
                     children: [
                       const Text(
                         '9,520 kg',
-                        style: TextStyles.headline5MenloW900Primary,
+                        style: TextStyles.headline5MenloW900RedAccent,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -78,7 +76,7 @@ class MostRecentWorkoutSampleWidget extends StatelessWidget {
                     children: [
                       Text(
                         '62 ${S.current.minutes}',
-                        style: TextStyles.headline5MenloW900Primary,
+                        style: TextStyles.headline5MenloW900RedAccent,
                       ),
                       const SizedBox(height: 4),
                       Text(

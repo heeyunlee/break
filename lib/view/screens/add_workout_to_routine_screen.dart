@@ -9,6 +9,7 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 /// Screen that is pushed when user presses `AddWorkoutToRoutine` button.
 /// It lists the custom routines made by the user, and when the user presses the
@@ -33,6 +34,8 @@ class AddWorkoutToRoutineScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('[AddWorkoutToRoutineScreen] building...');
+
     return CustomScaffold(
       appBarLeading: const AppBarCloseButton(),
       appBarTitle: S.current.addWorkoutToRoutine,

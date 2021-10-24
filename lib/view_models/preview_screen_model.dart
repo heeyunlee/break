@@ -16,7 +16,10 @@ class PreviewScreenModel extends ChangeNotifier {
   int _currentPageIndex = 0;
   int _currentWidgetIndex = 0;
   Timer? _timer;
-  Widget _currentWidget = const ActivityRingSampleWidget();
+  Widget _currentWidget = const ActivityRingSampleWidget(
+    margin: 16,
+    color: Colors.transparent,
+  );
   late PageController _pageController;
 
   int get currentPageIndex => _currentPageIndex;
@@ -83,7 +86,7 @@ class PreviewScreenModel extends ChangeNotifier {
   }
 
   final List<Widget> currentPreviewWidgetList = [
-    const ActivityRingSampleWidget(margin: 16),
+    const ActivityRingSampleWidget(margin: 16, color: Colors.transparent),
     SampleWidgets().weeklyWeightsBarChartPreview,
     const WeeklyWorkoutSummarySampleWidget(padding: 24),
     SampleWidgets().weeklyProteinsBarChartPreview,

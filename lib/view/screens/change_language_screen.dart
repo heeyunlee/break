@@ -41,12 +41,13 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   }
 
   Widget _buildBody() {
+    final theme = Theme.of(context);
+
     return Column(
       children: <Widget>[
         ListTile(
-          tileColor: (_currentLang == 'ko')
-              ? ThemeColors.primary500
-              : Colors.transparent,
+          tileColor:
+              (_currentLang == 'ko') ? theme.primaryColor : Colors.transparent,
           title: const Text('한국어', style: TextStyles.body1),
           trailing: (_currentLang == 'ko')
               ? const Icon(Icons.check, color: Colors.white)
@@ -59,9 +60,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
           },
         ),
         ListTile(
-          tileColor: (_currentLang == 'en')
-              ? ThemeColors.primary500
-              : Colors.transparent,
+          tileColor:
+              (_currentLang == 'en') ? theme.primaryColor : Colors.transparent,
           title: const Text('English', style: TextStyles.body1),
           trailing: (_currentLang == 'en')
               ? const Icon(Icons.check, color: Colors.white)

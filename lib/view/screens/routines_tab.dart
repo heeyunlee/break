@@ -11,8 +11,8 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-import '../../screens/routine_detail_screen.dart';
-import '../../screens/saved_routines_screen.dart';
+import 'routine_detail_screen.dart';
+import 'saved_routines_screen.dart';
 
 /// Creates a tab that displays a list of routines, either saved or created by
 /// the user.
@@ -68,46 +68,6 @@ class RoutinesTab extends StatelessWidget {
         );
       },
     );
-
-    // return PaginateFirestore(
-    //   isLive: true,
-    //   shrinkWrap: true,
-    //   itemsPerPage: 10,
-    //   query: database.routinesPaginatedUserQuery(),
-    //   physics: const AlwaysScrollableScrollPhysics(),
-    //   itemBuilderType: PaginateBuilderType.listView,
-    //   emptyDisplay: SingleChildScrollView(
-    //     child: _buildHeader(context, isHeader: false),
-    //   ),
-    //   header: SliverToBoxAdapter(
-    //     child: _buildHeader(context, isHeader: true),
-    //   ),
-    //   footer: const SliverToBoxAdapter(
-    //     child: SizedBox(height: kBottomNavigationBarHeight + 48),
-    //   ),
-    //   onError: (error) => EmptyContent(
-    //     message: S.current.somethingWentWrong,
-    //     e: error,
-    //   ),
-    //   itemBuilder: (_, context, snapshot) {
-    //     final routine = snapshot.data() as Routine?;
-
-    //     return LibraryListTile(
-    //       tag: 'savedRoutines-${routine!.routineId}',
-    //       title: routine.routineTitle,
-    //       subtitle: Formatter.getJoinedMainMuscleGroups(
-    //         routine.mainMuscleGroup,
-    //         routine.mainMuscleGroupEnum,
-    //       ),
-    //       imageUrl: routine.imageUrl,
-    //       onTap: () => RoutineDetailScreen.show(
-    //         context,
-    //         routine: routine,
-    //         tag: 'savedRoutines-${routine.routineId}',
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   Widget _buildHeader(BuildContext context, {required bool isHeader}) {

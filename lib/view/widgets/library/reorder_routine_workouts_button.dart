@@ -27,7 +27,6 @@ class ReorderRoutineWorkoutsButton extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               S.current.editRoutineWorkoutOrder,

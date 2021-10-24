@@ -9,7 +9,6 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -182,7 +181,6 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
     );
 
     return Card(
-      color: ThemeColors.card,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: AspectRatio(
@@ -280,45 +278,15 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
     );
   }
 
-  // TODO: Make this better
   List<BarChartGroupData> _barGroupsChild(List<double> relativeYs) {
-    return [
-      _makeBarChartGroupData(
-        x: 0,
-        y: relativeYs[0],
-        isTouched: touchedIndex == 0,
+    return List.generate(
+      7,
+      (index) => _makeBarChartGroupData(
+        x: index,
+        y: relativeYs[index],
+        isTouched: touchedIndex == index,
       ),
-      _makeBarChartGroupData(
-        x: 1,
-        y: relativeYs[1],
-        isTouched: touchedIndex == 1,
-      ),
-      _makeBarChartGroupData(
-        x: 2,
-        y: relativeYs[2],
-        isTouched: touchedIndex == 2,
-      ),
-      _makeBarChartGroupData(
-        x: 3,
-        y: relativeYs[3],
-        isTouched: touchedIndex == 3,
-      ),
-      _makeBarChartGroupData(
-        x: 4,
-        y: relativeYs[4],
-        isTouched: touchedIndex == 4,
-      ),
-      _makeBarChartGroupData(
-        x: 5,
-        y: relativeYs[5],
-        isTouched: touchedIndex == 5,
-      ),
-      _makeBarChartGroupData(
-        x: 6,
-        y: relativeYs[6],
-        isTouched: touchedIndex == 6,
-      ),
-    ];
+    );
   }
 
   BarChartGroupData _makeBarChartGroupData({
@@ -332,11 +300,9 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y * 1.05 : y,
-          colors:
-              isTouched ? [ThemeColors.primary700] : [ThemeColors.primary500],
+          colors: isTouched ? [Colors.red] : [Colors.redAccent],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
-            // show: _data.isEmpty,
             show: false,
             y: 10,
             colors: [Colors.grey[800]!],

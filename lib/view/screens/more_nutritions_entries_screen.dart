@@ -4,7 +4,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class MoreNutritionsEntriesScreen extends StatelessWidget {
@@ -28,14 +27,12 @@ class MoreNutritionsEntriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
             pinned: true,
             centerTitle: true,
-            backgroundColor: ThemeColors.appBar,
             title: Text(S.current.nutritions, style: TextStyles.subtitle2),
             leading: const AppBarBackButton(),
           ),

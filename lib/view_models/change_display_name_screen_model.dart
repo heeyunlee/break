@@ -32,8 +32,6 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
     _focusNode = FocusNode();
   }
 
-  // void onChanged(String value) {}
-
   void onFieldSubmitted(BuildContext context, String value) {
     updateDisplayName(context);
   }
@@ -45,59 +43,11 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
 
     if (_textController.text.isNotEmpty) {
       try {
-        final user = {
+        final updatedUser = {
           'displayName': _textController.text,
         };
-        await database.updateUser(auth.currentUser!.uid, user);
 
-        // // Updating username in Routine History
-        // final List<Map<String, dynamic>> routineHistories = [];
-        // final historiesDoc = await database.routineHistoriesStream().first;
-        // if (historiesDoc.isNotEmpty) {
-        //   historiesDoc.map((history) {
-        //     final updatedElement = {
-        //       'routineHistoryId': history.routineHistoryId,
-        //       'username': _textController.text,
-        //     };
-
-        //     routineHistories.add(updatedElement);
-        //   });
-
-        //   await database.batchUpdateRoutineHistories(routineHistories);
-        // }
-
-        // TODO: Create Cloud Function that update routineOwner's name
-        // // Updating username in Routine
-        // List<Map<String, dynamic>> routines = [];
-        // final routinesDoc = await widget.database.userRoutinesStream().first;
-        // print('length is ${routinesDoc.length}');
-        // if (routinesDoc.isNotEmpty) {
-        //   print('routines is not empty and length is ${routinesDoc.length}');
-
-        //   routinesDoc.forEach((element) {
-        //     final routine = {
-        //       'routineId': element.routineId,
-        //       'routineOwnerUserName': _displayName,
-        //     };
-        //     routines.add(routine);
-        //   });
-        //   await widget.database.batchUpdateRoutines(routines);
-        // }
-
-        // TODO: Create Cloud Function that update workoutOwner's name
-        // // Updating username in Workout
-        // List<Map<String, dynamic>> workouts = [];
-        // final workoutsDoc = await widget.database.userWorkoutsStream().first;
-        // if (workoutsDoc.isNotEmpty) {
-        //   workoutsDoc.forEach((element) {
-        //     final workout = {
-        //       'workoutId': element.workoutId,
-        //       'workoutOwnerUserName': _displayName,
-        //     };
-        //     workouts.add(workout);
-        //   });
-        //   await widget.database.batchUpdateWorkouts(workouts);
-        // }
+        await database.updateUser(auth.currentUser!.uid, updatedUser);
 
         getSnackbarWidget(
           S.current.updateDisplayNameSnackbarTitle,

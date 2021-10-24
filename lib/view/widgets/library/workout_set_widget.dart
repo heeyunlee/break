@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -40,11 +42,9 @@ class WorkoutSetWidget extends StatefulWidget {
 class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   late TextEditingController _textController1;
   late TextEditingController _textController2;
-  // late List<TextEditingController> _textControllers;
 
   late FocusNode _focusNode1;
   late FocusNode _focusNode2;
-  // late List<FocusNode> _focusNodes;
 
   @override
   void initState() {
@@ -58,12 +58,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
     final reps = widget.workoutSet.reps.toString();
     _textController2 = TextEditingController(text: reps);
 
-    // _textControllers = [_textController1, _textController2];
-
     _focusNode1 = FocusNode();
     _focusNode2 = FocusNode();
-
-    // _focusNodes = [_focusNode1, _focusNode2];
   }
 
   @override
@@ -79,8 +75,10 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return KeyboardActions(
-      config: _buildConfig(),
+      config: _buildConfig(context),
       bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
       disableScroll: true,
       child: Slidable(
@@ -118,7 +116,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     height: 36,
                     width: 128,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    color: ThemeColors.cardLight,
+                    color: theme.primaryColor.withOpacity(0.12),
                     child: Center(child: _buildWeightWidget()),
                   ),
                 ),
@@ -161,23 +159,23 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           suffixText: WorkoutSetWidgetModel.unit(widget.routine),
           suffixStyle: TextStyles.body1,
         ),
-        onFieldSubmitted: (_) {
-          widget.model.updateWeight(
-            context,
-            widget.authAndDatabase?.database,
-            textEditingController: _textController1,
-            focusNode: _focusNode1,
-            routine: widget.routine,
-            routineWorkout: widget.routineWorkout,
-            workoutSet: widget.workoutSet,
-            index: widget.index,
-          );
-        },
+        onFieldSubmitted: (_) => widget.model.updateWeight(
+          context,
+          widget.authAndDatabase?.database,
+          textEditingController: _textController1,
+          focusNode: _focusNode1,
+          routine: widget.routine,
+          routineWorkout: widget.routineWorkout,
+          workoutSet: widget.workoutSet,
+          index: widget.index,
+        ),
       );
     }
   }
 
   Widget _buildActionsWidget() {
+    final theme = Theme.of(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
@@ -185,7 +183,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         width: 80,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
-        color: ThemeColors.primary500,
+        color: theme.primaryColor.withOpacity(0.16),
         child: TextField(
           enabled: RoutineWorkoutCardModel.isOwner(
             widget.authAndDatabase?.auth,
@@ -204,27 +202,28 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             suffixStyle: TextStyles.body1,
             counterText: '',
           ),
-          onSubmitted: (_) {
-            widget.model.updateReps(
-              context,
-              widget.authAndDatabase?.database,
-              textEditingController: _textController2,
-              focusNode: _focusNode2,
-              routine: widget.routine,
-              routineWorkout: widget.routineWorkout,
-              workoutSet: widget.workoutSet,
-              index: widget.index,
-            );
-          },
+          onSubmitted: (_) => widget.model.updateReps(
+            context,
+            widget.authAndDatabase?.database,
+            textEditingController: _textController2,
+            focusNode: _focusNode2,
+            routine: widget.routine,
+            routineWorkout: widget.routineWorkout,
+            workoutSet: widget.workoutSet,
+            index: widget.index,
+          ),
         ),
       ),
     );
   }
 
-  KeyboardActionsConfig _buildConfig() {
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardSeparatorColor: Colors.grey[700]!,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       nextFocus: false,
       actions: [

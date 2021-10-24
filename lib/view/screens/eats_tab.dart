@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -19,7 +18,6 @@ class _EatsTabTabState extends State<EatsTab> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      backgroundColor: ThemeColors.bottomNavBar,
       body: EatsTabBodyWidget(),
     );
   }

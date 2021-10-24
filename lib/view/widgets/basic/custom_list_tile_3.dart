@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class CustomListTile3 extends StatelessWidget {
   const CustomListTile3({
@@ -43,7 +42,6 @@ class CustomListTile3 extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Card(
-                color: ThemeColors.background,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

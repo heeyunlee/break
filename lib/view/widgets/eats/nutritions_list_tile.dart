@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/screens/nutritions_detail_screen.dart';
 import 'package:workout_player/view_models/eats_tab_model.dart';
@@ -56,7 +55,7 @@ class NutritionsListTile extends StatelessWidget {
                   //   ),
                   const SizedBox(height: 8),
                   Chip(
-                    backgroundColor: ThemeColors.primary500,
+                    backgroundColor: Colors.greenAccent,
                     label: Text(
                       EatsTabModel.mealType(nutrition),
                       style: TextStyles.button2,

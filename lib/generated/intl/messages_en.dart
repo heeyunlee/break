@@ -810,6 +810,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutWithYoutube":
             MessageLookupByLibrary.simpleMessage("Workout With YouTube"),
         "workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
+        "workoutsAndRoutinesByCategory": MessageLookupByLibrary.simpleMessage(
+            "Workouts and Routines \nby Category"),
         "workoutsInThisVideo":
             MessageLookupByLibrary.simpleMessage("Workouts In This Video"),
         "workoutsTabSubtitle": m23,

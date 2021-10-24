@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'package:workout_player/view_models/main_model.dart';
@@ -37,18 +35,15 @@ class ChooseTitleScreen<T> extends StatefulWidget {
     required String appBarTitle,
     required String hintText,
   }) {
-    HapticFeedback.mediumImpact();
-
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => ChooseTitleScreen<T>(
-            formKey: formKey,
-            model: watch(provider),
-            appBarTitle: appBarTitle,
-            hintText: hintText,
-          ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => Consumer(
+        builder: (context, watch, child) => ChooseTitleScreen<T>(
+          formKey: formKey,
+          model: watch(provider),
+          appBarTitle: appBarTitle,
+          hintText: hintText,
         ),
       ),
     );
@@ -76,12 +71,10 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         leading: const AppBarCloseButton(),
         title: Text(widget.appBarTitle, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: Form(
@@ -107,9 +100,8 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
 
   Widget _buildFAB() {
     return FloatingActionButton(
-      backgroundColor: ThemeColors.primary500,
       onPressed: () => widget.model.saveTitle(context, widget.model),
-      child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
+      child: const Icon(Icons.arrow_forward_rounded),
     );
   }
 }

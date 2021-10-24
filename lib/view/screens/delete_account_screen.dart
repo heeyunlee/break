@@ -1,8 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -20,14 +18,13 @@ class DeleteAccountScreen extends StatelessWidget {
     required this.auth,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required User user}) async {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => DeleteAccountScreen(
-          user: user,
-          auth: auth,
-        ),
+  static void show(BuildContext context, {required User user}) async {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => DeleteAccountScreen(
+        user: user,
+        auth: auth,
       ),
     );
   }
@@ -54,10 +51,8 @@ class DeleteAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         leading: const AppBarBackButton(),
-        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: _buildBody(context),

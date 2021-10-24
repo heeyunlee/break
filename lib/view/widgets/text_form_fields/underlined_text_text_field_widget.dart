@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -46,6 +45,8 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    final theme = Theme.of(context);
+
     final model = watch(textFieldModelProvider);
     final counter = '${controller.text.length}/$maxLength';
 
@@ -68,8 +69,8 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: ThemeColors.primary500),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: theme.primaryColor),
         ),
         focusedErrorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red),

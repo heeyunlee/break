@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import '../../../view_models/home_screen_model.dart';
@@ -17,7 +16,9 @@ class BottomNavigationTab extends ConsumerWidget {
     logger.d('[BottomNavigationTab] widget building');
 
     final model = watch(homeScreenModelProvider);
+
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return ValueListenableBuilder<double>(
       valueListenable: model.valueNotifier!,
@@ -48,9 +49,8 @@ class BottomNavigationTab extends ConsumerWidget {
           showUnselectedLabels: false,
           unselectedItemColor: Colors.white,
           currentIndex: model.currentTabIndex,
-          selectedLabelStyle: TextStyles.overlinePrimary,
-          backgroundColor: ThemeColors.bottomNavBar,
-          selectedItemColor: ThemeColors.primary500,
+          selectedLabelStyle: TextStyles.overlinW900,
+          selectedItemColor: theme.primaryColor,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             _buildItem(TabItem.move),

@@ -3,7 +3,6 @@ import 'package:numberpicker/numberpicker.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 
 class SetProteinAmountWidget extends StatelessWidget {
@@ -18,12 +17,14 @@ class SetProteinAmountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: ThemeColors.grey500),
+            border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Padding(
@@ -36,17 +37,17 @@ class SetProteinAmountWidget extends StatelessWidget {
                   maxValue: 200,
                   itemHeight: 36,
                   textStyle: TextStyles.body1,
-                  selectedTextStyle: TextStyles.headline5W900Primary,
+                  selectedTextStyle: TextStyles.headline5W900RedAccent,
                   value: model.intValue,
                   onChanged: model.onIntValueChanged,
                 ),
-                const Text('.', style: TextStyles.headline5W900Primary),
+                const Text('.', style: TextStyles.headline5W900RedAccent),
                 NumberPicker(
                   minValue: 0,
                   maxValue: 9,
                   itemHeight: 36,
                   textStyle: TextStyles.body1,
-                  selectedTextStyle: TextStyles.headline5W900Primary,
+                  selectedTextStyle: TextStyles.headline5W900RedAccent,
                   value: model.decimalValue,
                   onChanged: model.onDecimalValueChanged,
                 ),
@@ -59,7 +60,7 @@ class SetProteinAmountWidget extends StatelessWidget {
           left: 12,
           top: -6,
           child: Container(
-            color: ThemeColors.background,
+            color: theme.backgroundColor,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(

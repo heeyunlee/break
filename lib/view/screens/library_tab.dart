@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/settings_tab.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/generated/l10n.dart';
 
-import '../widgets/library/routines_tab.dart';
+import 'routines_tab.dart';
 import 'workouts_tab.dart';
 
 class LibraryTab extends StatelessWidget {
@@ -19,7 +17,6 @@ class LibraryTab extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: ThemeColors.background,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -39,12 +36,12 @@ class LibraryTab extends StatelessWidget {
   }
 
   Widget _buildSliverAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SliverAppBar(
       floating: true,
       pinned: true,
       centerTitle: true,
-      backgroundColor: Colors.transparent,
-      flexibleSpace: const AppbarBlurBG(),
       title: Text(S.current.library, style: TextStyles.subtitle2),
       actions: [
         IconButton(
@@ -56,8 +53,8 @@ class LibraryTab extends StatelessWidget {
       bottom: TabBar(
         indicatorSize: TabBarIndicatorSize.label,
         unselectedLabelColor: Colors.white,
-        labelColor: ThemeColors.primary500,
-        indicatorColor: ThemeColors.primary500,
+        labelColor: theme.primaryColor,
+        indicatorColor: theme.primaryColor,
         tabs: [
           Tab(text: S.current.routines),
           Tab(text: S.current.workouts),

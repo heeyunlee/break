@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +18,9 @@ import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/scaffolds/appbar_blur_bg.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
 
 import 'edit_workout_equipment_required_screen.dart';
@@ -39,23 +39,18 @@ class EditWorkoutScreen extends StatefulWidget {
   final Workout workout;
   final User user;
 
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     required Workout workout,
-    required Database database,
-    required AuthBase auth,
-  }) async {
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => EditWorkoutScreen(
-          database: database,
-          workout: workout,
-          user: user,
-        ),
+    required User user,
+  }) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => EditWorkoutScreen(
+        database: database,
+        workout: workout,
+        user: user,
       ),
     );
   }
@@ -184,16 +179,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       builder: (context, snapshot) {
         return Scaffold(
           extendBodyBehindAppBar: true,
-          backgroundColor: ThemeColors.background,
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Colors.transparent,
             leading: const AppBarCloseButton(),
             title: Text(
               S.current.editWorkoutTitle,
               style: TextStyles.subtitle1,
             ),
-            flexibleSpace: const AppbarBlurBG(blurSigma: 10),
             actions: <Widget>[
               TextButton(
                 onPressed: _submit,
@@ -202,8 +194,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             ],
           ),
           body: Builder(
-            builder: (BuildContext context) =>
-                _buildContents(snapshot.data!, context),
+            builder: (BuildContext context) => _buildContents(
+              snapshot.data!,
+              context,
+            ),
           ),
         );
       },
@@ -213,38 +207,31 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Widget _buildContents(Workout workout, BuildContext context) {
     final appBarHeight = Scaffold.of(context).appBarMaxHeight;
 
-    return Theme(
-      data: ThemeData(
-        primaryColor: ThemeColors.primary500,
-        disabledColor: Colors.grey,
-        iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
-      ),
-      child: KeyboardActions(
-        config: _buildConfig(),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                SizedBox(height: appBarHeight),
-                _buildForm(workout),
-                const SizedBox(height: 32),
-                MaxWidthRaisedButton(
-                  width: double.infinity,
-                  color: Colors.red,
-                  icon: const Icon(
-                    Icons.delete_outline_rounded,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  buttonText: S.current.delete,
-                  onPressed: () async {
-                    await _showModalBottomSheet(context);
-                  },
+    return KeyboardActions(
+      config: _buildConfig(),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBox(height: appBarHeight),
+              _buildForm(workout),
+              const SizedBox(height: 32),
+              MaxWidthRaisedButton(
+                width: double.infinity,
+                color: Colors.red,
+                icon: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.white,
+                  size: 20,
                 ),
-                const SizedBox(height: 38),
-              ],
-            ),
+                buttonText: S.current.delete,
+                onPressed: () async {
+                  await _showModalBottomSheet(context);
+                },
+              ),
+              const SizedBox(height: 38),
+            ],
           ),
         ),
       ),
@@ -257,8 +244,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildSwitch(),
-          _buildTitleForm(),
+          _buildSwitch(context),
+          _buildTitleForm(context),
           _buildDescriptionForm(),
           _buildDifficulty(),
           _buildSecondsPerRep(),
@@ -270,18 +257,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     );
   }
 
-  Widget _buildSwitch() {
+  Widget _buildSwitch(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         ListTile(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          tileColor: ThemeColors.card,
+          tileColor: theme.cardTheme.color,
           title: Text(S.current.publicWorkout, style: TextStyles.button1),
           trailing: Switch(
             value: _isPublic,
-            activeColor: ThemeColors.primary500,
+            activeColor: theme.primaryColor,
             onChanged: (bool value) {
               setState(() {
                 _isPublic = value;
@@ -301,7 +290,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     );
   }
 
-  Widget _buildTitleForm() {
+  Widget _buildTitleForm(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -313,7 +302,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Workout Title
         Card(
-          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -322,7 +310,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
               maxLength: 35,
-              // maxLines: 1,
               textInputAction: TextInputAction.done,
               controller: _textController1,
               style: TextStyles.body2,
@@ -355,7 +342,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Description
         Card(
-          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -384,6 +370,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildDifficulty() {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -398,14 +386,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
         /// Difficulty
         Card(
-          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: ThemeColors.primary500,
-            inactiveColor: ThemeColors.primary500.withOpacity(0.2),
+            activeColor: theme.primaryColor,
+            inactiveColor: theme.primaryColor.withOpacity(0.2),
             value: _difficultySlider,
             onChanged: (newRating) {
               setState(() {
@@ -425,6 +412,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildSecondsPerRep() {
+    final theme = Theme.of(context);
     final f = NumberFormat('#,###');
     final formattedSecondsPerRep = f.format(_secondsPerRepSlider);
 
@@ -440,14 +428,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           ),
         ),
         Card(
-          color: ThemeColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Slider(
-            activeColor: ThemeColors.primary500,
-            inactiveColor: ThemeColors.primary500.withOpacity(0.2),
+            activeColor: theme.primaryColor,
+            inactiveColor: theme.primaryColor.withOpacity(0.2),
             value: _secondsPerRepSlider,
             onChanged: (newRating) {
               setState(() {
@@ -473,6 +460,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildMainMuscleGroupForm(Workout workout) {
+    final theme = Theme.of(context);
+
     final mainMuscleGroup = MainMuscleGroup.values
             .firstWhere((e) => e.toString() == workout.mainMuscleGroup[0])
             .translation ??
@@ -491,6 +480,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
+            tileColor: theme.cardTheme.color,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -498,12 +488,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             subtitle: Text(mainMuscleGroup, style: TextStyles.body2Grey),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
-              color: ThemeColors.grey500,
+              color: Colors.grey,
             ),
-            tileColor: ThemeColors.card,
             onTap: () => EditWorkoutMainMuscleGroupScreen.show(
               context,
               workout: workout,
+              user: widget.user,
             ),
           ),
         ),
@@ -512,6 +502,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   Widget _buildEquipmentRequiredForm(Workout workout) {
+    final theme = Theme.of(context);
+
     final equipmentRequired = EquipmentRequired.values
             .firstWhere((e) => e.toString() == workout.equipmentRequired[0])
             .translation ??
@@ -520,6 +512,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        tileColor: theme.cardTheme.color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -527,18 +520,20 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         subtitle: Text(equipmentRequired, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
-          color: ThemeColors.grey500,
+          color: Colors.grey,
         ),
-        tileColor: ThemeColors.card,
         onTap: () => EditWorkoutEquipmentRequiredScreen.show(
           context,
           workout: workout,
+          user: widget.user,
         ),
       ),
     );
   }
 
   Widget _buildLocationForm(Workout workout) {
+    final theme = Theme.of(context);
+
     final locationIte = Location.values.where(
       (e) => e.toString() == workout.location,
     );
@@ -548,6 +543,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        tileColor: theme.cardTheme.color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -555,9 +551,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         subtitle: Text(location!, style: TextStyles.body2Grey),
         trailing: const Icon(
           Icons.arrow_forward_ios_rounded,
-          color: ThemeColors.grey500,
+          color: Colors.grey,
         ),
-        tileColor: ThemeColors.card,
         onTap: () => EditWorkoutLocationScreen.show(
           context,
           user: widget.user,
@@ -581,9 +576,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   KeyboardActionsConfig _buildConfig() {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       actions: [
         KeyboardActionsItem(
           focusNode: focusNode1,

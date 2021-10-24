@@ -6,7 +6,6 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
@@ -37,7 +36,6 @@ class SettingsTab extends ConsumerWidget {
     final model = watch(settingsTabModelProvider);
 
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -47,7 +45,6 @@ class SettingsTab extends ConsumerWidget {
               S.current.settingsScreenTitle,
               style: TextStyles.subtitle2,
             ),
-            backgroundColor: ThemeColors.appBar,
             leading: const AppBarBackButton(),
           ),
           SliverToBoxAdapter(

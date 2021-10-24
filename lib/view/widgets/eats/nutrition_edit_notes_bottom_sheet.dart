@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 
 import '../widgets.dart';
@@ -29,6 +28,7 @@ class _NutritionEditNotesBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return BlurredCard(
@@ -70,7 +70,7 @@ class _NutritionEditNotesBottomSheetState
                   child: MaxWidthRaisedButton(
                     radius: 24,
                     onPressed: () => widget.model.onPressSave(context),
-                    color: ThemeColors.primary500,
+                    color: theme.primaryColor,
                     buttonText: S.current.save,
                   ),
                 ),

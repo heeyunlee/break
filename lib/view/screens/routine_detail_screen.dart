@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -19,11 +18,11 @@ class RoutineDetailScreen extends StatelessWidget {
   }) : super(key: key);
 
   // For Navigation
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     required Routine routine,
     required String tag,
-  }) async {
+  }) {
     customPush(
       context,
       rootNavigator: false,
@@ -43,7 +42,6 @@ class RoutineDetailScreen extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      backgroundColor: ThemeColors.background,
       body: CustomStreamBuilder<RoutineDetailScreenClass>(
         stream: authAndDatabase.database.routineDetailScreenStream(
           routine.routineId,

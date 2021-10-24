@@ -3,20 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/home_screen_model.dart';
 
-import '../view/screens/add_nutrition_screen.dart';
 import 'main_model.dart';
 
 final addNutritionScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -25,7 +21,6 @@ final addNutritionScreenModelProvider = ChangeNotifierProvider.autoDispose(
 
 class AddNutritionScreenModel with ChangeNotifier {
   Timestamp _loggedTime = Timestamp.now();
-  Color _borderColor = Colors.grey;
   int _intValue = 25;
   int _decimalValue = 0;
   double _proteinAmount = 25.0;
@@ -45,7 +40,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   late FocusNode _notesFocusNode;
 
   Timestamp get loggedTime => _loggedTime;
-  Color get borderColor => _borderColor;
   int get intValue => _intValue;
   int get decimalValue => _decimalValue;
   double get proteinAmount => _proteinAmount;
@@ -143,18 +137,6 @@ class AddNutritionScreenModel with ChangeNotifier {
     }
   }
 
-  void onVisibilityChanged(VisibilityInfo info) {
-    logger.d('onVisibilityChanged in AddNutritionScreenModel called');
-
-    if (info.visibleFraction >= 0.5) {
-      _borderColor = ThemeColors.secondary;
-    } else {
-      _borderColor = Colors.grey;
-    }
-
-    notifyListeners();
-  }
-
   bool _validateAndSaveForm() {
     final form = formKey.currentState;
 
@@ -199,10 +181,10 @@ class AddNutritionScreenModel with ChangeNotifier {
             unitOfMass: user.unitOfMassEnum ?? UnitOfMass.kilograms,
           );
 
-          // Call Firebase
           await database.setNutrition(nutrition);
 
-          Navigator.of(context).pop();
+          Navigator.of(HomeScreenModel.homeScreenNavigatorKey.currentContext!)
+              .pop();
 
           getSnackbarWidget(
             S.current.addProteinEntrySnackbarTitle,
@@ -230,26 +212,4 @@ class AddNutritionScreenModel with ChangeNotifier {
   /// STATIC
   // FORM KEY
   static final formKey = GlobalKey<FormState>();
-
-  // NAVIGATION
-  static Future<void> show(BuildContext context) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => AddNutritionScreen(
-            user: user,
-            database: database,
-            auth: auth,
-            model: watch(addNutritionScreenModelProvider),
-          ),
-        ),
-      ),
-    );
-  }
 }

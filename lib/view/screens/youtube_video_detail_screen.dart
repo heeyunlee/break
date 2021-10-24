@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -50,15 +49,14 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
     logger.d('`YoutubeVideoDetailScreen()` building...');
 
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     final heightFactor = (size.height > 700) ? 2 : 1.5;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: ThemeColors.appBar,
             pinned: true,
             stretch: true,
             leading: const AppBarBackButton(),
@@ -99,13 +97,13 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
-                        end: Alignment(0, 0.85),
+                        end: const Alignment(0, 0.85),
                         colors: [
                           Colors.transparent,
-                          ThemeColors.background,
+                          theme.backgroundColor,
                         ],
                       ),
                     ),
@@ -142,7 +140,7 @@ class YoutubeVideoDetailScreen extends StatelessWidget {
                               onPressed: () => miniplayerModel
                                   .startYouTubeWorkout(context, model.video),
                               buttonText: S.current.startNow,
-                              color: ThemeColors.primary500,
+                              color: theme.primaryColor,
                               width: size.width - 32,
                             ),
                           ),

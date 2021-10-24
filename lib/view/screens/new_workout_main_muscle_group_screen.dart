@@ -23,6 +23,8 @@ class _NewWorkoutMainMuscleGroupScreenState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -42,10 +44,10 @@ class _NewWorkoutMainMuscleGroupScreenState
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     color: (_mainMuscleGroup[key]!)
-                        ? ThemeColors.primary500
+                        ? theme.primaryColor
                         : ThemeColors.grey700,
                     child: CheckboxListTile(
-                      activeColor: ThemeColors.primary700,
+                      activeColor: theme.primaryColorDark,
                       title: Text(title, style: TextStyles.button1),
                       controlAffinity: ListTileControlAffinity.trailing,
                       value: _mainMuscleGroup[key],

@@ -5,6 +5,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 ## Unreleased (0.3.7)
 ### New Features & Screens
 - Enable users to edit [Nutrition] entry
+- Implement Material You Theme with Android
 
 ### Bug Fix & Refactor
 - Fix Android's back button issue

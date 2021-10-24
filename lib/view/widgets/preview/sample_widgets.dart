@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 import 'weekly_bar_chart_sample_template.dart';
 
@@ -8,9 +7,8 @@ class SampleWidgets {
   final Widget weeklyWeightsBarChart = const WeeklyBarChartSampleTemplate(
     key: Key('weeklyWorkoutHistoryMedium'),
     cardPadding: 4,
-    cardColor: ThemeColors.card,
-    defaultColor: ThemeColors.primary500,
-    aboveGoalColor: ThemeColors.primary700,
+    defaultColor: Colors.redAccent,
+    aboveGoalColor: Colors.red,
     horizontalInterval: 7800,
     leadingIcon: Icons.fitness_center_rounded,
     maxY: 10000,
@@ -23,8 +21,8 @@ class SampleWidgets {
       const WeeklyBarChartSampleTemplate(
     key: Key('weeklyWorkoutHistoryMedium'),
     cardPadding: 16,
-    defaultColor: ThemeColors.primary500,
-    aboveGoalColor: ThemeColors.primary700,
+    defaultColor: Colors.redAccent,
+    aboveGoalColor: Colors.red,
     horizontalInterval: 7800,
     leadingIcon: Icons.fitness_center_rounded,
     maxY: 10000,
@@ -36,7 +34,6 @@ class SampleWidgets {
   final Widget weeklyProteinsBarChart = const WeeklyBarChartSampleTemplate(
     key: Key('weeklyNutritionChart'),
     cardPadding: 4,
-    cardColor: ThemeColors.card,
     defaultColor: Colors.greenAccent,
     aboveGoalColor: Colors.green,
     horizontalInterval: 130,
@@ -64,7 +61,6 @@ class SampleWidgets {
   final Widget weeklyCarbsBarChart = WeeklyBarChartSampleTemplate(
     key: const Key('weeklyCarbsBarChart'),
     cardPadding: 4,
-    cardColor: ThemeColors.card,
     title: S.current.carbs,
     defaultColor: Colors.lightGreenAccent,
     aboveGoalColor: Colors.lightGreen,
@@ -91,7 +87,6 @@ class SampleWidgets {
   final Widget weeklyFatBarChart = WeeklyBarChartSampleTemplate(
     key: const Key('weeklyFatBarChart'),
     title: S.current.fat,
-    cardColor: ThemeColors.card,
     cardPadding: 4,
     defaultColor: Colors.lightGreenAccent,
     aboveGoalColor: Colors.lightGreen,
@@ -118,7 +113,6 @@ class SampleWidgets {
   final Widget weeklyCaloriesChart = WeeklyBarChartSampleTemplate(
     key: const Key('weeklyCalorieBarChart'),
     title: S.current.consumedCalorie,
-    cardColor: ThemeColors.card,
     cardPadding: 4,
     defaultColor: Colors.lightGreenAccent,
     aboveGoalColor: Colors.lightGreen,

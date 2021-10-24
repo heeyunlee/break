@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class SpeedDialChildren extends StatelessWidget {
   final void Function() onPressed;
@@ -16,6 +15,8 @@ class SpeedDialChildren extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: 80,
       height: 80,
@@ -23,7 +24,7 @@ class SpeedDialChildren extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Material(
-            color: ThemeColors.primary500,
+            color: theme.primaryColor,
             clipBehavior: Clip.antiAlias,
             shape: const CircleBorder(),
             elevation: 6,
@@ -40,7 +41,7 @@ class SpeedDialChildren extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: Text(label, style: TextStyles.caption1),
-          )
+          ),
         ],
       ),
     );

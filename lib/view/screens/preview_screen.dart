@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/preview/first_preview_widget.dart';
 import 'package:workout_player/view/widgets/preview/second_preview_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -17,11 +16,12 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.d('[PreviewScreen] building...');
 
+    final theme = Theme.of(context);
+
     context.read(previewScreenModelProvider).init();
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: ThemeColors.background,
       extendBodyBehindAppBar: true,
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -46,9 +46,9 @@ class PreviewScreen extends StatelessWidget {
                   controller:
                       context.read(previewScreenModelProvider).pageController,
                   count: 3,
-                  effect: const WormEffect(
-                    dotColor: Colors.white24,
-                    activeDotColor: ThemeColors.primary500,
+                  effect: WormEffect(
+                    dotColor: theme.colorScheme.secondary.withOpacity(0.24),
+                    activeDotColor: theme.colorScheme.secondary,
                     dotHeight: 8,
                     dotWidth: 8,
                     spacing: 12,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,13 +39,12 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.transparent,
         title: Text(S.current.signUp, style: TextStyles.subtitle2),
         leading: const AppBarBackButton(),
       ),
-      backgroundColor: ThemeColors.background,
       body: Builder(builder: _buildBody),
     );
   }
@@ -54,34 +55,25 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
       children: [
         const BlurredBackgroundPreviewWidget(blur: 25),
         SafeArea(
-          child: Theme(
-            data: ThemeData(
-              disabledColor: ThemeColors.grey700,
-              iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
-            ),
-            child: KeyboardActions(
-              config: _buildConfig(),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Form(
-                    key: SignInWithEmailModel.formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // SizedBox(
-                        //   height: Scaffold.of(context).appBarMaxHeight! + 8,
-                        // ),
-                        AnimatedListViewBuilder(
-                          beginOffset: const Offset(0.25, 0),
-                          offsetInitialDelayTime: 0.25,
-                          offsetStaggerTime: 0.05,
-                          offsetDuration: 0.5,
-                          items: _widgets(),
-                        ),
-                      ],
-                    ),
+          child: KeyboardActions(
+            config: _buildConfig(context),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Form(
+                  key: SignInWithEmailModel.formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedListViewBuilder(
+                        beginOffset: const Offset(0.25, 0),
+                        offsetInitialDelayTime: 0.25,
+                        offsetStaggerTime: 0.05,
+                        offsetDuration: 0.5,
+                        items: _widgets(),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -92,10 +84,13 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
     );
   }
 
-  KeyboardActionsConfig _buildConfig() {
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       actions: List.generate(
         widget.model.signUpFocusNodes.length,
         (index) => KeyboardActionsItem(
@@ -110,6 +105,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
   }
 
   List<Widget> _widgets() {
+    final theme = Theme.of(context);
     final formKey = SignInWithEmailModel.formKey;
 
     return [
@@ -117,7 +113,6 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
           autofocus: true,
-          // enableSuggestions: false,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           hintText: 'JohnDoe@abc.com',
@@ -125,7 +120,6 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           formKey: formKey,
           focusNode: widget.model.focusNode1,
           controller: widget.model.emailEditingController,
-          // model: widget.textFieldModel,
           suffixIcon: widget.model.focusNode1.hasFocus
               ? GestureDetector(
                   onTap: () {
@@ -152,7 +146,6 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         child: OutlinedTextTextFieldWidget(
           autocorrect: false,
           enableSuggestions: true,
-          // model: widget.textFieldModel,
           formKey: formKey,
           focusNode: widget.model.focusNode2,
           controller: widget.model.firstNameEditingController,
@@ -188,7 +181,6 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           enableSuggestions: true,
           focusNode: widget.model.focusNode3,
           controller: widget.model.lastNameEditingController,
-          // model: widget.textFieldModel,
           formKey: formKey,
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
@@ -219,14 +211,12 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
           autocorrect: false,
-          // enableSuggestions: false,
           obscureText: true,
           maxLines: 1,
           focusNode: widget.model.focusNode4,
           controller: widget.model.passwordEditingController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          // model: widget.textFieldModel,
           formKey: formKey,
           labelText: S.current.password,
           hintText: S.current.passwordHintText,
@@ -257,7 +247,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
           radius: 24,
           buttonText: S.current.signUp,
           onPressed: () => widget.model.signUpWithEmail(context),
-          color: ThemeColors.primary600,
+          color: theme.primaryColor,
         ),
       ),
       TermsAndPrivacyPolicyWidget(model: widget.model),

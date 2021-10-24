@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class BlurredCard extends StatelessWidget {
   const BlurredCard({
@@ -15,6 +14,8 @@ class BlurredCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return IntrinsicHeight(
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -25,7 +26,7 @@ class BlurredCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
             ),
-            color: ThemeColors.card.withOpacity(0.75),
+            color: theme.cardTheme.color?.withOpacity(0.75),
             child: child,
           ),
         ),

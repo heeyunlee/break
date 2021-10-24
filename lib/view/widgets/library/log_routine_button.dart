@@ -18,7 +18,7 @@ class LogRoutineButton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return OutlinedButton(
-      style: ButtonStyles.outlined1,
+      style: ButtonStyles.outlined1(context),
       onPressed: () => LogRoutineScreen.show(
         context,
         data: data,

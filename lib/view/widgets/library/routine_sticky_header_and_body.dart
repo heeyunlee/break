@@ -5,7 +5,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/add_workouts_to_routine_screen.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
@@ -37,7 +36,6 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
       MaxWidthRaisedButton(
         icon: const Icon(Icons.add_rounded, color: Colors.white),
         buttonText: S.current.addWorkoutkButtonText,
-        color: ThemeColors.card,
         onPressed: () => AddWorkoutsToRoutineScreen.show(
           context,
           routine: routine,

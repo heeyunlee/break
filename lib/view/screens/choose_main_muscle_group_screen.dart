@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 
@@ -28,22 +27,15 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
         title: Text(S.current.mainMuscleGroup, style: TextStyles.subtitle2),
       ),
       body: Builder(builder: (context) => _buildBody(context, model)),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary500,
         onPressed: () => model.saveMainMuscleGroup(context, model),
-        child: const Icon(
-          Icons.arrow_forward_rounded,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.arrow_forward_rounded),
       ),
     );
   }

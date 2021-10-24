@@ -475,5 +475,6 @@
     "deletePascalCase": "Delete",
     "foodItem": "Food Item",
     "updateNutritionTitle": "Update",
-    "updateNutritionMessage": "Successfully updated the nutrition entry"
+    "updateNutritionMessage": "Successfully updated the nutrition entry",
+    "workoutsAndRoutinesByCategory": "Workouts and Routines \nby Category"
 }

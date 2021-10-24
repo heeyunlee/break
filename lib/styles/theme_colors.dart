@@ -11,6 +11,7 @@ class ThemeColors {
   static const primary300 = Color(0xfff1b3a7);
   static const primary200 = Color(0xfff7cfc8);
   static const primary100 = Color(0xfffcece9);
+  static const primary50 = Color(0xfffcece9);
 
 // Secondary
   static const secondary = Color(0xff24c0dd);

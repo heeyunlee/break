@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
@@ -29,14 +28,13 @@ class WorkoutSummaryScreen extends StatefulWidget {
     BuildContext context, {
     required RoutineHistory routineHistory,
   }) {
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => WorkoutSummaryScreen(
-            routineHistory: routineHistory,
-            model: watch(workoutSummaryScreenModelProvider),
-          ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => Consumer(
+        builder: (context, watch, child) => WorkoutSummaryScreen(
+          routineHistory: routineHistory,
+          model: watch(workoutSummaryScreenModelProvider),
         ),
       ),
     );
@@ -63,12 +61,9 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close_rounded, color: Colors.white),
+        leading: AppBarCloseButton(
           onPressed: () => widget.model.update(context, widget.routineHistory),
         ),
       ),
@@ -78,6 +73,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
 
   Form _buildBody() {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Form(
       key: WorkoutSummaryScreenModel.formKey,
@@ -86,7 +82,6 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
                   height: size.height * 2 / 7,
@@ -99,13 +94,13 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                         errorWidget: (_, __, ___) => const Icon(Icons.error),
                       ),
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            begin: Alignment(0.0, -0.75),
+                            begin: const Alignment(0.0, -0.75),
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              ThemeColors.background,
+                              theme.backgroundColor,
                             ],
                           ),
                         ),
@@ -154,7 +149,6 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                           ),
                         ),
                         Card(
-                          color: ThemeColors.card,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -215,7 +209,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                             const SizedBox(width: 8),
                             Switch(
                               value: widget.model.isPublic,
-                              activeColor: ThemeColors.primary500,
+                              activeColor: theme.primaryColor,
                               onChanged: widget.model.isPublicOnChanged,
                             ),
                           ],
@@ -234,15 +228,13 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                 minimumSize: const Size(5, 5),
                 confettiController: widget.model.confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
-                // shouldLoop: false,
                 displayTarget: true,
                 numberOfParticles: 30,
                 blastDirection: -pi / 2,
-                colors: const [
-                  ThemeColors.primary500,
-                  Colors.green,
-                  Colors.cyanAccent,
-                  Colors.purpleAccent,
+                colors: [
+                  theme.primaryColor,
+                  theme.colorScheme.secondary,
+                  Colors.red,
                 ],
               ),
             ),
@@ -253,6 +245,8 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
   }
 
   Widget _buildChips() {
+    final theme = Theme.of(context);
+
     final musclesAndEquipments = Formatter.getListOfEquipments(
           widget.routineHistory.equipmentRequired,
           widget.routineHistory.equipmentRequiredEnum,
@@ -290,7 +284,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
                       musclesAndEquipments[index],
                       style: TextStyles.button1,
                     ),
-                    backgroundColor: ThemeColors.primary500,
+                    backgroundColor: theme.primaryColor,
                   ),
                 ),
               ),

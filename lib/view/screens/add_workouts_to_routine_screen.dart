@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 import '../../view_models/add_workouts_to_routine_model.dart';
 
@@ -30,16 +29,14 @@ class AddWorkoutsToRoutineScreen extends StatefulWidget {
     required Routine routine,
     required List<RoutineWorkout> routineWorkouts,
   }) {
-    HapticFeedback.mediumImpact();
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => AddWorkoutsToRoutineScreen(
-            routine: routine,
-            routineWorkouts: routineWorkouts,
-            model: watch(addWorkoutsToRoutineScreenModelProvider),
-          ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => Consumer(
+        builder: (context, watch, child) => AddWorkoutsToRoutineScreen(
+          routine: routine,
+          routineWorkouts: routineWorkouts,
+          model: watch(addWorkoutsToRoutineScreenModelProvider),
         ),
       ),
     );
@@ -65,11 +62,13 @@ class _AddWorkoutsToRoutineScreenState
 
   @override
   Widget build(BuildContext context) {
+    logger.d('[AddWorkoutsToRoutineScreen] building...');
+
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, _) {
           return <Widget>[_appBarWidget(context)];
@@ -88,7 +87,7 @@ class _AddWorkoutsToRoutineScreenState
                   ),
           backgroundColor: (widget.model.selectedWorkouts.isEmpty)
               ? Colors.grey
-              : ThemeColors.primary500,
+              : theme.colorScheme.secondary,
           label: Text(
             S.current.addWorkoutFABTitle(widget.model.selectedWorkouts.length),
             style: TextStyles.button1,
@@ -100,7 +99,6 @@ class _AddWorkoutsToRoutineScreenState
 
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           const SizedBox(height: 8),
@@ -141,11 +139,8 @@ class _AddWorkoutsToRoutineScreenState
     return SliverAppBar(
       floating: true,
       pinned: true,
-      // snap: false,
       centerTitle: true,
       title: Text(S.current.addWorkoutkButtonText, style: TextStyles.subtitle1),
-      flexibleSpace: const AppbarBlurBG(),
-      backgroundColor: Colors.transparent,
       leading: const AppBarCloseButton(),
       bottom: ChoiceChipsAppBarWidget(
         selectedChip: widget.model.selectedMainMuscleGroup,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class RoutineHistorySummaryCard extends StatelessWidget {
@@ -20,25 +20,24 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: ThemeColors.card,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         onTap: onTap,
-        child: _buildChild(),
+        child: _buildChild(context),
       ),
     );
   }
 
-  Widget _buildChild() {
+  Widget _buildChild(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 8),
         ListTile(
-          leading: _buildLeadingWidget(),
+          leading: _buildLeadingWidget(context),
           title: Text(
             Formatter.date(routineHistory.workoutStartTime),
             style: TextStyles.subtitle2,
@@ -52,17 +51,11 @@ class RoutineHistorySummaryCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const Divider(indent: 8, endIndent: 8, color: ThemeColors.grey800),
+        kCustomDividerIndent8,
         const SizedBox(height: 16),
-        _DailySummaryRowWidget(
-          routineHistory: routineHistory,
-          // formattedWeights: Formatter.routineHistoryWeights(routineHistory),
-          // caloriesBurnt: routineHistory.totalCalories,
-          // totalDuration: Formatter.durationInMin(routineHistory.totalDuration),
-        ),
+        _DailySummaryRowWidget(routineHistory: routineHistory),
         const SizedBox(height: 16),
-        if (routineHistory.earnedBadges == true)
-          const Divider(indent: 8, endIndent: 8, color: ThemeColors.grey800),
+        if (routineHistory.earnedBadges == true) kCustomDividerIndent8,
         if (routineHistory.earnedBadges == true)
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -78,7 +71,9 @@ class RoutineHistorySummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLeadingWidget() {
+  Widget _buildLeadingWidget(BuildContext context) {
+    final theme = Theme.of(context);
+
     if (routineHistory.youtubeWorkouts != null) {
       return SizedBox(
         height: 48,
@@ -100,7 +95,10 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         child: Container(
           height: 56,
           width: 56,
-          color: ThemeColors.grey700,
+          color: Color.alphaBlend(
+            theme.primaryColor.withOpacity(0.14),
+            theme.backgroundColor,
+          ),
           child: Center(
             child: CachedNetworkImage(
               imageUrl:

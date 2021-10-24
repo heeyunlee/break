@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/log_routine_screen_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -10,6 +9,8 @@ class ToggleIsPublicWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    final theme = Theme.of(context);
+
     final model = watch(logRoutineModelProvider);
 
     return Row(
@@ -34,7 +35,7 @@ class ToggleIsPublicWidget extends ConsumerWidget {
         const SizedBox(width: 8),
         Switch(
           value: model.isPublic,
-          activeColor: ThemeColors.primary500,
+          activeColor: theme.primaryColor,
           onChanged: model.onIsPublicChanged,
         ),
       ],

@@ -10,7 +10,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -72,11 +71,13 @@ class MiniplayerScreen extends StatelessWidget {
     User user,
   ) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+
     final aspectRatio = ui.window.physicalSize.aspectRatio;
     final isScreenBigger = aspectRatio < 0.5;
 
     return Container(
-      color: ThemeColors.bottomNavBar,
+      color: theme.bottomNavigationBarTheme.backgroundColor,
       child: Column(
         children: [
           _opacitySizeBuilder(
@@ -121,6 +122,8 @@ class MiniplayerScreen extends StatelessWidget {
     MiniplayerModel model,
   ) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+
     final isScreenBigger = size.height > 700;
     final paddingFactor = isScreenBigger ? 56 : 104;
 
@@ -162,7 +165,7 @@ class MiniplayerScreen extends StatelessWidget {
                   reversed: true,
                   percentage: percentage,
                   widget: Container(
-                    color: ThemeColors.bottomNavBar.withOpacity(0.9),
+                    color: theme.backgroundColor.withOpacity(0.9),
                     child: _collapedWidget(context, model),
                   ),
                 ),

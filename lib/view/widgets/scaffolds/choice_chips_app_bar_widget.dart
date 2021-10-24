@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class ChoiceChipsAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -22,6 +21,8 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final List<String> _mainMuscleGroup = [
       'Saved',
       'All',
@@ -40,16 +41,15 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         child: ChoiceChip(
-          backgroundColor: ThemeColors.appBar,
-          selectedColor: ThemeColors.primary500,
+          backgroundColor: theme.backgroundColor,
+          selectedColor: theme.primaryColor,
           label: Text(label, style: TextStyles.button1),
           labelPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           shape: StadiumBorder(
             side: BorderSide(
               color: (selectedChip == string)
-                  ? ThemeColors.primary300
+                  ? theme.primaryColorLight
                   : Colors.grey,
-              // width: 1,
             ),
           ),
           selected: selectedChip == string,

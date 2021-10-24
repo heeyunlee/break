@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
@@ -49,7 +48,7 @@ class LatestBodyFatSampleWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   const Text(
                     '20 %',
-                    style: TextStyles.headline5MenloBoldSecondary,
+                    style: TextStyles.headline5MenloBoldLightBlueAccent,
                   ),
                   const SizedBox(height: 8),
                   Stack(
@@ -65,8 +64,7 @@ class LatestBodyFatSampleWidget extends StatelessWidget {
                         widthFactor: 0.8,
                         child: Container(
                           decoration: BoxDecoration(
-                            // color: kSecondaryColor,
-                            color: ThemeColors.secondary,
+                            color: Colors.lightBlueAccent,
                             borderRadius: BorderRadius.circular(2),
                           ),
                           height: 4,

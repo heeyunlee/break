@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -37,20 +33,28 @@ class MeasurementsScreen extends StatelessWidget {
     required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await database.getUserDocument(auth.currentUser!.uid);
-
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => MeasurementsScreen(
-          database: database,
-          user: user!,
-        ),
+  static void show(BuildContext context, {required User user}) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => MeasurementsScreen(
+        database: database,
+        user: user,
       ),
     );
+    // final database = Provider.of<Database>(context, listen: false);
+    // final auth = Provider.of<AuthBase>(context, listen: false);
+    // final user = await database.getUserDocument(auth.currentUser!.uid);
+
+    // await HapticFeedback.mediumImpact();
+    // await Navigator.of(context).push(
+    //   CupertinoPageRoute(
+    //     builder: (context) => MeasurementsScreen(
+    //       database: database,
+    //       user: user!,
+    //     ),
+    //   ),
+    // );
   }
 
   Future<void> _delete(BuildContext context, Measurement measurement) async {
@@ -74,12 +78,9 @@ class MeasurementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.bodyMeasurement, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: ThemeColors.appBar,
-        flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),
       body: CustomStreamBuilder<List<Measurement>>(

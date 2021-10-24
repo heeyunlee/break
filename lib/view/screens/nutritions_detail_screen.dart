@@ -6,7 +6,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -36,11 +35,11 @@ class NutritionsDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       body: CustomStreamBuilder<Nutrition?>(
         initialData: DummyData.nutrition,
         stream: database.nutritionStream(nutrition?.nutritionId ?? ''),
@@ -52,7 +51,6 @@ class NutritionsDetailScreen extends StatelessWidget {
               stretch: true,
               centerTitle: true,
               expandedHeight: size.height / 4,
-              backgroundColor: ThemeColors.background,
               leading: const AppBarBackButton(),
               actions: [
                 NutritionDetailMoreVertButton(
@@ -65,11 +63,11 @@ class NutritionsDetailScreen extends StatelessWidget {
                 background: Stack(
                   children: [
                     Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
                             Colors.greenAccent,
-                            ThemeColors.background,
+                            theme.backgroundColor,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -108,7 +106,7 @@ class NutritionsDetailScreen extends StatelessWidget {
                                     horizontal: 8,
                                   ),
                                   labelStyle: TextStyles.button2,
-                                  backgroundColor: Colors.black54,
+                                  backgroundColor: Colors.grey,
                                   label: Text(
                                     S.current.manual,
                                     style: TextStyles.button2,
@@ -163,7 +161,7 @@ class NutritionsDetailScreen extends StatelessWidget {
                                 height: 40,
                                 width: size.width / 2 - 24,
                                 child: ElevatedButton(
-                                  style: ButtonStyles.elevatedStadiumGrey,
+                                  style: ButtonStyles.elevatedStadiumGrey(),
                                   onPressed: () {},
                                   child: Text(
                                     S.current.modify,
@@ -176,7 +174,7 @@ class NutritionsDetailScreen extends StatelessWidget {
                                 height: 40,
                                 width: size.width / 2 - 24,
                                 child: ElevatedButton(
-                                  style: ButtonStyles.elevatedStadium,
+                                  style: ButtonStyles.elevatedStadium(context),
                                   onPressed: () {},
                                   child: Text(
                                     S.current.accept,

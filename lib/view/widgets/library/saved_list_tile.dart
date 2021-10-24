@@ -6,7 +6,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class SavedListTile<T> extends StatelessWidget {
@@ -21,6 +20,7 @@ class SavedListTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final database = Provider.of<Database>(context, listen: false);
 
     return Padding(
@@ -39,7 +39,7 @@ class SavedListTile<T> extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: ThemeColors.grey800,
+                    color: theme.primaryColor.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Icon(

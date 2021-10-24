@@ -15,7 +15,7 @@ class ShowSignInScreenButton extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: OutlinedButton(
-        style: ButtonStyles.elevatedFullWidth,
+        style: ButtonStyles.elevatedFullWidth(context),
         onPressed: () => model.onPressed(context),
         child: Text(
           (model.currentPageIndex == 2) ? S.current.getStarted : S.current.next,

@@ -12,8 +12,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view/widgets/buttons.dart';
 import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
 
@@ -70,14 +69,329 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+
+    // return FutureBuilder<MaterialYouPalette?>(
+    //   future: getMaterialYouColor(),
+    //   builder: (context, snapshot) {
+    //     return Scaffold(
+    //       backgroundColor: theme.backgroundColor,
+    //       body: SingleChildScrollView(
+    //         child: Column(
+    //           children: [
+    //             const SizedBox(height: 120),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade50,
+    //               child: const Text('snapshot.data?.accent1.shade50'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade100,
+    //               child: const Text('snapshot.data?.accent1.shade100'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade200,
+    //               child: const Text('snapshot.data?.accent1.shade200'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade300,
+    //               child: const Text('snapshot.data?.accent1.shade300'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade400,
+    //               child: const Text('snapshot.data?.accent1.shade400'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade500,
+    //               child: const Text('snapshot.data?.accent1.shade500'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade600,
+    //               child: const Text('snapshot.data?.accent1.shade600'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade700,
+    //               child: const Text('snapshot.data?.accent1.shade700'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade800,
+    //               child: const Text('snapshot.data?.accent1.shade800'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent1.shade900,
+    //               child: const Text('snapshot.data?.accent1.shade900'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade50,
+    //               child: const Text('snapshot.data?.accent2.shade50'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade100,
+    //               child: const Text('snapshot.data?.accent2.shade100'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade200,
+    //               child: const Text('snapshot.data?.accent2.shade200'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade300,
+    //               child: const Text('snapshot.data?.accent2.shade300'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade400,
+    //               child: const Text('snapshot.data?.accent2.shade400'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade500,
+    //               child: const Text('snapshot.data?.accent2.shade500'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade600,
+    //               child: const Text('snapshot.data?.accent2.shade600'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade700,
+    //               child: const Text('snapshot.data?.accent2.shade700'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade800,
+    //               child: const Text('snapshot.data?.accent2.shade800'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent2.shade900,
+    //               child: const Text('snapshot.data?.accent2.shade900'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade50,
+    //               child: const Text('snapshot.data?.accent3.shade50'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade100,
+    //               child: const Text('snapshot.data?.accent3.shade100'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade200,
+    //               child: const Text('snapshot.data?.accent3.shade200'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade300,
+    //               child: const Text('snapshot.data?.accent3.shade300'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade400,
+    //               child: const Text('snapshot.data?.accent3.shade400'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade500,
+    //               child: const Text('snapshot.data?.accent3.shade500'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade600,
+    //               child: const Text('snapshot.data?.accent3.shade600'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade700,
+    //               child: const Text('snapshot.data?.accent3.shade700'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade800,
+    //               child: const Text('snapshot.data?.accent3.shade800'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.accent3.shade900,
+    //               child: const Text('snapshot.data?.accent3.shade900'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade50,
+    //               child: const Text('snapshot.data?.neutral1.shade50'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade100,
+    //               child: const Text('snapshot.data?.neutral1.shade100'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade200,
+    //               child: const Text('snapshot.data?.neutral1.shade200'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade300,
+    //               child: const Text('snapshot.data?.neutral1.shade300'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade400,
+    //               child: const Text('snapshot.data?.neutral1.shade400'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade500,
+    //               child: const Text('snapshot.data?.neutral1.shade500'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade600,
+    //               child: const Text('snapshot.data?.neutral1.shade600'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade700,
+    //               child: const Text('snapshot.data?.neutral1.shade700'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade800,
+    //               child: const Text('snapshot.data?.neutral1.shade800'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral1.shade900,
+    //               child: const Text('snapshot.data?.neutral1.shade900'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade50,
+    //               child: const Text('snapshot.data?.neutral2.shade50'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade100,
+    //               child: const Text('snapshot.data?.neutral2.shade100'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade200,
+    //               child: const Text('snapshot.data?.neutral2.shade200'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade300,
+    //               child: const Text('snapshot.data?.neutral2.shade300'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade400,
+    //               child: const Text('snapshot.data?.neutral2.shade400'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade500,
+    //               child: const Text('snapshot.data?.neutral2.shade500'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade600,
+    //               child: const Text('snapshot.data?.neutral2.shade600'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade700,
+    //               child: const Text('snapshot.data?.neutral2.shade700'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade800,
+    //               child: const Text('snapshot.data?.neutral2.shade800'),
+    //             ),
+    //             Container(
+    //               width: size.width,
+    //               height: 120,
+    //               color: snapshot.data?.neutral2.shade900,
+    //               child: const Text('snapshot.data?.neutral2.shade900'),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
+      backgroundColor: theme.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        flexibleSpace: const AppbarBlurBG(),
-        backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),
         title: Text(S.current.addOrRemoveWidgets, style: TextStyles.subtitle2),
       ),
@@ -87,7 +401,6 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
         child: FloatingActionButton.extended(
           onPressed: () => widget.model.submit(context),
           label: Text(S.current.submit, style: TextStyles.button1),
-          backgroundColor: ThemeColors.primary500,
         ),
       ),
     );
@@ -95,6 +408,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
 
   Widget _buildBody(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return SingleChildScrollView(
       child: Padding(
@@ -163,15 +477,12 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                           vertical: 8,
                         ),
                         color: index == widget.model.selectedImageIndex
-                            ? ThemeColors.primary500.withOpacity(0.1)
+                            ? theme.primaryColor.withOpacity(0.1)
                             : Colors.transparent,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
                           side: index == widget.model.selectedImageIndex
-                              ? const BorderSide(
-                                  color: ThemeColors.primary500,
-                                  width: 2,
-                                )
+                              ? BorderSide(color: theme.primaryColor, width: 2)
                               : BorderSide.none,
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -240,11 +551,11 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                               margin: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 border: hasKey
-                                    ? Border.all(color: ThemeColors.primary500)
+                                    ? Border.all(color: theme.primaryColor)
                                     : Border.all(width: 0),
                                 borderRadius: BorderRadius.circular(24),
                                 color: hasKey
-                                    ? ThemeColors.primary500.withOpacity(0.1)
+                                    ? theme.primaryColor.withOpacity(0.1)
                                     : Colors.transparent,
                               ),
                               child: Material(
@@ -257,10 +568,10 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: hasKey
-                                          ? const Icon(
+                                          ? Icon(
                                               Icons
                                                   .check_circle_outline_rounded,
-                                              color: ThemeColors.primary500,
+                                              color: theme.primaryColor,
                                               size: 32,
                                             )
                                           : const Icon(

@@ -4,7 +4,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 import '../../../../../view_models/daily_activity_ring_widget_model.dart';
@@ -38,8 +37,6 @@ class DailyActivityRingWidget extends StatelessWidget {
           );
 
           return Row(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 width: constraints.maxWidth / 2 - 16,
@@ -62,9 +59,8 @@ class DailyActivityRingWidget extends StatelessWidget {
                         radius: (constraints.maxWidth - 48) / 2,
                         lineWidth: 12,
                         percent: model.weightsLiftedDailyProgress,
-                        backgroundColor:
-                            ThemeColors.primary500.withOpacity(0.25),
-                        progressColor: ThemeColors.primary500,
+                        backgroundColor: Colors.redAccent.withOpacity(0.25),
+                        progressColor: Colors.redAccent,
                         animation: true,
                         animationDuration: 1000,
                         circularStrokeCap: CircularStrokeCap.round,
@@ -105,7 +101,6 @@ class DailyActivityRingWidget extends StatelessWidget {
       return SizedBox(
         width: constraints.maxWidth / 5,
         child: FittedBox(
-          // alignment: Alignment.center,
           child: Text(
             model.todaysMuscleWorked,
             style: TextStyles.headline5W900,

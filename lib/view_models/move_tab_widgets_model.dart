@@ -5,7 +5,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/view/widgets/progress/daily_activty_ring_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_body_fat_widget.dart';
@@ -157,8 +156,8 @@ class MoveTabWidgetsModel with ChangeNotifier {
       key: const Key('weeklyWorkoutHistoryMedium'),
       progressTabClass: data,
       constraints: constraints,
-      defaultColor: ThemeColors.primary500,
-      touchedColor: ThemeColors.primary700,
+      defaultColor: Colors.redAccent,
+      touchedColor: Colors.red,
       model: weeklyWeightsBarChartModelProvider,
       onTap: () => RoutineHistoriesScreen.show(context),
       titleIcon: Icons.fitness_center_rounded,
@@ -181,7 +180,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
 
     final Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
       key: const Key('weeklyMeasurementsChart'),
-      progressTabClass: data,
+      data: data,
       constraints: constraints,
     );
 

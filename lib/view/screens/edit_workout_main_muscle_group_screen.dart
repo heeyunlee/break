@@ -3,16 +3,13 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
 class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
@@ -27,21 +24,18 @@ class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
   final Database database;
   final User user;
 
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     required Workout workout,
-  }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => EditWorkoutMainMuscleGroupScreen(
-          database: database,
-          workout: workout,
-          user: user,
-        ),
+    required User user,
+  }) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => EditWorkoutMainMuscleGroupScreen(
+        database: database,
+        workout: workout,
+        user: user,
       ),
     );
   }
@@ -202,21 +196,14 @@ class _EditWorkoutMainMuscleGroupScreenState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: _submit,
-        ),
+        leading: AppBarBackButton(onPressed: _submit),
         title: Text(S.current.mainMuscleGroup, style: TextStyles.subtitle1),
-        flexibleSpace: const AppbarBlurBG(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -236,11 +223,11 @@ class _EditWorkoutMainMuscleGroupScreenState
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       color: (_mainMuscleGroup[key]!)
-                          ? ThemeColors.primary500
-                          : ThemeColors.grey700,
+                          ? theme.primaryColor
+                          : theme.cardTheme.color,
                       child: CheckboxListTile(
                         selected: _mainMuscleGroup[key]!,
-                        activeColor: ThemeColors.primary700,
+                        activeColor: theme.primaryColorDark,
                         title: Text(title, style: TextStyles.button1),
                         controlAffinity: ListTileControlAffinity.trailing,
                         value: _mainMuscleGroup[key],

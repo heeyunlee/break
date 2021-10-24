@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
 import 'package:workout_player/styles/button_styles.dart';
@@ -23,7 +22,7 @@ class ChooseDateIconButton extends StatelessWidget {
     final bool enabled = user.widgetsList?.contains('activityRing') ?? true;
 
     return TextButton(
-      style: ButtonStyles.text1,
+      style: ButtonStyles.text1(context),
       onPressed: enabled ? () => _showCalendar(context) : null,
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -40,12 +39,13 @@ class ChooseDateIconButton extends StatelessWidget {
   }
 
   Future<bool?> _showCalendar(BuildContext context) {
+    final theme = Theme.of(context);
     final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
     return showModalBottomSheet<bool>(
       context: homeContext,
       builder: (context) => Container(
-        color: ThemeColors.card,
+        color: theme.cardTheme.color,
         height: 500,
         child: TableCalendar(
           daysOfWeekStyle: const DaysOfWeekStyle(

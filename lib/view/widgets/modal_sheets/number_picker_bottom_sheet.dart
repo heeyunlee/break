@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 
@@ -43,6 +42,7 @@ class _NumberPickerBottomSheetState extends State<NumberPickerBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
     return BlurredCard(
@@ -108,7 +108,7 @@ class _NumberPickerBottomSheetState extends State<NumberPickerBottomSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MaxWidthRaisedButton(
-                  color: ThemeColors.primary500,
+                  color: theme.primaryColor,
                   radius: 24,
                   onPressed: () => widget.model.onPressSave(context),
                   buttonText: S.current.save,

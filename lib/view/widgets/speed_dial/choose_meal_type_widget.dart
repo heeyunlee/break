@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
-
-import '../../../../../view_models/add_nutrition_screen_model.dart';
+import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 
 class ChooseMealTypeWidget extends StatelessWidget {
-  final AddNutritionScreenModel model;
-
   const ChooseMealTypeWidget({
     Key? key,
     required this.model,
   }) : super(key: key);
 
+  final AddNutritionScreenModel model;
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -36,7 +36,7 @@ class ChooseMealTypeWidget extends StatelessWidget {
                       shape: StadiumBorder(
                         side: BorderSide(
                           color: (model.mealType == type)
-                              ? ThemeColors.primary300
+                              ? theme.primaryColorLight
                               : Colors.grey,
                         ),
                       ),
@@ -46,9 +46,9 @@ class ChooseMealTypeWidget extends StatelessWidget {
                         style: TextStyles.button1,
                       ),
                       selected: model.mealType == type,
-                      selectedShadowColor: ThemeColors.primary500,
-                      backgroundColor: ThemeColors.background,
-                      selectedColor: ThemeColors.primary500,
+                      selectedShadowColor: theme.primaryColor,
+                      backgroundColor: Theme.of(context).backgroundColor,
+                      selectedColor: theme.primaryColor,
                       onSelected: (bool selected) => model.onChipSelected(
                         selected,
                         type,

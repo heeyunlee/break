@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -25,19 +23,18 @@ class EditWorkoutLocationScreen extends StatefulWidget {
   final Database database;
   final User user;
 
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     required User user,
     required Workout workout,
-  }) async {
-    final database = Provider.of<Database>(context, listen: false);
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => EditWorkoutLocationScreen(
-          database: database,
-          user: user,
-          workout: workout,
-        ),
+  }) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => EditWorkoutLocationScreen(
+        database: database,
+        user: user,
+        workout: workout,
       ),
     );
   }
@@ -86,24 +83,23 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         title: Text(S.current.location, style: TextStyles.subtitle1),
         leading: const AppBarBackButton(),
-        flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
+    final theme = Theme.of(context);
+
     return Column(
       children: <Widget>[
         ListTile(
           tileColor: (_location == Location.atHome.toString())
-              ? ThemeColors.primary600
+              ? theme.primaryColorDark
               : Colors.transparent,
           title: Text(Location.atHome.translation!, style: TextStyles.body1),
           trailing: (_location == Location.atHome.toString())
@@ -118,7 +114,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.gym.toString())
-              ? ThemeColors.primary600
+              ? theme.primaryColorDark
               : Colors.transparent,
           title: Text(Location.gym.translation!, style: TextStyles.body1),
           trailing: (_location == Location.gym.toString())
@@ -133,7 +129,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.outdoor.toString())
-              ? ThemeColors.primary600
+              ? theme.primaryColorDark
               : Colors.transparent,
           title: Text(Location.outdoor.translation!, style: TextStyles.body1),
           trailing: (_location == Location.outdoor.toString())
@@ -148,7 +144,7 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
         ),
         ListTile(
           tileColor: (_location == Location.others.toString())
-              ? ThemeColors.primary600
+              ? theme.primaryColorDark
               : Colors.transparent,
           title: Text(Location.others.translation!, style: TextStyles.body1),
           trailing: (_location == Location.others.toString())

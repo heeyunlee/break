@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 import 'package:workout_player/view/widgets/library.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -131,7 +130,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       body: CustomStreamBuilder<Workout?>(
         stream: widget.database.workoutStream(widget.workoutId),
         builder: (context, data) {
@@ -163,6 +161,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     bool innerBoxIsScrolled,
   ) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     final title =
         workout.translated[locale]?.toString() ?? workout.workoutTitle;
@@ -179,21 +178,18 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
             child: child,
           ),
         ),
-        backgroundColor: ThemeColors.appBar,
-        // floating: false,
         pinned: true,
-        // snap: false,
         stretch: true,
         expandedHeight: size.height / 2,
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Container(
-            color: ThemeColors.appBar,
+            color: theme.appBarTheme.backgroundColor,
             child: TabBar(
               labelColor: Colors.white,
-              unselectedLabelColor: ThemeColors.grey400,
-              indicatorColor: ThemeColors.primary500,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: theme.primaryColor,
               tabs: _tabs.map((e) => Tab(text: e)).toList(),
             ),
           ),
@@ -212,8 +208,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
               onPressed: () => EditWorkoutScreen.show(
                 context,
                 workout: workout,
-                auth: widget.auth,
-                database: widget.database,
+                user: widget.user,
               ),
             ),
           const SizedBox(width: 8),
@@ -226,6 +221,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
 
   Widget _buildFlexibleSpaceBarWidget(Workout workout) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -240,13 +236,13 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
             ),
           ),
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment(0.0, -0.75),
-                end: Alignment(0.0, 0.75),
+                begin: const Alignment(0.0, -0.75),
+                end: const Alignment(0.0, 0.75),
                 colors: [
                   Colors.transparent,
-                  ThemeColors.appBar,
+                  theme.appBarTheme.backgroundColor!,
                 ],
               ),
             ),
@@ -338,12 +334,8 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                 const SizedBox(height: 24),
                 MaxWidthRaisedButton(
                   width: double.infinity,
-                  color: ThemeColors.grey800,
-                  icon: const Icon(
-                    Icons.add_rounded,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                  color: theme.primaryColor,
+                  icon: const Icon(Icons.add_rounded, size: 20),
                   buttonText: S.current.addWorkoutToRoutine,
                   onPressed: () => AddWorkoutToRoutineScreenModel.show(
                     context,

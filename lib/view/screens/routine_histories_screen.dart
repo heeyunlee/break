@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -26,18 +23,12 @@ class RoutineHistoriesScreen extends StatelessWidget {
   }) : super(key: key);
 
   static void show(BuildContext context) {
-    final container = ProviderContainer();
-    final auth = container.read(authServiceProvider);
-    final database = container.read(databaseProvider(auth.currentUser?.uid));
-
-    HapticFeedback.mediumImpact();
-
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => RoutineHistoriesScreen(
-          database: database,
-          auth: auth,
-        ),
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => RoutineHistoriesScreen(
+        database: database,
+        auth: auth,
       ),
     );
   }
@@ -45,12 +36,9 @@ class RoutineHistoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.routineHistoryTitle, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: ThemeColors.appBar,
-        flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),
       body: CustomStreamBuilder<List<RoutineHistory>>(
@@ -78,6 +66,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
                         routineHistory: routineHistory,
                         database: database,
                         auth: auth,
+                        theme: Theme.of(context),
                       ),
                     );
                   },
@@ -88,37 +77,6 @@ class RoutineHistoriesScreen extends StatelessWidget {
           );
         },
       ),
-      // body: PaginateFirestore(
-      //   shrinkWrap: true,
-      //   itemsPerPage: 10,
-      //   query: database.routineHistoriesPaginatedUserQuery(),
-      //   itemBuilderType: PaginateBuilderType.listView,
-      //   emptyDisplay: EmptyContentWidget(
-      //     imageUrl: 'assets/images/routine_history_empty_bg.png',
-      //     bodyText: S.current.routineHistoyEmptyMessage,
-      //     onPressed: () => ChooseRoutineScreen.show(context),
-      //   ),
-      //   header: const SliverToBoxAdapter(child: SizedBox(height: 16)),
-      //   footer: const SliverToBoxAdapter(child: SizedBox(height: 120)),
-      //   onError: (error) => EmptyContent(
-      //     message: '${S.current.somethingWentWrong} $error',
-      //   ),
-      //   physics: const BouncingScrollPhysics(),
-      //   itemBuilder: (index, context, documentSnapshot) {
-      //     final routineHistory = documentSnapshot.data()! as RoutineHistory;
-
-      //     return RoutineHistorySummaryCard(
-      //       routineHistory: routineHistory,
-      //       onTap: () => RoutineHistoryDetailScreen.show(
-      //         context,
-      //         routineHistory: routineHistory,
-      //         database: database,
-      //         auth: auth,
-      //       ),
-      //     );
-      //   },
-      //   isLive: true,
-      // ),
     );
   }
 }

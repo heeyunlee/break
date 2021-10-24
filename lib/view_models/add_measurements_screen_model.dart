@@ -1,20 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import '../view/screens/add_measurements_screen.dart';
 import 'main_model.dart';
 
 final addMeasurementsScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -35,7 +29,6 @@ class AddMeasurementsScreenModel with ChangeNotifier {
   late FocusNode _focusNode5;
 
   Timestamp _loggedTime = Timestamp.now();
-  Color _borderColor = Colors.grey;
 
   TextEditingController get bodyweightController => _bodyweightController;
   TextEditingController get bodyFatController => _bodyFatController;
@@ -55,7 +48,6 @@ class AddMeasurementsScreenModel with ChangeNotifier {
   num? get bmi => num.tryParse(_bmiController.text);
   String? get notes => _notesController.text;
   Timestamp get loggedTime => _loggedTime;
-  Color get borderColor => _borderColor;
 
   List<FocusNode> get focusNodes => [
         _focusNode1,
@@ -137,17 +129,6 @@ class AddMeasurementsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction >= 0.85) {
-      // _borderColor = kSecondaryColor;
-      _borderColor = ThemeColors.secondary;
-    } else {
-      _borderColor = Colors.grey;
-    }
-
-    notifyListeners();
-  }
-
   /// Submit data to Firestore
   bool _validateAndSaveForm() {
     final form = formKey.currentState;
@@ -209,26 +190,4 @@ class AddMeasurementsScreenModel with ChangeNotifier {
   //// STATIC
   /// FORM KEY
   static final formKey = GlobalKey<FormState>();
-
-  /// FOR Navigation
-  static Future<void> show(BuildContext context) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
-    await HapticFeedback.mediumImpact();
-
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => AddMeasurementsScreen(
-            user: user,
-            database: database,
-            model: watch(addMeasurementsScreenModelProvider),
-          ),
-        ),
-      ),
-    );
-  }
 }

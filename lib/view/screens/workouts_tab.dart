@@ -70,48 +70,6 @@ class WorkoutsTab extends StatelessWidget {
         );
       },
     );
-
-    // return PaginateFirestore(
-    //   isLive: true,
-    //   shrinkWrap: true,
-    //   itemsPerPage: 5,
-    //   query: database.workoutsPaginatedUserQuery(),
-    //   physics: const AlwaysScrollableScrollPhysics(),
-    //   itemBuilderType: PaginateBuilderType.listView,
-    //   emptyDisplay: SingleChildScrollView(
-    //     child: _buildHeader(context, isHeader: false),
-    //   ),
-    //   header: SliverToBoxAdapter(
-    //     child: _buildHeader(context, isHeader: true),
-    //   ),
-    //   footer: const SliverToBoxAdapter(
-    //     child: SizedBox(height: kBottomNavigationBarHeight + 48),
-    //   ),
-    //   onError: (error) => EmptyContent(
-    //     message: '${S.current.somethingWentWrong}: $error',
-    //   ),
-    //   itemBuilder: (index, context, documentSnapshot) {
-    //     final workout = documentSnapshot.data() as Workout?;
-
-    //     return LibraryListTile(
-    //       tag: 'savedWorkout${workout!.workoutId}',
-    //       title: Formatter.localizedTitle(
-    //         workout.workoutTitle,
-    //         workout.translated,
-    //       ),
-    //       subtitle: S.current.workoutsTabSubtitle(
-    //         Formatter.getJoinedEquipmentsRequired(workout.equipmentRequired),
-    //       ),
-    //       imageUrl: workout.imageUrl,
-    //       onTap: () => WorkoutDetailScreen.show(
-    //         context,
-    //         workout: workout,
-    //         workoutId: workout.workoutId,
-    //         tag: 'savedWorkout${workout.workoutId}',
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   Widget _buildHeader(BuildContext context, {required bool isHeader}) {

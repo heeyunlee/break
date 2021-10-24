@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class RoutineDetailScreenShimmer extends StatelessWidget {
   const RoutineDetailScreenShimmer({Key? key}) : super(key: key);
@@ -8,13 +7,14 @@ class RoutineDetailScreenShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return SizedBox(
       width: size.width,
       height: size.height,
       child: Shimmer.fromColors(
-        baseColor: ThemeColors.card,
-        highlightColor: ThemeColors.cardLight,
+        baseColor: theme.cardTheme.color!,
+        highlightColor: theme.primaryColor.withOpacity(0.12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/youtube_video.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -28,7 +27,6 @@ class WatchTab extends StatelessWidget {
     logger.d('[WatchTab] building...');
 
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: const AppBarBackButton(),

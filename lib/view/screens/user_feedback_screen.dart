@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -21,19 +19,13 @@ class UserFeedbackScreen extends StatefulWidget {
     required this.database,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required User user}) async {
-    final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-    // final user = await database.getUserDocument(auth.currentUser!.uid);
-
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => UserFeedbackScreen(
-          database: database,
-          // user: user!,
-          user: user,
-        ),
+  static void show(BuildContext context, {required User user}) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => UserFeedbackScreen(
+        database: database,
+        user: user,
       ),
     );
   }
@@ -75,7 +67,6 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
       );
       await widget.database.setUserFeedback(userFeedback);
 
-      // TODO: fix here
       Navigator.of(context).pop();
 
       getSnackbarWidget(
@@ -100,11 +91,8 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarCloseButton(),
         title: Text(S.current.yourFeedbackMatters, style: TextStyles.subtitle2),
         actions: [

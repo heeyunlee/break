@@ -10,7 +10,6 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/services/algolia_manager.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -65,16 +64,15 @@ class _ExploreTabState extends State<ExploreTab> {
     logger.d('[ExploreTab] building...');
 
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(0),
         child: AppBar(
-          backgroundColor: ThemeColors.appBar,
           elevation: 0,
         ),
       ),
-      backgroundColor: ThemeColors.background,
       body: FloatingSearchBar(
         controller: _controller,
         iconColor: Colors.black,
@@ -88,7 +86,7 @@ class _ExploreTabState extends State<ExploreTab> {
         transitionCurve: Curves.easeInOut,
         hint: S.current.searchBarHintText,
         hintStyle: TextStyles.body2Grey,
-        backdropColor: ThemeColors.appBar,
+        backdropColor: theme.backgroundColor,
         backgroundColor: Colors.white,
         queryStyle: TextStyles.body2Black,
         actions: [
@@ -175,18 +173,17 @@ class _ExploreTabState extends State<ExploreTab> {
   }
 
   Widget _buildBody() {
-    // final database = Provider.of<Database>(context, listen: false);
-    // final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(height: 96),
-          const Padding(
-            padding: EdgeInsets.all(24.0),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
             child: Text(
-              'Workouts and Routines \nby Category',
+              S.current.workoutsAndRoutinesByCategory,
               style: TextStyles.headline6Bold,
             ),
           ),
@@ -207,6 +204,7 @@ class _ExploreTabState extends State<ExploreTab> {
             children: MainMuscleGroup.values.map(
               (muscle) {
                 return SearchCategoryWidget(
+                  color: theme.primaryColor,
                   text: muscle.translation!,
                   onTap: () => SearchCategoryScreen.show(
                     context,
@@ -234,8 +232,7 @@ class _ExploreTabState extends State<ExploreTab> {
             children: EquipmentRequired.values.map(
               (equipment) {
                 return SearchCategoryWidget(
-                  // color: kSecondaryColor,
-                  color: ThemeColors.secondary,
+                  color: theme.colorScheme.secondary,
                   text: equipment.translation!,
                   onTap: () => SearchCategoryScreen.show(
                     context,

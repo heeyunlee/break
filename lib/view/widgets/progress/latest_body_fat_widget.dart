@@ -5,7 +5,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/body_fat_entries_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
@@ -43,7 +42,7 @@ class LatestBodyFatWidget extends StatelessWidget {
       height: constraints.maxHeight / heightFactor,
       width: (constraints.maxWidth - 16) / 2,
       child: BlurBackgroundCard(
-        onTap: () => BodyFatEntriesScreen.show(context),
+        onTap: () => BodyFatEntriesScreen.show(context, user: data.user),
         child: Stack(
           children: [
             Positioned(
@@ -63,7 +62,7 @@ class LatestBodyFatWidget extends StatelessWidget {
                   Text(S.current.bodyFat, style: TextStyles.button1),
                   Text(
                     '$bodyFat %',
-                    style: TextStyles.headline5MenloBoldSecondary,
+                    style: TextStyles.headline5MenloBoldLightBlueAccent,
                   ),
                   if (showWidget) ..._buildProgressBar(),
                 ],
@@ -122,8 +121,7 @@ class LatestBodyFatWidget extends StatelessWidget {
             widthFactor: diffPercentageFormatted ?? 0.0,
             child: Container(
               decoration: BoxDecoration(
-                // color: kSecondaryColor,
-                color: ThemeColors.secondary,
+                color: Colors.lightBlueAccent,
                 borderRadius: BorderRadius.circular(2),
               ),
               height: 4,

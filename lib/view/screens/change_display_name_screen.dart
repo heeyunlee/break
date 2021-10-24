@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/change_display_name_screen_model.dart';
 
@@ -47,17 +46,14 @@ class _ChangeDisplayNameScreenState extends State<ChangeDisplayNameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         title: Text(
           S.current.editDisplayNameTitle,
           style: TextStyles.subtitle1,
         ),
         leading: const AppBarCloseButton(),
-        flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),
     );

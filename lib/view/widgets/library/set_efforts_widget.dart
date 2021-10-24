@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/log_routine_screen_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -12,8 +10,8 @@ class SetEffortsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    logger.d('[SetEffortsWidget] building');
     final model = watch(logRoutineModelProvider);
+    final theme = Theme.of(context);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -30,7 +28,6 @@ class SetEffortsWidget extends ConsumerWidget {
               initialRating: model.effort,
               glow: false,
               allowHalfRating: true,
-              // itemCount: 5,
               itemPadding: const EdgeInsets.symmetric(horizontal: 8),
               ratingWidget: RatingWidget(
                 empty: Image.asset(
@@ -51,7 +48,7 @@ class SetEffortsWidget extends ConsumerWidget {
           left: 12,
           top: -6,
           child: Container(
-            color: ThemeColors.background,
+            color: theme.backgroundColor,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(

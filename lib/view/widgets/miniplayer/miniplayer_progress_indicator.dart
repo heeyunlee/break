@@ -3,7 +3,6 @@ import 'package:workout_player/models/routine.dart';
 // import 'package:workout_player/models/youtube_video.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 // import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
@@ -24,7 +23,9 @@ class MiniplayerProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
+
     double progress = 0;
 
     if (model.currentWorkout.runtimeType == Routine) {
@@ -53,7 +54,7 @@ class MiniplayerProgressIndicator extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(radius!),
                   child: Container(
-                    color: ThemeColors.primary500,
+                    color: theme.primaryColor,
                     height: 4,
                     width: (size.width - padding! * 2) * progress,
                   ),

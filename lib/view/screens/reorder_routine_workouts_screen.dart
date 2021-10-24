@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -31,19 +30,30 @@ class ReorderRoutineWorkoutsScreen extends StatefulWidget {
     required Routine routine,
     required List<RoutineWorkout?> routineWorkouts,
   }) {
-    HapticFeedback.mediumImpact();
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => Consumer(
-          builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
-            routine: routine,
-            routineWorkouts: routineWorkouts,
-            model: watch(reorderRoutineWorkoutsScreenModelProvider),
-          ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => Consumer(
+        builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
+          routine: routine,
+          routineWorkouts: routineWorkouts,
+          model: watch(reorderRoutineWorkoutsScreenModelProvider),
         ),
       ),
     );
+    // HapticFeedback.mediumImpact();
+    // Navigator.of(context, rootNavigator: true).push(
+    //   CupertinoPageRoute(
+    //     fullscreenDialog: true,
+    //     builder: (context) => Consumer(
+    //       builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
+    //         routine: routine,
+    //         routineWorkouts: routineWorkouts,
+    //         model: watch(reorderRoutineWorkoutsScreenModelProvider),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -64,11 +74,10 @@ class _ReorderRoutineWorkoutsScreenState
     logger.d('reorder routine workout screen building...');
 
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           S.current.editRoutineWorkoutOrder,
@@ -85,7 +94,7 @@ class _ReorderRoutineWorkoutsScreenState
               : () => widget.model.onSubmit(context, widget.routine),
           backgroundColor: widget.model.areMapsEqual
               ? ThemeColors.grey700
-              : ThemeColors.primary500,
+              : theme.colorScheme.secondary,
           label: Text(S.current.save, style: TextStyles.button1Bold),
         ),
       ),
@@ -116,7 +125,6 @@ class _ReorderRoutineWorkoutsScreenState
             key: ValueKey(widget.routineWorkouts[index]!.routineWorkoutId),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Card(
-              color: ThemeColors.card,
               elevation: 6,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class DailySummaryNumbersWidget extends StatelessWidget {
   final String title;
@@ -18,7 +17,7 @@ class DailySummaryNumbersWidget extends StatelessWidget {
     Key? key,
     required this.title,
     this.textStyle = TextStyles.body1Menlo,
-    this.backgroundColor = ThemeColors.primary500,
+    this.backgroundColor = Colors.redAccent,
     this.ones = '0',
     this.tens = '0',
     this.hundreds = '0',

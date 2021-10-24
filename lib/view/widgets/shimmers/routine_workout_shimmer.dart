@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class RoutineWorkoutShimmer extends StatelessWidget {
   const RoutineWorkoutShimmer({Key? key}) : super(key: key);
@@ -8,10 +7,11 @@ class RoutineWorkoutShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Shimmer.fromColors(
-      baseColor: ThemeColors.card,
-      highlightColor: ThemeColors.cardLight,
+      baseColor: theme.cardTheme.color!,
+      highlightColor: theme.primaryColor.withOpacity(0.12),
       child: ListView.builder(
         itemCount: 3,
         shrinkWrap: true,
@@ -23,7 +23,7 @@ class RoutineWorkoutShimmer extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: ThemeColors.card,
+                color: theme.cardTheme.color!,
               ),
               child: const Text(''),
             ),

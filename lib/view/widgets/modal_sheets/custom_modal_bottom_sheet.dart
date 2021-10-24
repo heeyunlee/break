@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class CustomModalBottomSheet extends StatelessWidget {
   const CustomModalBottomSheet({
@@ -37,6 +36,8 @@ class CustomModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(24),
@@ -48,7 +49,7 @@ class CustomModalBottomSheet extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          color: ThemeColors.card.withOpacity(0.75),
+          color: theme.cardTheme.color?.withOpacity(0.25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,

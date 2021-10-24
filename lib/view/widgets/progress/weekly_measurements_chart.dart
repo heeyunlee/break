@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/charts/no_data_in_chart_message_widget.dart';
 import 'package:workout_player/view_models/main_model.dart';
-
-import '../../../../../view_models/weekly_measurements_chart_model.dart';
+import 'package:workout_player/view_models/weekly_measurements_chart_model.dart';
 
 class WeeklyMeasurementsChart extends StatefulWidget {
   final WeeklyMeasurementsChartModel model;
@@ -28,17 +26,16 @@ class WeeklyMeasurementsChart extends StatefulWidget {
 }
 
 class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
-  // List<Color> hasDataColors = [kSecondaryColor];
-  List<Color> hasDataColors = [ThemeColors.secondary];
+  @override
+  void initState() {
+    super.initState();
 
-  // List<Color> noDataColors = [kSecondaryColor.withOpacity(0.5)];
-  List<Color> noDataColors = [ThemeColors.secondary.withOpacity(0.5)];
+    widget.model.init();
+    widget.model.setMaxY(widget.measurements);
+  }
 
   @override
   Widget build(BuildContext context) {
-    widget.model.init();
-    widget.model.setMaxY(widget.measurements);
-
     return Expanded(
       child: Padding(
           padding: const EdgeInsets.only(right: 8),
@@ -135,8 +132,8 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                     LineChartBarData(
                       isCurved: true,
                       colors: (widget.model.thisWeekData.isNotEmpty)
-                          ? hasDataColors
-                          : noDataColors,
+                          ? [Colors.lightBlueAccent]
+                          : [Colors.lightBlueAccent.withOpacity(0.5)],
                       barWidth: 4,
                       isStrokeCapRound: true,
                       dotData: FlDotData(show: true),
@@ -148,7 +145,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
                 ),
               ),
               if (widget.model.thisWeekData.isEmpty)
-                const NoDataInChartMessageWidget(color: ThemeColors.secondary),
+                const NoDataInChartMessageWidget(color: Colors.lightBlueAccent),
             ],
           )),
     );

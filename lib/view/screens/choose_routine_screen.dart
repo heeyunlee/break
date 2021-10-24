@@ -8,7 +8,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
@@ -33,13 +32,12 @@ class ChooseRoutineScreen extends ConsumerWidget {
     final database = container.read(databaseProvider(auth.currentUser?.uid));
     final user = (await database.getUserDocument(auth.currentUser!.uid))!;
 
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => ChooseRoutineScreen(
-          database: database,
-          user: user,
-        ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => ChooseRoutineScreen(
+        database: database,
+        user: user,
       ),
     );
   }
@@ -52,7 +50,6 @@ class ChooseRoutineScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       body: NestedScrollView(
         headerSliverBuilder: (_, __) {
           return <Widget>[
@@ -68,14 +65,11 @@ class ChooseRoutineScreen extends ConsumerWidget {
     return SliverAppBar(
       floating: true,
       pinned: true,
-      // snap: false,
       centerTitle: true,
       title: Text(
         S.current.chooseRoutineToStart,
         style: TextStyles.subtitle1,
       ),
-      flexibleSpace: const AppbarBlurBG(),
-      backgroundColor: Colors.transparent,
       leading: const AppBarCloseButton(),
       bottom: ChoiceChipsAppBarWidget(
         onSelected: model.onSelectChoiceChip,

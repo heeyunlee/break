@@ -81,10 +81,10 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const headline5W900Primary = TextStyle(
+  static const headline5W900RedAccent = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
-    color: ThemeColors.primary500,
+    color: Colors.redAccent,
     letterSpacing: 0,
     fontFamily: defaultFontFamily,
   );
@@ -97,19 +97,18 @@ class TextStyles {
     fontFamily: menlo,
   );
 
-  static const headline5MenloW900Primary = TextStyle(
+  static const headline5MenloW900RedAccent = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w900,
-    color: ThemeColors.primary500,
+    color: Colors.redAccent,
     letterSpacing: 0,
     fontFamily: menlo,
   );
 
-  static const headline5MenloBoldSecondary = TextStyle(
+  static const headline5MenloBoldLightBlueAccent = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
-    // color: kSecondaryColor,
-    color: ThemeColors.secondary,
+    color: Colors.lightBlueAccent,
     letterSpacing: 0,
     fontFamily: menlo,
   );
@@ -175,19 +174,18 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const subtitle1W900Primary = TextStyle(
+  static const subtitle1W900RedAccent = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    color: ThemeColors.primary500,
+    color: Colors.redAccent,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
 
-  static const subtitle1W900Secondary = TextStyle(
+  static const subtitle1W900LightBlueAccent = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    // color: kSecondaryColor,
-    color: ThemeColors.secondary,
+    color: Colors.lightBlueAccent,
     letterSpacing: 0.15,
     fontFamily: defaultFontFamily,
   );
@@ -448,15 +446,6 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const button1SecondaryW900 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w900,
-    // color: kSecondaryColor,
-    color: ThemeColors.secondary,
-    letterSpacing: 1.25,
-    fontFamily: defaultFontFamily,
-  );
-
   static const button1Grey = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
@@ -520,18 +509,18 @@ class TextStyles {
     fontFamily: defaultFontFamily,
   );
 
-  static const overlineGrey = TextStyle(
+  static const overlinW900 = TextStyle(
     fontSize: 10,
-    fontWeight: FontWeight.normal,
-    color: Colors.grey,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
     letterSpacing: 1.5,
     fontFamily: defaultFontFamily,
   );
 
-  static const overlinePrimary = TextStyle(
+  static const overlineGrey = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.normal,
-    color: ThemeColors.primary500,
+    color: Colors.grey,
     letterSpacing: 1.5,
     fontFamily: defaultFontFamily,
   );

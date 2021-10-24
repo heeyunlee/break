@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class BlurBackgroundCard extends StatelessWidget {
-  final Widget child;
-  final Color? color;
-  final Color? shadowColor;
-  final double? topPadding;
-  final double? leftPadding;
-  final double? bottomPadding;
-  final double? rightPadding;
-  final double? allPadding;
-  final double? borderRadius;
-  final bool? isChecked;
-  final void Function()? onTap;
-  final void Function()? onLongPress;
-
   const BlurBackgroundCard({
     Key? key,
     required this.child,
@@ -31,8 +17,23 @@ class BlurBackgroundCard extends StatelessWidget {
     this.onLongPress,
   }) : super(key: key);
 
+  final Widget child;
+  final Color? color;
+  final Color? shadowColor;
+  final double? topPadding;
+  final double? leftPadding;
+  final double? bottomPadding;
+  final double? rightPadding;
+  final double? allPadding;
+  final double? borderRadius;
+  final bool? isChecked;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: EdgeInsets.only(
         top: topPadding ?? allPadding ?? 16,
@@ -44,7 +45,7 @@ class BlurBackgroundCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),
           border: isChecked!
-              ? Border.all(color: ThemeColors.primary500, width: 4)
+              ? Border.all(color: theme.primaryColor, width: 4)
               : Border.all(width: 0),
           boxShadow: [
             BoxShadow(
@@ -66,7 +67,7 @@ class BlurBackgroundCard extends StatelessWidget {
         ),
         child: Material(
           borderRadius: BorderRadius.circular(24),
-          color: color ?? ThemeColors.card.withOpacity(0.85),
+          color: color ?? theme.cardTheme.color?.withOpacity(0.95),
           child: InkWell(
             borderRadius: BorderRadius.circular(24),
             onLongPress: onLongPress,

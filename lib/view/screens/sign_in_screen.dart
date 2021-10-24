@@ -68,7 +68,7 @@ class SignInScreen extends ConsumerWidget {
   ) {
     return [
       TextButton(
-        style: ButtonStyles.text1Google,
+        style: ButtonStyles.text1Google(context),
         onPressed:
             model.isLoading ? null : () => model.signInAnonymously(context),
         child: Text(S.current.takeALook),
@@ -82,7 +82,7 @@ class SignInScreen extends ConsumerWidget {
       SocialSignInButton(
         kButtonText: S.current.signUp,
         iconData: Icons.email_rounded,
-        color: ThemeColors.primary600,
+        color: ThemeColors.primary500,
         textColor: Colors.white,
         onPressed: model.isLoading
             ? null
@@ -122,7 +122,7 @@ class SignInScreen extends ConsumerWidget {
             model.isLoading ? null : () => model.signInWithKakao(context),
       ),
       TextButton(
-        style: ButtonStyles.text1Google,
+        style: ButtonStyles.text1Google(context),
         onPressed: model.isLoading
             ? null
             : () => SignInWithEmailModel.showSignInScreen(context),

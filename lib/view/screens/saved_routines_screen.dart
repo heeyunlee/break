@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/library/library_list_tile.dart';
@@ -23,16 +20,13 @@ class SavedRoutinesScreen extends StatelessWidget {
     required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context, {required User user}) async {
-    final database = Provider.of<Database>(context, listen: false);
-
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => SavedRoutinesScreen(
-          database: database,
-          user: user,
-        ),
+  static void show(BuildContext context, {required User user}) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => SavedRoutinesScreen(
+        database: database,
+        user: user,
       ),
     );
   }
@@ -42,12 +36,9 @@ class SavedRoutinesScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: Text(S.current.savedRoutines, style: TextStyles.subtitle2),
         centerTitle: true,
-        backgroundColor: ThemeColors.appBar,
-        flexibleSpace: const AppbarBlurBG(),
         leading: const AppBarBackButton(),
       ),
       body: (user.savedRoutines!.isEmpty)

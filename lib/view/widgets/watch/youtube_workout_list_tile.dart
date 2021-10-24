@@ -3,7 +3,6 @@ import 'package:workout_player/generated/l10n.dart';
 
 import 'package:workout_player/models/workout_for_youtube.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class YoutubeWorkoutListTile extends StatelessWidget {
@@ -16,11 +15,13 @@ class YoutubeWorkoutListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     if (workout.isRest ?? false) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Material(
-          color: ThemeColors.cardDark,
+          color: theme.cardTheme.color,
           elevation: 4,
           borderRadius: BorderRadius.circular(8),
           child: Padding(
@@ -54,7 +55,7 @@ class YoutubeWorkoutListTile extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Material(
-          color: ThemeColors.card,
+          color: theme.cardTheme.color,
           elevation: 4,
           borderRadius: BorderRadius.circular(8),
           child: Row(

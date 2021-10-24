@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_routine_equipment_required_model.dart';
 
@@ -26,24 +23,20 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
     required this.model,
   }) : super(key: key);
 
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     required Routine routine,
-  }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => Consumer(
-          builder: (context, watch, child) =>
-              EditRoutineEquipmentRequiredScreen(
-            database: database,
-            routine: routine,
-            user: user,
-            model: watch(editRoutineEquipmentRequiredModelProvider),
-          ),
+    required User user,
+  }) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => Consumer(
+        builder: (context, watch, child) => EditRoutineEquipmentRequiredScreen(
+          database: database,
+          routine: routine,
+          user: user,
+          model: watch(editRoutineEquipmentRequiredModelProvider),
         ),
       ),
     );
@@ -69,13 +62,12 @@ class _EditRoutineEquipmentRequiredScreenState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: const AppbarBlurBG(),
         leading: AppBarBackButton(
           onPressed: () => widget.model.submitAndPop(
             context,
@@ -103,10 +95,10 @@ class _EditRoutineEquipmentRequiredScreenState
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                   color: widget.model.selected(equipment)
-                      ? ThemeColors.primary500
-                      : ThemeColors.cardLight,
+                      ? theme.primaryColor
+                      : theme.primaryColor.withOpacity(0.12),
                   child: CheckboxListTile(
-                    activeColor: ThemeColors.primary700,
+                    activeColor: theme.primaryColorDark,
                     title: Text(
                       equipment.translation!,
                       style: TextStyles.button1,

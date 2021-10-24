@@ -10,6 +10,7 @@ import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/styles/custom_theme_data.dart';
+import 'package:workout_player/styles/platform_colors.dart';
 
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/services/auth.dart';
@@ -76,18 +77,79 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthService(),
           ),
         ],
-        child: GetMaterialApp(
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          debugShowCheckedModeBanner: false,
-          theme: CustomThemeData.defaultTheme,
-          home: const LandingScreen(),
-        ),
+        child: FutureBuilder<MaterialYouPalette?>(
+            future: getMaterialYouColor(),
+            builder: (context, snapshot) {
+              // print('''
+              // accent1.shade100 ${snapshot.data?.accent1.shade100.toString()}
+              // accent1.shade200 ${snapshot.data?.accent1.shade200.toString()}
+              // accent1.shade300 ${snapshot.data?.accent1.shade300.toString()}
+              // accent1.shade400 ${snapshot.data?.accent1.shade400.toString()}
+              // accent1.shade500 ${snapshot.data?.accent1.shade500.toString()}
+              // accent1.shade600 ${snapshot.data?.accent1.shade600.toString()}
+              // accent1.shade700 ${snapshot.data?.accent1.shade700.toString()}
+              // accent1.shade800 ${snapshot.data?.accent1.shade800.toString()}
+              // accent1.shade900 ${snapshot.data?.accent1.shade900.toString()}
+
+              // accent2.shade100 ${snapshot.data?.accent2.shade100.toString()}
+              // accent2.shade200 ${snapshot.data?.accent2.shade200.toString()}
+              // accent2.shade300 ${snapshot.data?.accent2.shade300.toString()}
+              // accent2.shade400 ${snapshot.data?.accent2.shade400.toString()}
+              // accent2.shade500 ${snapshot.data?.accent2.shade500.toString()}
+              // accent2.shade600 ${snapshot.data?.accent2.shade600.toString()}
+              // accent2.shade700 ${snapshot.data?.accent2.shade700.toString()}
+              // accent2.shade800 ${snapshot.data?.accent2.shade800.toString()}
+              // accent2.shade900 ${snapshot.data?.accent2.shade900.toString()}
+
+              // ''');
+
+              // print('''
+              // accent3.shade100 ${snapshot.data?.accent3.shade100.toString()}
+              // accent3.shade200 ${snapshot.data?.accent3.shade200.toString()}
+              // accent3.shade300 ${snapshot.data?.accent3.shade300.toString()}
+              // accent3.shade400 ${snapshot.data?.accent3.shade400.toString()}
+              // accent3.shade500 ${snapshot.data?.accent3.shade500.toString()}
+              // accent3.shade600 ${snapshot.data?.accent3.shade600.toString()}
+              // accent3.shade700 ${snapshot.data?.accent3.shade700.toString()}
+              // accent3.shade800 ${snapshot.data?.accent3.shade800.toString()}
+              // accent3.shade900 ${snapshot.data?.accent3.shade900.toString()}
+
+              // neutral1.shade100 ${snapshot.data?.neutral1.shade100.toString()}
+              // neutral1.shade200 ${snapshot.data?.neutral1.shade200.toString()}
+              // neutral1.shade300 ${snapshot.data?.neutral1.shade300.toString()}
+              // neutral1.shade400 ${snapshot.data?.neutral1.shade400.toString()}
+              // neutral1.shade500 ${snapshot.data?.neutral1.shade500.toString()}
+              // neutral1.shade600 ${snapshot.data?.neutral1.shade600.toString()}
+              // neutral1.shade700 ${snapshot.data?.neutral1.shade700.toString()}
+              // neutral1.shade800 ${snapshot.data?.neutral1.shade800.toString()}
+              // neutral1.shade900 ${snapshot.data?.neutral1.shade900.toString()}
+              // ''');
+
+              // print('''
+              // neutral2.shade100 ${snapshot.data?.neutral2.shade100.toString()}
+              // neutral2.shade200 ${snapshot.data?.neutral2.shade200.toString()}
+              // neutral2.shade300 ${snapshot.data?.neutral2.shade300.toString()}
+              // neutral2.shade400 ${snapshot.data?.neutral2.shade400.toString()}
+              // neutral2.shade500 ${snapshot.data?.neutral2.shade500.toString()}
+              // neutral2.shade600 ${snapshot.data?.neutral2.shade600.toString()}
+              // neutral2.shade700 ${snapshot.data?.neutral2.shade700.toString()}
+              // neutral2.shade800 ${snapshot.data?.neutral2.shade800.toString()}
+              // neutral2.shade900 ${snapshot.data?.neutral2.shade900.toString()}
+              // ''');
+
+              return GetMaterialApp(
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                theme: CustomThemeData.createTheme(snapshot.data),
+                home: const LandingScreen(),
+              );
+            }),
       ),
     );
   }

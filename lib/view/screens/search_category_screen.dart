@@ -9,7 +9,6 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -60,6 +59,8 @@ class SearchCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.d('[SearchCategoryScreen] building...');
 
+    final theme = Theme.of(context);
+
     final title = (searchCategory == 'mainMuscleGroup')
         ? MainMuscleGroup.values
             .firstWhere((e) => e.toString() == arrayContains)
@@ -76,7 +77,6 @@ class SearchCategoryScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: ThemeColors.background,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -85,13 +85,11 @@ class SearchCategoryScreen extends StatelessWidget {
                 pinned: true,
                 centerTitle: true,
                 leading: const AppBarBackButton(),
-                flexibleSpace: const AppbarBlurBG(),
                 title: Text(title!, style: TextStyles.subtitle1),
-                backgroundColor: Colors.transparent,
                 bottom: TabBar(
                   labelColor: Colors.white,
-                  unselectedLabelColor: ThemeColors.grey400,
-                  indicatorColor: ThemeColors.primary500,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: theme.primaryColor,
                   tabs: [
                     Tab(text: S.current.workouts),
                     Tab(text: S.current.routines),

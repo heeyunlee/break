@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,79 +78,70 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
   Widget _buildBody(BuildContext context) {
     final formKey = LogRoutineModel.formKey;
 
-    return Theme(
-      data: ThemeData(
-        primaryColor: ThemeColors.primary500,
-        disabledColor: Colors.grey,
-        iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
-      ),
-      child: KeyboardActions(
-        config: _buildConfig(),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          clipBehavior: Clip.none,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: Scaffold.of(context).appBarMaxHeight),
-                  SelectDatesWidget(
-                    labelText: S.current.startTime,
-                    borderColor: widget.model.borderColor,
-                    onVisibilityChanged: widget.model.onVisibilityChanged,
-                    initialDateTime: widget.model.loggedTime.toDate(),
-                    onDateTimeChanged: widget.model.onDateTimeChanged,
+    return KeyboardActions(
+      config: _buildConfig(context),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: Scaffold.of(context).appBarMaxHeight),
+                SelectDatesWidget(
+                  labelText: S.current.startTime,
+                  initialDateTime: widget.model.loggedTime.toDate(),
+                  onDateTimeChanged: widget.model.onDateTimeChanged,
+                ),
+                const SizedBox(height: 16),
+                kCustomDividerIndent8,
+                const SizedBox(height: 16),
+                OutlinedTextTextFieldWidget(
+                  maxLines: 1,
+                  maxLength: 34,
+                  formKey: formKey,
+                  focusNode: widget.model.focusNode1,
+                  controller: widget.model.titleEditingController,
+                  labelText: S.current.routineTitleTitle,
+                  hintText: S.current.routineTitleHintText,
+                ),
+                const SizedBox(height: 16),
+                OutlinedNumberTextFieldWidget(
+                  formKey: formKey,
+                  focusNode: widget.model.focusNode2,
+                  controller: widget.model.durationEditingController,
+                  labelText: 'Duration',
+                  suffixText: S.current.minutes,
+                ),
+                const SizedBox(height: 16),
+                OutlinedNumberTextFieldWidget(
+                  formKey: formKey,
+                  focusNode: widget.model.focusNode3,
+                  controller: widget.model.totalVolumeEditingController,
+                  labelText: S.current.liftedWeights,
+                  suffixText: Formatter.unitOfMass(
+                    widget.data.routine!.initialUnitOfMass,
+                    widget.data.routine!.unitOfMassEnum,
                   ),
-                  const SizedBox(height: 16),
-                  kCustomDividerIndent8,
-                  const SizedBox(height: 16),
-                  OutlinedTextTextFieldWidget(
-                    maxLines: 1,
-                    maxLength: 34,
-                    formKey: formKey,
-                    focusNode: widget.model.focusNode1,
-                    controller: widget.model.titleEditingController,
-                    labelText: S.current.routineTitleTitle,
-                    hintText: S.current.routineTitleHintText,
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedNumberTextFieldWidget(
-                    formKey: formKey,
-                    focusNode: widget.model.focusNode2,
-                    controller: widget.model.durationEditingController,
-                    labelText: 'Duration',
-                    suffixText: S.current.minutes,
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedNumberTextFieldWidget(
-                    formKey: formKey,
-                    focusNode: widget.model.focusNode3,
-                    controller: widget.model.totalVolumeEditingController,
-                    labelText: S.current.liftedWeights,
-                    suffixText: Formatter.unitOfMass(
-                      widget.data.routine!.initialUnitOfMass,
-                      widget.data.routine!.unitOfMassEnum,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedTextTextFieldWidget(
-                    maxLines: 5,
-                    formKey: formKey,
-                    focusNode: widget.model.focusNode4,
-                    controller: widget.model.notesEditingController,
-                    labelText: S.current.notes,
-                    hintText: S.current.addNotes,
-                  ),
-                  const SizedBox(height: 16),
-                  const SetEffortsWidget(),
-                  const SizedBox(height: 16),
-                  const ToggleIsPublicWidget(),
-                  const SizedBox(height: 48),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedTextTextFieldWidget(
+                  maxLines: 5,
+                  formKey: formKey,
+                  focusNode: widget.model.focusNode4,
+                  controller: widget.model.notesEditingController,
+                  labelText: S.current.notes,
+                  hintText: S.current.addNotes,
+                ),
+                const SizedBox(height: 16),
+                const SetEffortsWidget(),
+                const SizedBox(height: 16),
+                const ToggleIsPublicWidget(),
+                const SizedBox(height: 48),
+              ],
             ),
           ),
         ),
@@ -156,10 +149,13 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
     );
   }
 
-  KeyboardActionsConfig _buildConfig() {
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       actions: List.generate(
         widget.model.focusNodes.length,
         (index) => KeyboardActionsItem(
@@ -175,6 +171,7 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
 
   Widget _buildFAB(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Container(
       width: size.width - 32,
@@ -192,8 +189,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                   routineWorkouts: widget.data.routineWorkouts!,
                 ),
         backgroundColor: widget.model.isButtonPressed
-            ? ThemeColors.primary500.withOpacity(0.8)
-            : ThemeColors.primary500,
+            ? theme.colorScheme.secondary.withOpacity(0.8)
+            : theme.colorScheme.secondary,
         heroTag: 'logRoutineSubmitButton',
         label: Text(S.current.submit),
       ),

@@ -6,7 +6,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -52,7 +51,7 @@ class EditRoutineScreenModel with ChangeNotifier {
   Animation<double> get opacityTween => _opacityTween;
   Animation<Color?> get colorTweeen => _colorTweeen;
 
-  void init(TickerProvider vsync, Routine routine) {
+  void init(TickerProvider vsync, Routine routine, ThemeData theme) {
     _titleEditingController = TextEditingController(text: routine.routineTitle);
     _descriptionEditingController = TextEditingController(
       text: routine.description,
@@ -76,8 +75,8 @@ class EditRoutineScreenModel with ChangeNotifier {
     );
 
     _colorTweeen = ColorTween(
-      begin: ThemeColors.background,
-      end: ThemeColors.appBar,
+      begin: theme.backgroundColor,
+      end: theme.appBarTheme.backgroundColor,
     ).animate(_sliverAnimationController);
   }
 

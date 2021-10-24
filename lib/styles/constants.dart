@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 const kCustomDivider = Divider(
-  color: ThemeColors.grey700,
+  color: Colors.white24,
   height: 48,
 );
 
@@ -14,26 +13,22 @@ const kWhiteDivider = Divider(
 );
 
 const kCustomDividerIndent16 = Divider(
-  color: ThemeColors.grey700,
+  color: Colors.white24,
   indent: 16,
   endIndent: 16,
 );
 
 const kCustomDividerIndent8 = Divider(
-  color: ThemeColors.grey700,
+  color: Colors.white24,
   indent: 8,
   endIndent: 8,
 );
 
 const kCustomDividerIndent8Heignt1 = Divider(
-  color: ThemeColors.grey700,
+  color: Colors.white24,
   indent: 8,
   endIndent: 8,
   height: 1,
-);
-
-const kPrimaryColorCircularProgressIndicator = CircularProgressIndicator(
-  valueColor: AlwaysStoppedAnimation<Color>(ThemeColors.primary500),
 );
 
 const kBicepEmojiUrl =

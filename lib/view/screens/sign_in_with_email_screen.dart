@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,11 +41,10 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         title: Text(S.current.signInWithEmail, style: TextStyles.subtitle2),
         leading: const AppBarBackButton(),
       ),
@@ -56,30 +57,24 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
       alignment: Alignment.center,
       children: [
         const BlurredBackgroundPreviewWidget(blur: 25),
-        Theme(
-          data: ThemeData(
-            disabledColor: ThemeColors.grey700,
-            iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
-          ),
-          child: KeyboardActions(
-            config: _buildConfig(),
-            child: SingleChildScrollView(
-              child: Form(
-                key: SignInWithEmailModel.formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      SizedBox(height: Scaffold.of(context).appBarMaxHeight),
-                      AnimatedListViewBuilder(
-                        beginOffset: const Offset(0.25, 0),
-                        offsetInitialDelayTime: 0.25,
-                        offsetStaggerTime: 0.05,
-                        offsetDuration: 0.5,
-                        items: _widgets(),
-                      ),
-                    ],
-                  ),
+        KeyboardActions(
+          config: _buildConfig(context),
+          child: SingleChildScrollView(
+            child: Form(
+              key: SignInWithEmailModel.formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    SizedBox(height: Scaffold.of(context).appBarMaxHeight),
+                    AnimatedListViewBuilder(
+                      beginOffset: const Offset(0.25, 0),
+                      offsetInitialDelayTime: 0.25,
+                      offsetStaggerTime: 0.05,
+                      offsetDuration: 0.5,
+                      items: _widgets(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -89,10 +84,13 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
     );
   }
 
-  KeyboardActionsConfig _buildConfig() {
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       actions: List.generate(
         widget.model.signInFocusNodes.length,
         (index) => KeyboardActionsItem(
@@ -107,13 +105,14 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
   }
 
   List<Widget> _widgets() {
+    final theme = Theme.of(context);
+
     return [
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: OutlinedTextTextFieldWidget(
           formKey: SignInWithEmailModel.formKey,
           autofocus: true,
-          // enableSuggestions: false,
           focusNode: widget.model.focusNode1,
           controller: widget.model.emailEditingController,
           keyboardType: TextInputType.emailAddress,
@@ -146,13 +145,11 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
         child: OutlinedTextTextFieldWidget(
           maxLines: 1,
           autocorrect: false,
-          // enableSuggestions: false,
           obscureText: true,
           focusNode: widget.model.focusNode2,
           controller: widget.model.passwordEditingController,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
-          // model: widget.textFieldModel,
           formKey: SignInWithEmailModel.formKey,
           labelText: S.current.password,
           suffixIcon: widget.model.focusNode2.hasFocus
@@ -182,7 +179,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
           radius: 24,
           buttonText: S.current.logIn,
           onPressed: () => widget.model.signInWithEmailAndPassword(context),
-          color: ThemeColors.primary600,
+          color: theme.primaryColor,
         ),
       ),
     ];

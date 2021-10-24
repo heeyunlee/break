@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 import '../widgets.dart';
-import 'appbar_blur_bg.dart';
 
 ///
 /// Creates a custom Scaffold widget with some pre-determined styles.
@@ -52,13 +50,10 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         leading: appBarLeading ?? const AppBarBackButton(),
         actions: appBarActions,
-        flexibleSpace: const AppbarBlurBG(),
         title: Text(appBarTitle ?? '', style: TextStyles.subtitle2),
       ),
       body: Builder(

@@ -48,7 +48,7 @@ class LatestWeightWidget extends StatelessWidget {
       height: constraints.maxHeight / heightFactor,
       width: (constraints.maxWidth - 16) / 2,
       child: BlurBackgroundCard(
-        onTap: () => MeasurementsScreen.show(context),
+        onTap: () => MeasurementsScreen.show(context, user: data.user),
         child: Stack(
           children: [
             Positioned(
@@ -68,7 +68,7 @@ class LatestWeightWidget extends StatelessWidget {
                   Text(S.current.bodyWeight, style: TextStyles.button1),
                   Text(
                     '$weight $unit',
-                    style: TextStyles.headline5MenloBoldSecondary,
+                    style: TextStyles.headline5MenloBoldLightBlueAccent,
                   ),
                   // if (showWidget) ..._buildProgressBar(),
                 ],

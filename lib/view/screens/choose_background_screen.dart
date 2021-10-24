@@ -6,7 +6,6 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/choose_background_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
@@ -64,15 +63,14 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        flexibleSpace: const AppbarBlurBG(blurSigma: 10),
         leading: const AppBarCloseButton(),
         title: Text(S.current.chooseWallpaper, style: TextStyles.subtitle2),
       ),
@@ -177,7 +175,7 @@ class _ChooseBackgroundScreenState extends State<ChooseBackgroundScreen> {
               ? () => widget.model.updateBackground(context)
               : null,
           backgroundColor: (widget.model.selectedImageIndex != null)
-              ? ThemeColors.primary500
+              ? theme.colorScheme.secondary
               : Colors.grey[700],
           label: Text(S.current.setWallpaper, style: TextStyles.button1Bold),
         ),

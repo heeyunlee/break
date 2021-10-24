@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
@@ -13,7 +12,6 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -28,7 +26,6 @@ final logRoutineModelProvider = ChangeNotifierProvider.autoDispose(
 class LogRoutineModel with ChangeNotifier {
   bool _isButtonPressed = false;
   Timestamp _loggedTime = Timestamp.now();
-  Color _borderColor = Colors.grey;
   double _effort = 2.5;
   bool _isPublic = true;
   bool _isExpanded = false;
@@ -45,7 +42,6 @@ class LogRoutineModel with ChangeNotifier {
 
   bool get isButtonPressed => _isButtonPressed;
   Timestamp get loggedTime => _loggedTime;
-  Color get borderColor => _borderColor;
   double get effort => _effort;
   bool get isPublic => _isPublic;
   bool get isExpanded => _isExpanded;
@@ -109,17 +105,6 @@ class LogRoutineModel with ChangeNotifier {
 
   void onDateTimeChanged(DateTime date) {
     _loggedTime = Timestamp.fromDate(date);
-
-    notifyListeners();
-  }
-
-  void onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction >= 0.85) {
-      // _borderColor = kSecondaryColor;
-      _borderColor = ThemeColors.secondary;
-    } else {
-      _borderColor = Colors.grey;
-    }
 
     notifyListeners();
   }

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 import 'package:workout_player/view/widgets/progress/blurred_background.dart';
 import 'package:workout_player/view/widgets/progress/choose_date_icon_button.dart';
@@ -55,17 +54,17 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     logger.d('[ProgressTab] building...');
+
+    final database = provider.Provider.of<Database>(context, listen: false);
+    final theme = Theme.of(context);
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),
-      loadingWidget: Container(color: ThemeColors.background),
+      loadingWidget: Container(color: theme.backgroundColor),
       builder: (context, user) => NotificationListener<ScrollNotification>(
         onNotification: widget.model.onNotification,
         child: Scaffold(
-          backgroundColor: ThemeColors.background,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             centerTitle: true,
@@ -73,10 +72,10 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
             backgroundColor: Colors.transparent,
             // leading: ChooseBackgroundButton(user: user!),
             title: ChooseDateIconButton(model: widget.model, user: user!),
-            // actions: [
-            //   CustomizeWidgetsButton(user: user),
-            //   const SizedBox(width: 8),
-            // ],
+            actions: [
+              CustomizeWidgetsButton(user: user),
+              const SizedBox(width: 8),
+            ],
           ),
           body: Builder(
             builder: (context) => _buildBody(context, user),

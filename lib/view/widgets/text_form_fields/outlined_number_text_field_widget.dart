@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
@@ -34,6 +33,7 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final model = context.read(textFieldModelProvider);
 
     return TextFormField(
@@ -59,8 +59,8 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
           vertical: 24,
           horizontal: 16,
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: ThemeColors.secondary),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: theme.colorScheme.secondary),
         ),
         focusedErrorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),

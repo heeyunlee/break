@@ -29,7 +29,7 @@ class CustomStreamBuilder<T> extends StatelessWidget {
   /// A widget to be shown when sapshot connection state is [ConnectionState.none],
   /// [ConnectionState.waiting], or [ConnectionState.done].
   ///
-  /// Default widget is [CircularProgressIndicator] with color of [ThemeColors.primary500]
+  /// Default widget is [CircularProgressIndicator] with color of `Theme.of(context).primaryColor`
   ///
   final Widget? loadingWidget;
 
@@ -40,6 +40,8 @@ class CustomStreamBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return StreamBuilder<T>(
       initialData: initialData,
       stream: stream,
@@ -58,7 +60,13 @@ class CustomStreamBuilder<T> extends StatelessWidget {
             case ConnectionState.waiting:
             case ConnectionState.done:
               return loadingWidget ??
-                  const Center(child: kPrimaryColorCircularProgressIndicator);
+                  Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        theme.primaryColor,
+                      ),
+                    ),
+                  );
             case ConnectionState.active:
               final data = snapshot.data;
               if (data != null) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 
 class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
@@ -55,27 +54,25 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: 24,
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Icon(
                     Icons.local_fire_department_rounded,
-                    color: ThemeColors.primary500,
+                    color: Colors.redAccent,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     S.current.wokroutsThisWeek,
-                    style: TextStyles.subtitle1W900Primary,
+                    style: TextStyles.subtitle1W900RedAccent,
                   ),
                   const SizedBox(width: 8),
                   const Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: ThemeColors.primary500,
+                    color: Colors.redAccent,
                     size: 16,
                   ),
                 ],
@@ -97,7 +94,7 @@ class WeeklyWorkoutSummarySampleWidget extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor:
                             (_weeklyWorkedOutMuscles[index] != null)
-                                ? ThemeColors.primary500
+                                ? Colors.redAccent
                                 : Colors.transparent,
                         maxRadius: 16,
                         child: Padding(

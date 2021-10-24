@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
 class NewWorkoutTitleScreen extends StatefulWidget {
@@ -56,6 +55,8 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Container(
         height: 104,
@@ -63,7 +64,6 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
         padding: const EdgeInsets.all(8),
         child: TextFormField(
           maxLength: 35,
-          // maxLines: 1,
           style: TextStyles.headline5,
           autofocus: true,
           textAlign: TextAlign.center,
@@ -75,8 +75,8 @@ class _NewWorkoutTitleScreenState extends State<NewWorkoutTitleScreen> {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: ThemeColors.primary500),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: theme.colorScheme.secondary),
             ),
           ),
           onChanged: (value) => setState(() {

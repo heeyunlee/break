@@ -4819,6 +4819,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Workouts and Routines \nby Category`
+  String get workoutsAndRoutinesByCategory {
+    return Intl.message(
+      'Workouts and Routines \nby Category',
+      name: 'workoutsAndRoutinesByCategory',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

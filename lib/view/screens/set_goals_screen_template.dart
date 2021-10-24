@@ -5,8 +5,8 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/buttons/appbar_close_button.dart';
+import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -58,40 +58,38 @@ class SetGoalsScreenTemplate extends StatelessWidget {
     required String unit,
     required bool isDouble,
   }) {
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => SetGoalsScreenTemplate(
-          model: model,
-          user: user,
-          fabOnPressed: fabOnPressed,
-          initValue: initValue,
-          initialValue: initialValue,
-          color: color,
-          title: title,
-          intMinValue: intMinValue,
-          intMaxValue: intMaxValue,
-          intStep: intStep,
-          unit: unit,
-          isDouble: isDouble,
-        ),
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => SetGoalsScreenTemplate(
+        model: model,
+        user: user,
+        fabOnPressed: fabOnPressed,
+        initValue: initValue,
+        initialValue: initialValue,
+        color: color,
+        title: title,
+        intMinValue: intMinValue,
+        intMaxValue: intMaxValue,
+        intStep: intStep,
+        unit: unit,
+        isDouble: isDouble,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.d('SetWeightGoalScreen scaffold building...');
+
     initValue(initialValue);
 
-    logger.d('SetWeightGoalScreen scaffold building...');
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
         leading: const AppBarCloseButton(),
       ),
       body: Stack(
@@ -118,7 +116,6 @@ class SetGoalsScreenTemplate extends StatelessWidget {
         width: size.width - 32,
         child: FloatingActionButton.extended(
           onPressed: () => fabOnPressed(context),
-          backgroundColor: ThemeColors.primary500,
           label: Text(S.current.setGoal, style: TextStyles.button1Bold),
         ),
       ),
@@ -133,7 +130,6 @@ class SetGoalsScreenTemplate extends StatelessWidget {
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               NumberPicker(
                 minValue: intMinValue,

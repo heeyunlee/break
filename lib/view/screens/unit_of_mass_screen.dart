@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -26,16 +24,14 @@ class UnitOfMassScreen extends StatefulWidget {
   final User user;
   final AuthBase auth;
 
-  static Future<void> show(BuildContext context, {required User user}) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => UnitOfMassScreen(
-          database: database,
-          user: user,
-          auth: auth,
-        ),
+  static void show(BuildContext context, {required User user}) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => UnitOfMassScreen(
+        database: database,
+        user: user,
+        auth: auth,
       ),
     );
   }
@@ -86,24 +82,23 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         title: Text(S.current.unitOfMass, style: TextStyles.subtitle1),
         leading: const AppBarBackButton(),
-        flexibleSpace: const AppbarBlurBG(),
       ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
+    final theme = Theme.of(context);
+
     return Column(
       children: <Widget>[
         ListTile(
           tileColor:
-              (_unitOfMass == 0) ? ThemeColors.primary600 : Colors.transparent,
+              (_unitOfMass == 0) ? theme.primaryColor : Colors.transparent,
           title: const Text('kg', style: TextStyles.body1),
           trailing: (_unitOfMass == 0)
               ? const Icon(Icons.check, color: Colors.white)
@@ -118,7 +113,7 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
         ),
         ListTile(
           tileColor:
-              (_unitOfMass == 1) ? ThemeColors.primary600 : Colors.transparent,
+              (_unitOfMass == 1) ? theme.primaryColor : Colors.transparent,
           title: const Text('lbs', style: TextStyles.body1),
           trailing: (_unitOfMass == 1)
               ? const Icon(Icons.check, color: Colors.white)

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
@@ -35,15 +34,12 @@ class ManageAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             centerTitle: true,
             title: Text(S.current.manageAccount, style: TextStyles.subtitle1),
-            backgroundColor: ThemeColors.appBar,
-            flexibleSpace: const AppbarBlurBG(),
             leading: const AppBarBackButton(),
           ),
           SliverToBoxAdapter(

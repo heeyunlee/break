@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -28,26 +27,29 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
     required this.database,
     required this.auth,
     required this.routineHistory,
+    required this.theme,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
   final Database database;
   final AuthBase auth;
+  final ThemeData theme;
 
   static void show(
     BuildContext context, {
     required RoutineHistory routineHistory,
     required Database database,
     required AuthBase auth,
+    required ThemeData theme,
   }) {
-    HapticFeedback.mediumImpact();
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => RoutineHistoryDetailScreen(
-          routineHistory: routineHistory,
-          database: database,
-          auth: auth,
-        ),
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => RoutineHistoryDetailScreen(
+        routineHistory: routineHistory,
+        database: database,
+        auth: auth,
+        theme: theme,
       ),
     );
   }
@@ -96,8 +98,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
         AnimationController(vsync: this, duration: Duration.zero);
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration.zero);
-    _colorTween = ColorTween(begin: Colors.transparent, end: ThemeColors.appBar)
-        .animate(_colorAnimationController);
+    _colorTween = ColorTween(
+      begin: Colors.transparent,
+      end: widget.theme.appBarTheme.backgroundColor,
+    ).animate(_colorAnimationController);
     _transTween = Tween(begin: const Offset(-10, 40), end: const Offset(-10, 0))
         .animate(_textAnimationController);
   }
@@ -207,20 +211,21 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     dataFormat(widget.routineHistory);
 
     return Scaffold(
-      backgroundColor: ThemeColors.background,
       body: NotificationListener<ScrollNotification>(
-          onNotification: _scrollListener,
-          child: CustomScrollView(
-            slivers: [
-              _buildSliverAppBar(context),
-              _buildSliverBody(),
-            ],
-          )),
+        onNotification: _scrollListener,
+        child: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(context),
+            _buildSliverBody(),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildSliverAppBar(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return AnimatedBuilder(
       animation: _colorAnimationController,
@@ -231,7 +236,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
           offset: _transTween.value,
           child: Text(
             widget.routineHistory.routineTitle,
-            style: TextStyles.subtitle1,
+            style: TextStyles.subtitle2,
           ),
         ),
         backgroundColor: _colorTween.value,
@@ -250,13 +255,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 fit: BoxFit.cover,
               ),
               Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment(0.0, -0.5),
+                    begin: const Alignment(0.0, -0.5),
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      ThemeColors.background,
+                      theme.backgroundColor,
                     ],
                   ),
                 ),
@@ -291,6 +296,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
   }
 
   Widget _buildSliverBody() {
+    final theme = Theme.of(context);
+
     final routineHistory = widget.routineHistory;
 
     final notes = widget.routineHistory.notes ?? S.current.notesHintText;
@@ -327,7 +334,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                     'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/271/fire_1f525.png',
               ),
             const SizedBox(height: 32),
-            const Divider(color: ThemeColors.grey800),
+            Divider(color: Colors.grey[800]!),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -335,7 +342,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             ),
             _buildListView(),
             const SizedBox(height: 32),
-            const Divider(color: ThemeColors.grey800),
+            Divider(color: Colors.grey[800]!),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -343,7 +350,6 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             ),
             const SizedBox(height: 8),
             Card(
-              color: ThemeColors.card,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -382,7 +388,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 32),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: ThemeColors.grey800),
+              Divider(color: Colors.grey[800]!),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 16),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
@@ -408,7 +414,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                   const SizedBox(width: 8),
                   Switch(
                     value: _isPublic,
-                    activeColor: ThemeColors.primary500,
+                    activeColor: theme.primaryColor,
                     onChanged: (bool value) {
                       HapticFeedback.mediumImpact();
                       setState(() {
@@ -423,7 +429,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
-              const Divider(color: ThemeColors.grey800),
+              Divider(color: Colors.grey[800]!),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
               const SizedBox(height: 24),
             if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
@@ -494,7 +500,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 _musclesAndEquipment[index],
                 style: TextStyles.button1,
               ),
-              backgroundColor: ThemeColors.primary500,
+              backgroundColor: Colors.redAccent,
             ),
           ),
         ),

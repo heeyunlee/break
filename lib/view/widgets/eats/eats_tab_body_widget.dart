@@ -6,7 +6,7 @@ import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/view/screens/calories_entries_screen.dart';
 import 'package:workout_player/view/screens/more_nutritions_entries_screen.dart';
 import 'package:workout_player/view/widgets/charts/weekly_bar_chart.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -18,6 +18,7 @@ class EatsTabBodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = provider.Provider.of<Database>(context, listen: false);
+
     final size = MediaQuery.of(context).size;
 
     return CustomStreamBuilder<EatsTabClass>(
@@ -28,7 +29,6 @@ class EatsTabBodyWidget extends StatelessWidget {
             SliverAppBar(
               pinned: true,
               stretch: true,
-              backgroundColor: ThemeColors.appBar,
               expandedHeight: size.height * 3 / 4,
               flexibleSpace: EatsTabFlexibleSpaceBar(data: data),
             ),
@@ -40,7 +40,10 @@ class EatsTabBodyWidget extends StatelessWidget {
                   WeeklyBarChartCard(
                     cardHeight: size.height / 3,
                     cardWidth: size.width,
-                    titleOnTap: () {},
+                    titleOnTap: () => CaloriesEntriesScreen.show(
+                      context,
+                      user: data.user,
+                    ),
                     titleIcon: Icons.local_fire_department_outlined,
                     defaultColor: Colors.greenAccent,
                     touchedColor: Colors.green,
@@ -91,7 +94,6 @@ class EatsTabBodyWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     margin: const EdgeInsets.all(16),
-                    color: ThemeColors.card,
                     child: data.recentNutritions.isEmpty
                         ? EmptyContent(message: S.current.addNutritions)
                         : ListView.separated(

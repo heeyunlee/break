@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -60,6 +62,8 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return KeyboardActions(
       config: _buildConfig(_focusNode),
       autoScroll: false,
@@ -102,7 +106,7 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
                     width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     alignment: Alignment.center,
-                    color: ThemeColors.primary500,
+                    color: theme.primaryColor.withOpacity(0.16),
                     child: TextField(
                       enabled: RoutineWorkoutCardModel.isOwner(
                         widget.authAndDatabase?.auth,
@@ -143,9 +147,12 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
   }
 
   KeyboardActionsConfig _buildConfig(FocusNode focusNode) {
+    final theme = Theme.of(context);
+    final isIOS = Platform.isIOS;
+
     return KeyboardActionsConfig(
-      keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: ThemeColors.keyboard,
+      keyboardSeparatorColor: Colors.grey[700]!,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       actions: [
         KeyboardActionsItem(

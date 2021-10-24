@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
@@ -17,6 +16,8 @@ class WeightsAndRepsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+
     final paddingFactor = (size.height > 700) ? 64 : 112;
     final width = size.width - paddingFactor;
     final height = size.width - paddingFactor;
@@ -77,13 +78,13 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           style: TextStyles.body2Grey,
                         ),
                       ),
-                      const Divider(color: ThemeColors.background, height: 0),
+                      Divider(color: theme.backgroundColor, height: 0),
                     ],
                   ),
                 ],
               ),
             ),
-            Container(width: 1, color: ThemeColors.bottomNavBar),
+            Container(width: 1, color: theme.backgroundColor),
             SizedBox(
               width: columnWidth,
               height: height,
@@ -117,7 +118,7 @@ class WeightsAndRepsWidget extends StatelessWidget {
                           style: TextStyles.body2Grey,
                         ),
                       ),
-                      const Divider(color: ThemeColors.background, height: 0),
+                      Divider(color: theme.backgroundColor, height: 0),
                     ],
                   ),
                 ],

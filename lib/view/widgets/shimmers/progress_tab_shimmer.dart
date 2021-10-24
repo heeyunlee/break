@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class ProgressTabShimmer extends StatelessWidget {
   const ProgressTabShimmer({Key? key}) : super(key: key);
@@ -8,17 +7,16 @@ class ProgressTabShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return Container(
       width: size.width,
       height: size.height,
-      color: ThemeColors.background,
+      color: theme.backgroundColor,
       child: Shimmer.fromColors(
         baseColor: Colors.white.withOpacity(0.25),
         highlightColor: Colors.white.withOpacity(0.5),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: size.height / 7),
             const CircleAvatar(),

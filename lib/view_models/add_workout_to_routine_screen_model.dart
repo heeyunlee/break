@@ -56,7 +56,7 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
 
       Navigator.of(context).pop();
 
-      await RoutineDetailScreen.show(
+      RoutineDetailScreen.show(
         currentTabContext,
         routine: routine,
         tag: 'addWorkoutToRoutine${routine.routineId}',

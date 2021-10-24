@@ -64,7 +64,7 @@ class MostRecentWorkout extends StatelessWidget {
                     children: [
                       Text(
                         Formatter.routineHistoryWeights(last),
-                        style: TextStyles.headline5MenloW900Primary,
+                        style: TextStyles.headline5MenloW900RedAccent,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -85,7 +85,7 @@ class MostRecentWorkout extends StatelessWidget {
                     children: [
                       Text(
                         Formatter.durationInMin(last?.totalDuration),
-                        style: TextStyles.headline5MenloW900Primary,
+                        style: TextStyles.headline5MenloW900RedAccent,
                       ),
                       const SizedBox(height: 4),
                       Text(

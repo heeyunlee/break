@@ -22,7 +22,7 @@ class StartRoutineButton extends ConsumerWidget {
 
     return ElevatedButton(
       onPressed: () => model.startRoutine(context, data),
-      style: ButtonStyles.elevated1,
+      style: ButtonStyles.elevated1(context),
       child: SizedBox(
         height: 48,
         width: (size.width - 112) / 2,

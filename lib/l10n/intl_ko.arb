@@ -475,5 +475,6 @@
     "deletePascalCase": "삭제하기",
     "foodItem": "식품",
     "updateNutritionTitle": "수정",
-    "updateNutritionMessage": "영양소 섭취 엔트리를 수정했습니다"
+    "updateNutritionMessage": "영양소 섭취 엔트리를 수정했습니다",
+    "workoutsAndRoutinesByCategory": "카테고리별 \n루틴과 운동"
 }

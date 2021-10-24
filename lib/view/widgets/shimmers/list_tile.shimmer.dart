@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class ListTileShimmer extends StatelessWidget {
   const ListTileShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Shimmer.fromColors(
-      baseColor: ThemeColors.card,
+      baseColor: theme.cardTheme.color!,
       highlightColor: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.symmetric(

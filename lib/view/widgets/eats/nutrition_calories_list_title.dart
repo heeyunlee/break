@@ -6,7 +6,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
@@ -38,6 +37,7 @@ class NutritionCaloriesListTile extends StatelessWidget {
       builder: (context) {
         return Consumer(
           builder: (context, watch, child) {
+            final theme = Theme.of(context);
             final bottomInset = MediaQuery.of(context).viewInsets.bottom;
             final model = watch(editNutritionModelProvider(nutrition));
 
@@ -87,7 +87,7 @@ class NutritionCaloriesListTile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: MaxWidthRaisedButton(
                             radius: 24,
-                            color: ThemeColors.primary500,
+                            color: theme.primaryColor,
                             buttonText: S.current.save,
                             onPressed: () => model.onPressSave(context),
                           ),

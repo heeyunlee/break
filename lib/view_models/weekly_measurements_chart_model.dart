@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-final weeklyMeasurementsChartModelProvider = ChangeNotifierProvider(
+final weeklyMeasurementsChartModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => WeeklyMeasurementsChartModel(),
 );
 

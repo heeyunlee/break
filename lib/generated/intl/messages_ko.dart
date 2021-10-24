@@ -748,6 +748,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "workoutWithYoutube":
             MessageLookupByLibrary.simpleMessage("유튜브 동영상으로 운동"),
         "workouts": MessageLookupByLibrary.simpleMessage("운동"),
+        "workoutsAndRoutinesByCategory":
+            MessageLookupByLibrary.simpleMessage("카테고리별 \n루틴과 운동"),
         "workoutsInThisVideo":
             MessageLookupByLibrary.simpleMessage("이 동영상 속 운동"),
         "workoutsTabSubtitle": m23,

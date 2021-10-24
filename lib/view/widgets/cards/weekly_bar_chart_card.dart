@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class WeeklyBarChartCard extends StatefulWidget {
   const WeeklyBarChartCard({
@@ -37,7 +36,6 @@ class _WeeklyBarChartCardState extends State<WeeklyBarChartCard> {
         borderRadius: BorderRadius.circular(16),
       ),
       margin: const EdgeInsets.all(16),
-      color: ThemeColors.card,
       child: SizedBox(
         width: widget.cardWidth,
         height: widget.cardHeight,

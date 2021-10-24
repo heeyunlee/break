@@ -19,12 +19,14 @@ class RoutineStreamHasDataWidget extends StatefulWidget {
     required this.data,
     required this.tag,
     required this.authAndDatabase,
+    required this.theme,
   }) : super(key: key);
 
   final RoutineDetailScreenModel model;
   final RoutineDetailScreenClass data;
   final String tag;
   final AuthAndDatabase authAndDatabase;
+  final ThemeData theme;
 
   static create({
     required RoutineDetailScreenClass data,
@@ -37,6 +39,7 @@ class RoutineStreamHasDataWidget extends StatefulWidget {
         data: data,
         tag: tag,
         authAndDatabase: authAndDatabase,
+        theme: Theme.of(context),
       ),
     );
   }
@@ -51,7 +54,7 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
   @override
   void initState() {
     super.initState();
-    widget.model.init(this);
+    widget.model.init(this, widget.theme);
   }
 
   @override
@@ -67,7 +70,6 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
     return NotificationListener(
       onNotification: widget.model.onNotification,
       child: CustomScrollView(
-        // physics: const BouncingScrollPhysics(),
         slivers: [
           AnimatedBuilder(
             animation: widget.model.sliverAnimationController,

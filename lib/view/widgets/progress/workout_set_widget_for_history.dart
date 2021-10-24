@@ -5,7 +5,6 @@ import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
 
 class WorkoutSetWidgetForHistory extends StatelessWidget {
@@ -24,6 +23,8 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final String title = '${S.current.set} ${workoutSet.setIndex}';
     final String reps = '${workoutSet.reps} ${S.current.x}';
     final String restTime = '${workoutSet.restTime} ${S.current.seconds}';
@@ -45,7 +46,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               height: 36,
               width: 128,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: ThemeColors.cardLight,
+              color: theme.primaryColor.withOpacity(0.12),
               child: Center(
                 child: Text(
                   Formatter.workoutSetWeightsFromHistory(
@@ -69,7 +70,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               width: 80,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
-              color: ThemeColors.primary500,
+              color: theme.primaryColor,
               child: Center(child: Text(reps, style: TextStyles.body1)),
             ),
           ),
@@ -79,14 +80,16 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Container(
-                height: 36,
-                width: 80,
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                alignment: Alignment.center,
-                color: ThemeColors.primary500,
-                child: Center(child: Text(restTime, style: TextStyles.body1))),
+              height: 36,
+              width: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              alignment: Alignment.center,
+              color: theme.primaryColor,
+              child: Center(
+                child: Text(restTime, style: TextStyles.body1),
+              ),
+            ),
           ),
-
         const SizedBox(width: 16),
       ],
     );

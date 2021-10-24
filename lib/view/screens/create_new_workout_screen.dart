@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -15,7 +13,6 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
@@ -26,10 +23,6 @@ import 'new_workout_main_muscle_group_screen.dart';
 import 'new_workout_title_screen.dart';
 
 class CreateNewWorkoutScreen extends StatefulWidget {
-  final Database database;
-  final AuthBase auth;
-  final User user;
-
   const CreateNewWorkoutScreen({
     Key? key,
     required this.database,
@@ -37,21 +30,22 @@ class CreateNewWorkoutScreen extends StatefulWidget {
     required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final User user = (await database.getUserDocument(auth.currentUser!.uid))!;
+  final Database database;
+  final AuthBase auth;
+  final Future<User?> user;
 
-    await HapticFeedback.mediumImpact();
-    await Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => CreateNewWorkoutScreen(
+  static Future<void> show(BuildContext context) async {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) {
+        final user = database.getUserDocument(auth.currentUser!.uid);
+        return CreateNewWorkoutScreen(
           database: database,
           user: user,
           auth: auth,
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -73,9 +67,10 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   // Submit data to Firestore
   Future<void> _submit() async {
     try {
+      final user = await widget.user;
       final id = 'WK${const Uuid().v1()}';
-      final userId = widget.user.userId;
-      final userName = widget.user.userName;
+      final userId = user!.userId;
+      final userName = user.displayName;
       final lastEditedDate = Timestamp.now();
       final workoutCreatedDate = Timestamp.now();
       final bool isBodyWeightWorkout;
@@ -192,7 +187,6 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         centerTitle: true,
         leading: const AppBarCloseButton(),
@@ -206,9 +200,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                       : S.current.moreAboutThisWorkout,
           style: TextStyles.subtitle2,
         ),
-        backgroundColor: Colors.transparent,
         elevation: 0,
-        flexibleSpace: const AppbarBlurBG(),
       ),
       body: Builder(
         builder: (BuildContext context) {
@@ -262,13 +254,11 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
     if (_pageIndex == 3) {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
-        backgroundColor: ThemeColors.primary500,
         label: Text(S.current.finish, style: TextStyles.button1),
         onPressed: _submit,
       );
     } else {
       return FloatingActionButton(
-        backgroundColor: ThemeColors.primary500,
         onPressed: (_pageIndex == 0)
             ? saveTitle
             : (_pageIndex == 1)

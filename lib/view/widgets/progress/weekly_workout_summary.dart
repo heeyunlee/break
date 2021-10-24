@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
-
-import '../../../../view_models/weekly_workout_summary_model.dart';
+import 'package:workout_player/view_models/weekly_workout_summary_model.dart';
 
 class WeeklyWorkoutWidget extends StatefulWidget {
   final User user;
@@ -80,18 +79,18 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                   children: [
                     const Icon(
                       Icons.local_fire_department_rounded,
-                      color: ThemeColors.primary500,
+                      color: Colors.redAccent,
                       size: 16,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       S.current.wokroutsThisWeek,
-                      style: TextStyles.subtitle1W900Primary,
+                      style: TextStyles.subtitle1W900RedAccent,
                     ),
                     const SizedBox(width: 8),
                     const Icon(
                       Icons.arrow_forward_ios_rounded,
-                      color: ThemeColors.primary500,
+                      color: Colors.redAccent,
                       size: 16,
                     ),
                   ],
@@ -114,9 +113,8 @@ class _WeeklyWorkoutWidgetState extends State<WeeklyWorkoutWidget> {
                           backgroundColor:
                               (widget.model.weeklyWorkedOutMuscles[index] !=
                                       null)
-                                  ? ThemeColors.primary500
+                                  ? Colors.redAccent
                                   : Colors.transparent,
-                          // maxRadius: widget.model.radiuses[index],
                           maxRadius: 16,
                           child: Padding(
                             padding: const EdgeInsets.all(2),

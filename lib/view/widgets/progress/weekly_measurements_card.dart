@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/measurements_screen.dart';
 import 'package:workout_player/view/widgets/cards/blur_background_card.dart';
 import 'package:workout_player/view_models/weekly_measurements_chart_model.dart';
@@ -12,12 +11,12 @@ import 'package:workout_player/view_models/weekly_measurements_chart_model.dart'
 import 'weekly_measurements_chart.dart';
 
 class WeeklyMeasurementsCard extends StatelessWidget {
-  final ProgressTabClass progressTabClass;
+  final ProgressTabClass data;
   final BoxConstraints constraints;
 
   const WeeklyMeasurementsCard({
     Key? key,
-    required this.progressTabClass,
+    required this.data,
     required this.constraints,
   }) : super(key: key);
 
@@ -37,7 +36,7 @@ class WeeklyMeasurementsCard extends StatelessWidget {
             children: [
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => MeasurementsScreen.show(context),
+                onTap: () => MeasurementsScreen.show(context, user: data.user),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,14 +45,13 @@ class WeeklyMeasurementsCard extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.line_weight_rounded,
-                          color: ThemeColors.secondary,
-                          // color: kSecondaryColor,
+                          color: Colors.lightBlueAccent,
                           size: 16,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           S.current.bodyMeasurement,
-                          style: TextStyles.subtitle1W900Secondary,
+                          style: TextStyles.subtitle1W900LightBlueAccent,
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(
@@ -61,8 +59,7 @@ class WeeklyMeasurementsCard extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.arrow_forward_ios_rounded,
-                            // color: kSecondaryColor,
-                            color: ThemeColors.secondary,
+                            color: Colors.lightBlueAccent,
                             size: 16,
                           ),
                         ),
@@ -84,8 +81,8 @@ class WeeklyMeasurementsCard extends StatelessWidget {
               Consumer(
                 builder: (context, watch, child) => WeeklyMeasurementsChart(
                   model: watch(weeklyMeasurementsChartModelProvider),
-                  user: progressTabClass.user,
-                  measurements: progressTabClass.measurements,
+                  user: data.user,
+                  measurements: data.measurements,
                 ),
               ),
             ],

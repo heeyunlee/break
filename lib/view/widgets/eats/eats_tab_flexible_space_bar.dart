@@ -5,7 +5,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/screens/connect_bank_account_screen.dart';
 import 'package:workout_player/view_models/eats_tab_model.dart';
 
@@ -20,6 +19,7 @@ class EatsTabFlexibleSpaceBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -30,13 +30,13 @@ class EatsTabFlexibleSpaceBar extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  ThemeColors.bottomNavBar,
+                  theme.backgroundColor,
                 ],
-                begin: Alignment(0, 0.5),
+                begin: const Alignment(0, 0.5),
                 end: Alignment.bottomCenter,
               ),
             ),

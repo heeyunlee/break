@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class RoutineFlexibleSpaceBar extends StatelessWidget {
@@ -21,6 +20,7 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
 
     return FlexibleSpaceBar(
       background: Stack(
@@ -35,13 +35,13 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
             ),
           ),
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment(0, -0.50),
+                begin: const Alignment(0, -0.50),
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  ThemeColors.background,
+                  theme.backgroundColor,
                 ],
               ),
             ),

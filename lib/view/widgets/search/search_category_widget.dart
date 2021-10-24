@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class SearchCategoryWidget extends StatelessWidget {
   final String text;
@@ -10,8 +9,8 @@ class SearchCategoryWidget extends StatelessWidget {
   const SearchCategoryWidget({
     Key? key,
     required this.text,
+    required this.color,
     this.onTap,
-    this.color = ThemeColors.primary500,
   }) : super(key: key);
 
   @override
@@ -19,14 +18,12 @@ class SearchCategoryWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        // borderOnForeground: true,
         margin: const EdgeInsets.all(8),
         elevation: 6,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
-        color: ThemeColors.card,
         child: ClipPath(
           child: Container(
             decoration: BoxDecoration(

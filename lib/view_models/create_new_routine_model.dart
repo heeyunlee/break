@@ -221,7 +221,7 @@ class CreateNewRoutineModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      await RoutineDetailScreen.show(
+      RoutineDetailScreen.show(
         currentContext,
         routine: routine,
         tag: 'createRoutine${routine.routineId}',

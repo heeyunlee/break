@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
-import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class SignInLogoWidget extends StatelessWidget {
@@ -20,15 +19,19 @@ class SignInLogoWidget extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: model.isLoading ? _loadingWidget() : _logoWidget(),
+          children: model.isLoading ? _loadingWidget(context) : _logoWidget(),
         ),
       ),
     );
   }
 
-  List<Widget> _loadingWidget() {
+  List<Widget> _loadingWidget(BuildContext context) {
+    final theme = Theme.of(context);
+
     return [
-      kPrimaryColorCircularProgressIndicator,
+      CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+      ),
       const SizedBox(height: 24),
       Text(S.current.signingIn, style: TextStyles.body2),
     ];

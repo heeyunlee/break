@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/styles/theme_colors.dart';
 
 class LibraryListTile extends StatelessWidget {
   final String? tag;
@@ -29,13 +28,15 @@ class LibraryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(0),
       child: Container(
         decoration: BoxDecoration(
           color: (selected ?? false)
-              ? ThemeColors.primary500.withOpacity(0.2)
+              ? theme.primaryColor.withOpacity(0.2)
               : Colors.transparent,
         ),
         child: Padding(
