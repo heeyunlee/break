@@ -1,7 +1,6 @@
 library progress;
 
 export 'progress/blurred_background.dart';
-export 'progress/choose_background_button.dart';
 export 'progress/choose_date_icon_button.dart';
 export 'progress/customize_widgets_button.dart';
 export 'progress/daily_activty_ring_widget.dart';

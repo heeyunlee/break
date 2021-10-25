@@ -41,14 +41,6 @@ class FatEntriesScreen extends StatelessWidget {
         user: user,
       ),
     );
-    // final database = Provider.of<Database>(context, listen: false);
-
-    // await HapticFeedback.mediumImpact();
-    // await Navigator.of(context).push(
-    //   CupertinoPageRoute(
-    //     builder: (context) => FatEntriesScreen(database: database, user: user),
-    //   ),
-    // );
   }
 
   Future<void> _delete(BuildContext context, Nutrition nutrition) async {

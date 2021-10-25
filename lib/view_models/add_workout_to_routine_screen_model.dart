@@ -9,7 +9,6 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/screens/add_workout_to_routine_screen.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
@@ -75,23 +74,5 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
         exception: e.toString(),
       );
     }
-  }
-
-  /// Navigation
-  static void show(
-    BuildContext context, {
-    required Workout workout,
-  }) {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
-    Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => AddWorkoutToRoutineScreen(
-          workout: workout,
-          database: database,
-        ),
-      ),
-    );
   }
 }

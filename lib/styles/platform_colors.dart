@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:workout_player/view_models/main_model.dart';
 
 const platform = MethodChannel('com.healtine.playerh/colors');
 
 Future<MaterialYouPalette?> getMaterialYouColor() async {
+  logger.d('`getMaterialYouColor` function called');
+
   // Material You colors are available on Android only
   if (defaultTargetPlatform != TargetPlatform.android) return null;
 

@@ -10,11 +10,11 @@ import 'package:workout_player/view/widgets/widgets.dart';
 class ChangeLanguageScreen extends StatefulWidget {
   const ChangeLanguageScreen({Key? key}) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => const ChangeLanguageScreen(),
-      ),
+  static void show(BuildContext context) {
+    customPush(
+      context,
+      rootNavigator: false,
+      builder: (context, auth, database) => const ChangeLanguageScreen(),
     );
   }
 

@@ -49,7 +49,7 @@ class CustomModalBottomSheet extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          color: theme.cardTheme.color?.withOpacity(0.25),
+          color: theme.cardTheme.color?.withOpacity(0.75),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,

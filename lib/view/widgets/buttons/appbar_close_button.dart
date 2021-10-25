@@ -16,6 +16,14 @@ class AppBarCloseButton extends StatelessWidget {
           () {
             HapticFeedback.mediumImpact();
             Navigator.of(context).pop();
+
+            SystemChrome.setEnabledSystemUIMode(
+              SystemUiMode.edgeToEdge,
+              overlays: [
+                SystemUiOverlay.top,
+                SystemUiOverlay.bottom,
+              ],
+            );
           },
       icon: const Icon(Icons.close_rounded),
     );

@@ -41,19 +41,6 @@ class ReorderRoutineWorkoutsScreen extends StatefulWidget {
         ),
       ),
     );
-    // HapticFeedback.mediumImpact();
-    // Navigator.of(context, rootNavigator: true).push(
-    //   CupertinoPageRoute(
-    //     fullscreenDialog: true,
-    //     builder: (context) => Consumer(
-    //       builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
-    //         routine: routine,
-    //         routineWorkouts: routineWorkouts,
-    //         model: watch(reorderRoutineWorkoutsScreenModelProvider),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   @override

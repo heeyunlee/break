@@ -42,19 +42,6 @@ class MeasurementsScreen extends StatelessWidget {
         user: user,
       ),
     );
-    // final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-    // final user = await database.getUserDocument(auth.currentUser!.uid);
-
-    // await HapticFeedback.mediumImpact();
-    // await Navigator.of(context).push(
-    //   CupertinoPageRoute(
-    //     builder: (context) => MeasurementsScreen(
-    //       database: database,
-    //       user: user!,
-    //     ),
-    //   ),
-    // );
   }
 
   Future<void> _delete(BuildContext context, Measurement measurement) async {

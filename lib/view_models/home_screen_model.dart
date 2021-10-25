@@ -1,11 +1,7 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
@@ -45,20 +41,19 @@ class HomeScreenModel with ChangeNotifier {
   List<DateTime> get thisWeek => _thisWeek;
   List<String> get daysOfTheWeek => _daysOfTheWeek;
 
-  Future<void> setMiniplayerHeight() async {
+  void setMiniplayerHeight(BuildContext context) {
+    final safePadding = MediaQuery.of(context).padding.bottom;
+    // final a = WidgetsBinding.instance!.window.padding.bottom;
+
     logger.d('`setMiniplayerHeight()` function called in [HomeScreen]');
 
-    final aspectRatio = window.physicalSize.aspectRatio;
+    logger.d('safepadding is $safePadding');
 
-    final _miniplayerHeight = Platform.isAndroid
-        ? (aspectRatio < 0.5)
-            ? 168.0
-            : 136.0
-        : (aspectRatio < 0.5)
-            ? 152.0
-            : 120.0;
+    final _miniplayerMinHeight = 64 + safePadding + 56;
 
-    miniplayerMinHeight = _miniplayerHeight;
+    logger.d('miniplayer min height is $_miniplayerMinHeight');
+
+    miniplayerMinHeight = _miniplayerMinHeight;
     valueNotifier = ValueNotifier<double>(miniplayerMinHeight!);
   }
 

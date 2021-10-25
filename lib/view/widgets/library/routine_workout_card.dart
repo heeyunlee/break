@@ -1,23 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/auth_and_database.dart';
+import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/styles/constants.dart';
+import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/library/workout_set_rest_widget.dart';
 import 'package:workout_player/view/widgets/library/workout_set_widget.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
+import 'package:workout_player/view_models/routine_workout_card_model.dart';
 import 'package:workout_player/view_models/workout_set_rest_widget_model.dart';
 import 'package:workout_player/view_models/workout_set_widget_model.dart';
-import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/models/workout_set.dart';
-
-import '../../../view_models/routine_workout_card_model.dart';
 
 class RoutineWorkoutCard extends ConsumerWidget {
   final int index;
@@ -40,6 +40,7 @@ class RoutineWorkoutCard extends ConsumerWidget {
     final workoutSetRestModel = watch(workoutSetRestWidgetModelProvider);
 
     return Card(
+      clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),

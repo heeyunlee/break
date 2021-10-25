@@ -189,8 +189,8 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
                   routineWorkouts: widget.data.routineWorkouts!,
                 ),
         backgroundColor: widget.model.isButtonPressed
-            ? theme.colorScheme.secondary.withOpacity(0.8)
-            : theme.colorScheme.secondary,
+            ? theme.colorScheme.primary.withOpacity(0.75)
+            : theme.colorScheme.primary,
         heroTag: 'logRoutineSubmitButton',
         label: Text(S.current.submit),
       ),

@@ -15,7 +15,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
+import 'add_workout_to_routine_screen.dart';
 import 'edit_workout_screen.dart';
 import 'workout_histories_tab.dart';
 import 'workout_overview_tab.dart';
@@ -337,7 +337,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
                   color: theme.primaryColor,
                   icon: const Icon(Icons.add_rounded, size: 20),
                   buttonText: S.current.addWorkoutToRoutine,
-                  onPressed: () => AddWorkoutToRoutineScreenModel.show(
+                  onPressed: () => AddWorkoutToRoutineScreen.show(
                     context,
                     workout: workout,
                   ),

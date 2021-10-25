@@ -32,6 +32,21 @@ class AddWorkoutToRoutineScreen extends StatelessWidget {
     required this.workout,
   }) : super(key: key);
 
+  /// Navigation
+  static void show(
+    BuildContext context, {
+    required Workout workout,
+  }) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => AddWorkoutToRoutineScreen(
+        workout: workout,
+        database: database,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     logger.d('[AddWorkoutToRoutineScreen] building...');

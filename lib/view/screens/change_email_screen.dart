@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
@@ -24,21 +23,14 @@ class ChangeEmailScreen extends StatefulWidget {
   final User user;
   final AuthBase auth;
 
-  static Future<void> show(BuildContext context, {required User user}) async {
-    // final database = Provider.of<Database>(context, listen: false);
-    // final auth = Provider.of<AuthBase>(context, listen: false);
-
-    final container = ProviderContainer();
-    final auth = container.read(authServiceProvider);
-    final database = container.read(databaseProvider(auth.currentUser?.uid));
-
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => ChangeEmailScreen(
-          database: database,
-          user: user,
-          auth: auth,
-        ),
+  static void show(BuildContext context, {required User user}) {
+    customPush(
+      context,
+      rootNavigator: true,
+      builder: (context, auth, database) => ChangeEmailScreen(
+        database: database,
+        user: user,
+        auth: auth,
       ),
     );
   }

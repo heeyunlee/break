@@ -62,6 +62,7 @@ class _WorkoutSummaryScreenState extends State<WorkoutSummaryScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: AppBarCloseButton(
           onPressed: () => widget.model.update(context, widget.routineHistory),

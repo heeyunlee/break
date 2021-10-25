@@ -89,6 +89,9 @@ class CustomThemeData {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: background ?? ThemeColors.appBar,
       ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primary ?? ThemeColors.primary500,
+      ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: Colors.transparent,
       ),
