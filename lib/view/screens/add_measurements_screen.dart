@@ -184,7 +184,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
           widget.user,
         ),
         backgroundColor:
-            widget.model.validate() ? theme.colorScheme.secondary : Colors.grey,
+            widget.model.validate() ? theme.colorScheme.primary : Colors.grey,
         heroTag: 'addProteinButton',
         label: Text(S.current.submit),
       ),

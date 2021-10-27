@@ -99,7 +99,7 @@ class ButtonStyles {
     final theme = Theme.of(context);
 
     return ElevatedButton.styleFrom(
-      primary: theme.colorScheme.secondary,
+      primary: theme.colorScheme.primary,
       minimumSize: const Size(double.maxFinite, 48),
       shape: const StadiumBorder(),
     );

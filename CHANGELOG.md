@@ -10,6 +10,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 ### Bug Fix & Refactor
 - Fix Android's back button issue
 - Fix Miniplayer's size issue for all devices
+- Fix Android (especially Pixel)'s full screen issue
 
 ## [0.3.6] - October 8th, 2021
 ### New Features & Screens

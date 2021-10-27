@@ -47,8 +47,8 @@ class PreviewScreen extends StatelessWidget {
                       context.read(previewScreenModelProvider).pageController,
                   count: 3,
                   effect: WormEffect(
-                    dotColor: theme.colorScheme.secondary.withOpacity(0.24),
-                    activeDotColor: theme.colorScheme.secondary,
+                    dotColor: theme.colorScheme.primary.withOpacity(0.24),
+                    activeDotColor: theme.colorScheme.primary,
                     dotHeight: 8,
                     dotWidth: 8,
                     spacing: 12,

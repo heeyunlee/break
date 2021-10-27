@@ -62,8 +62,6 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return KeyboardActions(
       config: _buildConfig(_focusNode),
       autoScroll: false,
@@ -106,7 +104,7 @@ class _WorkoutSetRestWidgetState extends State<WorkoutSetRestWidget> {
                     width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     alignment: Alignment.center,
-                    color: theme.primaryColor.withOpacity(0.16),
+                    color: Colors.white.withOpacity(0.16),
                     child: TextField(
                       enabled: RoutineWorkoutCardModel.isOwner(
                         widget.authAndDatabase?.auth,

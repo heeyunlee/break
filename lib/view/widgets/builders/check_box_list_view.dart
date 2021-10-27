@@ -61,7 +61,6 @@ class CheckboxListView extends StatelessWidget {
 
         return FadeSlideTransition(
           beginOffset: const Offset(0.75, 0),
-          // endOffset: Offset.zero,
           offsetBeginInterval: offsetBegin,
           offsetEndInterval: offsetEnd,
           offsetCurves: offsetCurves,
@@ -75,7 +74,7 @@ class CheckboxListView extends StatelessWidget {
               child: Container(
                 color: checked(item)
                     ? theme.primaryColor
-                    : theme.primaryColor.withOpacity(0.12),
+                    : Colors.white.withOpacity(0.08),
                 child: CheckboxListTile(
                   activeColor: theme.primaryColorDark,
                   title: Text(getTitle(item), style: TextStyles.button1),

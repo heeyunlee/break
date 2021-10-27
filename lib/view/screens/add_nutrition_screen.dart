@@ -201,7 +201,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
           widget.user,
         ),
         backgroundColor:
-            widget.model.validate() ? theme.colorScheme.secondary : Colors.grey,
+            widget.model.validate() ? theme.colorScheme.primary : Colors.grey,
         heroTag: 'addProteinButton',
         label: Text(S.current.submit),
       ),

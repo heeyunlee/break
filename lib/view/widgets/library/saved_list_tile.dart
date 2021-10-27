@@ -20,7 +20,6 @@ class SavedListTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final database = Provider.of<Database>(context, listen: false);
 
     return Padding(
@@ -39,7 +38,7 @@ class SavedListTile<T> extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: theme.primaryColor.withOpacity(0.08),
+                    color: Colors.white.withOpacity(0.08),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Icon(

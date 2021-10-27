@@ -75,8 +75,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return KeyboardActions(
       config: _buildConfig(context),
       bottomAvoiderScrollPhysics: const NeverScrollableScrollPhysics(),
@@ -116,7 +114,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
                     height: 36,
                     width: 128,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    color: theme.primaryColor.withOpacity(0.12),
+                    color: Colors.white.withOpacity(0.12),
                     child: Center(child: _buildWeightWidget()),
                   ),
                 ),
@@ -174,8 +172,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   }
 
   Widget _buildActionsWidget() {
-    final theme = Theme.of(context);
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
@@ -183,7 +179,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         width: 80,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
-        color: theme.primaryColor.withOpacity(0.16),
+        color: Colors.white.withOpacity(0.12),
         child: TextField(
           enabled: RoutineWorkoutCardModel.isOwner(
             widget.authAndDatabase?.auth,
@@ -266,30 +262,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           ],
         ),
       ],
-      // actions: List.generate(
-      //   2,
-      //   (index) {
-      //     return KeyboardActionsItem(
-      //       focusNode: _focusNodes[index],
-      //       displayDoneButton: false,
-      //       displayArrows: true,
-      //       toolbarButtons: [
-      //         (node) => KeyboardActionsDoneButton(
-      //               onTap: () => widget.model.updateWeight(
-      //                 context,
-      //                 widget.authAndDatabase?.database,
-      //                 textEditingController: _textControllers[index],
-      //                 focusNode: node,
-      //                 routine: widget.routine,
-      //                 routineWorkout: widget.routineWorkout,
-      //                 workoutSet: widget.workoutSet,
-      //                 index: widget.index,
-      //               ),
-      //             ),
-      //       ],
-      //     );
-      //   },
-      // ),
     );
   }
 }

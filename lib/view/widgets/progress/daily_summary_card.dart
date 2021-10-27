@@ -72,8 +72,6 @@ class RoutineHistorySummaryCard extends StatelessWidget {
   }
 
   Widget _buildLeadingWidget(BuildContext context) {
-    final theme = Theme.of(context);
-
     if (routineHistory.youtubeWorkouts != null) {
       return SizedBox(
         height: 48,
@@ -95,10 +93,7 @@ class RoutineHistorySummaryCard extends StatelessWidget {
         child: Container(
           height: 56,
           width: 56,
-          color: Color.alphaBlend(
-            theme.primaryColor.withOpacity(0.14),
-            theme.backgroundColor,
-          ),
+          color: Colors.white.withOpacity(0.08),
           child: Center(
             child: CachedNetworkImage(
               imageUrl:

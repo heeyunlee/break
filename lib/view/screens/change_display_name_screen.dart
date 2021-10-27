@@ -16,7 +16,7 @@ class ChangeDisplayNameScreen extends StatefulWidget {
 
   final ChangeDisplayNameScreenModel model;
 
-  static Future<void> show(BuildContext context, {required User user}) async {
+  static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: true,

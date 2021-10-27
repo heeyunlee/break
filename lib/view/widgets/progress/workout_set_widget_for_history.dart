@@ -23,8 +23,6 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     final String title = '${S.current.set} ${workoutSet.setIndex}';
     final String reps = '${workoutSet.reps} ${S.current.x}';
     final String restTime = '${workoutSet.restTime} ${S.current.seconds}';
@@ -46,7 +44,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               height: 36,
               width: 128,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: theme.primaryColor.withOpacity(0.12),
+              color: Colors.white.withOpacity(0.08),
               child: Center(
                 child: Text(
                   Formatter.workoutSetWeightsFromHistory(
@@ -70,7 +68,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               width: 80,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
-              color: theme.primaryColor,
+              color: Colors.white.withOpacity(0.08),
               child: Center(child: Text(reps, style: TextStyles.body1)),
             ),
           ),
@@ -84,7 +82,7 @@ class WorkoutSetWidgetForHistory extends StatelessWidget {
               width: 80,
               padding: const EdgeInsets.symmetric(horizontal: 14),
               alignment: Alignment.center,
-              color: theme.primaryColor,
+              color: Colors.white.withOpacity(0.08),
               child: Center(
                 child: Text(restTime, style: TextStyles.body1),
               ),

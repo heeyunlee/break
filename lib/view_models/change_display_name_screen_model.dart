@@ -36,7 +36,6 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
     updateDisplayName(context);
   }
 
-  // Submit data to Firestore
   Future<bool?> updateDisplayName(BuildContext context) async {
     final database = provider.Provider.of<Database>(context, listen: false);
     final auth = provider.Provider.of<AuthBase>(context, listen: false);
