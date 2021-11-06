@@ -170,7 +170,7 @@ class _WeeklyMeasurementsChartState extends State<WeeklyMeasurementsChart> {
   }
 
   List<FlSpot> _randomSpots() {
-    return [
+    return const [
       FlSpot(0, 77),
       FlSpot(1, 76.6),
       FlSpot(2, 76),

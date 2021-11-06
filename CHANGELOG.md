@@ -2,7 +2,12 @@
 
 Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 0.3.0.
 
-## Unreleased (0.3.7)
+## Unreleased (0.3.8)
+### New Features & Screens
+
+### Bug Fix & Refactor
+
+## [0.3.7] - October 26th, 2021
 ### New Features & Screens
 - Enable users to edit [Nutrition] entry
 - Implement Material You Theme with Android
@@ -119,6 +124,7 @@ Hi, below is all the changes from my project, ~~Herakles~~ Break, after version 
 - Added InfoPlist.strings to localize iOS messages
 - Refactored styles files to create TextStyles.dart
 
+[0.3.7]: https://github.com/heeyunlee/break/compare/57c61659ebbd5b9743f01c7e7ef0c263888441d8..400012cdcc0766a30df9c3fd16a02b8708dcb5a9
 [0.3.6]: https://github.com/heeyunlee/break/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..57c61659ebbd5b9743f01c7e7ef0c263888441d8
 [0.3.5]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
 [0.3.4]: https://github.com/heeyunlee/herakless/compare/054a3316c3963866a36a2a6a8ea155120acbfd78..c308a8db5953b879f62334f6b045e489058e23f7
