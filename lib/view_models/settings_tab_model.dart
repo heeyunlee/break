@@ -68,7 +68,7 @@ class SettingsTabModel with ChangeNotifier {
     showAboutDialog(
       context: context,
       applicationName: S.current.applicationName,
-      applicationVersion: 'v.0.3.7',
+      applicationVersion: 'v.0.3.8',
       applicationIcon: SvgPicture.asset(
         'assets/svgs/break_logo.svg',
         width: 36,
