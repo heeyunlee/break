@@ -10,9 +10,9 @@ class FirstPreviewWidget extends ConsumerWidget {
   const FirstPreviewWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final model = watch(previewScreenModelProvider);
+    final model = ref.watch(previewScreenModelProvider);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

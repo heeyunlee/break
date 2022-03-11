@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
 import 'package:workout_player/view/widgets/progress/daily_activty_ring_widget.dart';
@@ -13,30 +13,17 @@ import 'package:workout_player/view/widgets/progress/most_recent_workout_widget.
 import 'package:workout_player/view/widgets/progress/weekly_bar_chart_card_template.dart';
 import 'package:workout_player/view/widgets/progress/weekly_measurements_card.dart';
 import 'package:workout_player/view/widgets/progress/weekly_workout_summary.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
 
 import 'weekly_weights_bar_chart_model.dart';
 
-final progressTabWidgetsModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => MoveTabWidgetsModel(),
-);
-
 class MoveTabWidgetsModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
+  MoveTabWidgetsModel({required this.database});
 
-  MoveTabWidgetsModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
 
   Map<String, Widget> _keysAndWidgets = {};
   List<Widget> _widgets = [];
-  List _widgetKeysList = [
+  static List _widgetKeysList = [
     'empty2x2',
     'activityRing',
     'weeklyWorkoutHistorySmall',
@@ -44,12 +31,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
     'latestWeight',
     'recentWorkout',
     'weeklyMeasurementsChart',
-    // 'weeklyNutritionChart',
     'weeklyWorkoutHistoryMedium',
-    // 'stepsWidget',
-    // 'weeklyCarbsBarChart',
-    // 'weeklyFatBarChart',
-    // 'weeklyCalorieBarChart',
   ];
   AnimationController? _staggeredController;
   // bool _isFirstStartUp = true;
@@ -123,7 +105,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
       'widgetsList': _newKeys,
     };
 
-    database!.updateUser(auth!.currentUser!.uid, updatedUser);
+    database.updateUser(database.uid!, updatedUser);
   }
 
   void initWidgets(

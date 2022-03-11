@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/change_display_name_screen_model.dart';
@@ -20,10 +20,10 @@ class ChangeDisplayNameScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) {
+      builder: (context) => Consumer(
+        builder: (context, ref, child) {
           return ChangeDisplayNameScreen(
-            model: watch(changeDisplayNameScreenModelProvider(user)),
+            model: ref.watch(changeDisplayNameScreenModelProvider(user)),
           );
         },
       ),

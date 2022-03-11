@@ -1,33 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/home/tab_item.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final homeScreenModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => HomeScreenModel(),
-);
-
 class HomeScreenModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
+  HomeScreenModel({required this.database});
+
+  Database database;
   double? miniplayerMinHeight;
   ValueNotifier<double>? valueNotifier;
-
-  HomeScreenModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
 
   TabItem _currentTab = TabItem.move;
   int _currentTabIndex = 0;
@@ -102,7 +87,7 @@ class HomeScreenModel with ChangeNotifier {
     logger.d('[HomeScreenModel] `updateUser()` function called');
 
     try {
-      final user = await database!.getUserDocument(auth!.currentUser!.uid);
+      final user = await database.getUserDocument(database.uid!);
 
       if (user != null) {
         final now = Timestamp.now();
@@ -111,7 +96,7 @@ class HomeScreenModel with ChangeNotifier {
           'lastAppOpenedTime': now,
         };
 
-        await database!.updateUser(auth!.currentUser!.uid, userData);
+        await database.updateUser(database.uid!, userData);
       }
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);

@@ -1,5 +1,6 @@
 import 'package:algolia/algolia.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -16,14 +17,14 @@ import 'package:workout_player/view_models/main_model.dart';
 import 'search_category_screen.dart';
 import 'workout_detail_screen.dart';
 
-class ExploreTab extends StatefulWidget {
+class ExploreTab extends ConsumerStatefulWidget {
   const ExploreTab({Key? key}) : super(key: key);
 
   @override
   _ExploreTabState createState() => _ExploreTabState();
 }
 
-class _ExploreTabState extends State<ExploreTab> {
+class _ExploreTabState extends ConsumerState<ExploreTab> {
   final locale = Intl.getCurrentLocale();
 
   late FloatingSearchBarController _controller;
@@ -158,7 +159,7 @@ class _ExploreTabState extends State<ExploreTab> {
                       subtitle:
                           S.current.searchResultSubtitle(muscle, equipment),
                       onTap: () async {
-                        await WorkoutDetailScreen.show(
+                        WorkoutDetailScreen.show(
                           context,
                           workoutId: workoutId,
                           tag: 'workoutSearchTag$workoutId',

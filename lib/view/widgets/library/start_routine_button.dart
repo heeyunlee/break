@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view_models/miniplayer_model.dart';
 
 class StartRoutineButton extends ConsumerWidget {
   const StartRoutineButton({
@@ -16,8 +16,8 @@ class StartRoutineButton extends ConsumerWidget {
   final RoutineDetailScreenClass data;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(miniplayerModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(miniplayerModelProvider);
     final size = MediaQuery.of(context).size;
 
     return ElevatedButton(

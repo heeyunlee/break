@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/constants.dart';
 
 import '../basic.dart';
@@ -8,7 +9,7 @@ class CustomListViewBuilder<T> extends StatelessWidget {
     Key? key,
     required this.items,
     required this.itemBuilder,
-    this.emptyContentTitle = 'No Contents....',
+    this.emptyContentTitle,
     this.emptyContentButton,
     this.emptyContentWidget,
     this.scrollController,
@@ -18,7 +19,7 @@ class CustomListViewBuilder<T> extends StatelessWidget {
 
   final List<T> items;
   final ItemWidgetBuilder2<T> itemBuilder;
-  final String emptyContentTitle;
+  final String? emptyContentTitle;
   final Widget? emptyContentButton;
   final Widget? emptyContentWidget;
   final ScrollController? scrollController;
@@ -32,7 +33,7 @@ class CustomListViewBuilder<T> extends StatelessWidget {
     } else {
       return emptyContentWidget ??
           EmptyContent(
-            message: emptyContentTitle,
+            message: emptyContentTitle ?? S.current.homeTabEmptyMessage,
             button: emptyContentButton,
           );
     }

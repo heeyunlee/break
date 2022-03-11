@@ -1,20 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/library/set_efforts_widget.dart';
-import 'package:workout_player/view/widgets/library/toggle_is_public_widget.dart';
-import 'package:workout_player/view/widgets/scaffolds/custom_scaffold.dart';
-import 'package:workout_player/view/widgets/speed_dial/select_dates_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../../view_models/log_routine_screen_model.dart';
@@ -22,12 +17,10 @@ import '../../view_models/log_routine_screen_model.dart';
 class LogRoutineScreen extends StatefulWidget {
   const LogRoutineScreen({
     Key? key,
-    required this.database,
     required this.model,
     required this.data,
   }) : super(key: key);
 
-  final Database database;
   final LogRoutineModel model;
   final RoutineDetailScreenClass data;
 
@@ -39,10 +32,9 @@ class LogRoutineScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, _, database) => Consumer(
-        builder: (context, watch, child) => LogRoutineScreen(
-          database: database,
-          model: watch(logRoutineModelProvider),
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => LogRoutineScreen(
+          model: ref.watch(logRoutineModelProvider),
           data: data,
         ),
       ),
@@ -183,7 +175,6 @@ class _LogRoutineScreenState extends State<LogRoutineScreen> {
             ? null
             : () => widget.model.submit(
                   context,
-                  widget.database,
                   user: widget.data.user!,
                   routine: widget.data.routine!,
                   routineWorkouts: widget.data.routineWorkouts!,

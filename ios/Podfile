@@ -31,7 +31,7 @@ target 'Runner' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '8.7.0'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '8.9.0'
   pod 'Firebase/Crashlytics'
   pod 'KakaoSDKAuth'  # Authentication
   pod 'KakaoSDKUser'  # Kakao Login, User 

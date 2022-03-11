@@ -1,13 +1,10 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
-// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
@@ -16,7 +13,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/workout_summary_screen.dart';
-import 'package:workout_player/view/screens/youtube_video_detail_screen.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/modal_sheets.dart';
@@ -24,17 +20,10 @@ import 'package:workout_player/view/widgets/modal_sheets.dart';
 import 'home_screen_model.dart';
 import 'main_model.dart';
 
-// final double miniplayerMinHeight = Platform.isIOS ? 152 : 120;
-
-final miniplayerModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => MiniplayerModel(
-      // valueNotifier: ValueNotifier<double>(miniplayerMinHeight),
-      ),
-);
-
 class MiniplayerModel with ChangeNotifier {
-  // double? miniplayerMinHeight;
-  // ValueNotifier<double>? valueNotifier;
+  MiniplayerModel({required this.database});
+
+  final Database database;
 
   int _currentIndex = 1;
   int _routineWorkoutIndex = 0;
@@ -50,12 +39,9 @@ class MiniplayerModel with ChangeNotifier {
   final CountDownController _countDownController = CountDownController();
   late AnimationController _animationController;
   Timestamp? _workoutStartTime;
-  // YoutubePlayerController? _youtubeController;
   WorkoutForYoutube? _currentWorkoutForYoutube;
   int _currentWorkoutForYoutubeIndex = 0;
 
-  // double? get miniplayerMinHeight => _miniplayerMinHeight;
-  // ValueNotifier<double>? get valueNotifier => _valueNotifier;
   int get currentIndex => _currentIndex;
   int get routineWorkoutIndex => _routineWorkoutIndex;
   int get workoutSetIndex => _workoutSetIndex;
@@ -435,8 +421,6 @@ class MiniplayerModel with ChangeNotifier {
 
   Future<void> submit(BuildContext context, User user) async {
     try {
-      final database = provider.Provider.of<Database>(context, listen: false);
-
       final workoutEndTime = Timestamp.now();
       final routineHistoryId = 'RH${const Uuid().v1()}';
       final workoutEndDate = workoutEndTime.toDate();
@@ -599,13 +583,13 @@ class MiniplayerModel with ChangeNotifier {
         tag: 'miniplayer${routine.routineId}',
       );
     } else {
-      final video = _currentWorkout as YoutubeVideo?;
+      // final video = _currentWorkout as YoutubeVideo?;
 
-      YoutubeVideoDetailScreen.show(
-        currentContext,
-        youtubeVideo: video!,
-        heroTag: 'heroTag',
-      );
+      // YoutubeVideoDetailScreen.show(
+      //   currentContext,
+      //   youtubeVideo: video!,
+      //   heroTag: 'heroTag',
+      // );
     }
   }
 

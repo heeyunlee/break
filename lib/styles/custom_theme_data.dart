@@ -12,7 +12,7 @@ class CustomThemeData {
 
     return ThemeData(
       fontFamily: TextStyles.defaultFontFamily,
-      primaryColorBrightness: Brightness.dark,
+      brightness: Brightness.dark,
       primaryColorLight: palette?.accent1.shade200 ?? ThemeColors.primary300,
       primaryColor: primary ?? ThemeColors.primary500,
       primaryColorDark: palette?.accent1.shade500 ?? ThemeColors.primary700,
@@ -43,10 +43,8 @@ class CustomThemeData {
         colorScheme: ColorScheme(
           primary: primary ?? ThemeColors.primary500,
           onPrimary: Colors.white,
-          primaryVariant: palette?.accent1.shade400 ?? ThemeColors.primary600,
           secondary: secondary ?? ThemeColors.secondary,
           onSecondary: Colors.white,
-          secondaryVariant: palette?.accent3.shade400 ?? ThemeColors.secondary,
           background: Color.alphaBlend(
             primary?.withOpacity(0.08) ?? ThemeColors.card,
             background ?? ThemeColors.card,
@@ -70,10 +68,8 @@ class CustomThemeData {
         onBackground: Colors.white,
         primary: primary ?? ThemeColors.primary500,
         onPrimary: Colors.white,
-        primaryVariant: palette?.accent1.shade400 ?? ThemeColors.primary600,
         secondary: secondary ?? ThemeColors.secondary,
         onSecondary: Colors.white,
-        secondaryVariant: palette?.accent3.shade400 ?? ThemeColors.secondary,
         error: Colors.red,
         onError: Colors.white,
       ),
@@ -84,7 +80,6 @@ class CustomThemeData {
         ),
       ),
       appBarTheme: AppBarTheme(
-        centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: background ?? ThemeColors.appBar,

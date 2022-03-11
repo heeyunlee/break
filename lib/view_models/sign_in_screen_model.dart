@@ -3,40 +3,26 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/services/mixpanel_manager.dart';
 import 'package:workout_player/view/screens/sign_in_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final signInScreenProvider = ChangeNotifierProvider(
-  (ref) => SignInScreenModel(),
-);
-
 class SignInScreenModel extends ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  SignInScreenModel({required this.auth, required this.database});
 
-  SignInScreenModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final FirebaseAuthService auth;
+  final Database database;
 
   bool _isLoading = false;
 
@@ -59,10 +45,10 @@ class SignInScreenModel extends ChangeNotifier {
     setIsLoading(value: true);
 
     try {
-      await auth!.signInAnonymously();
+      await auth.signInAnonymously();
 
-      final firebaseUser = auth!.currentUser!;
-      final User? user = await database!.getUserDocument(firebaseUser.uid);
+      final firebaseUser = auth.currentUser!;
+      final User? user = await database.getUserDocument(firebaseUser.uid);
 
       // Create new data if it does NOT exist
       if (user == null) {
@@ -105,7 +91,7 @@ class SignInScreenModel extends ChangeNotifier {
           profileUrl: firebaseUser.photoURL,
         );
 
-        await database!.setUser(userData);
+        await database.setUser(userData);
 
         Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -131,10 +117,10 @@ class SignInScreenModel extends ChangeNotifier {
     setIsLoading(value: true);
 
     try {
-      await auth!.signInWithGoogle();
+      await auth.signInWithGoogle();
 
-      final firebaseUser = auth!.currentUser!;
-      final User? user = await database!.getUserDocument(firebaseUser.uid);
+      final firebaseUser = auth.currentUser!;
+      final User? user = await database.getUserDocument(firebaseUser.uid);
 
       // Create new data if it does NOT exist
       if (user == null) {
@@ -168,7 +154,7 @@ class SignInScreenModel extends ChangeNotifier {
           profileUrl: firebaseUser.photoURL,
         );
 
-        await database!.setUser(userData);
+        await database.setUser(userData);
         Navigator.of(context).popUntil((route) => route.isFirst);
 
         getSnackbarWidget(
@@ -194,10 +180,10 @@ class SignInScreenModel extends ChangeNotifier {
     setIsLoading(value: true);
 
     try {
-      await auth!.signInWithFacebook();
+      await auth.signInWithFacebook();
 
-      final firebaseUser = auth!.currentUser!;
-      final User? user = await database!.getUserDocument(firebaseUser.uid);
+      final firebaseUser = auth.currentUser!;
+      final User? user = await database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
@@ -230,7 +216,7 @@ class SignInScreenModel extends ChangeNotifier {
           unitOfMassEnum: unitOfEnum,
           lastAppOpenedTime: now,
         );
-        await database!.setUser(userData);
+        await database.setUser(userData);
 
         Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -256,10 +242,10 @@ class SignInScreenModel extends ChangeNotifier {
     setIsLoading(value: true);
 
     try {
-      await auth!.signInWithApple();
+      await auth.signInWithApple();
 
-      final firebaseUser = auth!.currentUser!;
-      final User? user = await database!.getUserDocument(firebaseUser.uid);
+      final firebaseUser = auth.currentUser!;
+      final User? user = await database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
@@ -294,7 +280,7 @@ class SignInScreenModel extends ChangeNotifier {
           deviceInfo: deviceInfo,
         );
 
-        await database!.setUser(userData);
+        await database.setUser(userData);
 
         Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -320,10 +306,10 @@ class SignInScreenModel extends ChangeNotifier {
     setIsLoading(value: true);
 
     try {
-      await auth!.signInWithKakao();
+      await auth.signInWithKakao();
 
-      final firebaseUser = auth!.currentUser!;
-      final User? user = await database!.getUserDocument(firebaseUser.uid);
+      final firebaseUser = auth.currentUser!;
+      final User? user = await database.getUserDocument(firebaseUser.uid);
 
       // Create new data do NOT exist
       if (user == null) {
@@ -349,7 +335,7 @@ class SignInScreenModel extends ChangeNotifier {
               (locale == 'ko') ? UnitOfMass.kilograms : UnitOfMass.pounds,
         );
 
-        await database!.setUser(userData);
+        await database.setUser(userData);
 
         Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -368,7 +354,7 @@ class SignInScreenModel extends ChangeNotifier {
   }
 
   Future<void> _updateUserData(BuildContext context, User user) async {
-    final firebaseUser = auth!.currentUser!;
+    final firebaseUser = auth.currentUser!;
     final deviceInfo = await _getDeviceInfo();
 
     User updatedUserData = user.copyWith(
@@ -401,8 +387,8 @@ class SignInScreenModel extends ChangeNotifier {
       );
     }
 
-    await database!.updateUser(
-      auth!.currentUser!.uid,
+    await database.updateUser(
+      auth.currentUser!.uid,
       updatedUserData.toJson(),
     );
 
@@ -445,20 +431,18 @@ class SignInScreenModel extends ChangeNotifier {
 
       return iosInfo.toMap();
     }
+    return null;
   }
 
   /// STATIC
   // Navigation
   static void show(BuildContext context) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     HapticFeedback.mediumImpact();
 
     custmFadeTransition(
       context,
       duration: 500,
-      screen: SignInScreen(auth: auth, database: database),
+      screenBuilder: (animation) => SignInScreen(animation: animation),
     );
   }
 }

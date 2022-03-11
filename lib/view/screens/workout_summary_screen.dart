@@ -2,11 +2,10 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -31,10 +30,10 @@ class WorkoutSummaryScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => WorkoutSummaryScreen(
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => WorkoutSummaryScreen(
           routineHistory: routineHistory,
-          model: watch(workoutSummaryScreenModelProvider),
+          model: ref.watch(workoutSummaryScreenModelProvider),
         ),
       ),
     );

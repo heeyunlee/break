@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/youtube_video.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 class AppBarTitleWidget extends ConsumerWidget {
   const AppBarTitleWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(miniplayerModelProvider);
-    final homeModel = watch(homeScreenModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(miniplayerModelProvider);
+    final homeModel = ref.watch(homeScreenModelProvider);
     final size = MediaQuery.of(context).size;
 
     return ConstrainedBox(

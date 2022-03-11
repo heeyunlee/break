@@ -16,7 +16,7 @@ class WorkoutsByCategoryScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => const WorkoutsByCategoryScreen(),
+      builder: (context) => const WorkoutsByCategoryScreen(),
     );
   }
 

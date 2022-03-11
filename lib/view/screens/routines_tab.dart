@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/choose_title_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -24,14 +23,14 @@ import 'saved_routines_screen.dart';
 /// ### Enhancement
 /// * Paginate list of [Routine]
 ///
-class RoutinesTab extends StatelessWidget {
+class RoutinesTab extends ConsumerWidget {
   const RoutinesTab({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    logger.d('[RoutinesTab] tab...');
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch(databaseProvider);
 
-    final database = Provider.of<Database>(context, listen: false);
+    logger.d('[RoutinesTab] tab...');
 
     return CustomStreamBuilder<List<Routine>>(
       stream: database.userRoutinesStream(),

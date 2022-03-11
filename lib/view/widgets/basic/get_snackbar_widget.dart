@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-void getSnackbarWidget(String title, String message, {int? duration}) {
+SnackbarController getSnackbarWidget(String title, String message,
+    {int? duration}) {
   return Get.snackbar(
     title,
     message,

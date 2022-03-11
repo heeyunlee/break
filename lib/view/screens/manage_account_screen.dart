@@ -1,38 +1,33 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'change_display_name_screen.dart';
 import 'delete_account_screen.dart';
 
-class ManageAccountScreen extends StatelessWidget {
+class ManageAccountScreen extends ConsumerWidget {
   const ManageAccountScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
-  final Database database;
   final User user;
 
   static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => ManageAccountScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => ManageAccountScreen(user: user),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -43,17 +38,17 @@ class ManageAccountScreen extends StatelessWidget {
             leading: const AppBarBackButton(),
           ),
           SliverToBoxAdapter(
-            child: _buildBody(context),
+            child: _buildBody(context, ref),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, WidgetRef ref) {
     return StreamBuilder<User?>(
       initialData: user,
-      stream: database.userStream(),
+      stream: ref.read(databaseProvider).userStream(),
       builder: (context, snapshot) {
         final userData = snapshot.data;
 

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -16,13 +15,11 @@ import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart'
 // TODO: Fix Here
 class RoutineHistoryTab extends StatefulWidget {
   final Routine routine;
-  final AuthBase auth;
   final Database database;
 
   const RoutineHistoryTab({
     Key? key,
     required this.routine,
-    required this.auth,
     required this.database,
   }) : super(key: key);
 

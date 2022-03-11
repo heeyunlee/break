@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -14,14 +13,16 @@ import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart'
 import 'package:workout_player/view_models/text_field_model.dart';
 
 class SignInWithEmailScreen extends StatefulWidget {
-  final SignInWithEmailModel model;
-  final TextFieldModel textFieldModel;
-
   const SignInWithEmailScreen({
     Key? key,
     required this.model,
     required this.textFieldModel,
+    required this.animation,
   }) : super(key: key);
+
+  final SignInWithEmailModel model;
+  final TextFieldModel textFieldModel;
+  final Animation<double> animation;
 
   @override
   _SignInWithEmailScreenState createState() => _SignInWithEmailScreenState();
@@ -68,6 +69,7 @@ class _SignInWithEmailScreenState extends State<SignInWithEmailScreen> {
                   children: [
                     SizedBox(height: Scaffold.of(context).appBarMaxHeight),
                     AnimatedListViewBuilder(
+                      animation: widget.animation,
                       beginOffset: const Offset(0.25, 0),
                       offsetInitialDelayTime: 0.25,
                       offsetStaggerTime: 0.05,

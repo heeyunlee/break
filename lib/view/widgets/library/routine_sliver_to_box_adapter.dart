@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 class RoutineSliverToBoxAdapter extends ConsumerWidget {
   const RoutineSliverToBoxAdapter({
@@ -16,8 +16,8 @@ class RoutineSliverToBoxAdapter extends ConsumerWidget {
   final RoutineDetailScreenClass data;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(routineDetailScreenModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(routineDetailScreenModelProvider);
     final size = MediaQuery.of(context).size;
 
     return SliverToBoxAdapter(

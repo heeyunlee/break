@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:workout_player/view/widgets/preview/first_preview_widget.dart';
-import 'package:workout_player/view/widgets/preview/second_preview_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/preview/blurred_background_preview_widget.dart';
-import 'package:workout_player/view/widgets/preview/show_sign_in_screen_button.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/view_models/preview_screen_model.dart';
 
-class PreviewScreen extends StatelessWidget {
+class PreviewScreen extends ConsumerWidget {
   const PreviewScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('[PreviewScreen] building...');
 
     final theme = Theme.of(context);
 
-    context.read(previewScreenModelProvider).init();
+    ref.read(previewScreenModelProvider).init();
 
     return Scaffold(
       extendBody: true,
@@ -28,7 +24,7 @@ class PreviewScreen extends StatelessWidget {
         children: [
           const BlurredBackgroundPreviewWidget(),
           PageView(
-            controller: context.read(previewScreenModelProvider).pageController,
+            controller: ref.read(previewScreenModelProvider).pageController,
             children: const [
               FirstPreviewWidget(),
               SecondPreviewWidget(),
@@ -44,7 +40,7 @@ class PreviewScreen extends StatelessWidget {
                 const Spacer(),
                 SmoothPageIndicator(
                   controller:
-                      context.read(previewScreenModelProvider).pageController,
+                      ref.read(previewScreenModelProvider).pageController,
                   count: 3,
                   effect: WormEffect(
                     dotColor: theme.colorScheme.primary.withOpacity(0.24),

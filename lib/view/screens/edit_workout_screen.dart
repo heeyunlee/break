@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -12,54 +10,42 @@ import 'package:workout_player/models/enum/difficulty.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
 
 import 'edit_workout_equipment_required_screen.dart';
 import 'edit_workout_location_screen.dart';
 import 'edit_workout_main_muscle_group_screen.dart';
 
-class EditWorkoutScreen extends StatefulWidget {
+class EditWorkoutScreen extends ConsumerStatefulWidget {
   const EditWorkoutScreen({
     Key? key,
-    required this.database,
     required this.workout,
-    required this.user,
   }) : super(key: key);
 
-  final Database database;
   final Workout workout;
-  final User user;
 
   static void show(
     BuildContext context, {
     required Workout workout,
-    required User user,
   }) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => EditWorkoutScreen(
-        database: database,
-        workout: workout,
-        user: user,
-      ),
+      builder: (context) => EditWorkoutScreen(workout: workout),
     );
   }
 
   @override
-  _EditWorkoutScreenState createState() => _EditWorkoutScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _EditWorkoutScreenState();
 }
 
-class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
+class _EditWorkoutScreenState extends ConsumerState<EditWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
   late FocusNode focusNode1;
   late FocusNode focusNode2;
@@ -118,11 +104,15 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   }
 
   // Delete Routine Method
-  Future<void> _delete(BuildContext context, Workout workout) async {
+  Future<void> _delete(
+    BuildContext context,
+    Workout workout,
+  ) async {
     try {
-      await widget.database.deleteWorkout(workout);
+      final database = ref.watch(databaseProvider);
+      await database.deleteWorkout(workout);
 
-      final homeScreenModel = context.read(homeScreenModelProvider);
+      final homeScreenModel = ref.read(homeScreenModelProvider);
 
       homeScreenModel.popUntilRoot(context);
 
@@ -153,7 +143,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
           'isPublic': _isPublic,
           'secondsPerRep': _secondsPerRepSlider.toInt(),
         };
-        await widget.database.updateWorkout(widget.workout, workout);
+        final database = ref.watch(databaseProvider);
+        await database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
 
         getSnackbarWidget(
@@ -175,7 +166,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder<Workout?>(
       initialData: widget.workout,
-      stream: widget.database.workoutStream(widget.workout.workoutId),
+      stream:
+          ref.read(databaseProvider).workoutStream(widget.workout.workoutId),
       builder: (context, snapshot) {
         return Scaffold(
           extendBodyBehindAppBar: true,
@@ -227,7 +219,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 ),
                 buttonText: S.current.delete,
                 onPressed: () async {
-                  await _showModalBottomSheet(context);
+                  await _showModalBottomSheet(context, ref);
                 },
               ),
               const SizedBox(height: 38),
@@ -493,7 +485,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             onTap: () => EditWorkoutMainMuscleGroupScreen.show(
               context,
               workout: workout,
-              user: widget.user,
             ),
           ),
         ),
@@ -525,7 +516,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         onTap: () => EditWorkoutEquipmentRequiredScreen.show(
           context,
           workout: workout,
-          user: widget.user,
         ),
       ),
     );
@@ -555,14 +545,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         ),
         onTap: () => EditWorkoutLocationScreen.show(
           context,
-          user: widget.user,
           workout: workout,
         ),
       ),
     );
   }
 
-  Future<bool?> _showModalBottomSheet(BuildContext context) {
+  Future<bool?> _showModalBottomSheet(BuildContext context, WidgetRef ref) {
     return showAdaptiveModalBottomSheet(
       context,
       title: S.current.deleteWorkoutkButtonText,

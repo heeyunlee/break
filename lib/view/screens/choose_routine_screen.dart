@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
@@ -17,46 +16,39 @@ import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
-  final Database database;
-  final User user;
-
   const ChooseRoutineScreen({
     Key? key,
-    required this.database,
-    required this.user,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
-    final container = ProviderContainer();
-    final auth = container.read(authServiceProvider);
-    final database = container.read(databaseProvider(auth.currentUser?.uid));
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
+  static void show(BuildContext context) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => ChooseRoutineScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => const ChooseRoutineScreen(),
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(chooseRoutineScreenModelProvider);
-    final homeModel = watch(homeScreenModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(chooseRoutineScreenModelProvider);
+    final homeModel = ref.watch(homeScreenModelProvider);
+    final database = ref.watch(databaseProvider);
     logger.d('StartWorkoutShortcutScreen scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: NestedScrollView(
-        headerSliverBuilder: (_, __) {
-          return <Widget>[
-            _buildSliverApp(model),
-          ];
+      body: CustomFutureBuilder<User?>(
+        future: homeModel.database.getUserDocument(homeModel.database.uid!),
+        builder: (context, user) {
+          return NestedScrollView(
+            headerSliverBuilder: (_, __) {
+              return <Widget>[
+                _buildSliverApp(model),
+              ];
+            },
+            body: _buildBody(model, homeModel, user!, database),
+          );
         },
-        body: _buildBody(model, homeModel),
       ),
     );
   }
@@ -78,11 +70,16 @@ class ChooseRoutineScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBody(ChooseRoutineScreenModel model, HomeScreenModel homeModel) {
+  Widget _buildBody(
+    ChooseRoutineScreenModel model,
+    HomeScreenModel homeModel,
+    User user,
+    Database database,
+  ) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: (model.stream(database) == null)
-          ? _savedWidget(homeModel)
+      child: (model.stream() == null)
+          ? _savedWidget(homeModel, user, database)
           : _streamWidget(model, homeModel),
     );
   }
@@ -92,7 +89,7 @@ class ChooseRoutineScreen extends ConsumerWidget {
     HomeScreenModel homeScreenModel,
   ) {
     return StreamBuilder<List<Routine>>(
-      stream: model.stream(database),
+      stream: model.stream(),
       builder: (context, snapshot) {
         return CustomListViewBuilder<Routine>(
           items: snapshot.data ?? [DummyData.routine],
@@ -137,7 +134,11 @@ class ChooseRoutineScreen extends ConsumerWidget {
     );
   }
 
-  Widget _savedWidget(HomeScreenModel homeScreenModel) {
+  Widget _savedWidget(
+    HomeScreenModel homeScreenModel,
+    User user,
+    Database database,
+  ) {
     if (user.savedRoutines!.isEmpty) {
       return EmptyContent(
         message: S.current.savedRoutineEmptyText,

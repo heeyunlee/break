@@ -14,4 +14,3 @@ export 'miniplayer/previous_workout_set_button.dart';
 export 'miniplayer/rest_timer_widget.dart';
 export 'miniplayer/save_and_exit_button.dart';
 export 'miniplayer/weights_and_reps_widget.dart';
-export 'miniplayer/youtube_player_widget.dart';

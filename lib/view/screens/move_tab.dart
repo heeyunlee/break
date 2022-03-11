@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
-import 'package:workout_player/view/widgets/progress/blurred_background.dart';
-import 'package:workout_player/view/widgets/progress/choose_date_icon_button.dart';
-import 'package:workout_player/view/widgets/progress/progress_tab_widgets_builder.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
@@ -18,18 +14,21 @@ import '../../view_models/progress_tab_model.dart';
 class MoveTab extends StatefulWidget {
   final ProgressTabModel model;
   final MiniplayerModel miniplayerModel;
+  final Database database;
 
   const MoveTab({
     Key? key,
     required this.model,
     required this.miniplayerModel,
+    required this.database,
   }) : super(key: key);
 
   static Widget create() {
     return Consumer(
-      builder: (context, watch, child) => MoveTab(
-        model: watch(progressTabModelProvider),
-        miniplayerModel: watch(miniplayerModelProvider),
+      builder: (context, ref, child) => MoveTab(
+        model: ref.watch(progressTabModelProvider),
+        miniplayerModel: ref.watch(miniplayerModelProvider),
+        database: ref.watch(databaseProvider),
       ),
     );
   }
@@ -56,11 +55,10 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     logger.d('[ProgressTab] building...');
 
-    final database = provider.Provider.of<Database>(context, listen: false);
     final theme = Theme.of(context);
 
     return CustomStreamBuilder<User?>(
-      stream: database.userStream(),
+      stream: widget.database.userStream(),
       loadingWidget: Container(color: theme.backgroundColor),
       builder: (context, user) => NotificationListener<ScrollNotification>(
         onNotification: widget.model.onNotification,
@@ -106,7 +104,7 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
           ),
         ),
         CustomStreamBuilder<ProgressTabClass>(
-          stream: widget.model.database!.progressTabStream(
+          stream: widget.model.database.progressTabStream(
             widget.model.selectedDate,
           ),
           loadingWidget: const ProgressTabShimmer(),

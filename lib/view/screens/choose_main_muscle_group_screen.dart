@@ -3,12 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 
 class ChooseMainMuscleGroupScreen extends ConsumerWidget {
-  const ChooseMainMuscleGroupScreen({Key? key}) : super(key: key);
+  const ChooseMainMuscleGroupScreen({
+    Key? key,
+    required this.animation,
+  }) : super(key: key);
+
+  final Animation<double> animation;
 
   static void showMainMuscleGroup(
     BuildContext context, {
@@ -17,13 +23,15 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: const ChooseMainMuscleGroupScreen(),
+      screenBuilder: (animation) => ChooseMainMuscleGroupScreen(
+        animation: animation,
+      ),
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(createNewROutineModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(createNewROutineModelProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -54,6 +62,7 @@ class ChooseMainMuscleGroupScreen extends ConsumerWidget {
             ),
           ),
           CheckboxListView(
+            animation: animation,
             checked: model.selectedMainMuscleGroupEnum.contains,
             items: MainMuscleGroup.values,
             onChangedMainMuscleEnum: (checked, muscle) =>

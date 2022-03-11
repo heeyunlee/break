@@ -1,27 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_routine_equipment_required_model.dart';
 
-class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
-  final Routine routine;
-  final Database database;
-  final User user;
-  final EditRoutineEquipmentRequiredModel model;
-
+class EditRoutineEquipmentRequiredScreen extends ConsumerStatefulWidget {
   const EditRoutineEquipmentRequiredScreen({
     Key? key,
     required this.routine,
-    required this.database,
     required this.user,
     required this.model,
   }) : super(key: key);
+
+  final Routine routine;
+  final User user;
+  final EditRoutineEquipmentRequiredModel model;
 
   static void show(
     BuildContext context, {
@@ -31,12 +28,11 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => EditRoutineEquipmentRequiredScreen(
-          database: database,
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => EditRoutineEquipmentRequiredScreen(
           routine: routine,
           user: user,
-          model: watch(editRoutineEquipmentRequiredModelProvider),
+          model: ref.watch(editRoutineEquipmentRequiredModelProvider),
         ),
       ),
     );
@@ -48,7 +44,7 @@ class EditRoutineEquipmentRequiredScreen extends StatefulWidget {
 }
 
 class _EditRoutineEquipmentRequiredScreenState
-    extends State<EditRoutineEquipmentRequiredScreen> {
+    extends ConsumerState<EditRoutineEquipmentRequiredScreen> {
   @override
   void initState() {
     super.initState();
@@ -71,7 +67,6 @@ class _EditRoutineEquipmentRequiredScreenState
         leading: AppBarBackButton(
           onPressed: () => widget.model.submitAndPop(
             context,
-            database: widget.database,
             routine: widget.routine,
           ),
         ),

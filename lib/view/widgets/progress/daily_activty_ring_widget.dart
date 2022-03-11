@@ -27,8 +27,8 @@ class DailyActivityRingWidget extends StatelessWidget {
       width: constraints.maxWidth,
       height: constraints.maxHeight / heightFactor,
       child: Consumer(
-        builder: (context, watch, child) {
-          final model = watch(dailyActivityRingWidgetModelProvider);
+        builder: (context, ref, child) {
+          final model = ref.watch(dailyActivityRingWidgetModelProvider);
 
           model.setDailyGoal(progressTabClass.user);
           model.setDailyTotal(

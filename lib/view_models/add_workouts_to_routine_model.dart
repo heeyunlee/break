@@ -1,35 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final addWorkoutsToRoutineScreenModelProvider =
-    ChangeNotifierProvider.autoDispose(
-  (ref) => AddWorkoutsToRoutineScreenModel(),
-);
-
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
-  Database? database;
+  AddWorkoutsToRoutineScreenModel({required this.database});
 
-  AddWorkoutsToRoutineScreenModel({
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    final auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth.currentUser?.uid));
-  }
+  Database database;
 
   String _selectedMainMuscleGroup = 'MainMuscleGroup.abs';
   String _selectedChipTranslated = MainMuscleGroup.abs.translation!;
@@ -46,7 +31,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
         routine.mainMuscleGroupEnum?[0].toString() ??
         'MainMuscleGroup.abs';
 
-    _stream = database!.workoutsSearchStream(
+    _stream = database.workoutsSearchStream(
       isEqualTo: false,
       arrayContainsVariableName: 'mainMuscleGroup',
       arrayContainsValue: _selectedMainMuscleGroup,
@@ -65,11 +50,11 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
                 .translation!;
 
     if (_selectedMainMuscleGroup == 'Saved') {
-      _stream = database!.workoutsStream();
+      _stream = database.workoutsStream();
     } else if (_selectedMainMuscleGroup == 'All') {
-      _stream = database!.workoutsStream();
+      _stream = database.workoutsStream();
     } else {
-      _stream = database!.workoutsSearchStream(
+      _stream = database.workoutsSearchStream(
         isEqualTo: false,
         arrayContainsVariableName: 'mainMuscleGroup',
         arrayContainsValue: _selectedMainMuscleGroup,
@@ -118,9 +103,6 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
     Routine routine,
     List<RoutineWorkout> routineWorkouts,
   ) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-
     await HapticFeedback.mediumImpact();
 
     try {
@@ -135,7 +117,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
           routineWorkoutId: 'RW$id',
           workoutId: workout.workoutId,
           routineId: routine.routineId,
-          routineWorkoutOwnerId: auth.currentUser!.uid,
+          routineWorkoutOwnerId: database.uid!,
           workoutTitle: workout.workoutTitle,
           numberOfReps: 0,
           numberOfSets: 0,

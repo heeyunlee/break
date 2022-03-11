@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -15,11 +14,13 @@ import 'package:workout_player/view_models/text_field_model.dart';
 class SignUpWithEmailScreen extends StatefulWidget {
   final SignInWithEmailModel model;
   final TextFieldModel textFieldModel;
+  final Animation<double> animation;
 
   const SignUpWithEmailScreen({
     Key? key,
     required this.model,
     required this.textFieldModel,
+    required this.animation,
   }) : super(key: key);
 
   @override
@@ -67,6 +68,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AnimatedListViewBuilder(
+                        animation: widget.animation,
                         beginOffset: const Offset(0.25, 0),
                         offsetInitialDelayTime: 0.25,
                         offsetStaggerTime: 0.05,

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 
-final chooseRoutineScreenModelProvider = ChangeNotifierProvider(
-  (ref) => ChooseRoutineScreenModel(),
-);
-
 class ChooseRoutineScreenModel with ChangeNotifier {
+  ChooseRoutineScreenModel({required this.database});
+
+  final Database database;
+
   String _selectedChip = 'Saved';
   String _selectedChipTranslation = S.current.saved;
 
@@ -32,7 +31,7 @@ class ChooseRoutineScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<List<Routine>>? stream(Database database) {
+  Stream<List<Routine>>? stream() {
     if (_selectedChip == 'Saved') {
       return null;
     } else if (_selectedChip == 'All') {

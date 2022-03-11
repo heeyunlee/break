@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -23,28 +23,27 @@ import 'package:workout_player/utils/formatter.dart';
 ///
 /// ### Enhancement
 ///
-class MeasurementsScreen extends StatelessWidget {
-  final Database database;
-  final User user;
-
+class MeasurementsScreen extends ConsumerWidget {
   const MeasurementsScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
+
+  final User user;
 
   static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => MeasurementsScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => MeasurementsScreen(user: user),
     );
   }
 
-  Future<void> _delete(BuildContext context, Measurement measurement) async {
+  Future<void> _delete(
+    BuildContext context,
+    Database database,
+    Measurement measurement,
+  ) async {
     try {
       await database.deleteMeasurement(measurement: measurement);
 
@@ -63,7 +62,7 @@ class MeasurementsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.bodyMeasurement, style: TextStyles.subtitle2),
@@ -71,7 +70,7 @@ class MeasurementsScreen extends StatelessWidget {
         leading: const AppBarBackButton(),
       ),
       body: CustomStreamBuilder<List<Measurement>>(
-        stream: database.measurementsStream(limit: 100),
+        stream: ref.read(databaseProvider).measurementsStream(limit: 100),
         builder: (context, data) {
           return SingleChildScrollView(
             child: Column(
@@ -95,8 +94,11 @@ class MeasurementsScreen extends StatelessWidget {
                             label: S.current.delete,
                             backgroundColor: Colors.red,
                             icon: Icons.delete_rounded,
-                            onPressed: (context) =>
-                                _delete(context, measurement),
+                            onPressed: (context) => _delete(
+                              context,
+                              ref.read(databaseProvider),
+                              measurement,
+                            ),
                           ),
                         ],
                       ),

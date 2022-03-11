@@ -1,41 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/database.dart';
 
-class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
+class EditWorkoutEquipmentRequiredScreen extends ConsumerStatefulWidget {
   const EditWorkoutEquipmentRequiredScreen({
     Key? key,
     required this.workout,
-    required this.database,
-    required this.user,
   }) : super(key: key);
 
   final Workout workout;
-  final Database database;
-  final User user;
 
   static void show(
     BuildContext context, {
     required Workout workout,
-    required User user,
   }) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => EditWorkoutEquipmentRequiredScreen(
-        database: database,
+      builder: (context) => EditWorkoutEquipmentRequiredScreen(
         workout: workout,
-        user: user,
       ),
     );
   }
@@ -46,7 +36,7 @@ class EditWorkoutEquipmentRequiredScreen extends StatefulWidget {
 }
 
 class _EditWorkoutEquipmentRequiredScreenState
-    extends State<EditWorkoutEquipmentRequiredScreen> {
+    extends ConsumerState<EditWorkoutEquipmentRequiredScreen> {
   Map<String, bool> _equipmentRequired = EquipmentRequired.values[0].map;
   final List _selectedEquipmentRequired = [];
 
@@ -149,7 +139,8 @@ class _EditWorkoutEquipmentRequiredScreenState
         final workout = {
           'equipmentRequired': _selectedEquipmentRequired,
         };
-        await widget.database.updateWorkout(widget.workout, workout);
+        final database = ref.watch(databaseProvider);
+        await database.updateWorkout(widget.workout, workout);
 
         Navigator.of(context).pop();
 

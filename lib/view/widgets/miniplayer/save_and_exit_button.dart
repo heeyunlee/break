@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/view_models/miniplayer_model.dart';
+import 'package:workout_player/providers.dart';
 
 import '../buttons.dart';
 
@@ -16,8 +16,8 @@ class SaveAndExitButton extends ConsumerWidget {
   final User user;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(miniplayerModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(miniplayerModelProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16),

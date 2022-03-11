@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final addMeasurementsScreenModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => AddMeasurementsScreenModel(),
-);
-
 class AddMeasurementsScreenModel with ChangeNotifier {
+  AddMeasurementsScreenModel({required this.database});
+
+  final Database database;
+
   late TextEditingController _bodyweightController;
   late TextEditingController _bodyFatController;
   late TextEditingController _smmController;
@@ -120,6 +118,7 @@ class AddMeasurementsScreenModel with ChangeNotifier {
       if (tryParsing == null) {
         return S.current.pleaseEnderValidValue;
       }
+      return null;
     }
   }
 
@@ -142,40 +141,42 @@ class AddMeasurementsScreenModel with ChangeNotifier {
 
   Future<void> submit(
     BuildContext context,
-    Database database,
-    User user,
   ) async {
     if (_validateAndSaveForm()) {
       try {
-        final id = 'MS${const Uuid().v1()}';
-        final loggedTimeInDate = _loggedTime.toDate();
-        final loggedDate = DateTime.utc(
-          loggedTimeInDate.year,
-          loggedTimeInDate.month,
-          loggedTimeInDate.day,
-        );
+        final user = await database.getUserDocument(database.uid!);
 
-        final measurement = Measurement(
-          measurementId: id,
-          userId: user.userId,
-          username: user.userName,
-          loggedTime: _loggedTime,
-          loggedDate: loggedDate,
-          bodyWeight: bodyWeight,
-          bodyFat: bodyFat,
-          skeletalMuscleMass: skeletalMuscleMass,
-          bmi: bmi,
-          notes: notes,
-        );
+        if (user != null) {
+          final id = 'MS${const Uuid().v1()}';
+          final loggedTimeInDate = _loggedTime.toDate();
+          final loggedDate = DateTime.utc(
+            loggedTimeInDate.year,
+            loggedTimeInDate.month,
+            loggedTimeInDate.day,
+          );
 
-        await database.setMeasurement(measurement: measurement);
+          final measurement = Measurement(
+            measurementId: id,
+            userId: user.userId,
+            username: user.userName,
+            loggedTime: _loggedTime,
+            loggedDate: loggedDate,
+            bodyWeight: bodyWeight,
+            bodyFat: bodyFat,
+            skeletalMuscleMass: skeletalMuscleMass,
+            bmi: bmi,
+            notes: notes,
+          );
 
-        Navigator.of(context).pop();
+          await database.setMeasurement(measurement: measurement);
 
-        getSnackbarWidget(
-          S.current.addMeasurementSnackbarTitle,
-          S.current.addMeasurementSnackbar,
-        );
+          Navigator.of(context).pop();
+
+          getSnackbarWidget(
+            S.current.addMeasurementSnackbarTitle,
+            S.current.addMeasurementSnackbar,
+          );
+        }
       } on FirebaseException catch (e) {
         logger.e(e);
         await showExceptionAlertDialog(

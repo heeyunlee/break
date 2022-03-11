@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
+import 'package:workout_player/providers.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/add_workouts_to_routine_screen.dart';
@@ -11,23 +14,21 @@ import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 import '../widgets.dart';
 
-class RoutineStickyHeaderAndBody extends StatelessWidget {
+class RoutineStickyHeaderAndBody extends ConsumerWidget {
   const RoutineStickyHeaderAndBody({
     Key? key,
     required this.model,
     required this.data,
-    required this.authAndDatabase,
   }) : super(key: key);
 
   final RoutineDetailScreenModel model;
   final RoutineDetailScreenClass data;
-  final AuthAndDatabase authAndDatabase;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final routine = data.routine ?? DummyData.routine;
-    final bool isOwner =
-        authAndDatabase.auth.currentUser!.uid == routine.routineOwnerId;
+    final database = ref.watch<Database>(databaseProvider);
+    final bool isOwner = database.uid == routine.routineOwnerId;
 
     // Widgets to show only if one's routine's owner
     final List<Widget> routineOwnerWidgets = [
@@ -87,10 +88,6 @@ class RoutineStickyHeaderAndBody extends StatelessWidget {
                 items: data.routineWorkouts!,
                 itemBuilder: (context, item, i) => RoutineWorkoutCard(
                   index: i,
-                  authAndDatabase: AuthAndDatabase(
-                    auth: authAndDatabase.auth,
-                    database: authAndDatabase.database,
-                  ),
                   routine: routine,
                   routineWorkout: item,
                 ),

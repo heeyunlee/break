@@ -1,35 +1,34 @@
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/services/firebase_auth_service.dart';
 
-class DeleteAccountScreen extends StatelessWidget {
+class DeleteAccountScreen extends ConsumerWidget {
   final User user;
-  final AuthBase auth;
 
   const DeleteAccountScreen({
     Key? key,
     required this.user,
-    required this.auth,
   }) : super(key: key);
 
   static void show(BuildContext context, {required User user}) async {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => DeleteAccountScreen(
-        user: user,
-        auth: auth,
-      ),
+      builder: (context) => DeleteAccountScreen(user: user),
     );
   }
 
-  Future<void> deleteAccount(BuildContext context) async {
+  Future<void> deleteAccount(
+    BuildContext context,
+    FirebaseAuthService auth,
+  ) async {
     try {
       await auth.currentUser!.delete();
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -49,17 +48,17 @@ class DeleteAccountScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         leading: const AppBarBackButton(),
         elevation: 0,
       ),
-      body: _buildBody(context),
+      body: _buildBody(context, ref.watch(firebaseAuthProvider)),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, FirebaseAuthService auth) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -81,7 +80,7 @@ class DeleteAccountScreen extends StatelessWidget {
           const SizedBox(height: 40),
           MaxWidthRaisedButton(
             color: Colors.red,
-            onPressed: () => deleteAccount(context),
+            onPressed: () => deleteAccount(context, auth),
             buttonText: S.current.continueButton,
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/screens/library_tab.dart';
 import 'package:workout_player/view/screens/eats_tab.dart';
 import 'package:workout_player/view/screens/move_tab.dart';
@@ -23,9 +24,9 @@ class IndexedHomeTabs extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('[IndexedHomeTabs] widget building');
-    final model = watch(homeScreenModelProvider);
+    final model = ref.watch(homeScreenModelProvider);
 
     return IndexedStack(
       index: model.currentTabIndex,

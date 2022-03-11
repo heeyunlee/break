@@ -2,20 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class AnimatedListViewBuilder extends StatelessWidget {
-  final List<Widget> items;
-  final Offset? beginOffset;
-  final Offset? endOffset;
-  final double? offsetInitialDelayTime;
-  final double? offsetStaggerTime;
-  final double? offsetDuration;
-  final Curve? offsetCurves;
-  final double? opacityInitialDelayTime;
-  final double? opacityStaggerTime;
-  final double? opacityDuration;
-  final Curve? opacityCurves;
-
   const AnimatedListViewBuilder({
     Key? key,
+    required this.animation,
     required this.items,
     this.beginOffset,
     this.endOffset = Offset.zero,
@@ -28,6 +17,19 @@ class AnimatedListViewBuilder extends StatelessWidget {
     this.opacityDuration = 0.3,
     this.opacityCurves = Curves.decelerate,
   }) : super(key: key);
+
+  final Animation<double> animation;
+  final List<Widget> items;
+  final Offset? beginOffset;
+  final Offset? endOffset;
+  final double? offsetInitialDelayTime;
+  final double? offsetStaggerTime;
+  final double? offsetDuration;
+  final Curve? offsetCurves;
+  final double? opacityInitialDelayTime;
+  final double? opacityStaggerTime;
+  final double? opacityDuration;
+  final Curve? opacityCurves;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class AnimatedListViewBuilder extends StatelessWidget {
         assert(opacityEnd <= 1);
 
         return FadeSlideTransition(
+          animation: animation,
           beginOffset: beginOffset,
           endOffset: endOffset,
           offsetBeginInterval: offsetBegin,

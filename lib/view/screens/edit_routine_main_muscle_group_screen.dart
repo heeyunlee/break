@@ -1,28 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_routine_main_muscle_group_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/services/database.dart';
 
-class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
-  final Routine routine;
-  final Database database;
-  final User user;
-  final EditRoutineMainMuscleGroupModel model;
-
+class EditRoutineMainMuscleGroupScreen extends ConsumerStatefulWidget {
   const EditRoutineMainMuscleGroupScreen({
     Key? key,
     required this.routine,
-    required this.database,
     required this.user,
     required this.model,
   }) : super(key: key);
+
+  final Routine routine;
+  final User user;
+  final EditRoutineMainMuscleGroupModel model;
 
   static void show(
     BuildContext context, {
@@ -32,12 +29,11 @@ class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => EditRoutineMainMuscleGroupScreen(
-          database: database,
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => EditRoutineMainMuscleGroupScreen(
           routine: routine,
           user: user,
-          model: watch(editRoutineMainMuscleGroupModel),
+          model: ref.watch(editRoutineMainMuscleGroupModel),
         ),
       ),
     );
@@ -49,7 +45,7 @@ class EditRoutineMainMuscleGroupScreen extends StatefulWidget {
 }
 
 class _EditRoutineMainMuscleGroupScreenState
-    extends State<EditRoutineMainMuscleGroupScreen> {
+    extends ConsumerState<EditRoutineMainMuscleGroupScreen> {
   @override
   void initState() {
     super.initState();
@@ -72,7 +68,6 @@ class _EditRoutineMainMuscleGroupScreenState
         leading: AppBarBackButton(
           onPressed: () => widget.model.submitAndPop(
             context,
-            database: widget.database,
             routine: widget.routine,
           ),
         ),

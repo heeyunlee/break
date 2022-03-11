@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:workout_player/models/combined/combined_models.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -13,14 +13,12 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/routine_workout_card_model.dart';
 
 import '../../../view_models/workout_set_widget_model.dart';
 
-class WorkoutSetWidget extends StatefulWidget {
+class WorkoutSetWidget extends ConsumerStatefulWidget {
   const WorkoutSetWidget({
     Key? key,
-    this.authAndDatabase,
     required this.routine,
     required this.routineWorkout,
     required this.workoutSet,
@@ -28,7 +26,6 @@ class WorkoutSetWidget extends StatefulWidget {
     required this.model,
   }) : super(key: key);
 
-  final AuthAndDatabase? authAndDatabase;
   final Routine routine;
   final RoutineWorkout routineWorkout;
   final WorkoutSet workoutSet;
@@ -39,7 +36,7 @@ class WorkoutSetWidget extends StatefulWidget {
   _WorkoutSetWidgetState createState() => _WorkoutSetWidgetState();
 }
 
-class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
+class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
   late TextEditingController _textController1;
   late TextEditingController _textController2;
 
@@ -89,7 +86,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
               icon: Icons.delete_rounded,
               onPressed: (context) => widget.model.deleteSet(
                 context,
-                widget.authAndDatabase?.database,
                 routine: widget.routine,
                 routineWorkout: widget.routineWorkout,
                 workoutSet: widget.workoutSet,
@@ -129,6 +125,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   }
 
   Widget _buildWeightWidget() {
+    final model = ref.watch(routineWorkoutCardModelProvider);
+
     if (widget.routineWorkout.isBodyWeightWorkout) {
       return Text(
         S.current.bodyweight,
@@ -136,10 +134,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
       );
     } else {
       return TextFormField(
-        enabled: RoutineWorkoutCardModel.isOwner(
-          widget.authAndDatabase?.auth,
-          widget.routine,
-        ),
+        enabled: model.isOwner(widget.routine),
         autofocus: false,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
@@ -159,7 +154,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         ),
         onFieldSubmitted: (_) => widget.model.updateWeight(
           context,
-          widget.authAndDatabase?.database,
           textEditingController: _textController1,
           focusNode: _focusNode1,
           routine: widget.routine,
@@ -172,6 +166,8 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
   }
 
   Widget _buildActionsWidget() {
+    final model = ref.watch(routineWorkoutCardModelProvider);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
@@ -181,10 +177,7 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
         alignment: Alignment.center,
         color: Colors.white.withOpacity(0.12),
         child: TextField(
-          enabled: RoutineWorkoutCardModel.isOwner(
-            widget.authAndDatabase?.auth,
-            widget.routine,
-          ),
+          enabled: model.isOwner(widget.routine),
           autofocus: false,
           textAlign: TextAlign.center,
           controller: _textController2,
@@ -200,7 +193,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
           ),
           onSubmitted: (_) => widget.model.updateReps(
             context,
-            widget.authAndDatabase?.database,
             textEditingController: _textController2,
             focusNode: _focusNode2,
             routine: widget.routine,
@@ -231,7 +223,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             (node) => KeyboardActionsDoneButton(
                   onTap: () => widget.model.updateWeight(
                     context,
-                    widget.authAndDatabase?.database,
                     textEditingController: _textController1,
                     focusNode: node,
                     routine: widget.routine,
@@ -250,7 +241,6 @@ class _WorkoutSetWidgetState extends State<WorkoutSetWidget> {
             (node) => KeyboardActionsDoneButton(
                   onTap: () => widget.model.updateReps(
                     context,
-                    widget.authAndDatabase?.database,
                     textEditingController: _textController2,
                     focusNode: node,
                     routine: widget.routine,

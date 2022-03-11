@@ -9,8 +9,8 @@ class ShowSignInScreenButton extends ConsumerWidget {
   const ShowSignInScreenButton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(previewScreenModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(previewScreenModelProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),

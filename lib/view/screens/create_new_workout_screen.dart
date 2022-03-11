@@ -2,15 +2,14 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -22,29 +21,15 @@ import 'new_workout_equipment_required_screen.dart';
 import 'new_workout_main_muscle_group_screen.dart';
 import 'new_workout_title_screen.dart';
 
-class CreateNewWorkoutScreen extends StatefulWidget {
-  const CreateNewWorkoutScreen({
-    Key? key,
-    required this.database,
-    required this.auth,
-    required this.user,
-  }) : super(key: key);
+class CreateNewWorkoutScreen extends ConsumerStatefulWidget {
+  const CreateNewWorkoutScreen({Key? key}) : super(key: key);
 
-  final Database database;
-  final AuthBase auth;
-  final Future<User?> user;
-
-  static Future<void> show(BuildContext context) async {
+  static void show(BuildContext context) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) {
-        final user = database.getUserDocument(auth.currentUser!.uid);
-        return CreateNewWorkoutScreen(
-          database: database,
-          user: user,
-          auth: auth,
-        );
+      builder: (context) {
+        return const CreateNewWorkoutScreen();
       },
     );
   }
@@ -53,7 +38,8 @@ class CreateNewWorkoutScreen extends StatefulWidget {
   _CreateNewWorkoutScreenState createState() => _CreateNewWorkoutScreenState();
 }
 
-class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
+class _CreateNewWorkoutScreenState
+    extends ConsumerState<CreateNewWorkoutScreen> {
   late String _workoutTitle;
   String _description = '';
   List _selectedMainMuscleGroup = [];
@@ -65,9 +51,10 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   int _pageIndex = 0;
 
   // Submit data to Firestore
-  Future<void> _submit() async {
+  Future<void> _submit(Database database) async {
     try {
-      final user = await widget.user;
+      final uid = database.uid!;
+      final user = await database.getUserDocument(uid);
       final id = 'WK${const Uuid().v1()}';
       final userId = user!.userId;
       final userName = user.displayName;
@@ -114,9 +101,9 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
         },
         tags: [],
       );
-      await widget.database.setWorkout(workout);
+      await database.setWorkout(workout);
 
-      await WorkoutDetailScreen.show(
+      WorkoutDetailScreen.show(
         context,
         workout: workout,
         workoutId: workout.workoutId,
@@ -251,11 +238,13 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
   }
 
   Widget _buildFAB() {
+    final database = ref.watch(databaseProvider);
+
     if (_pageIndex == 3) {
       return FloatingActionButton.extended(
         icon: const Icon(Icons.done, color: Colors.white),
         label: Text(S.current.finish, style: TextStyles.button1),
-        onPressed: _submit,
+        onPressed: () => _submit(database),
       );
     } else {
       return FloatingActionButton(
@@ -265,7 +254,7 @@ class _CreateNewWorkoutScreenState extends State<CreateNewWorkoutScreen> {
                 ? saveMainMuscleGroup
                 : (_pageIndex == 2)
                     ? saveEquipmentRequired
-                    : _submit,
+                    : () => _submit(database),
         child: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
       );
     }

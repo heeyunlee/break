@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
@@ -17,13 +18,13 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: const ChooseMoreSettingsScreen(),
+      screenBuilder: (animation) => const ChooseMoreSettingsScreen(),
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(createNewROutineModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(createNewROutineModelProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -124,17 +125,21 @@ class ChooseMoreSettingsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: _buildFAB(context, model),
+      floatingActionButton: _buildFAB(context, ref, model),
     );
   }
 
-  Widget _buildFAB(BuildContext context, CreateNewRoutineModel model) {
+  Widget _buildFAB(
+    BuildContext context,
+    WidgetRef ref,
+    CreateNewRoutineModel model,
+  ) {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
       width: size.width - 32,
       child: FloatingActionButton.extended(
-        onPressed: () => model.submitToFirestore(context),
+        onPressed: () => model.submitToFirestore(context, ref),
         label: Text(S.current.submit, style: TextStyles.button1),
       ),
     );

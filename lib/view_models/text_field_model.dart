@@ -38,6 +38,8 @@ class TextFieldModel with ChangeNotifier {
         }
       }
     }
+
+    return null;
   }
 
   String? firstNameValidatorWithBool(String? value, {required bool submitted}) {
@@ -46,6 +48,7 @@ class TextFieldModel with ChangeNotifier {
         return S.current.emptyFirstNameText;
       }
     }
+    return null;
   }
 
   String? lastNameValidatorWithBool(String? value, {required bool submitted}) {
@@ -54,6 +57,7 @@ class TextFieldModel with ChangeNotifier {
         return S.current.emptyLastNameText;
       }
     }
+    return null;
   }
 
   bool isPasswordValid(String? password) {
@@ -74,6 +78,7 @@ class TextFieldModel with ChangeNotifier {
         }
       }
     }
+    return null;
   }
 
   void onChanged(GlobalKey<FormState> formKey, String value) {

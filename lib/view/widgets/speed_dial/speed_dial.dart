@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/screens/add_measurements_screen.dart';
 import 'package:workout_player/view/screens/add_nutrition_screen.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/speed_dial_model.dart';
 
@@ -19,8 +19,8 @@ class SpeedDial extends StatefulWidget {
 
   static Widget create() {
     return Consumer(
-      builder: (context, watch, child) => SpeedDial(
-        model: watch(speedDialModelProvider),
+      builder: (context, ref, child) => SpeedDial(
+        model: ref.watch(speedDialModelProvider),
       ),
     );
   }
@@ -50,8 +50,8 @@ class _SpeedDialState extends State<SpeedDial>
     final size = MediaQuery.of(context).size;
 
     return Consumer(
-      builder: (context, watch, child) {
-        final homeModel = watch(homeScreenModelProvider);
+      builder: (context, ref, child) {
+        final homeModel = ref.watch(homeScreenModelProvider);
 
         return ValueListenableBuilder<double>(
           valueListenable: homeModel.valueNotifier!,

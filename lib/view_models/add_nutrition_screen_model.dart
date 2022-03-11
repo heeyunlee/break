@@ -2,24 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 
 import 'main_model.dart';
 
-final addNutritionScreenModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => AddNutritionScreenModel(),
-);
-
 class AddNutritionScreenModel with ChangeNotifier {
+  AddNutritionScreenModel({required this.auth, required this.database});
+
+  final FirebaseAuthService auth;
+  final Database database;
+
   Timestamp _loggedTime = Timestamp.now();
   int _intValue = 25;
   int _decimalValue = 0;
@@ -148,48 +148,47 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   // Submit data to Firestore
-  Future<void> submit(
-    BuildContext context,
-    Database database,
-    User user,
-  ) async {
+  Future<void> submit(BuildContext context) async {
     if (_mealType != null) {
       if (_validateAndSaveForm()) {
         try {
-          final id = 'NUT${const Uuid().v1()}';
-          final timeInDate = _loggedTime.toDate();
-          final loggedDate = DateTime.utc(
-            timeInDate.year,
-            timeInDate.month,
-            timeInDate.day,
-          );
+          final user = await database.getUserDocument(auth.currentUser!.uid);
+          if (user != null) {
+            final id = 'NUT${const Uuid().v1()}';
+            final timeInDate = _loggedTime.toDate();
+            final loggedDate = DateTime.utc(
+              timeInDate.year,
+              timeInDate.month,
+              timeInDate.day,
+            );
 
-          final nutrition = Nutrition(
-            nutritionId: id,
-            userId: user.userId,
-            username: user.userName,
-            loggedTime: _loggedTime,
-            loggedDate: loggedDate,
-            proteinAmount: _proteinAmount,
-            type: _mealType!,
-            notes: _notesController.text,
-            calories: num.tryParse(_caloriesController.text),
-            carbs: num.tryParse(_carbsController.text),
-            fat: num.tryParse(_fatController.text),
-            description: _descriptionController.text,
-            isCreditCardTransaction: false,
-            unitOfMass: user.unitOfMassEnum ?? UnitOfMass.kilograms,
-          );
+            final nutrition = Nutrition(
+              nutritionId: id,
+              userId: user.userId,
+              username: user.userName,
+              loggedTime: _loggedTime,
+              loggedDate: loggedDate,
+              proteinAmount: _proteinAmount,
+              type: _mealType!,
+              notes: _notesController.text,
+              calories: num.tryParse(_caloriesController.text),
+              carbs: num.tryParse(_carbsController.text),
+              fat: num.tryParse(_fatController.text),
+              description: _descriptionController.text,
+              isCreditCardTransaction: false,
+              unitOfMass: user.unitOfMassEnum ?? UnitOfMass.kilograms,
+            );
 
-          await database.setNutrition(nutrition);
+            await database.setNutrition(nutrition);
 
-          Navigator.of(HomeScreenModel.homeScreenNavigatorKey.currentContext!)
-              .pop();
+            Navigator.of(HomeScreenModel.homeScreenNavigatorKey.currentContext!)
+                .pop();
 
-          getSnackbarWidget(
-            S.current.addProteinEntrySnackbarTitle,
-            S.current.addProteinEntrySnackbar,
-          );
+            getSnackbarWidget(
+              S.current.addProteinEntrySnackbarTitle,
+              S.current.addProteinEntrySnackbar,
+            );
+          }
         } on FirebaseException catch (e) {
           logger.e(e);
           await showExceptionAlertDialog(

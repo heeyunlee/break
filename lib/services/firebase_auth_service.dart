@@ -1,48 +1,19 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/all.dart';
-import 'package:kakao_flutter_sdk/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import '../view_models/main_model.dart';
 
-final authServiceProvider = Provider<AuthService>(
-  (ref) => AuthService(read: ref.read),
-);
-
-abstract class AuthBase {
-  auth.User? get currentUser;
-  Stream<auth.User?> authStateChanges();
-  Stream<auth.User?> idTokenChanges();
-  Future<auth.User?> signInAnonymously();
-  Future<auth.User?> signInWithEmailWithPassword(String email, String password);
-  Future<auth.User?> signUpWithEmailAndPassword(String email, String password);
-  Future<auth.User?> signInWithGoogle();
-  Future<auth.User?> signInWithFacebook();
-  Future<auth.User?> signInWithApple();
-  Future<auth.User?> signInWithKakao();
-
-  Future<void> signOut();
-}
-
-class AuthService implements AuthBase {
-  final Reader? read;
-
-  AuthService({this.read});
-
+class FirebaseAuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  @override
   Stream<auth.User?> authStateChanges() => _auth.authStateChanges();
 
-  @override
-  Stream<auth.User?> idTokenChanges() => _auth.idTokenChanges();
-
-  @override
   auth.User? get currentUser => _auth.currentUser;
 
   auth.User? _user;
@@ -56,7 +27,6 @@ class AuthService implements AuthBase {
   }
 
   /// Sign In Anonymously with Firebase
-  @override
   Future<auth.User?> signInAnonymously() async {
     logger.d('signInAnonymously triggered in auth');
 
@@ -82,7 +52,6 @@ class AuthService implements AuthBase {
   }
 
   /// Sign In With Email and Password with Firebase
-  @override
   Future<auth.User?> signInWithEmailWithPassword(
     String email,
     String password,
@@ -115,7 +84,6 @@ class AuthService implements AuthBase {
   }
 
   ///////// Create User With Email And Password
-  @override
   Future<auth.User?> signUpWithEmailAndPassword(
     String email,
     String password,
@@ -147,16 +115,10 @@ class AuthService implements AuthBase {
   }
 
   /// SIGN IN WITH GOOGLE
-  @override
   Future<auth.User?> signInWithGoogle() async {
     logger.d('signInWithGoogle triggered in auth');
 
-    // Trigger Authentication flow
-    final googleSignIn = GoogleSignIn(
-        // scopes: [YouTubeApi.youtubeReadonlyScope],
-        );
-
-    final googleSignInAccount = await googleSignIn.signIn();
+    final googleSignInAccount = await _googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       // Obtain the auth details from the request
@@ -193,7 +155,6 @@ class AuthService implements AuthBase {
   }
 
   // Sign In with Facebook
-  @override
   Future<auth.User?> signInWithFacebook() async {
     logger.d('signInWithFacebook auth triggered in auth');
 
@@ -232,7 +193,6 @@ class AuthService implements AuthBase {
   }
 
   // Sign In With Apple
-  @override
   Future<auth.User?> signInWithApple() async {
     logger.d('signInWithApple triggered in auth');
 
@@ -286,7 +246,6 @@ class AuthService implements AuthBase {
     }
   }
 
-  @override
   Future<auth.User?> signInWithKakao() async {
     logger.d('signInwithKakao triggered in auth');
 
@@ -363,16 +322,19 @@ class AuthService implements AuthBase {
   }
 
   // Sign Out
-  @override
   Future<void> signOut() async {
-    final googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
+    final signedInWithGiigle = await _googleSignIn.isSignedIn();
+
+    if (_user?.isAnonymous ?? false) {
+      await _auth.currentUser?.delete();
+    }
+
+    if (signedInWithGiigle) {
+      await _googleSignIn.signOut();
+    }
 
     final facebookLogin = FacebookAuth.instance;
     await facebookLogin.logOut();
-
-    // final kakaoLogin = UserApi.instance;
-    // await kakaoLogin.logout();
 
     await _auth.signOut();
   }

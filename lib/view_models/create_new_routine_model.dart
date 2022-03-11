@@ -14,7 +14,7 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/choose_equipment_required_screen.dart';
 import 'package:workout_player/view/screens/choose_main_muscle_group_screen.dart';
@@ -25,22 +25,10 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'home_screen_model.dart';
 import 'main_model.dart';
 
-final createNewROutineModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => CreateNewRoutineModel(),
-);
-
 class CreateNewRoutineModel with ChangeNotifier {
-  late AuthBase? auth;
-  late Database? database;
+  final Database database;
 
-  CreateNewRoutineModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  CreateNewRoutineModel({required this.database});
 
   late TextEditingController _textEditingController;
   bool _isButtonPressed = false;
@@ -168,10 +156,10 @@ class CreateNewRoutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submitToFirestore(BuildContext context) async {
+  Future<void> submitToFirestore(BuildContext context, WidgetRef ref) async {
     _isButtonPressed = true;
 
-    final user = (await database!.getUserDocument(auth!.currentUser!.uid))!;
+    final user = (await database.getUserDocument(database.uid!))!;
 
     try {
       final id = const Uuid().v1();
@@ -190,8 +178,8 @@ class CreateNewRoutineModel with ChangeNotifier {
       final enumToString = EnumToString.convertToString(
         _selectedMainMuscleGroupEnum[0],
       );
-      final ref = bucket.child('$enumToString$imageIndex.jpeg');
-      final imageUrl = await ref.getDownloadURL();
+      final reference = bucket.child('$enumToString$imageIndex.jpeg');
+      final imageUrl = await reference.getDownloadURL();
 
       // Create New Routine
       final routine = Routine(
@@ -213,9 +201,9 @@ class CreateNewRoutineModel with ChangeNotifier {
         unitOfMassEnum: unitOfMassEnum,
       );
 
-      await database!.setRoutine(routine);
+      await database.setRoutine(routine);
 
-      final model = context.read(homeScreenModelProvider);
+      final model = ref.read(homeScreenModelProvider);
       final currentContext =
           HomeScreenModel.tabNavigatorKeys[model.currentTab]!.currentContext!;
 

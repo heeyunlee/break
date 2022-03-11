@@ -4,15 +4,15 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/sign_in_with_email_screen.dart';
@@ -20,22 +20,11 @@ import '../view/screens/sign_up_with_email_screen.dart';
 import 'main_model.dart';
 import 'text_field_model.dart';
 
-final signInWithEmailModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => SignInWithEmailModel(),
-);
-
 class SignInWithEmailModel extends ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  SignInWithEmailModel({required this.auth, required this.database});
 
-  SignInWithEmailModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final FirebaseAuthService auth;
+  final Database database;
 
   bool _isLoading = false;
   bool _submitted = false;
@@ -116,12 +105,12 @@ class SignInWithEmailModel extends ChangeNotifier {
       _submitted = true;
 
       try {
-        await auth!.signUpWithEmailAndPassword(
+        await auth.signUpWithEmailAndPassword(
           _emailEditingController.text,
           _passwordEditingController.text,
         );
 
-        final firebaseUser = auth!.currentUser!;
+        final firebaseUser = auth.currentUser!;
 
         final uniqueId = UniqueKey().toString();
         final id = 'Player $uniqueId';
@@ -148,7 +137,7 @@ class SignInWithEmailModel extends ChangeNotifier {
           deviceInfo: deviceInfo,
         );
 
-        await database!.setUser(user);
+        await database.setUser(user);
 
         Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseException catch (e) {
@@ -165,7 +154,7 @@ class SignInWithEmailModel extends ChangeNotifier {
       _submitted = true;
 
       try {
-        await auth!.signInWithEmailWithPassword(
+        await auth.signInWithEmailWithPassword(
           _emailEditingController.text,
           _passwordEditingController.text,
         );
@@ -174,8 +163,8 @@ class SignInWithEmailModel extends ChangeNotifier {
           'lastLoginDate': now,
         };
 
-        await database!.updateUser(
-          auth!.currentUser!.uid,
+        await database.updateUser(
+          auth.currentUser!.uid,
           updatedUserData,
         );
 
@@ -245,17 +234,19 @@ class SignInWithEmailModel extends ChangeNotifier {
 
       return iosInfo.toMap();
     }
+    return null;
   }
 
   static void showSignUpScreen(BuildContext context) {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: Consumer(
-        builder: (context, watch, child) {
+      screenBuilder: (animation) => Consumer(
+        builder: (context, ref, child) {
           return SignUpWithEmailScreen(
-            model: watch(signInWithEmailModelProvider),
-            textFieldModel: watch(textFieldModelProvider),
+            animation: animation,
+            model: ref.watch(signInWithEmailModelProvider),
+            textFieldModel: ref.watch(textFieldModelProvider),
           );
         },
       ),
@@ -266,11 +257,12 @@ class SignInWithEmailModel extends ChangeNotifier {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: Consumer(
-        builder: (context, watch, child) {
+      screenBuilder: (animation) => Consumer(
+        builder: (context, ref, child) {
           return SignInWithEmailScreen(
-            model: watch(signInWithEmailModelProvider),
-            textFieldModel: watch(textFieldModelProvider),
+            animation: animation,
+            model: ref.watch(signInWithEmailModelProvider),
+            textFieldModel: ref.watch(textFieldModelProvider),
           );
         },
       ),

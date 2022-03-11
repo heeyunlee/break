@@ -1,33 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final addWorkoutToRoutineScreenModelProvider = ChangeNotifierProvider(
-  (ref) => AddWorkoutToRoutineScreenModel(),
-);
-
 class AddWorkoutToRoutineScreenModel with ChangeNotifier {
+  AddWorkoutToRoutineScreenModel({required this.database});
+
+  final Database database;
+
   Future<void> submit(
     BuildContext context,
     BuildContext currentTabContext, {
     required Workout workout,
     required Routine routine,
   }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-
     try {
       final routineWorkouts =
           await database.routineWorkoutsStream(routine.routineId).first;
@@ -39,7 +33,7 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
         routineWorkoutId: id,
         workoutId: workout.workoutId,
         routineId: routine.routineId,
-        routineWorkoutOwnerId: auth.currentUser!.uid,
+        routineWorkoutOwnerId: database.uid!,
         workoutTitle: workout.workoutTitle,
         isBodyWeightWorkout: workout.isBodyWeightWorkout,
         totalWeights: 0,

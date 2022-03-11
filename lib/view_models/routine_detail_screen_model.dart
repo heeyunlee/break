@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -14,22 +11,10 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'home_screen_model.dart';
 import 'main_model.dart';
 
-final routineDetailScreenModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => RoutineDetailScreenModel(),
-);
-
 class RoutineDetailScreenModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  RoutineDetailScreenModel({required this.database});
 
-  RoutineDetailScreenModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
 
   late AnimationController _sliverAnimationController;
   late Animation<Offset> _offsetTween;
@@ -88,7 +73,7 @@ class RoutineDetailScreenModel with ChangeNotifier {
           'savedRoutines': FieldValue.arrayRemove([data.routine!.routineId]),
         };
 
-        await database!.updateUser(auth!.currentUser!.uid, user);
+        await database.updateUser(database.uid!, user);
 
         getSnackbarWidget(
           S.current.unsavedRoutineSnackBarTitle,
@@ -99,7 +84,7 @@ class RoutineDetailScreenModel with ChangeNotifier {
           'savedRoutines': FieldValue.arrayUnion([data.routine!.routineId]),
         };
 
-        await database!.updateUser(auth!.currentUser!.uid, user);
+        await database.updateUser(database.uid!, user);
 
         getSnackbarWidget(
           S.current.savedRoutineSnackBarTitle,
@@ -123,7 +108,7 @@ class RoutineDetailScreenModel with ChangeNotifier {
     required Routine routine,
   }) async {
     try {
-      database!.deleteRoutine(routine);
+      await database.deleteRoutine(routine);
 
       final homeContext =
           HomeScreenModel.homeScreenNavigatorKey.currentContext!;

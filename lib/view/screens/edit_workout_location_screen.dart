@@ -1,39 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
 
-class EditWorkoutLocationScreen extends StatefulWidget {
+class EditWorkoutLocationScreen extends ConsumerStatefulWidget {
   const EditWorkoutLocationScreen({
     Key? key,
     required this.workout,
-    required this.database,
-    required this.user,
   }) : super(key: key);
 
   final Workout workout;
-  final Database database;
-  final User user;
 
   static void show(
     BuildContext context, {
-    required User user,
     required Workout workout,
   }) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => EditWorkoutLocationScreen(
-        database: database,
-        user: user,
+      builder: (context) => EditWorkoutLocationScreen(
         workout: workout,
       ),
     );
@@ -44,7 +36,8 @@ class EditWorkoutLocationScreen extends StatefulWidget {
       _EditWorkoutLocationScreenState();
 }
 
-class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
+class _EditWorkoutLocationScreenState
+    extends ConsumerState<EditWorkoutLocationScreen> {
   late String _location;
 
   @override
@@ -64,7 +57,8 @@ class _EditWorkoutLocationScreenState extends State<EditWorkoutLocationScreen> {
       final workout = {
         'location': _location,
       };
-      await widget.database.updateWorkout(widget.workout, workout);
+      final database = ref.watch<Database>(databaseProvider);
+      await database.updateWorkout(widget.workout, workout);
 
       getSnackbarWidget(
         S.current.updateLocationTitle,

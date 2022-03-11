@@ -1,27 +1,24 @@
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_unit_of_mass_screen_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/database.dart';
 
 class EditUnitOfMassScreen extends StatefulWidget {
   const EditUnitOfMassScreen({
     Key? key,
     required this.routine,
-    required this.database,
     required this.user,
     required this.model,
   }) : super(key: key);
 
   final Routine routine;
-  final Database database;
   final User user;
   final EditUnitOfMassModel model;
 
@@ -33,12 +30,11 @@ class EditUnitOfMassScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => EditUnitOfMassScreen(
-          database: database,
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => EditUnitOfMassScreen(
           user: user,
           routine: routine,
-          model: watch(editUnitOfMassModelProvider),
+          model: ref.watch(editUnitOfMassModelProvider),
         ),
       ),
     );

@@ -1,24 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-class EditRoutineLocationScreen extends StatefulWidget {
+class EditRoutineLocationScreen extends ConsumerStatefulWidget {
   const EditRoutineLocationScreen({
     Key? key,
     required this.routine,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
   final Routine routine;
-  final Database database;
   final User user;
 
   static void show(
@@ -29,8 +27,7 @@ class EditRoutineLocationScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => EditRoutineLocationScreen(
-        database: database,
+      builder: (context) => EditRoutineLocationScreen(
         user: user,
         routine: routine,
       ),
@@ -42,7 +39,8 @@ class EditRoutineLocationScreen extends StatefulWidget {
       _EditRoutineLocationScreenState();
 }
 
-class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
+class _EditRoutineLocationScreenState
+    extends ConsumerState<EditRoutineLocationScreen> {
   late String _location;
 
   @override
@@ -62,7 +60,8 @@ class _EditRoutineLocationScreenState extends State<EditRoutineLocationScreen> {
       final routine = {
         'location': _location,
       };
-      await widget.database.updateRoutine(widget.routine, routine);
+      final database = ref.watch(databaseProvider);
+      await database.updateRoutine(widget.routine, routine);
 
       getSnackbarWidget(
         S.current.updateLocationTitle,

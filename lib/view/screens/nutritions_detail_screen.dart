@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/food_item.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -11,29 +12,24 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
 
-class NutritionsDetailScreen extends StatelessWidget {
+class NutritionsDetailScreen extends ConsumerWidget {
   const NutritionsDetailScreen({
     Key? key,
-    required this.database,
     required this.nutrition,
   }) : super(key: key);
 
-  final Database database;
   final Nutrition? nutrition;
 
   static void show(BuildContext context, {required Nutrition? nutrition}) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, _, database) => NutritionsDetailScreen(
-        database: database,
-        nutrition: nutrition,
-      ),
+      builder: (context) => NutritionsDetailScreen(nutrition: nutrition),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
 
@@ -42,7 +38,9 @@ class NutritionsDetailScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: CustomStreamBuilder<Nutrition?>(
         initialData: DummyData.nutrition,
-        stream: database.nutritionStream(nutrition?.nutritionId ?? ''),
+        stream: ref
+            .read(databaseProvider)
+            .nutritionStream(nutrition?.nutritionId ?? ''),
         builder: (context, nutrition) => CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
@@ -54,7 +52,6 @@ class NutritionsDetailScreen extends StatelessWidget {
               leading: const AppBarBackButton(),
               actions: [
                 NutritionDetailMoreVertButton(
-                  database: database,
                   nutrition: nutrition!,
                 ),
                 const SizedBox(width: 8),

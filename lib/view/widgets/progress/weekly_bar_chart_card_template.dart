@@ -86,10 +86,10 @@ class WeeklyBarChartCardTemplate extends StatelessWidget {
 
               /// Chart
               Consumer(
-                builder: (context, watch, child) => WeeklyBarChartTemplate(
+                builder: (context, ref, child) => WeeklyBarChartTemplate(
                   defaultColor: defaultColor,
                   touchedColor: touchedColor,
-                  model: watch(model(progressTabClass)),
+                  model: ref.watch(model(progressTabClass)),
                 ),
               ),
             ],

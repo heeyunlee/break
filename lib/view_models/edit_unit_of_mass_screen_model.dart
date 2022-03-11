@@ -1,31 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final editUnitOfMassModelProvider = ChangeNotifierProvider(
-  (ref) => EditUnitOfMassModel(),
-);
-
 class EditUnitOfMassModel with ChangeNotifier {
-  FirestoreDatabase? database;
+  EditUnitOfMassModel({required this.database});
 
-  EditUnitOfMassModel({
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    final auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth.currentUser?.uid));
-  }
+  Database database;
 
   int? _unitOfMassInt = 0;
   UnitOfMass? _unitOfMassEnum = UnitOfMass.kilograms;
@@ -70,7 +57,7 @@ class EditUnitOfMassModel with ChangeNotifier {
         'unitOfMassEnum': EnumToString.convertToString(_unitOfMassEnum),
       };
 
-      await database!.updateRoutine(routine, updatedRoutine);
+      await database.updateRoutine(routine, updatedRoutine);
 
       getSnackbarWidget(
         S.current.unitOfMass,

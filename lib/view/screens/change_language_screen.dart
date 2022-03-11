@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -14,7 +13,7 @@ class ChangeLanguageScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => const ChangeLanguageScreen(),
+      builder: (context) => const ChangeLanguageScreen(),
     );
   }
 

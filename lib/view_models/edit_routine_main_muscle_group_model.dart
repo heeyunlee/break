@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -13,11 +12,11 @@ import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final editRoutineMainMuscleGroupModel = ChangeNotifierProvider(
-  (ref) => EditRoutineMainMuscleGroupModel(),
-);
-
 class EditRoutineMainMuscleGroupModel with ChangeNotifier {
+  EditRoutineMainMuscleGroupModel({required this.database});
+
+  final Database database;
+
   List<MainMuscleGroup?> _selectedMainMuscleGroupEnum = [];
 
   List<MainMuscleGroup?> get selectedMainMuscleGroupEnum =>
@@ -49,7 +48,6 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
 
   Future<void> submitAndPop(
     BuildContext context, {
-    required Database database,
     required Routine routine,
   }) async {
     if (_selectedMainMuscleGroupEnum.isNotEmpty) {

@@ -1,19 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final workoutSetRestWidgetModelProvider = ChangeNotifierProvider(
-  (ref) => WorkoutSetRestWidgetModel(),
-);
-
 class WorkoutSetRestWidgetModel with ChangeNotifier {
+  WorkoutSetRestWidgetModel({required this.database});
+
+  final Database database;
+
   Future<void> updateRestTime(
     BuildContext context, {
     required TextEditingController textEditingController,
@@ -23,8 +21,6 @@ class WorkoutSetRestWidgetModel with ChangeNotifier {
     required WorkoutSet workoutSet,
     required int index,
   }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     /// Update Workout Set
     List<WorkoutSet> workoutSets = routineWorkout.sets;
 

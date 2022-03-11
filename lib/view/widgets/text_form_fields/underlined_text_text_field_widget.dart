@@ -44,10 +44,10 @@ class UnderlinedTextTextFieldWidget extends ConsumerWidget {
   final void Function(String)? onFieldSubmitted;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
-    final model = watch(textFieldModelProvider);
+    final model = ref.watch(textFieldModelProvider);
     final counter = '${controller.text.length}/$maxLength';
 
     return TextFormField(

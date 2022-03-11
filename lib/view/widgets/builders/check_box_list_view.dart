@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:workout_player/styles/text_styles.dart';
@@ -7,6 +6,7 @@ import 'package:workout_player/view/widgets/animations/fade_slide_transition.dar
 class CheckboxListView extends StatelessWidget {
   const CheckboxListView({
     Key? key,
+    required this.animation,
     required this.items,
     required this.checked,
     required this.onChangedMainMuscleEnum,
@@ -23,6 +23,7 @@ class CheckboxListView extends StatelessWidget {
     this.opacityCurves = Curves.decelerate,
   }) : super(key: key);
 
+  final Animation<double> animation;
   final List<dynamic> items;
   final bool Function(dynamic) checked;
   final void Function(bool? value, dynamic item) onChangedMainMuscleEnum;
@@ -60,6 +61,7 @@ class CheckboxListView extends StatelessWidget {
         assert(opacityEnd <= 1);
 
         return FadeSlideTransition(
+          animation: animation,
           beginOffset: const Offset(0.75, 0),
           offsetBeginInterval: offsetBegin,
           offsetEndInterval: offsetEnd,

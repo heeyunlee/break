@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/view/widgets/library/library_list_tile.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
@@ -12,13 +12,11 @@ import 'package:workout_player/services/database.dart';
 
 import 'workout_detail_screen.dart';
 
-class SavedWorkoutsScreen extends StatelessWidget {
-  final Database database;
+class SavedWorkoutsScreen extends ConsumerWidget {
   final User user;
 
   const SavedWorkoutsScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
@@ -26,14 +24,13 @@ class SavedWorkoutsScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => SavedWorkoutsScreen(
-        database: database,
+      builder: (context) => SavedWorkoutsScreen(
         user: user,
       ),
     );
   }
 
-  void _getDocuments(List<Future<Workout?>> workoutsFuture) {
+  void _getDocuments(List<Future<Workout?>> workoutsFuture, Database database) {
     user.savedWorkouts?.map((id) {
       final Future<Workout?> nextDoc = database.getWorkout(id);
       workoutsFuture.add(nextDoc);
@@ -41,12 +38,12 @@ class SavedWorkoutsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final List<Future<Workout?>> workoutsFuture = [];
 
     final size = MediaQuery.of(context).size;
 
-    _getDocuments(workoutsFuture);
+    _getDocuments(workoutsFuture, ref.read(databaseProvider));
 
     return Scaffold(
       appBar: AppBar(

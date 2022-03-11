@@ -1,37 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final personalGoalsScreenModelProvider =
-    ChangeNotifierProvider.autoDispose.family<PersonalGoalsScreenModel, User>(
-  (ref, data) => PersonalGoalsScreenModel(user: data),
-);
-
 class PersonalGoalsScreenModel with ChangeNotifier {
-  User user;
-  AuthService? auth;
-  FirestoreDatabase? database;
-
   PersonalGoalsScreenModel({
     required this.user,
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+    required this.database,
+  });
+
+  final User user;
+  final Database database;
 
   num _proteinGoal = 150.0;
   num _liftingGoal = 20000.0;
@@ -125,7 +111,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'dailyWeightsGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -151,7 +137,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'weightGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -219,7 +205,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'bodyFatPercentageGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -245,7 +231,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'dailyProteinGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -271,7 +257,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'dailyCarbsGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -297,7 +283,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'dailyFatGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
@@ -325,7 +311,7 @@ class PersonalGoalsScreenModel with ChangeNotifier {
         'dailyCalorieConsumptionGoal': _currentlyEditingValue,
       };
 
-      await database!.updateUser(auth!.currentUser!.uid, userData);
+      await database.updateUser(database.uid!, userData);
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 

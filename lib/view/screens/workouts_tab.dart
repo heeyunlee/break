@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -22,17 +22,15 @@ import 'workout_detail_screen.dart';
 ///
 /// ### Enhancement
 ///
-class WorkoutsTab extends StatelessWidget {
+class WorkoutsTab extends ConsumerWidget {
   const WorkoutsTab({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('[WorkoutsTab] tab...');
 
-    final database = Provider.of<Database>(context, listen: false);
-
     return CustomStreamBuilder<List<Workout>>(
-      stream: database.userWorkoutsStream(),
+      stream: ref.read(databaseProvider).userWorkoutsStream(),
       emptyWidget: SingleChildScrollView(
         child: _buildHeader(context, isHeader: false),
       ),

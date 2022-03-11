@@ -1,32 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-class UserFeedbackScreen extends StatefulWidget {
+class UserFeedbackScreen extends ConsumerStatefulWidget {
   final User user;
-  final Database database;
 
   const UserFeedbackScreen({
     Key? key,
     required this.user,
-    required this.database,
   }) : super(key: key);
 
   static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => UserFeedbackScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => UserFeedbackScreen(user: user),
     );
   }
 
@@ -34,7 +29,7 @@ class UserFeedbackScreen extends StatefulWidget {
   _UserFeedbackScreenState createState() => _UserFeedbackScreenState();
 }
 
-class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
+class _UserFeedbackScreenState extends ConsumerState<UserFeedbackScreen> {
   late String _userFeedback;
   late TextEditingController _textController1;
 
@@ -65,7 +60,9 @@ class _UserFeedbackScreenState extends State<UserFeedbackScreen> {
         userEmail: widget.user.userEmail,
         isResolved: false,
       );
-      await widget.database.setUserFeedback(userFeedback);
+
+      final database = ref.watch(databaseProvider);
+      await database.setUserFeedback(userFeedback);
 
       Navigator.of(context).pop();
 

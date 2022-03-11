@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final reorderRoutineWorkoutsScreenModelProvider = ChangeNotifierProvider(
-  (ref) => ReorderRoutineWorkoutsScreenModel(),
-);
-
 class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  ReorderRoutineWorkoutsScreenModel({required this.database});
 
-  ReorderRoutineWorkoutsScreenModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
 
   List<RoutineWorkout?> _newList = [];
   Map<int, RoutineWorkout?> _newMap = {};
@@ -78,7 +64,7 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
             'index': key + 1,
           };
 
-          database!.updateRoutineWorkout(
+          database.updateRoutineWorkout(
             routine: routine,
             routineWorkout: value,
             data: routineWokrout,

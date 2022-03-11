@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 
 const kCustomDivider = Divider(
   color: Colors.white24,
@@ -49,15 +47,3 @@ typedef ItemWidgetBuilder2<T> = Widget Function(
 typedef SnapshotActiveBuilder<T> = Widget Function(
     BuildContext context, T data);
 typedef ErrorWidgetBuilder = Widget Function(BuildContext context, Object e);
-
-typedef CustomNavigatorBuilder = Widget Function(
-  BuildContext context,
-  AuthBase auth,
-  Database database,
-);
-
-typedef AuthAndDatabaseWidget = Widget Function(
-  AuthBase auth,
-  Database database,
-  Widget child,
-);

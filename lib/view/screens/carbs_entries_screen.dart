@@ -1,24 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-class CarbsEntriesScreen extends StatelessWidget {
-  final Database database;
+class CarbsEntriesScreen extends ConsumerWidget {
   final User user;
 
   const CarbsEntriesScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
@@ -26,14 +25,15 @@ class CarbsEntriesScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => CarbsEntriesScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => CarbsEntriesScreen(user: user),
     );
   }
 
-  Future<void> _delete(BuildContext context, Nutrition nutrition) async {
+  Future<void> _delete(
+    BuildContext context,
+    Nutrition nutrition,
+    Database database,
+  ) async {
     try {
       // Cloud Firestore Callback
       await database.deleteNutrition(nutrition);
@@ -53,7 +53,9 @@ class CarbsEntriesScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch(databaseProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.proteinEntriesTitle, style: TextStyles.subtitle2),
@@ -85,7 +87,11 @@ class CarbsEntriesScreen extends StatelessWidget {
                             label: S.current.delete,
                             backgroundColor: Colors.red,
                             icon: Icons.delete_rounded,
-                            onPressed: (context) => _delete(context, nutrition),
+                            onPressed: (context) => _delete(
+                              context,
+                              nutrition,
+                              database,
+                            ),
                           ),
                         ],
                       ),

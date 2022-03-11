@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -17,13 +16,12 @@ import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
-import 'miniplayer_model.dart';
-
-final logRoutineModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => LogRoutineModel(),
-);
 
 class LogRoutineModel with ChangeNotifier {
+  LogRoutineModel({required this.database});
+
+  final Database database;
+
   bool _isButtonPressed = false;
   Timestamp _loggedTime = Timestamp.now();
   double _effort = 2.5;
@@ -121,8 +119,7 @@ class LogRoutineModel with ChangeNotifier {
 
   // Submit data to Firestore
   Future<void> submit(
-    BuildContext context,
-    Database database, {
+    BuildContext context, {
     required User user,
     required Routine routine,
     required List<RoutineWorkout?> routineWorkouts,
@@ -221,7 +218,7 @@ class LogRoutineModel with ChangeNotifier {
         S.current.afterWorkoutSnackbar,
       );
 
-      context.read(miniplayerModelProvider).close();
+      // ref.read(miniplayerModelProvider).close();
 
       _toggleBoolValue();
     } on FirebaseException catch (e) {

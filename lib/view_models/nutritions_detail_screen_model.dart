@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/food_item.dart';
 import 'package:workout_player/models/nutrition.dart';
@@ -12,11 +11,11 @@ import 'package:workout_player/view/widgets/widgets.dart';
 import 'home_screen_model.dart';
 import 'main_model.dart';
 
-final nutritionsDetailScreenModelProvider = ChangeNotifierProvider(
-  (ref) => NutritionsDetailScreenModel(),
-);
-
 class NutritionsDetailScreenModel with ChangeNotifier {
+  NutritionsDetailScreenModel({required this.database});
+
+  final Database database;
+
   late Nutrition _nutrition;
 
   Nutrition get nutrition => _nutrition;
@@ -27,7 +26,6 @@ class NutritionsDetailScreenModel with ChangeNotifier {
 
   Future<void> delete(
     BuildContext context, {
-    required Database database,
     required Nutrition nutrition,
   }) async {
     try {

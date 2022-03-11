@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
 
-class NutritionCaloriesListTile extends StatelessWidget {
+class NutritionCaloriesListTile extends ConsumerWidget {
   const NutritionCaloriesListTile({Key? key, required this.nutrition})
       : super(key: key);
 
   final Nutrition nutrition;
 
   @override
-  Widget build(BuildContext context) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(firebaseAuthProvider);
     final isOwner = auth.currentUser?.uid == nutrition.userId;
 
     return ListTile(
@@ -36,10 +35,10 @@ class NutritionCaloriesListTile extends StatelessWidget {
       context: context,
       builder: (context) {
         return Consumer(
-          builder: (context, watch, child) {
+          builder: (context, ref, child) {
             final theme = Theme.of(context);
             final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-            final model = watch(editNutritionModelProvider(nutrition));
+            final model = ref.watch(editNutritionModelProvider(nutrition));
 
             model.initCaloriesController();
 

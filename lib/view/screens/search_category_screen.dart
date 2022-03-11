@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
@@ -9,6 +8,7 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -26,7 +26,7 @@ import 'workout_detail_screen.dart';
 ///
 /// ### Enhancement
 ///
-class SearchCategoryScreen extends StatelessWidget {
+class SearchCategoryScreen extends ConsumerWidget {
   const SearchCategoryScreen({
     Key? key,
     this.isEqualTo,
@@ -47,7 +47,7 @@ class SearchCategoryScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => SearchCategoryScreen(
+      builder: (context) => SearchCategoryScreen(
         isEqualTo: isEqualTo,
         arrayContains: arrayContains,
         searchCategory: searchCategory,
@@ -56,7 +56,9 @@ class SearchCategoryScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch(databaseProvider);
+
     logger.d('[SearchCategoryScreen] building...');
 
     final theme = Theme.of(context);
@@ -100,8 +102,8 @@ class SearchCategoryScreen extends StatelessWidget {
           },
           body: TabBarView(
             children: <Widget>[
-              _buildWorkoutsBody(context),
-              _buildRoutinesBody(context),
+              _buildWorkoutsBody(context, database),
+              _buildRoutinesBody(context, database),
             ],
           ),
         ),
@@ -109,8 +111,7 @@ class SearchCategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWorkoutsBody(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
+  Widget _buildWorkoutsBody(BuildContext context, Database database) {
     final stream = (isEqualTo != null)
         ? database.workoutsSearchStream(
             isEqualTo: true,
@@ -219,8 +220,7 @@ class SearchCategoryScreen extends StatelessWidget {
     // );
   }
 
-  Widget _buildRoutinesBody(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
+  Widget _buildRoutinesBody(BuildContext context, Database database) {
     final stream = (isEqualTo != null)
         ? database.routinesSearchStream(
             isEqualTo: true,

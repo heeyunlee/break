@@ -2,35 +2,31 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
-class WorkoutHistoriesTab extends StatefulWidget {
-  final User user;
+class WorkoutHistoriesTab extends ConsumerStatefulWidget {
   final Workout workout;
-  final Database database;
 
   const WorkoutHistoriesTab({
     Key? key,
-    required this.user,
     required this.workout,
-    required this.database,
   }) : super(key: key);
 
   @override
   _WorkoutHistoriesTabState createState() => _WorkoutHistoriesTabState();
 }
 
-class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
+class _WorkoutHistoriesTabState extends ConsumerState<WorkoutHistoriesTab> {
   int? touchedIndex;
   late double _maxY;
 
@@ -143,10 +139,12 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
 
   @override
   Widget build(BuildContext context) {
+    final database = ref.watch(databaseProvider);
+
     logger.d('build routine histories Tab');
 
     return CustomStreamBuilder<List<WorkoutHistory?>>(
-      stream: widget.database.workoutHistoriesThisWeekStream(
+      stream: database.workoutHistoriesThisWeekStream(
         widget.workout.workoutId,
       ),
       builder: (context, data) {
@@ -175,10 +173,12 @@ class _WorkoutHistoriesTabState extends State<WorkoutHistoriesTab> {
   }
 
   Widget _buildChartWidget(List<double> relativeYs) {
-    final unit = Formatter.unitOfMass(
-      widget.user.unitOfMass,
-      widget.user.unitOfMassEnum,
-    );
+    // final unit = Formatter.unitOfMass(
+    //   widget.user.unitOfMass,
+    //   widget.user.unitOfMassEnum,
+    // );
+    // TODO: change
+    const unit = 'Kg';
 
     return Card(
       margin: const EdgeInsets.all(16),

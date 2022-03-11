@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
@@ -13,22 +12,19 @@ import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final workoutSetWidgetModelProvider = ChangeNotifierProvider(
-  (ref) => WorkoutSetWidgetModel(),
-);
-
 class WorkoutSetWidgetModel with ChangeNotifier {
+  WorkoutSetWidgetModel({required this.database});
+
+  final Database database;
+
   /// DELETE WORKOUT SET
   Future<void> deleteSet(
-    BuildContext context,
-    Database? database, {
+    BuildContext context, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required WorkoutSet workoutSet,
   }) async {
     try {
-      assert(database != null);
-
       // Update Routine Workout Data
       final numberOfSets = (workoutSet.isRest)
           ? routineWorkout.numberOfSets
@@ -53,7 +49,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
         'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
       };
 
-      await database!.setWorkoutSet(
+      await database.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -98,8 +94,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
   /// UPDATE WEIGHT
   Future<void> updateWeight(
-    BuildContext context,
-    Database? database, {
+    BuildContext context, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -109,8 +104,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
   }) async {
     /// Update Workout Set
     try {
-      assert(database != null);
-
       final List<WorkoutSet> workoutSets = routineWorkout.sets;
 
       final updatedWorkoutSet = workoutSet.copyWith(
@@ -121,7 +114,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       focusNode.unfocus();
 
-      await _submit(context, database!, routine, routineWorkout, workoutSets);
+      await _submit(context, database, routine, routineWorkout, workoutSets);
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(
@@ -134,8 +127,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
   /// UPDATE WEIGHT
   Future<void> updateReps(
-    BuildContext context,
-    Database? database, {
+    BuildContext context, {
     required TextEditingController textEditingController,
     required FocusNode focusNode,
     required Routine routine,
@@ -145,8 +137,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
   }) async {
     /// Update Workout Set
     try {
-      assert(database != null);
-
       final List<WorkoutSet> workoutSets = routineWorkout.sets;
 
       final updatedWorkoutSet = workoutSet.copyWith(
@@ -157,7 +147,7 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       focusNode.unfocus();
 
-      await _submit(context, database!, routine, routineWorkout, workoutSets);
+      await _submit(context, database, routine, routineWorkout, workoutSets);
     } on FirebaseException catch (e) {
       logger.e(e);
       await showExceptionAlertDialog(

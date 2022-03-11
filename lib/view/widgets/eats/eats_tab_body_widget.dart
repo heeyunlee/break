@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/screens/calories_entries_screen.dart';
@@ -12,17 +11,15 @@ import 'package:workout_player/view/widgets/charts/weekly_bar_chart.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/weekly_calories_chart_model.dart';
 
-class EatsTabBodyWidget extends StatelessWidget {
+class EatsTabBodyWidget extends ConsumerWidget {
   const EatsTabBodyWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return CustomStreamBuilder<EatsTabClass>(
-      stream: database.eatsTabStream(),
+      stream: ref.read(databaseProvider).eatsTabStream(),
       builder: (context, data) {
         return CustomScrollView(
           slivers: [
@@ -49,8 +46,8 @@ class EatsTabBodyWidget extends StatelessWidget {
                     touchedColor: Colors.green,
                     title: S.current.consumedCalorie,
                     chart: Consumer(
-                      builder: (context, watch, child) {
-                        final model = watch(
+                      builder: (context, ref, child) {
+                        final model = ref.watch(
                           weeklyCaloriesChartModelProvider(data),
                         );
                         return WeeklyBarChart(

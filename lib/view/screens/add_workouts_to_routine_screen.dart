@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -32,11 +32,11 @@ class AddWorkoutsToRoutineScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => AddWorkoutsToRoutineScreen(
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => AddWorkoutsToRoutineScreen(
           routine: routine,
           routineWorkouts: routineWorkouts,
-          model: watch(addWorkoutsToRoutineScreenModelProvider),
+          model: ref.watch(addWorkoutsToRoutineScreenModelProvider),
         ),
       ),
     );

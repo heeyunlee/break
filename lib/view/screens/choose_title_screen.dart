@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -31,17 +30,17 @@ class ChooseTitleScreen<T> extends StatefulWidget {
   static void show<T>(
     BuildContext context, {
     required GlobalKey<FormState> formKey,
-    required ProviderBase<ChangeNotifier, T> provider,
+    required ProviderBase<T> provider,
     required String appBarTitle,
     required String hintText,
   }) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => ChooseTitleScreen<T>(
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => ChooseTitleScreen<T>(
           formKey: formKey,
-          model: watch(provider),
+          model: ref.watch(provider),
           appBarTitle: appBarTitle,
           hintText: hintText,
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/view_models/text_field_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -15,7 +14,7 @@ import 'package:workout_player/styles/text_styles.dart';
 /// This widget uses [TextFieldModel] for `customValidator`, `onChanged`,
 /// `onSaved`, and `onFieldSubmitted` functions by default, but can take custom
 /// values.
-class OutlinedTextTextFieldWidget extends StatelessWidget {
+class OutlinedTextTextFieldWidget extends ConsumerWidget {
   const OutlinedTextTextFieldWidget({
     Key? key,
     this.autofocus = false,
@@ -70,9 +69,9 @@ class OutlinedTextTextFieldWidget extends StatelessWidget {
   final EdgeInsets? contentPadding;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final model = context.read(textFieldModelProvider);
+    final model = ref.read(textFieldModelProvider);
 
     return TextFormField(
       autofocus: autofocus!,

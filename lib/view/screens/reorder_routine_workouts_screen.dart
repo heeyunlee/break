@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
@@ -33,11 +32,11 @@ class ReorderRoutineWorkoutsScreen extends StatefulWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => ReorderRoutineWorkoutsScreen(
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => ReorderRoutineWorkoutsScreen(
           routine: routine,
           routineWorkouts: routineWorkouts,
-          model: watch(reorderRoutineWorkoutsScreenModelProvider),
+          model: ref.watch(reorderRoutineWorkoutsScreenModelProvider),
         ),
       ),
     );

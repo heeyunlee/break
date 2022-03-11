@@ -9,7 +9,7 @@ class ConnectBankAcocuntScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => const ConnectBankAcocuntScreen(),
+      builder: (context) => const ConnectBankAcocuntScreen(),
     );
   }
 

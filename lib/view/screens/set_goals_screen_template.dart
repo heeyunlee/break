@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:workout_player/models/user.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view/widgets/buttons/appbar_close_button.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -61,7 +60,7 @@ class SetGoalsScreenTemplate extends StatelessWidget {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => SetGoalsScreenTemplate(
+      builder: (context) => SetGoalsScreenTemplate(
         model: model,
         user: user,
         fabOnPressed: fabOnPressed,
@@ -125,8 +124,8 @@ class SetGoalsScreenTemplate extends StatelessWidget {
   Widget _buildNumberPicker(Size size) {
     return Center(
       child: Consumer(
-        builder: (context, watch, child) {
-          final model = watch(personalGoalsScreenModelProvider(user));
+        builder: (context, ref, child) {
+          final model = ref.watch(personalGoalsScreenModelProvider(user));
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,

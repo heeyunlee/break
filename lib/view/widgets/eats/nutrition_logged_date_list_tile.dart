@@ -1,17 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 
 import '../widgets.dart';
 
-class NutritionLoggedDateListTile extends StatelessWidget {
+class NutritionLoggedDateListTile extends ConsumerWidget {
   const NutritionLoggedDateListTile({
     Key? key,
     required this.nutrition,
@@ -20,8 +18,8 @@ class NutritionLoggedDateListTile extends StatelessWidget {
   final Nutrition nutrition;
 
   @override
-  Widget build(BuildContext context) {
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(firebaseAuthProvider);
     final isOwner = auth.currentUser?.uid == nutrition.userId;
 
     return ListTile(
@@ -39,8 +37,8 @@ class NutritionLoggedDateListTile extends StatelessWidget {
       context: context,
       builder: (context) {
         return Consumer(
-          builder: (context, watch, child) {
-            final model = watch(editNutritionModelProvider(nutrition));
+          builder: (context, ref, child) {
+            final model = ref.watch(editNutritionModelProvider(nutrition));
 
             return AdaptiveDatePicker(
               showButton: true,

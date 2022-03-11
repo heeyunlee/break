@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -23,13 +23,11 @@ import 'package:workout_player/utils/formatter.dart';
 ///
 /// ### Enhancement
 ///
-class BodyFatEntriesScreen extends StatelessWidget {
-  final Database database;
+class BodyFatEntriesScreen extends ConsumerWidget {
   final User user;
 
   const BodyFatEntriesScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
@@ -40,14 +38,15 @@ class BodyFatEntriesScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => BodyFatEntriesScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => BodyFatEntriesScreen(user: user),
     );
   }
 
-  Future<void> _delete(BuildContext context, Measurement measurement) async {
+  Future<void> _delete(
+    BuildContext context,
+    Measurement measurement,
+    Database database,
+  ) async {
     try {
       await database.deleteMeasurement(measurement: measurement);
 
@@ -66,7 +65,9 @@ class BodyFatEntriesScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch(databaseProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.bodyMeasurement, style: TextStyles.subtitle2),
@@ -96,8 +97,11 @@ class BodyFatEntriesScreen extends StatelessWidget {
                             label: S.current.delete,
                             backgroundColor: Colors.red,
                             icon: Icons.delete_rounded,
-                            onPressed: (context) =>
-                                _delete(context, measurement),
+                            onPressed: (context) => _delete(
+                              context,
+                              measurement,
+                              database,
+                            ),
                           ),
                         ],
                       ),

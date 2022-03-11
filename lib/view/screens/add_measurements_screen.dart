@@ -1,49 +1,34 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:keyboard_actions/keyboard_actions.dart';
 
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/add_measurements_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/constants.dart';
-import 'package:workout_player/utils/formatter.dart';
 
 /// Screen where users can input their [Measurement] data.
 class AddMeasurementsScreen extends StatefulWidget {
-  final User user;
-  final Database database;
   final AddMeasurementsScreenModel model;
 
   const AddMeasurementsScreen({
     Key? key,
-    required this.user,
-    required this.database,
     required this.model,
   }) : super(key: key);
 
   /// FOR Navigation
   static Future<void> show(BuildContext context) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => Consumer(
-        builder: (context, watch, child) => AddMeasurementsScreen(
-          user: user,
-          database: database,
-          model: watch(addMeasurementsScreenModelProvider),
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => AddMeasurementsScreen(
+          model: ref.watch(addMeasurementsScreenModelProvider),
         ),
       ),
     );
@@ -78,10 +63,12 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    final unit = Formatter.unitOfMass(
-      widget.user.unitOfMass,
-      widget.user.unitOfMassEnum,
-    );
+    // final unit = Formatter.unitOfMass(
+    //   widget.user.unitOfMass,
+    //   widget.user.unitOfMassEnum,
+    // );
+    // TODO: add unit here
+    const unit = 'Kg';
 
     return KeyboardActions(
       config: _buildConfig(context),
@@ -178,11 +165,7 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
         bottom: widget.model.hasFocus() ? 48 : 0,
       ),
       child: FloatingActionButton.extended(
-        onPressed: () => widget.model.submit(
-          context,
-          widget.database,
-          widget.user,
-        ),
+        onPressed: () => widget.model.submit(context),
         backgroundColor:
             widget.model.validate() ? theme.colorScheme.primary : Colors.grey,
         heroTag: 'addProteinButton',

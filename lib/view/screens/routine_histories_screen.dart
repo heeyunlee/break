@@ -1,40 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/screens/choose_routine_screen.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/progress/daily_summary_card.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'routine_history_detail_screen.dart';
 
-class RoutineHistoriesScreen extends StatelessWidget {
-  final Database database;
-  final AuthBase auth;
-
-  const RoutineHistoriesScreen({
-    Key? key,
-    required this.database,
-    required this.auth,
-  }) : super(key: key);
+class RoutineHistoriesScreen extends ConsumerWidget {
+  const RoutineHistoriesScreen({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => RoutineHistoriesScreen(
-        database: database,
-        auth: auth,
-      ),
+      builder: (context) => const RoutineHistoriesScreen(),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.routineHistoryTitle, style: TextStyles.subtitle2),
@@ -42,7 +30,7 @@ class RoutineHistoriesScreen extends StatelessWidget {
         leading: const AppBarBackButton(),
       ),
       body: CustomStreamBuilder<List<RoutineHistory>>(
-        stream: database.routineHistoriesStream(),
+        stream: ref.read(databaseProvider).routineHistoriesStream(),
         emptyWidget: EmptyContentWidget(
           imageUrl: 'assets/images/routine_history_empty_bg.png',
           bodyText: S.current.routineHistoyEmptyMessage,
@@ -64,8 +52,6 @@ class RoutineHistoriesScreen extends StatelessWidget {
                       onTap: () => RoutineHistoryDetailScreen.show(
                         context,
                         routineHistory: routineHistory,
-                        database: database,
-                        auth: auth,
                         theme: Theme.of(context),
                       ),
                     );

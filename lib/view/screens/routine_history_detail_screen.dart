@@ -1,54 +1,42 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/progress/summary_row_widget.dart';
-import 'package:workout_player/view/widgets/progress/workout_history_card.dart';
 
 List<WorkoutHistory> workoutHistories = [];
 
-class RoutineHistoryDetailScreen extends StatefulWidget {
+class RoutineHistoryDetailScreen extends ConsumerStatefulWidget {
   const RoutineHistoryDetailScreen({
     Key? key,
-    required this.database,
-    required this.auth,
     required this.routineHistory,
     required this.theme,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
-  final Database database;
-  final AuthBase auth;
   final ThemeData theme;
 
   static void show(
     BuildContext context, {
     required RoutineHistory routineHistory,
-    required Database database,
-    required AuthBase auth,
     required ThemeData theme,
   }) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => RoutineHistoryDetailScreen(
+      builder: (context) => RoutineHistoryDetailScreen(
         routineHistory: routineHistory,
-        database: database,
-        auth: auth,
         theme: theme,
       ),
     );
@@ -59,7 +47,8 @@ class RoutineHistoryDetailScreen extends StatefulWidget {
       _RoutineHistoryDetailScreenState();
 }
 
-class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
+class _RoutineHistoryDetailScreenState
+    extends ConsumerState<RoutineHistoryDetailScreen>
     with TickerProviderStateMixin {
   late FocusNode focusNode1;
   late TextEditingController _textController1;
@@ -121,10 +110,11 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     RoutineHistory routineHistory,
   ) async {
     try {
-      await widget.database.deleteRoutineHistory(routineHistory);
-      await widget.database.batchDeleteWorkoutHistories(workoutHistories);
+      final database = ref.watch(databaseProvider);
+      await database.deleteRoutineHistory(routineHistory);
+      await database.batchDeleteWorkoutHistories(workoutHistories);
 
-      final homeScreenModel = context.read(homeScreenModelProvider);
+      final homeScreenModel = ref.read(homeScreenModelProvider);
 
       homeScreenModel.popUntilRoot(context);
 
@@ -148,7 +138,8 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       final routineHistory = {
         'notes': _notes,
       };
-      await widget.database.updateRoutineHistory(
+      final database = ref.watch(databaseProvider);
+      await database.updateRoutineHistory(
         widget.routineHistory,
         routineHistory,
       );
@@ -173,10 +164,10 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
       final routineHistory = {
         'isPublic': _isPublic,
       };
-      await widget.database.updateRoutineHistory(
-        widget.routineHistory,
-        routineHistory,
-      );
+      await ref.read(databaseProvider).updateRoutineHistory(
+            widget.routineHistory,
+            routineHistory,
+          );
 
       getSnackbarWidget(
         S.current.isPublicRoutineHistorySnackbarTitle,
@@ -297,6 +288,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
 
   Widget _buildSliverBody() {
     final theme = Theme.of(context);
+    final database = ref.watch(databaseProvider);
 
     final routineHistory = widget.routineHistory;
 
@@ -355,8 +347,7 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: (widget.routineHistory.userId ==
-                        widget.auth.currentUser!.uid)
+                child: (widget.routineHistory.userId == database.uid)
                     ? TextFormField(
                         maxLines: 4,
                         textInputAction: TextInputAction.done,
@@ -385,13 +376,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                       ),
               ),
             ),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               const SizedBox(height: 32),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               Divider(color: Colors.grey[800]!),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               const SizedBox(height: 16),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -426,13 +417,13 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
                 ],
               ),
             // TODO: Change this
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               const SizedBox(height: 24),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               Divider(color: Colors.grey[800]!),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               const SizedBox(height: 24),
-            if (widget.routineHistory.userId == widget.auth.currentUser!.uid)
+            if (widget.routineHistory.userId == database.uid)
               MaxWidthRaisedButton(
                 width: double.infinity,
                 color: Colors.red,
@@ -454,9 +445,9 @@ class _RoutineHistoryDetailScreenState extends State<RoutineHistoryDetailScreen>
     if (widget.routineHistory.routineHistoryType == null ||
         widget.routineHistory.routineHistoryType == 'routine') {
       return CustomStreamBuilder<List<WorkoutHistory>>(
-        stream: widget.database.workoutHistoriesStream(
-          widget.routineHistory.routineHistoryId,
-        ),
+        stream: ref.read(databaseProvider).workoutHistoriesStream(
+              widget.routineHistory.routineHistoryId,
+            ),
         builder: (context, snapshot) {
           return CustomListViewBuilder<WorkoutHistory>(
             items: snapshot,

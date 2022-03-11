@@ -3,42 +3,38 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/view/screens/edit_routine_screen.dart';
-import 'package:workout_player/view/widgets/modal_sheets/show_custom_modal_bottom_sheet.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 
 import '../widgets.dart';
 
-class RoutineStreamHasDataWidget extends StatefulWidget {
+class RoutineStreamHasDataWidget extends ConsumerStatefulWidget {
   const RoutineStreamHasDataWidget({
     Key? key,
     required this.model,
     required this.data,
     required this.tag,
-    required this.authAndDatabase,
     required this.theme,
   }) : super(key: key);
 
   final RoutineDetailScreenModel model;
   final RoutineDetailScreenClass data;
   final String tag;
-  final AuthAndDatabase authAndDatabase;
   final ThemeData theme;
 
   static create({
     required RoutineDetailScreenClass data,
     required String tag,
-    required AuthAndDatabase authAndDatabase,
   }) {
     return Consumer(
-      builder: (context, watch, child) => RoutineStreamHasDataWidget(
-        model: watch(routineDetailScreenModelProvider),
+      builder: (context, ref, child) => RoutineStreamHasDataWidget(
+        model: ref.watch(routineDetailScreenModelProvider),
         data: data,
         tag: tag,
-        authAndDatabase: authAndDatabase,
         theme: Theme.of(context),
       ),
     );
@@ -49,7 +45,8 @@ class RoutineStreamHasDataWidget extends StatefulWidget {
       _RoutineStreamHasDataWidgetState();
 }
 
-class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
+class _RoutineStreamHasDataWidgetState
+    extends ConsumerState<RoutineStreamHasDataWidget>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
@@ -101,7 +98,6 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
           ),
           RoutineSliverToBoxAdapter(data: widget.data),
           RoutineStickyHeaderAndBody(
-            authAndDatabase: widget.authAndDatabase,
             data: widget.data,
             model: widget.model,
           ),
@@ -114,8 +110,10 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
     final routine = widget.data.routine ?? DummyData.routine;
     final homeContext = HomeScreenModel.homeScreenNavigatorKey.currentContext!;
 
+    final database = ref.watch(databaseProvider);
     final isRoutineSaved =
         widget.data.user!.savedRoutines?.contains(routine.routineId) ?? false;
+    final isOwner = database.uid == routine.routineOwnerId;
 
     return [
       IconButton(
@@ -128,23 +126,23 @@ class _RoutineStreamHasDataWidgetState extends State<RoutineStreamHasDataWidget>
           widget.data,
         ),
       ),
-      if (widget.authAndDatabase.auth.currentUser!.uid ==
-          routine.routineOwnerId)
-        IconButton(
-          icon: const Icon(Icons.edit_rounded, color: Colors.white),
-          onPressed: () => EditRoutineScreen.show(
-            context,
-            database: widget.authAndDatabase.database,
-            data: widget.data,
-          ),
-        ),
       IconButton(
         onPressed: () => showCustomModalBottomSheet(
           homeContext,
           title: routine.routineTitle,
-          firstTileTitle: S.current.deleteLowercase,
-          firstTileIcon: Icons.delete_outline_rounded,
-          firstTileOnTap: () => widget.model.delete(
+          firstTileTitle: isOwner ? S.current.edit : null,
+          firstTileIcon: isOwner ? Icons.edit_rounded : null,
+          firstTileOnTap: () {
+            Navigator.of(homeContext).pop();
+
+            EditRoutineScreen.show(
+              context,
+              data: widget.data,
+            );
+          },
+          secondTileTitle: S.current.deleteLowercase,
+          secondTileIcon: Icons.delete_outline_rounded,
+          secondTileOnTap: () => widget.model.delete(
             context,
             routine: routine,
           ),

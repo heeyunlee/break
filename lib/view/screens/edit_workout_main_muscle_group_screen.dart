@@ -1,41 +1,34 @@
 import 'dart:math';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
+import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/database.dart';
 
-class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
+class EditWorkoutMainMuscleGroupScreen extends ConsumerStatefulWidget {
   const EditWorkoutMainMuscleGroupScreen({
     Key? key,
     required this.workout,
-    required this.database,
-    required this.user,
   }) : super(key: key);
 
   final Workout workout;
-  final Database database;
-  final User user;
 
   static void show(
     BuildContext context, {
     required Workout workout,
-    required User user,
   }) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => EditWorkoutMainMuscleGroupScreen(
-        database: database,
+      builder: (context) => EditWorkoutMainMuscleGroupScreen(
         workout: workout,
-        user: user,
       ),
     );
   }
@@ -46,7 +39,7 @@ class EditWorkoutMainMuscleGroupScreen extends StatefulWidget {
 }
 
 class _EditWorkoutMainMuscleGroupScreenState
-    extends State<EditWorkoutMainMuscleGroupScreen> {
+    extends ConsumerState<EditWorkoutMainMuscleGroupScreen> {
   Map<String, bool> _mainMuscleGroup = MainMuscleGroup.values[0].map;
   final List _selectedMainMuscleGroup = [];
 
@@ -153,7 +146,7 @@ class _EditWorkoutMainMuscleGroupScreenState
     }
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(Database database) async {
     if (_selectedMainMuscleGroup.isNotEmpty) {
       try {
         // Image URL
@@ -169,7 +162,7 @@ class _EditWorkoutMainMuscleGroupScreenState
           'mainMuscleGroup': _selectedMainMuscleGroup,
         };
 
-        await widget.database.updateWorkout(widget.workout, workout);
+        await database.updateWorkout(widget.workout, workout);
         Navigator.of(context).pop();
 
         getSnackbarWidget(
@@ -202,7 +195,9 @@ class _EditWorkoutMainMuscleGroupScreenState
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        leading: AppBarBackButton(onPressed: _submit),
+        leading: AppBarBackButton(
+          onPressed: () => _submit(ref.read(databaseProvider)),
+        ),
         title: Text(S.current.mainMuscleGroup, style: TextStyles.subtitle1),
       ),
       body: SingleChildScrollView(

@@ -5,7 +5,7 @@ import 'package:workout_player/view_models/text_field_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OutlinedNumberTextFieldWidget extends StatelessWidget {
+class OutlinedNumberTextFieldWidget extends ConsumerWidget {
   const OutlinedNumberTextFieldWidget({
     Key? key,
     required this.focusNode,
@@ -32,9 +32,9 @@ class OutlinedNumberTextFieldWidget extends StatelessWidget {
   final bool autoFocus;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final model = context.read(textFieldModelProvider);
+    final model = ref.read(textFieldModelProvider);
 
     return TextFormField(
       autofocus: autoFocus,

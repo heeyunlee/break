@@ -11,9 +11,9 @@ class CustomModalBottomSheet extends StatelessWidget {
     Key? key,
     required this.title,
     this.subtitle,
-    required this.firstTileTitle,
-    required this.firstTileIcon,
-    required this.firstTileOnTap,
+    this.firstTileTitle,
+    this.firstTileIcon,
+    this.firstTileOnTap,
     this.secondTileTitle,
     this.secondTileIcon,
     this.secondTileOnTap,
@@ -24,9 +24,9 @@ class CustomModalBottomSheet extends StatelessWidget {
 
   final String title;
   final String? subtitle;
-  final String firstTileTitle;
-  final IconData firstTileIcon;
-  final void Function() firstTileOnTap;
+  final String? firstTileTitle;
+  final IconData? firstTileIcon;
+  final void Function()? firstTileOnTap;
   final String? secondTileTitle;
   final IconData? secondTileIcon;
   final void Function()? secondTileOnTap;
@@ -73,11 +73,12 @@ class CustomModalBottomSheet extends StatelessWidget {
                 ),
               if (subtitle == null) const SizedBox(height: 8),
               kCustomDivider,
-              ListTile(
-                leading: Icon(firstTileIcon, color: Colors.white, size: 20),
-                title: Text(firstTileTitle, style: TextStyles.body2),
-                onTap: firstTileOnTap,
-              ),
+              if (firstTileTitle != null)
+                ListTile(
+                  leading: Icon(firstTileIcon, color: Colors.white, size: 20),
+                  title: Text(firstTileTitle!, style: TextStyles.body2),
+                  onTap: firstTileOnTap,
+                ),
               if (secondTileTitle != null)
                 ListTile(
                   leading: Icon(secondTileIcon, color: Colors.white, size: 20),

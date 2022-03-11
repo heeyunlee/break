@@ -1,32 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
 import '../widgets.dart';
 
-class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
-  final User user;
-  final Database database;
-  final AuthBase auth;
-  final Workout workout;
-
+class SaveUnsaveWorkoutButtonWidget extends ConsumerWidget {
   const SaveUnsaveWorkoutButtonWidget({
     Key? key,
-    required this.user,
-    required this.database,
-    required this.auth,
     required this.workout,
   }) : super(key: key);
 
+  final Workout workout;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch(databaseProvider);
+
     return CustomStreamBuilder<User?>(
-      initialData: user,
       stream: database.userStream(),
       builder: (context, data) {
         // final User user = snapshot.data!;
@@ -34,15 +30,15 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
         if (data!.savedWorkouts != null) {
           if (data.savedWorkouts!.isNotEmpty) {
             if (data.savedWorkouts!.contains(workout.workoutId)) {
-              return _unsaveButton(context);
+              return _unsaveButton(context, database);
             } else {
-              return _saveButton(context);
+              return _saveButton(context, database);
             }
           } else {
-            return _saveButton(context);
+            return _saveButton(context, database);
           }
         } else {
-          return _saveButton(context);
+          return _saveButton(context, database);
         }
       },
       errorWidget: const Icon(Icons.error, color: Colors.white),
@@ -50,7 +46,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
     );
   }
 
-  Widget _saveButton(BuildContext context) {
+  Widget _saveButton(BuildContext context, Database database) {
     return IconButton(
       icon: const Icon(
         Icons.bookmark_border_rounded,
@@ -62,7 +58,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
             'savedWorkouts': FieldValue.arrayUnion([workout.workoutId]),
           };
 
-          await database.updateUser(auth.currentUser!.uid, user);
+          await database.updateUser(database.uid!, user);
 
           getSnackbarWidget(
             S.current.savedWorkoutSnackBarTitle,
@@ -82,7 +78,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
     );
   }
 
-  Widget _unsaveButton(BuildContext context) {
+  Widget _unsaveButton(BuildContext context, Database database) {
     return IconButton(
       icon: const Icon(
         Icons.bookmark_rounded,
@@ -93,7 +89,7 @@ class SaveUnsaveWorkoutButtonWidget extends StatelessWidget {
           'savedWorkouts': FieldValue.arrayRemove([workout.workoutId]),
         };
 
-        await database.updateUser(auth.currentUser!.uid, user);
+        await database.updateUser(database.uid!, user);
 
         getSnackbarWidget(
           S.current.unsavedRoutineSnackBarTitle,

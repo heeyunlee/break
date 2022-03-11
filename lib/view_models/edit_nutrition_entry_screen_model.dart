@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/nutrition.dart';
@@ -11,14 +9,13 @@ import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final editNutritionModelProvider =
-    ChangeNotifierProvider.autoDispose.family<EditNutritionModel, Nutrition>(
-  (ref, nutrition) => EditNutritionModel(nutrition: nutrition),
-);
-
 class EditNutritionModel with ChangeNotifier {
-  EditNutritionModel({required this.nutrition});
+  EditNutritionModel({
+    required this.database,
+    required this.nutrition,
+  });
 
+  final Database database;
   Nutrition nutrition;
 
   TextEditingController? _descriptionEditingController;
@@ -220,8 +217,6 @@ class EditNutritionModel with ChangeNotifier {
 
   Future<void> onPressSave(BuildContext context) async {
     try {
-      final database = provider.Provider.of<Database>(context, listen: false);
-
       await database.updateNutrition(
         nutrition: nutrition,
         data: nutrition.toJson(),

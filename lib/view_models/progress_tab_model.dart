@@ -1,25 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 
-final progressTabModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => ProgressTabModel(),
-);
-
 class ProgressTabModel with ChangeNotifier {
-  AuthBase? auth;
-  Database? database;
+  ProgressTabModel({required this.database});
 
-  ProgressTabModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
 
   List<DateTime> _dates = [];
   List<String> _daysOfTheWeek = [];

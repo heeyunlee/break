@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
@@ -15,20 +13,15 @@ import 'package:workout_player/view_models/sign_in_screen_model.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 
 class SignInScreen extends ConsumerWidget {
-  final Database database;
-  final AuthBase auth;
+  const SignInScreen({Key? key, required this.animation}) : super(key: key);
 
-  const SignInScreen({
-    Key? key,
-    required this.database,
-    required this.auth,
-  }) : super(key: key);
+  final Animation<double> animation;
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('[SignInScreen] building...');
 
-    final model = watch(signInScreenProvider);
+    final model = ref.watch(signInScreenProvider);
 
     return Scaffold(
       extendBody: true,
@@ -48,6 +41,7 @@ class SignInScreen extends ConsumerWidget {
               children: <Widget>[
                 SignInLogoWidget(model: model),
                 AnimatedListViewBuilder(
+                  animation: animation,
                   beginOffset: const Offset(0.25, 0),
                   offsetInitialDelayTime: 0.25,
                   offsetStaggerTime: 0.05,

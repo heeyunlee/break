@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-final settingsTabModelProvider = ChangeNotifierProvider(
-  (ref) => SettingsTabModel(),
-);
-
 class SettingsTabModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  SettingsTabModel({required this.database, required this.auth});
 
-  SettingsTabModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
+  final FirebaseAuthService auth;
 
   Future<void> confirmSignOut(BuildContext context) async {
     final didRequestSignOut = await showAlertDialog(
@@ -32,6 +20,7 @@ class SettingsTabModel with ChangeNotifier {
       cancelAcitionText: S.current.cancel,
       defaultActionText: S.current.logout,
     );
+
     if (didRequestSignOut == true) {
       return _signOut(context);
     }
@@ -39,15 +28,7 @@ class SettingsTabModel with ChangeNotifier {
 
   Future<void> _signOut(BuildContext context) async {
     try {
-      // FirebaseCrashlytics.instance.crash();
-      if (auth!.currentUser!.isAnonymous) {
-        await auth!.currentUser!.delete();
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      } else {
-        await auth!.signOut();
-      }
-
-      Navigator.of(context).pop();
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
       getSnackbarWidget(
         S.current.signOutSnackbarTitle,

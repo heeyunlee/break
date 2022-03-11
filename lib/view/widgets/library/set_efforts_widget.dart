@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view_models/log_routine_screen_model.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 class SetEffortsWidget extends ConsumerWidget {
   const SetEffortsWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(logRoutineModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(logRoutineModelProvider);
     final theme = Theme.of(context);
 
     return Stack(

@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/routine_detail_screen_class.dart';
 import 'package:workout_player/models/enum/difficulty.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/edit_routine_screen_model.dart';
-import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
@@ -21,30 +20,26 @@ import 'edit_unit_of_mass_screen.dart';
 class EditRoutineScreen extends StatefulWidget {
   const EditRoutineScreen({
     Key? key,
-    required this.database,
     required this.data,
     required this.model,
     required this.theme,
   }) : super(key: key);
 
-  final Database database;
   final RoutineDetailScreenClass data;
   final EditRoutineScreenModel model;
   final ThemeData theme;
 
   static void show(
     BuildContext context, {
-    required Database database,
     required RoutineDetailScreenClass data,
   }) {
     custmFadeTransition(
       context,
       isRoot: false,
-      screen: Consumer(
-        builder: (context, watch, child) => EditRoutineScreen(
-          database: database,
+      screenBuilder: (animation) => Consumer(
+        builder: (context, ref, child) => EditRoutineScreen(
           data: data,
-          model: watch(editRoutineScreenModelProvider),
+          model: ref.watch(editRoutineScreenModelProvider),
           theme: Theme.of(context),
         ),
       ),

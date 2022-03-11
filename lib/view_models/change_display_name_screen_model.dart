@@ -1,25 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
 import 'main_model.dart';
 
-final changeDisplayNameScreenModelProvider = ChangeNotifierProvider.autoDispose
-    .family<ChangeDisplayNameScreenModel, User>(
-  (ref, user) => ChangeDisplayNameScreenModel(user: user),
-);
-
 class ChangeDisplayNameScreenModel with ChangeNotifier {
-  ChangeDisplayNameScreenModel({required this.user});
+  ChangeDisplayNameScreenModel({
+    required this.database,
+    required this.user,
+  });
 
   final User user;
+  final Database database;
 
   late TextEditingController _textController;
   late FocusNode _focusNode;
@@ -36,17 +32,14 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
     updateDisplayName(context);
   }
 
-  Future<bool?> updateDisplayName(BuildContext context) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-
+  Future<void> updateDisplayName(BuildContext context) async {
     if (_textController.text.isNotEmpty) {
       try {
         final updatedUser = {
           'displayName': _textController.text,
         };
 
-        await database.updateUser(auth.currentUser!.uid, updatedUser);
+        await database.updateUser(database.uid!, updatedUser);
 
         getSnackbarWidget(
           S.current.updateDisplayNameSnackbarTitle,
@@ -61,7 +54,7 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
         );
       }
     } else {
-      return showAlertDialog(
+      await showAlertDialog(
         context,
         title: S.current.displayNameEmptyTitle,
         content: S.current.displayNameEmptyContent,

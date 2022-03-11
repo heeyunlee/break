@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-class SavedListTile<T> extends StatelessWidget {
+class SavedListTile<T> extends ConsumerWidget {
   const SavedListTile({
     Key? key,
     required this.onTap,
@@ -19,13 +18,11 @@ class SavedListTile<T> extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: CustomStreamBuilder<User?>(
-        stream: database.userStream(),
+        stream: ref.read(databaseProvider).userStream(),
         builder: (context, data) => InkWell(
           onTap: () => onTap(data!),
           borderRadius: BorderRadius.circular(4),

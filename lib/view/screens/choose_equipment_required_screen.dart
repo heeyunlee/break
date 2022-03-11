@@ -3,12 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 
 class ChooseEquipmentRequiredScreen extends ConsumerWidget {
-  const ChooseEquipmentRequiredScreen({Key? key}) : super(key: key);
+  const ChooseEquipmentRequiredScreen({
+    Key? key,
+    required this.animation,
+  }) : super(key: key);
+
+  final Animation<double> animation;
 
   static void showEquipmentRequired(
     BuildContext context, {
@@ -17,13 +23,15 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
     custmFadeTransition(
       context,
       duration: 500,
-      screen: const ChooseEquipmentRequiredScreen(),
+      screenBuilder: (animation) => ChooseEquipmentRequiredScreen(
+        animation: animation,
+      ),
     );
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(createNewROutineModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(createNewROutineModelProvider);
 
     return CustomScaffold(
       appBarTitle: S.current.equipmentRequired,
@@ -49,6 +57,7 @@ class ChooseEquipmentRequiredScreen extends ConsumerWidget {
             ),
           ),
           CheckboxListView(
+            animation: animation,
             checked: model.selectedEquipmentRequiredEnum.contains,
             items: EquipmentRequired.values,
             onChangedMainMuscleEnum: (checked, equipment) => model

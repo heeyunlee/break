@@ -1,81 +1,59 @@
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart' as provider;
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
-import 'package:workout_player/view/widgets/library.dart';
-import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'add_workout_to_routine_screen.dart';
 import 'edit_workout_screen.dart';
 import 'workout_histories_tab.dart';
 import 'workout_overview_tab.dart';
 
-class WorkoutDetailScreen extends StatefulWidget {
-  final Workout? workout;
-  final String workoutId;
-  final Database database;
-  final AuthBase auth;
-  final User user;
-  final String tag;
-
+class WorkoutDetailScreen extends ConsumerStatefulWidget {
   const WorkoutDetailScreen({
     Key? key,
     this.workout,
     required this.workoutId,
-    required this.database,
-    required this.auth,
-    required this.user,
     required this.tag,
   }) : super(key: key);
 
+  final Workout? workout;
+  final String workoutId;
+  final String tag;
+
   // For Navigation
-  static Future<void> show(
+  static void show(
     BuildContext context, {
     Workout? workout,
     required String workoutId,
     required String tag,
     bool isRoot = false,
-  }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
-    final user = (await database.getUserDocument(auth.currentUser!.uid))!;
-
+  }) {
     if (!isRoot) {
       customPush(
         context,
         rootNavigator: false,
-        builder: (context, auth, database) {
+        builder: (context) {
           return WorkoutDetailScreen(
             workout: workout,
             workoutId: workoutId,
-            database: database,
-            auth: auth,
-            user: user,
             tag: tag,
           );
         },
       );
     } else {
-      await HapticFeedback.mediumImpact();
+      HapticFeedback.mediumImpact();
 
-      await Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => WorkoutDetailScreen(
             workout: workout,
             workoutId: workoutId,
-            database: database,
-            auth: auth,
-            user: user,
             tag: tag,
           ),
         ),
@@ -87,7 +65,7 @@ class WorkoutDetailScreen extends StatefulWidget {
   _WorkoutDetailScreenState createState() => _WorkoutDetailScreenState();
 }
 
-class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
+class _WorkoutDetailScreenState extends ConsumerState<WorkoutDetailScreen>
     with TickerProviderStateMixin {
   final List<String> _tabs = [S.current.overview, S.current.history];
 
@@ -129,9 +107,11 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final database = ref.watch(databaseProvider);
+
     return Scaffold(
       body: CustomStreamBuilder<Workout?>(
-        stream: widget.database.workoutStream(widget.workoutId),
+        stream: database.workoutStream(widget.workoutId),
         builder: (context, data) {
           return DefaultTabController(
             length: 2,
@@ -160,6 +140,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
     Workout workout,
     bool innerBoxIsScrolled,
   ) {
+    final database = ref.watch(databaseProvider);
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
 
@@ -195,20 +176,16 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
           ),
         ),
         actions: <Widget>[
-          if (widget.user.userId != workout.workoutOwnerId)
+          if (database.uid != workout.workoutOwnerId)
             SaveUnsaveWorkoutButtonWidget(
-              user: widget.user,
-              database: widget.database,
-              auth: widget.auth,
               workout: workout,
             ),
-          if (widget.user.userId == workout.workoutOwnerId)
+          if (database.uid == workout.workoutOwnerId)
             IconButton(
               icon: const Icon(Icons.edit_rounded, color: Colors.white),
               onPressed: () => EditWorkoutScreen.show(
                 context,
                 workout: workout,
-                user: widget.user,
               ),
             ),
           const SizedBox(width: 8),
@@ -356,8 +333,6 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen>
       children: [
         WorkoutOverviewTab(workout: workout),
         WorkoutHistoriesTab(
-          user: widget.user,
-          database: widget.database,
           workout: workout,
         ),
       ],

@@ -1,6 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
@@ -10,11 +9,11 @@ import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final editRoutineEquipmentRequiredModelProvider = ChangeNotifierProvider(
-  (ref) => EditRoutineEquipmentRequiredModel(),
-);
-
 class EditRoutineEquipmentRequiredModel with ChangeNotifier {
+  EditRoutineEquipmentRequiredModel({required this.database});
+
+  final Database database;
+
   List<EquipmentRequired?> _selectedEquipmentRequired = [];
 
   List<EquipmentRequired?> get selectedEquipmentRequired =>
@@ -47,7 +46,6 @@ class EditRoutineEquipmentRequiredModel with ChangeNotifier {
 
   Future<void> submitAndPop(
     BuildContext context, {
-    required Database database,
     required Routine routine,
   }) async {
     if (_selectedEquipmentRequired.isNotEmpty) {

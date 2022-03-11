@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/nutrition.dart';
-import 'package:workout_player/services/auth.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/eats.dart';
-import 'package:workout_player/view_models/edit_nutrition_entry_screen_model.dart';
 import 'package:workout_player/view_models/nutritions_detail_screen_model.dart';
-import 'package:provider/provider.dart' as provider;
 
-class NutritionDescriptionListTile extends StatelessWidget {
+class NutritionDescriptionListTile extends ConsumerWidget {
   const NutritionDescriptionListTile({
     Key? key,
     required this.nutrition,
@@ -19,9 +17,9 @@ class NutritionDescriptionListTile extends StatelessWidget {
   final Nutrition nutrition;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(firebaseAuthProvider);
     final isCreditCard = nutrition.isCreditCardTransaction ?? false;
-    final auth = provider.Provider.of<AuthBase>(context, listen: false);
     final isOwner = auth.currentUser?.uid == nutrition.userId;
 
     return ListTile(
@@ -42,8 +40,8 @@ class NutritionDescriptionListTile extends StatelessWidget {
       context: context,
       builder: (context) {
         return Consumer(
-          builder: (context, watch, child) {
-            final model = watch(editNutritionModelProvider(nutrition));
+          builder: (context, ref, child) {
+            final model = ref.watch(editNutritionModelProvider(nutrition));
 
             return NutritionEditDescriptionBottomSheet(model: model);
           },

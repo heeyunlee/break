@@ -1,37 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-class ChangeEmailScreen extends StatefulWidget {
+class ChangeEmailScreen extends ConsumerStatefulWidget {
   const ChangeEmailScreen({
     Key? key,
-    required this.database,
     required this.user,
-    required this.auth,
   }) : super(key: key);
 
-  final Database database;
   final User user;
-  final AuthBase auth;
 
   static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: true,
-      builder: (context, auth, database) => ChangeEmailScreen(
-        database: database,
-        user: user,
-        auth: auth,
-      ),
+      builder: (context) => ChangeEmailScreen(user: user),
     );
   }
 
@@ -39,7 +30,7 @@ class ChangeEmailScreen extends StatefulWidget {
   _ChangeEmailScreenState createState() => _ChangeEmailScreenState();
 }
 
-class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
+class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late String _email;
@@ -75,10 +66,11 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   Future<void> _updateUserName() async {
     if (_validateAndSaveForm()) {
       try {
+        final database = ref.watch(databaseProvider);
         final user = {
           'userEmail': _email,
         };
-        await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+        await database.updateUser(database.uid!, user);
 
         // SnackBar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

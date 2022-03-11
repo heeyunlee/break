@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -22,13 +22,11 @@ import 'package:workout_player/services/database.dart';
 ///
 /// ### Enhancement
 ///
-class FatEntriesScreen extends StatelessWidget {
-  final Database database;
+class FatEntriesScreen extends ConsumerWidget {
   final User user;
 
   const FatEntriesScreen({
     Key? key,
-    required this.database,
     required this.user,
   }) : super(key: key);
 
@@ -36,14 +34,15 @@ class FatEntriesScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => FatEntriesScreen(
-        database: database,
-        user: user,
-      ),
+      builder: (context) => FatEntriesScreen(user: user),
     );
   }
 
-  Future<void> _delete(BuildContext context, Nutrition nutrition) async {
+  Future<void> _delete(
+    BuildContext context,
+    Database database,
+    Nutrition nutrition,
+  ) async {
     try {
       // Cloud Firestore Callback
       await database.deleteNutrition(nutrition);
@@ -63,7 +62,7 @@ class FatEntriesScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -72,7 +71,7 @@ class FatEntriesScreen extends StatelessWidget {
         leading: const AppBarBackButton(),
       ),
       body: CustomStreamBuilder<List<Nutrition>>(
-        stream: database.userNutritionStream(limit: 100),
+        stream: ref.read(databaseProvider).userNutritionStream(limit: 100),
         builder: (context, data) {
           return SingleChildScrollView(
             child: Column(
@@ -96,7 +95,11 @@ class FatEntriesScreen extends StatelessWidget {
                             label: S.current.delete,
                             backgroundColor: Colors.red,
                             icon: Icons.delete_rounded,
-                            onPressed: (context) => _delete(context, nutrition),
+                            onPressed: (context) => _delete(
+                              context,
+                              ref.read(databaseProvider),
+                              nutrition,
+                            ),
                           ),
                         ],
                       ),

@@ -1,43 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
 
 import '../../styles/constants.dart';
 import '../../view_models/personal_goals_screen_model.dart';
 import 'set_goals_screen_template.dart';
 
-class PersonalGoalsScreen extends StatelessWidget {
-  final Database database;
-  final AuthBase auth;
-
-  const PersonalGoalsScreen({
-    Key? key,
-    required this.database,
-    required this.auth,
-  }) : super(key: key);
+class PersonalGoalsScreen extends ConsumerWidget {
+  const PersonalGoalsScreen({Key? key}) : super(key: key);
 
   static void show(BuildContext context) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => PersonalGoalsScreen(
-        database: database,
-        auth: auth,
-      ),
+      builder: (context) => const PersonalGoalsScreen(),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('Personal goal screen building...');
 
     return Scaffold(
@@ -47,17 +34,19 @@ class PersonalGoalsScreen extends StatelessWidget {
         leading: const AppBarBackButton(),
         title: Text(S.current.personalGoals, style: TextStyles.subtitle2),
       ),
-      body: Builder(builder: _buildBody),
+      body: Builder(
+        builder: (context) => _buildBody(context, ref),
+      ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, WidgetRef ref) {
     return CustomStreamBuilder<User?>(
       initialData: DummyData.user,
-      stream: database.userStream(),
+      stream: ref.read(databaseProvider).userStream(),
       builder: (context, user) => Consumer(
-        builder: (context, watch, child) {
-          final model = watch(personalGoalsScreenModelProvider(user!));
+        builder: (context, ref, child) {
+          final model = ref.watch(personalGoalsScreenModelProvider(user!));
           model.init();
 
           return SingleChildScrollView(

@@ -1,38 +1,34 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:provider/provider.dart' as provider;
 
 import 'package:workout_player/models/models.dart';
-import 'package:workout_player/models/user.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/view_models/miniplayer_model.dart';
-// import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
-class MiniplayerScreen extends StatelessWidget {
+class MiniplayerScreen extends ConsumerWidget {
   const MiniplayerScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    logger.d('[MiniplayerScreen] building...');
+  Widget build(BuildContext context, WidgetRef ref) {
+    final database = ref.watch<Database>(databaseProvider);
 
-    final database = provider.Provider.of<Database>(context, listen: false);
+    logger.d('[MiniplayerScreen] building...');
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),
       loadingWidget: const SizedBox.shrink(),
       builder: (context, user) => Consumer(
-        builder: (context, watch, child) {
+        builder: (context, ref, child) {
           final size = MediaQuery.of(context).size;
-          final model = watch(miniplayerModelProvider);
-          final homeModel = watch(homeScreenModelProvider);
+          final model = ref.watch(miniplayerModelProvider);
+          final homeModel = ref.watch(homeScreenModelProvider);
 
           return Offstage(
             offstage: model.currentWorkout == null,
@@ -158,7 +154,6 @@ class MiniplayerScreen extends StatelessWidget {
           SizedBox(height: 40 * percentage),
           Stack(
             children: [
-              const YoutubePlayerWidget(),
               Offstage(
                 offstage: percentage > 0.5,
                 child: _opacitySizeBuilder(

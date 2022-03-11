@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 /// A customizable transition builder that fades and slides the `child` widget,
 /// using the `CurvedAnimation`,
 ///
 /// This can be used as a item transition in an [AnimatedListViewBuilder].
 class FadeSlideTransition extends StatelessWidget {
-  final Animation<double>? animation;
+  final Animation<double> animation;
   final Offset? beginOffset;
   final Offset? endOffset;
   final double? offsetBeginInterval;
@@ -19,7 +18,7 @@ class FadeSlideTransition extends StatelessWidget {
 
   const FadeSlideTransition({
     Key? key,
-    this.animation,
+    required this.animation,
     this.beginOffset = const Offset(0, 1),
     this.endOffset = Offset.zero,
     this.offsetBeginInterval = 0.0,
@@ -33,15 +32,13 @@ class FadeSlideTransition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animationProvider =
-        animation ?? Provider.of<Animation<double>>(context, listen: false);
     final offsetTween = Tween<Offset>(begin: beginOffset, end: endOffset);
 
     return AnimatedBuilder(
-      animation: animationProvider,
+      animation: animation,
       builder: (context, child) {
         final opacityAnimation = CurvedAnimation(
-          parent: animationProvider,
+          parent: animation,
           curve: Interval(
             opacityBeginInterval!,
             opacityEndInterval!,
@@ -50,7 +47,7 @@ class FadeSlideTransition extends StatelessWidget {
         );
 
         final offsetAnimation = CurvedAnimation(
-          parent: animationProvider,
+          parent: animation,
           curve: Interval(
             offsetBeginInterval!,
             offsetEndInterval!,

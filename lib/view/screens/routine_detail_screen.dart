@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 
-class RoutineDetailScreen extends StatelessWidget {
-  final Routine routine;
-  final String tag;
-  final AuthAndDatabase authAndDatabase;
-
+class RoutineDetailScreen extends ConsumerWidget {
   const RoutineDetailScreen({
     Key? key,
     required this.routine,
     required this.tag,
-    required this.authAndDatabase,
   }) : super(key: key);
+
+  final Routine routine;
+  final String tag;
 
   // For Navigation
   static void show(
@@ -26,31 +26,29 @@ class RoutineDetailScreen extends StatelessWidget {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => RoutineDetailScreen(
+      builder: (context) => RoutineDetailScreen(
         routine: routine,
         tag: tag,
-        authAndDatabase: AuthAndDatabase(auth: auth, database: database),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     logger.d('[RoutineDetailScreen] building...');
 
     return Scaffold(
-      extendBody: true,
+      // extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
       body: CustomStreamBuilder<RoutineDetailScreenClass>(
-        stream: authAndDatabase.database.routineDetailScreenStream(
-          routine.routineId,
-        ),
-        loadingWidget: const RoutineDetailScreenShimmer(),
+        stream: ref.read(databaseProvider).routineDetailScreenStream(
+              routine.routineId,
+            ),
+        // loadingWidget: const RoutineDetailScreenShimmer(),
         builder: (context, data) => RoutineStreamHasDataWidget.create(
           data: data,
           tag: tag,
-          authAndDatabase: authAndDatabase,
         ),
       ),
     );

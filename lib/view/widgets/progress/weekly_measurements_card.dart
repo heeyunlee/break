@@ -79,8 +79,8 @@ class WeeklyMeasurementsCard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Consumer(
-                builder: (context, watch, child) => WeeklyMeasurementsChart(
-                  model: watch(weeklyMeasurementsChartModelProvider),
+                builder: (context, ref, child) => WeeklyMeasurementsChart(
+                  model: ref.watch(weeklyMeasurementsChartModelProvider),
                   user: data.user,
                   measurements: data.measurements,
                 ),

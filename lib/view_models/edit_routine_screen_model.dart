@@ -1,31 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-final editRoutineScreenModelProvider = ChangeNotifierProvider(
-  (ref) => EditRoutineScreenModel(),
-);
-
 class EditRoutineScreenModel with ChangeNotifier {
-  AuthService? auth;
-  FirestoreDatabase? database;
+  EditRoutineScreenModel({required this.database});
 
-  EditRoutineScreenModel({
-    this.auth,
-    this.database,
-  }) {
-    final container = ProviderContainer();
-    auth = container.read(authServiceProvider);
-    database = container.read(databaseProvider(auth!.currentUser?.uid));
-  }
+  final Database database;
 
   late TextEditingController _titleEditingController;
   late TextEditingController _descriptionEditingController;
@@ -122,7 +106,7 @@ class EditRoutineScreenModel with ChangeNotifier {
           'isPublic': _isRoutinePublic,
           'trainingLevel': _difficulty.toInt(),
         };
-        await database!.updateRoutine(routine, updatedRoutine);
+        await database.updateRoutine(routine, updatedRoutine);
 
         await HapticFeedback.mediumImpact();
         Navigator.of(context).pop();

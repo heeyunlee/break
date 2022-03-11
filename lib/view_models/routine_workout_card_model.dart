@@ -4,32 +4,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart' as provider;
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
-import 'package:workout_player/services/auth.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'main_model.dart';
 
-final routineWorkoutCardModelProvider = ChangeNotifierProvider(
-  (ref) => RoutineWorkoutCardModel(),
-);
-
 class RoutineWorkoutCardModel with ChangeNotifier {
+  RoutineWorkoutCardModel({required this.database});
+
+  final Database database;
+
   /// Add a New Set
   Future<void> addNewSet(
     BuildContext context, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
     try {
       // WorkoutSet and RoutineWorkout
       final WorkoutSet? formerWorkoutSet = routineWorkout.sets.lastWhereOrNull(
@@ -102,8 +98,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     try {
       final WorkoutSet? formerWorkoutSet = routineWorkout.sets.lastWhereOrNull(
         (element) => element.isRest == true,
@@ -165,8 +159,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
     required Routine routine,
     required RoutineWorkout routineWorkout,
   }) async {
-    final database = provider.Provider.of<Database>(context, listen: false);
-
     try {
       Navigator.of(context).pop();
 
@@ -196,15 +188,12 @@ class RoutineWorkoutCardModel with ChangeNotifier {
   }
 
   Future<void> deleteRestingWorkoutSet(
-    BuildContext context,
-    Database? database, {
+    BuildContext context, {
     required Routine routine,
     required RoutineWorkout routineWorkout,
     required WorkoutSet workoutSet,
   }) async {
     try {
-      assert(database != null);
-
       // Update Routine Workout Data
       final numberOfSets = (workoutSet.isRest)
           ? routineWorkout.numberOfSets
@@ -229,7 +218,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         'sets': FieldValue.arrayRemove([workoutSet.toJson()]),
       };
 
-      await database!.setWorkoutSet(
+      await database.setWorkoutSet(
         routine: routine,
         routineWorkout: routineWorkout,
         data: updatedRoutineWorkout,
@@ -300,8 +289,8 @@ class RoutineWorkoutCardModel with ChangeNotifier {
     return formattedTotalWeights;
   }
 
-  static bool isOwner(AuthBase? auth, Routine routine) {
-    final uid = auth?.currentUser?.uid;
+  bool isOwner(Routine routine) {
+    final uid = database.uid!;
     final routineOwnerId = routine.routineOwnerId;
 
     return uid == routineOwnerId;

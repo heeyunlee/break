@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reorderables/reorderables.dart';
 
 import 'package:workout_player/models/combined/progress_tab_class.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/move_tab_widgets_model.dart';
-
-import 'logo_widget.dart';
 
 class ProgressTabWidgetsBuilder extends StatefulWidget {
   final HomeScreenModel homeScreenModel;
@@ -33,10 +31,10 @@ class ProgressTabWidgetsBuilder extends StatefulWidget {
     required TickerProvider vsync,
   }) {
     return Consumer(
-      builder: (context, watch, child) => ProgressTabWidgetsBuilder(
+      builder: (context, ref, child) => ProgressTabWidgetsBuilder(
         data: data,
-        homeScreenModel: watch(homeScreenModelProvider),
-        model: watch(progressTabWidgetsModelProvider),
+        homeScreenModel: ref.watch(homeScreenModelProvider),
+        model: ref.watch(progressTabWidgetsModelProvider),
         constraints: constraints,
         vsync: vsync,
       ),
@@ -84,7 +82,7 @@ class _ProgressTabWidgetsBuilderState extends State<ProgressTabWidgetsBuilder> {
         assert(opacityEnd <= 1);
 
         return FadeSlideTransition(
-          animation: widget.model.staggeredController,
+          animation: widget.model.staggeredController!,
           // beginOffset: const Offset(0, 1),
           offsetBeginInterval: offsetBegin,
           offsetEndInterval: offsetEnd,

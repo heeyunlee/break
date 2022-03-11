@@ -1,43 +1,37 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/models/combined/auth_and_database.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/library/workout_set_rest_widget.dart';
-import 'package:workout_player/view/widgets/library/workout_set_widget.dart';
-import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_modal_bottom_sheet.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 import 'package:workout_player/view_models/routine_workout_card_model.dart';
-import 'package:workout_player/view_models/workout_set_rest_widget_model.dart';
-import 'package:workout_player/view_models/workout_set_widget_model.dart';
 
 class RoutineWorkoutCard extends ConsumerWidget {
-  final int index;
-  final Routine routine;
-  final RoutineWorkout routineWorkout;
-  final AuthAndDatabase? authAndDatabase;
-
   const RoutineWorkoutCard({
     Key? key,
     required this.index,
     required this.routine,
     required this.routineWorkout,
-    this.authAndDatabase,
   }) : super(key: key);
 
+  final int index;
+  final Routine routine;
+  final RoutineWorkout routineWorkout;
+
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final model = watch(routineWorkoutCardModelProvider);
-    final workoutSetModel = watch(workoutSetWidgetModelProvider);
-    final workoutSetRestModel = watch(workoutSetRestWidgetModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(routineWorkoutCardModelProvider);
+    final workoutSetModel = ref.watch(workoutSetWidgetModelProvider);
+    final workoutSetRestModel = ref.watch(workoutSetRestWidgetModelProvider);
+    final routineWorkoutCardModel = ref.watch(routineWorkoutCardModelProvider);
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -97,7 +91,6 @@ class RoutineWorkoutCard extends ConsumerWidget {
               itemBuilder: (context, item, index) {
                 if (item.isRest) {
                   return WorkoutSetRestWidget(
-                    authAndDatabase: authAndDatabase,
                     routine: routine,
                     routineWorkout: routineWorkout,
                     workoutSet: item,
@@ -107,7 +100,6 @@ class RoutineWorkoutCard extends ConsumerWidget {
                   );
                 } else {
                   return WorkoutSetWidget(
-                    authAndDatabase: authAndDatabase,
                     routine: routine,
                     routineWorkout: routineWorkout,
                     workoutSet: item,
@@ -118,9 +110,9 @@ class RoutineWorkoutCard extends ConsumerWidget {
               },
             ),
           if (routineWorkout.sets.isNotEmpty == true &&
-              RoutineWorkoutCardModel.isOwner(authAndDatabase?.auth, routine))
+              routineWorkoutCardModel.isOwner(routine))
             kCustomDividerIndent8,
-          if (RoutineWorkoutCardModel.isOwner(authAndDatabase?.auth, routine))
+          if (routineWorkoutCardModel.isOwner(routine))
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

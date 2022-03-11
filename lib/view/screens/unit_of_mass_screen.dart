@@ -1,38 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/services/auth.dart';
-import 'package:workout_player/services/database.dart';
+import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
-class UnitOfMassScreen extends StatefulWidget {
-  const UnitOfMassScreen({
-    Key? key,
-    required this.database,
-    required this.user,
-    required this.auth,
-  }) : super(key: key);
+class UnitOfMassScreen extends ConsumerStatefulWidget {
+  const UnitOfMassScreen({Key? key, required this.user}) : super(key: key);
 
-  final Database database;
   final User user;
-  final AuthBase auth;
 
   static void show(BuildContext context, {required User user}) {
     customPush(
       context,
       rootNavigator: false,
-      builder: (context, auth, database) => UnitOfMassScreen(
-        database: database,
-        user: user,
-        auth: auth,
-      ),
+      builder: (context) => UnitOfMassScreen(user: user),
     );
   }
 
@@ -40,7 +28,7 @@ class UnitOfMassScreen extends StatefulWidget {
   _UnitOfMassScreenState createState() => _UnitOfMassScreenState();
 }
 
-class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
+class _UnitOfMassScreenState extends ConsumerState<UnitOfMassScreen> {
   late int _unitOfMass;
   late UnitOfMass? _unitOfMassEnum;
 
@@ -63,7 +51,8 @@ class _UnitOfMassScreenState extends State<UnitOfMassScreen> {
         'unitOfMass': _unitOfMass,
         'unitOfMassEnum': EnumToString.convertToString(_unitOfMassEnum),
       };
-      await widget.database.updateUser(widget.auth.currentUser!.uid, user);
+      final database = ref.watch(databaseProvider);
+      await database.updateUser(database.uid!, user);
 
       getSnackbarWidget(
         S.current.unitOfMass,
