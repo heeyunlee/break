@@ -13,8 +13,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class RoutineWorkoutCardModel with ChangeNotifier {
   RoutineWorkoutCardModel({required this.database});
 
@@ -83,7 +81,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -144,7 +141,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -178,7 +174,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
         S.current.deleteRoutineWorkoutSnakbarMessage,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -252,7 +247,6 @@ class RoutineWorkoutCardModel with ChangeNotifier {
             : S.current.deletedASet,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

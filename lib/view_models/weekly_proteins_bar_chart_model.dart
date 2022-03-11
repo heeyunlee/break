@@ -10,8 +10,6 @@ import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/utils/formatter.dart';
 
-import 'main_model.dart';
-
 final weeklyProteinsBarChartModelProvider = ChangeNotifierProvider.family<
     WeeklyProteinsBarChartModel, ProgressTabClass>(
   (ref, data) => WeeklyProteinsBarChartModel(
@@ -45,8 +43,6 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
   List<double> get randomListOfYs => [10, 5, 9.7, 8.8, 9, 5, 10];
 
   void init() {
-    logger.d('init in nutritionChart called');
-
     /// INIT Dates
     final DateTime now = DateTime.now();
 

@@ -5,8 +5,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
-import 'main_model.dart';
-
 class WorkoutSetRestWidgetModel with ChangeNotifier {
   WorkoutSetRestWidgetModel({required this.database});
 
@@ -62,8 +60,6 @@ class WorkoutSetRestWidgetModel with ChangeNotifier {
         data: updatedRoutineWorkout,
       );
 
-      logger.d('updated RoutineWorkout: $updatedRoutineWorkout');
-
       /// Update Routine
       final routineTotalWeights =
           routine.totalWeights - routineWorkout.totalWeights + totalWeights;
@@ -77,10 +73,7 @@ class WorkoutSetRestWidgetModel with ChangeNotifier {
       };
 
       await database.updateRoutine(routine, updatedRoutine);
-
-      logger.d('update Routine: $updatedRoutine');
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

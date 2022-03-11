@@ -5,7 +5,7 @@ import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/firestore_service.dart';
-import 'package:workout_player/view_models/main_model.dart';
+import 'package:workout_player/services/logging.dart';
 
 import 'api_path.dart';
 

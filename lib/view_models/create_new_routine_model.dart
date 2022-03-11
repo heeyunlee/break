@@ -23,7 +23,6 @@ import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
-import 'main_model.dart';
 
 class CreateNewRoutineModel with ChangeNotifier {
   final Database database;
@@ -222,7 +221,6 @@ class CreateNewRoutineModel with ChangeNotifier {
       //   S.current.createNewRoutineSnackbar,
       // );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

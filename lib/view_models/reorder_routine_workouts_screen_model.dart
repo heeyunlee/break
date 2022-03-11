@@ -7,8 +7,6 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   ReorderRoutineWorkoutsScreenModel({required this.database});
 
@@ -84,8 +82,6 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   }
 
   void _showError(Exception exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.signInFailed,

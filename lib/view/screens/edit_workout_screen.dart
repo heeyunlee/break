@@ -14,7 +14,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 
 import 'edit_workout_equipment_required_screen.dart';
@@ -121,7 +121,6 @@ class _EditWorkoutScreenState extends ConsumerState<EditWorkoutScreen> {
         S.current.deleteWorkoutSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -152,7 +151,6 @@ class _EditWorkoutScreenState extends ConsumerState<EditWorkoutScreen> {
           S.current.updateWorkoutSnackbar,
         );
       } on FirebaseException catch (e) {
-        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

@@ -8,7 +8,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/choose_title_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'routine_detail_screen.dart';
 import 'saved_routines_screen.dart';
@@ -29,8 +28,6 @@ class RoutinesTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final database = ref.watch(databaseProvider);
-
-    logger.d('[RoutinesTab] tab...');
 
     return CustomStreamBuilder<List<Routine>>(
       stream: database.userRoutinesStream(),

@@ -8,15 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:logger/logger.dart';
+import 'package:workout_player/services/logging.dart';
 import 'package:workout_player/view/widgets/home/auth_state_changes_stream_widget.dart';
 
 import 'generated/l10n.dart';
 import 'services/algolia_manager.dart';
 import 'services/mixpanel_manager.dart';
 import 'services/private_keys.dart';
-import 'styles/custom_theme_data.dart';
+import 'styles/themes.dart';
 import 'styles/platform_colors.dart';
-import 'view_models/main_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             debugShowCheckedModeBanner: false,
-            theme: CustomThemeData.createTheme(snapshot.data),
+            theme: Themes.createTheme(snapshot.data),
             home: const AuthStateChangesStreamWidget(),
           );
         },

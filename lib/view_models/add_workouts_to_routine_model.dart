@@ -9,8 +9,6 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   AddWorkoutsToRoutineScreenModel({required this.database});
 
@@ -165,7 +163,6 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
         S.current.addWorkoutToRoutineSnackbar,
       );
     } on Exception catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

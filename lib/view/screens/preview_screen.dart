@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/view_models/preview_screen_model.dart';
 
 class PreviewScreen extends ConsumerWidget {
@@ -10,8 +10,6 @@ class PreviewScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.d('[PreviewScreen] building...');
-
     final theme = Theme.of(context);
 
     ref.read(previewScreenModelProvider).init();

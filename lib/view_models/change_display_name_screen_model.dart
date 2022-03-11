@@ -6,8 +6,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
-import 'main_model.dart';
-
 class ChangeDisplayNameScreenModel with ChangeNotifier {
   ChangeDisplayNameScreenModel({
     required this.database,
@@ -46,7 +44,6 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
           S.current.updateDisplayNameSnackbar,
         );
       } on FirebaseException catch (e) {
-        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

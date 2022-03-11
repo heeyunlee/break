@@ -7,7 +7,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class UserFeedbackScreen extends ConsumerStatefulWidget {
   final User user;
@@ -76,7 +75,6 @@ class _UserFeedbackScreenState extends ConsumerState<UserFeedbackScreen> {
       //   behavior: SnackBarBehavior.floating,
       // ));
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

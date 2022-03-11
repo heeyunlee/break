@@ -12,8 +12,6 @@ import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 
-import 'main_model.dart';
-
 class AddNutritionScreenModel with ChangeNotifier {
   AddNutritionScreenModel({required this.auth, required this.database});
 
@@ -106,8 +104,6 @@ class AddNutritionScreenModel with ChangeNotifier {
   }
 
   void onDateTimeChanged(DateTime date) {
-    logger.d('onDateTimeChanged in AddNutritionScreenModel called');
-
     _loggedTime = Timestamp.fromDate(date);
 
     notifyListeners();
@@ -190,7 +186,6 @@ class AddNutritionScreenModel with ChangeNotifier {
             );
           }
         } on FirebaseException catch (e) {
-          logger.e(e);
           await showExceptionAlertDialog(
             context,
             title: S.current.operationFailed,

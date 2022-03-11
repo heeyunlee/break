@@ -4,7 +4,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class SettingsTabModel with ChangeNotifier {
   SettingsTabModel({required this.database, required this.auth});
@@ -28,6 +27,7 @@ class SettingsTabModel with ChangeNotifier {
 
   Future<void> _signOut(BuildContext context) async {
     try {
+      await auth.signOut();
       Navigator.of(context).popUntil((route) => route.isFirst);
 
       getSnackbarWidget(
@@ -35,7 +35,6 @@ class SettingsTabModel with ChangeNotifier {
         S.current.signOutSnackbarMessage,
       );
     } catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

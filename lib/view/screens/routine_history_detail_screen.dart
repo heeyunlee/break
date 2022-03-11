@@ -8,7 +8,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
@@ -123,7 +123,6 @@ class _RoutineHistoryDetailScreenState
         S.current.deleteRoutineHistorySnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -149,7 +148,6 @@ class _RoutineHistoryDetailScreenState
         S.current.updateRoutineHistoryNotesSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -176,7 +174,6 @@ class _RoutineHistoryDetailScreenState
             : S.current.makeRoutineHistoryPrivateSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -198,7 +195,6 @@ class _RoutineHistoryDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[RoutineHistoryDetailScreen] screen scaffold building...');
     dataFormat(widget.routineHistory);
 
     return Scaffold(

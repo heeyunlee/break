@@ -6,7 +6,7 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 import '../../view_models/progress_tab_model.dart';
@@ -53,8 +53,6 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[ProgressTab] building...');
-
     final theme = Theme.of(context);
 
     return CustomStreamBuilder<User?>(

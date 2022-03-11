@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -8,8 +8,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[SplashScreen] building...');
-
     return Scaffold(
       body: Center(
         child: Column(

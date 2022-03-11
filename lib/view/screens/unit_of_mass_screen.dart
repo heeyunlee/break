@@ -8,7 +8,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 
 class UnitOfMassScreen extends ConsumerStatefulWidget {
@@ -59,7 +59,6 @@ class _UnitOfMassScreenState extends ConsumerState<UnitOfMassScreen> {
         S.current.updateUnitOfMassUserMessage,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

@@ -9,7 +9,7 @@ import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/providers.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder.dart';
@@ -140,8 +140,6 @@ class _WorkoutHistoriesTabState extends ConsumerState<WorkoutHistoriesTab> {
   @override
   Widget build(BuildContext context) {
     final database = ref.watch(databaseProvider);
-
-    logger.d('build routine histories Tab');
 
     return CustomStreamBuilder<List<WorkoutHistory?>>(
       stream: database.workoutHistoriesThisWeekStream(

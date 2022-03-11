@@ -11,7 +11,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class CarbsEntriesScreen extends ConsumerWidget {
   final User user;
@@ -43,7 +42,6 @@ class CarbsEntriesScreen extends ConsumerWidget {
         S.current.deleteProteinSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

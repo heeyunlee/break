@@ -5,9 +5,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/services/logging.dart';
 
-import '../view_models/main_model.dart';
-
+/// Interacts with [FirebaseAuth]
 class FirebaseAuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -75,7 +75,6 @@ class FirebaseAuthService {
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
-      logger.e(e);
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: e.toString(),
@@ -106,7 +105,6 @@ class FirebaseAuthService {
 
       return user;
     } on auth.FirebaseAuthException catch (e) {
-      logger.e(e);
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: e.toString(),
@@ -231,14 +229,11 @@ class FirebaseAuthService {
 
       return user;
     } on SignInWithAppleException catch (e) {
-      logger.e(e);
-
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: '$e',
       );
     } on auth.FirebaseAuthException catch (e) {
-      logger.e(e);
       throw auth.FirebaseAuthException(
         code: S.current.errorOccuredMessage,
         message: '$e',

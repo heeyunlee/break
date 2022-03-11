@@ -18,7 +18,6 @@ import 'package:workout_player/view/widgets/dialogs.dart';
 import 'package:workout_player/view/widgets/modal_sheets.dart';
 
 import 'home_screen_model.dart';
-import 'main_model.dart';
 
 class MiniplayerModel with ChangeNotifier {
   MiniplayerModel({required this.database});
@@ -96,24 +95,17 @@ class MiniplayerModel with ChangeNotifier {
     BuildContext context,
     RoutineDetailScreenClass data,
   ) {
-    logger.d('startRoutine() function called');
     diosposeValues();
 
     final routineWorkouts = data.routineWorkouts!;
 
-    logger.d('message 1');
-
     if (routineWorkouts.isNotEmpty) {
       final sets = routineWorkouts[0].sets;
-
-      logger.d('message 2');
 
       _currentWorkout = data.routine;
       _selectedRoutineWorkouts = routineWorkouts;
       _currentRoutineWorkout = routineWorkouts[0];
       _currentWorkoutSet = sets.isEmpty ? null : routineWorkouts[0].sets[0];
-
-      logger.d('message 3');
 
       // Setting Routine Length
       int routineLength = 0;
@@ -123,16 +115,10 @@ class MiniplayerModel with ChangeNotifier {
         routineLength += length;
       }
 
-      logger.d('message 4');
-
       _setsLength = routineLength;
       _workoutStartTime = Timestamp.now();
 
-      logger.d('message 5');
-
       _miniplayerController.animateToHeight(state: PanelState.MAX);
-
-      logger.d('message 6');
     } else {
       showAlertDialog(
         context,
@@ -142,22 +128,16 @@ class MiniplayerModel with ChangeNotifier {
       );
     }
 
-    logger.d('message 7');
-
     notifyListeners();
   }
 
   void startYouTubeWorkout(BuildContext context, YoutubeVideo youtubeVideo) {
-    logger.d('`startYouTubeWorkout()` function called');
-
     if (_currentWorkout == null || _currentWorkout.runtimeType == Routine) {
       diosposeValues();
 
       _workoutStartTime = Timestamp.now();
       _currentWorkout = youtubeVideo;
       final video = _currentWorkout as YoutubeVideo?;
-
-      logger.d('current video is ${video!.toString()}');
 
       // _youtubeController = YoutubePlayerController(
       //   initialVideoId: video.videoId,
@@ -166,7 +146,7 @@ class MiniplayerModel with ChangeNotifier {
       //   ),
       // );
 
-      _currentWorkoutForYoutube = video.workouts[0];
+      _currentWorkoutForYoutube = video?.workouts[0];
 
       _miniplayerController.animateToHeight(state: PanelState.MAX);
 
@@ -556,7 +536,6 @@ class MiniplayerModel with ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

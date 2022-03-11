@@ -7,7 +7,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class EditRoutineLocationScreen extends ConsumerStatefulWidget {
   const EditRoutineLocationScreen({
@@ -68,7 +67,6 @@ class _EditRoutineLocationScreenState
         S.current.updateLocationMessage(S.current.routine),
       );
     } on FirebaseException catch (e) {
-      logger.d(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

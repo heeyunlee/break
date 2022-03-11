@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_player/view/screens/settings_tab.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/generated/l10n.dart';
 
@@ -12,8 +12,6 @@ class LibraryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[LibraryTab] building...');
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(

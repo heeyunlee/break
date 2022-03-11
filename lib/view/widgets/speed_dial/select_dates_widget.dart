@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/view/widgets/modal_sheets/show_adaptive_date_picker.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
@@ -20,8 +20,6 @@ class SelectDatesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('Select Dates Widget building...');
-
     final theme = Theme.of(context);
 
     return Stack(

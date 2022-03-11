@@ -9,7 +9,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
-import 'main_model.dart';
 
 class NutritionsDetailScreenModel with ChangeNotifier {
   NutritionsDetailScreenModel({required this.database});
@@ -49,8 +48,6 @@ class NutritionsDetailScreenModel with ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.operationFailed,

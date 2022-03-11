@@ -15,8 +15,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/screens/workout_summary_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class LogRoutineModel with ChangeNotifier {
   LogRoutineModel({required this.database});
 
@@ -222,7 +220,6 @@ class LogRoutineModel with ChangeNotifier {
 
       _toggleBoolValue();
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

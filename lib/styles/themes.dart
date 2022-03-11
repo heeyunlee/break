@@ -4,7 +4,7 @@ import 'package:workout_player/styles/platform_colors.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 
-class CustomThemeData {
+class Themes {
   static ThemeData createTheme(MaterialYouPalette? palette) {
     final background = palette?.neutral1.shade900;
     final primary = palette?.accent1.shade300;
@@ -84,12 +84,23 @@ class CustomThemeData {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: background ?? ThemeColors.appBar,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: primary ?? ThemeColors.primary500,
-      ),
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.transparent,
-      ),
+      floatingActionButtonTheme: fab(primary),
+      bottomSheetTheme: bottomSheet,
+      dividerTheme: divider,
     );
   }
+
+  static FloatingActionButtonThemeData fab(Color? primaryColor) {
+    return FloatingActionButtonThemeData(
+      backgroundColor: primaryColor ?? ThemeColors.primary500,
+    );
+  }
+
+  static const bottomSheet = BottomSheetThemeData(
+    backgroundColor: Colors.transparent,
+  );
+
+  static const divider = DividerThemeData(
+    color: Colors.transparent,
+  );
 }

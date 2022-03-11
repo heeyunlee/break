@@ -10,8 +10,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
-import 'main_model.dart';
-
 class WorkoutSetWidgetModel with ChangeNotifier {
   WorkoutSetWidgetModel({required this.database});
 
@@ -83,7 +81,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
             : S.current.deletedASet,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -116,7 +113,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       await _submit(context, database, routine, routineWorkout, workoutSets);
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -149,7 +145,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       await _submit(context, database, routine, routineWorkout, workoutSets);
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -234,7 +229,6 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

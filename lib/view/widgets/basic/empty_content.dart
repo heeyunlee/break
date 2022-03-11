@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 
 class EmptyContent extends StatelessWidget {
@@ -19,8 +19,6 @@ class EmptyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    logger.i(e);
 
     return SizedBox(
       width: size.width,

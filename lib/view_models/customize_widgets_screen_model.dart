@@ -6,8 +6,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class CustomizeWidgetsScreenModel with ChangeNotifier {
   CustomizeWidgetsScreenModel({required this.database});
   final Database database;
@@ -65,8 +63,6 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.operationFailed,

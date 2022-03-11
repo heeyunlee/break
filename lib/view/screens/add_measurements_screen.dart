@@ -9,7 +9,6 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/add_measurements_screen_model.dart';
-import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/constants.dart';
 
 /// Screen where users can input their [Measurement] data.
@@ -52,8 +51,6 @@ class _AddMeasurementsScreenState extends State<AddMeasurementsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('AddMeasurementsScreen building...');
-
     return CustomScaffold(
       appBarLeading: const AppBarCloseButton(),
       appBarTitle: S.current.addMeasurement,

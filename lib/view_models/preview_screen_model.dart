@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'main_model.dart';
 import 'sign_in_screen_model.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(
@@ -39,7 +38,6 @@ class PreviewScreenModel extends ChangeNotifier {
   }
 
   void _setCurrentWdigetIndex() {
-    logger.d('_setCurrentWdigetIndex called on PreviewScreen');
     _timer?.cancel();
 
     _timer = Timer.periodic(
@@ -52,8 +50,6 @@ class PreviewScreenModel extends ChangeNotifier {
         }
         _currentWidget = currentPreviewWidgetList[_currentWidgetIndex];
 
-        logger.d('timer is active ${_timer?.isActive}');
-
         notifyListeners();
       },
     );
@@ -62,7 +58,6 @@ class PreviewScreenModel extends ChangeNotifier {
   void onVisibilityChanged(VisibilityInfo visibilityInfo) {
     if (visibilityInfo.visibleFraction == 0) {
       _timer?.cancel();
-      logger.d('timer is active ${_timer?.isActive}');
     } else {
       _setCurrentWdigetIndex();
     }

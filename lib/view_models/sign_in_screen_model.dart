@@ -16,8 +16,6 @@ import 'package:workout_player/services/mixpanel_manager.dart';
 import 'package:workout_player/view/screens/sign_in_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class SignInScreenModel extends ChangeNotifier {
   SignInScreenModel({required this.auth, required this.database});
 
@@ -39,7 +37,6 @@ class SignInScreenModel extends ChangeNotifier {
 
   // SIGN IN ANONYMOUSLY
   Future<void> signInAnonymously(BuildContext context) async {
-    logger.d('sign in with Anonymously pressed');
     MixpanelManager().track('signed up Anonymously');
 
     setIsLoading(value: true);
@@ -111,7 +108,6 @@ class SignInScreenModel extends ChangeNotifier {
 
   /// SIGN IN WITH GOOGLE
   Future<void> signInWithGoogle(BuildContext context) async {
-    logger.d('sign in with google pressed');
     MixpanelManager().track('sign up with Google Used');
 
     setIsLoading(value: true);
@@ -174,7 +170,6 @@ class SignInScreenModel extends ChangeNotifier {
 
   /// SIGN IN WITH FACEBOOK
   Future<void> signInWithFacebook(BuildContext context) async {
-    logger.d('sign in with facebook pressed');
     MixpanelManager().track('sign up with Facebook pressed');
 
     setIsLoading(value: true);
@@ -236,7 +231,6 @@ class SignInScreenModel extends ChangeNotifier {
 
   /// SIGN IN WITH APPLE
   Future<void> signInWithApple(BuildContext context) async {
-    logger.d('sign in with Apple pressed');
     MixpanelManager().track('sign up with Apple pressed');
 
     setIsLoading(value: true);
@@ -300,7 +294,6 @@ class SignInScreenModel extends ChangeNotifier {
 
   /// SIGN IN WITH Kakao
   Future<void> signInWithKakao(BuildContext context) async {
-    logger.d('sign in with Kakao pressed');
     MixpanelManager().track('sign up with Kakao pressed');
 
     setIsLoading(value: true);
@@ -402,8 +395,6 @@ class SignInScreenModel extends ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.signInFailed,
