@@ -1,18 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view/preview/widgets/blurred_background_preview_widget.dart';
+import 'package:workout_player/view/preview/widgets/first_preview_widget.dart';
+import 'package:workout_player/view/preview/widgets/gradient_background.dart';
+import 'package:workout_player/view/preview/widgets/preview_logo_widget.dart';
+import 'package:workout_player/view/preview/widgets/second_preview_widget.dart';
+import 'package:workout_player/view/preview/widgets/show_sign_in_screen_button.dart';
+import 'package:workout_player/view/preview/widgets/third_preview_widget.dart';
 
 import 'package:workout_player/view_models/preview_screen_model.dart';
 
-class PreviewScreen extends ConsumerWidget {
+class PreviewScreen extends ConsumerStatefulWidget {
   const PreviewScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
+  ConsumerState<ConsumerStatefulWidget> createState() => _PreviewScreenState();
+}
 
+class _PreviewScreenState extends ConsumerState<PreviewScreen> {
+  @override
+  void initState() {
+    super.initState();
     ref.read(previewScreenModelProvider).init();
+  }
+
+  @override
+  void dispose() {
+    ref.read(previewScreenModelProvider).dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
 
     return Scaffold(
       extendBody: true,

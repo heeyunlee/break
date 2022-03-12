@@ -188,9 +188,9 @@ class Formatter {
   /// 'kg' or 'lbs', from `int` or `UnitOfMass`
   static String unitOfMass([int? unitOfMassInt, UnitOfMass? unitOfMassEnum]) {
     if (unitOfMassEnum != null) {
-      return unitOfMassEnum.label!;
+      return unitOfMassEnum.label;
     } else if (unitOfMassInt != null) {
-      return UnitOfMass.values[unitOfMassInt].label!;
+      return UnitOfMass.values[unitOfMassInt].label;
     } else {
       return 'unit';
     }
@@ -203,9 +203,9 @@ class Formatter {
     UnitOfMass? unitOfMassEnum,
   ]) {
     if (unitOfMassEnum != null) {
-      return unitOfMassEnum.gram!;
+      return unitOfMassEnum.gram;
     } else if (unitOfMassInt != null) {
-      return UnitOfMass.values[unitOfMassInt].gram!;
+      return UnitOfMass.values[unitOfMassInt].gram;
     } else {
       return 'g';
     }

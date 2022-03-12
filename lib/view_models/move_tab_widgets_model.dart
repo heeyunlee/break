@@ -6,7 +6,6 @@ import 'package:workout_player/models/combined/progress_tab_class.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
-import 'package:workout_player/view/widgets/progress/daily_activty_ring_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_body_fat_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_weight_widget.dart';
 import 'package:workout_player/view/widgets/progress/most_recent_workout_widget.dart';
@@ -166,11 +165,11 @@ class MoveTabWidgetsModel with ChangeNotifier {
       constraints: constraints,
     );
 
-    final Widget activityRing = DailyActivityRingWidget(
-      key: const Key('activityRing'),
-      progressTabClass: data,
-      constraints: constraints,
-    );
+    // final Widget activityRing = DailyActivityRingWidget(
+    //   key: const Key('activityRing'),
+    //   progressTabClass: data,
+    //   constraints: constraints,
+    // );
 
     final Widget recentWorkout = MostRecentWorkout(
       key: const Key('recentWorkout'),
@@ -238,7 +237,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
     // );
 
     _keysAndWidgets = {
-      'activityRing': activityRing,
+      // 'activityRing': activityRing,
       'empty1x2': empty1x2,
       'empty2x2': empty2x2,
       'weeklyMeasurementsChart': weeklyMeasurementsChart,

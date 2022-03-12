@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/view/preview/widgets/activity_ring_sample_widget.dart';
+import 'package:workout_player/view/preview/widgets/latest_body_fat_sample_widget.dart';
+import 'package:workout_player/view/preview/widgets/latest_body_weight_sample_widget.dart';
+import 'package:workout_player/view/preview/widgets/most_recent_workout_sample_widget.dart';
+import 'package:workout_player/view/preview/widgets/sample_widgets.dart';
+import 'package:workout_player/view/preview/widgets/weekly_measurements_sample_widget.dart';
+import 'package:workout_player/view/preview/widgets/weekly_workout_summary_sample_widget.dart';
 import 'sign_in_screen_model.dart';
 
 final previewScreenModelProvider = ChangeNotifierProvider.autoDispose(

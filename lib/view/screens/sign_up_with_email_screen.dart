@@ -7,6 +7,7 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
+import 'package:workout_player/view/preview/widgets/blurred_background_preview_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 import 'package:workout_player/view_models/text_field_model.dart';

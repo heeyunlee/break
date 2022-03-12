@@ -14,7 +14,6 @@ export 'library.dart';
 export 'miniplayer.dart';
 export 'modal_sheets.dart';
 export 'navigators.dart';
-export 'preview.dart';
 export 'progress.dart';
 export 'scaffolds.dart';
 export 'search.dart';

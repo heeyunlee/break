@@ -3,7 +3,7 @@ library progress;
 export 'progress/blurred_background.dart';
 export 'progress/choose_date_icon_button.dart';
 export 'progress/customize_widgets_button.dart';
-export 'progress/daily_activty_ring_widget.dart';
+export '../progress/widgets/daily_activty_ring_widget.dart';
 export 'progress/daily_summary_card.dart';
 export 'progress/daily_summary_card.dart';
 export 'progress/daily_summary_numbers_widget.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/providers.dart' show firebaseAuthProvider;
 import 'package:workout_player/view/screens/home.dart';
-import 'package:workout_player/view/screens/preview_screen.dart';
+import 'package:workout_player/view/preview/preview.dart';
 import 'package:workout_player/view/screens/splash_screen.dart';
 import 'package:workout_player/view/widgets/builders/custom_stream_builder_new.dart';
 
