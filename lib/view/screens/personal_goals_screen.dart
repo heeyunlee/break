@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/dummy_data.dart';
 import 'package:workout_player/generated/l10n.dart';
@@ -25,8 +25,6 @@ class PersonalGoalsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.d('Personal goal screen building...');
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

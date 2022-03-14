@@ -9,7 +9,6 @@ import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
-import 'main_model.dart';
 
 class RoutineDetailScreenModel with ChangeNotifier {
   RoutineDetailScreenModel({required this.database});
@@ -92,7 +91,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
         );
       }
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,
@@ -121,7 +119,6 @@ class RoutineDetailScreenModel with ChangeNotifier {
         S.current.deleteRoutineSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_player/models/measurement.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 final weeklyMeasurementsChartModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => WeeklyMeasurementsChartModel(),
@@ -46,8 +45,6 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
-    logger.d('measurements length is ${measurements.length}');
-
     final List<Measurement?> _thisWeekDataS = [];
 
     if (measurements.isNotEmpty) {

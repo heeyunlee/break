@@ -5,11 +5,11 @@ import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/constants.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/progress/progress_widgets.dart';
 import 'package:workout_player/view/screens/calories_entries_screen.dart';
 import 'package:workout_player/view/screens/more_nutritions_entries_screen.dart';
-import 'package:workout_player/view/widgets/charts/weekly_bar_chart.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/weekly_calories_chart_model.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 
 class EatsTabBodyWidget extends ConsumerWidget {
   const EatsTabBodyWidget({Key? key}) : super(key: key);
@@ -34,35 +34,25 @@ class EatsTabBodyWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  WeeklyBarChartCard(
-                    cardHeight: size.height / 3,
-                    cardWidth: size.width,
-                    titleOnTap: () => CaloriesEntriesScreen.show(
-                      context,
-                      user: data.user,
-                    ),
-                    titleIcon: Icons.local_fire_department_outlined,
-                    defaultColor: Colors.greenAccent,
-                    touchedColor: Colors.green,
-                    title: S.current.consumedCalorie,
-                    chart: Consumer(
-                      builder: (context, ref, child) {
-                        final model = ref.watch(
-                          weeklyCaloriesChartModelProvider(data),
-                        );
-                        return WeeklyBarChart(
-                          nutritions: data.thisWeeksNutritions,
-                          maxY: model.getMaxY(),
-                          defaultColor: Colors.greenAccent,
-                          touchedColor: Colors.green,
-                          getBarTooltipText: model.getTooltipText,
-                          onTouchCallback: model.onTouchCallback,
-                          getDaysOfTheWeek: model.getDaysOfTheWeek,
-                          listOfYs: model.listOfYs(),
-                          touchedIndex: model.touchedIndex,
-                        );
-                      },
-                    ),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final model = ref.watch(
+                        weeklyCaloriesChartModelProvider(data),
+                      );
+                      return WeeklyBarChart(
+                        height: size.height / 3,
+                        width: size.width,
+                        color: Colors.green,
+                        leadingIcon: Icons.local_fire_department_outlined,
+                        titleOnTap: () => CaloriesEntriesScreen.show(
+                          context,
+                          user: data.user,
+                        ),
+                        title: S.current.consumedCalorie,
+                        unit: data.user.unitOfMassEnum!.gram,
+                        yValues: model.listOfYs(),
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
                   Row(

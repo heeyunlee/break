@@ -12,7 +12,7 @@ enum UnitOfMass {
 }
 
 extension UnitOfMassExtension on UnitOfMass {
-  String? get label {
+  String get label {
     switch (this) {
       case UnitOfMass.kilograms:
         return 'kg';
@@ -21,13 +21,13 @@ extension UnitOfMassExtension on UnitOfMass {
       // case UnitOfMass.stones:
       //   return 'st';
       default:
-        return null;
+        return 'kg';
     }
   }
 }
 
 extension UnitOfMassGramLabelExtension on UnitOfMass {
-  String? get gram {
+  String get gram {
     switch (this) {
       case UnitOfMass.kilograms:
         return 'g';
@@ -36,7 +36,7 @@ extension UnitOfMassGramLabelExtension on UnitOfMass {
       // case UnitOfMass.stones:
       //   return 'lb';
       default:
-        return null;
+        return 'g';
     }
   }
 }

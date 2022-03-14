@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/styles/constants.dart';
 
 class CustomFutureBuilder<T> extends StatelessWidget {
@@ -31,8 +31,6 @@ class CustomFutureBuilder<T> extends StatelessWidget {
             return emptyWidget ?? const SizedBox();
           }
         } else if (snapshot.hasError) {
-          logger.e(snapshot.error);
-
           return errorWidget ??
               const ListTile(
                 leading: Icon(

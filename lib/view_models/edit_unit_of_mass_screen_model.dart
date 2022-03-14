@@ -7,8 +7,6 @@ import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class EditUnitOfMassModel with ChangeNotifier {
   EditUnitOfMassModel({required this.database});
 
@@ -64,7 +62,6 @@ class EditUnitOfMassModel with ChangeNotifier {
         S.current.updateUnitOfMassMessage(S.current.routine),
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

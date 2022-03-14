@@ -5,7 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/styles/text_styles.dart';
@@ -57,8 +57,6 @@ class _ReorderRoutineWorkoutsScreenState
 
   @override
   Widget build(BuildContext context) {
-    logger.d('reorder routine workout screen building...');
-
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
 

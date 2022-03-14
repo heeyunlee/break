@@ -9,7 +9,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 
@@ -55,7 +54,6 @@ class BodyFatEntriesScreen extends ConsumerWidget {
         S.current.deleteMeasurementSnackbar,
       );
     } on FirebaseException catch (e) {
-      logger.d(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

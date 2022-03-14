@@ -12,7 +12,6 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'routine_detail_screen.dart';
 import 'workout_detail_screen.dart';
@@ -58,8 +57,6 @@ class SearchCategoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final database = ref.watch(databaseProvider);
-
-    logger.d('[SearchCategoryScreen] building...');
 
     final theme = Theme.of(context);
 

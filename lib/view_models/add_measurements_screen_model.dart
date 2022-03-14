@@ -7,8 +7,6 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class AddMeasurementsScreenModel with ChangeNotifier {
   AddMeasurementsScreenModel({required this.database});
 
@@ -178,7 +176,6 @@ class AddMeasurementsScreenModel with ChangeNotifier {
           );
         }
       } on FirebaseException catch (e) {
-        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

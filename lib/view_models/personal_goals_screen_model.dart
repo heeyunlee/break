@@ -8,8 +8,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class PersonalGoalsScreenModel with ChangeNotifier {
   PersonalGoalsScreenModel({
     required this.user,
@@ -73,8 +71,6 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   }
 
   void init() {
-    logger.d('PersonalGoalsScreenModel INIT function called');
-
     _liftingGoal =
         user.dailyWeightsGoal ?? ((user.unitOfMass == 0) ? 10000 : 15000);
 
@@ -331,8 +327,6 @@ class PersonalGoalsScreenModel with ChangeNotifier {
   }
 
   void _showErrorDialog(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.operationFailed,

@@ -13,7 +13,6 @@ import 'package:workout_player/view/screens/routine_detail_screen.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/choose_routine_screen_model.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class ChooseRoutineScreen extends ConsumerWidget {
   const ChooseRoutineScreen({
@@ -33,7 +32,6 @@ class ChooseRoutineScreen extends ConsumerWidget {
     final model = ref.watch(chooseRoutineScreenModelProvider);
     final homeModel = ref.watch(homeScreenModelProvider);
     final database = ref.watch(databaseProvider);
-    logger.d('StartWorkoutShortcutScreen scaffold building...');
 
     return Scaffold(
       extendBodyBehindAppBar: true,

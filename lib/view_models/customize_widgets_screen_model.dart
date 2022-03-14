@@ -6,8 +6,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class CustomizeWidgetsScreenModel with ChangeNotifier {
   CustomizeWidgetsScreenModel({required this.database});
   final Database database;
@@ -65,8 +63,6 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.operationFailed,
@@ -101,35 +97,42 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     );
   }
 
-  List<Widget> currentPreviewWidgetList = [
-    const ActivityRingSampleWidget(
-      margin: 4,
-      key: Key('activityRing'),
-    ),
-    const MostRecentWorkoutSampleWidget(
-      padding: 4,
-      key: Key('recentWorkout'),
-    ),
-    const WeeklyWorkoutSummarySampleWidget(
-      padding: 4,
-      key: Key('weeklyWorkoutHistorySmall'),
-    ),
-    const LatestBodyFatSampleWidget(
-      padding: 4,
-      key: Key('latestBodyFat'),
-    ),
-    const WeeklyMeasurementsSampleWidget(
-      padding: 4,
-      key: Key('weeklyMeasurementsChart'),
-    ),
-    SampleWidgets().weeklyWeightsBarChart,
-    SampleWidgets().weeklyProteinsBarChart,
-    SampleWidgets().weeklyCarbsBarChart,
-    SampleWidgets().weeklyFatBarChart,
-    SampleWidgets().weeklyCaloriesChart,
-    const LatestBodyWeightSampleWidget(
-      padding: 4,
-      key: Key('latestWeight'),
-    ),
-  ];
+  // List<Widget> currentPreviewWidgetList = [
+  //   ActivityRing(
+  //     key: Key('activityRing'),
+  //     muscleName: 'Chest',
+  //     liftedWeights: 10000,
+  //     weightGoal: 20000,
+  //     consumedProtein: 75,
+  //     proteinGoal: 150,
+  //     unit: UnitOfMass.kilograms,
+  //     cardColor: Colors.transparent,
+  //     elevation: 0,
+  //   ),
+  //   const MostRecentWorkoutSampleWidget(
+  //     padding: 4,
+  //     key: Key('recentWorkout'),
+  //   ),
+  //   const WeeklyWorkoutSummarySampleWidget(
+  //     padding: 4,
+  //     key: Key('weeklyWorkoutHistorySmall'),
+  //   ),
+  //   const LatestBodyFatSampleWidget(
+  //     padding: 4,
+  //     key: Key('latestBodyFat'),
+  //   ),
+  //   const WeeklyMeasurementsSampleWidget(
+  //     padding: 4,
+  //     key: Key('weeklyMeasurementsChart'),
+  //   ),
+  //   // SampleWidgets().weeklyWeightsBarChart,
+  //   // SampleWidgets().weeklyProteinsBarChart,
+  //   // SampleWidgets().weeklyCarbsBarChart,
+  //   // SampleWidgets().weeklyFatBarChart,
+  //   // SampleWidgets().weeklyCaloriesChart,
+  //   const LatestBodyWeightSampleWidget(
+  //     padding: 4,
+  //     key: Key('latestWeight'),
+  //   ),
+  // ];
 }

@@ -8,8 +8,6 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
-
 import '../../view_models/add_workouts_to_routine_model.dart';
 
 class AddWorkoutsToRoutineScreen extends StatefulWidget {
@@ -62,8 +60,6 @@ class _AddWorkoutsToRoutineScreenState
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[AddWorkoutsToRoutineScreen] building...');
-
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
 

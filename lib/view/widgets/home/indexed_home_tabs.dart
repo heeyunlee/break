@@ -6,7 +6,6 @@ import 'package:workout_player/view/screens/eats_tab.dart';
 import 'package:workout_player/view/screens/move_tab.dart';
 import 'package:workout_player/view/screens/explore_tab.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'tab_item.dart';
 
@@ -25,7 +24,6 @@ class IndexedHomeTabs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.d('[IndexedHomeTabs] widget building');
     final model = ref.watch(homeScreenModelProvider);
 
     return IndexedStack(

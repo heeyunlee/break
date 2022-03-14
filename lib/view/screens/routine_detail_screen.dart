@@ -5,7 +5,6 @@ import 'package:workout_player/models/combined/combined_models.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class RoutineDetailScreen extends ConsumerWidget {
   const RoutineDetailScreen({
@@ -35,8 +34,6 @@ class RoutineDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.d('[RoutineDetailScreen] building...');
-
     return Scaffold(
       // extendBody: true,
       extendBodyBehindAppBar: true,

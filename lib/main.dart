@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -8,15 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:logger/logger.dart';
+import 'package:workout_player/services/logging.dart';
 import 'package:workout_player/view/widgets/home/auth_state_changes_stream_widget.dart';
 
 import 'generated/l10n.dart';
 import 'services/algolia_manager.dart';
 import 'services/mixpanel_manager.dart';
 import 'services/private_keys.dart';
-import 'styles/custom_theme_data.dart';
+import 'styles/themes.dart';
 import 'styles/platform_colors.dart';
-import 'view_models/main_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,12 @@ Future<void> main() async {
   KakaoContext.clientId = kakaoClientId;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -68,6 +74,9 @@ class MyApp extends StatelessWidget {
         future: getMaterialYouColor(),
         builder: (context, snapshot) {
           return GetMaterialApp(
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -76,7 +85,7 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             debugShowCheckedModeBanner: false,
-            theme: CustomThemeData.createTheme(snapshot.data),
+            theme: Themes.createTheme(snapshot.data),
             home: const AuthStateChangesStreamWidget(),
           );
         },

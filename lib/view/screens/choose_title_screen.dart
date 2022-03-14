@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'package:workout_player/view_models/main_model.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
 /// Reusable screen that can start the progress of creating either custom [Routine]
@@ -66,8 +65,6 @@ class _ChooseTitleScreenState extends State<ChooseTitleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('building create new routine scaffold...');
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

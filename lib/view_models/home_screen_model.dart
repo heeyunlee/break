@@ -5,12 +5,11 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
-import 'main_model.dart';
-
 class HomeScreenModel with ChangeNotifier {
   HomeScreenModel({required this.database});
 
-  Database database;
+  final Database database;
+
   double? miniplayerMinHeight;
   ValueNotifier<double>? valueNotifier;
 
@@ -30,13 +29,7 @@ class HomeScreenModel with ChangeNotifier {
     final safePadding = MediaQuery.of(context).padding.bottom;
     // final a = WidgetsBinding.instance!.window.padding.bottom;
 
-    logger.d('`setMiniplayerHeight()` function called in [HomeScreen]');
-
-    logger.d('safepadding is $safePadding');
-
     final _miniplayerMinHeight = 64 + safePadding + 56;
-
-    logger.d('miniplayer min height is $_miniplayerMinHeight');
 
     miniplayerMinHeight = _miniplayerMinHeight;
     valueNotifier = ValueNotifier<double>(miniplayerMinHeight!);
@@ -84,8 +77,6 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   Future<void> updateUser(BuildContext context) async {
-    logger.d('[HomeScreenModel] `updateUser()` function called');
-
     try {
       final user = await database.getUserDocument(database.uid!);
 
@@ -108,8 +99,6 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   void _showErrorDialog(FirebaseException exception, BuildContext context) {
-    logger.e(exception);
-
     showExceptionAlertDialog(
       context,
       title: S.current.errorOccuredMessage,

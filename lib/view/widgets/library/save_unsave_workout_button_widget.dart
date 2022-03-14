@@ -6,7 +6,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import '../widgets.dart';
 
@@ -64,10 +63,7 @@ class SaveUnsaveWorkoutButtonWidget extends ConsumerWidget {
             S.current.savedWorkoutSnackBarTitle,
             S.current.savedWorkoutSnackBarSubtitle,
           );
-
-          logger.d('added routine to saved routine');
         } on FirebaseException catch (e) {
-          logger.e(e);
           await showExceptionAlertDialog(
             context,
             title: S.current.operationFailed,
@@ -95,8 +91,6 @@ class SaveUnsaveWorkoutButtonWidget extends ConsumerWidget {
           S.current.unsavedRoutineSnackBarTitle,
           S.current.unsavedRoutineSnackbar,
         );
-
-        logger.d('Removed routine from saved routine');
       },
     );
   }

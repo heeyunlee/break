@@ -9,7 +9,7 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
+
 import 'package:workout_player/view_models/miniplayer_model.dart';
 
 class MiniplayerScreen extends ConsumerWidget {
@@ -18,8 +18,6 @@ class MiniplayerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final database = ref.watch<Database>(databaseProvider);
-
-    logger.d('[MiniplayerScreen] building...');
 
     return CustomStreamBuilder<User?>(
       stream: database.userStream(),

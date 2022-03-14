@@ -11,7 +11,7 @@
 // import 'package:workout_player/utils/formatter.dart';
 // import 'package:workout_player/view/widgets/watch/youtube_workout_list_tile.dart';
 // import 'package:workout_player/view/widgets/widgets.dart';
-// import 'package:workout_player/view_models/main_model.dart';
+// 
 // import 'package:workout_player/view_models/miniplayer_model.dart';
 
 // class YoutubeVideoDetailScreen extends StatelessWidget {

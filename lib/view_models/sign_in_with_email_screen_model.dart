@@ -17,7 +17,6 @@ import 'package:workout_player/view/widgets/widgets.dart';
 
 import '../view/screens/sign_in_with_email_screen.dart';
 import '../view/screens/sign_up_with_email_screen.dart';
-import 'main_model.dart';
 import 'text_field_model.dart';
 
 class SignInWithEmailModel extends ChangeNotifier {
@@ -186,8 +185,6 @@ class SignInWithEmailModel extends ChangeNotifier {
   }
 
   void _showSignInError(FirebaseException exception, BuildContext context) {
-    logger.e(exception.message);
-
     switch (exception.code) {
       case 'user-not-found':
         showAlertDialog(

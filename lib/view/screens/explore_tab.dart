@@ -12,7 +12,6 @@ import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/services/algolia_manager.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'search_category_screen.dart';
 import 'workout_detail_screen.dart';
@@ -62,8 +61,6 @@ class _ExploreTabState extends ConsumerState<ExploreTab> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[ExploreTab] building...');
-
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
 

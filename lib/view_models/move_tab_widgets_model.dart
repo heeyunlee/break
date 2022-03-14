@@ -3,23 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/progress_tab_class.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
+import 'package:workout_player/models/models.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
+import 'package:workout_player/services/top_level_variables.dart';
+import 'package:workout_player/utils/formatter.dart';
+import 'package:workout_player/view/progress/progress_widgets.dart';
 import 'package:workout_player/view/screens/routine_histories_screen.dart';
-import 'package:workout_player/view/widgets/progress/daily_activty_ring_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_body_fat_widget.dart';
 import 'package:workout_player/view/widgets/progress/latest_weight_widget.dart';
-import 'package:workout_player/view/widgets/progress/most_recent_workout_widget.dart';
-import 'package:workout_player/view/widgets/progress/weekly_bar_chart_card_template.dart';
 import 'package:workout_player/view/widgets/progress/weekly_measurements_card.dart';
-import 'package:workout_player/view/widgets/progress/weekly_workout_summary.dart';
-
-import 'weekly_weights_bar_chart_model.dart';
 
 class MoveTabWidgetsModel with ChangeNotifier {
-  MoveTabWidgetsModel({required this.database});
+  MoveTabWidgetsModel({
+    required this.database,
+    required this.topLevelVariables,
+  });
 
   final Database database;
+  final TopLevelVariables topLevelVariables;
 
   Map<String, Widget> _keysAndWidgets = {};
   List<Widget> _widgets = [];
@@ -113,7 +116,50 @@ class MoveTabWidgetsModel with ChangeNotifier {
     required ProgressTabClass data,
     required BoxConstraints constraints,
   }) {
+    final heightFactor = (constraints.maxHeight > 600) ? 4 : 3.5;
     _widgetKeysList = data.user.widgetsList ?? _widgetKeysList;
+
+    // final Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(
+    //   key: const Key('weeklyWorkoutHistorySmall'),
+    //   user: data.user,
+    //   routineHistories: data.routineHistories,
+    //   constraints: constraints,
+    // );
+
+    Map<DateTime, List<RoutineHistory>> _mapData;
+    List<double> listOfYs = [];
+
+    _mapData = {
+      for (var item in topLevelVariables.thisWeek)
+        item: data.routineHistories
+            .where((e) => e.workoutDate.toUtc() == item)
+            .toList()
+    };
+
+    listOfYs = _mapData.values.map((list) {
+      double sum = 0;
+
+      if (list.isNotEmpty) {
+        for (final history in list) {
+          sum += history.totalWeights;
+        }
+      }
+
+      return sum;
+    }).toList();
+
+    List<String?> _muscleWorked = _mapData.values.map((list) {
+      if (list.isNotEmpty) {
+        final _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
+          list.last.mainMuscleGroup,
+          list.last.mainMuscleGroupEnum,
+        );
+
+        return _todaysMuscleWorked;
+      } else {
+        return null;
+      }
+    }).toList();
 
     final Widget latestBodyFat = LatestBodyFatWidget(
       key: const Key('latestBodyFat'),
@@ -127,38 +173,25 @@ class MoveTabWidgetsModel with ChangeNotifier {
       data: data,
     );
 
-    final Widget weeklyWorkoutHistorySmall = WeeklyWorkoutWidget.create(
+    final Widget weeklyWorkoutHistorySmall = WeeklyWorkoutSummary(
       key: const Key('weeklyWorkoutHistorySmall'),
-      user: data.user,
-      routineHistories: data.routineHistories,
-      constraints: constraints,
+      weeklyWorkedOutMuscles: _muscleWorked,
+      height: constraints.maxHeight / heightFactor,
+      width: constraints.maxWidth,
+      cardOnTap: () => RoutineHistoriesScreen.show(context),
     );
 
-    final Widget weeklyWorkoutHistoryMedium = WeeklyBarChartCardTemplate(
+    final Widget weeklyWorkoutHistoryMedium = WeeklyBarChart(
+      yValues: listOfYs,
       key: const Key('weeklyWorkoutHistoryMedium'),
-      progressTabClass: data,
-      constraints: constraints,
-      defaultColor: Colors.redAccent,
-      touchedColor: Colors.red,
-      model: weeklyWeightsBarChartModelProvider,
-      onTap: () => RoutineHistoriesScreen.show(context),
-      titleIcon: Icons.fitness_center_rounded,
+      color: Colors.red,
+      unit: data.user.unitOfMassEnum?.label ?? 'Kg',
+      titleOnTap: () => RoutineHistoriesScreen.show(context),
+      leadingIcon: Icons.fitness_center_rounded,
       title: S.current.liftedWeights,
       subtitle: S.current.weightsChartMessage,
+      height: constraints.maxHeight / 2,
     );
-
-    // final Widget weeklyNutritionChart = WeeklyBarChartCardTemplate(
-    //   key: const Key('weeklyNutritionChart'),
-    //   progressTabClass: data,
-    //   constraints: constraints,
-    //   defaultColor: Colors.greenAccent,
-    //   touchedColor: Colors.green,
-    //   onTap: () => ProteinEntriesScreen.show(context, user: data.user),
-    //   model: weeklyProteinsBarChartModelProvider,
-    //   titleIcon: Icons.restaurant_menu_rounded,
-    //   title: S.current.addProteins,
-    //   subtitle: S.current.proteinChartContentText,
-    // );
 
     final Widget weeklyMeasurementsChart = WeeklyMeasurementsCard(
       key: const Key('weeklyMeasurementsChart'),
@@ -166,16 +199,35 @@ class MoveTabWidgetsModel with ChangeNotifier {
       constraints: constraints,
     );
 
-    final Widget activityRing = DailyActivityRingWidget(
+    final Widget activityRing = ActivityRing(
       key: const Key('activityRing'),
-      progressTabClass: data,
-      constraints: constraints,
+      width: constraints.maxWidth,
+      height: constraints.maxHeight / 4,
+      liftedWeights: 12000,
+      consumedProtein: 120,
+      muscleName: 'Chest',
+      proteinGoal: 100,
+      unit: UnitOfMass.kilograms,
+      weightGoal: 15000,
+      cardColor: Colors.transparent,
+      elevation: 0,
+      onTap: () {},
     );
 
     final Widget recentWorkout = MostRecentWorkout(
       key: const Key('recentWorkout'),
-      constraints: constraints,
-      data: data,
+      workoutEndTime: DateTime.now(),
+      routineTitle: 'Chest Workout',
+      totalWeights: 12000,
+      unit: UnitOfMass.kilograms,
+      durationInMins: 75,
+      height: constraints.maxHeight / 4,
+
+      // routineHistory: (data.routineHistories.isNotEmpty)
+      //     ? data.routineHistories.last
+      //     : null,
+      // constraints: constraints,
+      // data: data,
     );
 
     // Widget stepsWidget = StepsWidget(

@@ -5,7 +5,6 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/view/widgets/home/indexed_home_tabs.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'miniplayer_screen.dart';
 
@@ -20,14 +19,12 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ref.read(homeScreenModelProvider).updateUser(context);
+    // ref.read(homeScreenModelProvider).updateUser(context);
     ref.read(homeScreenModelProvider).setMiniplayerHeight(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[HomeScreen] building... ');
-
     return Stack(
       children: [
         Scaffold(

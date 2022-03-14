@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workout_player/view_models/main_model.dart';
+import 'package:workout_player/services/logging.dart';
 
 const platform = MethodChannel('com.healtine.playerh/colors');
 

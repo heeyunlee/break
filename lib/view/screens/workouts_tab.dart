@@ -6,7 +6,6 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/utils/formatter.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'create_new_workout_screen.dart';
 import 'saved_workouts_screen.dart';
@@ -27,8 +26,6 @@ class WorkoutsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.d('[WorkoutsTab] tab...');
-
     return CustomStreamBuilder<List<Workout>>(
       stream: ref.read(databaseProvider).userWorkoutsStream(),
       emptyWidget: SingleChildScrollView(

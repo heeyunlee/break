@@ -7,8 +7,6 @@ import 'package:workout_player/services/database.dart';
 import 'package:workout_player/view/widgets/basic.dart';
 import 'package:workout_player/view/widgets/dialogs.dart';
 
-import 'main_model.dart';
-
 class EditNutritionModel with ChangeNotifier {
   EditNutritionModel({
     required this.database,
@@ -229,7 +227,6 @@ class EditNutritionModel with ChangeNotifier {
         S.current.updateNutritionMessage,
       );
     } on FirebaseException catch (e) {
-      logger.e(e);
       await showExceptionAlertDialog(
         context,
         title: S.current.operationFailed,

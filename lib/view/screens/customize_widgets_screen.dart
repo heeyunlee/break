@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
+import 'package:workout_player/view/progress/progress_widgets.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
 import 'package:workout_player/view_models/progress_tab_model.dart';
@@ -45,322 +47,6 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
-
-    // return FutureBuilder<MaterialYouPalette?>(
-    //   future: getMaterialYouColor(),
-    //   builder: (context, snapshot) {
-    //     return Scaffold(
-    //       backgroundColor: theme.backgroundColor,
-    //       body: SingleChildScrollView(
-    //         child: Column(
-    //           children: [
-    //             const SizedBox(height: 120),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade50,
-    //               child: const Text('snapshot.data?.accent1.shade50'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade100,
-    //               child: const Text('snapshot.data?.accent1.shade100'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade200,
-    //               child: const Text('snapshot.data?.accent1.shade200'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade300,
-    //               child: const Text('snapshot.data?.accent1.shade300'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade400,
-    //               child: const Text('snapshot.data?.accent1.shade400'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade500,
-    //               child: const Text('snapshot.data?.accent1.shade500'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade600,
-    //               child: const Text('snapshot.data?.accent1.shade600'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade700,
-    //               child: const Text('snapshot.data?.accent1.shade700'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade800,
-    //               child: const Text('snapshot.data?.accent1.shade800'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent1.shade900,
-    //               child: const Text('snapshot.data?.accent1.shade900'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade50,
-    //               child: const Text('snapshot.data?.accent2.shade50'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade100,
-    //               child: const Text('snapshot.data?.accent2.shade100'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade200,
-    //               child: const Text('snapshot.data?.accent2.shade200'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade300,
-    //               child: const Text('snapshot.data?.accent2.shade300'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade400,
-    //               child: const Text('snapshot.data?.accent2.shade400'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade500,
-    //               child: const Text('snapshot.data?.accent2.shade500'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade600,
-    //               child: const Text('snapshot.data?.accent2.shade600'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade700,
-    //               child: const Text('snapshot.data?.accent2.shade700'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade800,
-    //               child: const Text('snapshot.data?.accent2.shade800'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent2.shade900,
-    //               child: const Text('snapshot.data?.accent2.shade900'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade50,
-    //               child: const Text('snapshot.data?.accent3.shade50'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade100,
-    //               child: const Text('snapshot.data?.accent3.shade100'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade200,
-    //               child: const Text('snapshot.data?.accent3.shade200'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade300,
-    //               child: const Text('snapshot.data?.accent3.shade300'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade400,
-    //               child: const Text('snapshot.data?.accent3.shade400'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade500,
-    //               child: const Text('snapshot.data?.accent3.shade500'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade600,
-    //               child: const Text('snapshot.data?.accent3.shade600'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade700,
-    //               child: const Text('snapshot.data?.accent3.shade700'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade800,
-    //               child: const Text('snapshot.data?.accent3.shade800'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.accent3.shade900,
-    //               child: const Text('snapshot.data?.accent3.shade900'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade50,
-    //               child: const Text('snapshot.data?.neutral1.shade50'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade100,
-    //               child: const Text('snapshot.data?.neutral1.shade100'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade200,
-    //               child: const Text('snapshot.data?.neutral1.shade200'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade300,
-    //               child: const Text('snapshot.data?.neutral1.shade300'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade400,
-    //               child: const Text('snapshot.data?.neutral1.shade400'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade500,
-    //               child: const Text('snapshot.data?.neutral1.shade500'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade600,
-    //               child: const Text('snapshot.data?.neutral1.shade600'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade700,
-    //               child: const Text('snapshot.data?.neutral1.shade700'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade800,
-    //               child: const Text('snapshot.data?.neutral1.shade800'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral1.shade900,
-    //               child: const Text('snapshot.data?.neutral1.shade900'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade50,
-    //               child: const Text('snapshot.data?.neutral2.shade50'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade100,
-    //               child: const Text('snapshot.data?.neutral2.shade100'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade200,
-    //               child: const Text('snapshot.data?.neutral2.shade200'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade300,
-    //               child: const Text('snapshot.data?.neutral2.shade300'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade400,
-    //               child: const Text('snapshot.data?.neutral2.shade400'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade500,
-    //               child: const Text('snapshot.data?.neutral2.shade500'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade600,
-    //               child: const Text('snapshot.data?.neutral2.shade600'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade700,
-    //               child: const Text('snapshot.data?.neutral2.shade700'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade800,
-    //               child: const Text('snapshot.data?.neutral2.shade800'),
-    //             ),
-    //             Container(
-    //               width: size.width,
-    //               height: 120,
-    //               color: snapshot.data?.neutral2.shade900,
-    //               child: const Text('snapshot.data?.neutral2.shade900'),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -509,7 +195,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.model.currentPreviewWidgetList.map(
+                children: _previewWidgets().map(
                   (value) {
                     final key = value.key
                         .toString()
@@ -570,5 +256,33 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _previewWidgets() {
+    final size = MediaQuery.of(context).size;
+
+    return [
+      ActivityRing(
+        height: size.height / 2,
+        width: size.width,
+        key: const Key('activityRing'),
+        muscleName: 'Chest',
+        liftedWeights: 10000,
+        weightGoal: 20000,
+        consumedProtein: 75,
+        proteinGoal: 150,
+        unit: UnitOfMass.kilograms,
+        cardColor: Colors.transparent,
+        elevation: 0,
+      ),
+      WeeklyBarChart(
+        height: size.height / 2,
+        color: Colors.green,
+        leadingIcon: Icons.local_fire_department_outlined,
+        title: S.current.consumedCalorie,
+        unit: UnitOfMass.kilograms.gram,
+        yValues: const [2000, 1500, 0, 2400, 2600, 3200, 3300],
+      ),
+    ];
   }
 }

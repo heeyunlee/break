@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_player/generated/l10n.dart';
-import 'package:workout_player/view_models/preview_screen_model.dart';
+import 'package:workout_player/providers.dart' show previewModelProvider;
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/text_styles.dart';
 
@@ -10,7 +10,7 @@ class ShowSignInScreenButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(previewScreenModelProvider);
+    final model = ref.watch(previewModelProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),

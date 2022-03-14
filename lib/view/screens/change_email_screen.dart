@@ -8,7 +8,6 @@ import 'package:workout_player/models/user.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 class ChangeEmailScreen extends ConsumerStatefulWidget {
   const ChangeEmailScreen({
@@ -79,7 +78,6 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
           behavior: SnackBarBehavior.floating,
         ));
       } on FirebaseException catch (e) {
-        logger.e(e);
         await showExceptionAlertDialog(
           context,
           title: S.current.operationFailed,

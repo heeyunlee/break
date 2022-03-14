@@ -34,7 +34,6 @@ class RoutineWorkoutCard extends ConsumerWidget {
     final routineWorkoutCardModel = ref.watch(routineWorkoutCardModelProvider);
 
     return Card(
-      clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),

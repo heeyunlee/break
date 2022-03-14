@@ -5,7 +5,6 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
-import 'package:workout_player/view_models/main_model.dart';
 
 import 'search_category_screen.dart';
 
@@ -22,8 +21,6 @@ class WorkoutsByCategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[WorkoutsByCategoryScreen] building...');
-
     final theme = Theme.of(context);
 
     return Scaffold(

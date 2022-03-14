@@ -4,7 +4,7 @@
 // import 'package:workout_player/services/database.dart';
 // import 'package:workout_player/styles/text_styles.dart';
 // import 'package:workout_player/view/widgets/widgets.dart';
-// import 'package:workout_player/view_models/main_model.dart';
+// 
 
 // class WatchTab extends StatelessWidget {
 //   const WatchTab({
