@@ -19,7 +19,7 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ref.read(homeScreenModelProvider).updateUser(context);
+    // ref.read(homeScreenModelProvider).updateUser(context);
     ref.read(homeScreenModelProvider).setMiniplayerHeight(context);
   }
 

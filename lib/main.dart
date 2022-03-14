@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -26,7 +27,12 @@ Future<void> main() async {
   KakaoContext.clientId = kakaoClientId;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -68,6 +74,9 @@ class MyApp extends StatelessWidget {
         future: getMaterialYouColor(),
         builder: (context, snapshot) {
           return GetMaterialApp(
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

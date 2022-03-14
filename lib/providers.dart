@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/firebase_auth_service.dart';
+import 'package:workout_player/services/top_level_variables.dart';
+import 'package:workout_player/view/preview/preview_model.dart';
 import 'package:workout_player/view_models/add_measurements_screen_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
@@ -29,6 +32,7 @@ import 'package:workout_player/view_models/routine_workout_card_model.dart';
 import 'package:workout_player/view_models/settings_tab_model.dart';
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
+import 'package:workout_player/view_models/weekly_calories_chart_model.dart';
 import 'package:workout_player/view_models/workout_set_rest_widget_model.dart';
 import 'package:workout_player/view_models/workout_set_widget_model.dart';
 import 'package:workout_player/view_models/workout_summary_screen_model.dart';
@@ -48,6 +52,11 @@ final databaseProvider = Provider<Database>(
 
     return Database(uid: uid);
   },
+);
+
+/// Provider for [TopLevelVariables]
+final topLevelVariablesProvider = Provider<TopLevelVariables>(
+  (ref) => TopLevelVariables(),
 );
 
 /// Provider for [AddWorkoutToRoutineScreenModel]
@@ -158,8 +167,12 @@ final miniplayerModelProvider = ChangeNotifierProvider.autoDispose(
 final progressTabWidgetsModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) {
     final database = ref.watch(databaseProvider);
+    final topLevelVars = ref.watch(topLevelVariablesProvider);
 
-    return MoveTabWidgetsModel(database: database);
+    return MoveTabWidgetsModel(
+      database: database,
+      topLevelVariables: topLevelVars,
+    );
   },
 );
 
@@ -326,5 +339,22 @@ final logRoutineModelProvider = ChangeNotifierProvider.autoDispose(
     final database = ref.watch(databaseProvider);
 
     return LogRoutineModel(database: database);
+  },
+);
+
+final previewModelProvider = ChangeNotifierProvider.autoDispose(
+  (ref) => PreviewModel(),
+);
+
+final weeklyCaloriesChartModelProvider = ChangeNotifierProvider.autoDispose
+    .family<WeeklyCaloriesChartModel, EatsTabClass>(
+  (ref, data) {
+    final topLevelVariables = ref.watch(topLevelVariablesProvider);
+
+    return WeeklyCaloriesChartModel(
+      nutritions: data.thisWeeksNutritions,
+      user: data.user,
+      topLevelVariables: topLevelVariables,
+    );
   },
 );

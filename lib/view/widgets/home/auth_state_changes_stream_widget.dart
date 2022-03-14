@@ -19,7 +19,7 @@ class AuthStateChangesStreamWidget extends ConsumerWidget {
       stream: auth.authStateChanges(),
       errorBuilder: (context, e) => const SplashScreen(),
       loadingBuilder: (context) => const SplashScreen(),
-      emptyWidgetBuilder: (context) => const PreviewScreen(),
+      emptyWidgetBuilder: (context) => const Preview(),
       builder: (context, user) => const Home(),
     );
   }

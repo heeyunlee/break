@@ -73,12 +73,7 @@ class Themes {
         error: Colors.red,
         onError: Colors.white,
       ),
-      cardTheme: CardTheme(
-        color: Color.alphaBlend(
-          primary?.withOpacity(0.08) ?? ThemeColors.card,
-          background ?? ThemeColors.card,
-        ),
-      ),
+      cardTheme: _card,
       appBarTheme: AppBarTheme(
         iconTheme: const IconThemeData(color: Colors.white),
         systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -89,6 +84,17 @@ class Themes {
       dividerTheme: divider,
     );
   }
+
+  static const _card = CardTheme(
+    clipBehavior: Clip.hardEdge,
+    color: ThemeColors.grey900,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(24),
+      ),
+    ),
+    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+  );
 
   static FloatingActionButtonThemeData fab(Color? primaryColor) {
     return FloatingActionButtonThemeData(

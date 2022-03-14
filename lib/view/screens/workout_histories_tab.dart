@@ -196,7 +196,7 @@ class _WorkoutHistoriesTabState extends ConsumerState<WorkoutHistoriesTab> {
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                    final weights = (rod.y / 1.05 / 10 * _maxY).round();
+                    final weights = (rod.toY / 1.05 / 10 * _maxY).round();
                     final formattedWeights = Formatter.numWithDecimal(weights);
 
                     return BarTooltipItem(
@@ -297,12 +297,12 @@ class _WorkoutHistoriesTabState extends ConsumerState<WorkoutHistoriesTab> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y * 1.05 : y,
+          toY: isTouched ? y * 1.05 : y,
           colors: isTouched ? [Colors.red] : [Colors.redAccent],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: false,
-            y: 10,
+            toY: 10,
             colors: [Colors.grey[800]!],
           ),
         ),

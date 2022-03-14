@@ -8,7 +8,8 @@ import 'package:workout_player/view/widgets/widgets.dart';
 class HomeScreenModel with ChangeNotifier {
   HomeScreenModel({required this.database});
 
-  Database database;
+  final Database database;
+
   double? miniplayerMinHeight;
   ValueNotifier<double>? valueNotifier;
 

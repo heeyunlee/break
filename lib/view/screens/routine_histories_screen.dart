@@ -52,7 +52,6 @@ class RoutineHistoriesScreen extends ConsumerWidget {
                       onTap: () => RoutineHistoryDetailScreen.show(
                         context,
                         routineHistory: routineHistory,
-                        theme: Theme.of(context),
                       ),
                     );
                   },

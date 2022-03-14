@@ -5,7 +5,8 @@ PrefixPrinter prefixPrinter = PrefixPrinter(
     methodCount: 1, // number of method calls to be displayed
     errorMethodCount: 5, // number of method calls if stacktrace is provided
     lineLength: 100, // width of the output
-    printTime: true, // Should each log print contain a timestamp
+    printTime: false, // Should each log print contain a timestamp
+    noBoxingByDefault: true, // Get rid of box
   ),
   debug: '[Break][D]',
   info: '[Break][I]',

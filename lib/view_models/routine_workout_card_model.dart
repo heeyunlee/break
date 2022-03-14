@@ -284,7 +284,7 @@ class RoutineWorkoutCardModel with ChangeNotifier {
   }
 
   bool isOwner(Routine routine) {
-    final uid = database.uid!;
+    final uid = database.uid ?? 'asd';
     final routineOwnerId = routine.routineOwnerId;
 
     return uid == routineOwnerId;

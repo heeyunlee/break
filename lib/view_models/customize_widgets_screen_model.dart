@@ -4,13 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/preview/widgets/activity_ring_sample_widget.dart';
-import 'package:workout_player/view/preview/widgets/latest_body_fat_sample_widget.dart';
-import 'package:workout_player/view/preview/widgets/latest_body_weight_sample_widget.dart';
-import 'package:workout_player/view/preview/widgets/most_recent_workout_sample_widget.dart';
-import 'package:workout_player/view/preview/widgets/sample_widgets.dart';
-import 'package:workout_player/view/preview/widgets/weekly_measurements_sample_widget.dart';
-import 'package:workout_player/view/preview/widgets/weekly_workout_summary_sample_widget.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 class CustomizeWidgetsScreenModel with ChangeNotifier {
@@ -104,35 +97,42 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     );
   }
 
-  List<Widget> currentPreviewWidgetList = [
-    const ActivityRingSampleWidget(
-      margin: 4,
-      key: Key('activityRing'),
-    ),
-    const MostRecentWorkoutSampleWidget(
-      padding: 4,
-      key: Key('recentWorkout'),
-    ),
-    const WeeklyWorkoutSummarySampleWidget(
-      padding: 4,
-      key: Key('weeklyWorkoutHistorySmall'),
-    ),
-    const LatestBodyFatSampleWidget(
-      padding: 4,
-      key: Key('latestBodyFat'),
-    ),
-    const WeeklyMeasurementsSampleWidget(
-      padding: 4,
-      key: Key('weeklyMeasurementsChart'),
-    ),
-    SampleWidgets().weeklyWeightsBarChart,
-    SampleWidgets().weeklyProteinsBarChart,
-    SampleWidgets().weeklyCarbsBarChart,
-    SampleWidgets().weeklyFatBarChart,
-    SampleWidgets().weeklyCaloriesChart,
-    const LatestBodyWeightSampleWidget(
-      padding: 4,
-      key: Key('latestWeight'),
-    ),
-  ];
+  // List<Widget> currentPreviewWidgetList = [
+  //   ActivityRing(
+  //     key: Key('activityRing'),
+  //     muscleName: 'Chest',
+  //     liftedWeights: 10000,
+  //     weightGoal: 20000,
+  //     consumedProtein: 75,
+  //     proteinGoal: 150,
+  //     unit: UnitOfMass.kilograms,
+  //     cardColor: Colors.transparent,
+  //     elevation: 0,
+  //   ),
+  //   const MostRecentWorkoutSampleWidget(
+  //     padding: 4,
+  //     key: Key('recentWorkout'),
+  //   ),
+  //   const WeeklyWorkoutSummarySampleWidget(
+  //     padding: 4,
+  //     key: Key('weeklyWorkoutHistorySmall'),
+  //   ),
+  //   const LatestBodyFatSampleWidget(
+  //     padding: 4,
+  //     key: Key('latestBodyFat'),
+  //   ),
+  //   const WeeklyMeasurementsSampleWidget(
+  //     padding: 4,
+  //     key: Key('weeklyMeasurementsChart'),
+  //   ),
+  //   // SampleWidgets().weeklyWeightsBarChart,
+  //   // SampleWidgets().weeklyProteinsBarChart,
+  //   // SampleWidgets().weeklyCarbsBarChart,
+  //   // SampleWidgets().weeklyFatBarChart,
+  //   // SampleWidgets().weeklyCaloriesChart,
+  //   const LatestBodyWeightSampleWidget(
+  //     padding: 4,
+  //     key: Key('latestWeight'),
+  //   ),
+  // ];
 }

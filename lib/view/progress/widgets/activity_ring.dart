@@ -7,14 +7,14 @@ import 'package:workout_player/styles/text_styles.dart';
 class ActivityRing extends StatelessWidget {
   const ActivityRing({
     Key? key,
+    required this.height,
+    required this.width,
     required this.liftedWeights,
     required this.weightGoal,
     required this.consumedProtein,
     required this.proteinGoal,
     required this.unit,
     required this.muscleName,
-    required this.height,
-    required this.width,
     this.contentSymmetricPadding = 24,
     this.cardPadding = EdgeInsets.zero,
     this.isSelected = false,
@@ -23,14 +23,15 @@ class ActivityRing extends StatelessWidget {
     this.cardColor,
   }) : super(key: key);
 
+  final double height;
+  final double width;
   final double liftedWeights;
   final double weightGoal;
   final double consumedProtein;
   final double proteinGoal;
   final UnitOfMass unit;
   final String muscleName;
-  final double height;
-  final double width;
+
   final double contentSymmetricPadding;
   final EdgeInsets cardPadding;
   final bool isSelected;
@@ -38,11 +39,11 @@ class ActivityRing extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? cardColor;
 
-  double get bigRadius => (width - contentSymmetricPadding * 2 - 16) / 2;
+  double get bigRadius => (width - contentSymmetricPadding * 2 - 16) / 2 - 4;
 
-  double get smallRadius => (width - contentSymmetricPadding * 2 - 16) / 2 - 32;
+  double get smallRadius => (width - contentSymmetricPadding * 2 - 16) / 2 - 36;
 
-  double get textWidth => (width - contentSymmetricPadding * 2 - 16) / 2 - 72;
+  double get textWidth => (width - contentSymmetricPadding * 2 - 16) / 2 - 80;
 
   double get weightPercent {
     final percent = liftedWeights / weightGoal;
@@ -59,7 +60,6 @@ class ActivityRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
 
     return SizedBox(
       height: height,
@@ -75,80 +75,64 @@ class ActivityRing extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: contentSymmetricPadding),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Flexible(
-                  flex: 1,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: textWidth,
-                        child: Center(
-                          child: FittedBox(
-                            child: Text(
-                              muscleName,
-                              style: TextStyles.headline5W900,
-                            ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: textWidth,
+                      child: Center(
+                        child: FittedBox(
+                          child: Text(
+                            muscleName,
+                            style: TextStyles.headline5W900,
                           ),
                         ),
                       ),
-                      CircularPercentIndicator(
-                        radius: bigRadius,
+                    ),
+                    CircularPercentIndicator(
+                      radius: bigRadius,
+                      lineWidth: 12,
+                      percent: weightPercent,
+                      backgroundColor: Colors.redAccent.withOpacity(0.25),
+                      progressColor: Colors.redAccent,
+                      animation: true,
+                      animationDuration: 1000,
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
+                    Center(
+                      child: CircularPercentIndicator(
+                        radius: smallRadius,
                         lineWidth: 12,
-                        percent: weightPercent,
-                        backgroundColor: Colors.redAccent.withOpacity(0.25),
-                        progressColor: Colors.redAccent,
+                        percent: proteinPercent,
+                        backgroundColor: Colors.greenAccent.withOpacity(0.25),
+                        progressColor: Colors.greenAccent,
                         animation: true,
                         animationDuration: 1000,
                         circularStrokeCap: CircularStrokeCap.round,
                       ),
-                      Center(
-                        child: CircularPercentIndicator(
-                          radius: smallRadius,
-                          lineWidth: 12,
-                          percent: proteinPercent,
-                          backgroundColor: Colors.greenAccent.withOpacity(0.25),
-                          progressColor: Colors.greenAccent,
-                          animation: true,
-                          animationDuration: 1000,
-                          circularStrokeCap: CircularStrokeCap.round,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 const SizedBox(width: 16),
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: size.height / 16),
-                      SizedBox(
-                        height: size.height / 16,
-                        child: FittedBox(
-                          child: _DailySummaryNumbersWidget(
-                            title: S.current.liftedWeights,
-                            number: liftedWeights.toInt(),
-                            unit: unit.label,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height / 16,
-                        child: FittedBox(
-                          child: _DailySummaryNumbersWidget(
-                            title: S.current.proteins,
-                            backgroundColor: Colors.greenAccent,
-                            number: consumedProtein.toInt(),
-                            unit: unit.gram,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: size.height / 16),
-                    ],
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _DailySummaryNumbersWidget(
+                      title: S.current.liftedWeights,
+                      number: liftedWeights.toInt(),
+                      unit: unit.label,
+                    ),
+                    const SizedBox(height: 16),
+                    _DailySummaryNumbersWidget(
+                      title: S.current.proteins,
+                      backgroundColor: Colors.greenAccent,
+                      number: consumedProtein.toInt(),
+                      unit: unit.gram,
+                    ),
+                  ],
                 ),
               ],
             ),

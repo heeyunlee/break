@@ -21,23 +21,19 @@ class RoutineHistoryDetailScreen extends ConsumerStatefulWidget {
   const RoutineHistoryDetailScreen({
     Key? key,
     required this.routineHistory,
-    required this.theme,
   }) : super(key: key);
 
   final RoutineHistory routineHistory;
-  final ThemeData theme;
 
   static void show(
     BuildContext context, {
     required RoutineHistory routineHistory,
-    required ThemeData theme,
   }) {
     customPush(
       context,
       rootNavigator: false,
       builder: (context) => RoutineHistoryDetailScreen(
         routineHistory: routineHistory,
-        theme: theme,
       ),
     );
   }
@@ -83,13 +79,15 @@ class _RoutineHistoryDetailScreenState
     _textController1 = TextEditingController(text: widget.routineHistory.notes);
     _isPublic = widget.routineHistory.isPublic;
 
+    final theme = Theme.of(context);
+
     _colorAnimationController =
         AnimationController(vsync: this, duration: Duration.zero);
     _textAnimationController =
         AnimationController(vsync: this, duration: Duration.zero);
     _colorTween = ColorTween(
       begin: Colors.transparent,
-      end: widget.theme.appBarTheme.backgroundColor,
+      end: theme.appBarTheme.backgroundColor,
     ).animate(_colorAnimationController);
     _transTween = Tween(begin: const Offset(-10, 40), end: const Offset(-10, 0))
         .animate(_textAnimationController);

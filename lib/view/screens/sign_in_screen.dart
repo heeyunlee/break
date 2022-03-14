@@ -7,7 +7,8 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/providers.dart';
 import 'package:workout_player/styles/button_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
-import 'package:workout_player/view/preview/widgets/blurred_background_preview_widget.dart';
+import 'package:workout_player/utils/assets.dart';
+import 'package:workout_player/widgets/blurred_image.dart';
 import 'package:workout_player/view/widgets/widgets.dart';
 
 import 'package:workout_player/view_models/sign_in_screen_model.dart';
@@ -34,7 +35,10 @@ class SignInScreen extends ConsumerWidget {
       ),
       body: Stack(
         children: [
-          const BlurredBackgroundPreviewWidget(blur: 15),
+          BlurredImage(
+            imageProvider: Assets.backgroundImageProviders[2],
+            bgBlurSigma: 15,
+          ),
           SafeArea(
             child: Column(
               children: <Widget>[

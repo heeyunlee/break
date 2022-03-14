@@ -153,7 +153,7 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
                           touchTooltipData: BarTouchTooltipData(
                             getTooltipItem: (group, groupIndex, rod, rodIndex) {
                               final weights =
-                                  (rod.y / 1.05 / 10 * _maxY).round();
+                                  (rod.toY / 1.05 / 10 * _maxY).round();
                               final formattedWeights =
                                   Formatter.numWithDecimal(weights);
 
@@ -294,13 +294,13 @@ class _RoutineHistoryTabState extends State<RoutineHistoryTab> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y * 1.05 : y,
+          toY: isTouched ? y * 1.05 : y,
           colors: isTouched ? [theme.primaryColorDark] : [theme.primaryColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             // show: _data.isEmpty,
             show: true,
-            y: 10,
+            toY: 10,
             colors: [Colors.grey[800]!],
           ),
         ),

@@ -2,26 +2,19 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_player/models/combined/eats_tab_class.dart';
 import 'package:workout_player/models/models.dart';
+import 'package:workout_player/services/top_level_variables.dart';
 import 'package:workout_player/utils/formatter.dart';
-
-final weeklyCaloriesChartModelProvider = ChangeNotifierProvider.autoDispose
-    .family<WeeklyCaloriesChartModel, EatsTabClass>(
-  (ref, data) => WeeklyCaloriesChartModel(
-    nutritions: data.thisWeeksNutritions,
-    user: data.user,
-  ),
-);
 
 class WeeklyCaloriesChartModel with ChangeNotifier {
   WeeklyCaloriesChartModel({
+    required this.topLevelVariables,
     required this.nutritions,
     required this.user,
   });
 
+  final TopLevelVariables topLevelVariables;
   final List<Nutrition> nutritions;
   final User user;
 
@@ -64,14 +57,14 @@ class WeeklyCaloriesChartModel with ChangeNotifier {
   }
 
   List<double> listOfYs() {
-    final now = DateTime.now();
-    final dates = List<DateTime>.generate(7, (index) {
-      return DateTime.utc(now.year, now.month, now.day - index);
-    }).reversed.toList();
+    // final now = DateTime.now();
+    // final dates = List<DateTime>.generate(7, (index) {
+    //   return DateTime.utc(now.year, now.month, now.day - index);
+    // }).reversed.toList();
 
     if (nutritions.isNotEmpty) {
       Map<DateTime, List<Nutrition>> _mapData = {
-        for (var item in dates)
+        for (var item in topLevelVariables.thisWeek)
           item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
