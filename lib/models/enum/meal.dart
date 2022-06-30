@@ -49,12 +49,12 @@ extension MealLabelExtension on Meal {
 
 extension MealListExtension on Meal {
   List<String> get list {
-    final List<String> _mealsList = [];
+    final List<String> mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].label;
-      _mealsList.add(value!);
+      mealsList.add(value!);
     }
-    return _mealsList;
+    return mealsList;
   }
 }
 
@@ -83,11 +83,11 @@ extension MealTranslationExtension on Meal {
 
 extension MealTranslatedList on Meal {
   List<String> get translatedList {
-    final List<String> _mealsList = [];
+    final List<String> mealsList = [];
     for (var i = 0; i < Meal.values.length; i++) {
       final value = Meal.values[i].translation;
-      _mealsList.add(value!);
+      mealsList.add(value!);
     }
-    return _mealsList;
+    return mealsList;
   }
 }

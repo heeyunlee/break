@@ -41,3 +41,6 @@ app.*.symbols
 app.*.map.json
 node_modules
 node_modules
+
+# Firebase Related
+lib/firebase_options.dart

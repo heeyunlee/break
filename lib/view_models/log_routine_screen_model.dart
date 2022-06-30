@@ -3,17 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_history.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/models/workout_history.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/screens/workout_summary_screen.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class LogRoutineModel with ChangeNotifier {
   LogRoutineModel({required this.database});
@@ -116,8 +114,7 @@ class LogRoutineModel with ChangeNotifier {
   }
 
   // Submit data to Firestore
-  Future<void> submit(
-    BuildContext context, {
+  Future<Status> submit({
     required User user,
     required Routine routine,
     required List<RoutineWorkout?> routineWorkouts,
@@ -127,7 +124,7 @@ class LogRoutineModel with ChangeNotifier {
 
       /// For Routine History
       final routineHistoryId = 'RH${const Uuid().v1()}';
-      final _workoutStartTime = _loggedTime.toDate().subtract(
+      final workoutStartTime = _loggedTime.toDate().subtract(
             Duration(minutes: int.parse(_durationEditingController.text)),
           );
 
@@ -156,7 +153,7 @@ class LogRoutineModel with ChangeNotifier {
         routineTitle: _titleEditingController.text,
         isPublic: _isPublic,
         workoutEndTime: _loggedTime,
-        workoutStartTime: Timestamp.fromDate(_workoutStartTime),
+        workoutStartTime: Timestamp.fromDate(workoutStartTime),
         notes: _notesEditingController.text,
         totalCalories: 0,
         totalDuration: int.parse(_durationEditingController.text) * 60,
@@ -204,30 +201,37 @@ class LogRoutineModel with ChangeNotifier {
       await database.setRoutineHistory(routineHistory);
       await database.batchWriteWorkoutHistories(workoutHistories);
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
 
-      WorkoutSummaryScreen.show(
-        context,
-        routineHistory: routineHistory,
-      );
+      // WorkoutSummaryScreen.show(
+      //   context,
+      //   routineHistory: routineHistory,
+      // );
 
-      getSnackbarWidget(
-        'Finished Workout',
-        S.current.afterWorkoutSnackbar,
-      );
+      // getSnackbarWidget(
+      //   'Finished Workout',
+      //   S.current.afterWorkoutSnackbar,
+      // );
 
       // ref.read(miniplayerModelProvider).close();
 
       _toggleBoolValue();
+
+      notifyListeners();
+
+      return Status(statusCode: 200, object: routineHistory);
     } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      notifyListeners();
+
+      return Status(statusCode: 404, exception: e);
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   /// STATIC

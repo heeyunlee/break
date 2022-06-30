@@ -1,6 +1,10 @@
 include: package:flutter_lints/flutter.yaml
+analyzer:
+  errors:
+    todo: ignore
 
 linter:
   rules:
+    sort_pub_dependencies: true
     prefer_single_quotes: true
     unnecessary_string_escapes: false

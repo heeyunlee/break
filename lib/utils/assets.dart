@@ -1,13 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-
 class Assets {
-  static List<ImageProvider> get backgroundImageProviders {
-    return List.generate(
-      bgURL.length,
-      (i) => CachedNetworkImageProvider(bgURL[i]),
-    );
-  }
+  // static List<ImageProvider> get backgroundImageProviders {
+  //   return List.generate(
+  //     bgURL.length,
+  //     (i) => AdaptiveCachedNetworkImage.provider(context, bgURL[i]),
+  //   );
+  // }
 
   static const bgURL = [
     'https://firebasestorage.googleapis.com/v0/b/player-h.appspot.com/o/home_tab_bg%2Fbg001_1000x1000.jpeg?alt=media&token=199346a5-fb06-4871-a2e6-3f2ed7f628c1',

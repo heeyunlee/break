@@ -45,7 +45,7 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
 
   //  SET MAX Y
   Future<void> setMaxY(List<Measurement> measurements) async {
-    final List<Measurement?> _thisWeekDataS = [];
+    final List<Measurement?> thisWeekDataS = [];
 
     if (measurements.isNotEmpty) {
       for (final date in _dates) {
@@ -53,11 +53,11 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
           (element) => element.loggedDate.toUtc() == date,
         );
         if (measurement != null) {
-          _thisWeekDataS.add(measurement);
+          thisWeekDataS.add(measurement);
         }
       }
 
-      _thisWeekData = _thisWeekDataS;
+      _thisWeekData = thisWeekDataS;
 
       final largest = measurements
           .map<double>((e) => e.bodyWeight!.toDouble())
@@ -80,7 +80,7 @@ class WeeklyMeasurementsChartModel with ChangeNotifier {
         _horizontalInterval = (maxY - minY) / 4;
       }
     } else {
-      _thisWeekData = _thisWeekDataS;
+      _thisWeekData = thisWeekDataS;
     }
   }
 

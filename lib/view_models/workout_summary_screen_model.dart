@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine_history.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 
 class WorkoutSummaryScreenModel with ChangeNotifier {
   WorkoutSummaryScreenModel({required this.database});
@@ -56,10 +54,7 @@ class WorkoutSummaryScreenModel with ChangeNotifier {
   }
 
   // Submit data to Firestore
-  Future<void> update(
-    BuildContext context,
-    RoutineHistory routineHistory,
-  ) async {
+  Future<Status> update(RoutineHistory routineHistory) async {
     try {
       final updatedRoutineHistory = {
         'isPublic': _isPublic,
@@ -72,14 +67,16 @@ class WorkoutSummaryScreenModel with ChangeNotifier {
         updatedRoutineHistory,
       );
 
-      Navigator.of(context).pop();
-      await HapticFeedback.mediumImpact();
+      return Status(statusCode: 200);
+
+      // Navigator.of(context).pop();
     } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      return Status(statusCode: 404, exception: e);
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
   }
 

@@ -5,7 +5,6 @@ import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/measurement.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class AddMeasurementsScreenModel with ChangeNotifier {
   AddMeasurementsScreenModel({required this.database});
@@ -137,9 +136,7 @@ class AddMeasurementsScreenModel with ChangeNotifier {
     return false;
   }
 
-  Future<void> submit(
-    BuildContext context,
-  ) async {
+  Future<bool> submit() async {
     if (_validateAndSaveForm()) {
       try {
         final user = await database.getUserDocument(database.uid!);
@@ -168,24 +165,17 @@ class AddMeasurementsScreenModel with ChangeNotifier {
 
           await database.setMeasurement(measurement: measurement);
 
-          Navigator.of(context).pop();
-
-          getSnackbarWidget(
-            S.current.addMeasurementSnackbarTitle,
-            S.current.addMeasurementSnackbar,
-          );
+          return true;
         }
-      } on FirebaseException catch (e) {
-        await showExceptionAlertDialog(
-          context,
-          title: S.current.operationFailed,
-          exception: e.toString(),
-        );
+
+        return false;
+      } catch (e) {
+        return false;
       }
     }
+
+    return false;
   }
 
-  //// STATIC
-  /// FORM KEY
   static final formKey = GlobalKey<FormState>();
 }

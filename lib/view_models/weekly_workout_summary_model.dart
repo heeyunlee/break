@@ -34,8 +34,8 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
   }
 
   void setData(List<RoutineHistory?> routineHistories, String locale) {
-    List<String?> _muscleWorked = [];
-    Map<DateTime, List<RoutineHistory?>> _mapData = {
+    List<String?> muscleWorked = [];
+    Map<DateTime, List<RoutineHistory?>> mapData = {
       for (final date in _dates)
         date: routineHistories
             .where((e) => e!.workoutDate.toUtc() == date)
@@ -43,21 +43,21 @@ class WeeklyWorkoutSummaryModel with ChangeNotifier {
     };
 
     if (routineHistories.isNotEmpty) {
-      _muscleWorked = _mapData.values.map((list) {
+      muscleWorked = mapData.values.map((list) {
         if (list.isNotEmpty) {
-          final _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
+          final todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
             list.last!.mainMuscleGroup,
             list.last!.mainMuscleGroupEnum,
           );
 
-          return _todaysMuscleWorked;
+          return todaysMuscleWorked;
         } else {
           return null;
         }
       }).toList();
     } else {
-      _muscleWorked = List.generate(7, (index) => null).toList();
+      muscleWorked = List.generate(7, (index) => null).toList();
     }
-    _weeklyWorkedOutMuscles = _muscleWorked;
+    _weeklyWorkedOutMuscles = muscleWorked;
   }
 }

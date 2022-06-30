@@ -5,7 +5,6 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:workout_player/generated/l10n.dart';
@@ -14,15 +13,12 @@ import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
-import 'package:workout_player/providers.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/screens/choose_equipment_required_screen.dart';
-import 'package:workout_player/view/screens/choose_main_muscle_group_screen.dart';
-import 'package:workout_player/view/screens/choose_more_settings_screen.dart';
-import 'package:workout_player/view/screens/routine_detail_screen.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
-
-import 'home_screen_model.dart';
+import 'package:workout_player/features/screens/choose_equipment_required_screen.dart';
+import 'package:workout_player/features/screens/choose_main_muscle_group_screen.dart';
+import 'package:workout_player/features/screens/choose_more_settings_screen.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class CreateNewRoutineModel with ChangeNotifier {
   final Database database;
@@ -155,7 +151,7 @@ class CreateNewRoutineModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submitToFirestore(BuildContext context, WidgetRef ref) async {
+  Future<Status> submitToFirestore() async {
     _isButtonPressed = true;
 
     final user = (await database.getUserDocument(database.uid!))!;
@@ -202,32 +198,38 @@ class CreateNewRoutineModel with ChangeNotifier {
 
       await database.setRoutine(routine);
 
-      final model = ref.read(homeScreenModelProvider);
-      final currentContext =
-          HomeScreenModel.tabNavigatorKeys[model.currentTab]!.currentContext!;
+      // final model = ref.read(homeScreenModelProvider);
+      // final currentContext =
+      //     HomeScreenModel.tabNavigatorKeys[model.currentTab]!.currentContext!;
+      _isButtonPressed = false;
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      return Status(statusCode: 200, object: routine);
 
-      RoutineDetailScreen.show(
-        currentContext,
-        routine: routine,
-        tag: 'createRoutine${routine.routineId}',
-      );
+      // Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // TODO: add SnackBar
+      // RoutineDetailScreen.show(
+      //   currentContext,
+      //   routine: routine,
+      //   tag: 'createRoutine${routine.routineId}',
+      // );
 
+      // TODO(heeyunlee): add SnackBar
       // getSnackbarWidget(
       //   S.current.createNewRoutineSnackbarTitle,
       //   S.current.createNewRoutineSnackbar,
       // );
     } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      _isButtonPressed = false;
+
+      return Status(statusCode: 404, exception: e);
+
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
-    _isButtonPressed = false;
+    // _isButtonPressed = false;
   }
 
   // FORM KEY

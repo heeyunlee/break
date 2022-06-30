@@ -9,7 +9,7 @@ import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/firebase_auth_service.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 import 'package:workout_player/view_models/home_screen_model.dart';
 
 class AddNutritionScreenModel with ChangeNotifier {
@@ -180,10 +180,10 @@ class AddNutritionScreenModel with ChangeNotifier {
             Navigator.of(HomeScreenModel.homeScreenNavigatorKey.currentContext!)
                 .pop();
 
-            getSnackbarWidget(
-              S.current.addProteinEntrySnackbarTitle,
-              S.current.addProteinEntrySnackbar,
-            );
+            // getSnackbarWidget(
+            //   S.current.addProteinEntrySnackbarTitle,
+            //   S.current.addProteinEntrySnackbar,
+            // );
           }
         } on FirebaseException catch (e) {
           await showExceptionAlertDialog(

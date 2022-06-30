@@ -26,22 +26,22 @@ extension LocationTranslationExtension on Location {
 
 extension LocationList on Location {
   List<String> get list {
-    final List<String> _locationList = [];
+    final List<String> locationList = [];
     for (var i = 0; i < Location.values.length; i++) {
       final value = Location.values[i].toString();
-      _locationList.add(value);
+      locationList.add(value);
     }
-    return _locationList;
+    return locationList;
   }
 }
 
 extension LocationTranslatedList on Location {
   List<String> get translatedList {
-    final List<String> _locationList = [];
+    final List<String> locationList = [];
     for (var i = 0; i < Location.values.length; i++) {
       final value = Location.values[i].translation;
-      _locationList.add(value!);
+      locationList.add(value!);
     }
-    return _locationList;
+    return locationList;
   }
 }

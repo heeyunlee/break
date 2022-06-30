@@ -23,22 +23,22 @@ extension DifficultyExtension on Difficulty {
 
 extension DifficultyList on Difficulty {
   List<String> get list {
-    final List<String> _difficultyList = [];
+    final List<String> difficultyList = [];
     for (var i = 0; i < Difficulty.values.length; i++) {
       final value = Difficulty.values[i].toString();
-      _difficultyList.add(value);
+      difficultyList.add(value);
     }
-    return _difficultyList;
+    return difficultyList;
   }
 }
 
 extension DifficultyTranslatedList on Difficulty {
   List<String> get translatedList {
-    final List<String> _difficultyList = [];
+    final List<String> difficultyList = [];
     for (var i = 0; i < Difficulty.values.length; i++) {
       final value = Difficulty.values[i].translation;
-      _difficultyList.add(value!);
+      difficultyList.add(value!);
     }
-    return _difficultyList;
+    return difficultyList;
   }
 }

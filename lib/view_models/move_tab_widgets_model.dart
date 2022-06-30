@@ -9,11 +9,11 @@ import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/top_level_variables.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/progress/progress_widgets.dart';
-import 'package:workout_player/view/screens/routine_histories_screen.dart';
-import 'package:workout_player/view/widgets/progress/latest_body_fat_widget.dart';
-import 'package:workout_player/view/widgets/progress/latest_weight_widget.dart';
-import 'package:workout_player/view/widgets/progress/weekly_measurements_card.dart';
+import 'package:workout_player/features/progress/progress_widgets.dart';
+import 'package:workout_player/features/screens/routine_histories_screen.dart';
+import 'package:workout_player/features/widgets/progress/latest_body_fat_widget.dart';
+import 'package:workout_player/features/widgets/progress/latest_weight_widget.dart';
+import 'package:workout_player/features/widgets/progress/weekly_measurements_card.dart';
 
 class MoveTabWidgetsModel with ChangeNotifier {
   MoveTabWidgetsModel({
@@ -92,7 +92,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
     final itemToReorder = _widgets.removeAt(oldIndex);
     _widgets.insert(newIndex, itemToReorder);
 
-    final _newKeys = _widgets
+    final newKeys = _widgets
         .map((widget) =>
             widget.key.toString().replaceAll(RegExp(r'[^\w\s]+'), ''))
         .toList();
@@ -102,10 +102,10 @@ class MoveTabWidgetsModel with ChangeNotifier {
 
     //   _newKeys.add(key);
     // });
-    _widgetKeysList = _newKeys;
+    _widgetKeysList = newKeys;
 
     final updatedUser = {
-      'widgetsList': _newKeys,
+      'widgetsList': newKeys,
     };
 
     database.updateUser(database.uid!, updatedUser);
@@ -126,17 +126,17 @@ class MoveTabWidgetsModel with ChangeNotifier {
     //   constraints: constraints,
     // );
 
-    Map<DateTime, List<RoutineHistory>> _mapData;
+    Map<DateTime, List<RoutineHistory>> mapData;
     List<double> listOfYs = [];
 
-    _mapData = {
+    mapData = {
       for (var item in topLevelVariables.thisWeek)
         item: data.routineHistories
             .where((e) => e.workoutDate.toUtc() == item)
             .toList()
     };
 
-    listOfYs = _mapData.values.map((list) {
+    listOfYs = mapData.values.map((list) {
       double sum = 0;
 
       if (list.isNotEmpty) {
@@ -148,14 +148,14 @@ class MoveTabWidgetsModel with ChangeNotifier {
       return sum;
     }).toList();
 
-    List<String?> _muscleWorked = _mapData.values.map((list) {
+    List<String?> muscleWorked = mapData.values.map((list) {
       if (list.isNotEmpty) {
-        final _todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
+        final todaysMuscleWorked = Formatter.getFirstMainMuscleGroup(
           list.last.mainMuscleGroup,
           list.last.mainMuscleGroupEnum,
         );
 
-        return _todaysMuscleWorked;
+        return todaysMuscleWorked;
       } else {
         return null;
       }
@@ -175,7 +175,7 @@ class MoveTabWidgetsModel with ChangeNotifier {
 
     final Widget weeklyWorkoutHistorySmall = WeeklyWorkoutSummary(
       key: const Key('weeklyWorkoutHistorySmall'),
-      weeklyWorkedOutMuscles: _muscleWorked,
+      weeklyWorkedOutMuscles: muscleWorked,
       height: constraints.maxHeight / heightFactor,
       width: constraints.maxWidth,
       cardOnTap: () => RoutineHistoriesScreen.show(context),

@@ -6,7 +6,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class PersonalGoalsScreenModel with ChangeNotifier {
   PersonalGoalsScreenModel({
@@ -111,10 +111,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setLiftingGoalSnackbarTitle,
-        S.current.setLiftingGoalSnackbarBody,
-      );
+      // getSnackbarWidget(
+      //   S.current.setLiftingGoalSnackbarTitle,
+      //   S.current.setLiftingGoalSnackbarBody,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -137,10 +137,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setWeightGoalSnackbarTitle,
-        S.current.setWeightGoalSnackbarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.setWeightGoalSnackbarTitle,
+      //   S.current.setWeightGoalSnackbarMessage,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -205,10 +205,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setBodyFatPercentageGoalSnackbarTitle,
-        S.current.setBodyFatPercentageGoalSnackbarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.setBodyFatPercentageGoalSnackbarTitle,
+      //   S.current.setBodyFatPercentageGoalSnackbarMessage,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -231,10 +231,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setProteinGoalSnackbarTitle,
-        S.current.setProteinGoalSnackbarBody,
-      );
+      // getSnackbarWidget(
+      //   S.current.setProteinGoalSnackbarTitle,
+      //   S.current.setProteinGoalSnackbarBody,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -257,10 +257,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setCarbsGoalSnackbarTitle,
-        S.current.setCarbsGoalSnackbarBody,
-      );
+      // getSnackbarWidget(
+      //   S.current.setCarbsGoalSnackbarTitle,
+      //   S.current.setCarbsGoalSnackbarBody,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -283,10 +283,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setFatGoalSnackbarTitle,
-        S.current.setFatGoalSnackbarBody,
-      );
+      // getSnackbarWidget(
+      //   S.current.setFatGoalSnackbarTitle,
+      //   S.current.setFatGoalSnackbarBody,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }
@@ -311,10 +311,10 @@ class PersonalGoalsScreenModel with ChangeNotifier {
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      getSnackbarWidget(
-        S.current.setCalorieGoalSnackbarTitle,
-        S.current.setCalorieGoalSnackbarBody,
-      );
+      // getSnackbarWidget(
+      //   S.current.setCalorieGoalSnackbarTitle,
+      //   S.current.setCalorieGoalSnackbarBody,
+      // );
     } on FirebaseException catch (e) {
       _showErrorDialog(e, context);
     }

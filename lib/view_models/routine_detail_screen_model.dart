@@ -6,7 +6,7 @@ import 'package:workout_player/models/enum/location.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
 
@@ -74,10 +74,10 @@ class RoutineDetailScreenModel with ChangeNotifier {
 
         await database.updateUser(database.uid!, user);
 
-        getSnackbarWidget(
-          S.current.unsavedRoutineSnackBarTitle,
-          S.current.unsavedRoutineSnackbar,
-        );
+        // getSnackbarWidget(
+        //   S.current.unsavedRoutineSnackBarTitle,
+        //   S.current.unsavedRoutineSnackbar,
+        // );
       } else {
         final user = {
           'savedRoutines': FieldValue.arrayUnion([data.routine!.routineId]),
@@ -85,10 +85,10 @@ class RoutineDetailScreenModel with ChangeNotifier {
 
         await database.updateUser(database.uid!, user);
 
-        getSnackbarWidget(
-          S.current.savedRoutineSnackBarTitle,
-          S.current.savedRoutineSnackbar,
-        );
+        // getSnackbarWidget(
+        //   S.current.savedRoutineSnackBarTitle,
+        //   S.current.savedRoutineSnackbar,
+        // );
       }
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
@@ -114,10 +114,10 @@ class RoutineDetailScreenModel with ChangeNotifier {
       Navigator.of(homeContext).pop();
       Navigator.of(context).pop();
 
-      getSnackbarWidget(
-        S.current.deleteRoutineSnackbarTitle,
-        S.current.deleteRoutineSnackbar,
-      );
+      // getSnackbarWidget(
+      //   S.current.deleteRoutineSnackbarTitle,
+      //   S.current.deleteRoutineSnackbar,
+      // );
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,

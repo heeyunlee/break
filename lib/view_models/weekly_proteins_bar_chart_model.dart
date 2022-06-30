@@ -58,17 +58,17 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
     );
 
     /// INIT Relative Ys
-    Map<DateTime, List<Nutrition>> _mapData;
-    List<num> _listOfYs = [];
-    final List<double> _relatives = [];
+    Map<DateTime, List<Nutrition>> mapData;
+    List<num> listOfYs = [];
+    final List<double> relatives = [];
 
     if (nutritions.isNotEmpty) {
-      _mapData = {
+      mapData = {
         for (var item in _dates)
           item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      _listOfYs = _mapData.values.map((list) {
+      listOfYs = mapData.values.map((list) {
         num sum = 0;
 
         // if (list.isNotEmpty) {
@@ -94,24 +94,26 @@ class WeeklyProteinsBarChartModel with ChangeNotifier {
       //   _listOfYs.add(sum);
       // });
       final largest =
-          [..._listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
+          [...listOfYs, user.dailyProteinGoal ?? 0].reduce(math.max);
 
       if (largest == 0) {
         _nutritionMaxY = 150;
 
-        for (final _ in _listOfYs) {
-          _relatives.add(0);
-        }
+        relatives.addAll(listOfYs.map((e) => 0));
+
+        // for (final _ in listOfYs) {
+        //   relatives.add(0);
+        // }
       } else {
         final roundedLargest = (largest / 10).ceil() * 10;
 
         _nutritionMaxY = roundedLargest.toDouble() + 10;
 
-        for (final y in _listOfYs) {
-          _relatives.add(y / _nutritionMaxY * 10);
+        for (final y in listOfYs) {
+          relatives.add(y / _nutritionMaxY * 10);
         }
       }
-      _relativeYs = _relatives;
+      _relativeYs = relatives;
 
       /// Set Interval
       if (user.dailyProteinGoal != null) {

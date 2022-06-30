@@ -64,11 +64,11 @@ extension EquipmentRequiredListExtension on EquipmentRequired {
 
 extension EquipmentRequiredMapExtension on EquipmentRequired {
   Map<String, bool> get map {
-    final _equipmentRequiredList = EquipmentRequired.values[0].list;
-    final _equipmentRequiredMap = {
-      for (var element in _equipmentRequiredList) element.toString(): false
+    final equipmentRequiredList = EquipmentRequired.values[0].list;
+    final equipmentRequiredMap = {
+      for (var element in equipmentRequiredList) element.toString(): false
     };
-    return _equipmentRequiredMap;
+    return equipmentRequiredMap;
   }
 }
 

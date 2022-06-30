@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:workout_player/features/widgets/dialogs.dart';
 
 class WorkoutSetRestWidgetModel with ChangeNotifier {
   WorkoutSetRestWidgetModel({required this.database});

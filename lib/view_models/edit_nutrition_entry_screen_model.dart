@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/meal.dart';
 import 'package:workout_player/models/nutrition.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
 
 class EditNutritionModel with ChangeNotifier {
   EditNutritionModel({
@@ -213,25 +211,28 @@ class EditNutritionModel with ChangeNotifier {
     }
   }
 
-  Future<void> onPressSave(BuildContext context) async {
+  Future<Status> onPressSave() async {
     try {
       await database.updateNutrition(
         nutrition: nutrition,
         data: nutrition.toJson(),
       );
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
 
-      getSnackbarWidget(
-        S.current.updateNutritionTitle,
-        S.current.updateNutritionMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.updateNutritionTitle,
+      //   S.current.updateNutritionMessage,
+      // );
+
+      return Status(statusCode: 200);
     } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      return Status(statusCode: 404, exception: e);
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
   }
 

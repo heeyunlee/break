@@ -7,8 +7,7 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:workout_player/features/widgets/dialogs.dart';
 
 class WorkoutSetWidgetModel with ChangeNotifier {
   WorkoutSetWidgetModel({required this.database});
@@ -74,12 +73,12 @@ class WorkoutSetWidgetModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
 
-      getSnackbarWidget(
-        S.current.deleteWorkoutSet,
-        (workoutSet.isRest)
-            ? S.current.deletedARestMessage
-            : S.current.deletedASet,
-      );
+      // getSnackbarWidget(
+      //   S.current.deleteWorkoutSet,
+      //   (workoutSet.isRest)
+      //       ? S.current.deletedARestMessage
+      //       : S.current.deletedASet,
+      // );
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,

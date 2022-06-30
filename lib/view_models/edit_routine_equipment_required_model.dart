@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class EditRoutineEquipmentRequiredModel with ChangeNotifier {
   EditRoutineEquipmentRequiredModel({required this.database});
@@ -42,10 +42,7 @@ class EditRoutineEquipmentRequiredModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submitAndPop(
-    BuildContext context, {
-    required Routine routine,
-  }) async {
+  Future<Status> submitAndPop(Routine routine) async {
     if (_selectedEquipmentRequired.isNotEmpty) {
       try {
         final enumToStrings = EnumToString.toList(_selectedEquipmentRequired);
@@ -55,26 +52,39 @@ class EditRoutineEquipmentRequiredModel with ChangeNotifier {
         };
         await database.updateRoutine(routine, updatedRoutine);
 
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
 
-        getSnackbarWidget(
-          S.current.updateEquipmentRequiredTitle,
-          S.current.updateEquipmentRequiredMessage(S.current.routine),
-        );
+        // getSnackbarWidget(
+        //   S.current.updateEquipmentRequiredTitle,
+        //   S.current.updateEquipmentRequiredMessage(S.current.routine),
+        // );
+
+        return Status(statusCode: 200);
       } on Exception catch (e) {
-        await showExceptionAlertDialog(
-          context,
-          title: S.current.operationFailed,
-          exception: e.toString(),
+        return Status(
+          statusCode: 404,
+          exception: e,
+          message: S.current.operationFailed,
         );
+        // await showExceptionAlertDialog(
+        //   context,
+        //   title: S.current.operationFailed,
+        //   exception: e.toString(),
+        // );
       }
     } else {
-      await showAlertDialog(
-        context,
-        title: S.current.equipmentRequiredAlertTitle,
-        content: S.current.equipmentRequiredAlertContent,
-        defaultActionText: S.current.ok,
+      return Status(
+        statusCode: 400,
+        exception: S.current.equipmentRequiredAlertContent,
+        message: S.current.operationFailed,
       );
+
+      // await showAlertDialog(
+      //   context,
+      //   title: S.current.equipmentRequiredAlertTitle,
+      //   content: S.current.equipmentRequiredAlertContent,
+      //   defaultActionText: S.current.ok,
+      // );
     }
   }
 }

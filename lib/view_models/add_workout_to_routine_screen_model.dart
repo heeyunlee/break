@@ -1,22 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/screens/routine_detail_screen.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class AddWorkoutToRoutineScreenModel with ChangeNotifier {
   AddWorkoutToRoutineScreenModel({required this.database});
 
   final Database database;
 
-  Future<void> submit(
-    BuildContext context,
-    BuildContext currentTabContext, {
+  Future<Status> submit({
     required Workout workout,
     required Routine routine,
   }) async {
@@ -45,25 +41,28 @@ class AddWorkoutToRoutineScreenModel with ChangeNotifier {
       );
       await database.setRoutineWorkout(routine, routineWorkout);
 
-      Navigator.of(context).pop();
+      return Status(statusCode: 200);
 
-      RoutineDetailScreen.show(
-        currentTabContext,
-        routine: routine,
-        tag: 'addWorkoutToRoutine${routine.routineId}',
-      );
+      // Navigator.of(context).pop();
 
-      // TODO: ADD SNACK BAR HERE
-      getSnackbarWidget(
-        S.current.addWorkout,
-        S.current.addWorkoutToRoutineSnackbarMessage(''),
-      );
+      // RoutineDetailScreen.show(
+      //   currentTabContext,
+      //   routine: routine,
+      //   tag: 'addWorkoutToRoutine${routine.routineId}',
+      // );
+
+      // // TODO: ADD SNACK BAR HERE
+      // getSnackbarWidget(
+      //   S.current.addWorkout,
+      //   S.current.addWorkoutToRoutineSnackbarMessage(''),
+      // );
     } on Exception catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      return Status(statusCode: 404, exception: e);
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
   }
 }

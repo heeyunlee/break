@@ -6,7 +6,7 @@ import 'package:workout_player/models/food_item.dart';
 import 'package:workout_player/models/nutrition.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 import 'home_screen_model.dart';
 
@@ -36,10 +36,10 @@ class NutritionsDetailScreenModel with ChangeNotifier {
 
       await database.deleteNutrition(nutrition);
 
-      getSnackbarWidget(
-        S.current.deleteNutritionSnackBarTitle,
-        S.current.deleteNutritionSnackBarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.deleteNutritionSnackBarTitle,
+      //   S.current.deleteNutritionSnackBarMessage,
+      // );
     } on FirebaseException catch (e) {
       _showSignInError(e, context);
     }

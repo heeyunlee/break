@@ -3,14 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class HomeScreenModel with ChangeNotifier {
   HomeScreenModel({required this.database});
 
   final Database database;
 
-  double? miniplayerMinHeight;
+  double? _miniplayerMinHeight;
+
+  double? get miniplayerMinHeight => _miniplayerMinHeight;
+
+  set miniplayerMinHeight(double? height) {
+    _miniplayerMinHeight = height;
+    notifyListeners();
+  }
+
   ValueNotifier<double>? valueNotifier;
 
   TabItem _currentTab = TabItem.move;
@@ -27,12 +35,11 @@ class HomeScreenModel with ChangeNotifier {
 
   void setMiniplayerHeight(BuildContext context) {
     final safePadding = MediaQuery.of(context).padding.bottom;
-    // final a = WidgetsBinding.instance!.window.padding.bottom;
 
-    final _miniplayerMinHeight = 64 + safePadding + 56;
+    final newHeight = 64 + safePadding + 56;
 
-    miniplayerMinHeight = _miniplayerMinHeight;
-    valueNotifier = ValueNotifier<double>(miniplayerMinHeight!);
+    miniplayerMinHeight = newHeight;
+    valueNotifier = ValueNotifier<double>(newHeight);
   }
 
   double getYOffset({

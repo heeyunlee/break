@@ -5,12 +5,13 @@ import 'package:workout_player/styles/text_styles.dart';
 import 'package:workout_player/styles/theme_colors.dart';
 
 class Themes {
-  static ThemeData createTheme(MaterialYouPalette? palette) {
+  static ThemeData create(MaterialYouPalette? palette) {
     final background = palette?.neutral1.shade900;
     final primary = palette?.accent1.shade300;
     final secondary = palette?.accent3.shade300;
 
     return ThemeData(
+      useMaterial3: true,
       fontFamily: TextStyles.defaultFontFamily,
       brightness: Brightness.dark,
       primaryColorLight: palette?.accent1.shade200 ?? ThemeColors.primary300,

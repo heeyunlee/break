@@ -2,7 +2,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kakao_flutter_sdk/all.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/services/logging.dart';
@@ -289,7 +289,7 @@ class FirebaseAuthService {
         ? await UserApi.instance.loginWithKakaoTalk()
         : await UserApi.instance.loginWithKakaoAccount();
     // final token = await AuthApi.instance.issueAccessToken(authCode);
-    return authCode.accessToken ?? '';
+    return authCode.accessToken;
     // await TokenManager.instance.setToken(token);
     // return token.accessToken;
   }

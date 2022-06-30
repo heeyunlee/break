@@ -5,7 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   ReorderRoutineWorkoutsScreenModel({required this.database});
@@ -26,13 +26,13 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
   }
 
   void onReorder(int oldIndex, int newIndex) {
-    int _newIndex = newIndex;
+    int index = newIndex;
 
-    if (_newIndex > oldIndex) {
-      _newIndex -= 1;
+    if (index > oldIndex) {
+      index -= 1;
     }
     final itemToReorder = _newList.removeAt(oldIndex);
-    _newList.insert(_newIndex, itemToReorder);
+    _newList.insert(index, itemToReorder);
 
     _newMap = _newList.asMap();
     _areMapsEqual = false;
@@ -72,10 +72,10 @@ class ReorderRoutineWorkoutsScreenModel with ChangeNotifier {
 
       Navigator.of(context).pop();
 
-      getSnackbarWidget(
-        S.current.editRoutineWorkoutOrderSnackbarTitle,
-        S.current.editRoutineWorkoutOrderSnackbarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.editRoutineWorkoutOrderSnackbarTitle,
+      //   S.current.editRoutineWorkoutOrderSnackbarMessage,
+      // );
     } on Exception catch (e) {
       _showError(e, context);
     }

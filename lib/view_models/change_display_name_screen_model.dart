@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
+import 'package:workout_player/features/widgets/dialogs.dart';
 
 class ChangeDisplayNameScreenModel with ChangeNotifier {
   ChangeDisplayNameScreenModel({
@@ -39,10 +38,10 @@ class ChangeDisplayNameScreenModel with ChangeNotifier {
 
         await database.updateUser(database.uid!, updatedUser);
 
-        getSnackbarWidget(
-          S.current.updateDisplayNameSnackbarTitle,
-          S.current.updateDisplayNameSnackbar,
-        );
+        // getSnackbarWidget(
+        //   S.current.updateDisplayNameSnackbarTitle,
+        //   S.current.updateDisplayNameSnackbar,
+        // );
       } on FirebaseException catch (e) {
         await showExceptionAlertDialog(
           context,

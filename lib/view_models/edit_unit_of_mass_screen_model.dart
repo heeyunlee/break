@@ -5,7 +5,7 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class EditUnitOfMassModel with ChangeNotifier {
   EditUnitOfMassModel({required this.database});
@@ -57,10 +57,10 @@ class EditUnitOfMassModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
 
-      getSnackbarWidget(
-        S.current.unitOfMass,
-        S.current.updateUnitOfMassMessage(S.current.routine),
-      );
+      // getSnackbarWidget(
+      //   S.current.unitOfMass,
+      //   S.current.updateUnitOfMassMessage(S.current.routine),
+      // );
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,

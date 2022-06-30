@@ -5,9 +5,10 @@ import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
 import 'package:workout_player/models/routine_workout.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/models/workout.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   AddWorkoutsToRoutineScreenModel({required this.database});
@@ -96,15 +97,14 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
   //   }
   // }
 
-  Future<void> addWorkoutsToRoutine(
-    BuildContext context,
+  Future<Status> addWorkoutsToRoutine(
     Routine routine,
     List<RoutineWorkout> routineWorkouts,
   ) async {
     await HapticFeedback.mediumImpact();
 
     try {
-      final List<RoutineWorkout> _routineWorkouts = [];
+      final List<RoutineWorkout> routineWorkouts = [];
       // int _index = routineWorkouts.length;
 
       for (int i = 0; i < _selectedWorkouts.length; i++) {
@@ -128,7 +128,7 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
           translated: workout.translated,
         );
 
-        _routineWorkouts.add(routineWorkout);
+        routineWorkouts.add(routineWorkout);
       }
       // _selectedWorkouts.forEach((workout) {
       //   final id = const Uuid().v1();
@@ -154,20 +154,23 @@ class AddWorkoutsToRoutineScreenModel with ChangeNotifier {
       //   _routineWorkouts.add(routineWorkout);
       // });
 
-      await database.batchWriteRoutineWorkouts(routine, _routineWorkouts);
+      await database.batchWriteRoutineWorkouts(routine, routineWorkouts);
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
 
-      getSnackbarWidget(
-        S.current.addWorkoutToRoutineSnackbarTitle,
-        S.current.addWorkoutToRoutineSnackbar,
-      );
+      // getSnackbarWidget(
+      //   S.current.addWorkoutToRoutineSnackbarTitle,
+      //   S.current.addWorkoutToRoutineSnackbar,
+      // );
+
+      return Status(statusCode: 200, message: 'Successful');
     } on Exception catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: S.current.operationFailed,
-        exception: e.toString(),
-      );
+      return Status(statusCode: 404, exception: e);
+      // await showExceptionAlertDialog(
+      //   context,
+      //   title: S.current.operationFailed,
+      //   exception: e.toString(),
+      // );
     }
   }
 }

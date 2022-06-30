@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:workout_player/generated/l10n.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/models/user.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class CustomizeWidgetsScreenModel with ChangeNotifier {
   CustomizeWidgetsScreenModel({required this.database});
@@ -42,7 +41,7 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submit(BuildContext context) async {
+  Future<Status> submit() async {
     try {
       final updatedUser = {
         'widgetsList': _widgetKeysList,
@@ -51,24 +50,28 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
 
       await database.updateUser(database.uid!, updatedUser);
 
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
 
-      getSnackbarWidget(
-        S.current.updateWidgetsListSnackbarTitle,
-        S.current.updateWidgetsListSnackbarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.updateWidgetsListSnackbarTitle,
+      //   S.current.updateWidgetsListSnackbarMessage,
+      // );
+
+      return Status(statusCode: 200);
     } on FirebaseException catch (e) {
-      _showSignInError(e, context);
+      return Status(statusCode: 404, exception: e);
+
+      // _showSignInError(e, context);
     }
   }
 
-  void _showSignInError(FirebaseException exception, BuildContext context) {
-    showExceptionAlertDialog(
-      context,
-      title: S.current.operationFailed,
-      exception: exception.message ?? '',
-    );
-  }
+  // void _showSignInError(FirebaseException exception, BuildContext context) {
+  //   showExceptionAlertDialog(
+  //     context,
+  //     title: S.current.operationFailed,
+  //     exception: exception.message ?? '',
+  //   );
+  // }
 
   void setselectedImageIndex(int? index) {
     _selectedImageIndex = index;
@@ -82,19 +85,25 @@ class CustomizeWidgetsScreenModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateBackground(BuildContext context) async {
-    final user = {
-      'backgroundImageIndex': _selectedImageIndex,
-    };
+  Future<Status> updateBackground() async {
+    try {
+      final user = {
+        'backgroundImageIndex': _selectedImageIndex,
+      };
 
-    await database.updateUser(database.uid!, user);
+      await database.updateUser(database.uid!, user);
 
-    Navigator.of(context).pop();
+      return Status(statusCode: 200);
 
-    getSnackbarWidget(
-      S.current.updateBackgroundSnackbarTitle,
-      S.current.updateBackgroundSnackbarMessage,
-    );
+      // Navigator.of(context).pop();
+
+      // getSnackbarWidget(
+      //   S.current.updateBackgroundSnackbarTitle,
+      //   S.current.updateBackgroundSnackbarMessage,
+      // );
+    } catch (e) {
+      return Status(statusCode: 404, exception: e);
+    }
   }
 
   // List<Widget> currentPreviewWidgetList = [

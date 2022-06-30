@@ -95,7 +95,7 @@ class EatsTabModel with ChangeNotifier {
     );
 
     if (protein != null) {
-      finalString += S.current.protein + ' ' + protein + unit;
+      finalString += '${S.current.protein} $protein$unit';
     }
 
     final carbs = Formatter.numWithOrWithoutDecimalOrNull(
@@ -103,7 +103,7 @@ class EatsTabModel with ChangeNotifier {
     );
 
     if (carbs != null) {
-      finalString += ', ' + S.current.carbs + ' ' + carbs + unit;
+      finalString += ', ${S.current.carbs} $carbs$unit';
     }
 
     return finalString;

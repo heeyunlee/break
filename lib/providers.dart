@@ -4,13 +4,12 @@ import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/firebase_auth_service.dart';
 import 'package:workout_player/services/top_level_variables.dart';
-import 'package:workout_player/view/preview/preview_model.dart';
+import 'package:workout_player/features/preview/preview_screen_state.dart';
 import 'package:workout_player/view_models/add_measurements_screen_model.dart';
 import 'package:workout_player/view_models/add_nutrition_screen_model.dart';
 import 'package:workout_player/view_models/add_workout_to_routine_screen_model.dart';
 import 'package:workout_player/view_models/add_workouts_to_routine_model.dart';
 import 'package:workout_player/view_models/change_display_name_screen_model.dart';
-import 'package:workout_player/view_models/choose_background_screen_model.dart';
 import 'package:workout_player/view_models/choose_routine_screen_model.dart';
 import 'package:workout_player/view_models/create_new_routine_model.dart';
 import 'package:workout_player/view_models/customize_widgets_screen_model.dart';
@@ -30,7 +29,7 @@ import 'package:workout_player/view_models/reorder_routine_workouts_screen_model
 import 'package:workout_player/view_models/routine_detail_screen_model.dart';
 import 'package:workout_player/view_models/routine_workout_card_model.dart';
 import 'package:workout_player/view_models/settings_tab_model.dart';
-import 'package:workout_player/view_models/sign_in_screen_model.dart';
+import 'package:workout_player/features/sign_in/sign_in_model.dart';
 import 'package:workout_player/view_models/sign_in_with_email_screen_model.dart';
 import 'package:workout_player/view_models/weekly_calories_chart_model.dart';
 import 'package:workout_player/view_models/workout_set_rest_widget_model.dart';
@@ -84,15 +83,6 @@ final changeDisplayNameScreenModelProvider = ChangeNotifierProvider.autoDispose
     final database = ref.watch(databaseProvider);
 
     return ChangeDisplayNameScreenModel(user: user, database: database);
-  },
-);
-
-/// Provider for [ChooseBackgroundScreenModel]
-final chooseBackgroundScreenModelModel = ChangeNotifierProvider.autoDispose(
-  (ref) {
-    final database = ref.watch(databaseProvider);
-
-    return ChooseBackgroundScreenModel(database: database);
   },
 );
 
@@ -342,8 +332,8 @@ final logRoutineModelProvider = ChangeNotifierProvider.autoDispose(
   },
 );
 
-final previewModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => PreviewModel(),
+final previewScreenState = ChangeNotifierProvider.autoDispose(
+  (ref) => PreviewScreenState(),
 );
 
 final weeklyCaloriesChartModelProvider = ChangeNotifierProvider.autoDispose

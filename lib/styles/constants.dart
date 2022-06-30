@@ -47,3 +47,13 @@ typedef ItemWidgetBuilder2<T> = Widget Function(
 typedef SnapshotActiveBuilder<T> = Widget Function(
     BuildContext context, T data);
 typedef ErrorWidgetBuilder = Widget Function(BuildContext context, Object e);
+
+const kInteractiveMaterialState = <MaterialState>[
+  MaterialState.pressed,
+  MaterialState.hovered,
+];
+
+const kDisabledMaterialState = <MaterialState>[
+  MaterialState.error,
+  MaterialState.disabled,
+];

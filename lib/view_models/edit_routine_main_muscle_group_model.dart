@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/main_muscle_group.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class EditRoutineMainMuscleGroupModel with ChangeNotifier {
   EditRoutineMainMuscleGroupModel({required this.database});
@@ -44,10 +44,7 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> submitAndPop(
-    BuildContext context, {
-    required Routine routine,
-  }) async {
+  Future<Status> submitAndPop(Routine routine) async {
     if (_selectedMainMuscleGroupEnum.isNotEmpty) {
       try {
         // Get Image Url
@@ -69,26 +66,39 @@ class EditRoutineMainMuscleGroupModel with ChangeNotifier {
         };
         await database.updateRoutine(routine, updatedRoutine);
 
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
 
-        getSnackbarWidget(
-          S.current.updateMainMuscleGroupTitle,
-          S.current.updateMainMuscleGroupMessage(S.current.routine),
-        );
+        // getSnackbarWidget(
+        //   S.current.updateMainMuscleGroupTitle,
+        //   S.current.updateMainMuscleGroupMessage(S.current.routine),
+        // );
+
+        return Status(statusCode: 200);
       } on Exception catch (e) {
-        await showExceptionAlertDialog(
-          context,
-          title: S.current.operationFailed,
-          exception: e.toString(),
+        return Status(
+          statusCode: 400,
+          exception: e,
+          message: S.current.operationFailed,
         );
+        // await showExceptionAlertDialog(
+        //   context,
+        //   title: S.current.operationFailed,
+        //   exception: e.toString(),
+        // );
       }
     } else {
-      await showAlertDialog(
-        context,
-        title: S.current.mainMuscleGroupAlertTitle,
-        content: S.current.mainMuscleGroupAlertContent,
-        defaultActionText: S.current.ok,
+      return Status(
+        statusCode: 400,
+        exception: S.current.equipmentRequiredAlertContent,
+        message: S.current.operationFailed,
       );
+
+      // await showAlertDialog(
+      //   context,
+      //   title: S.current.mainMuscleGroupAlertTitle,
+      //   content: S.current.mainMuscleGroupAlertContent,
+      //   defaultActionText: S.current.ok,
+      // );
     }
   }
 }

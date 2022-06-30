@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/routine.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/services/database.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
 
 class EditRoutineScreenModel with ChangeNotifier {
   EditRoutineScreenModel({required this.database});
@@ -95,7 +94,7 @@ class EditRoutineScreenModel with ChangeNotifier {
   }
 
   // Submit data to Firestore
-  Future<void> submit(BuildContext context, Routine routine) async {
+  Future<Status> submit(Routine routine) async {
     if (_validateAndSaveForm()) {
       try {
         final lastEditedDate = Timestamp.now();
@@ -109,20 +108,26 @@ class EditRoutineScreenModel with ChangeNotifier {
         await database.updateRoutine(routine, updatedRoutine);
 
         await HapticFeedback.mediumImpact();
-        Navigator.of(context).pop();
 
-        getSnackbarWidget(
-          S.current.editRoutineTitle,
-          S.current.editRoutineSnackbar,
-        );
+        // Navigator.of(context).pop();
+
+        // getSnackbarWidget(
+        //   S.current.editRoutineTitle,
+        //   S.current.editRoutineSnackbar,
+        // );
+
+        return Status(statusCode: 200);
       } on FirebaseException catch (e) {
-        await showExceptionAlertDialog(
-          context,
-          title: S.current.operationFailed,
-          exception: e.toString(),
-        );
+        return Status(statusCode: 404, exception: e);
+        // await showExceptionAlertDialog(
+        //   context,
+        //   title: S.current.operationFailed,
+        //   exception: e.toString(),
+        // );
       }
     }
+
+    return Status(statusCode: 400);
   }
 
   static final formKey = GlobalKey<FormState>();

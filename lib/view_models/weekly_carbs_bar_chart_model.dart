@@ -59,20 +59,20 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
     );
 
     /// INIT Relative Ys
-    Map<DateTime, List<Nutrition>> _mapData;
-    List<num> _listOfYs = [];
-    final List<double> _relatives = [];
+    Map<DateTime, List<Nutrition>> mapData;
+    List<num> listOfYs = [];
+    final List<double> relatives = [];
 
     final List<Nutrition> carbsList =
         nutritions.where((e) => e.carbs != null).toList();
 
     if (carbsList.isNotEmpty) {
-      _mapData = {
+      mapData = {
         for (var item in _dates)
           item: carbsList.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      _listOfYs = _mapData.values.map((list) {
+      listOfYs = mapData.values.map((list) {
         num sum = 0;
 
         if (list.isNotEmpty) {
@@ -84,24 +84,26 @@ class WeeklyCarbsBarChartModel with ChangeNotifier {
         return sum;
       }).toList();
 
-      final largest = [..._listOfYs, user.dailyCarbsGoal ?? 0].reduce(math.max);
+      final largest = [...listOfYs, user.dailyCarbsGoal ?? 0].reduce(math.max);
 
       if (largest == 0) {
         _carbsMaxY = 200;
 
-        for (final _ in _listOfYs) {
-          _relatives.add(0);
-        }
+        relatives.addAll(listOfYs.map((e) => 0));
+
+        // for (final _ in listOfYs) {
+        //   relatives.add(0);
+        // }
       } else {
         final roundedLargest = (largest / 10).ceil() * 10;
 
         _carbsMaxY = roundedLargest.toDouble() + 10;
 
-        for (final y in _listOfYs) {
-          _relatives.add(y / _carbsMaxY * 10);
+        for (final y in listOfYs) {
+          relatives.add(y / _carbsMaxY * 10);
         }
       }
-      _relativeYs = _relatives;
+      _relativeYs = relatives;
 
       /// Set Interval
       if (user.dailyCarbsGoal != null) {

@@ -128,32 +128,32 @@ extension MainMuscleGroupBroadGroup on MainMuscleGroup {
 
 extension MainMuscleGroupBareList on MainMuscleGroup {
   List<String> get list {
-    final List<String> _mainMuscleGroupList = [];
+    final List<String> mainMuscleGroupList = [];
     for (var i = 0; i < MainMuscleGroup.values.length; i++) {
       final value = MainMuscleGroup.values[i].toString();
-      _mainMuscleGroupList.add(value);
+      mainMuscleGroupList.add(value);
     }
-    return _mainMuscleGroupList;
+    return mainMuscleGroupList;
   }
 }
 
 extension MainMuscleGroupTranslatedList on MainMuscleGroup {
   List<String> get translatedList {
-    final List<String> _mainMuscleGroupList = [];
+    final List<String> mainMuscleGroupList = [];
     for (var i = 0; i < MainMuscleGroup.values.length; i++) {
       final value = MainMuscleGroup.values[i].translation;
-      _mainMuscleGroupList.add(value!);
+      mainMuscleGroupList.add(value!);
     }
-    return _mainMuscleGroupList;
+    return mainMuscleGroupList;
   }
 }
 
 extension MainMuscleGroupBareMap on MainMuscleGroup {
   Map<String, bool> get map {
-    final _mainMuscleGroupList = MainMuscleGroup.values[0].list;
-    final _mainMuscleGroupMap = {
-      for (var element in _mainMuscleGroupList) element.toString(): false
+    final mainMuscleGroupList = MainMuscleGroup.values[0].list;
+    final mainMuscleGroupMap = {
+      for (var element in mainMuscleGroupList) element.toString(): false
     };
-    return _mainMuscleGroupMap;
+    return mainMuscleGroupMap;
   }
 }

@@ -5,19 +5,50 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/enum/unit_of_mass.dart';
+import 'package:workout_player/models/status.dart';
 import 'package:workout_player/models/user.dart';
-import 'package:workout_player/providers.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/services/firebase_auth_service.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
-import '../view/screens/sign_in_with_email_screen.dart';
-import '../view/screens/sign_up_with_email_screen.dart';
-import 'text_field_model.dart';
+void showSignInError(FirebaseException exception, BuildContext context) {
+  switch (exception.code) {
+    case 'user-not-found':
+      showAlertDialog(
+        context,
+        title: S.current.userNotFound,
+        content: S.current.userNotFoundMessage,
+        defaultActionText: S.current.ok,
+      );
+      break;
+    case 'wrong-password':
+      showAlertDialog(
+        context,
+        title: S.current.wrongPassword,
+        content: S.current.wrongPasswordMessage,
+        defaultActionText: S.current.ok,
+      );
+      break;
+    case 'email-already-in-use':
+      showAlertDialog(
+        context,
+        title: S.current.emailAlreadyInUse,
+        content: S.current.emailAlreadyInUseMessage,
+        defaultActionText: S.current.ok,
+      );
+      break;
+    default:
+      showAlertDialog(
+        context,
+        title: exception.code,
+        content: exception.message ?? 'Message',
+        defaultActionText: S.current.ok,
+      );
+  }
+}
 
 class SignInWithEmailModel extends ChangeNotifier {
   SignInWithEmailModel({required this.auth, required this.database});
@@ -98,7 +129,7 @@ class SignInWithEmailModel extends ChangeNotifier {
   }
 
   // SIGN UP WITH EMAIL AND PASSWORD
-  Future<void> signUpWithEmail(BuildContext context) async {
+  Future<Status> signUpWithEmail() async {
     if (_validateAndSaveForm()) {
       setIsLoading(value: true);
       _submitted = true;
@@ -138,16 +169,24 @@ class SignInWithEmailModel extends ChangeNotifier {
 
         await database.setUser(user);
 
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        setIsLoading(value: false);
+
+        return Status(statusCode: 200);
+
+        // Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseException catch (e) {
-        _showSignInError(e, context);
+        setIsLoading(value: false);
+
+        // showSignInError(e, context);
+        return Status(statusCode: 404, exception: e);
       }
-      setIsLoading(value: false);
     }
+
+    return Status(statusCode: 404);
   }
 
   // SIGN IN WITH EMAIL AND PASSWORD
-  Future<void> signInWithEmailAndPassword(BuildContext context) async {
+  Future<Status> signInWithEmailAndPassword() async {
     if (_validateAndSaveForm()) {
       setIsLoading(value: true);
       _submitted = true;
@@ -167,12 +206,17 @@ class SignInWithEmailModel extends ChangeNotifier {
           updatedUserData,
         );
 
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        return Status(statusCode: 200);
+
+        // Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseException catch (e) {
-        _showSignInError(e, context);
+        return Status(statusCode: 404, exception: e);
+        // _showSignInError(e, context);
       }
     }
     setIsLoading(value: false);
+
+    return Status(statusCode: 404, exception: e);
   }
 
   bool _validateAndSaveForm() {
@@ -182,42 +226,6 @@ class SignInWithEmailModel extends ChangeNotifier {
       return true;
     }
     return false;
-  }
-
-  void _showSignInError(FirebaseException exception, BuildContext context) {
-    switch (exception.code) {
-      case 'user-not-found':
-        showAlertDialog(
-          context,
-          title: S.current.userNotFound,
-          content: S.current.userNotFoundMessage,
-          defaultActionText: S.current.ok,
-        );
-        break;
-      case 'wrong-password':
-        showAlertDialog(
-          context,
-          title: S.current.wrongPassword,
-          content: S.current.wrongPasswordMessage,
-          defaultActionText: S.current.ok,
-        );
-        break;
-      case 'email-already-in-use':
-        showAlertDialog(
-          context,
-          title: S.current.emailAlreadyInUse,
-          content: S.current.emailAlreadyInUseMessage,
-          defaultActionText: S.current.ok,
-        );
-        break;
-      default:
-        showAlertDialog(
-          context,
-          title: exception.code,
-          content: exception.message ?? 'Message',
-          defaultActionText: S.current.ok,
-        );
-    }
   }
 
   Future<Map<String, dynamic>?> _getDeviceInfo() async {
@@ -234,37 +242,37 @@ class SignInWithEmailModel extends ChangeNotifier {
     return null;
   }
 
-  static void showSignUpScreen(BuildContext context) {
-    custmFadeTransition(
-      context,
-      duration: 500,
-      screenBuilder: (animation) => Consumer(
-        builder: (context, ref, child) {
-          return SignUpWithEmailScreen(
-            animation: animation,
-            model: ref.watch(signInWithEmailModelProvider),
-            textFieldModel: ref.watch(textFieldModelProvider),
-          );
-        },
-      ),
-    );
-  }
+  // static void showSignUpScreen(BuildContext context) {
+  //   custmFadeTransition(
+  //     context,
+  //     duration: 500,
+  //     screenBuilder: (animation) => Consumer(
+  //       builder: (context, ref, child) {
+  //         return SignUpWithEmailScreen(
+  //           animation: animation,
+  //           model: ref.watch(signInWithEmailModelProvider),
+  //           textFieldModel: ref.watch(textFieldModelProvider),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
-  static void showSignInScreen(BuildContext context) {
-    custmFadeTransition(
-      context,
-      duration: 500,
-      screenBuilder: (animation) => Consumer(
-        builder: (context, ref, child) {
-          return SignInWithEmailScreen(
-            animation: animation,
-            model: ref.watch(signInWithEmailModelProvider),
-            textFieldModel: ref.watch(textFieldModelProvider),
-          );
-        },
-      ),
-    );
-  }
+  // static void showSignInScreen(BuildContext context) {
+  //   custmFadeTransition(
+  //     context,
+  //     duration: 500,
+  //     screenBuilder: (animation) => Consumer(
+  //       builder: (context, ref, child) {
+  //         return SignInWithEmailScreen(
+  //           animation: animation,
+  //           model: ref.watch(signInWithEmailModelProvider),
+  //           textFieldModel: ref.watch(textFieldModelProvider),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   /// STATIC
   static final formKey = GlobalKey<FormState>();

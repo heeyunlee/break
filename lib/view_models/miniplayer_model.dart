@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_player/models/enum/equipment_required.dart';
-import 'package:workout_player/view/screens/routine_detail_screen.dart';
+import 'package:workout_player/features/screens/routine_detail_screen.dart';
 
 import 'package:workout_player/generated/l10n.dart';
 import 'package:workout_player/models/combined/combined_models.dart';
@@ -12,10 +12,9 @@ import 'package:workout_player/models/enum/unit_of_mass.dart';
 import 'package:workout_player/models/models.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/screens/workout_summary_screen.dart';
-import 'package:workout_player/view/widgets/basic.dart';
-import 'package:workout_player/view/widgets/dialogs.dart';
-import 'package:workout_player/view/widgets/modal_sheets.dart';
+import 'package:workout_player/features/screens/workout_summary_screen.dart';
+import 'package:workout_player/features/widgets/dialogs.dart';
+import 'package:workout_player/features/widgets/modal_sheets.dart';
 
 import 'home_screen_model.dart';
 
@@ -175,10 +174,10 @@ class MiniplayerModel with ChangeNotifier {
 
         notifyListeners();
 
-        getSnackbarWidget(
-          S.current.cancelWorkoutSnackbarTitle,
-          S.current.cancelWorkoutSnackbarMessage,
-        );
+        // getSnackbarWidget(
+        //   S.current.cancelWorkoutSnackbarTitle,
+        //   S.current.cancelWorkoutSnackbarMessage,
+        // );
       },
       cancelText: S.current.cancel,
       isCancelDefault: true,

@@ -11,7 +11,7 @@ import 'package:workout_player/models/routine_workout.dart';
 import 'package:workout_player/models/workout_set.dart';
 import 'package:workout_player/services/database.dart';
 import 'package:workout_player/utils/formatter.dart';
-import 'package:workout_player/view/widgets/widgets.dart';
+import 'package:workout_player/features/widgets/widgets.dart';
 
 class RoutineWorkoutCardModel with ChangeNotifier {
   RoutineWorkoutCardModel({required this.database});
@@ -169,10 +169,10 @@ class RoutineWorkoutCardModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
 
-      getSnackbarWidget(
-        S.current.deleteRoutineHistorySnackbarTitle,
-        S.current.deleteRoutineWorkoutSnakbarMessage,
-      );
+      // getSnackbarWidget(
+      //   S.current.deleteRoutineHistorySnackbarTitle,
+      //   S.current.deleteRoutineWorkoutSnakbarMessage,
+      // );
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
@@ -240,12 +240,12 @@ class RoutineWorkoutCardModel with ChangeNotifier {
 
       await database.updateRoutine(routine, updatedRoutine);
 
-      getSnackbarWidget(
-        S.current.deleteWorkoutSet,
-        (workoutSet.isRest)
-            ? S.current.deletedARestMessage
-            : S.current.deletedASet,
-      );
+      // getSnackbarWidget(
+      //   S.current.deleteWorkoutSet,
+      //   (workoutSet.isRest)
+      //       ? S.current.deletedARestMessage
+      //       : S.current.deletedASet,
+      // );
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,

@@ -28,15 +28,15 @@ class WeeklyCaloriesChartModel with ChangeNotifier {
       return DateTime.utc(now.year, now.month, now.day - index);
     }).reversed.toList();
 
-    List<double> _listOfYs;
+    List<double> listOfYs;
 
     if (nutritions.isNotEmpty) {
-      Map<DateTime, List<Nutrition>> _mapData = {
+      Map<DateTime, List<Nutrition>> mapData = {
         for (var item in dates)
           item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      final listOfYs = _mapData.values.map((list) {
+      final newData = mapData.values.map((list) {
         double sum = 0;
 
         if (list.isNotEmpty) {
@@ -48,12 +48,12 @@ class WeeklyCaloriesChartModel with ChangeNotifier {
         return sum;
       }).toList();
 
-      _listOfYs = listOfYs;
+      listOfYs = newData;
     } else {
-      _listOfYs = [2100, 1900, 1500, 1600, 2160, 1620, 2356];
+      listOfYs = [2100, 1900, 1500, 1600, 2160, 1620, 2356];
     }
 
-    return _listOfYs.reduce(math.max);
+    return listOfYs.reduce(math.max);
   }
 
   List<double> listOfYs() {
@@ -63,12 +63,12 @@ class WeeklyCaloriesChartModel with ChangeNotifier {
     // }).reversed.toList();
 
     if (nutritions.isNotEmpty) {
-      Map<DateTime, List<Nutrition>> _mapData = {
+      Map<DateTime, List<Nutrition>> mapData = {
         for (var item in topLevelVariables.thisWeek)
           item: nutritions.where((e) => e.loggedDate.toUtc() == item).toList()
       };
 
-      final listOfYs = _mapData.values.map((list) {
+      final listOfYs = mapData.values.map((list) {
         double sum = 0;
 
         if (list.isNotEmpty) {

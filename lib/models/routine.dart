@@ -20,14 +20,14 @@ import 'enum/unit_of_mass.dart';
 /// ## Roadmap
 ///
 /// ### Refactoring
-/// * TODO: create enum value for trainingLevel (difficulty)
-/// * TODO: create enum value for location
-/// * TODO: rid of depreciated non-enum values
+/// * TODO(heeyunlee): create enum value for trainingLevel (difficulty)
+/// * TODO(heeyunlee): create enum value for location
+/// * TODO(heeyunlee): rid of depreciated non-enum values
 ///
 /// ### Enhancement
-/// * TODO: create `type,` which could be either weight training, cardio, yoga,
-/// stretching, video routine, etc., so the input constructor for [RoutineWorkout]
-/// could be more diversified
+/// * TODO(heeyunlee): create `type,` which could be either weight training,
+/// cardio, yoga, stretching, video routine, etc., so the input constructor for
+/// [RoutineWorkout] could be more diversified
 ///
 class Routine {
   const Routine({
