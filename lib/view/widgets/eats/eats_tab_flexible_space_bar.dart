@@ -34,7 +34,7 @@ class EatsTabFlexibleSpaceBar extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  theme.backgroundColor,
+                  theme.colorScheme.background,
                 ],
                 begin: const Alignment(0, 0.5),
                 end: Alignment.bottomCenter,

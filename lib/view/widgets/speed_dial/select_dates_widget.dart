@@ -53,7 +53,7 @@ class SelectDatesWidget extends StatelessWidget {
           left: 12,
           top: -6,
           child: Container(
-            color: theme.backgroundColor,
+            color: theme.colorScheme.background,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(

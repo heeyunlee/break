@@ -568,7 +568,7 @@ class _EditWorkoutScreenState extends ConsumerState<EditWorkoutScreen> {
 
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.colorScheme.background,
       actions: [
         KeyboardActionsItem(
           focusNode: focusNode1,

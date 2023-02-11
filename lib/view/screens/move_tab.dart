@@ -57,7 +57,7 @@ class _MoveTabState extends State<MoveTab> with TickerProviderStateMixin {
 
     return CustomStreamBuilder<User?>(
       stream: widget.database.userStream(),
-      loadingWidget: Container(color: theme.backgroundColor),
+      loadingWidget: Container(color: theme.colorScheme.background),
       builder: (context, user) => NotificationListener<ScrollNotification>(
         onNotification: widget.model.onNotification,
         child: Scaffold(

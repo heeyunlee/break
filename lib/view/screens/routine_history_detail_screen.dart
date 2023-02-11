@@ -246,7 +246,7 @@ class _RoutineHistoryDetailScreenState
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      theme.backgroundColor,
+                      theme.colorScheme.background,
                     ],
                   ),
                 ),

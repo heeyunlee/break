@@ -47,7 +47,7 @@ class ChooseMealTypeWidget extends StatelessWidget {
                       ),
                       selected: model.mealType == type,
                       selectedShadowColor: theme.primaryColor,
-                      backgroundColor: Theme.of(context).backgroundColor,
+                      backgroundColor: Theme.of(context).colorScheme.background,
                       selectedColor: theme.primaryColor,
                       onSelected: (bool selected) => model.onChipSelected(
                         selected,

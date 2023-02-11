@@ -60,7 +60,7 @@ class ButtonStyles {
     final theme = Theme.of(context);
 
     return ElevatedButton.styleFrom(
-      primary: theme.primaryColor,
+      backgroundColor: theme.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -71,7 +71,7 @@ class ButtonStyles {
     final theme = Theme.of(context);
 
     return ElevatedButton.styleFrom(
-      primary: theme.primaryColor,
+      backgroundColor: theme.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
@@ -82,15 +82,14 @@ class ButtonStyles {
     final theme = Theme.of(context);
 
     return ElevatedButton.styleFrom(
-      primary: theme.colorScheme.secondary,
-      onPrimary: Colors.white,
+      foregroundColor: Colors.white, backgroundColor: theme.colorScheme.secondary,
       shape: const StadiumBorder(),
     );
   }
 
   static ButtonStyle elevatedStadiumGrey() {
     return ElevatedButton.styleFrom(
-      primary: Colors.grey,
+      backgroundColor: Colors.grey,
       shape: const StadiumBorder(),
     );
   }
@@ -99,7 +98,7 @@ class ButtonStyles {
     final theme = Theme.of(context);
 
     return ElevatedButton.styleFrom(
-      primary: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.primary,
       minimumSize: const Size(double.maxFinite, 48),
       shape: const StadiumBorder(),
     );

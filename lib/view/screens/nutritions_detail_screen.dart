@@ -64,7 +64,7 @@ class NutritionsDetailScreen extends ConsumerWidget {
                         gradient: LinearGradient(
                           colors: [
                             Colors.greenAccent,
-                            theme.backgroundColor,
+                            theme.colorScheme.background,
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,

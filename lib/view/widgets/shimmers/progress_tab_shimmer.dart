@@ -12,7 +12,7 @@ class ProgressTabShimmer extends StatelessWidget {
     return Container(
       width: size.width,
       height: size.height,
-      color: theme.backgroundColor,
+      color: theme.colorScheme.background,
       child: Shimmer.fromColors(
         baseColor: Colors.white.withOpacity(0.25),
         highlightColor: Colors.white.withOpacity(0.5),

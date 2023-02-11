@@ -44,9 +44,8 @@ class EmptyContentWidget extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                      ),
+                      ), backgroundColor: theme.primaryColor,
                       padding: const EdgeInsets.symmetric(horizontal: 32),
-                      primary: theme.primaryColor,
                     ),
                     onPressed: onPressed,
                     child: Text(S.current.startNow, style: TextStyles.button1),

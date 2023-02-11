@@ -4,7 +4,6 @@ export 'progress/blurred_background.dart';
 export 'progress/choose_date_icon_button.dart';
 export 'progress/customize_widgets_button.dart';
 export 'progress/daily_summary_card.dart';
-export 'progress/daily_summary_card.dart';
 export 'progress/latest_body_fat_widget.dart';
 export 'progress/latest_weight_widget.dart';
 export 'progress/logo_widget.dart';

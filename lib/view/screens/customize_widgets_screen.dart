@@ -50,7 +50,7 @@ class _CustomizeWidgetsScreenState extends State<CustomizeWidgetsScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
         centerTitle: true,
         leading: const AppBarCloseButton(),

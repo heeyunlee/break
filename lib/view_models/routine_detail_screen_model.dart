@@ -42,12 +42,12 @@ class RoutineDetailScreenModel with ChangeNotifier {
     );
 
     _colorTweeen = ColorTween(
-      begin: theme.backgroundColor,
+      begin: theme.colorScheme.background,
       end: theme.appBarTheme.backgroundColor,
     ).animate(_sliverAnimationController);
 
     _secondColorTweeen = ColorTween(
-      begin: theme.backgroundColor,
+      begin: theme.colorScheme.background,
       end: Colors.transparent,
     ).animate(_sliverAnimationController);
   }
