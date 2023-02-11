@@ -211,7 +211,7 @@ class _WorkoutSetWidgetState extends ConsumerState<WorkoutSetWidget> {
 
     return KeyboardActionsConfig(
       keyboardSeparatorColor: Colors.grey[700]!,
-      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.colorScheme.background,
       keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
       nextFocus: false,
       actions: [

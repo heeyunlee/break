@@ -148,7 +148,6 @@ class _DailySummaryNumbersWidget extends StatelessWidget {
     required this.title,
     required this.number,
     required this.unit,
-    this.textStyle = TextStyles.body1Menlo,
     this.backgroundColor = Colors.redAccent,
     Key? key,
   }) : super(key: key);
@@ -156,7 +155,6 @@ class _DailySummaryNumbersWidget extends StatelessWidget {
   final String title;
   final int number;
   final String unit;
-  final TextStyle textStyle;
   final Color? backgroundColor;
 
   String get numberString => number.toString();
@@ -198,7 +196,7 @@ class _DailySummaryNumbersWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       color: color ?? backgroundColor,
       child: Center(
-        child: Text(number, style: textStyle),
+        child: Text(number),
       ),
     );
   }

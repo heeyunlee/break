@@ -84,7 +84,7 @@ class _ExploreTabState extends ConsumerState<ExploreTab> {
         transitionCurve: Curves.easeInOut,
         hint: S.current.searchBarHintText,
         hintStyle: TextStyles.body2Grey,
-        backdropColor: theme.backgroundColor,
+        backdropColor: theme.colorScheme.background,
         backgroundColor: Colors.white,
         queryStyle: TextStyles.body2Black,
         actions: [

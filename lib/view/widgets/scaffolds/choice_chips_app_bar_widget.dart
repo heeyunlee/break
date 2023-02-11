@@ -41,7 +41,7 @@ class ChoiceChipsAppBarWidget extends StatelessWidget
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         child: ChoiceChip(
-          backgroundColor: theme.backgroundColor,
+          backgroundColor: theme.colorScheme.background,
           selectedColor: theme.primaryColor,
           label: Text(label, style: TextStyles.button1),
           labelPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

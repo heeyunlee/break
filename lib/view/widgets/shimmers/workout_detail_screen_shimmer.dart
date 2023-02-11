@@ -12,7 +12,7 @@ class WorkoutDetailScreenShimmer extends StatelessWidget {
     return Container(
       width: size.width,
       height: size.height,
-      color: theme.backgroundColor,
+      color: theme.colorScheme.background,
       child: Shimmer.fromColors(
         baseColor: theme.cardTheme.color!,
         highlightColor: theme.primaryColor.withOpacity(0.12),

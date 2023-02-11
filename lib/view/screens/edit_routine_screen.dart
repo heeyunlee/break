@@ -58,10 +58,6 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
     widget.model.init(this, widget.data.routine!, widget.theme);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +122,7 @@ class _EditRoutineScreenState extends State<EditRoutineScreen>
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                theme.backgroundColor,
+                                theme.colorScheme.background,
                               ],
                             ),
                           ),

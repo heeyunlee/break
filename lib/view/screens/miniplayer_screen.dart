@@ -158,7 +158,7 @@ class MiniplayerScreen extends ConsumerWidget {
                   reversed: true,
                   percentage: percentage,
                   widget: Container(
-                    color: theme.backgroundColor.withOpacity(0.9),
+                    color: theme.colorScheme.background.withOpacity(0.9),
                     child: _collapedWidget(context, model),
                   ),
                 ),

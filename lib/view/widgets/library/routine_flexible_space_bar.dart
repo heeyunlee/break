@@ -41,7 +41,7 @@ class RoutineFlexibleSpaceBar extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  theme.backgroundColor,
+                  theme.colorScheme.background,
                 ],
               ),
             ),

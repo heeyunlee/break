@@ -14,7 +14,7 @@ class CloseMiniplayerButton extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () => ref.read(miniplayerModelProvider).endWorkout(context),
         style: ElevatedButton.styleFrom(
-          primary: Colors.red,
+          backgroundColor: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

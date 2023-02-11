@@ -54,10 +54,6 @@ class _RoutineStreamHasDataWidgetState
     widget.model.init(this, widget.theme);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

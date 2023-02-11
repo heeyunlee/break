@@ -97,7 +97,7 @@ class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
 
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.colorScheme.background,
       actions: List.generate(
         widget.model.signUpFocusNodes.length,
         (index) => KeyboardActionsItem(

@@ -154,7 +154,7 @@ class _AddNutritionScreenState extends State<AddNutritionScreen> {
 
     return KeyboardActionsConfig(
       keyboardSeparatorColor: ThemeColors.grey700,
-      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.backgroundColor,
+      keyboardBarColor: isIOS ? ThemeColors.keyboard : theme.colorScheme.background,
       actions: widget.model.focusNodes
           .map(
             (focusNode) => KeyboardActionsItem(

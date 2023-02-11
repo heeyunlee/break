@@ -4,7 +4,6 @@ export 'library/create_list_tile.dart';
 export 'library/create_new_workout_widget.dart';
 export 'library/library_list_tile.dart';
 export 'library/log_routine_button.dart';
-export 'library/log_routine_button.dart';
 export 'library/reorder_routine_workouts_button.dart';
 export 'library/routine_flexible_space_bar.dart';
 export 'library/routine_history_tab.dart';
