@@ -1,7 +1,11 @@
-## [Archived]
+## [**Archived**]
 
-This repository is archived. I started this repo when I was first learning mobile/flutter dev, and I've learned a lot since then. And well, there are way too many things to fix but a limited time.
+**This repository is archived. I started this repo when I was first learning mobile/flutter dev, and I've learned a lot since then. And well, there are way too many things to fix but a limited time.**
 
+<br>
+<br>
+<br>
+<br>
 
 <h1 align="center">
   <a name="logo"><img src="readme_assets/break_logo.svg" alt="Break" width="80"></a>
